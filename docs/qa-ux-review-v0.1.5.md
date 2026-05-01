@@ -806,4 +806,536 @@ Hvis Steven vil eksekvere bid 2 i én sprint, er den anbefalede rækkefølge:
 
 ---
 
-*Bid 2 lukket. Bid 3 (action-tier triage + mockups + skip-listen) afventer separat brief fra Steven.*
+*Bid 2 lukket.*
+
+---
+
+# DEL 3 — Action-tier triage + mockups (bid 3 af 3)
+
+## 24. Tiered action-liste
+
+Samtlige findings (F1–F25 fra bid 1) og forslag (S1–S24 fra bid 2) tieres efter Harukis kriterier. Tier-grænserne er ikke forhandlelige.
+
+### Tier A — Skal i denne uge
+*Juridisk pligt · brand-stoppere · privacy-issues der lækker mere ved jo længere vi venter.*
+
+| ID | Item | Estimat | Afhængighed | Risk | Pegepind |
+|---|---|---|---|---|---|
+| F1 | Fjern Gmail fra markup + JSON-LD; midlertidigt erstattes med kontaktformular *eller* WhatsApp-only-flow indtil Simply webhotel-opgrade lander | 1.5 t | Beslutning fra Steven (formular vs. Whatsapp-only) | 🟢 | `_data/site.json:11`, `partials/contact.njk:14`, `partials/head.njk:55` |
+| F2 | `/privatlivspolitik` rute (Eleventy-side, statisk markdown) — dækker cookies, kontaktdata, hvilke 3rd parties der embeddes (Maps, Whatsapp) | 1 t | Tekstforslag (kan udkast laves af Steven, sendes til Simone for ja) | 🟢 | Ny fil `src/privatlivspolitik.njk`, footer-link i `partials/footer.njk` |
+| F14 | Verificer `bookingUrl: https://inkart.book.dk` — hvis broken, midlertidig fjern booking-knapper + erstat med Whatsapp-CTA indtil Booksys-tenant er på plads | 0.5 t (verifikation) + 0.5 t (fix hvis broken) | Steven kører `curl -I` / browser-check; spørg Simone hvis tvivl | 🟢 | `_data/site.json:13` |
+| F6 | Verificer åbningstider med Simone; opdater `site.hours.*`; fjern `_todo_confirm`-kommentaren | 0.25 t (efter Simones bekræftelse) | Simone (telefonopkald) | 🟢 | `_data/site.json:24-32` |
+
+**Tier A total: ~3-4 timer + 1 telefonopkald til Simone.** Alle items kan landes i én PR.
+
+### Tier B — Smal-scope batchable, 1-3 timer kombineret
+*Kvalitet-løft uden Simone-input · tekniske rensninger · mikro-forbedringer i én PR.*
+
+| ID | Item | Estimat | Afhængighed | Risk | Pegepind |
+|---|---|---|---|---|---|
+| F4 | 14 html-validate fejl (whitespace via `{{- -%}}`, `tel-non-breaking` via `&nbsp;`, fjern `role="contentinfo"` på footer) | 0.75 t | – | 🟢 | `base.njk:11`, `services-marquee.njk:4-15`, `partials/footer.njk:1`, `_data/site.json:8` |
+| F5 | Fix orphan-tagline ("studiokæde") — enten ret til "Tatovør- og piercingstudio i hjertet af København" eller slet feltet | 0.1 t | – | 🟢 | `_data/site.json:4` |
+| F7 | Skift body-grade rød fra `--red` til `--red-deep` på `.about-card__text strong`, `.hours__note`, `.card__file` på paper-bg | 0.3 t | – | 🟢 | `style.css:266, 311-317, 416-422` |
+| F8 | Tilføj nyt token `--red-bright: #e54f4c`; brug på `.about-card__file`, `.card--ink .card__file`, `.hours__live`, `.topbar__live`, `.footer__star` | 0.4 t | – | 🟢 | `style.css:21, 127, 253-259, 359, 398-403, 460` |
+| F9 | Bump `--muted-soft` fra `#7a756a` til `#8d8779` | 0.05 t | – | 🟢 | `style.css:24` |
+| F10 | "Book tid →" — wrap "→" i `<span aria-hidden="true">` så SR ikke læser "højrepil" | 0.15 t | – | 🟢 | `partials/hero.njk:33`, `partials/contact.njk:18` |
+| F11 | Flyt fuld adresse ind i `<address>` (gade + postnummer + by) i stedet for kun by | 0.15 t | – | 🟢 | `partials/locations.njk:3-7` |
+| F13 | JSON-LD: drop `priceRange: "$$"` (eller sæt eksplicit fra `pricing.minDkk` når Tier C lander), tilføj `geo` lat/lon, tilføj `additionalType` for piercing | 0.4 t | – | 🟢 | `partials/head.njk:56, 73-77` |
+| F16 | Tilføj `<link rel="preload" as="image" href="/_assets/img/logo.png" fetchpriority="high">` til `<head>` | 0.15 t | – | 🟢 | `partials/head.njk` (top of file) |
+| F18 | Print-CSS: tving `.card--ink, .card--red, .about-card { background: white !important; color: black !important; }` + skjul `.stamp` i print | 0.3 t | – | 🟢 | `style.css:537-541` |
+| F20 | Slet `smooth-scroll.js` + dens `<script>`-tag (skip-link virker uden) | 0.1 t | – | 🟢 | `js/smooth-scroll.js`, `base.njk:18` |
+| F24 | Topbar: skift `<header class="topbar">` til `<aside>` eller flyt udenfor `<main>` med eksplicit `role="banner"` (pt. nested i sketchy semantik) | 0.5 t | – | 🟢 | `partials/hero.njk:1-5`, `base.njk:12-14` |
+| S15 | Logo hover wobble (6 linjer CSS) | 0.2 t | – | 🟢 | `style.css:223-236` |
+| S16 | Marquee pause på hover (3 linjer CSS) | 0.1 t | – | 🟢 | `style.css:284-303` |
+| S17 | Stamp stagger entrance (én gang ved load) | 0.5 t | – | 🟡 | `style.css:165-178, 238-240` |
+| S22 | CSP + Permissions-Policy + Referrer-Policy headers via `vercel.json` | 0.5 t | – | 🟢 | `vercel.json` |
+| S23 | OSM-link `[OSM ↗]` ved siden af Maps-link | 0.15 t | – | 🟢 | `partials/locations.njk:8-10` |
+
+**Tier B total: ~5 timer.** Lægges i én PR per logisk gruppering (validate-cleanup, contrast-tokens, perf, headers).
+
+### Tier C — Afventer Simones v0.2-input
+*Kræver indhold · beslutninger fra Simone · undersider med data fra hende.*
+
+| ID | Item | Estimat | Afhængighed | Risk | Pegepind |
+|---|---|---|---|---|---|
+| F21 | Real-mobile test af hero-wordmark overflow ved 320-420px | 0.5 t | Steven har en telefon eller Vercel preview deeplink | 🟢 | `style.css:210` |
+| F22 | Real-mobile test af stamp-overlap på 768-1024px og <340px | 0.5 t | Steven (samme device) | 🟢 | `style.css:238-240, 521-524` |
+| F23 | `mix-blend-mode` stamp-synlighed over `.about-card` (ink-bg) — fix når layout-test bekræfter problemet | 0.3 t | F22 | 🟡 | `style.css:165-178` |
+| S2 | Status-strip i topbar drevet af `_data/status.json` | 1 t (impl) + Simone-disciplin | Simone forpligter sig til at opdatere `status.json` (mobile-friendly process) | 🟢 | Se mockup §25.2 |
+| S4 | Wall of Names marquee — kræver navne-liste fra Simone | 0.75 t | Simones liste (12-20 fornavne) | 🟢 | Se mockup §25.4 |
+| S5 | `/press` arkiv — kræver scannede klip | 1 t (impl) + scan | Simone leverer klip; Steven scanner | 🟢 | Ny fil `src/press.njk` |
+| S6 | Featured artist (Tier B-frekvens) | 1.5 t (impl) + content per skift | Simone forpligter sig til 4-uger-rotation | 🟡 | Sub-section i hero eller `/featured` |
+| S7 | Pris-stempel `FRA 800 · TIME 1500` | 0.5 t | Simone bekræfter prismatrix (kan være 30-sek-svar) | 🟢 | Se mockup §25.3 |
+| S9 | Stil-stempler med Instagram-hashtag-deeplinks (`BLACKWORK ↗ FINELINE ↗ TRADITIONAL ↗`) | 0.5 t | Simone bekræfter shop-IG-hashtags eller foreslår alternativ | 🟡 | `partials/hero.njk` (nye stempler), `_data/site.json` (hashtag-array) |
+| S12 | `/artists` 4-6 cards | 2 t (impl) + portrait shoots | Simone leverer portrætter + 1-citat per artist | 🟡 | Ny fil `src/artists.njk` |
+| S13 | GBP claim + ugentlige posts | 1 t (Simone-onboarding) | Simone (verifikations-postkort) | 🟢 | Eksternt, ingen kode |
+
+**Tier C total efter Simone er ombord: ~8 timer + content-leverance.**
+
+### Tier D — Langsigtede strategiske moves
+*Showcase-features · arkitektur · indholds-strategi · i18n.*
+
+| ID | Item | Estimat | Afhængighed | Risk | Pegepind |
+|---|---|---|---|---|---|
+| F17 | Cache grain-SVG som ekstern fil (eller statisk PNG-noise) for repaint-perf på low-end mobil | 1 t | Lighthouse-data fra Sprint 1 først | 🟢 | `style.css:67-75`, ny `src/_assets/img/grain.svg` |
+| S1 | `/walk-in` rute med QR-flow + `?from=window` toast | 2-3 t (impl) + QR-poster-print | Steven beslutter QR-poster-design + udskrivning | 🟢 | Se mockup §25.1 |
+| S3 | NFC-tag på facaden | 1 t (writing tag) + 50 kr (sticker) | S1 lever | 🟢 | Fysisk, ingen kode |
+| S8 | English version (`/en` eller in-place toggle) | 4-6 t (fuld) eller 1 t (mini-aside) | Beslutning fra Steven om scope | 🟡 | Ny fil `src/en/index.njk` eller `<aside lang="en">` |
+| S10 | Selvhost Bebas Neue + Space Mono | 1 t | – | 🟢 | `partials/head.njk:34-36`, `style.css:26-27`, ny `src/_assets/fonts/` |
+| S11 | `scripts/process-images.js` (sharp + EXIF-strip + WebP/JPG srcset) | 2 t | – (skript kan bygges nu, bruges når billeder lander) | 🟢 | Ny `scripts/process-images.js`, `package.json` script-entry |
+| S20 | Sticky mobil-CTA *som zine-stempel* | 1.5 t | Skal designes specifikt for at undgå Material-pille | 🟡 | Ny `.cta-sticky.stamp` variant, `style.css` mobile-section |
+| S21 | Drop alle 3rd-party requests (konsoliderer med S10) | inkluderet i S10 | – | 🟢 | – |
+| S24 | `/journal` (kvartalsvis) | 3 t (impl) + 2 t per post | Simone forpligter sig til 4 entries/år | 🟡 | Ny `src/journal/`, Eleventy-collection |
+
+**Tier D total: ~12-18 timer + Simone-content-disciplin (hvis hun køber S6/S24).**
+
+### Trade-offs der bryder skip-listen — kræver Steven-beslutning
+
+| Trade-off | Hvor | Beslutning |
+|---|---|---|
+| F1 alternativ: hvis vi vil holde mailto-link på sitet, skal Simone *acceptere* Gmail-eksponering eller fremrykke webhotel-opgrade | F1 | Steven prioriterer: hvis webhotel-opgrade kan ske inden v0.2-launch → vent. Ellers WhatsApp-only-fallback. |
+| S8 hvis vi laver `/en` som fuld i18n nu, bryder vi "ikke fuld i18n nu"-skip-reglen | S8 (Tier D) | Anbefaling: gør in-place 5-sætnings `<aside lang="en">` (1 t arbejde, ingen ny rute). Fuld /en venter til v0.3. |
+| S20 sticky CTA = breaking change på mobile-overlay; risikerer Punk Xerox hvis ikke designet stramt | S20 (Tier D) | Anbefaling: byg mockup først, vis Steven, Steven beslutter. |
+
+### Items uden action
+
+Verificeret OK — ingen ændring foreslået: F3 (cookie-banner), F12 (button-jævnbyrdighed), F19 (reduced-motion), F25 (aria-labelledby), S14 (issue-system evergreen).
+
+---
+
+## 25. Mockup-skitser (top-impact features)
+
+Fire features valgt på brand-impact + memorability. Hver er konkret nok til at bygge fra.
+
+### 25.1 — Mockup S1: `/walk-in` rute med QR-flow
+
+**Hvor i Punk Xerox:** Ny permalink, genbruger `.hero`, `.stamp`, `.about-card`, `.marquee`, `.footer`. Én ny container-klasse `.walk-in` der overrider `.hero`-grid til en simplere layout med færre stempler og ingen wordmark-CPH-line.
+
+**Filer:**
+- `src/walk-in.njk` (ny side, `permalink: /walk-in/index.html`)
+- `src/_includes/partials/walk-in-hero.njk` (ny partial)
+- `style.css` udvides med `.walk-in__*` regler (ca. 30 linjer, deler tokens med `.hero`)
+- `scripts/generate-qr-poster.js` (Node-script der laver et A4-PDF med QR + zine-styling, kører lokalt før print)
+
+**Desktop-layout (1024px):**
+```
++--------------------------------------------------------------+
+|  ★ ESTD · KBH ★    YOU'RE @ LARSBJØRNSSTRÆDE 13     ●ÅBEN NU |
++--------------------------------------------------------------+
+|                                                              |
+|     YOU'RE                          [stempel: ÅBEN NU]      |
+|     OUTSIDE.                          rotated 8°             |
+|     COME IN.                                                 |
+|                                     [stempel: ARTIST         |
+|     [logo, rotated 8°]                LEDIG 14:30]           |
+|                                       rotated -6°            |
+|                                                              |
+|     +---------------------------------+                      |
+|     | // FILE: WALK-IN.TXT            |                      |
+|     | Vi laver din tat nu. Eller om  |                      |
+|     | en time. Eller i morgen.       |                      |
+|     | Døren går altid op for nogen.  |                      |
+|     |                                 |                      |
+|     | [GÅ IND →]  [RING 55 24 86 08] |                      |
+|     +---------------------------------+                      |
+|                                                              |
++--------------------------------------------------------------+
+| ★ TATTOOS · ★ PIERCINGS · ★ BLACKWORK · ★ WALK-INS  (marquee)|
++--------------------------------------------------------------+
+| (footer)                                                     |
++--------------------------------------------------------------+
+
+[TOAST — sticky top-right, kun ved ?from=window/nfc:]
++----------------------+
+| ★ DU SKANNEDE OS ★  |   ← .stamp.stamp--red, position:fixed,
++----------------------+      transform: rotate(8deg), 3s auto-dismiss
+```
+
+**Tokens brugt:** `--ink`, `--paper`, `--red`, `--red-deep`, `--shadow-red`, `--font-display`, `--font-mono`, `--pad-x`. **Ingen nye tokens.**
+
+**Interaktion:**
+1. Side loader normalt — ingen JS påkrævet for visuel
+2. Inline JS i bunden af `walk-in.njk` (10 linjer):
+```js
+const params = new URLSearchParams(location.search);
+const from = params.get("from");
+if (from === "window" || from === "nfc") {
+  const t = document.createElement("div");
+  t.className = "toast-stamp stamp stamp--red";
+  t.textContent = "★ DU SKANNEDE OS ★";
+  t.setAttribute("aria-live", "polite");
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+```
+3. CSS for toast:
+```css
+.toast-stamp {
+  position: fixed;
+  top: 80px; right: 20px;
+  z-index: 200;
+  transform: rotate(8deg);
+  animation: toast-in 0.3s ease-out, toast-out 0.4s ease-in 2.6s;
+}
+@keyframes toast-in  { from { transform: rotate(20deg) scale(1.4); opacity: 0; }
+                       to   { transform: rotate(8deg)  scale(1);   opacity: 1; } }
+@keyframes toast-out { to   { opacity: 0; transform: rotate(8deg) translateY(-20px); } }
+```
+
+**Reduced-motion-fallback:**
+```css
+@media (prefers-reduced-motion: reduce) {
+  .toast-stamp { animation: none; }
+}
+```
+Toasten vises stadig men uden ind/ud-bevægelse. Auto-dismiss-timeren bevares (3s). Det er ikke en motion-feature — det er en notification.
+
+**Mobile (<768px):**
+- Layout stacker. Logo bliver static, centreret, 120px (samme som forsidens mobile-override).
+- Stempler: `stempel-1 (ÅBEN NU)` placeres static, top af hero. `stempel-2 (LEDIG 14:30)` placeres static lige under. Ingen absolute-positionering.
+- About-card spans full width, knapperne stacker hvis nødvendigt.
+- Toast flytter til bottom: 80px (over hvor en sticky-CTA kunne sidde) for tommel-rækkevidde.
+
+**Cost vs. benefit:**
+- Cost: 2-3 timer kode + 30 min QR-poster-design + 50 kr print. Total ~3 timer.
+- Benefit: Eneste vertikal-feature ingen konkurrent har. Fysisk-digital bridge. Skanner+toast er showcase-detalje der bliver husket.
+
+**Skip-listen-overholdelse:** ✓ Ingen breaking change på `site.json`. Ingen booking-system-build. Ingen mørkt tema.
+
+---
+
+### 25.2 — Mockup S2: Status-strip i topbar
+
+**Hvor i Punk Xerox:** Erstat eksisterende `.topbar__live`-span (`hero.njk:4`). Genbrug eksisterende `--red`-styling. Ny CSS-class `.topbar__live[data-state]` for state-specifik rendering.
+
+**Filer:**
+- `src/_data/status.json` (ny — Simone redigerer denne ene fil)
+- `src/_data/openNow.js` (ny computed-data — beregner fallback fra `site.hours` + nuværende tid ved build)
+- `partials/hero.njk:1-5` (refaktoreret topbar)
+- `style.css:127` (udvidet `.topbar__live` regler, ny pulse-animation)
+
+**`status.json` skema:**
+```json
+{
+  "open": true,
+  "nextSlot": "14:30",
+  "artist": "Simone",
+  "vibe": "rolig",
+  "updatedAt": "2026-05-01T13:42:00+02:00"
+}
+```
+
+**Render-logik (build-time, Eleventy):**
+```
+hvis status.updatedAt < now - 24h  →  brug openNow-fallback (skemalagt)
+ellers                             →  brug status.json
+```
+
+`openNow.js` (computed-data, kører ved hver build):
+```js
+export default async function() {
+  const now = new Date();
+  const day = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"][now.getDay()];
+  const hours = (await import("./site.json", {assert:{type:"json"}})).default.hours[day];
+  // parse "13:00 – 23:00", returner {open: bool, opensAt, closesAt}
+}
+```
+
+**Topbar-markup (efter):**
+```njk
+<header class="topbar" aria-label="Site status">
+  <span class="topbar__pill">★ ESTD · KBH ★</span>
+  <span class="topbar__issue">VOL.01 / ISSUE.01 / 05.2026</span>
+  <span class="topbar__live" data-state="{% if status.open %}open{% else %}closed{% endif %}">
+    <span class="topbar__live-dot" aria-hidden="true">●</span>
+    {%- if status.open -%}
+      ÅBEN NU{% if status.nextSlot %} · LEDIG {{ status.nextSlot }}{% endif %}
+    {%- else -%}
+      LUKKET · ÅBNER {{ openNow.opensAt }}
+    {%- endif -%}
+  </span>
+</header>
+```
+
+**CSS:**
+```css
+.topbar__live {
+  color: var(--red);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.topbar__live[data-state="closed"] { color: var(--muted); }
+.topbar__live-dot {
+  display: inline-block;
+  animation: live-pulse 2s ease-in-out infinite;
+}
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .topbar__live-dot { animation: none; opacity: 1; }
+}
+```
+
+**Tokens:** `--red`, `--muted`, `--font-mono`. **Ingen nye tokens.**
+
+**Interaktion:**
+- Pulserende dot signalerer "live data".
+- Hover: `.topbar__live` får `title="Sidst opdateret {{ status.updatedAt | dateFormat }}"` som standard browser-tooltip — ingen JS.
+
+**Reduced-motion-fallback:** Pulse stopper, dot står solid rød. ✓
+
+**Mobile:**
+- `.topbar__issue` skjules allerede (`style.css:510`).
+- `.topbar__live` forbliver. Tekst forkortes via medium-aware copywriting: `● ÅBEN · 14:30` (hvis nextSlot tilstede) eller `● LUKKET`. Implementeres ved at lade Eleventy-template skrive begge varianter inden i samme `<span>` med `display: none` på mobile/desktop:
+```css
+@media (max-width: 767px) {
+  .topbar__live-long  { display: none; }
+}
+@media (min-width: 768px) {
+  .topbar__live-short { display: none; }
+}
+```
+
+**Simones edit-flow:**
+- Hun går ind på GitHub.com mobile, navigerer til `src/_data/status.json`, klikker pen-ikonet, redigerer `nextSlot` + `updatedAt`, commit. Vercel auto-deployer på ~30s.
+- Hvis hun glemmer det 24+ timer → fallback overtager. Ingen forkerte løfter.
+
+**Cost vs. benefit:**
+- Cost: 1 t impl + 15 min Simone-onboarding-doc.
+- Benefit: Topbar går fra dekorativ til funktionel i én move. "● LEDIG 14:30" slår "ÅBNINGSTIDER 13:00-23:00" på handleværdi 10:1.
+
+**Skip-listen-overholdelse:** ✓ Tilføjer `status.json` (ny fil, ikke ændring i `site.json` skema). Simones eneste edit-flade udvides — *ikke* breaking.
+
+---
+
+### 25.3 — Mockup S7: Pris-stempel i hero
+
+**Hvor i Punk Xerox:** Ny `.hero__stamp-4` der reuser `.stamp.stamp--red` styling. Ingen nye komponenter, ingen nye tokens.
+
+**Filer:**
+- `_data/site.json` — tilføj `pricing` block
+- `partials/hero.njk:22-24` — tilføj 4. stempel
+- `style.css:238-240` — tilføj `.hero__stamp-4` positioning
+- `partials/hero.njk` — tilføj visually-hidden tekst-alternativ for SEO + SR
+
+**`site.json` (tilføjelse):**
+```json
+"pricing": {
+  "minDkk": 800,
+  "hourlyDkk": 1500,
+  "currency": "DKK",
+  "_todo_confirm": "Verificeret med Simone YYYY-MM-DD"
+}
+```
+
+**Markup-tilføjelse i `hero.njk` (efter stamp-3, linje 24):**
+```njk
+<div class="stamp stamp--red hero__stamp-4" aria-hidden="true">
+  FRA {{ site.pricing.minDkk }} · TIME {{ site.pricing.hourlyDkk }}
+</div>
+<p class="visually-hidden">
+  Tatovering fra {{ site.pricing.minDkk }} kr. Timepris {{ site.pricing.hourlyDkk }} kr.
+</p>
+```
+
+**CSS-tilføjelse:**
+```css
+.hero__stamp-4 {
+  position: absolute;
+  top: 62%;
+  left: 6%;
+  transform: rotate(7deg);
+}
+@media (max-width: 767px) {
+  .hero__stamp-4 {
+    position: static;
+    align-self: start;
+    margin: 0;
+    transform: rotate(-3deg);
+  }
+}
+```
+
+**Layout-impact desktop:**
+```
+[wordmark INK & ART]                    [logo, rotated]
+                          [stamp-2: No vegan ink]
+[stamp-3: zine 01]
+                          [stamp-1: Walk-ins ok]
+[NEW stamp-4:
+ FRA 800 · TIME 1500]
+                                        [about-card]
+```
+
+`stamp-4` placeres på venstre-midt-bund-side hvor stamp-3 ikke er. Ingen overlap med about-card eller logo.
+
+**Tokens:** `--red`, font-display, `--font-mono` (nedarvet via `.stamp`). **Ingen nye tokens.**
+
+**Interaktion:** Ingen — dekorativt element. **F8-fix anvendt:** rød på paper er nu `--red-deep` for body-tekst, men stempler er **store** UI-elementer der består 3:1 — `.stamp` styling forbliver `--red`.
+
+**Reduced-motion-fallback:** N/A — ingen animation på stempel.
+
+**Mobile (<768px):**
+- Stempel-4 går fra `position: absolute` til `static`, placeres som første element efter wordmark, før about-card. Bevares synlig (ulig stamp-2/3 som skjules på mobile).
+- Rotation -3° (modsat desktop's +7°) for visuel variation.
+
+**Visually-hidden-paragraph:**
+- Stempler er `aria-hidden="true"` → SR læser dem ikke.
+- Pris-info er **kritisk friction-fix** (per §15) → må ikke kun være visuel.
+- Den `.visually-hidden`-paragraf giver SEO + SR adgang til pris-info uden at duplikere visuelt.
+
+**Cost vs. benefit:**
+- Cost: 0.5 t inkl. CSS-tweaks for at undgå overlap med eksisterende stempler.
+- Benefit: Eliminerer 80% af friction-step 4 (pris-spørgsmålet) per §15 friction-map. Det er den højeste ROI-fix i hele bid 2.
+
+**Skip-listen-overholdelse:** ✓ Tilføjer `pricing` til `site.json` — ikke breaking, kun additivt.
+
+---
+
+### 25.4 — Mockup S4: Wall of Names marquee
+
+**Hvor i Punk Xerox:** Ny `.marquee--names`-variant af eksisterende `.marquee`. Reuser hele animations-mekanikken; tilføjer reverse-direction og paper-bg som visuelt counterpoint til den røde service-marquee.
+
+**Filer:**
+- `_data/wall.json` (ny — Simone udvider listen månedligt)
+- `partials/names-marquee.njk` (ny partial)
+- `style.css:273-303` (udvides med `.marquee--names` + `.marquee__track--reverse`)
+- `index.njk` (include af nye partial efter services-marquee)
+
+**`wall.json` skema:**
+```json
+{
+  "names": [
+    "Jesper", "Sofie", "Miki", "Jonas", "Liv",
+    "Karen", "Nizar", "S.", "LP.", "Ane", "T.", "Emil"
+  ],
+  "_note": "Fornavne eller initialer. Ingen efternavne. Tilføj nye, fjern aldrig."
+}
+```
+
+**Partial:**
+```njk
+<div class="marquee marquee--names" role="presentation" aria-hidden="true">
+  <div class="marquee__track marquee__track--reverse">
+    {%- for pass in [1, 2] -%}
+    <span class="marquee__group">
+      {%- for name in wall.names -%}
+      <span>★ {{ name | upper }}</span>
+      {%- endfor -%}
+    </span>
+    {%- endfor -%}
+  </div>
+</div>
+```
+
+**CSS-tilføjelse (efter eksisterende marquee-block):**
+```css
+.marquee--names {
+  background: var(--paper);
+  color: var(--ink);
+  border-top: 0;
+  padding: 10px 0;
+  font-size: clamp(13px, 1.4vw, 16px);
+  letter-spacing: 0.2em;
+}
+.marquee--names .marquee__group span:first-child::before {
+  /* skip — ingen ekstra dekoration nødvendig */
+}
+.marquee__track--reverse {
+  animation: marquee-scroll-reverse 42s linear infinite;
+}
+@keyframes marquee-scroll-reverse {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+```
+
+**Layout-impact:**
+```
+[hero med wordmark + stempler]
++----------------------------------------+
+| ★ TATTOOS · ★ PIERCINGS · ...    →    |  ← rød services-marquee, scroller højre→venstre, 28s
++----------------------------------------+
+| ★ JESPER · ★ SOFIE · ★ MIKI · ...  ←  |  ← paper names-marquee, scroller venstre→højre, 42s
++----------------------------------------+
+[locations + contact info-grid]
+```
+
+To marquees i forskellig retning + forskellig hastighed = ægte zine-feel. Hjernen registrerer dem som to forskellige tickers.
+
+**Tokens:** `--paper`, `--ink`, `--font-display`. **Ingen nye tokens.** Border-top droppes for at lade de to marquees grænse direkte op til hinanden (deler bottom-border af services-marquee som top af names-marquee).
+
+**Interaktion:**
+- Pause på hover (S16 dækker dette globalt — `.marquee:hover .marquee__track { animation-play-state: paused; }`).
+- Ingen klik-handling. Det er navne, ikke links.
+
+**Reduced-motion-fallback:** Animation stopper (global regel `style.css:301-303` udvides til at dække `.marquee__track--reverse`):
+```css
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track,
+  .marquee__track--reverse { animation: none; }
+}
+```
+Statiske brugere ser de første ~5-7 navne. Resten er overflow-hidden. Acceptabelt — det er et flux-element, ikke en navigation.
+
+**Mobile (<768px):**
+- Font reduceres til 13px.
+- Scrolling-hastighed bevares (42s for fuld pass — føles roligt).
+- Border-top kan tilføjes på mobile hvis layout kræver det:
+```css
+@media (max-width: 767px) {
+  .marquee--names { border-top: 2px solid var(--ink); }
+}
+```
+
+**Aria-strategi:**
+- `aria-hidden="true"` så SR ikke prøver at læse 24 navne i loop.
+- Ingen `<h2>`. Det er decoration. Hvis vi ville give det semantisk vægt: tilføj en `.visually-hidden` `<h2>"Tidligere kunder"</h2>` over partial — men det kollapser ambiguiteten der gør forslaget interessant. **Skip.**
+
+**Cost vs. benefit:**
+- Cost: 0.75 t impl + 5 min Simone-input for navne-liste.
+- Benefit: Brand-credibility uden desperation. Insiderkultur signaleret uden påstand. Ambiguity-zone (er S. = Simone? Sofie? Stamkunde?) er præcis den intriguefelt vi vil have.
+
+**Skip-listen-overholdelse:** ✓ Tilføjer `wall.json` (ny fil, ikke ændring i `site.json` skema).
+
+---
+
+## 26. Stevens 1-uge dispatch
+
+Hvis Steven kun har én uge til v0.2-launch, er rækkefølgen:
+
+**Dag 1 (Tier A, ~4 timer):**
+- F1, F2, F14, F6 — Simone-opkald, fix Gmail/booking/hours, byg `/privatlivspolitik`.
+
+**Dag 2 (Tier B batch 1: validate + a11y, ~2 timer):**
+- F4, F5, F7, F8, F9, F10, F11, F24, F18, F20.
+- Én PR: `cleanup(v0.1.6): html-validate, kontrast-tokens, semantik`.
+
+**Dag 3 (Tier B batch 2: perf + headers + mikro, ~2 timer):**
+- F13, F16, S15, S16, S17, S22, S23.
+- Én PR: `chore(v0.1.6): perf, csp, mikro-interaktioner`.
+
+**Dag 4 (Tier C-stykker der kun kræver Simone-1-svar, ~2 timer):**
+- S7 (efter pris-bekræftelse) — mockup §25.3.
+- S2 status-strip — mockup §25.2 (Simone får 5-min onboarding).
+
+**Dag 5 (Tier D-showcase, ~3-4 timer):**
+- S1 `/walk-in` rute — mockup §25.1.
+- S10 selvhost fonts (1 t separat).
+- S3 NFC-tag bestilles (kommer i posten dag 6-7).
+
+**Hvad der venter til v0.2-rul (efter Simone har leveret content):**
+- S4 Wall of Names (mockup §25.4) — kræver navne-liste.
+- S5 `/press`, S6 featured artist, S12 `/artists`, S11 image-pipeline-bruge.
+
+**Eksplicit ikke i denne uge:**
+- S8 fuld english (kun mini-aside hvis tid), S20 sticky-mobil-CTA, S24 journal, F17 grain-perf-opt.
+
+**Showcase-test efter Sprint 1:** Hvis Steven viser sitet til Jokeren-niveau-publikum efter dag 5, er det F1-F6 (compliance), F4-F18 (kvalitet), S15+S16 (mikro-følelse), S2 (live-puls), S7 (pris-konfidens) og S1 (vertikal-vinkel) der skal være landed. Resten er bonus.
+
+---
+
+*Bid 3 lukket. Rapporten er nu komplet (DEL 1 + DEL 2 + DEL 3) og kan paste'es som dispatch-pakke.*
