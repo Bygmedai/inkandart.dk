@@ -1,4 +1,4 @@
-<footer class="footer" role="contentinfo">
+<footer class="footer">
   <div class="footer__brand">
     INK &amp; ART <span class="footer__star" aria-hidden="true">★</span> CPH
   </div>
@@ -8,6 +8,8 @@
     <a href="{{ site.facebook }}" rel="noopener">Facebook</a>
     <span aria-hidden="true">·</span>
     <a href="https://wa.me/{{ site.whatsapp | replace('+', '') | replace(' ', '') }}" rel="noopener">WhatsApp</a>
+    <span class="footer__sep" aria-hidden="true">|</span>
+    <a href="/privatlivspolitik/">Privatlivspolitik</a>
     <span class="footer__sep" aria-hidden="true">|</span>
     <span>© {{ "now" | date("%Y") }} · {{ site.address.street }}</span>
   </nav>

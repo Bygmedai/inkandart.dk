@@ -1,0 +1,79 @@
+---
+layout: layouts/base.njk
+title: Privatlivspolitik · Ink & Art Copenhagen
+permalink: /privatlivspolitik/
+---
+
+<header class="topbar" aria-label="Site status">
+  <span><a href="/" class="topbar__back" aria-label="Tilbage til forsiden">← {{ site.shortName | upper }}</a></span>
+  <span class="topbar__issue">PRIVATLIVSPOLITIK</span>
+  <span class="topbar__live">● SENEST OPDATERET 2026-05-01</span>
+</header>
+
+<section class="legal">
+  <article class="legal__content">
+    <div class="legal__file">// FILE: PRIVATLIVSPOLITIK.TXT</div>
+    <h1 class="legal__title">Privatlivspolitik</h1>
+    <p class="legal__lead">Hvordan vi behandler oplysninger når du besøger {{ site.url }}.</p>
+
+    <h2>1. Dataansvarlig</h2>
+    <p>
+      {{ site.name }}<br>
+      {{ site.address.street }}<br>
+      {{ site.address.postalCode }} {{ site.address.city }}<br>
+      Danmark
+    </p>
+    <p>
+      Henvendelser om persondata kan ske via telefon på <a href="tel:{{ site.phoneIntl }}">{{ site.phone }}</a> eller WhatsApp på <a href="https://wa.me/{{ site.whatsapp | replace('+', '') | replace(' ', '') }}" rel="noopener">{{ site.whatsapp }}</a>.
+    </p>
+
+    <h2>2. Hvilke oplysninger behandler vi?</h2>
+    <p>
+      Når du besøger {{ site.url }}, indsamler vi som udgangspunkt ingen personoplysninger om dig. Vi har ingen kontaktformularer, ingen brugerregistrering og ingen e-handel på sitet.
+    </p>
+    <p>
+      Hvis du giver samtykke via cookie-banneret, gemmes dit valg lokalt i din browser. Hvis du afviser, gemmes også dit afvisende valg, så banneret ikke vises igen.
+    </p>
+
+    <h2>3. Cookies</h2>
+    <p>
+      Sitet bruger ét teknisk cookie-lignende lager (<code>localStorage</code>) til at huske dit cookie-samtykke. Det indeholder kun værdien <code>accept</code> eller <code>reject</code>. Det indeholder ikke personoplysninger.
+    </p>
+    <p>
+      Sitet er forberedt til at indlæse Google Analytics 4 i en fremtidig version, men <strong>indlæser pt. ingen tracking-cookies</strong> — uanset om du accepterer eller afviser samtykke. Når analytics tilføjes, vil indsamling være default-afvist (Consent Mode v2) og kun aktiveres efter aktivt accept.
+    </p>
+    <p>
+      Du kan til enhver tid rydde dit samtykke ved at slette browserens lokale lagring for {{ site.url }}.
+    </p>
+
+    <h2>4. Tredjepartstjenester</h2>
+    <p>Sitet hostes på Vercel (USA) og leveres via deres globale CDN. Vercel modtager standard browser-data (IP-adresse, user-agent, henvisning) som led i levering. Vercel er certificeret under EU-US Data Privacy Framework.</p>
+    <p>Skrifttyper indlæses fra Google Fonts (<code>fonts.googleapis.com</code>, <code>fonts.gstatic.com</code>). Google modtager din IP-adresse i forbindelse med font-indlæsning. Vi planlægger at selvhoste skrifttyper i en fremtidig version for at fjerne denne datadeling.</p>
+    <p>Online booking sker via et eksternt bookingsystem på {{ site.bookingUrl }}. Når du klikker på "Book tid" forlader du dette site. Bookingsystemet har sin egen privatlivspolitik.</p>
+
+    <h2>5. Dine rettigheder</h2>
+    <p>Efter EU's databeskyttelsesforordning (GDPR) har du ret til at:</p>
+    <ul>
+      <li>få indsigt i hvilke personoplysninger vi behandler om dig</li>
+      <li>få urigtige oplysninger berigtiget</li>
+      <li>få oplysninger slettet</li>
+      <li>gøre indsigelse mod behandlingen</li>
+      <li>få oplysningerne overført (dataportabilitet)</li>
+    </ul>
+    <p>Da vi som udgangspunkt ikke behandler personoplysninger om dig på dette site, vil de fleste rettigheder typisk være uden indhold. Hvis du har en konkret bekymring, kan du kontakte os som beskrevet i punkt 1.</p>
+
+    <h2>6. Klageadgang</h2>
+    <p>
+      Du har ret til at klage til Datatilsynet over vores behandling af dine personoplysninger. Du finder Datatilsynets kontaktoplysninger på <a href="https://www.datatilsynet.dk" rel="noopener">datatilsynet.dk</a>.
+    </p>
+
+    <h2>7. Ændringer i denne politik</h2>
+    <p>
+      Denne politik kan opdateres i takt med at sitet udvikles. Den seneste version vil altid være tilgængelig på {{ site.url }}/privatlivspolitik/. Datoen for seneste opdatering står øverst på siden.
+    </p>
+
+    <p class="legal__back">
+      <a href="/" class="btn btn--outline">← Tilbage til forsiden</a>
+    </p>
+  </article>
+</section>
