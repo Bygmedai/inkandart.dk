@@ -539,3 +539,108 @@ button:focus-visible {
   body { background: white; color: black; }
   .card, .about-card { box-shadow: none; transform: none; border-color: black; }
 }
+
+/* ----- 18. Legal pages (privatlivspolitik) ----- */
+.topbar__back {
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+.topbar__back:hover {
+  color: var(--red);
+}
+
+.legal {
+  position: relative;
+  z-index: 2;
+  padding: clamp(40px, 6vw, 80px) var(--pad-x);
+  max-width: 760px;
+  margin: 0 auto;
+  font-family: var(--font-mono);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+.legal__content {
+  background: var(--paper);
+  padding: clamp(28px, 5vw, 56px);
+  border: 2px solid var(--ink);
+  box-shadow: var(--shadow-hard);
+}
+
+.legal__file {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--red-deep);
+  margin-bottom: 12px;
+}
+
+.legal__title {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 6vw, 64px);
+  letter-spacing: 0.04em;
+  line-height: 1;
+  margin: 0 0 16px;
+}
+
+.legal__lead {
+  font-family: var(--font-mono);
+  font-size: clamp(15px, 1.5vw, 18px);
+  color: var(--muted);
+  font-style: italic;
+  margin: 0 0 32px;
+  border-bottom: 2px dashed var(--muted);
+  padding-bottom: 24px;
+}
+
+.legal h2 {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.5vw, 28px);
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+  margin: 36px 0 12px;
+  color: var(--ink);
+}
+
+.legal h2:first-of-type {
+  margin-top: 0;
+}
+
+.legal p {
+  margin: 0 0 16px;
+}
+
+.legal ul {
+  margin: 0 0 16px 0;
+  padding: 0 0 0 24px;
+  list-style: square;
+}
+
+.legal li {
+  margin-bottom: 6px;
+}
+
+.legal a {
+  color: var(--red-deep);
+  border-bottom: 1px solid currentColor;
+}
+
+.legal a:hover {
+  color: var(--ink);
+}
+
+.legal code {
+  font-family: var(--font-mono);
+  background: var(--paper-warm);
+  padding: 2px 6px;
+  border: 1px solid rgba(10,9,8,0.15);
+  font-size: 0.9em;
+}
+
+.legal__back {
+  margin: 48px 0 0;
+  border-top: 2px solid var(--ink);
+  padding-top: 32px;
+}
