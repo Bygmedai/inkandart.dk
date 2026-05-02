@@ -45,20 +45,20 @@
     {
       "@type": ["TattooParlor", "BeautySalon"],
       "@id": "{{ site.url }}/#business",
-      "name": "{{ site.name }}",
+      "name": "{{ site.name | safe }}",
       "url": "{{ site.url }}",
       "image": "{{ site.url }}/_assets/img/og-image.png",
       "logo": "{{ site.url }}/_assets/img/logo.png",
-      "description": "{{ site.description }}",
+      "description": "{{ site.description | safe }}",
       "telephone": "{{ site.phoneIntl }}",
       "additionalType": "https://en.wikipedia.org/wiki/Body_piercing",
       "areaServed": "Copenhagen",
       "knowsLanguage": ["da", "en"],
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "{{ site.address.street }}",
+        "streetAddress": "{{ site.address.street | safe }}",
         "postalCode": "{{ site.address.postalCode }}",
-        "addressLocality": "{{ site.address.city }}",
+        "addressLocality": "{{ site.address.city | safe }}",
         "addressCountry": "{{ site.address.country }}"
       },
       "geo": {
