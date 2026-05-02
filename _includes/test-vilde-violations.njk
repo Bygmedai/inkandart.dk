@@ -1,0 +1,14 @@
+{# TEST FILE — created S398 to verify Vilde-on-PR action #}
+{# Should be deleted after Vilde test passes #}
+
+<!-- VIOLATION 1: Red body text (color: #FF0000) -->
+<!-- Violates §12 brand-don'ts: ingen --red til body-tekst -->
+<p style="color: #FF0000; font-size: 16px;">
+  Dette er body-tekst i rød. Brand-manual §12 forbyder dette.
+</p>
+
+<!-- VIOLATION 2: External CDN script tag -->
+<!-- Violates §11.8 CSP red-zone: ingen nye <script src="..."> mod ekstern host -->
+<script src="https://untrusted-cdn.example.com/some-library.js"></script>
+
+<!-- Begge violations skal fanges af Vilde med citat + line-reference -->
