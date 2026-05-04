@@ -17,7 +17,7 @@
  */
 
 import { fetchAvailability, computeStatus, scheduledStatus } from "./_lib/booksys-mock.js";
-import siteData from "../src/_data/site.json" with { type: "json" };
+import siteData from "../src/_data/site.json";
 
 export const config = { runtime: "edge" };
 
