@@ -46,6 +46,8 @@ export default function(eleventyConfig) {
   // /artister/              → /en/artists/
   // /artister/simone/       → /en/artists/simone/
   // /privatlivspolitik/     → /en/privacy/
+  // /faq/                   → /en/faq/
+  // /efterpleje/            → /en/aftercare/
   // /en/...                 → DA equivalent
   eleventyConfig.addFilter("sisterUrl", (url) => {
     if (!url) return "/";
@@ -54,6 +56,8 @@ export default function(eleventyConfig) {
       "/walk-in/":              "/en/walk-in/",
       "/artister/":             "/en/artists/",
       "/privatlivspolitik/":    "/en/privacy/",
+      "/faq/":                  "/en/faq/",
+      "/efterpleje/":           "/en/aftercare/",
       "/404.html":              "/en/404.html"
     };
     if (map[url]) return map[url];

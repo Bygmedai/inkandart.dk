@@ -1,12 +1,14 @@
+{% set lang = page.url | pageLang %}
+{% set privacyUrl %}{% if lang == "en" %}/en/privacy/{% else %}/privatlivspolitik/{% endif %}{% endset %}
 <aside id="cookie-banner" class="cookie-banner" role="dialog" aria-labelledby="cookie-banner-title" hidden>
   <div class="cookie-banner__inner">
-    <h2 id="cookie-banner-title" class="cookie-banner__title">Cookies</h2>
+    <h2 id="cookie-banner-title" class="cookie-banner__title">{{ "cookie.title" | t(lang) }}</h2>
     <p class="cookie-banner__body">
-      Vi bruger cookies til at forbedre din oplevelse og forstå hvordan sitet bliver brugt. Du kan acceptere eller afvise — uanset hvad får du fuld funktionalitet. Læs mere i vores <a href="/privatlivspolitik/">privatlivspolitik</a>.
+      {{ "cookie.body" | t(lang) }} <a href="{{ privacyUrl }}">{{ "cookie.privacyLink" | t(lang) }}</a>.
     </p>
     <div class="cookie-banner__buttons">
-      <button type="button" class="btn btn--outline" data-consent="reject">Nej tak</button>
-      <button type="button" class="btn btn--outline" data-consent="accept">Accepter</button>
+      <button type="button" class="btn btn--outline" data-consent="reject">{{ "cookie.reject" | t(lang) }}</button>
+      <button type="button" class="btn btn--outline" data-consent="accept">{{ "cookie.accept" | t(lang) }}</button>
     </div>
   </div>
 </aside>

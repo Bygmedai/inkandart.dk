@@ -1,0 +1,186 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: siteLocales
+  size: 1
+  alias: lang
+siteLocales: [da, en]
+permalink: "{% if lang == 'en' %}/en/faq/{% else %}/faq/{% endif %}"
+eleventyComputed:
+  title: "{% if lang == 'en' %}FAQ · Ink & Art Copenhagen{% else %}FAQ · Ink & Art Copenhagen{% endif %}"
+  description: "{% if lang == 'en' %}Frequently asked questions about tattooing and piercing at Ink & Art Copenhagen. Prices, walk-in, styles, age limit, booking and aftercare.{% else %}Svar på de hyppigste spørgsmål om tatovering og piercing hos Ink & Art Copenhagen. Priser, walk-in, stilarter, aldersgrænse og booking.{% endif %}"
+---
+
+{% if lang == "en" %}
+
+<section class="legal">
+  <article class="legal__content">
+    <div class="legal__file">// FILE: FAQ.TXT</div>
+    <h1 class="legal__title">Questions &amp; answers</h1>
+    <p class="legal__lead">Honest answers to the questions we get asked most often.</p>
+
+    <h2>Prices &amp; booking</h2>
+
+    <h3>What does a tattoo cost?</h3>
+    <p>Flash designs and simple pieces start from DKK 800. The hourly rate is DKK 1,500. Custom work is priced individually based on the motif and placement — come by for a chat or reach out to the artist directly on Instagram.</p>
+
+    <h3>Do I need to book in advance?</h3>
+    <p>For custom work, a consultation first is usually needed. For flash and simple designs, just show up. If you want to guarantee a specific time or artist, book at <a href="{{ site.bookingUrl }}" target="_blank" rel="noopener noreferrer">inkart.book.dk</a>.</p>
+
+    <h3>Can I just walk in?</h3>
+    <p>Yes. Walk-ins are welcome when we have room. We open from 13:00 daily (14:00 Saturday). Flash sheets are always on the wall and ready to go. Check the <a href="/en/walk-in/">walk-in page</a> for the current status.</p>
+
+    <h3>Do you do consultations?</h3>
+    <p>Yes. Stop by during opening hours or message the artist you want to work with on Instagram. We are good at matching the right artist to your idea.</p>
+
+    <h2>Styles &amp; artists</h2>
+
+    <h3>What styles do you offer?</h3>
+    <p>Blackwork, fineline, traditional, neo-traditional, dotwork, micro, illustrative, ornamental — and piercing. Six artists, six different specialities. See the <a href="/en/artists/">artists page</a> to find the right match.</p>
+
+    <h3>Do you copy other artists' work?</h3>
+    <p>No. We do not copy or reproduce other tattoo artists' designs. Custom motifs and references to discuss are always welcome, but the final design is original.</p>
+
+    <h3>Can you do colour tattoos?</h3>
+    <p>Yes. Jonas works in traditional and neo-traditional with strong colour work. Reach out to him directly to discuss your idea.</p>
+
+    <h2>Piercing</h2>
+
+    <h3>Do you do piercings?</h3>
+    <p>Yes. Emil is the shop piercer — from simple lobes to full ear curations and surface piercings. APP-trained, sterile setup. Walk-ins from 14:00 daily.</p>
+
+    <h3>What piercings do you offer?</h3>
+    <p>Lobes, helix, tragus, daith, conch, flat, nose, septum, surface piercings, and ear curation packages. Contact Emil on Instagram or come by to discuss specifics.</p>
+
+    <h2>Practical info</h2>
+
+    <h3>What is the age limit?</h3>
+    <p>18 years for both tattooing and piercing. No exceptions.</p>
+
+    <h3>What are your opening hours?</h3>
+    <dl class="faq__hours">
+      <div><dt>Monday – Tuesday</dt><dd>13:00 – 23:00</dd></div>
+      <div><dt>Wednesday</dt><dd>13:00 – 23:30</dd></div>
+      <div><dt>Thursday</dt><dd>13:00 – 02:00</dd></div>
+      <div><dt>Friday</dt><dd>13:00 – 05:00 ★</dd></div>
+      <div><dt>Saturday</dt><dd>14:00 – 05:00 ★</dd></div>
+      <div><dt>Sunday</dt><dd>13:00 – 23:00</dd></div>
+    </dl>
+
+    <h3>Where are you located?</h3>
+    <p>{{ site.address.street }}, {{ site.address.postalCode }} {{ site.address.city }}, Denmark. <a href="{{ site.address.mapsUrl }}" target="_blank" rel="noopener noreferrer">Open in Google Maps ↗</a></p>
+
+    <h3>How do I contact you?</h3>
+    <p>Call us on <a href="tel:{{ site.phoneIntl }}">{{ site.phone | replace(" ", "&nbsp;") | safe }}</a>, message on <a href="https://wa.me/{{ site.whatsapp | replace('+', '') | replace(' ', '') }}" target="_blank" rel="noopener noreferrer">WhatsApp</a>, or DM on <a href="{{ site.instagram }}" target="_blank" rel="noopener noreferrer">Instagram</a>.</p>
+
+    <h3>Do you offer gift cards?</h3>
+    <p>Contact us directly — we are happy to sort something out.</p>
+
+    <h3>What should I do to prepare for my tattoo?</h3>
+    <p>Eat a proper meal before your session. Wear loose, comfortable clothing that gives easy access to the area. Stay hydrated. Avoid alcohol for 24 hours before. Check our <a href="/en/aftercare/">aftercare guide</a> to know what comes after.</p>
+
+    <div class="legal__cta">
+      <a href="{{ site.bookingUrl }}" class="btn btn--primary" target="_blank" rel="noopener noreferrer">{{ "cta.bookNow" | t(lang) }} →</a>
+      <a href="tel:{{ site.phoneIntl }}" class="btn btn--ghost">{{ "cta.callShop" | t(lang) }}&nbsp;{{ site.phone | replace(" ", "&nbsp;") | safe }}</a>
+    </div>
+  </article>
+</section>
+
+{% else %}
+
+<section class="legal">
+  <article class="legal__content">
+    <div class="legal__file">// FIL: FAQ.TXT</div>
+    <h1 class="legal__title">Spørgsmål &amp; svar</h1>
+    <p class="legal__lead">Ærlige svar på de spørgsmål vi oftest får.</p>
+
+    <h2>Priser &amp; booking</h2>
+
+    <h3>Hvad koster en tatovering?</h3>
+    <p>Flash og simple designs fra 800 kr. Timepris er 1.500 kr. Custom arbejde prissættes individuelt efter motiv og placering — kig forbi til en snak, eller kontakt artisten direkte på Instagram.</p>
+
+    <h3>Skal man booke i forvejen?</h3>
+    <p>For custom-arbejde kræves der oftest en konsultation først. Til flash og simple designs: bare duk op. Vil du sikre dig en specifik tid eller artist, book online på <a href="{{ site.bookingUrl }}" target="_blank" rel="noopener noreferrer">inkart.book.dk</a>.</p>
+
+    <h3>Kan man bare møde op?</h3>
+    <p>Ja. Walk-ins er velkomne når vi har plads. Vi åbner fra kl. 13 dagligt (14 lørdag). Flash-sheets hænger altid på væggen og er klar til at gå. Tjek <a href="/walk-in/">walk-in-siden</a> for den aktuelle status.</p>
+
+    <h3>Tilbyder I konsultationer?</h3>
+    <p>Ja. Kig forbi i åbningstiden eller skriv til den artist du ønsker at arbejde med på Instagram. Vi er gode til at finde den rigtige artist til dit motiv.</p>
+
+    <h2>Stilarter &amp; artister</h2>
+
+    <h3>Hvilke stilarter laver I?</h3>
+    <p>Blackwork, fineline, traditional, neo-traditional, dotwork, micro, illustrative, ornamental — og piercing. Seks artister med seks forskellige specialer. Se <a href="/artister/">artist-siden</a> for at finde det rigtige match.</p>
+
+    <h3>Laver I kopier af andre artisters arbejde?</h3>
+    <p>Nej. Vi kopierer ikke og gengiver ikke andre tattoo-artisters designs. Custom-motiver og referencer til inspiration er altid velkomne, men det endelige design er originalt.</p>
+
+    <h3>Kan man få farve-tatoveringer?</h3>
+    <p>Ja. Jonas arbejder i traditional og neo-traditional med stærkt farvearbejde. Kontakt ham direkte for at drøfte dit motiv.</p>
+
+    <h2>Piercing</h2>
+
+    <h3>Laver I piercings?</h3>
+    <p>Ja. Emil er shoppens piercer — fra simple lobes til fulde ear curations og surface piercings. APP-uddannet, sterilt udstyr. Walk-ins fra kl. 14 dagligt.</p>
+
+    <h3>Hvilke piercings tilbyder I?</h3>
+    <p>Lobes, helix, tragus, daith, conch, flat, næse, septum, surface piercings og ear curation-pakker. Kontakt Emil på Instagram eller kig forbi for at drøfte det nærmere.</p>
+
+    <h2>Praktisk info</h2>
+
+    <h3>Hvad er aldersgrænsen?</h3>
+    <p>18 år for både tatovering og piercing. Ingen undtagelser.</p>
+
+    <h3>Hvad er jeres åbningstider?</h3>
+    <dl class="faq__hours">
+      <div><dt>Mandag – tirsdag</dt><dd>13:00 – 23:00</dd></div>
+      <div><dt>Onsdag</dt><dd>13:00 – 23:30</dd></div>
+      <div><dt>Torsdag</dt><dd>13:00 – 02:00</dd></div>
+      <div><dt>Fredag</dt><dd>13:00 – 05:00 ★</dd></div>
+      <div><dt>Lørdag</dt><dd>14:00 – 05:00 ★</dd></div>
+      <div><dt>Søndag</dt><dd>13:00 – 23:00</dd></div>
+    </dl>
+
+    <h3>Hvor ligger I?</h3>
+    <p>{{ site.address.street }}, {{ site.address.postalCode }} {{ site.address.city }}, Danmark. <a href="{{ site.address.mapsUrl }}" target="_blank" rel="noopener noreferrer">Åbn i Google Maps ↗</a></p>
+
+    <h3>Hvordan kontakter jeg jer?</h3>
+    <p>Ring på <a href="tel:{{ site.phoneIntl }}">{{ site.phone | replace(" ", "&nbsp;") | safe }}</a>, skriv på <a href="https://wa.me/{{ site.whatsapp | replace('+', '') | replace(' ', '') }}" target="_blank" rel="noopener noreferrer">WhatsApp</a>, eller send en DM på <a href="{{ site.instagram }}" target="_blank" rel="noopener noreferrer">Instagram</a>.</p>
+
+    <h3>Sælger I gavekort?</h3>
+    <p>Kontakt os direkte — vi finder en løsning.</p>
+
+    <h3>Hvad skal jeg gøre inden min tatovering?</h3>
+    <p>Spis et ordentligt måltid inden din session. Bær løst, behageligt tøj der giver nem adgang til det område der skal tatoveres. Hold dig hydreret. Undgå alkohol i 24 timer inden. Læs vores <a href="/efterpleje/">efterplejevejledning</a> for at vide hvad der sker bagefter.</p>
+
+    <div class="legal__cta">
+      <a href="{{ site.bookingUrl }}" class="btn btn--primary" target="_blank" rel="noopener noreferrer">{{ "cta.bookNow" | t(lang) }} →</a>
+      <a href="tel:{{ site.phoneIntl }}" class="btn btn--ghost">{{ "cta.callShop" | t(lang) }}&nbsp;{{ site.phone | replace(" ", "&nbsp;") | safe }}</a>
+    </div>
+  </article>
+</section>
+
+{% endif %}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% if lang == "en" %}
+    { "@type": "Question", "name": "What does a tattoo cost?", "acceptedAnswer": { "@type": "Answer", "text": "Flash designs and simple pieces start from DKK 800. The hourly rate is DKK 1,500. Custom work is priced individually." } },
+    { "@type": "Question", "name": "Can I just walk in?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Walk-ins are welcome when we have room. We open from 13:00 daily (14:00 Saturday)." } },
+    { "@type": "Question", "name": "What is the age limit?", "acceptedAnswer": { "@type": "Answer", "text": "18 years for both tattooing and piercing. No exceptions." } },
+    { "@type": "Question", "name": "Do you do piercings?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Emil is the shop piercer — from simple lobes to full ear curations and surface piercings. Walk-ins from 14:00 daily." } }
+    {% else %}
+    { "@type": "Question", "name": "Hvad koster en tatovering?", "acceptedAnswer": { "@type": "Answer", "text": "Flash og simple designs fra 800 kr. Timepris er 1.500 kr. Custom arbejde prissættes individuelt." } },
+    { "@type": "Question", "name": "Kan man bare møde op?", "acceptedAnswer": { "@type": "Answer", "text": "Ja. Walk-ins er velkomne når vi har plads. Vi åbner fra kl. 13 dagligt (14 lørdag)." } },
+    { "@type": "Question", "name": "Hvad er aldersgrænsen?", "acceptedAnswer": { "@type": "Answer", "text": "18 år for både tatovering og piercing. Ingen undtagelser." } },
+    { "@type": "Question", "name": "Laver I piercings?", "acceptedAnswer": { "@type": "Answer", "text": "Ja. Emil er shoppens piercer — fra simple lobes til fulde ear curations og surface piercings. Walk-ins fra kl. 14 dagligt." } }
+    {% endif %}
+  ]
+}
+</script>
+
+{%- include "partials/lang-toggle.njk" -%}

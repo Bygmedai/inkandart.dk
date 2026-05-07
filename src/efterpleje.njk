@@ -1,0 +1,168 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: siteLocales
+  size: 1
+  alias: lang
+siteLocales: [da, en]
+permalink: "{% if lang == 'en' %}/en/aftercare/{% else %}/efterpleje/{% endif %}"
+eleventyComputed:
+  title: "{% if lang == 'en' %}Aftercare · Ink & Art Copenhagen{% else %}Efterpleje · Ink & Art Copenhagen{% endif %}"
+  description: "{% if lang == 'en' %}Aftercare guide for tattoos and piercings from Ink & Art Copenhagen. How to care for your new tattoo or piercing during healing.{% else %}Efterplejevejledning til tatovering og piercing fra Ink & Art Copenhagen. Sådan passer du på din nye tatovering eller piercing under heling.{% endif %}"
+---
+
+{% if lang == "en" %}
+
+<section class="legal">
+  <article class="legal__content">
+    <div class="legal__file">// FILE: AFTERCARE.TXT</div>
+    <h1 class="legal__title">Aftercare</h1>
+    <p class="legal__lead">Your tattoo or piercing is fresh work. Treat it right and it will heal beautifully. Here is what we recommend.</p>
+
+    <h2>Tattoo aftercare</h2>
+
+    <h3>The first hours</h3>
+    <ul>
+      <li>Keep the wrap or film on for the time your artist recommended — typically 2–4 hours for standard wrap, longer for second-skin film.</li>
+      <li>Remove it gently with clean hands.</li>
+      <li>Wash the tattoo carefully with unscented liquid soap and lukewarm water.</li>
+      <li>Pat dry with a clean piece of kitchen towel — never a cloth.</li>
+    </ul>
+
+    <h3>The first two weeks</h3>
+    <ul>
+      <li>Apply a thin layer of unscented, alcohol-free moisturiser 2–3 times daily — Bepanthen, Lubriderm or similar.</li>
+      <li>Keep the tattoo out of direct sunlight for at least 2–3 weeks.</li>
+      <li>Avoid swimming pools, the sea, and baths — showers are fine.</li>
+      <li>Do not scratch — even when it itches. It will itch.</li>
+      <li>Do not pick at any peeling skin. Let it fall off on its own.</li>
+    </ul>
+
+    <h3>Healing</h3>
+    <p>A tattoo is technically a wound. Surface healing takes 2–4 weeks. Full healing of the deeper layers can take up to 3 months. Peeling and mild flaking are completely normal during the first week.</p>
+
+    <h3>When to contact us</h3>
+    <p>Get in touch if you notice unusual redness, significant swelling, warmth, or discharge. These can be signs of infection. Call <a href="tel:{{ site.phoneIntl }}">{{ site.phone | replace(" ", "&nbsp;") | safe }}</a> or DM on <a href="{{ site.instagram }}" target="_blank" rel="noopener noreferrer">Instagram</a>.</p>
+
+    <h3>Sun and colour</h3>
+    <p>Once fully healed, always apply SPF 50 sunscreen to your tattoo before sun exposure. UV light fades ink — especially colour and fineline.</p>
+
+    <h2>Piercing aftercare</h2>
+
+    <h3>Daily cleaning</h3>
+    <ul>
+      <li>Clean twice daily with a sterile saline spray (0.9% NaCl) — NEILMED Wound Wash or similar.</li>
+      <li>Only touch the piercing with thoroughly clean hands.</li>
+      <li>Do not rotate or move the jewellery — this slows healing and increases infection risk.</li>
+      <li>Pat dry gently after cleaning.</li>
+    </ul>
+
+    <h3>Healing times (approximate)</h3>
+    <dl class="faq__hours">
+      <div><dt>Earlobes</dt><dd>6–8 weeks</dd></div>
+      <div><dt>Helix / tragus / conch</dt><dd>6–12 months</dd></div>
+      <div><dt>Daith</dt><dd>6–12 months</dd></div>
+      <div><dt>Nose</dt><dd>4–6 months</dd></div>
+      <div><dt>Septum</dt><dd>6–8 weeks</dd></div>
+      <div><dt>Navel</dt><dd>6–12 months</dd></div>
+      <div><dt>Surface piercings</dt><dd>Individual — ask Emil</dd></div>
+    </dl>
+
+    <h3>What to avoid</h3>
+    <ul>
+      <li>Changing the jewellery before the piercing is fully healed.</li>
+      <li>Swimming pools, the sea, and hot tubs during the initial healing period.</li>
+      <li>Makeup, perfume, and cleaning products directly on the piercing.</li>
+      <li>Sleeping directly on a fresh ear piercing — use a travel pillow or a rolled-up pillow case.</li>
+      <li>Touching the piercing unnecessarily.</li>
+    </ul>
+
+    <h3>Questions?</h3>
+    <p>Emil is available in the shop or on Instagram. Do not hesitate to reach out if something looks off or you are unsure — better to ask early than wait.</p>
+
+    <div class="legal__cta">
+      <a href="{{ site.bookingUrl }}" class="btn btn--primary" target="_blank" rel="noopener noreferrer">{{ "cta.bookNow" | t(lang) }} →</a>
+      <a href="tel:{{ site.phoneIntl }}" class="btn btn--ghost">{{ "cta.callShop" | t(lang) }}&nbsp;{{ site.phone | replace(" ", "&nbsp;") | safe }}</a>
+    </div>
+  </article>
+</section>
+
+{% else %}
+
+<section class="legal">
+  <article class="legal__content">
+    <div class="legal__file">// FIL: EFTERPLEJE.TXT</div>
+    <h1 class="legal__title">Efterpleje</h1>
+    <p class="legal__lead">Din tatovering eller piercing er frisk arbejde. Behandl det rigtigt og det heler smukt. Her er hvad vi anbefaler.</p>
+
+    <h2>Efterpleje — tatovering</h2>
+
+    <h3>De første timer</h3>
+    <ul>
+      <li>Behold folien eller hæftet på i den tid din artist anbefalede — typisk 2–4 timer for standard hæfte, længere for second-skin-film.</li>
+      <li>Fjern det forsigtigt med rene hænder.</li>
+      <li>Vask tattoen forsigtigt med uparfumeret flydende sæbe og lunkent vand.</li>
+      <li>Dup tør med et rent stykke køkkenrulle — aldrig klæde.</li>
+    </ul>
+
+    <h3>De første to uger</h3>
+    <ul>
+      <li>Fugt med en tynd lag uparfumeret, alkoholfri creme 2–3 gange dagligt — Bepanthen, Lubriderm eller lignende.</li>
+      <li>Hold tattoen væk fra direkte sol i mindst 2–3 uger.</li>
+      <li>Undgå svømmebassiner, havvand og badekar — brusebad er fint.</li>
+      <li>Kradse ikke — selvom det klør. Det vil klø.</li>
+      <li>Pil ikke ved afskallende hud. Lad det falde af af sig selv.</li>
+    </ul>
+
+    <h3>Heling</h3>
+    <p>En tatovering er teknisk set et sår. Overfladisk heling tager 2–4 uger. Fuldstændig heling af de dybere lag kan tage op til 3 måneder. Afskalning og let flossning er helt normalt i den første uge.</p>
+
+    <h3>Hvornår skal jeg kontakte jer?</h3>
+    <p>Tag fat i os hvis du bemærker usædvanlig rødme, markant hævelse, varme eller udflåd. Det kan være tegn på infektion. Ring på <a href="tel:{{ site.phoneIntl }}">{{ site.phone | replace(" ", "&nbsp;") | safe }}</a> eller skriv på <a href="{{ site.instagram }}" target="_blank" rel="noopener noreferrer">Instagram</a>.</p>
+
+    <h3>Sol og farver</h3>
+    <p>Når tattoen er fuldt helet, brug altid SPF 50 solcreme på tatoveringen inden sol-eksponering. UV-lys bleeger blæk — særligt farver og fineline.</p>
+
+    <h2>Efterpleje — piercing</h2>
+
+    <h3>Daglig rengøring</h3>
+    <ul>
+      <li>Rens to gange dagligt med en steril saltvandssspray (0,9% NaCl) — NEILMED Wound Wash eller lignende.</li>
+      <li>Rør kun piercingen med grundigt rene hænder.</li>
+      <li>Drej eller flyt ikke smykket — det sinker helingen og øger infektionsrisikoen.</li>
+      <li>Dup forsigtigt tørt efter rengøring.</li>
+    </ul>
+
+    <h3>Helingstider (ca.)</h3>
+    <dl class="faq__hours">
+      <div><dt>Lobes</dt><dd>6–8 uger</dd></div>
+      <div><dt>Helix / tragus / conch</dt><dd>6–12 måneder</dd></div>
+      <div><dt>Daith</dt><dd>6–12 måneder</dd></div>
+      <div><dt>Næse</dt><dd>4–6 måneder</dd></div>
+      <div><dt>Septum</dt><dd>6–8 uger</dd></div>
+      <div><dt>Navle</dt><dd>6–12 måneder</dd></div>
+      <div><dt>Surface piercings</dt><dd>Individuelt — spørg Emil</dd></div>
+    </dl>
+
+    <h3>Hvad skal man undgå</h3>
+    <ul>
+      <li>At skifte smykket inden piercingen er fuldt helet.</li>
+      <li>Svømmebassiner, havvand og boblebade i den indledende helingsperiode.</li>
+      <li>Makeup, parfume og rengøringsmidler direkte på piercingen.</li>
+      <li>At sove direkte på en ny ørepiercing — brug en rejsepude eller et rullet håndklæde.</li>
+      <li>At røre unødigt ved piercingen.</li>
+    </ul>
+
+    <h3>Spørgsmål?</h3>
+    <p>Emil er tilgængelig i shoppen eller på Instagram. Tøv ikke med at tage fat i os hvis noget ser mærkeligt ud eller du er usikker — det er bedre at spørge tidligt end at vente.</p>
+
+    <div class="legal__cta">
+      <a href="{{ site.bookingUrl }}" class="btn btn--primary" target="_blank" rel="noopener noreferrer">{{ "cta.bookNow" | t(lang) }} →</a>
+      <a href="tel:{{ site.phoneIntl }}" class="btn btn--ghost">{{ "cta.callShop" | t(lang) }}&nbsp;{{ site.phone | replace(" ", "&nbsp;") | safe }}</a>
+    </div>
+  </article>
+</section>
+
+{% endif %}
+
+{%- include "partials/lang-toggle.njk" -%}

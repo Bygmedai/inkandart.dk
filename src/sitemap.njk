@@ -5,9 +5,19 @@ eleventyExcludeFromCollections: true
 <?xml version="1.0" encoding="utf-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   {%- for page in collections.all %}
+  {%- set pageLangCode = page.url | pageLang %}
+  {%- if pageLangCode == "da" %}
   <url>
     <loc>{{ site.url }}{{ page.url }}</loc>
     <lastmod>{{ page.date | isoDate }}</lastmod>
   </url>
+  {%- set sister = page.url | sisterUrl %}
+  {%- if sister and sister != "/" and sister != page.url %}
+  <url>
+    <loc>{{ site.url }}{{ sister }}</loc>
+    <lastmod>{{ page.date | isoDate }}</lastmod>
+  </url>
+  {%- endif %}
+  {%- endif %}
   {%- endfor %}
 </urlset>
