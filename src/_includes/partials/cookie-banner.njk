@@ -1,12 +1,17 @@
+{% set lang = lang or (page.url | pageLang) %}
 <aside id="cookie-banner" class="cookie-banner" role="dialog" aria-labelledby="cookie-banner-title" hidden>
   <div class="cookie-banner__inner">
     <h2 id="cookie-banner-title" class="cookie-banner__title">Cookies</h2>
     <p class="cookie-banner__body">
-      Vi bruger cookies til at forbedre din oplevelse og forstå hvordan sitet bliver brugt. Du kan acceptere eller afvise — uanset hvad får du fuld funktionalitet. Læs mere i vores <a href="/privatlivspolitik/">privatlivspolitik</a>.
+      {%- if lang == "en" -%}
+        We use cookies to improve your experience and understand how the site is used. You can accept or decline — either way you get full functionality. Read more in our <a href="/en/privacy/">privacy policy</a>.
+      {%- else -%}
+        Vi bruger cookies til at forbedre din oplevelse og forstå hvordan sitet bliver brugt. Du kan acceptere eller afvise — uanset hvad får du fuld funktionalitet. Læs mere i vores <a href="/privatlivspolitik/">privatlivspolitik</a>.
+      {%- endif -%}
     </p>
     <div class="cookie-banner__buttons">
-      <button type="button" class="btn btn--outline" data-consent="reject">Nej tak</button>
-      <button type="button" class="btn btn--outline" data-consent="accept">Accepter</button>
+      <button type="button" class="btn btn--outline" data-consent="reject">{% if lang == "en" %}No thanks{% else %}Nej tak{% endif %}</button>
+      <button type="button" class="btn btn--outline" data-consent="accept">{% if lang == "en" %}Accept{% else %}Accepter{% endif %}</button>
     </div>
   </div>
 </aside>
