@@ -30,7 +30,7 @@
 {%- elif isPrivacy %}
   <span><a href="{% if lang == 'en' %}/en/{% else %}/{% endif %}" class="topbar__back">← {{ site.shortName | upper }}</a></span>
   <span class="topbar__issue">{{ "nav.privacy" | t(lang) | upper }}</span>
-  <span class="topbar__live">● SENEST OPDATERET 2026-05-02</span>
+  <span class="topbar__live">● {% if lang == 'en' %}LAST UPDATED{% else %}SENEST OPDATERET{% endif %} 2026-05-02</span>
 
 {%- elif is404 %}
   <span><a href="{% if lang == 'en' %}/en/{% else %}/{% endif %}" class="topbar__back">← {{ site.shortName | upper }}</a></span>

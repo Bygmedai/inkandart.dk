@@ -14,13 +14,31 @@ eleventyExcludeFromCollections: true
 
   <div class="about-card">
     <div class="about-card__file">// FILE: 404.TXT</div>
-    <p class="about-card__text">
+    <p class="about-card__text" id="err-da">
       Siden findes ikke. Måske er den flyttet, måske er det en typo.
       <strong>Hovedet hænger lavt — vi ses på forsiden.</strong>
     </p>
+    <p class="about-card__text" id="err-en" hidden>
+      Page not found. Maybe it moved, maybe it's a typo.
+      <strong>Head hanging low — see you on the home page.</strong>
+    </p>
     <div class="about-card__cta">
-      <a href="/" class="btn btn--primary">Tilbage til forsiden</a>
-      <a href="tel:{{ site.phoneIntl }}" class="btn btn--ghost">Ring {{ site.phone | replace(" ", "&nbsp;") | safe }}</a>
+      <a href="/" class="btn btn--primary" id="btn-da">Tilbage til forsiden</a>
+      <a href="/en/" class="btn btn--primary" id="btn-en" hidden>Back to home</a>
+      <a href="tel:{{ site.phoneIntl }}" class="btn btn--ghost">Ring&nbsp;{{ site.phone | replace(" ", "&nbsp;") | safe }}</a>
     </div>
   </div>
 </section>
+<script>
+  (function () {
+    var ref = document.referrer || '';
+    var lang = navigator.language || navigator.userLanguage || '';
+    var isEn = ref.indexOf('/en/') !== -1 || lang.toLowerCase().startsWith('en');
+    if (isEn) {
+      document.getElementById('err-da').hidden = true;
+      document.getElementById('err-en').hidden = false;
+      document.getElementById('btn-da').hidden = true;
+      document.getElementById('btn-en').hidden = false;
+    }
+  })();
+</script>
