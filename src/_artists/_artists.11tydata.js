@@ -14,6 +14,7 @@ export default {
     data: "siteLocales",
     size: 1,
     alias: "lang",
+    addAllPagesToCollections: true,
   },
   siteLocales: ["da", "en"],
   permalink: function (data) {

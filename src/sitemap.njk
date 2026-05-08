@@ -4,10 +4,31 @@ eleventyExcludeFromCollections: true
 ---
 <?xml version="1.0" encoding="utf-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  {%- for page in collections.all %}
+
+  {#- Static main pages — DA -#}
+  <url><loc>{{ site.url }}/</loc></url>
+  <url><loc>{{ site.url }}/walk-in/</loc></url>
+  <url><loc>{{ site.url }}/artister/</loc></url>
+  <url><loc>{{ site.url }}/privatlivspolitik/</loc></url>
+
+  {#- Static main pages — EN -#}
+  <url><loc>{{ site.url }}/en/</loc></url>
+  <url><loc>{{ site.url }}/en/walk-in/</loc></url>
+  <url><loc>{{ site.url }}/en/artists/</loc></url>
+  <url><loc>{{ site.url }}/en/privacy/</loc></url>
+
+  {#-
+    Artist pages — both DA (/artister/<slug>/) and EN (/en/artists/<slug>/)
+    collections.artist includes all paginated outputs (DA + EN) via tags: ["artist"].
+    Eleventy's collections.all only captures the first pagination output per source
+    file, so paginated templates (index.njk, walk-in.njk, artister.njk) must be
+    listed statically above.
+  -#}
+  {%- for artistPage in collections.artist | sort(false, false, "data.sortOrder") %}
   <url>
-    <loc>{{ site.url }}{{ page.url }}</loc>
-    <lastmod>{{ page.date | isoDate }}</lastmod>
+    <loc>{{ site.url }}{{ artistPage.url }}</loc>
+    <lastmod>{{ artistPage.date | isoDate }}</lastmod>
   </url>
   {%- endfor %}
+
 </urlset>
