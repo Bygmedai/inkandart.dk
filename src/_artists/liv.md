@@ -2,6 +2,8 @@
 name: Liv Sørensen
 slug: liv
 sortOrder: 5
+description: "Liv Sørensen tatoverer ornamentalt og illustrativt — mandala, symmetri, blackwork. Taler dansk og norsk. Ink & Art Copenhagen."
+description_en: "Liv Sørensen works in ornamental and illustrative styles — mandala, symmetry, blackwork. Speaks Danish and Norwegian. Ink & Art Copenhagen."
 role:
   da: Tatovør
   en: Tattooer

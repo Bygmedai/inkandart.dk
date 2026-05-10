@@ -3,6 +3,8 @@ name: Simone Chimere
 slug: simone
 sortOrder: 1
 title: "Simone Chimere · Ink & Art Copenhagen"
+description: "Simone Chimere tatoverer blackwork og fineline — 15 år i stolen. Direktør og lead artist hos Ink & Art Copenhagen på Larsbjørnsstræde 13."
+description_en: "Simone Chimere specialises in blackwork and fineline — 15 years in the chair. Director and lead artist at Ink & Art Copenhagen."
 role:
   da: Direktør & artist
   en: Director & artist

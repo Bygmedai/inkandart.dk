@@ -2,6 +2,8 @@
 name: Emil Krag
 slug: emil
 sortOrder: 6
+description: "Emil Krag er shoppens piercer — ear curation, overflade-piercings og simpel lobe-piercing. APP-uddannet. Walk-ins fra kl. 14 hos Ink & Art Copenhagen."
+description_en: "Emil Krag is the shop piercer — ear curation, surface piercings and simple lobes. APP-trained. Walk-ins from 14:00 at Ink & Art Copenhagen."
 role:
   da: Piercer
   en: Piercer

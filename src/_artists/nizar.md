@@ -2,6 +2,8 @@
 name: Nizar Saad
 slug: nizar
 sortOrder: 2
+description: "Nizar Saad tatoverer traditional og blackwork og peercer. Taler dansk, engelsk og arabisk. Book tid eller kig forbi Ink & Art Copenhagen."
+description_en: "Nizar Saad does traditional, blackwork and piercing. Speaks Danish, English and Arabic. Book or walk in at Ink & Art Copenhagen."
 role:
   da: Tatovør & piercer
   en: Tattooer & piercer

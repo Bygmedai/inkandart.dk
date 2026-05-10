@@ -2,6 +2,8 @@
 name: Jonas Bek
 slug: jonas
 sortOrder: 4
+description: "Jonas Bek tatoverer traditional og neo-traditional — farver, stærke konturer, klassiske motiver. Walk-ins ok hos Ink & Art Copenhagen."
+description_en: "Jonas Bek works in traditional and neo-traditional — colour, strong outlines, classic motifs. Walk-ins welcome at Ink & Art Copenhagen."
 role:
   da: Tatovør
   en: Tattooer
