@@ -27,5 +27,16 @@ export default {
     title: function (data) {
       return data.title || `${data.name} · Ink & Art Copenhagen`;
     },
+    description: function (data) {
+      if (data.description) return data.description;
+      const name = data.name || "";
+      const lang = data.lang || "da";
+      const role = (lang === "en" ? data.role?.en : data.role?.da) || data.role?.da || "";
+      const styles = Array.isArray(data.styles) ? data.styles.join(", ") : "";
+      if (lang === "en") {
+        return `${name} — ${role} at Ink & Art Copenhagen on Larsbjørnsstræde 13. Specialises in ${styles}. Book a session or walk in.`;
+      }
+      return `${name} — ${role} hos Ink & Art Copenhagen på Larsbjørnsstræde 13. Specialiseret i ${styles}. Book en tid eller kig forbi.`;
+    },
   },
 };
