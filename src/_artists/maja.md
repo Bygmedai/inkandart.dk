@@ -2,6 +2,9 @@
 name: Maja Holm
 slug: maja
 sortOrder: 3
+title: "Maja Holm · Fineline, Dotwork & Micro · Ink & Art Copenhagen"
+description: "Maja Holm er specialist i fineline, dotwork og micro-tatoveringer. Custom-arbejde via konsultation. Ink & Art, Larsbjørnsstræde 13, København."
+ogImageAlt: "Maja Holm, fineline og dotwork-specialist hos Ink & Art Copenhagen"
 role:
   da: Tatovør
   en: Tattooer

@@ -2,6 +2,9 @@
 name: Emil Krag
 slug: emil
 sortOrder: 6
+title: "Emil Krag · Piercer — Ear Curation & Overflade-Piercing · Ink & Art Copenhagen"
+description: "Emil Krag er APP-uddannet piercer hos Ink & Art — fra lobes til ear curations og overflade-piercings. Walk-ins fra 14:00. Larsbjørnsstræde 13, København."
+ogImageAlt: "Emil Krag, piercer hos Ink & Art Copenhagen"
 role:
   da: Piercer
   en: Piercer
