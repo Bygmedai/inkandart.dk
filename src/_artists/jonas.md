@@ -2,6 +2,9 @@
 name: Jonas Bek
 slug: jonas
 sortOrder: 4
+title: "Jonas Bek · Traditional & Neo-Traditional · Ink & Art Copenhagen"
+description: "Jonas Bek tatoverer traditional og neo-traditional med farver og stærke konturer. Flash og custom. Ink & Art, Larsbjørnsstræde 13, København."
+ogImageAlt: "Jonas Bek, traditional og neo-traditional tatovør hos Ink & Art Copenhagen"
 role:
   da: Tatovør
   en: Tattooer

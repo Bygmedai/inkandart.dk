@@ -2,6 +2,9 @@
 name: Nizar Saad
 slug: nizar
 sortOrder: 2
+title: "Nizar Saad · Traditional, Blackwork & Piercing · Ink & Art Copenhagen"
+description: "Nizar Saad tatoverer traditional og blackwork og er pierceren på Ink & Art, Larsbjørnsstræde 13, København K. Taler dansk, engelsk og arabisk."
+ogImageAlt: "Nizar Saad, tatovør og piercer hos Ink & Art Copenhagen"
 role:
   da: Tatovør & piercer
   en: Tattooer & piercer

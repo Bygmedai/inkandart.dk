@@ -2,6 +2,9 @@
 name: Liv Sørensen
 slug: liv
 sortOrder: 5
+title: "Liv Sørensen · Ornamental & Illustrativ Blackwork · Ink & Art Copenhagen"
+description: "Liv Sørensen tegner ornamentalt og illustrativt — mandala, symmetri og blackwork. Ink & Art, Larsbjørnsstræde 13, København. Taler dansk og norsk."
+ogImageAlt: "Liv Sørensen, ornamental og illustrativ tatovør hos Ink & Art Copenhagen"
 role:
   da: Tatovør
   en: Tattooer
