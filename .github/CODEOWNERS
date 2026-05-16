@@ -1,0 +1,5 @@
+# CODEOWNERS — auto-request reviewer på alle PRs
+# Rollout S434 (2026-05-16) per Stevens governance-hardening
+# Reference: BL-473 obviated by direct rollout; ses i memory/POST-MERGE-FOLLOWUPS.md S434
+
+* @stevenwensley-a11y
