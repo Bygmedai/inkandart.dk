@@ -41,7 +41,7 @@ ul, ol { padding: 0; margin: 0; list-style: none; }
   --paper-warm:   #e3dccd;
   --ink:          #0a0908;
   --ink-soft:     #1a1815;
-  --red:          #c8302d;
+  --red:          #be2b28;
   --red-deep:     #a8201d;
   --red-on-ink:   #e3625e;
   --muted:        #4a463e;
@@ -163,7 +163,7 @@ button:focus-visible {
   border: 2px solid var(--ink);
   transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
 }
-.btn--primary { background: var(--red); color: var(--ink); }
+.btn--primary { background: var(--red); color: var(--paper); }
 .btn--primary:hover {
   transform: translate(-2px, -2px);
   box-shadow: 4px 4px 0 var(--ink);
@@ -421,14 +421,14 @@ button:focus-visible {
 }
 .card--red {
   background: var(--red);
-  color: var(--ink);
+  color: var(--paper);
   box-shadow: var(--shadow-hard);
 }
 .card--tilt-l { transform: rotate(-0.6deg); }
 .card--tilt-r { transform: rotate(0.8deg); }
 
 .card--ink .card__file { color: var(--red-on-ink); }
-.card--red .card__file { color: var(--ink); }
+.card--red .card__file { color: var(--paper); }
 
 /* ----- 11. Info grid (locations + contact side-by-side på desktop) ----- */
 .info-grid {
@@ -1053,7 +1053,7 @@ button:focus-visible {
   left: 0;
   right: 0;
   background: var(--red);
-  color: var(--ink);
+  color: var(--paper);
   border-top: 2px solid var(--ink);
   padding: 10px var(--pad-x);
   font-family: var(--font-display);

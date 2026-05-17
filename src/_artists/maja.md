@@ -12,11 +12,6 @@ styles: [fineline, dotwork, micro]
 instagram: maja.holm.ink
 booksysId: 3
 languages: [da, en]
-portrait:
-  src: portrait.jpg
-  alt:
-    da: Maja Holm — fineline-specialist
-    en: Maja Holm — fineline specialist
 portfolio: []
 bio:
   da: |

@@ -13,15 +13,16 @@ layout: layouts/base.njk
   </div>
 
   <div class="artist__body">
-    {% if portrait and portrait.src %}
+    {%- if portrait and portrait.src %}
     <figure class="artist__portrait">
       <img src="/_assets/img/artists/{{ slug }}/{{ portrait.src }}"
            alt="{{ portrait.alt[lang] if portrait.alt[lang] else portrait.alt.da }}"
            width="600" height="800"
            loading="eager"
+           fetchpriority="high"
            decoding="async">
     </figure>
-    {% endif %}
+    {%- endif %}
 
     <div class="artist__meta">
       <dl class="artist__facts">
@@ -29,7 +30,7 @@ layout: layouts/base.njk
           <dt>{{ "artists.stylesLabel" | t(lang) }}</dt>
           <dd>{{ styles | join(" · ") }}</dd>
         </div>
-        {% if instagram %}
+        {%- if instagram %}
         <div>
           <dt>{{ "artists.instagramLabel" | t(lang) }}</dt>
           <dd>
@@ -38,45 +39,45 @@ layout: layouts/base.njk
             </a>
           </dd>
         </div>
-        {% endif %}
-        {% if languages %}
+        {%- endif %}
+        {%- if languages %}
         <div>
           <dt>{{ "artists.languagesLabel" | t(lang) }}</dt>
           <dd>{{ languages | join(" · ") | upper }}</dd>
         </div>
-        {% endif %}
+        {%- endif %}
       </dl>
 
       <div class="artist__bio">
         {{ (bio[lang] if bio[lang] else bio.da) | safe }}
       </div>
 
-      {% if booksysId %}
+      {%- if booksysId %}
       <a href="{{ booking.deepLinkPattern | replace('{booksysId}', booksysId) }}"
          class="btn btn--primary"
          target="_blank"
          rel="noopener noreferrer">
         {{ "cta.bookWith" | t(lang) }} {{ name | upper }} ↗
       </a>
-      {% endif %}
+      {%- endif %}
     </div>
   </div>
 
-  {% if portfolio and portfolio.length %}
+  {%- if portfolio and portfolio.length %}
   <div class="artist__portfolio">
     <h2 class="artist__portfolio-title">Portfolio</h2>
     <div class="artist__portfolio-grid">
-      {% for img in portfolio %}
+      {%- for img in portfolio %}
       <figure>
         <img src="/_assets/img/artists/{{ slug }}/{{ img.src }}"
              alt="{{ img.alt[lang] if img.alt[lang] else img.alt.da }}"
              loading="lazy"
              decoding="async">
       </figure>
-      {% endfor %}
+      {%- endfor %}
     </div>
   </div>
-  {% endif %}
+  {%- endif %}
 
   <p class="artist__back">
     <a href="{% if lang == 'en' %}/en/artists/{% else %}/artister/{% endif %}" class="btn btn--outline">
@@ -93,7 +94,7 @@ layout: layouts/base.njk
   "name": "{{ name | safe }}",
   "jobTitle": "{{ (role[lang] if role[lang] else role.da) | safe }}",
   "url": "{{ site.url }}{{ page.url }}",
-  {% if portrait %}"image": "{{ site.url }}/_assets/img/artists/{{ slug }}/{{ portrait.src }}",{% endif %}
+  {%- if portrait %}"image": "{{ site.url }}/_assets/img/artists/{{ slug }}/{{ portrait.src }}",{%- endif %}
   "knowsAbout": [{% for style in styles %}"{{ style | capitalize | safe }}"{% if not loop.last %}, {% endif %}{% endfor %}],
   "knowsLanguage": {{ languages | dump | safe }},
   "worksFor": { "@id": "{{ site.url }}/#business" }{% if instagram %},

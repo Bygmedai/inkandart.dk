@@ -12,11 +12,6 @@ styles: [traditional, blackwork, lettering]
 instagram: nizarsaad_ink
 booksysId: 2
 languages: [da, en, ar]
-portrait:
-  src: portrait.jpg
-  alt:
-    da: Nizar Saad i studiet
-    en: Nizar Saad in the studio
 portfolio: []
 bio:
   da: |
