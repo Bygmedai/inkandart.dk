@@ -12,11 +12,6 @@ styles: [traditional, neo-traditional, color]
 instagram: jonas.bek.ink
 booksysId: 4
 languages: [da, en]
-portrait:
-  src: portrait.jpg
-  alt:
-    da: Jonas Bek bag tatover-stolen
-    en: Jonas Bek behind the chair
 portfolio: []
 bio:
   da: |

@@ -12,11 +12,6 @@ styles: [blackwork, illustrative, ornamental]
 instagram: liv.s.tattoo
 booksysId: 5
 languages: [da, en, no]
-portrait:
-  src: portrait.jpg
-  alt:
-    da: Liv Sørensen ved tatover-bordet
-    en: Liv Sørensen at the workstation
 portfolio: []
 bio:
   da: |

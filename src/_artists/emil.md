@@ -12,11 +12,6 @@ styles: [piercing, jewellery, earpiece]
 instagram: emil.piercer
 booksysId: 6
 languages: [da, en]
-portrait:
-  src: portrait.jpg
-  alt:
-    da: Emil Krag — piercer
-    en: Emil Krag — piercer
 portfolio: []
 bio:
   da: |
