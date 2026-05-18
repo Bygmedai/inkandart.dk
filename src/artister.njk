@@ -26,6 +26,7 @@ eleventyComputed:
           <figure class="artist-card__portrait">
             <img src="/_assets/img/artists/{{ artist.data.slug }}/{{ artist.data.portrait.src }}"
                  alt="{{ artist.data.portrait.alt[lang] if artist.data.portrait.alt[lang] else artist.data.portrait.alt.da }}"
+                 width="600" height="800"
                  loading="lazy"
                  decoding="async">
           </figure>
