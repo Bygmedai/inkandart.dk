@@ -1,28 +1,21 @@
-# TruffleHog — secret detection (gratis open source, fri for orgs).
-# Added under Steven founder override S459 (2026-05-30).
-# Pending Sirius ratification follow-up.
-name: TruffleHog
+# Security — TruffleHog (caller, S460 migration)
+#
+# Calls reusable workflow from Bygmedai/.github @v1. Replaces inline implementation
+# (S459 fleet-rollout 2026-05-30) that hardcoded base/head and failed on push:main
+# events (BASE==HEAD → TruffleHog exit 1). Reusable now lets the action auto-resolve
+# from event context per vendor's General Usage pattern.
+#
+# Authority: AMENDMENT-S459-VENDOR-SECURITY-CARVEOUT-v1.0 (Sirius S459 ruling)
+# + S460 verified via klamsine-at trufflehog run #22 (2026-05-30 13:10 UTC, success).
+#
+# To update TruffleHog config: edit Bygmedai/.github reusable workflow + bump tag.
+
+name: Security — TruffleHog
 on:
   pull_request:
   push:
     branches: [main]
 
 jobs:
-  scan:
-    name: Scan for secrets
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Run TruffleHog OSS
-        uses: trufflesecurity/trufflehog@main
-        with:
-          path: ./
-          base: ${{ github.event.repository.default_branch }}
-          head: HEAD
-          extra_args: --only-verified
-
+  secrets:
+    uses: Bygmedai/.github/.github/workflows/trufflehog-secret-scan.yml@v1
