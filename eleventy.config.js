@@ -50,11 +50,13 @@ export default function(eleventyConfig) {
   eleventyConfig.addFilter("sisterUrl", (url) => {
     if (!url) return "/";
     const map = {
-      "/":                      "/en/",
-      "/walk-in/":              "/en/walk-in/",
-      "/artister/":             "/en/artists/",
-      "/privatlivspolitik/":    "/en/privacy/",
-      "/404.html":              "/en/404.html"
+      "/":                        "/en/",
+      "/walk-in/":                "/en/walk-in/",
+      "/artister/":               "/en/artists/",
+      "/flash/":                  "/en/flash/",
+      "/find-din-tatovering/":    "/en/find-your-tattoo/",
+      "/privatlivspolitik/":      "/en/privacy/",
+      "/404.html":                "/en/404.html"
     };
     if (map[url]) return map[url];
     // Reverse map
