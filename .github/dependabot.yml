@@ -1,5 +1,5 @@
-# Dependabot config — added under Steven founder override S459 (2026-05-30).
-# Pending Sirius ratification follow-up.
+# Dependabot config — S459 founder override (2026-05-30); S471 grouping (faucet-control).
+# Gruppér stoejen, isoler beslutningerne: prod-majors staar ualene -> egen PR.
 version: 2
 updates:
   - package-ecosystem: "npm"
@@ -10,6 +10,15 @@ updates:
       time: "07:00"
       timezone: "Europe/Copenhagen"
     open-pull-requests-limit: 5
+    groups:
+      prod-minor-patch:
+        applies-to: version-updates
+        dependency-type: "production"
+        update-types: ["minor", "patch"]
+      dev-dependencies:
+        applies-to: version-updates
+        dependency-type: "development"
+        update-types: ["minor", "patch", "major"]
     commit-message:
       prefix: "[G33:A] chore(deps)"
       include: "scope"
@@ -22,9 +31,11 @@ updates:
       interval: "weekly"
       day: "monday"
     open-pull-requests-limit: 3
+    groups:
+      github-actions:
+        patterns: ["*"]
     commit-message:
       prefix: "[G33:A] chore(actions)"
     labels:
       - "github-actions"
       - "automated"
-
