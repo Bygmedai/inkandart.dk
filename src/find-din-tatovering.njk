@@ -121,11 +121,22 @@ eleventyComputed:
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": "{% if lang == 'en' %}Find Your Tattoo Artist{% else %}Find din tatoveringsartist{% endif %}",
-  "url": "{{ site.url }}{{ page.url }}",
-  "description": "{% if lang == 'en' %}Answer three questions and find the right tattoo artist at Ink & Art Copenhagen.{% else %}Svar på tre spørgsmål og find den rette tatoveringsartist hos Ink & Art København.{% endif %}",
-  "isPartOf": { "@id": "{{ site.url }}/#business" }
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "name": "{% if lang == 'en' %}Find Your Tattoo Artist{% else %}Find din tatoveringsartist{% endif %}",
+      "url": "{{ site.url }}{{ page.url }}",
+      "description": "{% if lang == 'en' %}Answer three questions and find the right tattoo artist at Ink & Art Copenhagen.{% else %}Svar på tre spørgsmål og find den rette tatoveringsartist hos Ink & Art København.{% endif %}",
+      "isPartOf": { "@id": "{{ site.url }}/#business" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "{% if lang == 'en' %}Home{% else %}Forside{% endif %}", "item": "{{ site.url }}{% if lang == 'en' %}/en/{% else %}/{% endif %}" },
+        { "@type": "ListItem", "position": 2, "name": "{% if lang == 'en' %}Find Your Tattoo Artist{% else %}Find din tatoveringsartist{% endif %}", "item": "{{ site.url }}{{ page.url }}" }
+      ]
+    }
+  ]
 }
 </script>
 
