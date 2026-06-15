@@ -1,0 +1,20 @@
+# Dependabot auto-merge (caller, S460 migration)
+#
+# Calls reusable workflow from Bygmedai/.github @v1. Bounded patch-only auto-merge:
+# only version-update:semver-patch from dependabot[bot] is auto-approved + merged.
+# Major + minor remain human-review.
+#
+# Authority: AMENDMENT-S459-VENDOR-SECURITY-CARVEOUT-v1.0 §Q3 (bounded patch auto-merge).
+#
+# To update auto-merge logic: edit Bygmedai/.github reusable workflow + bump tag.
+
+name: Dependabot auto-merge
+on: pull_request_target
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    uses: Bygmedai/.github/.github/workflows/dependabot-auto-merge.yml@v1
