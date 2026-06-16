@@ -1,5 +1,8 @@
 {% set lang = lang or (page.url | pageLang) %}
 <section class="hero">
+  <video class="hero__video" autoplay muted loop playsinline preload="metadata" poster="/_assets/img/hero-poster.jpg" aria-hidden="true">
+    <source src="/_assets/video/hero.mp4" type="video/mp4">
+  </video>
   <div class="hero__tape hero__tape--left" aria-hidden="true"></div>
   <div class="hero__tape hero__tape--right" aria-hidden="true"></div>
 
