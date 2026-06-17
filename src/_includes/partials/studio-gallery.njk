@@ -1,6 +1,6 @@
 {% set lang = lang or (page.url | pageLang) %}
 <section class="studio-gallery" aria-labelledby="studio-gallery-heading">
-  <p class="studio-gallery__file" aria-hidden="true">// {% if lang == "en" %}FILE: STUDIO.IMG{% else %}FIL: STUDIE.IMG{% endif %}</p>
+  <p class="studio-gallery__file">{% if lang == "en" %}The Studio{% else %}Studiet{% endif %}</p>
   <h2 id="studio-gallery-heading" class="visually-hidden">{% if lang == "en" %}The Studio{% else %}Studiet{% endif %}</h2>
 
   <div class="studio-gallery__strip">
