@@ -18,6 +18,7 @@
     "artists":         { "da": "Artister",                "en": "Artists" },
     "flash":           { "da": "Flash",                   "en": "Flash" },
     "find":            { "da": "Find din artist",         "en": "Find your artist" },
+    "shop":            { "da": "Shop",                     "en": "Shop" },
     "privacy":         { "da": "Privatlivspolitik",       "en": "Privacy" },
     "channels":        { "da": "Kanaler",                 "en": "Channels" }
   },
@@ -39,6 +40,7 @@
     "stamps": {
       "walkInsOk":     { "da": "Walk-ins ok",             "en": "Walk-ins ok" },
       "ourArtists":    { "da": "Vores artister",          "en": "Our artists" },
+      "shop":          { "da": "Webshop",                 "en": "Webshop" },
       "zineIssue":     { "da": "Vol.01 · zine 01",        "en": "Vol.01 · zine 01" }
     }
   },
