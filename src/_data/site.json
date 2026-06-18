@@ -31,7 +31,11 @@
   },
   "about": "Vi er en tatovør- og piercingbutik i hjertet af København. Vores artists arbejder i en bred vifte af stile — book en tid eller kig forbi i åbningstiden.",
   "owner": {
-    "name": "Simone Chimere",
+    "name": "Nizar Saad",
+    "role": "Ejer"
+  },
+  "director": {
+    "name": "Simone Chimera",
     "role": "Direktør"
   },
   "emailFuture": "kontakt@inkandart.dk",

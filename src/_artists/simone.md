@@ -1,10 +1,10 @@
 ---
-name: Simone Chimere
+name: Simone Chimera
 slug: simone
 sortOrder: 1
-title: "Simone Chimere · Blackwork & Fineline · Ink & Art Copenhagen"
-description: "Simone Chimere arbejder i blackwork og fineline — 15 år i stolen hos Ink & Art, Larsbjørnsstræde 13, København. Walk-ins ok."
-ogImageAlt: "Simone Chimere, direktør og blackwork/fineline-artist hos Ink & Art Copenhagen"
+title: "Simone Chimera · Blackwork & Fineline · Ink & Art Copenhagen"
+description: "Simone Chimera arbejder i blackwork og fineline — 15 år i stolen hos Ink & Art, Larsbjørnsstræde 13, København. Walk-ins ok."
+ogImageAlt: "Simone Chimera, direktør og blackwork/fineline-artist hos Ink & Art Copenhagen"
 role:
   da: Direktør & artist
   en: Director & artist
@@ -15,8 +15,8 @@ languages: [da, en, sv]
 portrait:
   src: portrait.jpg
   alt:
-    da: Simone Chimere foran sit studio
-    en: Simone Chimere outside the studio
+    da: Simone Chimera foran sit studio
+    en: Simone Chimera outside the studio
 portfolio: []
 bio:
   da: |

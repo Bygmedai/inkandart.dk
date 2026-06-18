@@ -23,7 +23,7 @@
       size:  { 'lille': 0, 'medium': 1, 'stort': 3 }
     },
     {
-      slug: 'simone', name: 'Simone Chimere', booksysId: 1,
+      slug: 'simone', name: 'Simone Chimera', booksysId: 1,
       style: { 'bold-klassisk': 1, 'farverig': 0, 'sort-praecis': 2, 'delikat-fin': 2 },
       size:  { 'lille': 2, 'medium': 2, 'stort': 1 }
     }
