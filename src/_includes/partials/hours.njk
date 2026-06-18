@@ -4,7 +4,7 @@
   en: { title: "OPENING HOURS", mon: "MON", tue: "TUE", wed: "WED", thu: "THU", fri: "FRI", sat: "SAT", sun: "SUN", note: "★ = night shift // the door is always open for someone" }
 } %}
 {% set d = days[lang] if days[lang] else days.da %}
-<section class="hours card card--ink card--tilt-l" aria-labelledby="hours-heading">
+<section class="hours card card--ink" aria-labelledby="hours-heading">
   <header class="hours__head">
     <h2 id="hours-heading" class="hours__title">{{ d.title }}</h2>
     <span class="hours__live">★ {{ "common.openSince" | t(lang) }}</span>

@@ -1,26 +1,18 @@
 {% set lang = lang or (page.url | pageLang) %}
 <section class="hero">
-  <div class="hero__tape hero__tape--left" aria-hidden="true"></div>
-  <div class="hero__tape hero__tape--right" aria-hidden="true"></div>
-
+  <video class="hero__video" autoplay muted loop playsinline preload="metadata" poster="/_assets/img/hero-poster.jpg" aria-hidden="true">
+    <source src="/_assets/video/hero.mp4" type="video/mp4">
+  </video>
   <h1 class="hero__wordmark">
     <span class="hero__wordmark-line">INK <span class="amp">&amp;</span> ART</span>
     <span class="hero__wordmark-cph">COPENHAGEN<span class="dot">.</span></span>
   </h1>
 
-  <img src="/_assets/img/logo.png"
-       alt="{{ site.name }} logo"
-       class="hero__logo"
-       width="200" height="200"
-       fetchpriority="high">
-
   {#- Stempler — to af tre er funktionelle entry-points til sub-sider. -#}
   <a href="{% if lang == 'en' %}/en/walk-in/{% else %}/walk-in/{% endif %}" class="stamp stamp--red hero__stamp-1 hero__stamp--link">{{ "hero.stamps.walkInsOk" | t(lang) }} ↗</a>
   <a href="{% if lang == 'en' %}/en/artists/{% else %}/artister/{% endif %}" class="stamp stamp--ink hero__stamp-2 hero__stamp--link">{{ "hero.stamps.ourArtists" | t(lang) }} ↗</a>
-  <div class="stamp stamp--red hero__stamp-3" aria-hidden="true">{{ "hero.stamps.zineIssue" | t(lang) }}</div>
 
   <div class="about-card">
-    <div class="about-card__file">// FILE: ABOUT.TXT</div>
     <p class="about-card__text">{%- if lang == "en" -%}
       Tattoo and piercing studio at <strong>{{ site.address.street }}</strong> — heart of Copenhagen. Classic craft, sharp attitude, open late.
       {%- else -%}

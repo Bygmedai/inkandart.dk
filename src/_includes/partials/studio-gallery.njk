@@ -1,33 +1,32 @@
 {% set lang = lang or (page.url | pageLang) %}
 <section class="studio-gallery" aria-labelledby="studio-gallery-heading">
-  <p class="studio-gallery__file" aria-hidden="true">// {% if lang == "en" %}FILE: STUDIO.IMG{% else %}FIL: STUDIE.IMG{% endif %}</p>
-  <h2 id="studio-gallery-heading" class="visually-hidden">{% if lang == "en" %}The Studio{% else %}Studiet{% endif %}</h2>
+  <p class="studio-gallery__file">{% if lang == "en" %}The world{% else %}Verdenen{% endif %}</p>
+  <h2 id="studio-gallery-heading" class="visually-hidden">{% if lang == "en" %}Ink & Art — the world{% else %}Ink & Art — verdenen{% endif %}</h2>
 
   <div class="studio-gallery__strip">
-
-    <figure class="studio-gallery__item studio-gallery__item--1">
-      <img src="/_assets/img/studio/studio-sign.jpg"
-           alt="{% if lang == 'en' %}Ink &amp; Art Copenhagen — neon TATTOO sign in the window{% else %}Ink &amp; Art Copenhagen — TATTOO-neonskilt i vinduet{% endif %}"
-           loading="lazy" decoding="async" width="678" height="900">
+    <figure class="studio-gallery__item studio-gallery__item--wide">
+      <img src="/_assets/img/world/studio-window.jpg" alt="{% if lang == 'en' %}Tattoo studio window at night{% else %}Tatovørstudie i vinduet om natten{% endif %}" loading="lazy" decoding="async" width="1000" height="559">
+      <figcaption>{% if lang == 'en' %}The studio · night{% else %}Studiet · nat{% endif %}</figcaption>
     </figure>
-
-    <figure class="studio-gallery__item studio-gallery__item--2">
-      <img src="/_assets/img/studio/studio-station.jpg"
-           alt="{% if lang == 'en' %}Tattoo station with neon lips artwork at Ink &amp; Art Copenhagen{% else %}Tatovørstol med neon lips-banner hos Ink &amp; Art Copenhagen{% endif %}"
-           loading="lazy" decoding="async" width="900" height="678">
+    <figure class="studio-gallery__item studio-gallery__item--wide">
+      <img src="/_assets/img/world/under-naalen.jpg" alt="{% if lang == 'en' %}Forearm being tattooed, close up{% else %}Underarm under nålen, nærbillede{% endif %}" loading="lazy" decoding="async" width="1000" height="559">
+      <figcaption>{% if lang == 'en' %}Under the needle{% else %}Under nålen{% endif %}</figcaption>
     </figure>
-
-    <figure class="studio-gallery__item studio-gallery__item--3">
-      <img src="/_assets/img/studio/studio-lounge.jpg"
-           alt="{% if lang == 'en' %}Lounge and waiting area with artwork and neon lighting at Ink &amp; Art{% else %}Lounge og venteområde med kunst og neonbelysning hos Ink &amp; Art{% endif %}"
-           loading="lazy" decoding="async" width="900" height="678">
+    <figure class="studio-gallery__item studio-gallery__item--tall">
+      <img src="/_assets/img/world/signetring.jpg" alt="{% if lang == 'en' %}Tattooed hand with heavy signet ring{% else %}Tatoveret hånd med tung signetring{% endif %}" loading="lazy" decoding="async" width="1000" height="560">
+      <figcaption>{% if lang == 'en' %}A symbol{% else %}Et mærke{% endif %}</figcaption>
     </figure>
-
-    <figure class="studio-gallery__item studio-gallery__item--4">
-      <img src="/_assets/img/studio/studio-display.jpg"
-           alt="{% if lang == 'en' %}Piercing jewellery display cases at Ink &amp; Art Copenhagen{% else %}Piercingsmykke-montre og Nizar Saads kursusbevis hos Ink &amp; Art Copenhagen{% endif %}"
-           loading="lazy" decoding="async" width="900" height="678">
+    <figure class="studio-gallery__item studio-gallery__item--tall">
+      <img src="/_assets/img/world/stolen.jpg" alt="{% if lang == 'en' %}Tattoo chair in low light{% else %}Tatovørstol i lavt lys{% endif %}" loading="lazy" decoding="async" width="928" height="1232">
+      <figcaption>{% if lang == 'en' %}The room{% else %}Rummet{% endif %}</figcaption>
     </figure>
-
+    <figure class="studio-gallery__item studio-gallery__item--tall">
+      <img src="/_assets/img/world/portraet.jpg" alt="{% if lang == 'en' %}Portrait of a person with blackwork{% else %}Portræt af person med blackwork{% endif %}" loading="lazy" decoding="async" width="1000" height="559">
+      <figcaption>{% if lang == 'en' %}The scene{% else %}Scenen{% endif %}</figcaption>
+    </figure>
+    <figure class="studio-gallery__item studio-gallery__item--tall">
+      <img src="/_assets/img/world/gade.jpg" alt="{% if lang == 'en' %}Tattooed arm on a wet Copenhagen street{% else %}Tatoveret arm på våd københavnsk gade{% endif %}" loading="lazy" decoding="async" width="1000" height="1252">
+      <figcaption>{% if lang == 'en' %}The street{% else %}Gaden{% endif %}</figcaption>
+    </figure>
   </div>
 </section>

@@ -11,6 +11,9 @@ eleventyComputed:
   description: "{% if lang == 'en' %}Walk-in tattoo and piercing at Larsbjørnsstræde 13, Copenhagen. No booking needed — just drop by or WhatsApp us. From DKK 800.{% else %}Walk-in tatovering og piercing på Larsbjørnsstræde 13, København. Ingen booking nødvendig — drop forbi eller skriv på WhatsApp. Fra 800 kr.{% endif %}"
 ---
 <section class="walk-in hero hero--walkin">
+  <video class="hero__video" autoplay muted loop playsinline preload="metadata" poster="/_assets/img/walkin-poster.jpg" aria-hidden="true">
+    <source src="/_assets/video/walkin.mp4" type="video/mp4">
+  </video>
   <h1 class="hero__wordmark">
     <span class="hero__wordmark-line">{{ "walkIn.youAreHere" | t(lang) | upper }}</span>
     <span class="hero__wordmark-cph">{{ "walkIn.comeInside" | t(lang) | upper }}<span class="dot">.</span></span>

@@ -46,7 +46,7 @@
   "walkIn": {
     "youAreHere":      { "da": "Du står udenfor.",                                "en": "You are right here." },
     "comeInside":      { "da": "Gå ind.",                                          "en": "Come on in." },
-    "fileLabel":       { "da": "// FIL: WALK-IN.TXT",                              "en": "// FILE: WALK-IN.TXT" },
+    "fileLabel":       { "da": "Walk-in",                              "en": "Walk-in" },
     "blurb": {
       "da": "Vi laver din tat nu. Eller om en time. Eller i morgen. Døren går altid op for nogen.",
       "en": "We do your tattoo now. Or in an hour. Or tomorrow. The door is always open for someone."
@@ -58,7 +58,7 @@
 
   "artists": {
     "indexTitle":      { "da": "Artisterne",              "en": "The Artists" },
-    "indexFile":       { "da": "// FIL: ARTISTER.LIST",   "en": "// FILE: ARTISTS.LIST" },
+    "indexFile":       { "da": "Artister",   "en": "Artists" },
     "indexLead": {
       "da": "Seks personer. Seks håndværk. Find den der matcher dig — eller kom forbi og lad os finde ud af det sammen.",
       "en": "Six people. Six crafts. Find the one who matches you — or stop by and let us figure it out together."
@@ -66,12 +66,12 @@
     "stylesLabel":     { "da": "Stil",                    "en": "Style" },
     "instagramLabel":  { "da": "Instagram",               "en": "Instagram" },
     "languagesLabel":  { "da": "Sprog",                   "en": "Languages" },
-    "fileLabel":       { "da": "// FIL: ARTIST.TXT",      "en": "// FILE: ARTIST.TXT" }
+    "fileLabel":       { "da": "Artist",      "en": "Artist" }
   },
 
   "find": {
     "pageTitle":        { "da": "Find din tatovering",                 "en": "Find your tattoo" },
-    "fileLabel":        { "da": "// FIL: MATCH.TXT",                   "en": "// FILE: MATCH.TXT" },
+    "fileLabel":        { "da": "Find din artist",                   "en": "Find your artist" },
     "lead":             { "da": "Tre spørgsmål. Én artist. Et ærligt prisestimat.", "en": "Three questions. One artist. An honest price estimate." },
     "q1Label":          { "da": "Hvilken stil trækker dig?",            "en": "Which style draws you in?" },
     "q2Label":          { "da": "Hvor stort forestiller du dig det?",   "en": "How big do you want it?" },
@@ -105,7 +105,7 @@
 
   "flash": {
     "indexTitle":      { "da": "Flash-galleri",           "en": "Flash Gallery" },
-    "indexFile":       { "da": "// FIL: FLASH.LIST",      "en": "// FILE: FLASH.LIST" },
+    "indexFile":       { "da": "Flash",      "en": "Flash" },
     "indexLead": {
       "da": "Pre-dragne designs klar til at blive tatoveret nu. Intet booking-kaos, ingen lang ventetid — vælg et motiv og sæt dig ned.",
       "en": "Pre-drawn designs ready to tattoo now. No booking chaos, no long wait — pick a motif and sit down."
