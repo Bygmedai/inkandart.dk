@@ -35,6 +35,9 @@
   };
 
   var styleChoice = null, sizeChoice = null, budgetChoice = null;
+  // Booking deep-link-mønster — sættes fra data-booking-pattern (kilde: booking.json),
+  // så go-live kun kræver en ændring ét sted. Fallback matcher booking.json.
+  var BOOKING_PATTERN = 'https://inkart.book.dk/?artist={booksysId}';
 
   function totalScore(a) {
     return (a.style[styleChoice] || 0) + (a.size[sizeChoice] || 0);
@@ -53,7 +56,7 @@
     var artist = bestMatch();
     var artistBase = LANG === 'en' ? '/en/artists/' : '/artister/';
     var artistUrl  = artistBase + artist.slug + '/';
-    var bookingUrl = 'https://inkart.book.dk/?artist=' + artist.booksysId;
+    var bookingUrl = BOOKING_PATTERN.replace('{booksysId}', artist.booksysId);
     var price      = PRICES[LANG][sizeChoice];
     var budgetTight = budgetChoice === 'under-1000' && sizeChoice !== 'lille';
 
@@ -78,6 +81,12 @@
     var nojs   = document.getElementById('match-nojs');
 
     if (!steps) return;
+
+    if (steps.dataset.bookingPattern) {
+      BOOKING_PATTERN = steps.dataset.bookingPattern;
+    } else if (window.console && console.warn) {
+      console.warn('[booking] data-booking-pattern mangler — bruger fallback-URL. Tjek booking.json/templating før go-live.');
+    }
 
     if (nojs) nojs.hidden = true;
 

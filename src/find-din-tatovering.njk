@@ -24,7 +24,7 @@ eleventyComputed:
     </a>
   </p>
   {#- Wizard — hidden until JS shows it -#}
-  <div id="match-steps" class="find__steps" hidden>
+  <div id="match-steps" class="find__steps" data-booking-pattern="{{ booking.deepLinkPattern }}" hidden>
 
     <div id="step-1" data-step="1" class="find__step">
       <h2 class="find__step-label">
