@@ -82,7 +82,11 @@
 
     if (!steps) return;
 
-    if (steps.dataset.bookingPattern) BOOKING_PATTERN = steps.dataset.bookingPattern;
+    if (steps.dataset.bookingPattern) {
+      BOOKING_PATTERN = steps.dataset.bookingPattern;
+    } else if (window.console && console.warn) {
+      console.warn('[booking] data-booking-pattern mangler — bruger fallback-URL. Tjek booking.json/templating før go-live.');
+    }
 
     if (nojs) nojs.hidden = true;
 
