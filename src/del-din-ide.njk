@@ -1,0 +1,79 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: siteLocales
+  size: 1
+  alias: lang
+siteLocales: [da, en]
+permalink: "{% if lang == 'en' %}/en/share-your-idea/{% else %}/del-din-ide/{% endif %}"
+eleventyComputed:
+  title: "{% if lang == 'en' %}Share your idea · Ink & Art Copenhagen{% else %}Del din idé · Ink & Art København{% endif %}"
+  description: "{% if lang == 'en' %}Tell us your tattoo idea — we get back within 48 hours and find the right artist and a time. Consultations, cover-ups and redesigns at Ink & Art Copenhagen.{% else %}Fortæl os din tatoverings-idé — vi vender tilbage inden 48 timer og finder den rette artist og en tid. Konsultation, cover-ups og redesign hos Ink & Art København.{% endif %}"
+---
+<section class="lead stage">
+  <div class="lead__head">
+    <p class="lead__file">{{ "lead.fileLabel" | t(lang) }}</p>
+    <h1 class="lead__title">{{ "lead.pageTitle" | t(lang) }}</h1>
+    <p class="lead__lead">{{ "lead.lead" | t(lang) }}</p>
+  </div>
+
+  <form id="lead-form" class="lead__form" data-wa="{{ site.whatsapp }}" data-lang="{{ lang }}">
+    <label class="lead__field">
+      <span>{{ "lead.nameLabel" | t(lang) }}</span>
+      <input type="text" name="name" autocomplete="given-name" placeholder="{{ 'lead.namePh' | t(lang) }}" required />
+    </label>
+    <label class="lead__field">
+      <span>{{ "lead.contactLabel" | t(lang) }}</span>
+      <input type="text" name="contact" placeholder="{{ 'lead.contactPh' | t(lang) }}" required />
+    </label>
+    <label class="lead__field">
+      <span>{{ "lead.ideaLabel" | t(lang) }}</span>
+      <textarea name="idea" rows="4" placeholder="{{ 'lead.ideaPh' | t(lang) }}" required></textarea>
+    </label>
+    <label class="lead__field">
+      <span>{{ "lead.placementLabel" | t(lang) }}</span>
+      <input type="text" name="placement" placeholder="{{ 'lead.placementPh' | t(lang) }}" />
+    </label>
+    <button type="submit" class="btn btn--primary">{{ "lead.submit" | t(lang) }}</button>
+    <p class="lead__alt">
+      {{ "lead.alt" | t(lang) }}
+      <a href="tel:{{ site.phoneIntl }}">{{ site.phone }}</a>
+    </p>
+    {#- No-JS fallback: direct WhatsApp link -#}
+    <noscript>
+      <p class="lead__alt">
+        <a class="btn btn--outline" href="https://wa.me/{{ site.whatsapp | replace('+', '') }}">{{ "lead.nojs" | t(lang) }}</a>
+      </p>
+    </noscript>
+  </form>
+
+  <div class="lead__promise">
+    <p class="lead__file">{{ "lead.promiseFile" | t(lang) }}</p>
+    <p class="lead__promise-body">{{ "lead.promiseBody" | t(lang) }}</p>
+  </div>
+
+  <div class="lead__block">
+    <p class="lead__file">{{ "lead.stylesFile" | t(lang) }}</p>
+    <p class="lead__block-body">{{ "lead.stylesBody" | t(lang) }}</p>
+    <p class="lead__styles">{{ "lead.stylesList" | t(lang) }}</p>
+  </div>
+
+  <div class="lead__block">
+    <p class="lead__file">{{ "lead.coverFile" | t(lang) }}</p>
+    <p class="lead__block-body">{{ "lead.coverBody" | t(lang) }}</p>
+  </div>
+
+  <div class="lead__faq">
+    <p class="lead__file">{{ "lead.faqFile" | t(lang) }}</p>
+    <dl>
+      <dt>{{ "lead.faqPriceQ" | t(lang) }}</dt>
+      <dd>{{ "lead.faqPriceA" | t(lang) }}</dd>
+      <dt>{{ "lead.faqOwnQ" | t(lang) }}</dt>
+      <dd>{{ "lead.faqOwnA" | t(lang) }}</dd>
+      <dt>{{ "lead.faqHygQ" | t(lang) }}</dt>
+      <dd>{{ "lead.faqHygA" | t(lang) }}</dd>
+    </dl>
+  </div>
+</section>
+
+<script src="/_assets/js/lead.js" defer></script>
