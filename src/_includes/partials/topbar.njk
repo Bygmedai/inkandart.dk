@@ -7,6 +7,7 @@
 {%- set isFind    = page.url == "/find-din-tatovering/" or page.url == "/en/find-your-tattoo/" -%}
 {%- set isFlash   = page.url == "/flash/" or page.url == "/en/flash/" -%}
 {%- set isPrivacy = page.url == "/privatlivspolitik/" or page.url == "/en/privacy/" -%}
+{%- set isLead = page.url == "/del-din-ide/" or page.url == "/en/share-your-idea/" -%}
 {%- set is404 = page.url == "/404.html" or page.url == "/en/404.html" -%}
 
 {%- if isHome %}
@@ -38,6 +39,11 @@
   <span><a href="{% if lang == 'en' %}/en/{% else %}/{% endif %}" class="topbar__back">← {{ site.shortName | upper }}</a></span>
   <span class="topbar__issue">MATCH.TXT</span>
   <span class="topbar__live">★ {% if lang == 'en' %}3 QUESTIONS{% else %}3 SPØRGSMÅL{% endif %}</span>
+
+{%- elif isLead %}
+  <span><a href="{% if lang == 'en' %}/en/{% else %}/{% endif %}" class="topbar__back">← {{ site.shortName | upper }}</a></span>
+  <span class="topbar__issue">{{ "nav.lead" | t(lang) | upper }}</span>
+  <span class="topbar__live">★ {% if lang == 'en' %}48H REPLY{% else %}SVI INDEN 48T{% endif %}</span>
 
 {%- elif isPrivacy %}
   <span><a href="{% if lang == 'en' %}/en/{% else %}/{% endif %}" class="topbar__back">← {{ site.shortName | upper }}</a></span>

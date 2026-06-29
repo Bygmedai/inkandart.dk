@@ -20,7 +20,8 @@
     "find":            { "da": "Find din artist",         "en": "Find your artist" },
     "shop":            { "da": "Shop",                     "en": "Shop" },
     "privacy":         { "da": "Privatlivspolitik",       "en": "Privacy" },
-    "channels":        { "da": "Kanaler",                 "en": "Channels" }
+    "channels":        { "da": "Kanaler",                 "en": "Channels" },
+    "lead":            { "da": "Del din idé",             "en": "Share your idea" }
   },
 
   "cta": {
