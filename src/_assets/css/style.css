@@ -411,6 +411,7 @@ a.stamp:hover{background:var(--accent);border-color:var(--accent);color:#fff}
 
 /* ---------- cookie banner (leave functional, restyle light) ---------- */
 .cookie-banner{position:fixed;left:12px;right:12px;bottom:12px;z-index:9000;background:var(--ink);color:var(--paper);padding:18px 20px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;justify-content:space-between;font-size:13px;font-family:var(--disp)}
+.cookie-banner[hidden]{display:none}
 .cookie-banner a{color:var(--accent)}
 
 @media(max-width:820px){
