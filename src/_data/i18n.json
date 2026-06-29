@@ -19,6 +19,7 @@
     "flash":           { "da": "Flash",                   "en": "Flash" },
     "find":            { "da": "Find din artist",         "en": "Find your artist" },
     "shop":            { "da": "Shop",                     "en": "Shop" },
+    "app":             { "da": "App",                      "en": "App" },
     "privacy":         { "da": "Privatlivspolitik",       "en": "Privacy" },
     "channels":        { "da": "Kanaler",                 "en": "Channels" },
     "lead":            { "da": "Del din idé",             "en": "Share your idea" }
