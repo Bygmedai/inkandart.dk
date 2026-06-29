@@ -18,5 +18,11 @@
   {%- include "partials/cookie-banner.njk" -%}
 
   <script src="/_assets/js/cookie-consent.js" defer></script>
+
+  {# Vercel Web Analytics — cookieless, first-party (/_vercel/insights/*), så det
+     overholder den stramme CSP (script-src/connect-src 'self') uden ændring og
+     uden samtykke-banner. Kræver at Web Analytics er slået til på Vercel-projektet;
+     ellers 404'er scriptet harmløst. #}
+  <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
