@@ -77,3 +77,20 @@ eleventyComputed:
 </section>
 
 <script src="/_assets/js/lead.js" defer></script>
+
+{# FAQPage-schema — bygget af samme i18n-FAQ som vises ovenfor (DA/EN via t(lang)).
+   | dump gør hver streng JSON-sikker. Giver udklappelige Q&A i Google-resultatet. #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": {{ ("lead.faqPriceQ" | t(lang)) | dump | safe }},
+      "acceptedAnswer": { "@type": "Answer", "text": {{ ("lead.faqPriceA" | t(lang)) | dump | safe }} } },
+    { "@type": "Question", "name": {{ ("lead.faqOwnQ" | t(lang)) | dump | safe }},
+      "acceptedAnswer": { "@type": "Answer", "text": {{ ("lead.faqOwnA" | t(lang)) | dump | safe }} } },
+    { "@type": "Question", "name": {{ ("lead.faqHygQ" | t(lang)) | dump | safe }},
+      "acceptedAnswer": { "@type": "Answer", "text": {{ ("lead.faqHygA" | t(lang)) | dump | safe }} } }
+  ]
+}
+</script>
