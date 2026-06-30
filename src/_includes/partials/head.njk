@@ -86,7 +86,20 @@
         "{{ site.instagram }}",
         "{{ site.facebook }}"
       ]
-    }
+    }{% if slug %},
+    {
+      "@type": "Person",
+      "@id": "{{ site.url }}{{ page.url }}#person",
+      "name": "{{ name | safe }}",
+      "url": "{{ site.url }}{{ page.url }}",
+      "image": "{{ site.url }}/_assets/img/artists/{{ slug }}/portrait.jpg",
+      "description": "{{ pageDescription | safe }}",
+      "worksFor": { "@id": "{{ site.url }}/#business" }{% if role %},
+      "jobTitle": "{{ (role[pageLang] or role.da) | safe }}"{% endif %}{% if styles %},
+      "knowsAbout": [{% for s in styles %}"{{ s }}"{% if not loop.last %}, {% endif %}{% endfor %}]{% endif %}{% if languages %},
+      "knowsLanguage": [{% for l in languages %}"{{ l }}"{% if not loop.last %}, {% endif %}{% endfor %}]{% endif %}{% if instagram %},
+      "sameAs": ["https://instagram.com/{{ instagram }}"]{% endif %}
+    }{% endif %}
   ]
 }
 </script>
