@@ -53,6 +53,9 @@ export default function(eleventyConfig) {
       "/":                      "/en/",
       "/walk-in/":              "/en/walk-in/",
       "/artister/":             "/en/artists/",
+      "/del-din-ide/":          "/en/share-your-idea/",
+      "/find-din-tatovering/":  "/en/find-your-tattoo/",
+      "/flash/":                "/en/flash/",
       "/privatlivspolitik/":    "/en/privacy/",
       "/404.html":              "/en/404.html"
     };
