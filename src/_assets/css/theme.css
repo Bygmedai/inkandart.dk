@@ -1,0 +1,19 @@
+/* ============================================================
+   THEME — per-tenant tokenlag (suite E2, jf. 02-TEMA-TOKEN-AUDIT)
+   Ink & Art Copenhagen · Papir + blæk + signaturrød
+   Grenze Gotisch / Epilogue / Fustat
+
+   Dette er det ENESTE sted tenantens farver, typografi-familier og
+   stage-mål bor. style.css (systemlaget) refererer kun var(--*).
+   Ny tenant = ny theme.css med samme variabelnavne — systemlaget
+   røres ikke. Navngivningen er pilotens (bevidst ikke semantisk
+   omdøbt — audit-anbefaling: ingen rename uden visuel diff).
+   ============================================================ */
+
+:root{
+  --paper:#f4f2ec; --paper-2:#ece9e0; --ink:#141414; --ink-soft:#555150;
+  --ink-mute:#928d83; --rule:rgba(20,20,20,.16); --rule-soft:rgba(20,20,20,.09);
+  --foot:#0f0f0e; --accent:#d8321b; --accent-dark:#bb2814;
+  --gutter:clamp(20px,5vw,72px); --stage:1320px;
+  --black:'Grenze Gotisch'; --disp:'Epilogue'; --body:'Fustat';
+}
