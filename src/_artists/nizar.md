@@ -9,6 +9,7 @@ role:
   da: Founder & Artist
   en: Founder & Artist
 styles: [custom, freehand]
+instagram: ink.and.art.cph
 languages: [da, en]
 portrait:
   src: portrait.jpg
