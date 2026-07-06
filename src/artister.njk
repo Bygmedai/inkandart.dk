@@ -18,7 +18,7 @@ eleventyComputed:
   </div>
 
   <div class="artists-index__grid">
-    {%- for artist in collections.artist -%}
+    {%- for artist in collections.artists -%}
       {%- if artist.data.lang == lang -%}
       <article class="artist-card">
         <a href="{{ artist.url }}" class="artist-card__link">
