@@ -1,115 +1,326 @@
 {
   "_about": "UI strings DA/EN. Body content lives in _artists/*.md front matter.",
-
   "common": {
-    "skipToContent":   { "da": "Gå til indhold",          "en": "Skip to content" },
-    "siteStatus":      { "da": "Site status",             "en": "Site status" },
-    "backToHome":      { "da": "Tilbage til forsiden",    "en": "Back to home" },
-    "openNow":         { "da": "ÅBEN NU",                 "en": "OPEN NOW" },
-    "closedNow":       { "da": "LUKKET",                  "en": "CLOSED" },
-    "nextSlot":        { "da": "LEDIG",                   "en": "NEXT SLOT" },
-    "openSince":       { "da": "ÅBENT SIDEN ’96",         "en": "OPEN SINCE ’96" },
-    "live":            { "da": "LIVE",                    "en": "LIVE" }
+    "skipToContent": {
+      "da": "Gå til indhold",
+      "en": "Skip to content"
+    },
+    "siteStatus": {
+      "da": "Site status",
+      "en": "Site status"
+    },
+    "backToHome": {
+      "da": "Tilbage til forsiden",
+      "en": "Back to home"
+    },
+    "openNow": {
+      "da": "ÅBEN NU",
+      "en": "OPEN NOW"
+    },
+    "closedNow": {
+      "da": "LUKKET",
+      "en": "CLOSED"
+    },
+    "nextSlot": {
+      "da": "LEDIG",
+      "en": "NEXT SLOT"
+    },
+    "openSince": {
+      "da": "ÅBENT SIDEN ’96",
+      "en": "OPEN SINCE ’96"
+    },
+    "live": {
+      "da": "LIVE",
+      "en": "LIVE"
+    }
   },
-
   "nav": {
-    "home":            { "da": "Forside",                 "en": "Home" },
-    "walkIn":          { "da": "Walk-in",                 "en": "Walk-in" },
-    "artists":         { "da": "Artister",                "en": "Artists" },
-    "flash":           { "da": "Flash",                   "en": "Flash" },
-    "find":            { "da": "Find din artist",         "en": "Find your artist" },
-    "shop":            { "da": "Shop",                     "en": "Shop" },
-    "app":             { "da": "App",                      "en": "App" },
-    "privacy":         { "da": "Privatlivspolitik",       "en": "Privacy" },
-    "channels":        { "da": "Kanaler",                 "en": "Channels" },
-    "lead":            { "da": "Del din idé",             "en": "Share your idea" }
+    "home": {
+      "da": "Forside",
+      "en": "Home"
+    },
+    "walkIn": {
+      "da": "Walk-in",
+      "en": "Walk-in"
+    },
+    "artists": {
+      "da": "Artister",
+      "en": "Artists"
+    },
+    "flash": {
+      "da": "Flash",
+      "en": "Flash"
+    },
+    "find": {
+      "da": "Find din artist",
+      "en": "Find your artist"
+    },
+    "shop": {
+      "da": "Shop",
+      "en": "Shop"
+    },
+    "app": {
+      "da": "App",
+      "en": "App"
+    },
+    "privacy": {
+      "da": "Privatlivspolitik",
+      "en": "Privacy"
+    },
+    "channels": {
+      "da": "Kanaler",
+      "en": "Channels"
+    },
+    "lead": {
+      "da": "Del din idé",
+      "en": "Share your idea"
+    }
   },
-
   "cta": {
-    "bookNow":         { "da": "Book tid",                "en": "Book now" },
-    "callShop":        { "da": "Ring",                    "en": "Call" },
-    "comeIn":          { "da": "GÅ IND",                  "en": "COME IN" },
-    "findOnMap":       { "da": "FIND DEN PÅ KORTET",      "en": "FIND ON MAP" },
-    "viewPortfolio":   { "da": "SE PORTFOLIO",            "en": "VIEW PORTFOLIO" },
-    "bookWith":        { "da": "BOOK HOS",                "en": "BOOK WITH" }
+    "bookNow": {
+      "da": "Book tid",
+      "en": "Book now"
+    },
+    "callShop": {
+      "da": "Ring",
+      "en": "Call"
+    },
+    "comeIn": {
+      "da": "GÅ IND",
+      "en": "COME IN"
+    },
+    "findOnMap": {
+      "da": "FIND DEN PÅ KORTET",
+      "en": "FIND ON MAP"
+    },
+    "viewPortfolio": {
+      "da": "SE PORTFOLIO",
+      "en": "VIEW PORTFOLIO"
+    },
+    "bookWith": {
+      "da": "BOOK HOS",
+      "en": "BOOK WITH"
+    }
   },
-
   "hero": {
     "tagline": {
       "da": "Tatovør- og piercingstudio på Larsbjørnsstræde 13 — hjertet af København. Klassisk håndværk, fed attitude, sent åbent.",
       "en": "Tattoo and piercing studio at Larsbjørnsstræde 13 — heart of Copenhagen. Classic craft, sharp attitude, open late."
     },
     "stamps": {
-      "walkInsOk":     { "da": "Walk-ins ok",             "en": "Walk-ins ok" },
-      "ourArtists":    { "da": "Vores artister",          "en": "Our artists" },
-      "shop":          { "da": "Webshop",                 "en": "Webshop" },
-      "zineIssue":     { "da": "Vol.01 · zine 01",        "en": "Vol.01 · zine 01" }
+      "walkInsOk": {
+        "da": "Walk-ins ok",
+        "en": "Walk-ins ok"
+      },
+      "ourArtists": {
+        "da": "Vores artister",
+        "en": "Our artists"
+      },
+      "shop": {
+        "da": "Webshop",
+        "en": "Webshop"
+      },
+      "zineIssue": {
+        "da": "Vol.01 · zine 01",
+        "en": "Vol.01 · zine 01"
+      }
     }
   },
-
   "walkIn": {
-    "youAreHere":      { "da": "Du står udenfor.",                                "en": "You are right here." },
-    "comeInside":      { "da": "Gå ind.",                                          "en": "Come on in." },
-    "fileLabel":       { "da": "Walk-in",                              "en": "Walk-in" },
+    "youAreHere": {
+      "da": "Du står udenfor.",
+      "en": "You are right here."
+    },
+    "comeInside": {
+      "da": "Gå ind.",
+      "en": "Come on in."
+    },
+    "fileLabel": {
+      "da": "Walk-in",
+      "en": "Walk-in"
+    },
     "blurb": {
       "da": "Vi laver din tat nu. Eller om en time. Eller i morgen. Døren går altid op for nogen.",
       "en": "We do your tattoo now. Or in an hour. Or tomorrow. The door is always open for someone."
     },
-    "priceStamp":      { "da": "FRA 800 KR · TIME 1500",   "en": "FROM DKK 800 · HOUR 1500" },
-    "fallback":        { "da": "Walk-ins når vi har tid · 13:00 – 23:00", "en": "Walk-ins when we have time · 13:00 – 23:00" },
-    "stale":           { "da": "(Status nogle minutter gammel)",          "en": "(Status a few minutes old)" }
-  },
-
-  "artists": {
-    "indexTitle":      { "da": "Artisterne",              "en": "The Artists" },
-    "indexFile":       { "da": "Artister",   "en": "Artists" },
-    "indexLead": {
-      "da": "Seks personer. Seks håndværk. Find den der matcher dig — eller kom forbi og lad os finde ud af det sammen.",
-      "en": "Six people. Six crafts. Find the one who matches you — or stop by and let us figure it out together."
+    "priceStamp": {
+      "da": "FRA 800 KR · TIME 1500",
+      "en": "FROM DKK 800 · HOUR 1500"
     },
-    "stylesLabel":     { "da": "Stil",                    "en": "Style" },
-    "instagramLabel":  { "da": "Instagram",               "en": "Instagram" },
-    "languagesLabel":  { "da": "Sprog",                   "en": "Languages" },
-    "fileLabel":       { "da": "Artist",      "en": "Artist" }
+    "fallback": {
+      "da": "Walk-ins når vi har tid · 13:00 – 23:00",
+      "en": "Walk-ins when we have time · 13:00 – 23:00"
+    },
+    "stale": {
+      "da": "(Status nogle minutter gammel)",
+      "en": "(Status a few minutes old)"
+    }
   },
-
+  "artists": {
+    "indexTitle": {
+      "da": "Artisterne",
+      "en": "The Artists"
+    },
+    "indexFile": {
+      "da": "Artister",
+      "en": "Artists"
+    },
+    "indexLead": {
+      "da": "Tre personer. Tre håndværk. Find den der matcher dig — eller kom forbi og lad os finde ud af det sammen.",
+      "en": "Three people. Three crafts. Find the one who matches you — or stop by and let us figure it out together."
+    },
+    "stylesLabel": {
+      "da": "Stil",
+      "en": "Style"
+    },
+    "instagramLabel": {
+      "da": "Instagram",
+      "en": "Instagram"
+    },
+    "languagesLabel": {
+      "da": "Sprog",
+      "en": "Languages"
+    },
+    "fileLabel": {
+      "da": "Artist",
+      "en": "Artist"
+    }
+  },
   "find": {
-    "pageTitle":        { "da": "Find din tatovering",                 "en": "Find your tattoo" },
-    "fileLabel":        { "da": "Find din artist",                   "en": "Find your artist" },
-    "lead":             { "da": "Tre spørgsmål. Én artist. Et ærligt prisestimat.", "en": "Three questions. One artist. An honest price estimate." },
-    "q1Label":          { "da": "Hvilken stil trækker dig?",            "en": "Which style draws you in?" },
-    "q2Label":          { "da": "Hvor stort forestiller du dig det?",   "en": "How big do you want it?" },
-    "q3Label":          { "da": "Hvad er dit budget?",                  "en": "What's your budget?" },
-    "styleBold":        { "da": "Bold & klassisk",                      "en": "Bold & classic" },
-    "styleBoldHint":    { "da": "Traditional, old school, kraftfulde linjer", "en": "Traditional, old school, strong lines" },
-    "styleSort":        { "da": "Sort & præcis",                        "en": "Black & precise" },
-    "styleSortHint":    { "da": "Blackwork, geometri, ren sort blæk",   "en": "Blackwork, geometry, clean black ink" },
-    "styleDelikat":     { "da": "Delikat & fin",                        "en": "Delicate & fine" },
-    "styleDelikatHint": { "da": "Fineline, micro, botanisk",            "en": "Fineline, micro, botanical" },
-    "styleFarverig":    { "da": "Farverig & illustrativ",               "en": "Colourful & illustrative" },
-    "styleFarverigHint":{ "da": "Farver, illustrationer, karakter",     "en": "Colour, illustration, character" },
-    "sizeLille":        { "da": "Lille",                                "en": "Small" },
-    "sizeLilleHint":    { "da": "Ca. matchbox-størrelse",               "en": "About matchbox-sized" },
-    "sizeMedium":       { "da": "Medium",                               "en": "Medium" },
-    "sizeMediumHint":   { "da": "Ca. håndflad-størrelse",               "en": "About palm-sized" },
-    "sizeStort":        { "da": "Stort",                                "en": "Large" },
-    "sizeStortHint":    { "da": "Underarm og opefter",                  "en": "Forearm and above" },
-    "budgetLow":        { "da": "Under 1.000 kr",                       "en": "Under DKK 1,000" },
-    "budgetMid":        { "da": "1.000 – 3.000 kr",                     "en": "DKK 1,000 – 3,000" },
-    "budgetHigh":       { "da": "Over 3.000 kr",                        "en": "Over DKK 3,000" },
-    "resultTitle":      { "da": "Din artist",                           "en": "Your artist" },
-    "priceLabel":       { "da": "Prisestimat",                          "en": "Price estimate" },
-    "priceNote":        { "da": "Endelig pris aftales i studiet. Moms inkluderet.", "en": "Final price agreed in the studio. VAT included." },
-    "budgetNote":       { "da": "Tip: Et lille format passer bedre til dit budget.", "en": "Tip: A small design suits your budget better." },
-    "ctaArtist":        { "da": "Se arbejde",                           "en": "View work" },
-    "ctaBook":          { "da": "Book tid",                             "en": "Book now" },
-    "ctaReset":         { "da": "Prøv igen",                            "en": "Try again" },
-    "noJs":             { "da": "Se alle artister",                     "en": "View all artists" }
+    "pageTitle": {
+      "da": "Find din tatovering",
+      "en": "Find your tattoo"
+    },
+    "fileLabel": {
+      "da": "Find din artist",
+      "en": "Find your artist"
+    },
+    "lead": {
+      "da": "Tre spørgsmål. Én artist. Et ærligt prisestimat.",
+      "en": "Three questions. One artist. An honest price estimate."
+    },
+    "q1Label": {
+      "da": "Hvilken stil trækker dig?",
+      "en": "Which style draws you in?"
+    },
+    "q2Label": {
+      "da": "Hvor stort forestiller du dig det?",
+      "en": "How big do you want it?"
+    },
+    "q3Label": {
+      "da": "Hvad er dit budget?",
+      "en": "What's your budget?"
+    },
+    "styleBold": {
+      "da": "Bold & klassisk",
+      "en": "Bold & classic"
+    },
+    "styleBoldHint": {
+      "da": "Traditional, old school, kraftfulde linjer",
+      "en": "Traditional, old school, strong lines"
+    },
+    "styleSort": {
+      "da": "Sort & præcis",
+      "en": "Black & precise"
+    },
+    "styleSortHint": {
+      "da": "Blackwork, geometri, ren sort blæk",
+      "en": "Blackwork, geometry, clean black ink"
+    },
+    "styleDelikat": {
+      "da": "Delikat & fin",
+      "en": "Delicate & fine"
+    },
+    "styleDelikatHint": {
+      "da": "Fineline, micro, botanisk",
+      "en": "Fineline, micro, botanical"
+    },
+    "styleFarverig": {
+      "da": "Farverig & illustrativ",
+      "en": "Colourful & illustrative"
+    },
+    "styleFarverigHint": {
+      "da": "Farver, illustrationer, karakter",
+      "en": "Colour, illustration, character"
+    },
+    "sizeLille": {
+      "da": "Lille",
+      "en": "Small"
+    },
+    "sizeLilleHint": {
+      "da": "Ca. matchbox-størrelse",
+      "en": "About matchbox-sized"
+    },
+    "sizeMedium": {
+      "da": "Medium",
+      "en": "Medium"
+    },
+    "sizeMediumHint": {
+      "da": "Ca. håndflad-størrelse",
+      "en": "About palm-sized"
+    },
+    "sizeStort": {
+      "da": "Stort",
+      "en": "Large"
+    },
+    "sizeStortHint": {
+      "da": "Underarm og opefter",
+      "en": "Forearm and above"
+    },
+    "budgetLow": {
+      "da": "Under 1.000 kr",
+      "en": "Under DKK 1,000"
+    },
+    "budgetMid": {
+      "da": "1.000 – 3.000 kr",
+      "en": "DKK 1,000 – 3,000"
+    },
+    "budgetHigh": {
+      "da": "Over 3.000 kr",
+      "en": "Over DKK 3,000"
+    },
+    "resultTitle": {
+      "da": "Din artist",
+      "en": "Your artist"
+    },
+    "priceLabel": {
+      "da": "Prisestimat",
+      "en": "Price estimate"
+    },
+    "priceNote": {
+      "da": "Endelig pris aftales i studiet. Moms inkluderet.",
+      "en": "Final price agreed in the studio. VAT included."
+    },
+    "budgetNote": {
+      "da": "Tip: Et lille format passer bedre til dit budget.",
+      "en": "Tip: A small design suits your budget better."
+    },
+    "ctaArtist": {
+      "da": "Se arbejde",
+      "en": "View work"
+    },
+    "ctaBook": {
+      "da": "Book tid",
+      "en": "Book now"
+    },
+    "ctaReset": {
+      "da": "Prøv igen",
+      "en": "Try again"
+    },
+    "noJs": {
+      "da": "Se alle artister",
+      "en": "View all artists"
+    }
   },
-
   "flash": {
-    "indexTitle":      { "da": "Flash-galleri",           "en": "Flash Gallery" },
-    "indexFile":       { "da": "Flash",      "en": "Flash" },
+    "indexTitle": {
+      "da": "Flash-galleri",
+      "en": "Flash Gallery"
+    },
+    "indexFile": {
+      "da": "Flash",
+      "en": "Flash"
+    },
     "indexLead": {
       "da": "Pre-dragne designs klar til at blive tatoveret nu. Intet booking-kaos, ingen lang ventetid — vælg et motiv og sæt dig ned.",
       "en": "Pre-drawn designs ready to tattoo now. No booking chaos, no long wait — pick a motif and sit down."
@@ -118,50 +329,165 @@
       "da": "Nye designs på vej — kig forbi eller følg os på Instagram.",
       "en": "New designs coming soon — stop by or follow us on Instagram."
     },
-    "pricesTitle":     { "da": "Priser",                  "en": "Prices" },
-    "pricesFrom":      { "da": "Fra 800 kr",              "en": "From DKK 800" },
-    "pricesFromNote":  { "da": "Simplere motiver",        "en": "Simpler designs" },
-    "pricesHour":      { "da": "1.500 kr / time",         "en": "DKK 1,500 / hour" },
-    "pricesHourNote":  { "da": "Større eller mere detaljerede motiver", "en": "Larger or more detailed designs" },
-    "pricesFootnote":  { "da": "Endelig pris aftales i studiet. Moms inkluderet.", "en": "Final price agreed in the studio. VAT included." },
-    "available":       { "da": "Ledig",                   "en": "Available" },
-    "taken":           { "da": "Booket",                  "en": "Booked" },
-    "walkInCta":       { "da": "Se walk-in info",         "en": "Walk-in info" }
+    "pricesTitle": {
+      "da": "Priser",
+      "en": "Prices"
+    },
+    "pricesFrom": {
+      "da": "Fra 800 kr",
+      "en": "From DKK 800"
+    },
+    "pricesFromNote": {
+      "da": "Simplere motiver",
+      "en": "Simpler designs"
+    },
+    "pricesHour": {
+      "da": "1.500 kr / time",
+      "en": "DKK 1,500 / hour"
+    },
+    "pricesHourNote": {
+      "da": "Større eller mere detaljerede motiver",
+      "en": "Larger or more detailed designs"
+    },
+    "pricesFootnote": {
+      "da": "Endelig pris aftales i studiet. Moms inkluderet.",
+      "en": "Final price agreed in the studio. VAT included."
+    },
+    "available": {
+      "da": "Ledig",
+      "en": "Available"
+    },
+    "taken": {
+      "da": "Booket",
+      "en": "Booked"
+    },
+    "walkInCta": {
+      "da": "Se walk-in info",
+      "en": "Walk-in info"
+    }
   },
-
   "footer": {
-    "credit":          { "da": "Bygget af",               "en": "Built by" },
-    "copyright":       { "da": "Larsbjørnsstræde 13",     "en": "Larsbjørnsstræde 13" }
+    "credit": {
+      "da": "Bygget af",
+      "en": "Built by"
+    },
+    "copyright": {
+      "da": "Larsbjørnsstræde 13",
+      "en": "Larsbjørnsstræde 13"
+    }
   },
-
   "lead": {
-    "fileLabel":   { "da": "§ Del din idé", "en": "§ Share your idea" },
-    "pageTitle":   { "da": "Del din idé.", "en": "Share your idea." },
-    "lead":        { "da": "Fortæl os hvad du går og tænker på — motiv, placering, stil. Vi vender tilbage inden 48 timer og finder den rette artist og en tid til en konsultation eller session.", "en": "Tell us what you have in mind — motif, placement, style. We'll get back to you within 48 hours and find the right artist and a time for a consultation or session." },
-    "nameLabel":   { "da": "Dit navn", "en": "Your name" },
-    "namePh":      { "da": "Fornavn", "en": "First name" },
-    "contactLabel":{ "da": "Telefon eller email", "en": "Phone or email" },
-    "contactPh":   { "da": "Så vi kan vende tilbage", "en": "So we can get back to you" },
-    "ideaLabel":   { "da": "Din idé", "en": "Your idea" },
-    "ideaPh":      { "da": "Motiv, stil, størrelse, inspiration …", "en": "Motif, style, size, inspiration …" },
-    "placementLabel": { "da": "Placering (valgfri)", "en": "Placement (optional)" },
-    "placementPh": { "da": "Fx underarm, ryg, ankel", "en": "E.g. forearm, back, ankle" },
-    "submit":      { "da": "Send via WhatsApp →", "en": "Send via WhatsApp →" },
-    "alt":         { "da": "Eller ring til os", "en": "Or call us" },
-    "nojs":        { "da": "Skriv til os på WhatsApp", "en": "Message us on WhatsApp" },
-    "promiseFile": { "da": "§ Hvad sker der nu?", "en": "§ What happens next?" },
-    "promiseBody": { "da": "Du sender din idé. Vi skriver eller ringer inden 48 timer for at høre mere — og sammen finder vi en tid til en konsultation eller session. Ingen forpligtelse. Bare en god start.", "en": "You send your idea. We text or call within 48 hours to hear more — and together we'll find a time for a consultation or session. No commitment. Just a good start." },
-    "stylesFile":  { "da": "§ Stilarter", "en": "§ Styles" },
-    "stylesBody":  { "da": "Vi arbejder med et bredt udvalg af stilarter — find den der trækker dig:", "en": "We work across a broad range of styles — find the one that pulls you:" },
-    "stylesList":  { "da": "Illustrativ blackwork · Fineline · Dotwork · Blackwork · Lettering · Ornamental · Sort & grå · Color", "en": "Illustrative blackwork · Fineline · Dotwork · Blackwork · Lettering · Ornamental · Black & grey · Color" },
-    "coverFile":   { "da": "§ Cover-ups & redesign", "en": "§ Cover-ups & redesign" },
-    "coverBody":   { "da": "Har du en tatovering du vil gentænke? Vi hjælper med cover-ups og redesigns — skabt med fokus på balance, kvalitet og et nyt udtryk. Skriv den med i din idé.", "en": "Got a tattoo you want to rethink? We help with cover-ups and redesigns — built around balance, quality and a fresh expression. Mention it in your idea." },
-    "faqFile":     { "da": "§ Godt at vide", "en": "§ Good to know" },
-    "faqPriceQ":   { "da": "Hvad koster en tatovering?", "en": "What does a tattoo cost?" },
-    "faqPriceA":   { "da": "Det afhænger af motiv, størrelse, detaljegrad og tid. Fra 800 kr for simplere motiver, 1.500 kr/time for større. Endelig pris aftaler vi i studiet.", "en": "It depends on motif, size, detail and time. From DKK 800 for simpler designs, DKK 1,500/hour for larger. We agree the final price in the studio." },
-    "faqOwnQ":     { "da": "Kan jeg tage mit eget design med?", "en": "Can I bring my own design?" },
-    "faqOwnA":     { "da": "Selvfølgelig. Vi elsker personlige designs — og hjælper gerne med at finjustere det, så det sidder rigtigt som tatovering.", "en": "Of course. We love personal designs — and we'll happily fine-tune it so it works as a tattoo." },
-    "faqHygQ":     { "da": "Hygiejne og sikkerhed?", "en": "Hygiene and safety?" },
-    "faqHygA":     { "da": "Vi følger Sikkerhedsstyrelsens regler. Alt er sterilt, og vi tager os god tid.", "en": "We follow the Danish Safety Authority's rules. Everything is sterile, and we take our time." }
+    "fileLabel": {
+      "da": "§ Del din idé",
+      "en": "§ Share your idea"
+    },
+    "pageTitle": {
+      "da": "Del din idé.",
+      "en": "Share your idea."
+    },
+    "lead": {
+      "da": "Fortæl os hvad du går og tænker på — motiv, placering, stil. Vi vender tilbage inden 48 timer og finder den rette artist og en tid til en konsultation eller session.",
+      "en": "Tell us what you have in mind — motif, placement, style. We'll get back to you within 48 hours and find the right artist and a time for a consultation or session."
+    },
+    "nameLabel": {
+      "da": "Dit navn",
+      "en": "Your name"
+    },
+    "namePh": {
+      "da": "Fornavn",
+      "en": "First name"
+    },
+    "contactLabel": {
+      "da": "Telefon eller email",
+      "en": "Phone or email"
+    },
+    "contactPh": {
+      "da": "Så vi kan vende tilbage",
+      "en": "So we can get back to you"
+    },
+    "ideaLabel": {
+      "da": "Din idé",
+      "en": "Your idea"
+    },
+    "ideaPh": {
+      "da": "Motiv, stil, størrelse, inspiration …",
+      "en": "Motif, style, size, inspiration …"
+    },
+    "placementLabel": {
+      "da": "Placering (valgfri)",
+      "en": "Placement (optional)"
+    },
+    "placementPh": {
+      "da": "Fx underarm, ryg, ankel",
+      "en": "E.g. forearm, back, ankle"
+    },
+    "submit": {
+      "da": "Send via WhatsApp →",
+      "en": "Send via WhatsApp →"
+    },
+    "alt": {
+      "da": "Eller ring til os",
+      "en": "Or call us"
+    },
+    "nojs": {
+      "da": "Skriv til os på WhatsApp",
+      "en": "Message us on WhatsApp"
+    },
+    "promiseFile": {
+      "da": "§ Hvad sker der nu?",
+      "en": "§ What happens next?"
+    },
+    "promiseBody": {
+      "da": "Du sender din idé. Vi skriver eller ringer inden 48 timer for at høre mere — og sammen finder vi en tid til en konsultation eller session. Ingen forpligtelse. Bare en god start.",
+      "en": "You send your idea. We text or call within 48 hours to hear more — and together we'll find a time for a consultation or session. No commitment. Just a good start."
+    },
+    "stylesFile": {
+      "da": "§ Stilarter",
+      "en": "§ Styles"
+    },
+    "stylesBody": {
+      "da": "Vi arbejder med et bredt udvalg af stilarter — find den der trækker dig:",
+      "en": "We work across a broad range of styles — find the one that pulls you:"
+    },
+    "stylesList": {
+      "da": "Illustrativ blackwork · Fineline · Dotwork · Blackwork · Lettering · Ornamental · Sort & grå · Color",
+      "en": "Illustrative blackwork · Fineline · Dotwork · Blackwork · Lettering · Ornamental · Black & grey · Color"
+    },
+    "coverFile": {
+      "da": "§ Cover-ups & redesign",
+      "en": "§ Cover-ups & redesign"
+    },
+    "coverBody": {
+      "da": "Har du en tatovering du vil gentænke? Vi hjælper med cover-ups og redesigns — skabt med fokus på balance, kvalitet og et nyt udtryk. Skriv den med i din idé.",
+      "en": "Got a tattoo you want to rethink? We help with cover-ups and redesigns — built around balance, quality and a fresh expression. Mention it in your idea."
+    },
+    "faqFile": {
+      "da": "§ Godt at vide",
+      "en": "§ Good to know"
+    },
+    "faqPriceQ": {
+      "da": "Hvad koster en tatovering?",
+      "en": "What does a tattoo cost?"
+    },
+    "faqPriceA": {
+      "da": "Det afhænger af motiv, størrelse, detaljegrad og tid. Fra 800 kr for simplere motiver, 1.500 kr/time for større. Endelig pris aftaler vi i studiet.",
+      "en": "It depends on motif, size, detail and time. From DKK 800 for simpler designs, DKK 1,500/hour for larger. We agree the final price in the studio."
+    },
+    "faqOwnQ": {
+      "da": "Kan jeg tage mit eget design med?",
+      "en": "Can I bring my own design?"
+    },
+    "faqOwnA": {
+      "da": "Selvfølgelig. Vi elsker personlige designs — og hjælper gerne med at finjustere det, så det sidder rigtigt som tatovering.",
+      "en": "Of course. We love personal designs — and we'll happily fine-tune it so it works as a tattoo."
+    },
+    "faqHygQ": {
+      "da": "Hygiejne og sikkerhed?",
+      "en": "Hygiene and safety?"
+    },
+    "faqHygA": {
+      "da": "Vi følger Sikkerhedsstyrelsens regler. Alt er sterilt, og vi tager os god tid.",
+      "en": "We follow the Danish Safety Authority's rules. Everything is sterile, and we take our time."
+    }
   }
 }
