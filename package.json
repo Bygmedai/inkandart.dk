@@ -14,7 +14,7 @@
   "devDependencies": {
     "@11ty/eleventy": "^3.1.6",
     "@11ty/eleventy-img": "^6.0.4",
-    "html-validate": "^11.5.3",
+    "html-validate": "^11.5.5",
     "pdf-lib": "^1.17.1",
     "qrcode": "^1.5.4"
   }
