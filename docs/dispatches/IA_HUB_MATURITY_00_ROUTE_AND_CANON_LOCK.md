@@ -2,7 +2,7 @@
 
 **Type:** docs-only (no code changes in this PR)
 **Repo:** `Bygmedai/inkandart.dk` (target · 11ty brand-hub)
-**Canon:** `Bygmedai/inkandart-webshop` → `src/` (Vite + React storefront · shop.inkandart.dk)
+**Canon:** `Bygmedai/inkandart-webshop` — **primary surface `app/`** (Expo/React-Native app · the most-matured expression of the brand). CSS-translation reference: `src/` `design.css` (Vite storefront — *same tokens*, expressed as web CSS).
 **Build owner:** Haruki · **Architecture owner:** Sirius · **Merge gate:** Steven
 **Method:** 11ty-native maturation. NOT a React port, NOT a shop clone, NOT an all-pages rewrite.
 **Grounding:** Every route below is verified against the *built artefact* (`npx @11ty/eleventy` → `_site/**/*.html`), not the README. Every token/copy claim is read from the actual stylesheets and `i18n`, not from prose.
@@ -12,6 +12,8 @@
 ## 0. Purpose
 
 Sirius' ruling: mature every inkandart.dk subpage so it matches the app/webshop's UX rhythm, copy tone and visual language — while inkandart.dk stays the 11ty public brand-hub (SEO, studio, walk-in, artists, booking, location, intake, bridges). This PR locks the map before any pixel moves. Its whole value is *truth over feeling* — so it exists precisely to catch "navigation as wishlist" and stale assumptions before we design against them.
+
+**Canon surface (refined per Steven, S522):** within `inkandart-webshop` the **app (`app/`) is the primary canon** — it is the fuller, more-matured build (richer home narrative, more surfaces: aftercare · wizard · drop/event detail · Studio tab · a real `data/` content layer). The web storefront `src/` is a slimmer web cut of the *same design language*. Verified: `app/constants/theme.ts` tokens are **identical** to `src/styles/design.css` (dark `#131210` / `#f3efe7` / accent `#d8321b`, same Grenze/Epilogue/Fustat, same prototype `Univers.html [data-theme=mork]`). So we take **content · IA · copy · section-narrative · intent from the app**, and use `src/design.css` only as the practical **CSS-translation reference** (the app is React-Native StyleSheet, not browser CSS). This refines Sirius' ruling (which cited web-storefront patterns) without conflicting with it — same DNA, fuller source. Sirius to ratify.
 
 ---
 
@@ -24,6 +26,7 @@ Three canon-facing beliefs did not survive contact with the code. Recording them
 | "inkandart.dk uses Bebas Neue + Space Mono" (`README.md` → Stack) | `src/_assets/css/style.css :root` declares `--black:'Grenze Gotisch'; --disp:'Epilogue'; --body:'Fustat'`. Bebas/Space Mono `.woff2` files exist but are **unreferenced** in CSS. | README is **stale**. Font foundation already matches canon. Bebas/SpaceMono = dead files → cleanup candidate (not a PR-0 action). |
 | "Canon is ecru `#f4f2ec` + vermilion + dark footer" (`inkandart-webshop/BRIEF.md`, `README.md`) | Shipped `inkandart-webshop/src/styles/design.css :root` is **dark-first**: `--paper:#131210; --ink:#f3efe7; --foot:#0a0908; --accent:#d8321b`. | BRIEF describes the *older DNA*; the **shipped** storefront is dark cinematic. Canon = dark. |
 | DA/EN parity might be broken (only `src/en/privacy.njk` exists on disk) | Build emits full EN parity — every DA page paginates to a `/en/` sister (13 EN HTML files incl. artists). | Parity is **intact**. No action needed. |
+| "Web storefront `src/` is canon" (implied by Sirius citing Home=Hero·Manifest·Entries·OrbitDoor) | `app/` is the **fuller, more-matured** build (richer home, aftercare/wizard/drop/event surfaces, `data/` content layer); `app/theme.ts` == `src/design.css` tokens. | **App = primary canon** for content/IA/copy; `src/design.css` = CSS-translation reference. |
 
 **Net:** fonts already compatible; accent already identical; the real visual gap is **theme inversion (light hub → dark canon)**, not typography.
 
@@ -73,16 +76,16 @@ Total: **27 HTML files** (incl. artist deep pages, both langs). Build ~0.18 s.
 
 ## 4. Page → canon mapping
 
-Canon `src/` structure: `Home` (Hero → Manifest → Entries → OrbitDoor), `Artister`, `Book`, `Shop`, `Univers`, `Events`; shared `SiteBar` (fixed announce marquee + nav + lang + cart + burger) and `Footer`.
+Canon surfaces: **App (`app/`, primary)** — tabs Forside · Artister · Studio · Events · Shop + stack aftercare · wizard · artist/[id] · drop/[id] · event/[id]; App Forside modules: hero · manifest · live-status · Ny her? · Lige nu · Menneskene · Universet · Fra værkstedet · Orbit-join. **Web storefront (`src/`, CSS reference)** — Home (Hero→Manifest→Entries→OrbitDoor), Artister, Book, Shop, Univers, Events; shared `SiteBar` + `Footer`; `design.css` primitives.
 
 | inkandart.dk page | Current shape | Canon reference | Maturation intent |
 |---|---|---|---|
-| `/` | hero → services-marquee → manifest → studio-gallery → locations → hours | **Home**: Hero → Manifest → Entries → OrbitDoor | Add a clear **entries grid**; sharpen culturemotor manifest; add warm **orbit/close**; push locations/hours lower; de-dupe marquee vs entries |
-| `/walk-in/` | video hero + status/price stamps + about-card + WhatsApp/call + live status | **Book** (practical surface + StudioSection) | Keep WhatsApp/call/live-status; adopt Book tone (direct, late-open, no bureaucracy); tighten booking CTA hierarchy |
-| `/artister/` + deep | real 6-artist grid (markdown) + deep pages | **Artister** + `artist/[id]` | Keep real artist data (hub is the *truth source* — canon artist page is placeholder); align cards to canon plate/card grammar; CTA order: portfolio → book → find-your-artist |
-| `/flash/` | flash grid (placeholder cards, `flash.json`) | Shop-flash / Univers "product-as-hero" | Adopt visual energy; **stay intake, not commerce** (no cart) |
-| `/find-din-tatovering/` | 3-question match wizard → artist + price + booking deeplink | **Book / Artister** "find your artist" | Warm the copy; strengthen match→book handoff |
-| `/del-din-ide/` | WhatsApp lead form | **OrbitDoor / OrbitSignup** (warm lead capture) | Adopt orbit warmth; keep 48h-reply promise; no commerce |
+| `/` | hero → services-marquee → manifest → studio-gallery → locations → hours | **App Forside** (fuller): hero · manifest · live-status · **Ny her?** · Lige nu (event) · Menneskene (featured artist) · Universet · Fra værkstedet (drop) · Orbit-join | Adopt the app's richer narrative: keep hero+manifest; add **live open-status**, a **welcome/"ny her?"** beat, a **what's-on-now** teaser, **featured artist**, **Universet** (6 vectors), a **flash/drop** teaser, and a warm **orbit/lead close**; push locations/hours lower; de-dupe marquee |
+| `/walk-in/` | video hero + status/price stamps + about-card + WhatsApp/call + live status | **App Studio/Book** (practical surface) | Keep WhatsApp/call/live-status; adopt Book tone (direct, late-open, no bureaucracy); tighten booking CTA hierarchy |
+| `/artister/` + deep | real 6-artist grid (markdown) + deep pages | **App Artister** + `artist/[id]` | Keep real artist data (hub is the *truth source* — canon artist page is placeholder); align cards to canon plate/card grammar; CTA order: portfolio → book → find-your-artist |
+| `/flash/` | flash grid (placeholder cards, `flash.json`) | **App Shop/drop** "product-as-hero" | Adopt visual energy; **stay intake, not commerce** (no cart) |
+| `/find-din-tatovering/` | 3-question match wizard → artist + price + booking deeplink | **App wizard** "find your artist" | Warm the copy; strengthen match→book handoff |
+| `/del-din-ide/` | WhatsApp lead form | **App Orbit-join** (warm lead capture) | Adopt orbit warmth; keep 48h-reply promise; no commerce |
 | `/privatlivspolitik/` | legal | (no canon) | Token-only alignment; leave content |
 
 Hub has **no** `Univers`/`Events`/`Shop` pages — those are commerce/culture-motor surfaces owned by the shop/app. Hub reaches them via **bridge links** (shop ↗, app ↗), not by duplicating them.
@@ -104,6 +107,8 @@ Hub has **no** `Univers`/`Events`/`Shop` pages — those are commerce/culture-mo
 | `--gutter` | `clamp(20px,5vw,72px)` | `clamp(20px,5vw,72px)` | ✅ identical |
 | Fonts | Grenze Gotisch / Epilogue / Fustat | Grenze Gotisch / Epilogue / Fustat | ✅ identical (self-hosted — **keep**, do NOT adopt canon's Google Fonts) |
 
+*(Canon tokens are unified across surfaces: `app/constants/theme.ts` dark set == `src/design.css` — so "app vs web storefront" is not a token conflict, only a completeness difference.)*
+
 **Shared class vocabulary to introduce (11ty-safe), lifted from canon `design.css`:** `.stage`, `.display`, `.black`, `.eyebrow`, `.accent`, `.tlink` / `.tlink--ghost`, `.hlink` / `.hlink--solid`, `.announce` (marquee), `.nav` / `.brand`, `.hero__mark`, dark-footer grammar. The hub currently uses page-scoped BEM (`.walk-in__`, `.artists-index__`, `.flash__`, `.find__`, `.lead__`, `.stamp`) — PR-1 adds the canon primitives *alongside* these, it does not rip out BEM.
 
 **Privacy guardrail:** hub keeps **self-hosted fonts**. The webshop pulls Google Fonts as a prototype deviation; the hub must not inherit that (it would send visitor IPs to Google and break the data-sovereignty posture we just cleaned up estate-wide on bygmedai.dk).
@@ -112,12 +117,13 @@ Hub has **no** `Univers`/`Events`/`Shop` pages — those are commerce/culture-mo
 
 ## 6. Copy-tone delta
 
-Canon voice (from `inkandart-webshop/src/i18n.tsx`, DA source):
+Canon voice (app is primary — `app/data/forside.ts` carries the curated *blød tone* ship-default; web `src/i18n.tsx` mirrors it). Key lines:
 - Hero: *"Håndværk i bunden, kultur i toppen. Blæk, metal og musik du kan tage med hjem — **et tilhørsforhold, ikke en transaktion**."*
 - Manifest: *"Vi er en kulturmotor med håndværk i bunden. Vi sælger ikke en service — vi sælger et tilhørsforhold."*
 - Universe: *"Universet — seks vektorer, ét knudepunkt."*
 - Studio: *"Døren går altid op for nogen."*
 - Orbit: *"Kom i orbit."* (warm lead/close)
+- App-only welcome beat: *"Ny her?"* + *"Kom som du er — gå som en del af noget."* (onboarding warmth a stranger-facing hub wants)
 
 Hub voice today leans **punk-xerox dossier**: `MATCH.TXT`, `fileLabel`, `★ 3 QUESTIONS`, `★ 48H REPLY`, heavy stamps. Direction: **adopt** canon warmth (belonging, culturemotor, "døren går op for nogen"), **reduce** stamp/file-code noise on subpages. `adopt` copy tone; `adapt` visual tokens; `translate` UX patterns to 11ty; **do not port** React; **do not invent** artist/product/event facts.
 
