@@ -10,7 +10,16 @@ role:
   en: Founder & Artist
 styles: [custom, freehand]
 languages: [da, en]
-portfolio: []
+portrait:
+  src: portrait.jpg
+  alt:
+    da: Nizar foran Ink & Art Copenhagen
+    en: Nizar outside Ink & Art Copenhagen
+portfolio:
+  - src: odin.jpg
+    alt: { da: "Odin · black & grey-realisme", en: "Odin · black & grey realism" }
+  - src: session.jpg
+    alt: { da: "I stolen", en: "In the chair" }
 bio:
   da: |
     <p>Nogle mennesker finder deres vej. Nizar skabte sin. Han besluttede aldrig at blive kunstner, men en dag fandt en blyant vej til hans hånd, og han lod passionen vise retningen.</p>
