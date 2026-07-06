@@ -1,7 +1,7 @@
 ---
 name: Maria
 slug: maria
-sortOrder: 3
+sortOrder: 4
 title: "Maria · Piercing & smykker · Ink & Art Copenhagen"
 description: "Maria sætter piercinger roligt og med omtanke hos Ink & Art Copenhagen, Larsbjørnsstræde 13. Skriv eller kig forbi."
 ogImageAlt: "Maria, piercer hos Ink & Art Copenhagen"
