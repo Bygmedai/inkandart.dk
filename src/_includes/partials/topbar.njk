@@ -23,7 +23,7 @@
 {%- elif isArtistsIndex %}
   <span><a href="{% if lang == 'en' %}/en/{% else %}/{% endif %}" class="topbar__back">← {{ site.shortName | upper }}</a></span>
   <span class="topbar__issue">{{ "nav.artists" | t(lang) | upper }}</span>
-  <span class="topbar__live">★ {% if lang == 'en' %}3 IN THE CHAIR{% else %}3 I STOLEN{% endif %}</span>
+  <span class="topbar__live">★ {% if lang == 'en' %}RESIDENTS + GUESTS{% else %}FASTE + GÆSTER{% endif %}</span>
 
 {%- elif isArtistDeep %}
   <span><a href="{% if lang == 'en' %}/en/artists/{% else %}/artister/{% endif %}" class="topbar__back">← {{ "nav.artists" | t(lang) | upper }}</a></span>

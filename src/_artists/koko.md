@@ -27,9 +27,11 @@ portfolio:
     alt: { da: "Traditional · dolk & hjerte", en: "Traditional · dagger & heart" }
 bio:
   da: |
-    <p><strong>Artist in residence i to uger.</strong> Koko gæster os fra sit eget studie — han arbejder i black &amp; grey- og farverealisme, traditional og lettering.</p>
-    <p>Skriv til ham på <a href="https://www.instagram.com/stabbertattoo/" target="_blank" rel="noopener noreferrer">@stabbertattoo</a> eller kig forbi i åbningstiden mens han er her.</p>
+    <p><strong>Artist in residence.</strong> Koko gæster os fra sit eget studie — han arbejder i black &amp; grey- og farverealisme, traditional og lettering.</p>
+    <p><strong>Her fra 7. juli kl. 22 — to uger frem.</strong> Dagtimerne er til længere, aftalte sessioner; kl. 21–05 er til walk-in. Vil du sikre en længere session, kan du lægge et depositum, der trækkes fra prisen på dit ink: 500 kr ved mindre jobs, 1.000 kr ved heldags-arbejde.</p>
+    <p>Skriv til ham på <a href="https://www.instagram.com/stabbertattoo/" target="_blank" rel="noopener noreferrer">@stabbertattoo</a> eller kig forbi mens han er her.</p>
   en: |
-    <p><strong>Artist in residence for two weeks.</strong> Koko is guesting from his own studio — he works in black &amp; grey and colour realism, traditional and lettering.</p>
-    <p>Reach him on <a href="https://www.instagram.com/stabbertattoo/" target="_blank" rel="noopener noreferrer">@stabbertattoo</a> or drop by during opening hours while he's here.</p>
+    <p><strong>Artist in residence.</strong> Koko is guesting from his own studio — he works in black &amp; grey and colour realism, traditional and lettering.</p>
+    <p><strong>Here from 7 July, 10 PM — for two weeks.</strong> Daytime is for longer, booked sessions; 9 PM–5 AM is walk-in. To secure a longer session you can leave a deposit that comes off the price of your ink: DKK 500 for smaller jobs, DKK 1,000 for full-day work.</p>
+    <p>Reach him on <a href="https://www.instagram.com/stabbertattoo/" target="_blank" rel="noopener noreferrer">@stabbertattoo</a> or drop by while he's here.</p>
 ---
