@@ -59,6 +59,13 @@ layout: layouts/base.njk
          rel="noopener noreferrer">
         {{ "cta.bookWith" | t(lang) }} {{ name | upper }} ↗
       </a>
+      {%- else %}
+      <a href="{{ booking.baseUrl }}"
+         class="btn btn--primary"
+         target="_blank"
+         rel="noopener noreferrer">
+        {{ "cta.bookNow" | t(lang) }} ↗
+      </a>
       {%- endif %}
     </div>
   </div>

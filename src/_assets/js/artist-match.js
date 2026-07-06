@@ -3,29 +3,19 @@
 
   var ARTISTS = [
     {
-      slug: 'jonas', name: 'Jonas Bek', booksysId: 4,
-      style: { 'bold-klassisk': 3, 'farverig': 3, 'sort-praecis': 0, 'delikat-fin': 0 },
-      size:  { 'lille': 0, 'medium': 1, 'stort': 3 }
+      slug: 'koko', name: 'Koko Kolev',
+      style: { 'bold-klassisk': 3, 'farverig': 3, 'sort-praecis': 3, 'delikat-fin': 1 },
+      size:  { 'lille': 1, 'medium': 3, 'stort': 3 }
     },
     {
-      slug: 'liv', name: 'Liv Sørensen', booksysId: 5,
-      style: { 'bold-klassisk': 0, 'farverig': 2, 'sort-praecis': 3, 'delikat-fin': 0 },
-      size:  { 'lille': 0, 'medium': 2, 'stort': 3 }
+      slug: 'nizar', name: 'Nizar',
+      style: { 'bold-klassisk': 3, 'farverig': 1, 'sort-praecis': 2, 'delikat-fin': 1 },
+      size:  { 'lille': 1, 'medium': 3, 'stort': 3 }
     },
     {
-      slug: 'maja', name: 'Maja Holm', booksysId: 3,
-      style: { 'bold-klassisk': 0, 'farverig': 0, 'sort-praecis': 1, 'delikat-fin': 3 },
-      size:  { 'lille': 3, 'medium': 2, 'stort': 0 }
-    },
-    {
-      slug: 'nizar', name: 'Nizar Saad', booksysId: 2,
-      style: { 'bold-klassisk': 3, 'farverig': 0, 'sort-praecis': 2, 'delikat-fin': 0 },
-      size:  { 'lille': 0, 'medium': 1, 'stort': 3 }
-    },
-    {
-      slug: 'simone', name: 'Simone Chimera', booksysId: 1,
-      style: { 'bold-klassisk': 1, 'farverig': 0, 'sort-praecis': 2, 'delikat-fin': 2 },
-      size:  { 'lille': 2, 'medium': 2, 'stort': 1 }
+      slug: 'isac', name: 'Isac',
+      style: { 'bold-klassisk': 1, 'farverig': 0, 'sort-praecis': 3, 'delikat-fin': 3 },
+      size:  { 'lille': 3, 'medium': 2, 'stort': 2 }
     }
   ];
 
@@ -56,7 +46,7 @@
     var artist = bestMatch();
     var artistBase = LANG === 'en' ? '/en/artists/' : '/artister/';
     var artistUrl  = artistBase + artist.slug + '/';
-    var bookingUrl = BOOKING_PATTERN.replace('{booksysId}', artist.booksysId);
+    var bookingUrl = artist.booksysId ? BOOKING_PATTERN.replace('{booksysId}', artist.booksysId) : BOOKING_PATTERN.split('?')[0];
     var price      = PRICES[LANG][sizeChoice];
     var budgetTight = budgetChoice === 'under-1000' && sizeChoice !== 'lille';
 
