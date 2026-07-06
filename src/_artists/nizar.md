@@ -17,10 +17,16 @@ portrait:
     da: Nizar foran Ink & Art Copenhagen
     en: Nizar outside Ink & Art Copenhagen
 portfolio:
+  - src: focus.jpg
+    alt: { da: "Nizar · i stolen", en: "Nizar · in the chair" }
   - src: odin.jpg
     alt: { da: "Odin · black & grey-realisme", en: "Odin · black & grey realism" }
+  - src: mark.jpg
+    alt: { da: "Stedets mærke · Ink & Art Copenhagen", en: "The studio's mark · Ink & Art Copenhagen" }
   - src: session.jpg
     alt: { da: "I stolen", en: "In the chair" }
+  - src: palms.jpg
+    alt: { da: "Nizar", en: "Nizar" }
 bio:
   da: |
     <p>Nogle mennesker finder deres vej. Nizar skabte sin. Han besluttede aldrig at blive kunstner, men en dag fandt en blyant vej til hans hånd, og han lod passionen vise retningen.</p>
