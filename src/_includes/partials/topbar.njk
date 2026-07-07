@@ -12,7 +12,7 @@
 
 {%- if isHome %}
   <span>★ ESTD · KBH ★</span>
-  <span class="topbar__issue"><a href="{% if lang == 'en' %}/en/artists/koko/{% else %}/artister/koko/{% endif %}" class="topbar__back">★ {% if lang == 'en' %}WELCOME KOKO · IN RESIDENCE 7–21 JUL{% else %}VELKOMMEN KOKO · IN RESIDENCE 7.–21. JULI{% endif %} ↗</a></span>
+  <span class="topbar__issue js-residency"><a href="{% if lang == 'en' %}/en/artists/koko/{% else %}/artister/koko/{% endif %}" class="topbar__back">★ {% if lang == 'en' %}WELCOME KOKO · IN RESIDENCE 7–21 JUL{% else %}VELKOMMEN KOKO · IN RESIDENCE 7.–21. JULI{% endif %} ↗</a></span>
   <span class="topbar__live" data-status-live>● {{ "common.openSince" | t(lang) }}</span>
 
 {%- elif isWalkIn %}

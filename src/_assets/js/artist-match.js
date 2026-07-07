@@ -3,7 +3,7 @@
 
   var ARTISTS = [
     {
-      slug: 'koko', name: 'Koko Kolev',
+      slug: 'koko', name: 'Koko Kolev', availableUntil: '2026-07-21',
       style: { 'bold-klassisk': 3, 'farverig': 3, 'sort-praecis': 3, 'delikat-fin': 1 },
       size:  { 'lille': 1, 'medium': 3, 'stort': 3 }
     },
@@ -33,8 +33,14 @@
     return (a.style[styleChoice] || 0) + (a.size[sizeChoice] || 0);
   }
 
+  function isAvailable(a) {
+    return !a.availableUntil || Date.now() <= Date.parse(a.availableUntil + 'T23:59:59+02:00');
+  }
+
   function bestMatch() {
-    return ARTISTS.reduce(function (best, a) {
+    var pool = ARTISTS.filter(isAvailable);
+    if (pool.length === 0) pool = ARTISTS;
+    return pool.reduce(function (best, a) {
       var aScore = totalScore(a), bScore = totalScore(best);
       if (aScore > bScore) return a;
       if (aScore === bScore && (a.style[styleChoice] || 0) > (best.style[styleChoice] || 0)) return a;

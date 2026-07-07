@@ -3,7 +3,7 @@ name: Maria
 slug: maria
 sortOrder: 4
 title: "Maria · Piercing & smykker · Ink & Art Copenhagen"
-description: "Maria er ny piercer hos Ink & Art Copenhagen — de 7 første får piercing gratis mod at være reference. Roligt og med omtanke. Walk-in eller book."
+description: "Maria er ny piercer hos Ink & Art Copenhagen — rolig, omhyggelig piercing i trygge rammer. Walk-in eller book."
 ogImageAlt: "Maria, piercer hos Ink & Art Copenhagen"
 role:
   da: Piercer

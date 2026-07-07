@@ -466,3 +466,6 @@ a.stamp:hover{background:var(--accent);border-color:var(--accent);color:#fff}
 .artist__deposit{margin-top:22px;padding-top:18px;border-top:1px solid var(--rule)}
 .artist__deposit-label{font-size:14px;line-height:1.5;color:var(--ink-mute,#8a8378);margin-bottom:12px;max-width:46ch}
 .artist__deposit-cta{display:flex;gap:12px;flex-wrap:wrap}
+
+/* residency failsafe — hide 'in residence now' flags after Koko's last day */
+.residency-over .js-residency{display:none !important}
