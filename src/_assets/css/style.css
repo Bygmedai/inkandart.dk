@@ -168,13 +168,6 @@
    Restyler eksisterende markup; indhold/i18n/struktur uændret.
    ============================================================ */
 
-:root{
-  --paper:#f4f2ec; --paper-2:#ece9e0; --ink:#141414; --ink-soft:#555150;
-  --ink-mute:#928d83; --rule:rgba(20,20,20,.16); --rule-soft:rgba(20,20,20,.09);
-  --foot:#0f0f0e; --accent:#d8321b; --accent-dark:#bb2814;
-  --gutter:clamp(20px,5vw,72px); --stage:1320px;
-  --black:'Grenze Gotisch'; --disp:'Epilogue'; --body:'Fustat';
-}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body,.paper{background:var(--paper);color:var(--ink);font-family:var(--body),system-ui,sans-serif;font-size:17px;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
