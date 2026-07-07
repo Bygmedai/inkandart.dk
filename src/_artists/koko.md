@@ -1,6 +1,7 @@
 ---
 name: Koko Kolev
 slug: koko
+deposit: true
 sortOrder: 1
 title: "Koko Kolev · Gæsteartist (in residence) · Ink & Art Copenhagen"
 description: "Koko Kolev (@stabbertattoo) er gæsteartist hos Ink & Art Copenhagen — black & grey- og farverealisme, traditional og lettering. Artist in residence i to uger."

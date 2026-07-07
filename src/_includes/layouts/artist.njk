@@ -67,6 +67,16 @@ layout: layouts/base.njk
         {{ "cta.bookNow" | t(lang) }} ↗
       </a>
       {%- endif %}
+
+      {%- if deposit %}
+      <div class="artist__deposit">
+        <p class="artist__deposit-label">{% if lang == 'en' %}Secure a longer session with a deposit — deducted from the price of your ink.{% else %}Sikr en længere session med et depositum — trækkes fra prisen på dit ink.{% endif %}</p>
+        <div class="artist__deposit-cta">
+          <a class="btn btn--outline" href="{{ site.deposit.domain }}/cart/{{ site.deposit.small }}:1?attributes%5BKunstner%5D={{ name | urlencode }}" target="_blank" rel="noopener noreferrer">{% if lang == 'en' %}Deposit{% else %}Depositum{% endif %} 500&nbsp;kr →</a>
+          <a class="btn btn--outline" href="{{ site.deposit.domain }}/cart/{{ site.deposit.fullday }}:1?attributes%5BKunstner%5D={{ name | urlencode }}" target="_blank" rel="noopener noreferrer">{% if lang == 'en' %}Full-day{% else %}Heldag{% endif %} 1.000&nbsp;kr →</a>
+        </div>
+      </div>
+      {%- endif %}
     </div>
   </div>
 
