@@ -17,4 +17,5 @@ permissions:
 
 jobs:
   auto-merge:
+    if: ${{ github.actor == 'dependabot[bot]' }}
     uses: Bygmedai/.github/.github/workflows/dependabot-auto-merge.yml@v1
