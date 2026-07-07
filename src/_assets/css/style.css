@@ -225,7 +225,7 @@ a.stamp:hover{background:var(--accent);border-color:var(--accent);color:#fff}
 .hero .stamp{background:rgba(243,239,231,.06);border-color:rgba(243,239,231,.5);color:#f3efe7}
 .hero .stamp--red{border-color:var(--accent);color:#fff;background:rgba(216,50,27,.18)}
 .hero__stamp-3{opacity:.8}
-.hero__stamps,.hero__stamp-1,.hero__stamp-2,.hero__stamp-3{display:inline-flex;margin:0 8px 8px 0}
+.hero__stamps,.hero__stamp-1,.hero__stamp-2,.hero__stamp-3,.hero__stamp-4{display:inline-flex;margin:0 8px 8px 0}
 .about-card{max-width:48ch;background:rgba(12,11,10,.34);backdrop-filter:blur(3px);border-left:2px solid var(--accent);padding:22px 26px}
 .about-card__file{font-family:var(--disp);font-weight:700;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(243,239,231,.6);margin-bottom:12px}
 .about-card__text{font-size:clamp(16px,1.7vw,20px);color:rgba(243,239,231,.92);line-height:1.55}
