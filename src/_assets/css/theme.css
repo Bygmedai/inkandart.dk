@@ -1,0 +1,14 @@
+/* ---------------------------------------------------------------------------
+ * theme.css — per-tenant theme layer (Inkandart).
+ * All tenant-specific design tokens live here: colours, fonts, spacing rhythm.
+ * Swap this ONE file to re-skin the whole site for another tenant; style.css
+ * stays tenant-agnostic and consumes these via var(--…). Linked BEFORE
+ * style.css so the tokens are defined when style.css reads them.
+ * ------------------------------------------------------------------------- */
+:root{
+  --paper:#f4f2ec; --paper-2:#ece9e0; --ink:#141414; --ink-soft:#555150;
+  --ink-mute:#928d83; --rule:rgba(20,20,20,.16); --rule-soft:rgba(20,20,20,.09);
+  --foot:#0f0f0e; --accent:#d8321b; --accent-dark:#bb2814;
+  --gutter:clamp(20px,5vw,72px); --stage:1320px;
+  --black:'Grenze Gotisch'; --disp:'Epilogue'; --body:'Fustat';
+}
