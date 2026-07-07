@@ -1,0 +1,40 @@
+{% set lang = lang or (page.url | pageLang) %}
+<section class="featured" aria-labelledby="featured-heading">
+  <p class="featured__file">{% if lang == 'en' %}In the house{% else %}I huset{% endif %}</p>
+  <h2 id="featured-heading" class="visually-hidden">{% if lang == 'en' %}In the house — Koko &amp; Nizar{% else %}I huset — Koko &amp; Nizar{% endif %}</h2>
+
+  <div class="featured__grid">
+    {#- KOKO — residency lead (time-sensitive) -#}
+    <article class="featured__card featured__card--lead">
+      <a class="featured__media" href="{% if lang == 'en' %}/en/artists/koko/{% else %}/artister/koko/{% endif %}">
+        <img src="/_assets/img/artists/koko/portrait.jpg" alt="{% if lang == 'en' %}Koko Kolev, guest artist in residence at Ink &amp; Art{% else %}Koko Kolev, gæsteartist in residence hos Ink &amp; Art{% endif %}" loading="eager" decoding="async" width="600" height="800">
+        <span class="featured__flag">{% if lang == 'en' %}In the house now{% else %}I huset nu{% endif %}</span>
+      </a>
+      <div class="featured__body">
+        <p class="featured__kicker">{% if lang == 'en' %}Guest artist · in residence · just flew in from Bulgaria{% else %}Gæsteartist · in residence · lige landet fra Bulgarien{% endif %}</p>
+        <h3 class="featured__title">{% if lang == 'en' %}Welcome, Koko.{% else %}Velkommen, Koko.{% endif %}</h3>
+        <p class="featured__lede">{% if lang == 'en' %}Koko Kolev has flown in from Bulgaria and is with us for two weeks — 7–21 July. Black &amp; grey, colour realism, traditional and lettering. Come by and give him a proper Copenhagen welcome: walk-in every night 9 PM–5 AM, longer sessions in the daytime.{% else %}Koko Kolev er fløjet ind fra Bulgarien og er hos os to uger — 7.–21. juli. Black &amp; grey, farverealisme, traditional og lettering. Kom forbi og byd ham ordentligt velkommen: walk-in hver aften 21–05, længere sessioner i dagtimerne.{% endif %}</p>
+        <p class="featured__meta"><a href="https://www.instagram.com/stabbertattoo/" target="_blank" rel="noopener noreferrer">@stabbertattoo ↗</a></p>
+        <div class="featured__cta">
+          <a class="btn btn--primary" href="{% if lang == 'en' %}/en/artists/koko/{% else %}/artister/koko/{% endif %}">{% if lang == 'en' %}Meet Koko{% else %}Mød Koko{% endif %} →</a>
+          <a class="btn btn--outline" href="{% if lang == 'en' %}/en/walk-in/{% else %}/walk-in/{% endif %}">Walk-in ↗</a>
+        </div>
+      </div>
+    </article>
+
+    {#- NIZAR — founder (prominence) -#}
+    <article class="featured__card">
+      <a class="featured__media" href="{% if lang == 'en' %}/en/artists/nizar/{% else %}/artister/nizar/{% endif %}">
+        <img src="/_assets/img/artists/nizar/portrait.jpg" alt="{% if lang == 'en' %}Nizar, founder &amp; artist at Ink &amp; Art{% else %}Nizar, founder &amp; artist hos Ink &amp; Art{% endif %}" loading="lazy" decoding="async" width="600" height="800">
+      </a>
+      <div class="featured__body">
+        <p class="featured__kicker">Founder &amp; Artist</p>
+        <h3 class="featured__title">{% if lang == 'en' %}The soul of the place.{% else %}Stedets ånd.{% endif %}</h3>
+        <p class="featured__lede">{% if lang == 'en' %}The man behind Ink &amp; Art. Custom &amp; freehand — your tattoo is shaped by the person in front of him. A chapter, not just a motif.{% else %}Manden bag Ink &amp; Art. Custom &amp; freehånd — din tatovering formes af mennesket foran ham. Et kapitel, ikke bare et motiv.{% endif %}</p>
+        <div class="featured__cta">
+          <a class="btn btn--primary" href="{% if lang == 'en' %}/en/artists/nizar/{% else %}/artister/nizar/{% endif %}">{% if lang == 'en' %}Meet Nizar{% else %}Mød Nizar{% endif %} →</a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>

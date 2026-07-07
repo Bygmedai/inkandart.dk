@@ -41,5 +41,10 @@
   },
   "emailFuture": "kontakt@inkandart.dk",
   "emailFutureNote": "Aktiveres når Simply webhotel-opgrade er bestilt",
-  "description_en": "Tattoo and piercing studio at Larsbjørnsstræde 13 in Copenhagen. Book online or walk in."
+  "description_en": "Tattoo and piercing studio at Larsbjørnsstræde 13 in Copenhagen. Book online or walk in.",
+  "deposit": {
+    "domain": "https://d1qp54-0w.myshopify.com",
+    "small": "53463786094920",
+    "fullday": "53463786127688"
+  }
 }

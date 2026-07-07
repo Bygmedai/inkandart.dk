@@ -1,6 +1,7 @@
 ---
 name: Isac
 slug: isac
+deposit: true
 sortOrder: 3
 title: "Isac · Illustrativ blackwork & fineline · Ink & Art Copenhagen"
 description: "Isac arbejder i illustrativ blackwork og fineline hos Ink & Art Copenhagen, Larsbjørnsstræde 13. Walk-ins ok når der er plads."

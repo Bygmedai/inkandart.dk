@@ -1,6 +1,7 @@
 ---
 name: Nizar
 slug: nizar
+deposit: true
 sortOrder: 2
 title: "Nizar · Founder & Artist · Ink & Art Copenhagen"
 description: "Nizar er founder og artist hos Ink & Art Copenhagen. Hans stil formes af mennesket foran ham — en tatovering er et kapitel, ikke bare et motiv."
