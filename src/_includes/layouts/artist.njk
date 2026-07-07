@@ -54,14 +54,14 @@ layout: layouts/base.njk
 
       {%- if booksysId %}
       <a href="{{ booking.deepLinkPattern | replace('{booksysId}', booksysId) }}"
-         class="btn btn--primary"
+         class="btn btn--primary" data-ga-event="book" data-ga-label="{{ slug }}"
          target="_blank"
          rel="noopener noreferrer">
         {{ "cta.bookWith" | t(lang) }} {{ name | upper }} ↗
       </a>
       {%- else %}
       <a href="{{ booking.baseUrl }}"
-         class="btn btn--primary"
+         class="btn btn--primary" data-ga-event="book" data-ga-label="{{ slug }}"
          target="_blank"
          rel="noopener noreferrer">
         {{ "cta.bookNow" | t(lang) }} ↗
@@ -72,8 +72,8 @@ layout: layouts/base.njk
       <div class="artist__deposit">
         <p class="artist__deposit-label">{% if lang == 'en' %}Secure a longer session with a deposit — deducted from the price of your ink.{% else %}Sikr en længere session med et depositum — trækkes fra prisen på dit ink.{% endif %}</p>
         <div class="artist__deposit-cta">
-          <a class="btn btn--outline" href="{{ site.deposit.domain }}/cart/{{ site.deposit.small }}:1?attributes%5BKunstner%5D={{ name | urlencode }}" target="_blank" rel="noopener noreferrer">{% if lang == 'en' %}Deposit{% else %}Depositum{% endif %} 500&nbsp;kr →</a>
-          <a class="btn btn--outline" href="{{ site.deposit.domain }}/cart/{{ site.deposit.fullday }}:1?attributes%5BKunstner%5D={{ name | urlencode }}" target="_blank" rel="noopener noreferrer">{% if lang == 'en' %}Full-day{% else %}Heldag{% endif %} 1.000&nbsp;kr →</a>
+          <a class="btn btn--outline" href="{{ site.deposit.domain }}/cart/{{ site.deposit.small }}:1?attributes%5BKunstner%5D={{ name | urlencode }}" target="_blank" rel="noopener noreferrer" data-ga-event="deposit" data-ga-label="{{ slug }}-500">{% if lang == 'en' %}Deposit{% else %}Depositum{% endif %} 500&nbsp;kr →</a>
+          <a class="btn btn--outline" href="{{ site.deposit.domain }}/cart/{{ site.deposit.fullday }}:1?attributes%5BKunstner%5D={{ name | urlencode }}" target="_blank" rel="noopener noreferrer" data-ga-event="deposit" data-ga-label="{{ slug }}-1000">{% if lang == 'en' %}Full-day{% else %}Heldag{% endif %} 1.000&nbsp;kr →</a>
         </div>
       </div>
       {%- endif %}

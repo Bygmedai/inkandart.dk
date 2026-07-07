@@ -32,6 +32,7 @@
 <meta property="og:image:alt" content="{{ pageOgImageAlt }}">
 <meta property="og:site_name" content="{{ site.name }}">
 <meta property="og:locale" content="{{ pageOgLocale }}">
+{%- if site.gaId %}<meta name="ga-id" content="{{ site.gaId }}">{%- endif %}
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ title or site.name }}">
