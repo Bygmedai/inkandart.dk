@@ -98,7 +98,7 @@
       if (!step) return;
 
       step.querySelectorAll('[data-value]').forEach(function (b) {
-        b.removeAttribute('aria-pressed');
+        b.setAttribute('aria-pressed', 'false');
       });
       btn.setAttribute('aria-pressed', 'true');
 
