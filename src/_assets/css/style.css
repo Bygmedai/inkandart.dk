@@ -441,9 +441,9 @@ a.stamp:hover{background:var(--accent);border-color:var(--accent);color:#fff}
 .featured__file{font-family:var(--disp);font-weight:700;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:22px}
 .featured__grid{display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(18px,2.4vw,30px)}
 .featured__card{display:flex;flex-direction:column;background:var(--paper-2,#efece4);border:1px solid var(--rule)}
-.featured__media{position:relative;display:block;overflow:hidden;aspect-ratio:3/2}
-.featured__card--lead .featured__media{aspect-ratio:4/3}
-.featured__media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.featured__media{position:relative;display:block;overflow:hidden;aspect-ratio:4/5}
+.featured__card--lead .featured__media{aspect-ratio:4/5}
+.featured__media img{width:100%;height:100%;object-fit:cover;object-position:center 22%;display:block;transition:transform .5s ease}
 .featured__media:hover img{transform:scale(1.03)}
 .featured__flag{position:absolute;top:14px;left:14px;font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:11px;padding:7px 12px;background:var(--accent);color:#fff}
 .featured__body{padding:clamp(18px,2vw,26px);display:flex;flex-direction:column;gap:12px}
