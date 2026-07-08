@@ -156,9 +156,9 @@ section{padding-block:clamp(52px,8vw,104px)}
 .cta__sub{max-width:44ch;margin:22px auto clamp(28px,4vw,38px);color:var(--paper-2);font-size:clamp(16px,1.9vw,19px);line-height:1.55}
 .price{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-bottom:clamp(28px,4vw,40px)}
 .price__c{border:1px solid var(--rule);padding:18px 26px;min-width:150px;background:var(--ink)}
-.price__c--orbit{border-color:var(--red);background:var(--red-glow)}
+.price__c--presale{border-color:var(--red);background:var(--red-glow)}
 .price__tag{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:11px;color:var(--dim);margin-bottom:8px}
-.price__c--orbit .price__tag{color:var(--red)}
+.price__c--presale .price__tag{color:var(--red)}
 .price__amt{font-family:var(--black);font-weight:700;text-transform:uppercase;line-height:.9;font-size:clamp(30px,5vw,46px);color:var(--paper)}
 .price__amt small{font-family:var(--body);text-transform:none;letter-spacing:0;font-size:13px;color:var(--paper-2);font-weight:400}
 .cta__btn{display:inline-flex;align-items:center;gap:.6em;font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:clamp(15px,1.8vw,18px);padding:18px 40px;background:var(--red);color:var(--paper);border:1.5px solid var(--red);transition:background .2s,color .2s}

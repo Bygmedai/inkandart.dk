@@ -1,5 +1,5 @@
 {
-  "_about": "REDIGERBAR COPY til Kinky Sundae-landingpagen. Ret teksten her — layout/kode/CSP ligger i src/kinky-sundae.njk og røres ikke. Nogle felter har små HTML-tags (<b>, <br>, <strong>, <span class=\"red\">…</span>) til fremhævning; lad dem stå. Titel/description redigeres i toppen af src/kinky-sundae.njk (front matter). Efter rettelse: commit → merge → live.",
+  "_about": "REDIGERBAR COPY til MODULE x Kinky Sundays-landingpagen. Ret teksten her — layout/kode/CSP ligger i src/kinky-sundae.njk og røres ikke. Nogle felter har små HTML-tags (<b>, <br>, <strong>, <span class=\"red\">…</span>) til fremhævning; lad dem stå. Titel/description redigeres i toppen af src/kinky-sundae.njk (front matter). Efter rettelse: commit → merge → live.",
   "hero": {
     "eyebrow": "Module · Copenhagen",
     "metaLines": [
@@ -16,7 +16,7 @@
       "Kink in the room.",
       "Bodies that say <span class=\"red\">yes</span> — out loud."
     ],
-    "note": "Ink &amp; Art and Module fold their worlds into one night: electronic music, ink and kink in the same room. Sex-positive, radically LGBTQ+-friendly, and built on consent from the door to daybreak. If you're here for that, you're home. If you're not, this isn't your night — and that's completely okay."
+    "note": "One night a month, Module opens for something else — electronic music, ink and kink in the same room. Sex-positive, radically LGBTQ+-friendly, and built on consent from the door to daybreak. If you're here for that, you're home. If you're not, this isn't your night — and that's completely okay."
   },
   "isItYou": {
     "heading": "Is it you?",
@@ -25,7 +25,7 @@
       "come for the music, the art and the freedom as much as the desire",
       "understand that \"no\" and silence mean the same thing",
       "ask before you touch — every time, everyone",
-      "respect that some dance, some get tattooed, some have sex — and that it's all equally valid",
+      "respect that some dance, some pick their ink, some have sex — and that it's all equally valid",
       "are here to be present, not to collect anyone"
     ],
     "noTitle": "It's not for you if you",

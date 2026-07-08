@@ -1,27 +1,26 @@
 ---
 layout: layouts/kinky.njk
-permalink: /kinky-sundae/
+permalink: /kinky-sundays/
 published: false
 title: "MODULE x Kinky Sundays · Copenhagen"
 description: "MODULE x Kinky Sundays — techno, ink and kink built on consent. One Sunday a month at Module. Sex-positive, radically LGBTQ+-friendly, 20+. Presale now open."
-ogImage: "/_assets/img/kinky-sundae-og.png"
+ogImage: "/_assets/img/kinky-sundays-og.png"
 ---
-{#- Landing page for Kinky Sundae (Ink & Art × Module). Build spec: BYG-240.
-    Main language English (≈50% international crowd); Danish is a follow-up.
-    Copy is LOCKED (awaiting HP's legal review). Guardrails:
-    - do NOT promise live ink (the night = flash/booking; ink is set at the studio)
-    - safety = effort, not a guarantee
-    - no sex-for-payment framing, no anonymity promise
-    House rules bake in Module's official Safer Space guidelines.
-    Placeholders for Steven: Orbit signup URL (#tilmeld button), Shopify payment product. -#}
+{#- Landing page for MODULE x Kinky Sundays. Copy lives in src/_data/kinky.json
+    (humans edit there; layout/CSP here). Positioning: Module (the club) leads; Ink & Art
+    is the ink partner. Guardrails: no venue-tattoo (choose on the night, tattoo set at the
+    studio after); safety = effort, not a guarantee; no sex-for-payment framing. Date is a
+    placeholder until the partner group confirms. Locked prices: presale 200 / door 280 /
+    House of Friends code 100. Explicit copy is fine here (owned channel); ads use a clean
+    layer. English here; Danish is a follow-up. -#}
 
 <div class="top">
   <div class="marq" aria-hidden="true">
-    <div class="marq__t">CONSENT IS EVERYTHING <span>·</span> TECHNO <span>·</span> INK <span>·</span> KINK <span>·</span> LGBTQ+ <span>·</span> 20+ <span>·</span> MODULE X KINKY SUNDAYS <span>·</span> SUN 2 AUG · 10 → 05 <span>·</span> CONSENT IS EVERYTHING <span>·</span> TECHNO <span>·</span> INK <span>·</span> KINK <span>·</span> LGBTQ+ <span>·</span> 20+ <span>·</span> MODULE X KINKY SUNDAYS <span>·</span> SUN 2 AUG · 10 → 05 <span>·</span></div>
+    <div class="marq__t">CONSENT IS EVERYTHING <span>·</span> TECHNO <span>·</span> INK <span>·</span> KINK <span>·</span> LGBTQ+ <span>·</span> 20+ <span>·</span> MODULE X KINKY SUNDAYS <span>·</span> DATE TBA · 09 → 05 <span>·</span> CONSENT IS EVERYTHING <span>·</span> TECHNO <span>·</span> INK <span>·</span> KINK <span>·</span> LGBTQ+ <span>·</span> 20+ <span>·</span> MODULE X KINKY SUNDAYS <span>·</span> DATE TBA · 09 → 05 <span>·</span></div>
   </div>
   <div class="wrap topbar">
-    <div class="topbar__mark">KINKY <b>SUNDAE</b></div>
-    <a class="topbar__cta" href="#signup">Sign up</a>
+    <div class="topbar__mark">KINKY <b>SUNDAYS</b></div>
+    <a class="topbar__cta" href="#signup">Tickets</a>
   </div>
 </div>
 
@@ -182,7 +181,7 @@ ogImage: "/_assets/img/kinky-sundae-og.png"
     <h2 class="cta__h" id="signup-h">{{ kinky.cta.h | safe }}</h2>
     <p class="cta__sub">{{ kinky.cta.sub | safe }}</p>
     <div class="price">
-      <div class="price__c price__c--orbit">
+      <div class="price__c price__c--presale">
         <div class="price__tag">{{ kinky.cta.prices[0].tag | safe }}</div>
         <div class="price__amt">{{ kinky.cta.prices[0].amt | safe }}</div>
       </div>
