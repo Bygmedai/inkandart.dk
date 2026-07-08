@@ -1,6 +1,9 @@
 {%- set pageLang = lang or (page.url | pageLang) -%}
 {%- set pageOgImage = ogImage or (("/_assets/img/artists/" + slug + "/" + portrait.src) if (slug and portrait and portrait.src) else "/_assets/img/og-image.jpg") -%}
 {%- set pageOgImageAlt = ogImageAlt or (site.name + " logo") -%}
+{%- set isPortraitOg = (slug and portrait and portrait.src) and not ogImage -%}
+{%- set pageOgImageW = 600 if isPortraitOg else 1200 -%}
+{%- set pageOgImageH = 800 if isPortraitOg else 630 -%}
 {%- set pageDescription = description or (site.description_en if pageLang == "en" else site.description) -%}
 {%- set pageOgLocale = "en_DK" if pageLang == "en" else "da_DK" -%}
 <meta charset="utf-8">
@@ -27,8 +30,8 @@
 <meta property="og:title" content="{{ title or site.name }}">
 <meta property="og:description" content="{{ pageDescription }}">
 <meta property="og:image" content="{{ site.url }}{{ pageOgImage }}">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+<meta property="og:image:width" content="{{ pageOgImageW }}">
+<meta property="og:image:height" content="{{ pageOgImageH }}">
 <meta property="og:image:alt" content="{{ pageOgImageAlt }}">
 <meta property="og:site_name" content="{{ site.name }}">
 <meta property="og:locale" content="{{ pageOgLocale }}">
@@ -39,6 +42,8 @@
 <meta name="twitter:description" content="{{ pageDescription }}">
 <meta name="twitter:image" content="{{ site.url }}{{ pageOgImage }}">
 
+{%- if residency.active %}<meta name="residency-until" content="{{ residency.end }}">{%- endif %}
+<script src="/_assets/js/residency.js"></script>
 <link rel="stylesheet" href="/_assets/css/theme.css">
 <link rel="stylesheet" href="/_assets/css/style.css">
 

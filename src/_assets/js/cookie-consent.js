@@ -52,6 +52,8 @@
 
   if (!stored && banner) {
     banner.hidden = false;
+    var acceptBtn = banner.querySelector('[data-consent="accept"]');
+    if (acceptBtn) acceptBtn.focus(); // fokus ind i dialogen (a11y)
   }
 
   if (banner) {

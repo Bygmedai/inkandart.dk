@@ -12,7 +12,11 @@
 
 {%- if isHome %}
   <span>★ ESTD · KBH ★</span>
-  <span class="topbar__issue"><a href="{% if lang == 'en' %}/en/artists/koko/{% else %}/artister/koko/{% endif %}" class="topbar__back">★ {% if lang == 'en' %}WELCOME KOKO · IN RESIDENCE 7–21 JUL{% else %}VELKOMMEN KOKO · IN RESIDENCE 7.–21. JULI{% endif %} ↗</a></span>
+  {%- if residency.active %}
+  <span class="topbar__issue js-residency"><a href="{% if lang == 'en' %}/en/artists/{{ residency.artistSlug }}/{% else %}/artister/{{ residency.artistSlug }}/{% endif %}" class="topbar__back">★ {% if lang == 'en' %}WELCOME {{ residency.firstName | upper }} · IN RESIDENCE {{ residency.rangeEn | upper }}{% else %}VELKOMMEN {{ residency.firstName | upper }} · IN RESIDENCE {{ residency.rangeDa | upper }}{% endif %} ↗</a></span>
+  {%- else %}
+  <span class="topbar__issue">LARSBJØRNSSTRÆDE 13 · KBH</span>
+  {%- endif %}
   <span class="topbar__live" data-status-live>● {{ "common.openSince" | t(lang) }}</span>
 
 {%- elif isWalkIn %}
@@ -48,7 +52,7 @@
 {%- elif isPrivacy %}
   <span><a href="{% if lang == 'en' %}/en/{% else %}/{% endif %}" class="topbar__back">← {{ site.shortName | upper }}</a></span>
   <span class="topbar__issue">{{ "nav.privacy" | t(lang) | upper }}</span>
-  <span class="topbar__live">● {% if lang == 'en' %}LAST UPDATED{% else %}SENEST OPDATERET{% endif %} 2026-05-02</span>
+  <span class="topbar__live">● {% if lang == 'en' %}LAST UPDATED{% else %}SENEST OPDATERET{% endif %} {{ site.privacyUpdated }}</span>
 
 {%- elif is404 %}
   <span><a href="{% if lang == 'en' %}/en/{% else %}/{% endif %}" class="topbar__back">← {{ site.shortName | upper }}</a></span>

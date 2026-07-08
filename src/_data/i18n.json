@@ -123,6 +123,10 @@
       "zineIssue": {
         "da": "Vol.01 · zine 01",
         "en": "Vol.01 · zine 01"
+      },
+      "giftCard": {
+        "da": "Gavekort",
+        "en": "Gift card"
       }
     }
   },
