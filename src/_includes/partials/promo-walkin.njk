@@ -1,0 +1,13 @@
+{% set lang = lang or (page.url | pageLang) %}
+<section class="promo" aria-labelledby="promo-heading">
+  <div class="promo__inner">
+    <p class="promo__file">{% if lang == 'en' %}Walk-in offer{% else %}Walk-in tilbud{% endif %}</p>
+    <h2 id="promo-heading" class="promo__title">{% if lang == 'en' %}2 small tattoos — 900,-{% else %}2 små tattoos — 900,-{% endif %}</h2>
+    <a class="promo__media" href="{% if lang == 'en' %}/en/walk-in/{% else %}/walk-in/{% endif %}" aria-label="{% if lang == 'en' %}Walk-in offer: 2 small tattoos for 900 kr{% else %}Walk-in tilbud: 2 små tattoos for 900 kr{% endif %}">
+      <img src="/_assets/img/walkin-2for900.jpg" alt="{% if lang == 'en' %}Ink & Art walk-in offer — 2 small tattoos for 900 kr, walk-ins welcome{% else %}Ink & Art walk-in tilbud — 2 små tattoos for 900 kr, walk-ins velkommen{% endif %}" loading="lazy" decoding="async" width="958" height="1524">
+    </a>
+    <div class="promo__cta">
+      <a class="btn btn--primary" href="{% if lang == 'en' %}/en/walk-in/{% else %}/walk-in/{% endif %}">{% if lang == 'en' %}Walk in — no booking{% else %}Kom forbi — ingen booking{% endif %} <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
