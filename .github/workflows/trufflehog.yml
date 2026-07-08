@@ -1,14 +1,22 @@
-# Security — TruffleHog (caller, S460 migration)
+# Security — TruffleHog secret scan (INLINE — public-repo variant).
 #
-# Calls reusable workflow from Bygmedai/.github @v1. Replaces inline implementation
-# (S459 fleet-rollout 2026-05-30) that hardcoded base/head and failed on push:main
-# events (BASE==HEAD → TruffleHog exit 1). Reusable now lets the action auto-resolve
-# from event context per vendor's General Usage pattern.
+# inkandart.dk is the ONLY public repo in the fleet. GitHub blocks a public repo
+# from consuming a reusable workflow that lives in a PRIVATE repo
+# (Bygmedai/.github) — even in the same org, even with the reusable's access
+# policy set to 'organization'. Result: the previous caller
+# (uses: Bygmedai/.github/.github/workflows/trufflehog-secret-scan.yml@v1)
+# failed at STARTUP on every push/PR (0 jobs, check-suite = failure). This was
+# NOT the S460 "BASE==HEAD on push:main" issue (that is fixed); it is the
+# public-repo-cannot-call-private-reusable rule.
 #
-# Authority: AMENDMENT-S459-VENDOR-SECURITY-CARVEOUT-v1.0 (Sirius S459 ruling)
-# + S460 verified via klamsine-at trufflehog run #22 (2026-05-30 13:10 UTC, success).
+# Fix: inline the scan here, mirroring the reusable 1:1 (checkout fetch-depth:0
+# + TruffleHog OSS, --only-verified, vendor auto-resolve of base/head). Same
+# secret-scan posture, no dependency on the private reusable.
 #
-# To update TruffleHog config: edit Bygmedai/.github reusable workflow + bump tag.
+# Keep in sync with Bygmedai/.github/.github/workflows/trufflehog-secret-scan.yml.
+# If .github is ever made public, revert to the reusable caller.
+#
+# Authority: AMENDMENT-S459-VENDOR-SECURITY-CARVEOUT-v1.0.
 
 name: Security — TruffleHog
 on:
@@ -18,4 +26,18 @@ on:
 
 jobs:
   secrets:
-    uses: Bygmedai/.github/.github/workflows/trufflehog-secret-scan.yml@v1
+    name: Scan for secrets
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run TruffleHog OSS
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          extra_args: --only-verified
