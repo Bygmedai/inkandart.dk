@@ -17,7 +17,7 @@ ogImage: "/_assets/img/kinky-sundae-og.png"
 
 <div class="top">
   <div class="marq" aria-hidden="true">
-    <div class="marq__t">CONSENT IS EVERYTHING <span>·</span> TECHNO <span>·</span> INK <span>·</span> KINK <span>·</span> LGBTQ+ <span>·</span> 20+ <span>·</span> KINKY SUNDAE × MODULE <span>·</span> SUN 2 AUG · 10 → 05 <span>·</span> CONSENT IS EVERYTHING <span>·</span> TECHNO <span>·</span> INK <span>·</span> KINK <span>·</span> LGBTQ+ <span>·</span> 20+ <span>·</span> KINKY SUNDAE × MODULE <span>·</span> SUN 2 AUG · 10 → 05 <span>·</span></div>
+    <div class="marq__t">CONSENT IS EVERYTHING <span>·</span> TECHNO <span>·</span> INK <span>·</span> KINK <span>·</span> LGBTQ+ <span>·</span> 20+ <span>·</span> KINKY SUNDAE X MODULE <span>·</span> SUN 2 AUG · 10 → 05 <span>·</span> CONSENT IS EVERYTHING <span>·</span> TECHNO <span>·</span> INK <span>·</span> KINK <span>·</span> LGBTQ+ <span>·</span> 20+ <span>·</span> KINKY SUNDAE X MODULE <span>·</span> SUN 2 AUG · 10 → 05 <span>·</span></div>
   </div>
   <div class="wrap topbar">
     <div class="topbar__mark">KINKY <b>SUNDAE</b></div>
@@ -200,7 +200,10 @@ ogImage: "/_assets/img/kinky-sundae-og.png"
       <button type="submit" class="cta__btn">{{ kinky.cta.button | safe }}</button>
       <p class="cta__status" data-nl-status role="status" aria-live="polite"></p>
     </form>
-    <p class="cta__done" id="orbit-done" hidden>{{ kinky.cta.done | safe }}</p>
+    <div class="cta__done" id="orbit-done" hidden>
+      <p>{{ kinky.cta.done | safe }}</p>
+      <a class="cta__btn cta__btn--ticket" href="https://d1qp54-0w.myshopify.com/cart/53477074731336:1?attributes%5BEvent%5D=Kinky%20Sundae%202%20Aug">{{ kinky.cta.ticketLabel | safe }}</a>
+    </div>
     <noscript><p class="cta__status">Enable JavaScript to sign up, or DM us on <a href="{{ site.instagram }}" target="_blank" rel="noopener noreferrer">Instagram</a>.</p></noscript>
     <p class="cta__fine">{{ kinky.cta.fine | safe }}</p>
   </div>
@@ -208,7 +211,7 @@ ogImage: "/_assets/img/kinky-sundae-og.png"
 
 <footer class="ks-foot">
   <div class="wrap ks-foot__row">
-    <div class="ks-foot__mark">KINKY <b>SUNDAE</b> × MODULE</div>
+    <div class="ks-foot__mark">KINKY <b>SUNDAE</b> X MODULE</div>
     <div class="ks-foot__meta">{{ kinky.foot.meta | safe }}</div>
   </div>
 </footer>
