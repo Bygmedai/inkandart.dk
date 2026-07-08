@@ -1,7 +1,7 @@
 {
   "_about": "REDIGERBAR COPY til Kinky Sundae-landingpagen. Ret teksten her — layout/kode/CSP ligger i src/kinky-sundae.njk og røres ikke. Nogle felter har små HTML-tags (<b>, <br>, <strong>, <span class=\"red\">…</span>) til fremhævning; lad dem stå. Titel/description redigeres i toppen af src/kinky-sundae.njk (front matter). Efter rettelse: commit → merge → live.",
   "hero": {
-    "eyebrow": "Ink &amp; Art × Module · Copenhagen",
+    "eyebrow": "Module × Ink &amp; Art · Copenhagen",
     "metaLines": [
       "Sunday 2 August 2026",
       "10:00 <b>→</b> Monday 05:00",
@@ -144,7 +144,7 @@
     "button": "Sign up with Orbit →",
     "placeholder": "you@email.com",
     "done": "You're in — welcome to Orbit. We send the final details and your member price (150 DKK) straight to your inbox, before the door.",
-    "fine": "<b>A ticket doesn't guarantee entry.</b> The door decides, and we reserve the right to refuse for breaking the dress code or house rules. Kinky Sundae is a sex-positive, radically LGBTQ+-friendly space with zero tolerance for discrimination and boundary-crossing. We work for a safe environment — that takes you doing the same. A collaboration between <b>Ink &amp; Art Copenhagen</b> and <b>Module</b>."
+    "fine": "<b>A ticket doesn't guarantee entry.</b> The door decides, and we reserve the right to refuse for breaking the dress code or house rules. Kinky Sundae is a sex-positive, radically LGBTQ+-friendly space with zero tolerance for discrimination and boundary-crossing. We work for a safe environment — that takes you doing the same. A collaboration between <b>Module</b> and <b>Ink &amp; Art Copenhagen</b>."
   },
   "foot": {
     "meta": "Copenhagen · Sunday night · Consent is everything"
