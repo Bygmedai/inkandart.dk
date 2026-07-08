@@ -2,8 +2,8 @@
 layout: layouts/kinky.njk
 permalink: /kinky-sundae/
 published: false
-title: "Kinky Sundae · Module · Copenhagen"
-description: "Kinky Sundae — techno, ink and kink built on consent. One Sunday a month at Module. Sex-positive, radically LGBTQ+-friendly, 20+. Sign up with Orbit."
+title: "MODULE x Kinky Sundays · Copenhagen"
+description: "MODULE x Kinky Sundays — techno, ink and kink built on consent. One Sunday a month at Module. Sex-positive, radically LGBTQ+-friendly, 20+. Presale now open."
 ogImage: "/_assets/img/kinky-sundae-og.png"
 ---
 {#- Landing page for Kinky Sundae (Ink & Art × Module). Build spec: BYG-240.
@@ -17,7 +17,7 @@ ogImage: "/_assets/img/kinky-sundae-og.png"
 
 <div class="top">
   <div class="marq" aria-hidden="true">
-    <div class="marq__t">CONSENT IS EVERYTHING <span>·</span> TECHNO <span>·</span> INK <span>·</span> KINK <span>·</span> LGBTQ+ <span>·</span> 20+ <span>·</span> KINKY SUNDAE X MODULE <span>·</span> SUN 2 AUG · 10 → 05 <span>·</span> CONSENT IS EVERYTHING <span>·</span> TECHNO <span>·</span> INK <span>·</span> KINK <span>·</span> LGBTQ+ <span>·</span> 20+ <span>·</span> KINKY SUNDAE X MODULE <span>·</span> SUN 2 AUG · 10 → 05 <span>·</span></div>
+    <div class="marq__t">CONSENT IS EVERYTHING <span>·</span> TECHNO <span>·</span> INK <span>·</span> KINK <span>·</span> LGBTQ+ <span>·</span> 20+ <span>·</span> MODULE X KINKY SUNDAYS <span>·</span> SUN 2 AUG · 10 → 05 <span>·</span> CONSENT IS EVERYTHING <span>·</span> TECHNO <span>·</span> INK <span>·</span> KINK <span>·</span> LGBTQ+ <span>·</span> 20+ <span>·</span> MODULE X KINKY SUNDAYS <span>·</span> SUN 2 AUG · 10 → 05 <span>·</span></div>
   </div>
   <div class="wrap topbar">
     <div class="topbar__mark">KINKY <b>SUNDAE</b></div>
@@ -28,7 +28,7 @@ ogImage: "/_assets/img/kinky-sundae-og.png"
 <header class="hero">
   <div class="wrap">
     <p class="eyebrow hero__eyebrow">{{ kinky.hero.eyebrow | safe }}</p>
-    <h1 class="hero__wm">Kinky<br>Sun<span class="red">dae</span></h1>
+    <h1 class="hero__wm">Kinky<br>Sun<span class="red">days</span></h1>
     <div class="hero__meta">
       <div>{{ kinky.hero.metaLines[0] | safe }}</div>
       <div>{{ kinky.hero.metaLines[1] | safe }}</div>
@@ -191,7 +191,13 @@ ogImage: "/_assets/img/kinky-sundae-og.png"
         <div class="price__amt">{{ kinky.cta.prices[1].amt | safe }}</div>
       </div>
     </div>
-    <a class="cta__btn cta__btn--buy" href="https://d1qp54-0w.myshopify.com/cart/53477074731336:1?attributes%5BEvent%5D=Kinky%20Sundae%202%20Aug">{{ kinky.cta.buyLabel | safe }}</a>
+    <a class="cta__btn cta__btn--buy" href="https://d1qp54-0w.myshopify.com/cart/53477074731336:1?attributes%5BEvent%5D=Kinky%20Sundays">{{ kinky.cta.buyLabel | safe }}</a>
+    <div class="pkgs">
+      <p class="pkgs__t">{{ kinky.cta.packagesTitle | safe }}</p>
+      {%- for pk in kinky.cta.packages %}
+      <a class="pkgs__row" href="{{ pk.href }}" target="_blank" rel="noopener"><span class="pkgs__label">{{ pk.label | safe }}</span><span class="pkgs__price">{{ pk.price | safe }}</span></a>
+      {%- endfor %}
+    </div>
     <p class="cta__or">{{ kinky.cta.orLabel | safe }}</p>
     <form class="cta__form" data-subscribe data-source="kinky-sundae" data-lang="en" novalidate>
       <label class="cta__field">
@@ -202,14 +208,14 @@ ogImage: "/_assets/img/kinky-sundae-og.png"
       <button type="submit" class="cta__btn cta__btn--ghost">{{ kinky.cta.button | safe }}</button>
       <p class="cta__status" data-nl-status role="status" aria-live="polite"></p>
     </form>
-    <noscript><p class="cta__status">Enable JavaScript to join Orbit, or DM us on <a href="{{ site.instagram }}" target="_blank" rel="noopener noreferrer">Instagram</a>.</p></noscript>
+    <noscript><p class="cta__status">Enable JavaScript to join the list, or DM us on <a href="{{ site.instagram }}" target="_blank" rel="noopener noreferrer">Instagram</a>.</p></noscript>
     <p class="cta__fine">{{ kinky.cta.fine | safe }}</p>
   </div>
 </section>
 
 <footer class="ks-foot">
   <div class="wrap ks-foot__row">
-    <div class="ks-foot__mark">KINKY <b>SUNDAE</b> X MODULE</div>
+    <div class="ks-foot__mark">MODULE X KINKY <b>SUNDAYS</b></div>
     <div class="ks-foot__meta">{{ kinky.foot.meta | safe }}</div>
   </div>
 </footer>

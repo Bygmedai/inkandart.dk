@@ -196,3 +196,11 @@ section{padding-block:clamp(52px,8vw,104px)}
 .cta__or{margin:26px auto 14px;color:var(--dim);font-family:var(--disp);text-transform:uppercase;letter-spacing:.14em;font-size:12.5px}
 .cta__btn--ghost{background:transparent;color:var(--paper);border:1.5px solid var(--rule)}
 .cta__btn--ghost:hover{background:var(--paper);color:var(--void);border-color:var(--paper)}
+
+/* tables & packages */
+.pkgs{max-width:520px;margin:24px auto 0;text-align:left}
+.pkgs__t{font-family:var(--disp);text-transform:uppercase;letter-spacing:.16em;font-size:12px;color:var(--dim);margin:0 0 10px;text-align:center}
+.pkgs__row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 18px;border:1px solid var(--rule);color:var(--paper);text-decoration:none;margin-bottom:8px;transition:border-color .2s,background .2s}
+.pkgs__row:hover{border-color:var(--red);background:var(--red-glow)}
+.pkgs__label{font-family:var(--disp);font-weight:600;letter-spacing:.02em}
+.pkgs__price{font-family:var(--body);color:var(--paper-2);font-size:15px;white-space:nowrap}
