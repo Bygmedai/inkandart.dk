@@ -130,7 +130,7 @@
   "cta": {
     "eyebrow": "Sunday 2 August · Module",
     "h": "In via<br><span class=\"red\">Orbit</span>",
-    "sub": "Spots are few — 200 in total. Sign up with Orbit to secure your place. It's cheaper than the door, and you get the final details direct.",
+    "sub": "Spots are few — 200 in total. Grab yours at the Orbit price below: cheaper than the door, and you get the final details direct.",
     "prices": [
       {
         "tag": "Via Orbit",
@@ -141,10 +141,10 @@
         "amt": "200 DKK <small>/ if there's space</small>"
       }
     ],
-    "button": "Sign up with Orbit →",
+    "buyLabel": "Get your ticket — 150 DKK →",
+    "orLabel": "Not buying yet? Join Orbit for the line-up drop —",
+    "button": "Join Orbit",
     "placeholder": "you@email.com",
-    "done": "You're in — welcome to Orbit. We send the final details and your member price (150 DKK) straight to your inbox, before the door.",
-    "ticketLabel": "Secure your spot — 150 DKK →",
     "fine": "<b>A ticket doesn't guarantee entry.</b> The door decides, and we reserve the right to refuse for breaking the dress code or house rules. Kinky Sundae is a sex-positive, radically LGBTQ+-friendly space with zero tolerance for discrimination and boundary-crossing. We work for a safe environment — that takes you doing the same. A Kinky Sundae night at <b>Module</b> — ink by <b>Ink &amp; Art Copenhagen</b>."
   },
   "foot": {

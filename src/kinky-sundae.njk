@@ -191,20 +191,18 @@ ogImage: "/_assets/img/kinky-sundae-og.png"
         <div class="price__amt">{{ kinky.cta.prices[1].amt | safe }}</div>
       </div>
     </div>
-    <form class="cta__form" data-subscribe data-source="kinky-sundae" data-lang="en" data-reveal="#orbit-done" novalidate>
+    <a class="cta__btn cta__btn--buy" href="https://d1qp54-0w.myshopify.com/cart/53477074731336:1?attributes%5BEvent%5D=Kinky%20Sundae%202%20Aug">{{ kinky.cta.buyLabel | safe }}</a>
+    <p class="cta__or">{{ kinky.cta.orLabel | safe }}</p>
+    <form class="cta__form" data-subscribe data-source="kinky-sundae" data-lang="en" novalidate>
       <label class="cta__field">
         <span class="visually-hidden">Email</span>
         <input type="email" name="email" inputmode="email" autocomplete="email" placeholder="{{ kinky.cta.placeholder }}" required aria-required="true" />
       </label>
       <div class="cta__hp" aria-hidden="true"><label>Company<input type="text" name="company" tabindex="-1" autocomplete="off" /></label></div>
-      <button type="submit" class="cta__btn">{{ kinky.cta.button | safe }}</button>
+      <button type="submit" class="cta__btn cta__btn--ghost">{{ kinky.cta.button | safe }}</button>
       <p class="cta__status" data-nl-status role="status" aria-live="polite"></p>
     </form>
-    <div class="cta__done" id="orbit-done" hidden>
-      <p>{{ kinky.cta.done | safe }}</p>
-      <a class="cta__btn cta__btn--ticket" href="https://d1qp54-0w.myshopify.com/cart/53477074731336:1?attributes%5BEvent%5D=Kinky%20Sundae%202%20Aug">{{ kinky.cta.ticketLabel | safe }}</a>
-    </div>
-    <noscript><p class="cta__status">Enable JavaScript to sign up, or DM us on <a href="{{ site.instagram }}" target="_blank" rel="noopener noreferrer">Instagram</a>.</p></noscript>
+    <noscript><p class="cta__status">Enable JavaScript to join Orbit, or DM us on <a href="{{ site.instagram }}" target="_blank" rel="noopener noreferrer">Instagram</a>.</p></noscript>
     <p class="cta__fine">{{ kinky.cta.fine | safe }}</p>
   </div>
 </section>

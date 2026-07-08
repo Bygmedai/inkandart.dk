@@ -190,3 +190,9 @@ section{padding-block:clamp(52px,8vw,104px)}
 @media(max-width:520px){.cta__form .cta__btn{flex:1 0 100%;justify-content:center}}
 
 .cta__done p{margin:0 0 14px}
+
+/* signup: buy primary, join-orbit secondary */
+.cta__btn--buy{font-size:clamp(16px,2vw,20px);padding:20px 46px}
+.cta__or{margin:26px auto 14px;color:var(--dim);font-family:var(--disp);text-transform:uppercase;letter-spacing:.14em;font-size:12.5px}
+.cta__btn--ghost{background:transparent;color:var(--paper);border:1.5px solid var(--rule)}
+.cta__btn--ghost:hover{background:var(--paper);color:var(--void);border-color:var(--paper)}
