@@ -1,0 +1,171 @@
+{
+  "_about": "REDIGERBAR DANSK copy til MODULE x Kinky Sundays. Ret teksten her; layout/kode ligger i src/kinky-sundae.njk-strukturen. Behold HTML-tags (<b>, <br>, <strong>, <span class=\"red\">…</span>). Skal matche den engelske i src/_data/kinky.json struktur-for-struktur.",
+  "hero": {
+    "eyebrow": "Module · København",
+    "metaLines": [
+      "Dato — annonceres snart",
+      "09:00 <b>→</b> mandag 05:00",
+      "200 gæster <b>·</b> 20+"
+    ],
+    "thesis": "Én søndag om måneden lukker Module for verden og åbner for os. Det her er ikke en swingerklub. Det er et rum bygget på ét princip: <strong>samtykke er alt.</strong>"
+  },
+  "manifest": {
+    "lines": [
+      "Techno på gulvet.",
+      "Ink i hjørnet.",
+      "Kink i rummet.",
+      "Kroppe der siger <span class=\"red\">ja</span> — højt."
+    ],
+    "note": "Én nat om måneden åbner Module for noget andet — elektronisk musik, ink og kink i samme rum. Sex-positivt, radikalt LGBTQ+-venligt, og bygget på samtykke fra døren til daggry. Er du her for det, er du hjemme. Er du ikke, er det ikke din aften — og det er helt okay."
+  },
+  "isItYou": {
+    "heading": "Er det dig?",
+    "forTitle": "Det her er for dig, hvis du",
+    "forItems": [
+      "kommer for musikken, kunsten og friheden lige så meget som begæret",
+      "forstår at \"nej\" og tavshed betyder det samme",
+      "spørger før du rører — hver gang, alle",
+      "respekterer at nogle danser, nogle vælger deres ink, nogle har sex — og at det hele er lige gyldigt",
+      "er her for at være til stede, ikke for at samle nogen"
+    ],
+    "noTitle": "Det er ikke for dig, hvis du",
+    "noItems": [
+      "leder efter en swingerklub eller \"gratis\" sex",
+      "tror et nej er til forhandling",
+      "filmer, fotograferer eller \"lige tjekker telefonen\" på gulvet",
+      "ser andres kroppe som noget du har krav på",
+      "ikke gider læse resten af den her side"
+    ]
+  },
+  "rules": {
+    "heading": "Safer space",
+    "intro": "Ved at træde ind accepterer du Modules fælles retningslinjer — alle her har ret til et rum fri for chikane, diskrimination og eksklusion. Alle køn, hudfarver, seksuelle orienteringer, aldre og kropstyper er velkomne. Samtykke, skruet helt op.",
+    "items": [
+      {
+        "n": "01 — GRUNDREGLEN",
+        "t": "Kun et entusiastisk, verbalt JA er et ja.",
+        "d": "Nej betyder nej. Tavshed betyder nej. Mumlen betyder nej. Ukomfortabelt kropssprog betyder nej. Alt der ikke er et klart ja er et nej."
+      },
+      {
+        "n": "02",
+        "t": "Ingen fysisk kontakt uden klart samtykke.",
+        "d": "Spørg, hver gang, alle. Der er ingen undtagelser, uanset hvor langt natten er kommet."
+      },
+      {
+        "n": "03",
+        "t": "Nultolerance.",
+        "d": "Racisme, sexisme, homofobi og transfobi tolereres ikke. Overtræd grænsen og du er ude — og du bliver ude."
+      },
+      {
+        "n": "04",
+        "t": "Ingen stirren eller anmassende adfærd.",
+        "d": "At kigge er fint — respekter grænser. Giv folk plads til at være her på egne præmisser."
+      },
+      {
+        "n": "05",
+        "t": "Ingen fotos eller video inde i klubben.",
+        "d": "Telefoner væk; dit kamera dækkes til i døren. Det beskytter alle — også dig. Hvad der sker på gulvet, bliver på gulvet."
+      },
+      {
+        "n": "06",
+        "t": "Vores personale og awareness-team er her for dig.",
+        "d": "Føler du dig utilpas, eller ser du en grænse blive overtrådt? Sig til med det samme — de er nemme at finde. Vi tror på dig, og vi hjælper."
+      }
+    ]
+  },
+  "night": {
+    "heading": "Natten",
+    "zones": [
+      {
+        "k": "Gulvet",
+        "t": "Techno",
+        "d": "Modules lydsystem, hele natten. Mørkt, hårdt, ubønhørligt. Her danser du."
+      },
+      {
+        "k": "Hjørnet",
+        "t": "Ink",
+        "d": "Vælg dit motiv på aftenen — flash og designs at vælge fra. Selve tatoveringen bookes på aftenen og sættes bagefter i studiet."
+      },
+      {
+        "k": "Rummet",
+        "t": "Kink",
+        "d": "Performere, og plads til begær. Sex er muligt næsten overalt — men intet er påkrævet nogen steder, og der er altid et påklædt rum at trække sig til."
+      }
+    ]
+  },
+  "ink": {
+    "eyebrow": "Om inken",
+    "big": "Inken sættes i studiet.<br><span class=\"red\">Ædru. Rene hænder.</span>",
+    "body": [
+      "På aftenen er ink en oplevelse og et valg: flash på væggen, designs, placering, booking. Du finder motivet mens musikken kører.",
+      "<strong>Selve tatoveringen sætter vi i Ink &amp; Arts studie</strong> — ædru, i rene hænder, hvor den hører hjemme. Kinky Sundays er hvor motivet fødes. Larsbjørnsstræde er hvor det bliver til hud."
+    ]
+  },
+  "door": {
+    "heading": "Døren",
+    "facts": [
+      {
+        "k": "Hvornår",
+        "v": "TBA",
+        "small": "Søndag 09:00 → mandag 05:00. Endelig dato annonceres snart."
+      },
+      {
+        "k": "Hvor",
+        "v": "Module",
+        "small": "Vesterbrogade 2B, 1620 København."
+      },
+      {
+        "k": "Alder",
+        "v": "20+",
+        "small": "Gyldigt billed-ID i døren. Ingen undtagelser."
+      },
+      {
+        "k": "Dresscode",
+        "v": "Påkrævet",
+        "small": "Latex, læder, mesh, minimal, kostume. Intet gadetøj. Omklædning på stedet."
+      }
+    ],
+    "note": "I døren: billed-ID, billet-tjek, dress-tjek, en sticker over kameraet, og en kort briefing på reglerne. Så garderoben — og ind. Tag en du stoler på med."
+  },
+  "cta": {
+    "eyebrow": "Module · København",
+    "h": "Sikr din <span class=\"red\">plads</span>",
+    "sub": "Der er få pladser — 200 i alt. Tag din presale nedenfor: billigere end i døren, og du får de sidste detaljer direkte.",
+    "prices": [
+      {
+        "tag": "Presale",
+        "amt": "200 DKK <small>/ sikrer din plads</small>"
+      },
+      {
+        "tag": "I døren",
+        "amt": "280 DKK <small>/ hvis der er plads</small>"
+      }
+    ],
+    "buyLabel": "Køb din billet — 200 DKK →",
+    "packagesTitle": "Borde &amp; pakker",
+    "packages": [
+      {
+        "label": "Lounge",
+        "price": "1.500 DKK",
+        "href": "https://d1qp54-0w.myshopify.com/cart/53478959219016:1?attributes%5BEvent%5D=Kinky%20Sundays"
+      },
+      {
+        "label": "Premiumbord",
+        "price": "3.000–5.000 DKK",
+        "href": "https://d1qp54-0w.myshopify.com/products/module-x-kinky-sundays-premium-table"
+      },
+      {
+        "label": "Ambassador VIP Suite",
+        "price": "10.000 DKK",
+        "href": "https://d1qp54-0w.myshopify.com/cart/53478970851656:1?attributes%5BEvent%5D=Kinky%20Sundays"
+      }
+    ],
+    "orLabel": "Ikke klar til at købe? Kom på listen og få line-up først —",
+    "button": "Kom på listen",
+    "placeholder": "din@email.dk",
+    "fine": "<b>En billet garanterer ikke adgang.</b> Døren bestemmer, og vi forbeholder os retten til at afvise ved brud på dresscode eller husregler. Kinky Sundays er et sex-positivt, radikalt LGBTQ+-venligt rum med nultolerance over for diskrimination og grænseoverskridelse. Vi arbejder for et trygt miljø — det kræver at du gør det samme. En Kinky Sundays-aften på <b>Module</b> — ink af <b>Ink &amp; Art Copenhagen</b>."
+  },
+  "foot": {
+    "meta": "København · Søndag nat · Samtykke er alt"
+  }
+}

@@ -204,3 +204,7 @@ section{padding-block:clamp(52px,8vw,104px)}
 .pkgs__row:hover{border-color:var(--red);background:var(--red-glow)}
 .pkgs__label{font-family:var(--disp);font-weight:600;letter-spacing:.02em}
 .pkgs__price{font-family:var(--body);color:var(--paper-2);font-size:15px;white-space:nowrap}
+
+/* language toggle */
+.topbar__lang{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--dim);text-decoration:none;margin-right:16px;border:1px solid var(--rule);padding:6px 10px}
+.topbar__lang:hover{color:var(--paper);border-color:var(--paper)}

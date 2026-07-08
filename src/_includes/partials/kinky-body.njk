@@ -1,0 +1,208 @@
+{%- set d = kinkyDa if lang == 'da' else kinky -%}
+{%- set mconsent = 'SAMTYKKE ER ALT' if lang == 'da' else 'CONSENT IS EVERYTHING' -%}
+{%- set mdate = 'DATO TBA · 09 → 05' if lang == 'da' else 'DATE TBA · 09 → 05' -%}
+<div class="top">
+  <div class="marq" aria-hidden="true">
+    <div class="marq__t">{{ mconsent }} <span>·</span> TECHNO <span>·</span> INK <span>·</span> KINK <span>·</span> LGBTQ+ <span>·</span> 20+ <span>·</span> MODULE X KINKY SUNDAYS <span>·</span> {{ mdate }} <span>·</span> {{ mconsent }} <span>·</span> TECHNO <span>·</span> INK <span>·</span> KINK <span>·</span> LGBTQ+ <span>·</span> 20+ <span>·</span> MODULE X KINKY SUNDAYS <span>·</span> {{ mdate }} <span>·</span></div>
+  </div>
+  <div class="wrap topbar">
+    <div class="topbar__mark">KINKY <b>SUNDAYS</b></div>
+    <a class="topbar__lang" href="{% if lang == 'da' %}/kinky-sundays/{% else %}/kinky-sundays/da/{% endif %}">{% if lang == 'da' %}EN{% else %}DA{% endif %}</a>
+    <a class="topbar__cta" href="#signup">{% if lang == 'da' %}Billetter{% else %}Tickets{% endif %}</a>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow hero__eyebrow">{{ d.hero.eyebrow | safe }}</p>
+    <h1 class="hero__wm">Kinky<br>Sun<span class="red">days</span></h1>
+    <div class="hero__meta">
+      <div>{{ d.hero.metaLines[0] | safe }}</div>
+      <div>{{ d.hero.metaLines[1] | safe }}</div>
+      <div>{{ d.hero.metaLines[2] | safe }}</div>
+    </div>
+    <p class="hero__thesis">{{ d.hero.thesis | safe }}</p>
+  </div>
+</header>
+
+<section class="manifest" aria-label="Manifesto">
+  <div class="wrap">
+    <p>{{ d.manifest.lines[0] | safe }}</p>
+    <p>{{ d.manifest.lines[1] | safe }}</p>
+    <p>{{ d.manifest.lines[2] | safe }}</p>
+    <p>{{ d.manifest.lines[3] | safe }}</p>
+    <p class="manifest__note">{{ d.manifest.note | safe }}</p>
+  </div>
+</section>
+
+<section aria-labelledby="isityou">
+  <div class="wrap">
+    <div class="sec-label"><span class="n">01</span><h2 id="isityou">{{ d.isItYou.heading | safe }}</h2></div>
+    <div class="split">
+      <div class="split__col split__for">
+        <h3 class="split__h">{{ d.isItYou.forTitle | safe }}</h3>
+        <ul>
+          <li>{{ d.isItYou.forItems[0] | safe }}</li>
+          <li>{{ d.isItYou.forItems[1] | safe }}</li>
+          <li>{{ d.isItYou.forItems[2] | safe }}</li>
+          <li>{{ d.isItYou.forItems[3] | safe }}</li>
+          <li>{{ d.isItYou.forItems[4] | safe }}</li>
+        </ul>
+      </div>
+      <div class="split__col split__no">
+        <h3 class="split__h">{{ d.isItYou.noTitle | safe }}</h3>
+        <ul>
+          <li>{{ d.isItYou.noItems[0] | safe }}</li>
+          <li>{{ d.isItYou.noItems[1] | safe }}</li>
+          <li>{{ d.isItYou.noItems[2] | safe }}</li>
+          <li>{{ d.isItYou.noItems[3] | safe }}</li>
+          <li>{{ d.isItYou.noItems[4] | safe }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rules" id="rules" aria-labelledby="rules-h">
+  <div class="wrap">
+    <div class="sec-label"><span class="n">02</span><h2 id="rules-h">{{ d.rules.heading | safe }}</h2></div>
+    <p class="rules__intro">{{ d.rules.intro | safe }}</p>
+    <div class="rules__grid">
+      <div class="rule rule--wide">
+        <div class="rule__n">{{ d.rules.items[0].n | safe }}</div>
+        <div class="rule__t">{{ d.rules.items[0].t | safe }}</div>
+        <div class="rule__d">{{ d.rules.items[0].d | safe }}</div>
+      </div>
+      <div class="rule">
+        <div class="rule__n">{{ d.rules.items[1].n | safe }}</div>
+        <div class="rule__t">{{ d.rules.items[1].t | safe }}</div>
+        <div class="rule__d">{{ d.rules.items[1].d | safe }}</div>
+      </div>
+      <div class="rule">
+        <div class="rule__n">{{ d.rules.items[2].n | safe }}</div>
+        <div class="rule__t">{{ d.rules.items[2].t | safe }}</div>
+        <div class="rule__d">{{ d.rules.items[2].d | safe }}</div>
+      </div>
+      <div class="rule">
+        <div class="rule__n">{{ d.rules.items[3].n | safe }}</div>
+        <div class="rule__t">{{ d.rules.items[3].t | safe }}</div>
+        <div class="rule__d">{{ d.rules.items[3].d | safe }}</div>
+      </div>
+      <div class="rule">
+        <div class="rule__n">{{ d.rules.items[4].n | safe }}</div>
+        <div class="rule__t">{{ d.rules.items[4].t | safe }}</div>
+        <div class="rule__d">{{ d.rules.items[4].d | safe }}</div>
+      </div>
+      <div class="rule">
+        <div class="rule__n">{{ d.rules.items[5].n | safe }}</div>
+        <div class="rule__t">{{ d.rules.items[5].t | safe }}</div>
+        <div class="rule__d">{{ d.rules.items[5].d | safe }}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="thenight" aria-labelledby="thenight-h">
+  <div class="wrap">
+    <div class="sec-label"><span class="n">03</span><h2 id="thenight-h">{{ d.night.heading | safe }}</h2></div>
+    <div class="zones">
+      <div class="zone">
+        <div class="zone__k">{{ d.night.zones[0].k | safe }}</div>
+        <div class="zone__t">{{ d.night.zones[0].t | safe }}</div>
+        <p class="zone__d">{{ d.night.zones[0].d | safe }}</p>
+      </div>
+      <div class="zone">
+        <div class="zone__k">{{ d.night.zones[1].k | safe }}</div>
+        <div class="zone__t">{{ d.night.zones[1].t | safe }}</div>
+        <p class="zone__d">{{ d.night.zones[1].d | safe }}</p>
+      </div>
+      <div class="zone">
+        <div class="zone__k">{{ d.night.zones[2].k | safe }}</div>
+        <div class="zone__t">{{ d.night.zones[2].t | safe }}</div>
+        <p class="zone__d">{{ d.night.zones[2].d | safe }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ink-strip" aria-labelledby="ink-h">
+  <div class="wrap ink-strip__grid">
+    <div>
+      <p class="eyebrow">{{ d.ink.eyebrow | safe }}</p>
+      <p class="ink-strip__big" id="ink-h">{{ d.ink.big | safe }}</p>
+    </div>
+    <div class="ink-strip__body">
+      <p>{{ d.ink.body[0] | safe }}</p>
+      <p>{{ d.ink.body[1] | safe }}</p>
+    </div>
+  </div>
+</section>
+
+<section id="door" aria-labelledby="door-h">
+  <div class="wrap">
+    <div class="sec-label"><span class="n">04</span><h2 id="door-h">{{ d.door.heading | safe }}</h2></div>
+    <div class="facts">
+      <div class="fact">
+        <div class="fact__k">{{ d.door.facts[0].k | safe }}</div>
+        <div class="fact__v">{{ d.door.facts[0].v | safe }}<small>{{ d.door.facts[0].small | safe }}</small></div>
+      </div>
+      <div class="fact">
+        <div class="fact__k">{{ d.door.facts[1].k | safe }}</div>
+        <div class="fact__v">{{ d.door.facts[1].v | safe }}<small>{{ d.door.facts[1].small | safe }}</small></div>
+      </div>
+      <div class="fact">
+        <div class="fact__k">{{ d.door.facts[2].k | safe }}</div>
+        <div class="fact__v">{{ d.door.facts[2].v | safe }}<small>{{ d.door.facts[2].small | safe }}</small></div>
+      </div>
+      <div class="fact">
+        <div class="fact__k">{{ d.door.facts[3].k | safe }}</div>
+        <div class="fact__v">{{ d.door.facts[3].v | safe }}<small>{{ d.door.facts[3].small | safe }}</small></div>
+      </div>
+    </div>
+    <p class="door-note">{{ d.door.note | safe }}</p>
+  </div>
+</section>
+
+<section class="cta" id="signup" aria-labelledby="signup-h">
+  <div class="wrap">
+    <p class="eyebrow">{{ d.cta.eyebrow | safe }}</p>
+    <h2 class="cta__h" id="signup-h">{{ d.cta.h | safe }}</h2>
+    <p class="cta__sub">{{ d.cta.sub | safe }}</p>
+    <div class="price">
+      <div class="price__c price__c--presale">
+        <div class="price__tag">{{ d.cta.prices[0].tag | safe }}</div>
+        <div class="price__amt">{{ d.cta.prices[0].amt | safe }}</div>
+      </div>
+      <div class="price__c">
+        <div class="price__tag">{{ d.cta.prices[1].tag | safe }}</div>
+        <div class="price__amt">{{ d.cta.prices[1].amt | safe }}</div>
+      </div>
+    </div>
+    <a class="cta__btn cta__btn--buy" href="https://d1qp54-0w.myshopify.com/cart/53477074731336:1?attributes%5BEvent%5D=Kinky%20Sundays">{{ d.cta.buyLabel | safe }}</a>
+    <div class="pkgs">
+      <p class="pkgs__t">{{ d.cta.packagesTitle | safe }}</p>
+      {%- for pk in d.cta.packages %}
+      <a class="pkgs__row" href="{{ pk.href }}" target="_blank" rel="noopener"><span class="pkgs__label">{{ pk.label | safe }}</span><span class="pkgs__price">{{ pk.price | safe }}</span></a>
+      {%- endfor %}
+    </div>
+    <p class="cta__or">{{ d.cta.orLabel | safe }}</p>
+    <form class="cta__form" data-subscribe data-source="kinky-sundae" data-lang="{{ lang }}" novalidate>
+      <label class="cta__field">
+        <span class="visually-hidden">Email</span>
+        <input type="email" name="email" inputmode="email" autocomplete="email" placeholder="{{ d.cta.placeholder }}" required aria-required="true" />
+      </label>
+      <div class="cta__hp" aria-hidden="true"><label>Company<input type="text" name="company" tabindex="-1" autocomplete="off" /></label></div>
+      <button type="submit" class="cta__btn cta__btn--ghost">{{ d.cta.button | safe }}</button>
+      <p class="cta__status" data-nl-status role="status" aria-live="polite"></p>
+    </form>
+    <noscript><p class="cta__status">{% if lang == 'da' %}Slå JavaScript til for at komme på listen, eller skriv til os på {% else %}Enable JavaScript to join the list, or DM us on {% endif %}<a href="{{ site.instagram }}" target="_blank" rel="noopener noreferrer">Instagram</a>.</p></noscript>
+    <p class="cta__fine">{{ d.cta.fine | safe }}</p>
+  </div>
+</section>
+
+<footer class="ks-foot">
+  <div class="wrap ks-foot__row">
+    <div class="ks-foot__mark">MODULE X KINKY <b>SUNDAYS</b></div>
+    <div class="ks-foot__meta">{{ d.foot.meta | safe }}</div>
+  </div>
+</footer>
