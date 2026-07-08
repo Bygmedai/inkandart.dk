@@ -487,3 +487,13 @@ a.stamp:hover{background:var(--accent);border-color:var(--accent);color:#fff}
 .newsletter__consent{flex:1 0 100%;margin:12px 0 0;font-size:12.5px;line-height:1.5;color:var(--ink-mute)}
 .newsletter__consent a{color:var(--ink-soft);text-decoration:underline}
 @media(max-width:520px){.newsletter__form .btn{flex:1 0 100%;justify-content:center}}
+
+/* Walk-in promo band (homepage) — added 2026-07-08 */
+.promo{padding:clamp(48px,7vw,88px) var(--gutter);background:var(--foot);color:var(--paper)}
+.promo__inner{max-width:600px;margin:0 auto;text-align:center}
+.promo__file{font-family:var(--body);font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);margin:0 0 12px}
+.promo__title{font-family:var(--black);font-weight:400;font-size:clamp(30px,5vw,52px);line-height:1;margin:0 0 26px;color:var(--paper)}
+.promo__media{display:block;border:1px solid rgba(255,255,255,.12);overflow:hidden}
+.promo__media img{display:block;width:100%;height:auto}
+.promo__media:hover{border-color:var(--accent)}
+.promo__cta{margin-top:26px}
