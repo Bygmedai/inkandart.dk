@@ -191,7 +191,17 @@ ogImage: "/_assets/img/kinky-sundae-og.png"
         <div class="price__amt">200 DKK <small>/ if there's space</small></div>
       </div>
     </div>
-    <a class="cta__btn" href="#">Sign up with Orbit →</a>
+    <form class="cta__form" data-subscribe data-source="kinky-sundae" data-lang="en" data-reveal="#orbit-done" novalidate>
+      <label class="cta__field">
+        <span class="visually-hidden">Email</span>
+        <input type="email" name="email" inputmode="email" autocomplete="email" placeholder="you@email.com" required aria-required="true" />
+      </label>
+      <div class="cta__hp" aria-hidden="true"><label>Company<input type="text" name="company" tabindex="-1" autocomplete="off" /></label></div>
+      <button type="submit" class="cta__btn">Sign up with Orbit →</button>
+      <p class="cta__status" data-nl-status role="status" aria-live="polite"></p>
+    </form>
+    <p class="cta__done" id="orbit-done" hidden>You\'re in — welcome to Orbit. We send the final details and your member price (150 DKK) straight to your inbox, before the door.</p>
+    <noscript><p class="cta__status">Enable JavaScript to sign up, or DM us on <a href="{{ site.instagram }}" target="_blank" rel="noopener noreferrer">Instagram</a>.</p></noscript>
     <p class="cta__fine"><b>A ticket doesn't guarantee entry.</b> The door decides, and we reserve the right to refuse for breaking the dress code or house rules. Kinky Sundae is a sex-positive, radically LGBTQ+-friendly space with zero tolerance for discrimination and boundary-crossing. We work for a safe environment — that takes you doing the same. A collaboration between <b>Ink &amp; Art Copenhagen</b> and <b>Module</b>.</p>
   </div>
 </section>

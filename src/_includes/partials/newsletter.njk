@@ -4,7 +4,7 @@
     <p class="newsletter__file">{{ "newsletter.file" | t(lang) }}</p>
     <h2 class="newsletter__title" id="nl-title">{{ "newsletter.title" | t(lang) }}</h2>
     <p class="newsletter__lead">{{ "newsletter.lead" | t(lang) }}</p>
-    <form id="newsletter-form" class="newsletter__form" data-lang="{{ lang }}" novalidate>
+    <form id="newsletter-form" class="newsletter__form" data-subscribe data-source="footer" data-lang="{{ lang }}" novalidate>
       <label class="newsletter__field">
         <span class="visually-hidden">{{ "newsletter.emailLabel" | t(lang) }}</span>
         <input type="email" name="email" inputmode="email" autocomplete="email"

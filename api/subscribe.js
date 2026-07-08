@@ -24,6 +24,12 @@ const DEFAULT_STORE = "d1qp54-0w.myshopify.com";
 const API_VERSION = "2024-10";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Server-side tag whitelist — client sends a `source`, never raw tags.
+const TAGS_BY_SOURCE = {
+  footer: ["newsletter", "site-signup"],
+  "kinky-sundae": ["orbit", "event:kinky-sundae", "interesse:events"]
+};
+
 export default async function handler(req) {
   if (req.method !== "POST") return json({ ok: false, error: "method_not_allowed" }, 405);
 
@@ -32,6 +38,8 @@ export default async function handler(req) {
 
   const email = String(body?.email || "").trim().toLowerCase();
   const honeypot = String(body?.company || "").trim();
+  const source = String(body?.source || "footer");
+  const tags = TAGS_BY_SOURCE[source] || TAGS_BY_SOURCE.footer;
 
   // Bot: honeypot filled → pretend success, do nothing.
   if (honeypot) return json({ ok: true });
@@ -57,7 +65,7 @@ export default async function handler(req) {
     input: {
       email,
       emailMarketingConsent: { marketingState: "SUBSCRIBED", marketingOptInLevel: "SINGLE_OPT_IN" },
-      tags: ["newsletter", "site-signup"]
+      tags
     }
   };
 
