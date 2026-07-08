@@ -1,0 +1,152 @@
+{
+  "_about": "REDIGERBAR COPY til Kinky Sundae-landingpagen. Ret teksten her — layout/kode/CSP ligger i src/kinky-sundae.njk og røres ikke. Nogle felter har små HTML-tags (<b>, <br>, <strong>, <span class=\"red\">…</span>) til fremhævning; lad dem stå. Titel/description redigeres i toppen af src/kinky-sundae.njk (front matter). Efter rettelse: commit → merge → live.",
+  "hero": {
+    "eyebrow": "Ink &amp; Art × Module · Copenhagen",
+    "metaLines": [
+      "Sunday 2 August 2026",
+      "10:00 <b>→</b> Monday 05:00",
+      "200 people <b>·</b> 20+"
+    ],
+    "thesis": "One Sunday a month, Module closes to the world and opens for us. This is not a swingers' club. It's a room built on one principle: <strong>consent is everything.</strong>"
+  },
+  "manifest": {
+    "lines": [
+      "Techno on the floor.",
+      "Ink in the corner.",
+      "Kink in the room.",
+      "Bodies that say <span class=\"red\">yes</span> — out loud."
+    ],
+    "note": "Ink &amp; Art and Module fold their worlds into one night: electronic music, tattoo art and kink in the same room. Sex-positive, radically LGBTQ+-friendly, and built on consent from the door to daybreak. If you're here for that, you're home. If you're not, this isn't your night — and that's completely okay."
+  },
+  "isItYou": {
+    "heading": "Is it you?",
+    "forTitle": "This is for you if you",
+    "forItems": [
+      "come for the music, the art and the freedom as much as the desire",
+      "understand that \"no\" and silence mean the same thing",
+      "ask before you touch — every time, everyone",
+      "respect that some dance, some get tattooed, some have sex — and that it's all equally valid",
+      "are here to be present, not to collect anyone"
+    ],
+    "noTitle": "It's not for you if you",
+    "noItems": [
+      "are looking for a swingers' club or \"free\" sex",
+      "think a no is up for negotiation",
+      "film, photograph or \"just check your phone\" on the floor",
+      "see other people's bodies as something you're owed",
+      "can't be bothered to read the rest of this page"
+    ]
+  },
+  "rules": {
+    "heading": "Safer space",
+    "intro": "By entering, you agree to Module's shared guidelines — everyone here is entitled to a space free from harassment, discrimination and exclusion. All genders, skin tones, sexual orientations, ages and body types are welcome. Consent, turned all the way up.",
+    "items": [
+      {
+        "n": "01 — THE GROUND RULE",
+        "t": "Only an enthusiastic, verbal YES is a yes.",
+        "d": "No means no. Silence means no. Mumbling means no. Uncomfortable body language means no. Anything that isn't a clear yes is a no."
+      },
+      {
+        "n": "02",
+        "t": "No physical contact without clear consent.",
+        "d": "Ask, every time, everyone. There are no exceptions, no matter how far the night has come."
+      },
+      {
+        "n": "03",
+        "t": "Zero tolerance.",
+        "d": "Racism, sexism, homophobia and transphobia will not be tolerated. Cross the line and you're out — and you stay out."
+      },
+      {
+        "n": "04",
+        "t": "No staring or intrusive behaviour.",
+        "d": "Looking is fine — respect boundaries. Give people the room to be here on their own terms."
+      },
+      {
+        "n": "05",
+        "t": "No photos or video inside the club.",
+        "d": "Phones away; your camera is covered at the door. It protects everyone — including you. What happens on the floor stays on the floor."
+      },
+      {
+        "n": "06",
+        "t": "Our staff and awareness team are here for you.",
+        "d": "Feel uncomfortable, or see a boundary crossed? Reach out immediately — they're easy to find. We'll believe you, and we'll help."
+      }
+    ]
+  },
+  "night": {
+    "heading": "The night",
+    "zones": [
+      {
+        "k": "The floor",
+        "t": "Techno",
+        "d": "Module's sound system, all night. Dark, hard, relentless. This is where you dance."
+      },
+      {
+        "k": "The corner",
+        "t": "Ink",
+        "d": "Ink &amp; Art's artists in the house with flash and designs. Pick the piece to the music — we set it afterwards (see below)."
+      },
+      {
+        "k": "The room",
+        "t": "Kink",
+        "d": "Performers, and room for desire. Sex is possible almost everywhere — but nothing is required anywhere, and there's always a clothed space to step back to."
+      }
+    ]
+  },
+  "ink": {
+    "eyebrow": "About the ink",
+    "big": "Ink is set at the studio.<br><span class=\"red\">Sober. Clean hands.</span>",
+    "body": [
+      "On the night, ink is an experience and a choice: flash on the wall, designs, placement, booking. You find the piece while the music runs.",
+      "<strong>The tattoo itself we set at Ink &amp; Art's studio</strong> — sober, in clean hands, where it belongs. Kinky Sundae is where the piece is born. Larsbjørnsstræde is where it becomes skin."
+    ]
+  },
+  "door": {
+    "heading": "The door",
+    "facts": [
+      {
+        "k": "When",
+        "v": "2 Aug",
+        "small": "Sunday 10:00 → Monday 05:00. Module closes at 09 — we open at 10."
+      },
+      {
+        "k": "Where",
+        "v": "Module",
+        "small": "Vesterbrogade 2B, 1620 Copenhagen."
+      },
+      {
+        "k": "Age",
+        "v": "20+",
+        "small": "Valid photo ID at the door. No exceptions."
+      },
+      {
+        "k": "Dress",
+        "v": "Required",
+        "small": "Latex, leather, mesh, minimal, costume. No street clothes. Changing on site."
+      }
+    ],
+    "note": "At the door: photo ID, ticket check, dress check, a sticker over your camera, and a short briefing on the rules. Then the cloakroom — and in. Bring someone you trust."
+  },
+  "cta": {
+    "eyebrow": "Sunday 2 August · Module",
+    "h": "In via<br><span class=\"red\">Orbit</span>",
+    "sub": "Spots are few — 200 in total. Sign up with Orbit to secure your place. It's cheaper than the door, and you get the final details direct.",
+    "prices": [
+      {
+        "tag": "Via Orbit",
+        "amt": "150 DKK <small>/ secures your spot</small>"
+      },
+      {
+        "tag": "At the door",
+        "amt": "200 DKK <small>/ if there's space</small>"
+      }
+    ],
+    "button": "Sign up with Orbit →",
+    "placeholder": "you@email.com",
+    "done": "You're in — welcome to Orbit. We send the final details and your member price (150 DKK) straight to your inbox, before the door.",
+    "fine": "<b>A ticket doesn't guarantee entry.</b> The door decides, and we reserve the right to refuse for breaking the dress code or house rules. Kinky Sundae is a sex-positive, radically LGBTQ+-friendly space with zero tolerance for discrimination and boundary-crossing. We work for a safe environment — that takes you doing the same. A collaboration between <b>Ink &amp; Art Copenhagen</b> and <b>Module</b>."
+  },
+  "foot": {
+    "meta": "Copenhagen · Sunday night · Consent is everything"
+  }
+}
