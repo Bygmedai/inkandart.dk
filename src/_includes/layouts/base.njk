@@ -14,10 +14,12 @@
     {{- content | safe -}}
   </main>
 
+  {%- include "partials/newsletter.njk" -%}
   {%- include "partials/footer.njk" -%}
   {%- include "partials/cookie-banner.njk" -%}
 
   <script src="/_assets/js/cookie-consent.js" defer></script>
+  <script src="/_assets/js/subscribe.js" defer></script>
 
   {# Vercel Web Analytics — cookieless, first-party (/_vercel/insights/*), så det
      overholder den stramme CSP (script-src/connect-src 'self') uden ændring og

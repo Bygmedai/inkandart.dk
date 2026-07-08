@@ -493,5 +493,39 @@
       "da": "Vi følger Sikkerhedsstyrelsens regler. Alt er sterilt, og vi tager os god tid.",
       "en": "We follow the Danish Safety Authority's rules. Everything is sterile, and we take our time."
     }
+  },
+  "newsletter": {
+    "file": {
+      "da": "NYHEDSBREV",
+      "en": "NEWSLETTER"
+    },
+    "title": {
+      "da": "Hør det først",
+      "en": "Hear it first"
+    },
+    "lead": {
+      "da": "Gæsteartister, drops og flash — direkte i indbakken, når det sker. Ingen spam.",
+      "en": "Guest artists, drops and flash — straight to your inbox when it happens. No spam."
+    },
+    "emailLabel": {
+      "da": "Email",
+      "en": "Email"
+    },
+    "placeholder": {
+      "da": "din@email.dk",
+      "en": "you@email.com"
+    },
+    "button": {
+      "da": "Skriv mig op",
+      "en": "Sign me up"
+    },
+    "consent": {
+      "da": "Ved tilmelding accepterer du at modtage nyheder fra Ink & Art. Afmeld når som helst. Se vores",
+      "en": "By signing up you agree to receive news from Ink & Art. Unsubscribe anytime. See our"
+    },
+    "nojs": {
+      "da": "Slå JavaScript til for at tilmelde dig — eller skriv til os på",
+      "en": "Enable JavaScript to sign up — or DM us on"
+    }
   }
 }
