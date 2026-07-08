@@ -1,139 +1,225 @@
 ---
-layout: layouts/kinky.njk
 permalink: /kinky-sundae/
-published: false
-title: "Kinky Sundae · Ink & Art × Module · Copenhagen"
-description: "Kinky Sundae — techno, ink and kink built on consent. Ink & Art × Module, one Sunday a month at Module. Sex-positive, radically LGBTQ+-friendly, 20+. Sign up with Orbit."
-ogImage: "/_assets/img/kinky-sundae-og.png"
+published: true
+eleventyExcludeFromCollections: true
 ---
-{#- Landing page for Kinky Sundae (Ink & Art × Module). Build spec: BYG-240.
-    Main language English (≈50% international crowd); Danish is a follow-up.
-    Copy is LOCKED (awaiting HP's legal review). Guardrails:
-    - do NOT promise live ink (the night = flash/booking; ink is set at the studio)
-    - safety = effort, not a guarantee
-    - no sex-for-payment framing, no anonymity promise
-    House rules bake in Module's official Safer Space guidelines.
-    Placeholders for Steven: Orbit signup URL (#tilmeld button), Shopify payment product. -#}
+{% raw %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>MODULE × KINKY SUNDAYS · Copenhagen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Fraunces:ital,opsz,wght@1,9..144,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0a09; --bg2:#100e0c; --ink:#ece7dd; --mut:#9c948a; --line:#2a2622;
+    --red:#e23b2c; --paper:#ece7dd; --paperink:#141210;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{padding-bottom:78px;background:var(--bg);color:var(--ink);font-family:"Space Mono",monospace;-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+  .eyebrow{font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--mut)}
+  .red{color:var(--red)}
+  b{color:var(--red);font-weight:700}
+  h1,h2,h3{font-weight:400;line-height:.95}
+  section{border-top:1px solid var(--line)}
 
-<div class="top">
-  <div class="marq" aria-hidden="true">
-    <div class="marq__t">CONSENT IS EVERYTHING <span>·</span> TECHNO <span>·</span> INK <span>·</span> KINK <span>·</span> LGBTQ+ <span>·</span> 20+ <span>·</span> INK &amp; ART × MODULE <span>·</span> SUN 2 AUG · 10 → 05 <span>·</span> CONSENT IS EVERYTHING <span>·</span> TECHNO <span>·</span> INK <span>·</span> KINK <span>·</span> LGBTQ+ <span>·</span> 20+ <span>·</span> INK &amp; ART × MODULE <span>·</span> SUN 2 AUG · 10 → 05 <span>·</span></div>
-  </div>
-  <div class="wrap topbar">
-    <div class="topbar__mark">KINKY <b>SUNDAE</b></div>
-    <a class="topbar__cta" href="#signup">Sign up</a>
-  </div>
+  /* marquee */
+  .marq{background:var(--red);color:#0b0a09;overflow:hidden;white-space:nowrap;border-bottom:1px solid #0b0a09}
+  .marq__t{display:inline-block;padding:9px 0;font-family:"Bebas Neue",sans-serif;font-size:15px;letter-spacing:.18em;animation:scroll 34s linear infinite}
+  .marq__t span{opacity:.5;padding:0 6px}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* topbar */
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 28px}
+  .topbar__mark{font-family:"Bebas Neue",sans-serif;font-size:22px;letter-spacing:.06em}
+  .topbar__cta{color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:9px 16px;font-size:11px;letter-spacing:.22em;text-transform:uppercase}
+  .topbar__cta:hover{background:var(--red);border-color:var(--red);color:#0b0a09}
+
+  /* hero */
+  .hero{padding:66px 0 60px;position:relative;background:radial-gradient(120% 90% at 78% 6%,rgba(226,59,44,.16),transparent 55%)}
+  .hero__eyebrow{margin-bottom:26px}
+  .hero__wm{font-family:"Anton",sans-serif;text-transform:uppercase;font-size:clamp(58px,13vw,168px);letter-spacing:-.01em}
+  .hero__wm .red{display:inline}
+  .hero__meta{display:flex;flex-wrap:wrap;gap:26px;margin:30px 0 24px;font-size:13px;letter-spacing:.08em;color:var(--ink)}
+  .hero__meta .lab{color:var(--mut);display:block;font-size:10px;letter-spacing:.24em;text-transform:uppercase;margin-bottom:5px}
+  .hero__thesis{max-width:60ch;font-family:"Fraunces",serif;font-style:italic;font-size:clamp(19px,2.4vw,27px);line-height:1.32;color:#d8d1c6}
+  .tba{display:inline-block;margin-top:6px;border:1px dashed var(--red);color:var(--red);padding:4px 10px;font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+
+  /* manifest */
+  .manifest{padding:64px 0;background:var(--bg2)}
+  .manifest p{font-family:"Anton",sans-serif;text-transform:uppercase;font-size:clamp(28px,6vw,64px);line-height:1;letter-spacing:.005em}
+  .manifest p+p{margin-top:6px}
+  .manifest__note{font-family:"Space Mono",monospace!important;text-transform:none!important;font-size:15px!important;line-height:1.6;max-width:62ch;margin-top:30px!important;color:#cfc7bc}
+
+  .sec-label{display:flex;align-items:baseline;gap:16px;padding:52px 0 26px}
+  .sec-label .n{font-family:"Space Mono";color:var(--red);font-size:13px}
+  .sec-label h2{font-family:"Anton",sans-serif;text-transform:uppercase;font-size:clamp(30px,5vw,58px)}
+
+  /* split */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);margin-bottom:56px}
+  .split__col{padding:32px}
+  .split__for{border-right:1px solid var(--line)}
+  .split__no{background:#0f0d0b}
+  .split__h{font-family:"Bebas Neue";font-size:20px;letter-spacing:.08em;margin-bottom:18px}
+  .split__no .split__h{color:var(--red)}
+  .split ul{list-style:none}
+  .split li{padding:11px 0;border-top:1px solid var(--line);font-size:14px;color:#cfc7bc;padding-left:22px;position:relative}
+  .split__for li::before{content:"→";position:absolute;left:0;color:var(--red)}
+  .split__no li::before{content:"✕";position:absolute;left:0;color:var(--mut)}
+
+  /* rules */
+  .rules{background:var(--bg2)}
+  .rules__intro{max-width:70ch;font-size:15px;color:#cfc7bc;padding-bottom:30px}
+  .rules__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:56px}
+  .rule{background:var(--bg2);padding:26px}
+  .rule--wide{grid-column:1 / -1;background:#141008;border-left:3px solid var(--red)}
+  .rule__n{font-size:11px;letter-spacing:.2em;color:var(--red);margin-bottom:12px}
+  .rule__t{font-family:"Bebas Neue";font-size:24px;letter-spacing:.03em;margin-bottom:10px}
+  .rule--wide .rule__t{font-size:32px}
+  .rule__d{font-size:13.5px;color:#b3aca2;line-height:1.55}
+
+  /* zones */
+  .zones{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:56px}
+  .zone{background:var(--bg);padding:34px 26px;min-height:230px;display:flex;flex-direction:column}
+  .zone__k{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--mut)}
+  .zone__t{font-family:"Anton",sans-serif;text-transform:uppercase;font-size:52px;margin:14px 0 16px;color:var(--red)}
+  .zone__d{font-size:13.5px;color:#b3aca2;line-height:1.6}
+
+  /* ink strip */
+  .ink-strip{background:var(--paper);color:var(--paperink)}
+  .ink-strip__grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;padding:60px 28px;align-items:center}
+  .ink-strip .eyebrow{color:#7a716a}
+  .ink-strip__big{font-family:"Anton",sans-serif;text-transform:uppercase;font-size:clamp(30px,4.6vw,56px);line-height:.98;margin-top:14px}
+  .ink-strip__big .red{color:var(--red)}
+  .ink-strip__body p{font-size:15px;line-height:1.65;color:#38312c}
+  .ink-strip__body p+p{margin-top:16px}
+  .ink-strip__body strong{color:#000}
+
+  /* packages */
+  .pk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:22px}
+  .pk{background:var(--bg2);padding:28px 24px;display:flex;flex-direction:column;gap:10px}
+  .pk--vip{background:#141008;border-top:3px solid var(--red)}
+  .pk__k{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--mut)}
+  .pk__name{font-family:"Bebas Neue";font-size:26px;letter-spacing:.04em}
+  .pk__price{font-family:"Anton",sans-serif;font-size:34px}
+  .pk__price small{font-family:"Space Mono";font-size:12px;color:var(--mut);letter-spacing:0}
+  .pk__d{font-size:13px;color:#b3aca2;line-height:1.55;margin-top:2px}
+  .pk__cap{margin-top:auto;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
+
+  /* facts */
+  .facts{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:22px}
+  .fact{background:var(--bg);padding:24px}
+  .fact__k{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--mut);margin-bottom:12px}
+  .fact__v{font-family:"Anton",sans-serif;text-transform:uppercase;font-size:34px;line-height:1}
+  .fact__v small{display:block;font-family:"Space Mono";font-size:11.5px;color:#b3aca2;letter-spacing:0;margin-top:10px;text-transform:none;line-height:1.5}
+  .door-note{font-size:14px;color:#cfc7bc;max-width:74ch;padding-bottom:56px}
+
+  /* cta */
+  .cta{background:var(--red);color:#0b0a09;border-top:none}
+  .cta .wrap{padding:64px 28px}
+  .cta .eyebrow{color:#0b0a09;opacity:.7}
+  .cta__h{font-family:"Anton",sans-serif;text-transform:uppercase;font-size:clamp(44px,9vw,104px);margin:14px 0 18px}
+  .cta__sub{max-width:56ch;font-size:15px;line-height:1.6;margin-bottom:30px;color:#1a0f0d}
+  .price{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:32px}
+  .price__c{background:#0b0a09;color:var(--ink);padding:18px 24px;min-width:200px}
+  .price__c--orbit{outline:3px solid #0b0a09;background:#0b0a09}
+  .price__tag{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:8px}
+  .price__amt{font-family:"Anton",sans-serif;font-size:34px}
+  .price__amt small{font-family:"Space Mono";font-size:12px;color:var(--mut);letter-spacing:0}
+  .cta__form{display:flex;gap:10px;flex-wrap:wrap;max-width:560px}
+  .cta__form input{flex:1;min-width:240px;background:#0b0a09;border:1px solid #0b0a09;color:var(--ink);padding:16px 18px;font-family:"Space Mono";font-size:15px}
+  .cta__btn{background:#0b0a09;color:var(--ink);border:none;padding:16px 26px;font-family:"Bebas Neue";font-size:18px;letter-spacing:.08em;cursor:pointer}
+  .cta__btn:hover{background:#000}
+  .cta__fine{font-size:11.5px;line-height:1.6;color:#2a1512;max-width:82ch;margin-top:26px}
+  .cta__fine b{color:#0b0a09}
+
+  /* credits */
+  .credits{background:var(--bg);padding:56px 0}
+  .credits__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+  .cr__k{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--mut);margin-bottom:10px}
+  .cr__v{font-size:15px;line-height:1.5}
+  .cr__v small{color:var(--mut);font-size:12px}
+
+  /* foot */
+  .ks-foot{border-top:1px solid var(--line);padding:26px 0}
+  .ks-foot__row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;align-items:center}
+  .ks-foot__mark{font-family:"Bebas Neue";font-size:16px;letter-spacing:.06em}
+  .ks-foot__meta{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+
+  @media(max-width:860px){
+    .split,.zones,.rules__grid,.pk-grid,.facts,.credits__grid,.ink-strip__grid{grid-template-columns:1fr}
+    .split__for{border-right:none;border-bottom:1px solid var(--line)}
+    .rule--wide{grid-column:auto}
+  }
+
+  .btn{display:inline-block;background:var(--red);color:#0b0a09;text-decoration:none;font-family:"Bebas Neue",sans-serif;font-size:18px;letter-spacing:.06em;padding:14px 22px;border:1px solid var(--red);cursor:pointer}
+  .btn:hover{background:#0b0a09;color:var(--red)}
+  .btn--ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+  .btn--ghost:hover{background:var(--ink);color:#0b0a09;border-color:var(--ink)}
+  .hero__actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+  .pk .btn{margin-top:6px;text-align:center;font-size:15px;padding:11px 14px}
+  .cta .btn{background:#0b0a09;color:var(--ink);border-color:#0b0a09}
+  .cta .btn:hover{background:#000;color:var(--red)}
+  .cta__buy{display:inline-block;margin-bottom:22px}
+  .buybar{position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(11,10,9,.94);backdrop-filter:blur(8px);border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 20px}
+  .buybar__t{font-family:"Bebas Neue",sans-serif;font-size:15px;letter-spacing:.05em;color:var(--ink);line-height:1.1}
+  .buybar__t small{display:block;color:var(--mut);font-family:"Space Mono",monospace;font-size:10px;letter-spacing:.1em}
+</style>
+</head>
+<body>
+
+<div class="marq"><div class="marq__t">CONSENT IS EVERYTHING <span>·</span> TECHNO <span>·</span> INK <span>·</span> KINK <span>·</span> LGBTQ+ <span>·</span> 20+ <span>·</span> MODULE × KINKY SUNDAYS <span>·</span> ONE SUNDAY A MONTH <span>·</span> CONSENT IS EVERYTHING <span>·</span> TECHNO <span>·</span> INK <span>·</span> KINK <span>·</span> LGBTQ+ <span>·</span> 20+ <span>·</span> MODULE × KINKY SUNDAYS <span>·</span> ONE SUNDAY A MONTH <span>·</span></div></div>
+
+<div class="wrap topbar">
+  <div class="topbar__mark">MODULE <b>×</b> KINKY SUNDAYS</div>
+  <a class="topbar__cta" href="https://d1qp54-0w.myshopify.com/cart/53477074731336:1">Presale · 200 kr →</a>
 </div>
 
 <header class="hero">
   <div class="wrap">
-    <p class="eyebrow hero__eyebrow">{{ kinky.hero.eyebrow | safe }}</p>
-    <h1 class="hero__wm">Kinky<br>Sun<span class="red">dae</span></h1>
+    <p class="eyebrow hero__eyebrow">Module × Ink &amp; Art · Copenhagen</p>
+    <h1 class="hero__wm">Kinky<br>Sun<span class="red">days</span></h1>
     <div class="hero__meta">
-      <div>{{ kinky.hero.metaLines[0] | safe }}</div>
-      <div>{{ kinky.hero.metaLines[1] | safe }}</div>
-      <div>{{ kinky.hero.metaLines[2] | safe }}</div>
+      <div><span class="lab">When</span>Premiere <b>·</b> <span class="tba">date TBA</span></div>
+      <div><span class="lab">Hours</span>Sunday 09:00 <b>→</b> Monday 05:00</div>
+      <div><span class="lab">Room</span>Module, Copenhagen</div>
+      <div><span class="lab">Door</span>200+ people <b>·</b> 20+</div>
     </div>
-    <p class="hero__thesis">{{ kinky.hero.thesis | safe }}</p>
+    <p class="hero__thesis">One Sunday a month, Module stays dark for everyone else — and opens for us. Techno till daybreak, ink you'll wear for life, and a room where desire has the run of the place. <b>200 spots. Members first.</b></p>
+    <div class="hero__actions"><a class="btn" href="https://d1qp54-0w.myshopify.com/cart/53477074731336:1">Buy presale · 200 kr →</a><a class="btn btn--ghost" href="#signup">Join Orbit — free</a></div>
   </div>
 </header>
 
 <section class="manifest" aria-label="Manifesto">
   <div class="wrap">
-    <p>{{ kinky.manifest.lines[0] | safe }}</p>
-    <p>{{ kinky.manifest.lines[1] | safe }}</p>
-    <p>{{ kinky.manifest.lines[2] | safe }}</p>
-    <p>{{ kinky.manifest.lines[3] | safe }}</p>
-    <p class="manifest__note">{{ kinky.manifest.note | safe }}</p>
-  </div>
-</section>
-
-<section aria-labelledby="isityou">
-  <div class="wrap">
-    <div class="sec-label"><span class="n">01</span><h2 id="isityou">{{ kinky.isItYou.heading | safe }}</h2></div>
-    <div class="split">
-      <div class="split__col split__for">
-        <h3 class="split__h">{{ kinky.isItYou.forTitle | safe }}</h3>
-        <ul>
-          <li>{{ kinky.isItYou.forItems[0] | safe }}</li>
-          <li>{{ kinky.isItYou.forItems[1] | safe }}</li>
-          <li>{{ kinky.isItYou.forItems[2] | safe }}</li>
-          <li>{{ kinky.isItYou.forItems[3] | safe }}</li>
-          <li>{{ kinky.isItYou.forItems[4] | safe }}</li>
-        </ul>
-      </div>
-      <div class="split__col split__no">
-        <h3 class="split__h">{{ kinky.isItYou.noTitle | safe }}</h3>
-        <ul>
-          <li>{{ kinky.isItYou.noItems[0] | safe }}</li>
-          <li>{{ kinky.isItYou.noItems[1] | safe }}</li>
-          <li>{{ kinky.isItYou.noItems[2] | safe }}</li>
-          <li>{{ kinky.isItYou.noItems[3] | safe }}</li>
-          <li>{{ kinky.isItYou.noItems[4] | safe }}</li>
-        </ul>
-      </div>
-    </div>
+    <p>Techno on the floor.</p>
+    <p>Ink in the corner.</p>
+    <p>Kink in the room.</p>
+    <p>Bodies that say <span class="red">yes</span> — out loud.</p>
+    <p class="manifest__note">Module and Ink &amp; Art fold two worlds into one night — electronic music, tattoo art and desire, sex-positive and radically queer, after dark. If that's your frequency, you're home.</p>
   </div>
 </section>
 
 <section class="rules" id="rules" aria-labelledby="rules-h">
   <div class="wrap">
-    <div class="sec-label"><span class="n">02</span><h2 id="rules-h">{{ kinky.rules.heading | safe }}</h2></div>
-    <p class="rules__intro">{{ kinky.rules.intro | safe }}</p>
-    <div class="rules__grid">
-      <div class="rule rule--wide">
-        <div class="rule__n">{{ kinky.rules.items[0].n | safe }}</div>
-        <div class="rule__t">{{ kinky.rules.items[0].t | safe }}</div>
-        <div class="rule__d">{{ kinky.rules.items[0].d | safe }}</div>
-      </div>
-      <div class="rule">
-        <div class="rule__n">{{ kinky.rules.items[1].n | safe }}</div>
-        <div class="rule__t">{{ kinky.rules.items[1].t | safe }}</div>
-        <div class="rule__d">{{ kinky.rules.items[1].d | safe }}</div>
-      </div>
-      <div class="rule">
-        <div class="rule__n">{{ kinky.rules.items[2].n | safe }}</div>
-        <div class="rule__t">{{ kinky.rules.items[2].t | safe }}</div>
-        <div class="rule__d">{{ kinky.rules.items[2].d | safe }}</div>
-      </div>
-      <div class="rule">
-        <div class="rule__n">{{ kinky.rules.items[3].n | safe }}</div>
-        <div class="rule__t">{{ kinky.rules.items[3].t | safe }}</div>
-        <div class="rule__d">{{ kinky.rules.items[3].d | safe }}</div>
-      </div>
-      <div class="rule">
-        <div class="rule__n">{{ kinky.rules.items[4].n | safe }}</div>
-        <div class="rule__t">{{ kinky.rules.items[4].t | safe }}</div>
-        <div class="rule__d">{{ kinky.rules.items[4].d | safe }}</div>
-      </div>
-      <div class="rule">
-        <div class="rule__n">{{ kinky.rules.items[5].n | safe }}</div>
-        <div class="rule__t">{{ kinky.rules.items[5].t | safe }}</div>
-        <div class="rule__d">{{ kinky.rules.items[5].d | safe }}</div>
-      </div>
-    </div>
+    <div class="sec-label"><span class="n">—</span><h2 id="rules-h">House code</h2></div>
+    <p class="rules__intro">Short, because it matters and then we dance: an enthusiastic <b>yes</b> is the only yes. Phones away, cameras covered at the door. Zero tolerance for discrimination or boundary-crossing — cross it and you're out. An awareness team has your back all night. That's the floor. The night is built on top of it.</p>
   </div>
 </section>
 
 <section id="thenight" aria-labelledby="thenight-h">
   <div class="wrap">
-    <div class="sec-label"><span class="n">03</span><h2 id="thenight-h">{{ kinky.night.heading | safe }}</h2></div>
+    <div class="sec-label"><span class="n">01</span><h2 id="thenight-h">The night</h2></div>
     <div class="zones">
-      <div class="zone">
-        <div class="zone__k">{{ kinky.night.zones[0].k | safe }}</div>
-        <div class="zone__t">{{ kinky.night.zones[0].t | safe }}</div>
-        <p class="zone__d">{{ kinky.night.zones[0].d | safe }}</p>
-      </div>
-      <div class="zone">
-        <div class="zone__k">{{ kinky.night.zones[1].k | safe }}</div>
-        <div class="zone__t">{{ kinky.night.zones[1].t | safe }}</div>
-        <p class="zone__d">{{ kinky.night.zones[1].d | safe }}</p>
-      </div>
-      <div class="zone">
-        <div class="zone__k">{{ kinky.night.zones[2].k | safe }}</div>
-        <div class="zone__t">{{ kinky.night.zones[2].t | safe }}</div>
-        <p class="zone__d">{{ kinky.night.zones[2].d | safe }}</p>
-      </div>
+      <div class="zone"><div class="zone__k">The floor</div><div class="zone__t">Techno</div><p class="zone__d">Module's sound system, all night, with resident Charlie on the decks. Dark, hard, relentless. This is where you dance.</p></div>
+      <div class="zone"><div class="zone__k">The corner</div><div class="zone__t">Ink</div><p class="zone__d">Ink &amp; Art's artists in the house with flash and designs. Pick the piece to the music — we set it afterwards (see below).</p></div>
+      <div class="zone"><div class="zone__k">The room</div><div class="zone__t">Kink</div><p class="zone__d">Performers, and room for desire. Sex is possible almost everywhere — but nothing is required anywhere, and there's always a clothed space to step back to.</p></div>
     </div>
   </div>
 </section>
@@ -141,74 +227,86 @@ ogImage: "/_assets/img/kinky-sundae-og.png"
 <section class="ink-strip" aria-labelledby="ink-h">
   <div class="wrap ink-strip__grid">
     <div>
-      <p class="eyebrow">{{ kinky.ink.eyebrow | safe }}</p>
-      <p class="ink-strip__big" id="ink-h">{{ kinky.ink.big | safe }}</p>
+      <p class="eyebrow">About the ink</p>
+      <p class="ink-strip__big" id="ink-h">Ink is set at the studio.<br><span class="red">Sober. Clean hands.</span></p>
     </div>
     <div class="ink-strip__body">
-      <p>{{ kinky.ink.body[0] | safe }}</p>
-      <p>{{ kinky.ink.body[1] | safe }}</p>
+      <p>On the night, ink is an experience and a choice: flash on the wall, designs, placement, booking. You find the piece while the music runs.</p>
+      <p><strong>The tattoo itself we set at Ink &amp; Art's studio</strong> — sober, in clean hands, where it belongs. Kinky Sundays is where the piece is born. Larsbjørnsstræde is where it becomes skin.</p>
     </div>
+  </div>
+</section>
+
+<section id="tickets" aria-labelledby="tickets-h">
+  <div class="wrap">
+    <div class="sec-label"><span class="n">02</span><h2 id="tickets-h">Tickets &amp; tables</h2></div>
+    <p class="rules__intro" style="padding-bottom:26px">200 spots, one Sunday a month. Orbit members buy first and cheapest — the door is the fallback, not the plan.</p>
+    <div class="pk-grid">
+      <div class="pk"><div class="pk__k">Entry</div><div class="pk__name">Presale</div><div class="pk__price">200 <small>DKK</small></div><p class="pk__d">Opens two weeks before. Secures your spot before the door.</p><div class="pk__cap">On the list</div><a class="btn" href="https://d1qp54-0w.myshopify.com/cart/53477074731336:1">Buy · 200 kr →</a></div>
+      <div class="pk"><div class="pk__k">Entry</div><div class="pk__name">At the door</div><div class="pk__price">280 <small>DKK</small></div><p class="pk__d">If there's space. Cloakroom on top. Cash-free, digital.</p><div class="pk__cap">Door only</div></div>
+      <div class="pk"><div class="pk__k">Table</div><div class="pk__name">Lounge</div><div class="pk__price">1.500 <small>DKK</small></div><p class="pk__d">Your own corner for the night — a base to return to between the floor and the room.</p><div class="pk__cap">4 per night</div><a class="btn" href="https://d1qp54-0w.myshopify.com/cart/53478959219016:1">Book · 1.500 kr →</a></div>
+      <div class="pk"><div class="pk__k">Table</div><div class="pk__name">Premium table</div><div class="pk__price">3–5.000 <small>DKK</small></div><p class="pk__d">Prime placement, table service, the best sightlines in the house.</p><div class="pk__cap">2 per night</div><a class="btn" href="https://d1qp54-0w.myshopify.com/cart/53478966296904:1">Book · from 3.000 kr →</a></div>
+      <div class="pk pk--vip"><div class="pk__k">Suite</div><div class="pk__name">Ambassador VIP Suite</div><div class="pk__price">10.000 <small>DKK</small></div><p class="pk__d">The full house treatment. Host your circle. Ambassadors bring the people who build the night.</p><div class="pk__cap">1 per night</div><a class="btn" href="https://d1qp54-0w.myshopify.com/cart/53478970851656:1">Book · 10.000 kr →</a></div>
+    </div>
+    <p class="door-note">Prices are locked. Tables and the suite are limited per night and go through the same secure checkout as the ticket — nothing is settled in cash on the floor.</p>
   </div>
 </section>
 
 <section id="door" aria-labelledby="door-h">
   <div class="wrap">
-    <div class="sec-label"><span class="n">04</span><h2 id="door-h">{{ kinky.door.heading | safe }}</h2></div>
+    <div class="sec-label"><span class="n">03</span><h2 id="door-h">The door</h2></div>
     <div class="facts">
-      <div class="fact">
-        <div class="fact__k">{{ kinky.door.facts[0].k | safe }}</div>
-        <div class="fact__v">{{ kinky.door.facts[0].v | safe }}<small>{{ kinky.door.facts[0].small | safe }}</small></div>
-      </div>
-      <div class="fact">
-        <div class="fact__k">{{ kinky.door.facts[1].k | safe }}</div>
-        <div class="fact__v">{{ kinky.door.facts[1].v | safe }}<small>{{ kinky.door.facts[1].small | safe }}</small></div>
-      </div>
-      <div class="fact">
-        <div class="fact__k">{{ kinky.door.facts[2].k | safe }}</div>
-        <div class="fact__v">{{ kinky.door.facts[2].v | safe }}<small>{{ kinky.door.facts[2].small | safe }}</small></div>
-      </div>
-      <div class="fact">
-        <div class="fact__k">{{ kinky.door.facts[3].k | safe }}</div>
-        <div class="fact__v">{{ kinky.door.facts[3].v | safe }}<small>{{ kinky.door.facts[3].small | safe }}</small></div>
-      </div>
+      <div class="fact"><div class="fact__k">When</div><div class="fact__v">TBA<small>Sunday night, 09:00 → Monday 05:00. Date locks with the partner group — you'll get it first on the list.</small></div></div>
+      <div class="fact"><div class="fact__k">Where</div><div class="fact__v">Module<small>Copenhagen. Exact address with your presale confirmation.</small></div></div>
+      <div class="fact"><div class="fact__k">Age</div><div class="fact__v">20+<small>Valid photo ID at the door. No exceptions.</small></div></div>
+      <div class="fact"><div class="fact__k">Dress</div><div class="fact__v">Required<small>Latex, leather, mesh, minimal, costume. No street clothes. Changing on site.</small></div></div>
     </div>
-    <p class="door-note">{{ kinky.door.note | safe }}</p>
+    <p class="door-note">At the door: photo ID, ticket check, dress check, a sticker over your camera, and a short briefing on the rules. Then the cloakroom — and in. Bring someone you trust.</p>
   </div>
 </section>
 
 <section class="cta" id="signup" aria-labelledby="signup-h">
   <div class="wrap">
-    <p class="eyebrow">{{ kinky.cta.eyebrow | safe }}</p>
-    <h2 class="cta__h" id="signup-h">{{ kinky.cta.h | safe }}</h2>
-    <p class="cta__sub">{{ kinky.cta.sub | safe }}</p>
+    <p class="eyebrow">One Sunday a month · Module</p>
+    <h2 class="cta__h" id="signup-h">In via<br>Orbit</h2>
+    <p class="cta__sub">Spots are few — 200 in total. Join Orbit, Ink &amp; Art's inner circle, and you get presale before anyone else, the member price, and the final details straight to your inbox.</p>
     <div class="price">
-      <div class="price__c price__c--orbit">
-        <div class="price__tag">{{ kinky.cta.prices[0].tag | safe }}</div>
-        <div class="price__amt">{{ kinky.cta.prices[0].amt | safe }}</div>
-      </div>
-      <div class="price__c">
-        <div class="price__tag">{{ kinky.cta.prices[1].tag | safe }}</div>
-        <div class="price__amt">{{ kinky.cta.prices[1].amt | safe }}</div>
-      </div>
+      <div class="price__c price__c--orbit"><div class="price__tag">Presale · via Orbit</div><div class="price__amt">200 <small>DKK / secures your spot</small></div></div>
+      <div class="price__c"><div class="price__tag">At the door</div><div class="price__amt">280 <small>DKK / if there's space</small></div></div>
     </div>
+    <a class="btn cta__buy" href="https://d1qp54-0w.myshopify.com/cart/53477074731336:1">Buy presale · 200 kr →</a>
     <form class="cta__form" data-subscribe data-source="kinky-sundae" data-lang="en" data-reveal="#orbit-done" novalidate>
-      <label class="cta__field">
-        <span class="visually-hidden">Email</span>
-        <input type="email" name="email" inputmode="email" autocomplete="email" placeholder="{{ kinky.cta.placeholder }}" required aria-required="true" />
-      </label>
-      <div class="cta__hp" aria-hidden="true"><label>Company<input type="text" name="company" tabindex="-1" autocomplete="off" /></label></div>
-      <button type="submit" class="cta__btn">{{ kinky.cta.button | safe }}</button>
-      <p class="cta__status" data-nl-status role="status" aria-live="polite"></p>
+      <input type="email" name="email" inputmode="email" autocomplete="email" placeholder="you@email.com" aria-label="Email" required aria-required="true"/>
+      <span class="cta__hp" aria-hidden="true" style="position:absolute;left:-9999px"><label>Company<input type="text" name="company" tabindex="-1" autocomplete="off"/></label></span>
+      <button type="submit" class="cta__btn">Sign up with Orbit →</button>
+      <p class="cta__status" data-nl-status role="status" aria-live="polite" style="width:100%;margin-top:12px;font-size:12px;color:#1a0f0d"></p>
     </form>
-    <p class="cta__done" id="orbit-done" hidden>{{ kinky.cta.done | safe }}</p>
-    <noscript><p class="cta__status">Enable JavaScript to sign up, or DM us on <a href="{{ site.instagram }}" target="_blank" rel="noopener noreferrer">Instagram</a>.</p></noscript>
-    <p class="cta__fine">{{ kinky.cta.fine | safe }}</p>
+    <p class="cta__done" id="orbit-done" hidden style="margin-top:12px;font-size:13px;color:#1a0f0d">You're on the list — we'll send the date and your member price before the door.</p>
+    <p class="cta__fine"><b>A ticket doesn't guarantee entry.</b> The door decides, and we reserve the right to refuse for breaking the dress code or house rules. Kinky Sundays is a sex-positive, radically LGBTQ+-friendly space with zero tolerance for discrimination and boundary-crossing. We work for a safe environment — that takes you doing the same. A collaboration between <b>Module</b> and <b>Ink &amp; Art Copenhagen</b>.</p>
+  </div>
+</section>
+
+<section class="credits" aria-label="Credits">
+  <div class="wrap">
+    <div class="credits__grid">
+      <div><div class="cr__k">Venue &amp; host</div><div class="cr__v">Module<br><small>Michael &amp; Morten</small></div></div>
+      <div><div class="cr__k">Ink &amp; concept</div><div class="cr__v">Ink &amp; Art Copenhagen<br><small>Nizar &amp; Simone</small></div></div>
+      <div><div class="cr__k">Resident</div><div class="cr__v">Charlie<br><small>@abagofcharlie</small></div></div>
+      <div><div class="cr__k">Awareness &amp; discretion</div><div class="cr__v">On the floor all night<br><small>Victor &amp; Philip</small></div></div>
+    </div>
   </div>
 </section>
 
 <footer class="ks-foot">
   <div class="wrap ks-foot__row">
-    <div class="ks-foot__mark">KINKY <b>SUNDAE</b> — INK &amp; ART × MODULE</div>
-    <div class="ks-foot__meta">{{ kinky.foot.meta | safe }}</div>
+    <div class="ks-foot__mark">MODULE <b>×</b> KINKY SUNDAYS — COPENHAGEN</div>
+    <div class="ks-foot__meta">Copenhagen · Sunday night · Consent is everything</div>
   </div>
 </footer>
+
+<div class="buybar"><div class="buybar__t">MODULE × KINKY SUNDAYS<small>PRESALE · 200 KR · DATE TBA</small></div><a class="btn" href="https://d1qp54-0w.myshopify.com/cart/53477074731336:1">Buy presale →</a></div>
+<script src="/_assets/js/subscribe.js" defer></script>
+</body>
+</html>
+
+{% endraw %}
