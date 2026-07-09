@@ -497,3 +497,10 @@ a.stamp:hover{background:var(--accent);border-color:var(--accent);color:#fff}
 .promo__media img{display:block;width:100%;height:auto}
 .promo__media:hover{border-color:var(--accent)}
 .promo__cta{margin-top:26px}
+
+/* Walk-in offer card (/walk-in/) — the 2-small-tattoos product, no poster art */
+.wi-offer{padding:clamp(44px,7vw,84px) var(--gutter);background:var(--paper);color:var(--ink);border-top:1px solid var(--rule)}
+.wi-offer__inner{max-width:640px;margin:0 auto;text-align:center}
+.wi-offer__file{font-family:var(--body);font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);margin:0 0 12px}
+.wi-offer__title{font-family:var(--black);font-weight:400;font-size:clamp(30px,5.5vw,56px);line-height:1;margin:0 0 18px}
+.wi-offer__sub{font-family:var(--body);font-size:15px;line-height:1.6;color:var(--ink-soft);max-width:46ch;margin:0 auto 26px}

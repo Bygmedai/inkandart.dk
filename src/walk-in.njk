@@ -47,6 +47,15 @@ eleventyComputed:
   {%- include "partials/lang-toggle.njk" -%}
 </section>
 
+<section class="wi-offer" aria-labelledby="wi-offer-h">
+  <div class="wi-offer__inner">
+    <p class="wi-offer__file">{% if lang == 'en' %}Walk-in offer{% else %}Walk-in tilbud{% endif %}</p>
+    <h2 id="wi-offer-h" class="wi-offer__title">2 {% if lang == 'en' %}small tattoos{% else %}små tattoos{% endif %} — 900,-</h2>
+    <p class="wi-offer__sub">{% if lang == 'en' %}Two small tattoos, walk-in — no booking. Drop by Larsbjørnsstræde 13; pay online or in the studio.{% else %}To små tatoveringer, walk-in — ingen booking. Kom forbi Larsbjørnsstræde 13; betal online eller i studiet.{% endif %}</p>
+    <a class="btn btn--primary" href="{{ site.shopUrl }}/shop">{% if lang == 'en' %}See it in the shop{% else %}Se tilbuddet i shoppen{% endif %} <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
