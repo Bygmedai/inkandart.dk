@@ -74,6 +74,10 @@
     "lead": {
       "da": "Del din idé",
       "en": "Share your idea"
+    },
+    "aftercare": {
+      "da": "Aftercare",
+      "en": "Aftercare"
     }
   },
   "cta": {
@@ -526,6 +530,114 @@
     "nojs": {
       "da": "Slå JavaScript til for at tilmelde dig — eller skriv til os på",
       "en": "Enable JavaScript to sign up — or DM us on"
+    }
+  },
+  "aftercare": {
+    "file": {
+      "da": "§ Pas på det",
+      "en": "§ Take care of it"
+    },
+    "title": {
+      "da": "Aftercare",
+      "en": "Aftercare"
+    },
+    "lead": {
+      "da": "Din tatovering og piercing skal passes de første uger — så holder linjerne og smykket sidder rigtigt. Her er det vi selv siger i stolen.",
+      "en": "Your tattoo and piercing need care the first weeks — that's how the lines last and the jewellery settles right. This is what we tell you in the chair."
+    },
+    "tattooTitle": {
+      "da": "Tatovering",
+      "en": "Tattoo"
+    },
+    "piercingTitle": {
+      "da": "Piercing",
+      "en": "Piercing"
+    },
+    "tattoo": [
+      {
+        "t": {
+          "da": "De første timer",
+          "en": "The first hours"
+        },
+        "d": {
+          "da": "Lad folien sidde 2–4 timer. Vask så forsigtigt med rene hænder, lunkent vand og parfumefri sæbe. Dup tør med rent stof.",
+          "en": "Leave the wrap on for 2–4 hours. Then wash gently with clean hands, lukewarm water and fragrance-free soap. Pat dry with a clean cloth."
+        }
+      },
+      {
+        "t": {
+          "da": "Dag 1–14",
+          "en": "Day 1–14"
+        },
+        "d": {
+          "da": "Et tyndt lag uparfumeret salve 2–3 gange om dagen. Lad den ånde — pak den ikke ind. Pil aldrig skorper eller flager af.",
+          "en": "A thin layer of fragrance-free ointment 2–3 times a day. Let it breathe — don't wrap it. Never pick scabs or flakes."
+        }
+      },
+      {
+        "t": {
+          "da": "Undgå",
+          "en": "Avoid"
+        },
+        "d": {
+          "da": "Sol, solarium, bassin, sauna og hav i 2–3 uger. Klor, salt og bakterier kan ødelægge linjerne mens den heler.",
+          "en": "Sun, tanning beds, pools, sauna and sea for 2–3 weeks. Chlorine, salt and bacteria can ruin the lines while it heals."
+        }
+      },
+      {
+        "t": {
+          "da": "Fine linjer holder",
+          "en": "Fine lines last"
+        },
+        "d": {
+          "da": "Jo roligere du heler, jo skarpere bliver de fine linjer på den lange bane. Hold huden fugtet og lad være med at klø.",
+          "en": "The calmer you heal, the sharper the fine lines stay long-term. Keep the skin moisturised and don't scratch."
+        }
+      }
+    ],
+    "piercing": [
+      {
+        "t": {
+          "da": "Rengøring",
+          "en": "Cleaning"
+        },
+        "d": {
+          "da": "Skyl 1–2 gange dagligt med steril saltvand. Rør den ellers så lidt som muligt — altid rene hænder.",
+          "en": "Rinse 1–2 times daily with sterile saline. Otherwise touch it as little as possible — always clean hands."
+        }
+      },
+      {
+        "t": {
+          "da": "De første uger",
+          "en": "The first weeks"
+        },
+        "d": {
+          "da": "Skift ikke smykket for tidligt, og drej det ikke. Sov uden tryk på den, og hold hår, makeup og creme væk.",
+          "en": "Don't change the jewellery too early, and don't twist it. Sleep without pressure on it, and keep hair, make-up and cream away."
+        }
+      },
+      {
+        "t": {
+          "da": "Tålmodighed",
+          "en": "Patience"
+        },
+        "d": {
+          "da": "Bassin, sauna og hav venter til den er helet. Det tager tid — brusk og septum længst. Det er normalt.",
+          "en": "Pool, sauna and sea wait until it's healed. It takes time — cartilage and septum longest. That's normal."
+        }
+      }
+    ],
+    "reassureLabel": {
+      "da": "§ I tvivl?",
+      "en": "§ In doubt?"
+    },
+    "reassure": {
+      "da": "Er du i tvivl — om en skorpe, en rødme, et smykke der strammer — så skriv. Vi svarer hellere på ét spørgsmål for meget end at du går og er nervøs.",
+      "en": "In doubt — about a scab, some redness, jewellery that feels tight — just write. We'd rather answer one question too many than have you worrying."
+    },
+    "writeCta": {
+      "da": "Skriv på WhatsApp",
+      "en": "Write on WhatsApp"
     }
   }
 }

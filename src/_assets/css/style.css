@@ -504,3 +504,14 @@ a.stamp:hover{background:var(--accent);border-color:var(--accent);color:#fff}
 .wi-offer__file{font-family:var(--body);font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);margin:0 0 12px}
 .wi-offer__title{font-family:var(--black);font-weight:400;font-size:clamp(30px,5.5vw,56px);line-height:1;margin:0 0 18px}
 .wi-offer__sub{font-family:var(--body);font-size:15px;line-height:1.6;color:var(--ink-soft);max-width:46ch;margin:0 auto 26px}
+
+/* ---------- aftercare ---------- */
+.aftercare__section{margin-top:44px;padding-top:30px;border-top:1.5px solid var(--ink)}
+.aftercare__steps{list-style:none;margin:0;padding:0;max-width:640px}
+.aftercare__step{display:flex;gap:18px;padding:18px 0;border-top:1px solid var(--rule-soft)}
+.aftercare__step:first-child{border-top:none}
+.aftercare__step-num{font-family:var(--disp);font-weight:800;font-size:13px;letter-spacing:.12em;color:var(--accent);padding-top:3px;flex:0 0 auto}
+.aftercare__step-title{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:17px;margin:0 0 6px}
+.aftercare__step-body{margin:0;color:var(--ink-soft);font-size:15px;line-height:1.55}
+.aftercare__reassure{margin-top:50px;padding:26px;border:1.5px solid var(--ink);background:var(--paper-2,transparent);max-width:640px}
+.aftercare__reassure-body{margin:10px 0 20px;font-size:16px;line-height:1.6}

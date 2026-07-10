@@ -1,0 +1,72 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: siteLocales
+  size: 1
+  alias: lang
+siteLocales: [da, en]
+permalink: "{% if lang == 'en' %}/en/aftercare/{% else %}/aftercare/{% endif %}"
+eleventyComputed:
+  title: "{% if lang == 'en' %}Tattoo & Piercing Aftercare · Ink & Art Copenhagen{% else %}Aftercare — tatovering & piercing · Ink & Art København{% endif %}"
+  description: "{% if lang == 'en' %}How to care for your new tattoo or piercing — the same advice we give in the chair at Ink & Art Copenhagen. In doubt? Just write.{% else %}Sådan passer du din nye tatovering eller piercing — samme råd som vi giver i stolen hos Ink & Art København. I tvivl? Skriv til os.{% endif %}"
+---
+{#- Aftercare — portet 1:1 fra appen (i18n/strings.ts, sektion aftercare), jf.
+    flette-planen app→site: appen er den mest opdaterede indholdskilde.
+    Ingen tabs (appens UI) — begge sektioner stacked: bedre SEO + virker uden JS. -#}
+<section class="flash aftercare">
+  <div class="flash__head">
+    <p class="flash__file">{{ "aftercare.file" | t(lang) }}</p>
+    <h1 class="flash__title">{{ "aftercare.title" | t(lang) }}</h1>
+    <p class="flash__lead">{{ "aftercare.lead" | t(lang) }}</p>
+  </div>
+
+  <div class="aftercare__section">
+    <h2 class="flash__prices-title">{{ "aftercare.tattooTitle" | t(lang) }}</h2>
+    <ol class="aftercare__steps">
+      {%- for step in i18n.aftercare.tattoo %}
+      <li class="aftercare__step">
+        <span class="aftercare__step-num">{% if loop.index < 10 %}0{% endif %}{{ loop.index }}</span>
+        <div>
+          <h3 class="aftercare__step-title">{{ step.t[lang] }}</h3>
+          <p class="aftercare__step-body">{{ step.d[lang] }}</p>
+        </div>
+      </li>
+      {%- endfor %}
+    </ol>
+  </div>
+
+  <div class="aftercare__section">
+    <h2 class="flash__prices-title">{{ "aftercare.piercingTitle" | t(lang) }}</h2>
+    <ol class="aftercare__steps">
+      {%- for step in i18n.aftercare.piercing %}
+      <li class="aftercare__step">
+        <span class="aftercare__step-num">{% if loop.index < 10 %}0{% endif %}{{ loop.index }}</span>
+        <div>
+          <h3 class="aftercare__step-title">{{ step.t[lang] }}</h3>
+          <p class="aftercare__step-body">{{ step.d[lang] }}</p>
+        </div>
+      </li>
+      {%- endfor %}
+    </ol>
+  </div>
+
+  <div class="aftercare__reassure">
+    <p class="flash__file">{{ "aftercare.reassureLabel" | t(lang) }}</p>
+    <p class="aftercare__reassure-body">{{ "aftercare.reassure" | t(lang) }}</p>
+    <a class="btn btn--primary" href="https://wa.me/{{ site.whatsapp | replace('+', '') | replace(' ', '') }}" target="_blank" rel="noopener noreferrer">
+      {{ "aftercare.writeCta" | t(lang) }} ↗
+    </a>
+  </div>
+</section>
+
+{# Aftercare structured data — HowTo-agtig FAQ er overkill; WebPage rækker #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "{% if lang == 'en' %}Tattoo & Piercing Aftercare{% else %}Aftercare — tatovering & piercing{% endif %}",
+  "url": "{{ site.url }}{{ page.url }}",
+  "description": "{% if lang == 'en' %}Aftercare advice for tattoos and piercings from Ink & Art Copenhagen.{% else %}Aftercare-råd for tatoveringer og piercinger fra Ink & Art København.{% endif %}",
+  "isPartOf": { "@id": "{{ site.url }}/#business" }
+}
+</script>
