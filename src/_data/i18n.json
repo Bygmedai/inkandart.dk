@@ -639,5 +639,129 @@
       "da": "Skriv på WhatsApp",
       "en": "Write on WhatsApp"
     }
+  },
+  "studio": {
+    "servicesLabel": {
+      "da": "§ Det vi laver",
+      "en": "§ What we do"
+    },
+    "servicesTitle": {
+      "da": "I stolen",
+      "en": "In the chair"
+    },
+    "services": [
+      {
+        "k": {
+          "da": "Walk-ins",
+          "en": "Walk-ins"
+        },
+        "v": {
+          "da": "Kig forbi. Er der plads og en ledig hånd, sætter vi i gang.",
+          "en": "Drop by. If there's room and a free hand, we get started."
+        }
+      },
+      {
+        "k": {
+          "da": "Custom booking",
+          "en": "Custom booking"
+        },
+        "v": {
+          "da": "Større stykker planlagt sammen med din artist over en eller flere sessioner.",
+          "en": "Larger pieces planned with your artist over one or more sessions."
+        }
+      },
+      {
+        "k": {
+          "da": "Touch-ups",
+          "en": "Touch-ups"
+        },
+        "v": {
+          "da": "Vi passer på det vi har lavet. Touch-ups på husets arbejde er gratis det første år.",
+          "en": "We look after what we've made. Touch-ups on the house's work are free the first year."
+        }
+      },
+      {
+        "k": {
+          "da": "Piercing",
+          "en": "Piercing"
+        },
+        "v": {
+          "da": "Maria sætter piercinger — øreflip, næse, septum og navle. Sat ordentligt, roligt og med omtanke.",
+          "en": "Maria does piercings — lobe, nose, septum and navel. Set properly, calmly and with care."
+        }
+      }
+    ],
+    "pricesLabel": {
+      "da": "§ Priser",
+      "en": "§ Prices"
+    },
+    "pricesTitle": {
+      "da": "Åbent og ærligt",
+      "en": "Open and honest"
+    },
+    "prices": [
+      {
+        "k": {
+          "da": "Minimum",
+          "en": "Minimum"
+        },
+        "v": {
+          "da": "fra 800 kr",
+          "en": "from DKK 800"
+        }
+      },
+      {
+        "k": {
+          "da": "Per time",
+          "en": "Per hour"
+        },
+        "v": {
+          "da": "1.500 kr",
+          "en": "DKK 1,500"
+        }
+      },
+      {
+        "k": {
+          "da": "Flash",
+          "en": "Flash"
+        },
+        "v": {
+          "da": "fra 800 kr",
+          "en": "from DKK 800"
+        }
+      }
+    ],
+    "pricesNote": {
+      "da": "Endelig pris aftales i studiet. Moms inkluderet.",
+      "en": "Final price is agreed in the studio. VAT included."
+    },
+    "bookLabel": {
+      "da": "§ Book",
+      "en": "§ Book"
+    },
+    "bookTitle": {
+      "da": "Eller book i forvejen",
+      "en": "Or book ahead"
+    },
+    "bookBody": {
+      "da": "Walk-in er én dør ind — booking er den anden. Større stykker, en bestemt artist eller en bestemt dag: book i forvejen, så er stolen din.",
+      "en": "Walk-in is one door in — booking is the other. Bigger pieces, a specific artist or a specific day: book ahead and the chair is yours."
+    },
+    "bookCta": {
+      "da": "Book en tid hos os",
+      "en": "Book a session"
+    },
+    "bookHint": {
+      "da": "Åbner inkart.book.dk i et nyt vindue",
+      "en": "Opens inkart.book.dk in a new window"
+    },
+    "wizardCta": {
+      "da": "Ny? Find din artist",
+      "en": "New? Find your artist"
+    },
+    "aftercareCta": {
+      "da": "Aftercare & heling · i tvivl?",
+      "en": "Aftercare & healing · in doubt?"
+    }
   }
 }

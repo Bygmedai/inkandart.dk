@@ -56,6 +56,52 @@ eleventyComputed:
   </div>
 </section>
 
+{#- Spejlet fra appens Studio-tab (flette-plan app→site): ydelser + priser +
+    prebook-CTA, så siden dækker BÅDE walk-in og booking — appens mønster. -#}
+<section class="flash wi-studio" aria-labelledby="wi-services-h">
+  <div class="aftercare__section" style="margin-top:0;border-top:none;padding-top:10px">
+    <p class="flash__file">{{ "studio.servicesLabel" | t(lang) }}</p>
+    <h2 id="wi-services-h" class="flash__prices-title">{{ "studio.servicesTitle" | t(lang) }}</h2>
+    <ol class="aftercare__steps">
+      {%- for y in i18n.studio.services %}
+      <li class="aftercare__step">
+        <span class="aftercare__step-num">{% if loop.index < 10 %}0{% endif %}{{ loop.index }}</span>
+        <div>
+          <h3 class="aftercare__step-title">{{ y.k[lang] }}</h3>
+          <p class="aftercare__step-body">{{ y.v[lang] }}</p>
+        </div>
+      </li>
+      {%- endfor %}
+    </ol>
+  </div>
+
+  <div class="flash__prices">
+    <p class="flash__file">{{ "studio.pricesLabel" | t(lang) }}</p>
+    <h2 class="flash__prices-title">{{ "studio.pricesTitle" | t(lang) }}</h2>
+    <dl class="flash__price-list">
+      {%- for p in i18n.studio.prices %}
+      <div class="flash__price-row">
+        <dt class="flash__price-label">{{ p.k[lang] }}</dt>
+        <dd class="flash__price-note">{{ p.v[lang] }}</dd>
+      </div>
+      {%- endfor %}
+    </dl>
+    <p class="flash__prices-footnote">{{ "studio.pricesNote" | t(lang) }}</p>
+  </div>
+
+  <div class="aftercare__reassure">
+    <p class="flash__file">{{ "studio.bookLabel" | t(lang) }}</p>
+    <h2 class="flash__prices-title" style="font-size:clamp(20px,2.6vw,28px)">{{ "studio.bookTitle" | t(lang) }}</h2>
+    <p class="aftercare__reassure-body">{{ "studio.bookBody" | t(lang) }}</p>
+    <div class="about-card__cta">
+      <a class="btn btn--primary" href="{{ site.bookingUrl }}" target="_blank" rel="noopener noreferrer">{{ "studio.bookCta" | t(lang) }} ↗</a>
+      <a class="btn btn--outline" href="{% if lang == 'en' %}/en/find-your-tattoo/{% else %}/find-din-tatovering/{% endif %}">{{ "studio.wizardCta" | t(lang) }} →</a>
+      <a class="btn btn--ghost" href="{% if lang == 'en' %}/en/aftercare/{% else %}/aftercare/{% endif %}">{{ "studio.aftercareCta" | t(lang) }} →</a>
+    </div>
+    <p class="flash__prices-footnote" style="margin-bottom:0">{{ "studio.bookHint" | t(lang) }}</p>
+  </div>
+</section>
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",

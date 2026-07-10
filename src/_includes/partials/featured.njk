@@ -1,7 +1,7 @@
 {% set lang = lang or (page.url | pageLang) %}
 <section class="featured" aria-labelledby="featured-heading">
   <p class="featured__file">{% if lang == 'en' %}In the house{% else %}I huset{% endif %}</p>
-  <h2 id="featured-heading" class="visually-hidden">{% if lang == 'en' %}In the house — Koko &amp; Nizar{% else %}I huset — Koko &amp; Nizar{% endif %}</h2>
+  <h2 id="featured-heading" class="visually-hidden">{% if lang == 'en' %}In the house — the people behind the needle{% else %}I huset — menneskene bag nålen{% endif %}</h2>
 
   <div class="featured__grid">
     {#- Residency lead — data-driven fra _data/residency.json (gated på active) -#}
@@ -35,6 +35,36 @@
         <p class="featured__lede">{% if lang == 'en' %}The man behind Ink &amp; Art. Custom &amp; freehand — your tattoo is shaped by the person in front of him. A chapter, not just a motif.{% else %}Manden bag Ink &amp; Art. Custom &amp; freehånd — din tatovering formes af mennesket foran ham. Et kapitel, ikke bare et motiv.{% endif %}</p>
         <div class="featured__cta">
           <a class="btn btn--primary" href="{% if lang == 'en' %}/en/artists/nizar/{% else %}/artister/nizar/{% endif %}">{% if lang == 'en' %}Meet Nizar{% else %}Mød Nizar{% endif %} →</a>
+        </div>
+      </div>
+    </article>
+
+    {#- ISAC — fast artist (spejlet fra appens § Menneskene) -#}
+    <article class="featured__card">
+      <a class="featured__media" href="{% if lang == 'en' %}/en/artists/isac/{% else %}/artister/isac/{% endif %}">
+        <img src="/_assets/img/artists/isac/portrait.jpg" alt="{% if lang == 'en' %}Isac, resident artist at Ink &amp; Art{% else %}Isac, fast artist hos Ink &amp; Art{% endif %}" loading="lazy" decoding="async" width="600" height="800">
+      </a>
+      <div class="featured__body">
+        <p class="featured__kicker">{% if lang == 'en' %}Resident artist · blackwork &amp; fineline{% else %}Fast artist · blackwork &amp; fineline{% endif %}</p>
+        <h3 class="featured__title">{% if lang == 'en' %}He meets you before the needle does.{% else %}Han møder dig før nålen gør.{% endif %}</h3>
+        <p class="featured__lede">{% if lang == 'en' %}Isac loves human contact and presence. Illustrative blackwork, fineline and dotwork — and 100% of himself in every tattoo.{% else %}Isac elsker menneskekontakt og nærvær. Illustrativ blackwork, fineline og dotwork — og 100% af sig selv i hver tatovering.{% endif %}</p>
+        <div class="featured__cta">
+          <a class="btn btn--primary" href="{% if lang == 'en' %}/en/artists/isac/{% else %}/artister/isac/{% endif %}">{% if lang == 'en' %}Meet Isac{% else %}Mød Isac{% endif %} →</a>
+        </div>
+      </div>
+    </article>
+
+    {#- MARIA — piercer (spejlet fra appens Maria-fokus) -#}
+    <article class="featured__card">
+      <a class="featured__media" href="{% if lang == 'en' %}/en/artists/maria/{% else %}/artister/maria/{% endif %}">
+        <img src="/_assets/img/artists/maria/portrait.jpg" alt="{% if lang == 'en' %}Maria, piercer at Ink &amp; Art{% else %}Maria, piercer hos Ink &amp; Art{% endif %}" loading="lazy" decoding="async" width="600" height="800">
+      </a>
+      <div class="featured__body">
+        <p class="featured__kicker">{% if lang == 'en' %}Piercer · jewellery{% else %}Piercer · smykker{% endif %}</p>
+        <h3 class="featured__title">{% if lang == 'en' %}Piercing as craft.{% else %}Piercing som håndværk.{% endif %}</h3>
+        <p class="featured__lede">{% if lang == 'en' %}With Maria you don't just buy a piercing — it's set properly, calmly and with care. One small detail. The rest is you.{% else %}Hos Maria køber du ikke bare en piercing — den bliver sat ordentligt, roligt og med omtanke. Én lille detalje. Resten er dig.{% endif %}</p>
+        <div class="featured__cta">
+          <a class="btn btn--primary" href="{% if lang == 'en' %}/en/artists/maria/{% else %}/artister/maria/{% endif %}">{% if lang == 'en' %}Meet Maria{% else %}Mød Maria{% endif %} →</a>
         </div>
       </div>
     </article>
