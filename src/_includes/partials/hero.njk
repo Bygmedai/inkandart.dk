@@ -21,7 +21,7 @@
       Tatovør- og piercingstudio på <strong>{{ site.address.street }}</strong> — hjertet af København. Klassisk håndværk, fed attitude, sent åbent.
       {%- endif -%}</p>
     <div class="about-card__cta">
-      <a href="{{ site.bookingUrl }}" class="btn btn--primary" target="_blank" rel="noopener noreferrer">{{ "cta.bookNow" | t(lang) }} <span aria-hidden="true">→</span></a>
+      <a href="{{ site.bookingUrl }}" class="btn btn--primary" target="_blank" rel="noopener noreferrer" data-ga-event="book" data-ga-label="hero">{{ "cta.bookNow" | t(lang) }} <span aria-hidden="true">→</span></a>
       <a href="tel:{{ site.phoneIntl }}" class="btn btn--ghost">{{ "cta.callShop" | t(lang) }}&nbsp;{{ site.phone | replace(" ", "&nbsp;") | safe }}</a>
     </div>
   </div>

@@ -94,7 +94,7 @@ eleventyComputed:
     <h2 class="flash__prices-title" style="font-size:clamp(20px,2.6vw,28px)">{{ "studio.bookTitle" | t(lang) }}</h2>
     <p class="aftercare__reassure-body">{{ "studio.bookBody" | t(lang) }}</p>
     <div class="about-card__cta">
-      <a class="btn btn--primary" href="{{ site.bookingUrl }}" target="_blank" rel="noopener noreferrer">{{ "studio.bookCta" | t(lang) }} ↗</a>
+      <a class="btn btn--primary" href="{{ site.bookingUrl }}" target="_blank" rel="noopener noreferrer" data-ga-event="book" data-ga-label="walkin">{{ "studio.bookCta" | t(lang) }} ↗</a>
       <a class="btn btn--outline" href="{% if lang == 'en' %}/en/find-your-tattoo/{% else %}/find-din-tatovering/{% endif %}">{{ "studio.wizardCta" | t(lang) }} →</a>
       <a class="btn btn--ghost" href="{% if lang == 'en' %}/en/aftercare/{% else %}/aftercare/{% endif %}">{{ "studio.aftercareCta" | t(lang) }} →</a>
     </div>
