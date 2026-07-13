@@ -1,6 +1,6 @@
 // Email capture → /api/subscribe (Shopify customer + consent).
 // Generic: every form with [data-subscribe] is wired.
-//   data-source  → server-side tag set (footer | kinky-sundae | …)
+//   data-source  → server-side tag set (footer | newsletter | …)
 //   data-lang    → "en" for English copy
 //   data-reveal  → CSS selector shown on success (e.g. member-price note)
 // CSP-clean: external file, same-origin fetch. Honeypot ("company") for bots.
