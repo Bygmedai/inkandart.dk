@@ -37,7 +37,6 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // Server-side tag whitelist — client sends a `source`, never raw tags.
 const TAGS_BY_SOURCE = {
   footer: ["newsletter", "site-signup"],
-  "kinky-sundae": ["orbit", "event:kinky-sundae", "interesse:events"]
 };
 
 // Read an env var tolerant of casing (Vercel keys are case-sensitive; the
