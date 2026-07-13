@@ -4,8 +4,33 @@
   "framework": null,
   "redirects": [
     {
+      "source": "/kinky-sundae",
+      "destination": "https://kinkysundae.dk/",
+      "permanent": true
+    },
+    {
+      "source": "/kinky-sundae/:path*",
+      "destination": "https://kinkysundae.dk/",
+      "permanent": true
+    },
+    {
+      "source": "/kinky-sundays",
+      "destination": "https://kinkysundae.dk/",
+      "permanent": true
+    },
+    {
+      "source": "/kinky-sundays/:path*",
+      "destination": "https://kinkysundae.dk/",
+      "permanent": true
+    },
+    {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "www.inkandart.dk" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "www.inkandart.dk"
+        }
+      ],
       "destination": "https://inkandart.dk/$1",
       "permanent": true
     }
@@ -14,33 +39,69 @@
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" },
-        { "key": "Content-Security-Policy", "value": "default-src 'self'; img-src 'self' data: https://*.google-analytics.com; style-src 'self'; font-src 'self'; script-src 'self' https://browser.sentry-cdn.com https://www.googletagmanager.com; connect-src 'self' https://o4511019808456704.ingest.de.sentry.io https://*.vercel-insights.com https://*.google-analytics.com https://www.googletagmanager.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" },
-        { "key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=()" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" },
-        { "key": "Cross-Origin-Resource-Policy", "value": "same-origin" },
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; img-src 'self' data: https://*.google-analytics.com; style-src 'self'; font-src 'self'; script-src 'self' https://browser.sentry-cdn.com https://www.googletagmanager.com; connect-src 'self' https://o4511019808456704.ingest.de.sentry.io https://*.vercel-insights.com https://*.google-analytics.com https://www.googletagmanager.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000; includeSubDomains"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=()"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        }
       ]
     },
     {
       "source": "/_assets/fonts/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/_assets/img/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=2592000" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000"
+        }
       ]
     },
     {
       "source": "/_assets/video/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=2592000" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000"
+        }
       ]
     }
   ]
