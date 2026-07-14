@@ -36,6 +36,9 @@
 <meta property="og:site_name" content="{{ site.name }}">
 <meta property="og:locale" content="{{ pageOgLocale }}">
 {%- if site.gaId %}<meta name="ga-id" content="{{ site.gaId }}">{%- endif %}
+{%- if site.metaPixelId %}<meta name="meta-pixel-id" content="{{ site.metaPixelId }}">{%- endif %}
+{%- if site.adsConversionId %}<meta name="ads-conversion-id" content="{{ site.adsConversionId }}">{%- endif %}
+{%- if site.adsConversionLabel %}<meta name="ads-conversion-label" content="{{ site.adsConversionLabel }}">{%- endif %}
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ title or site.name }}">
