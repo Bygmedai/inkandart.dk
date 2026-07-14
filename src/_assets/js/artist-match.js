@@ -3,11 +3,6 @@
 
   var ARTISTS = [
     {
-      slug: 'koko', name: 'Koko Kolev', availableUntil: '2026-07-21',
-      style: { 'bold-klassisk': 3, 'farverig': 3, 'sort-praecis': 3, 'delikat-fin': 1 },
-      size:  { 'lille': 1, 'medium': 3, 'stort': 3 }
-    },
-    {
       slug: 'nizar', name: 'Nizar',
       style: { 'bold-klassisk': 3, 'farverig': 1, 'sort-praecis': 2, 'delikat-fin': 1 },
       size:  { 'lille': 1, 'medium': 3, 'stort': 3 }
