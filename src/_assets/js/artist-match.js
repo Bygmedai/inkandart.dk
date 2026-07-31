@@ -6,11 +6,6 @@
       slug: 'nizar', name: 'Nizar',
       style: { 'bold-klassisk': 3, 'farverig': 1, 'sort-praecis': 2, 'delikat-fin': 1 },
       size:  { 'lille': 1, 'medium': 3, 'stort': 3 }
-    },
-    {
-      slug: 'isac', name: 'Isac',
-      style: { 'bold-klassisk': 1, 'farverig': 0, 'sort-praecis': 3, 'delikat-fin': 3 },
-      size:  { 'lille': 3, 'medium': 2, 'stort': 2 }
     }
   ];
 
