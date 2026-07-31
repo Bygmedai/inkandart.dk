@@ -313,6 +313,8 @@ a.stamp:hover{background:var(--accent);border-color:var(--accent);color:#fff}
 .artists-index__title{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:clamp(34px,6vw,68px)}
 .artists-index__lead{font-size:18px;color:var(--ink-soft);max-width:54ch;margin:14px 0 40px;line-height:1.6}
 .artists-index__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+/* Reduceret roster: undgå tomme grid-spor når der kun er ét kort (til nye artister lander) */
+.artists-index__grid:has(> :only-child){grid-template-columns:minmax(0,360px)}
 @media(max-width:820px){.artists-index__grid{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.artists-index__grid{grid-template-columns:1fr}}
 .artist-card{border:1px solid var(--rule);background:var(--paper);transition:border-color .2s}
@@ -446,6 +448,8 @@ a.stamp:hover{background:var(--accent);border-color:var(--accent);color:#fff}
 .featured{padding:clamp(48px,8vh,96px) var(--gutter) clamp(20px,3vh,40px)}
 .featured__file{font-family:var(--disp);font-weight:700;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:22px}
 .featured__grid{display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(18px,2.4vw,30px)}
+/* Ét kort tilbage (Isac+Maria ude, residency inaktiv): ét afgrænset spor i stedet for tom kolonne */
+.featured__grid:has(> .featured__card:only-child){grid-template-columns:minmax(0,520px)}
 .featured__card{display:flex;flex-direction:column;background:var(--paper-2,#efece4);border:1px solid var(--rule)}
 .featured__media{position:relative;display:block;overflow:hidden;aspect-ratio:4/5}
 .featured__card--lead .featured__media{aspect-ratio:4/5}
