@@ -88,7 +88,7 @@ layout: layouts/base.njk
       <figure>
         <img src="/_assets/img/artists/{{ slug }}/{{ img.src }}"
              alt="{{ img.alt[lang] if img.alt[lang] else img.alt.da }}"
-             width="{{ img.width }}" height="{{ img.height }}"
+             {%- if img.width and img.height %} width="{{ img.width }}" height="{{ img.height }}"{% endif %}
              loading="lazy"
              decoding="async">
       </figure>
