@@ -19,14 +19,24 @@ portrait:
     en: Nizar outside Ink & Art Copenhagen
 portfolio:
   - src: focus.jpg
+    width: 1179
+    height: 1155
     alt: { da: "Nizar · i stolen", en: "Nizar · in the chair" }
   - src: odin.jpg
+    width: 1179
+    height: 1104
     alt: { da: "Odin · black & grey-realisme", en: "Odin · black & grey realism" }
   - src: mark.jpg
+    width: 1153
+    height: 718
     alt: { da: "Stedets mærke · Ink & Art Copenhagen", en: "The studio's mark · Ink & Art Copenhagen" }
   - src: session.jpg
+    width: 1179
+    height: 1695
     alt: { da: "I stolen", en: "In the chair" }
   - src: palms.jpg
+    width: 1179
+    height: 1142
     alt: { da: "Nizar", en: "Nizar" }
 bio:
   da: |
