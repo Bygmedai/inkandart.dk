@@ -1,5 +1,17 @@
-# Dependabot config — S459 founder override (2026-05-30); S471 grouping (faucet-control).
-# Gruppér stoejen, isoler beslutningerne: prod-majors staar ualene -> egen PR.
+# Dependabot config — S459 founder override · S471 grouping · S549 drain+faucet-fix
+# (Steven GO 2026-08-06; jf. Sirius APPROVE_WITH_GUARDS 2026-06-15 + RULING S502 v2a).
+#
+# S549, maalt: 44 aabne dependabot-PRs org-bredt. Tre rettelser i denne fil:
+#  1. SECURITY-GROUPING (applies-to: security-updates): open-pull-requests-limit
+#     gaelder KUN version-updates (GitHub docs), saa security-PRs ankom enkeltvis
+#     udenom alle limits (maalt: bygmedai-portal 10 aabne ved limit 0).
+#     Nu samles de i een PR pr. oekosystem.
+#  2. Dev-gruppen tog majors med -> "mixed group" -> ineligible for v2a-auto-merge
+#     -> gruppen kunne aldrig draene (maalt: Ads-orchestrator #286). Nu kun
+#     minor+patch; majors kommer enkeltvis og ruter til migration-slice (policy §5).
+#  3. COOLDOWN: patch/minor venter 7 dage, majors 30 -> faerre, mere batchede PRs.
+#     Cooldown gaelder ALDRIG security-updates og understoettes ikke for
+#     github-actions (GitHub docs, verificeret S549).
 version: 2
 updates:
   - package-ecosystem: "npm"
@@ -10,15 +22,21 @@ updates:
       time: "07:00"
       timezone: "Europe/Copenhagen"
     open-pull-requests-limit: 5
+    cooldown:
+      default-days: 7
+      semver-major-days: 30
     groups:
+      npm-security:
+        applies-to: security-updates
+        patterns: ["*"]
       prod-minor-patch:
         applies-to: version-updates
         dependency-type: "production"
         update-types: ["minor", "patch"]
-      dev-dependencies:
+      dev-minor-patch:
         applies-to: version-updates
         dependency-type: "development"
-        update-types: ["minor", "patch", "major"]
+        update-types: ["minor", "patch"]
     commit-message:
       prefix: "[G33:A] chore(deps)"
       include: "scope"
@@ -32,8 +50,13 @@ updates:
       day: "monday"
     open-pull-requests-limit: 3
     groups:
-      github-actions:
+      actions-security:
+        applies-to: security-updates
         patterns: ["*"]
+      github-actions:
+        applies-to: version-updates
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
     commit-message:
       prefix: "[G33:A] chore(actions)"
     labels:
