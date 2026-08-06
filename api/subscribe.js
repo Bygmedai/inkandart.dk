@@ -6,7 +6,7 @@
  * email — next to orders, gift cards and deposits. No third-party ESP, no data
  * to sync, no list to maintain by hand.
  *
- * AUTH (2026): the store's app "Orbit signup" is a Dev Dashboard custom app.
+ * AUTH (2026): the store's app "Blackbook signup" is a Dev Dashboard custom app.
  * Those apps do NOT expose a static Admin API token (shpat_) anymore. Instead we
  * hold the app's Client ID + Client secret and exchange them for a short-lived
  * (24h) access token via the client_credentials grant, then call the Admin API.

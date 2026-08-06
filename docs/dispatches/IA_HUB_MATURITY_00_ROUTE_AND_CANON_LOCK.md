@@ -26,7 +26,7 @@ Three canon-facing beliefs did not survive contact with the code. Recording them
 | "inkandart.dk uses Bebas Neue + Space Mono" (`README.md` → Stack) | `src/_assets/css/style.css :root` declares `--black:'Grenze Gotisch'; --disp:'Epilogue'; --body:'Fustat'`. Bebas/Space Mono `.woff2` files exist but are **unreferenced** in CSS. | README is **stale**. Font foundation already matches canon. Bebas/SpaceMono = dead files → cleanup candidate (not a PR-0 action). |
 | "Canon is ecru `#f4f2ec` + vermilion + dark footer" (`inkandart-webshop/BRIEF.md`, `README.md`) | Shipped `inkandart-webshop/src/styles/design.css :root` is **dark-first**: `--paper:#131210; --ink:#f3efe7; --foot:#0a0908; --accent:#d8321b`. | BRIEF describes the *older DNA*; the **shipped** storefront is dark cinematic. Canon = dark. |
 | DA/EN parity might be broken (only `src/en/privacy.njk` exists on disk) | Build emits full EN parity — every DA page paginates to a `/en/` sister (13 EN HTML files incl. artists). | Parity is **intact**. No action needed. |
-| "Web storefront `src/` is canon" (implied by Sirius citing Home=Hero·Manifest·Entries·OrbitDoor) | `app/` is the **fuller, more-matured** build (richer home, aftercare/wizard/drop/event surfaces, `data/` content layer); `app/theme.ts` == `src/design.css` tokens. | **App = primary canon** for content/IA/copy; `src/design.css` = CSS-translation reference. |
+| "Web storefront `src/` is canon" (implied by Sirius citing Home=Hero·Manifest·Entries·BlackbookDoor) | `app/` is the **fuller, more-matured** build (richer home, aftercare/wizard/drop/event surfaces, `data/` content layer); `app/theme.ts` == `src/design.css` tokens. | **App = primary canon** for content/IA/copy; `src/design.css` = CSS-translation reference. |
 
 **Net:** fonts already compatible; accent already identical; the real visual gap is **theme inversion (light hub → dark canon)**, not typography.
 
@@ -76,16 +76,16 @@ Total: **27 HTML files** (incl. artist deep pages, both langs). Build ~0.18 s.
 
 ## 4. Page → canon mapping
 
-Canon surfaces: **App (`app/`, primary)** — tabs Forside · Artister · Studio · Events · Shop + stack aftercare · wizard · artist/[id] · drop/[id] · event/[id]; App Forside modules: hero · manifest · live-status · Ny her? · Lige nu · Menneskene · Universet · Fra værkstedet · Orbit-join. **Web storefront (`src/`, CSS reference)** — Home (Hero→Manifest→Entries→OrbitDoor), Artister, Book, Shop, Univers, Events; shared `SiteBar` + `Footer`; `design.css` primitives.
+Canon surfaces: **App (`app/`, primary)** — tabs Forside · Artister · Studio · Events · Shop + stack aftercare · wizard · artist/[id] · drop/[id] · event/[id]; App Forside modules: hero · manifest · live-status · Ny her? · Lige nu · Menneskene · Universet · Fra værkstedet · Blackbook-join. **Web storefront (`src/`, CSS reference)** — Home (Hero→Manifest→Entries→BlackbookDoor), Artister, Book, Shop, Univers, Events; shared `SiteBar` + `Footer`; `design.css` primitives.
 
 | inkandart.dk page | Current shape | Canon reference | Maturation intent |
 |---|---|---|---|
-| `/` | hero → services-marquee → manifest → studio-gallery → locations → hours | **App Forside** (fuller): hero · manifest · live-status · **Ny her?** · Lige nu (event) · Menneskene (featured artist) · Universet · Fra værkstedet (drop) · Orbit-join | Adopt the app's richer narrative: keep hero+manifest; add **live open-status**, a **welcome/"ny her?"** beat, a **what's-on-now** teaser, **featured artist**, **Universet** (6 vectors), a **flash/drop** teaser, and a warm **orbit/lead close**; push locations/hours lower; de-dupe marquee |
+| `/` | hero → services-marquee → manifest → studio-gallery → locations → hours | **App Forside** (fuller): hero · manifest · live-status · **Ny her?** · Lige nu (event) · Menneskene (featured artist) · Universet · Fra værkstedet (drop) · Blackbook-join | Adopt the app's richer narrative: keep hero+manifest; add **live open-status**, a **welcome/"ny her?"** beat, a **what's-on-now** teaser, **featured artist**, **Universet** (6 vectors), a **flash/drop** teaser, and a warm **blackbook/lead close**; push locations/hours lower; de-dupe marquee |
 | `/walk-in/` | video hero + status/price stamps + about-card + WhatsApp/call + live status | **App Studio/Book** (practical surface) | Keep WhatsApp/call/live-status; adopt Book tone (direct, late-open, no bureaucracy); tighten booking CTA hierarchy |
 | `/artister/` + deep | real 6-artist grid (markdown) + deep pages | **App Artister** + `artist/[id]` | Keep real artist data (hub is the *truth source* — canon artist page is placeholder); align cards to canon plate/card grammar; CTA order: portfolio → book → find-your-artist |
 | `/flash/` | flash grid (placeholder cards, `flash.json`) | **App Shop/drop** "product-as-hero" | Adopt visual energy; **stay intake, not commerce** (no cart) |
 | `/find-din-tatovering/` | 3-question match wizard → artist + price + booking deeplink | **App wizard** "find your artist" | Warm the copy; strengthen match→book handoff |
-| `/del-din-ide/` | WhatsApp lead form | **App Orbit-join** (warm lead capture) | Adopt orbit warmth; keep 48h-reply promise; no commerce |
+| `/del-din-ide/` | WhatsApp lead form | **App Blackbook-join** (warm lead capture) | Adopt blackbook warmth; keep 48h-reply promise; no commerce |
 | `/privatlivspolitik/` | legal | (no canon) | Token-only alignment; leave content |
 
 Hub has **no** `Univers`/`Events`/`Shop` pages — those are commerce/culture-motor surfaces owned by the shop/app. Hub reaches them via **bridge links** (shop ↗, app ↗), not by duplicating them.
@@ -122,7 +122,7 @@ Canon voice (app is primary — `app/data/forside.ts` carries the curated *blød
 - Manifest: *"Vi er en kulturmotor med håndværk i bunden. Vi sælger ikke en service — vi sælger et tilhørsforhold."*
 - Universe: *"Universet — seks vektorer, ét knudepunkt."*
 - Studio: *"Døren går altid op for nogen."*
-- Orbit: *"Kom i orbit."* (warm lead/close)
+- Blackbook: *"Kom i blackbook."* (warm lead/close)
 - App-only welcome beat: *"Ny her?"* + *"Kom som du er — gå som en del af noget."* (onboarding warmth a stranger-facing hub wants)
 
 Hub voice today leans **punk-xerox dossier**: `MATCH.TXT`, `fileLabel`, `★ 3 QUESTIONS`, `★ 48H REPLY`, heavy stamps. Direction: **adopt** canon warmth (belonging, culturemotor, "døren går op for nogen"), **reduce** stamp/file-code noise on subpages. `adopt` copy tone; `adapt` visual tokens; `translate` UX patterns to 11ty; **do not port** React; **do not invent** artist/product/event facts.
@@ -135,7 +135,7 @@ Hub voice today leans **punk-xerox dossier**: `MATCH.TXT`, `fileLabel`, `★ 3 Q
 |---|---|---|---|
 | **PR-0** | ROUTE_AND_CANON_LOCK | this document | docs-only |
 | PR-1 | TOKEN_BRIDGE | dark-first tokens + shared canon primitives (`.stage/.display/.black/.eyebrow/.tlink/.hlink/.announce`), keep self-hosted fonts, no content/route rewrites | CSS-led |
-| PR-2 | HOMEPAGE | mature `/` toward Hero → Manifest → Entries → OrbitDoor: add entries grid, sharpen manifest, add orbit close, lower locations/hours, de-dupe marquee | template |
+| PR-2 | HOMEPAGE | mature `/` toward Hero → Manifest → Entries → BlackbookDoor: add entries grid, sharpen manifest, add blackbook close, lower locations/hours, de-dupe marquee | template |
 | PR-3 | WALKIN_BOOK | mature `/walk-in/` toward canon **Book** tone; keep WhatsApp/call/live-status; tighten booking CTA; verify `bookingUrl` | template |
 | PR-4 | ARTISTS | `/artister/` + deep pages: keep real data, align cards to canon plate grammar, CTA hierarchy | template |
 | PR-5 | INTAKE_ROUTES | `/flash/`, `/find-din-tatovering/`, `/del-din-ide/` warmed toward canon; stay intake (no commerce) | template |
