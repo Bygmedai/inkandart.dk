@@ -19,3 +19,7 @@ jobs:
   auto-merge:
     if: ${{ github.actor == 'dependabot[bot]' }}
     uses: Bygmedai/.github/.github/workflows/dependabot-auto-merge.yml@v1
+    # S549: reusable workflows arver IKKE secrets automatisk (GitHub docs) —
+    # uden inherit naar DEPENDABOT_AUTOMERGE_TOKEN aldrig frem, og approval falder
+    # tilbage til github-actions[bot], som ikke er code-owner -> PR blokeret for evigt.
+    secrets: inherit
