@@ -17,12 +17,12 @@ jobs:
           node-version: 20
           cache: npm
 
-      - run: npm ci || npm install
+      - run: npm ci
 
       - name: Build site
         run: npm run build
 
-      - name: Run Lighthouse on built site
+      - name: Run Lighthouse against Next server
         uses: treosh/lighthouse-ci-action@v12
         with:
           configPath: ./.github/lighthouse-config.json

@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import path from "node:path";
+import { nextRedirects } from "./lib/redirects";
 
 const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(__dirname),
@@ -7,13 +8,7 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
   },
   async redirects() {
-    return [
-      { source: "/en", destination: "/", permanent: false },
-      { source: "/en/:path*", destination: "/", permanent: false },
-      { source: "/walk-in", destination: "/#booking", permanent: false },
-      { source: "/artister", destination: "/#artists", permanent: false },
-      { source: "/artister/:slug", destination: "/#artists", permanent: false },
-    ];
+    return nextRedirects;
   },
 };
 

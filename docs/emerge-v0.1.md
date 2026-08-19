@@ -16,6 +16,6 @@ Header er skjult til første emerge (når legend-båndene kommer i synsfeltet), 
 
 Booking-CTA skriger ikke.
 
-## Legacy Eleventy
+## Cutover
 
-`src/` (11ty) er ikke længere build-target. `npm run build` er `next build`.
+11ty `src/`, `eleventy.config.js`, `api/` og de gamle image/poster-scripts er slettet. Git er arkivet. Redirect-matricen er `lib/redirects.ts`.

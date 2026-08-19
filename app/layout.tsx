@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import Script from "next/script";
 import { Providers } from "@/components/emerge/Providers";
 import "./globals.css";
 
@@ -43,6 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="da" className={`${display.variable} ${body.variable} ${mono.variable}`}>
       <body className="bg-[var(--void)] text-[var(--text)] antialiased" style={{ fontFamily: "var(--font-body), system-ui, sans-serif" }}>
+        <Script src="/emerge-boot.js" strategy="beforeInteractive" />
         <a href="#main" className="skip-link">
           Gå til indhold
         </a>

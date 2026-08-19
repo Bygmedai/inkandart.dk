@@ -14,7 +14,7 @@ export function Artists() {
       </p>
       <div className="grid max-w-[520px] gap-10">
         {artists.map((artist) => (
-          <article key={artist.slug} data-emerge className="bg-[var(--skin)]">
+          <article id={`artist-${artist.slug}`} key={artist.slug} data-emerge className="bg-[var(--skin)]">
             <div className="relative aspect-[4/5] overflow-hidden">
               <Image
                 src={artist.portrait}

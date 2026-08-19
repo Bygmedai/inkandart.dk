@@ -17,6 +17,8 @@ export function Footer() {
         <span className="text-[var(--text)]/30">·</span>
         <a href={`tel:${site.phoneIntl}`}>{site.phone}</a>
         <span className="text-[var(--text)]/30">·</span>
+        <a href="/aftercare">Aftercare</a>
+        <span className="text-[var(--text)]/30">·</span>
         <a href="/privatlivspolitik">Privatliv</a>
       </nav>
     </footer>

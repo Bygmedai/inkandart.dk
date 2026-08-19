@@ -86,11 +86,17 @@ button, input, textarea { border-radius: 0; font: inherit; }
 }
 
 [data-emerge] {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+html.emerge-js [data-emerge]:not(.is-emerged) {
   opacity: 0;
   transform: translateY(64px);
   filter: brightness(0.15);
 }
-[data-emerge].is-emerged {
+html.emerge-js [data-emerge].is-emerged {
   opacity: 1;
   transform: none;
   filter: none;
@@ -102,7 +108,8 @@ button, input, textarea { border-radius: 0; font: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   .legend-track { animation: none; }
-  [data-emerge] {
+  html.emerge-js [data-emerge],
+  html.emerge-js [data-emerge]:not(.is-emerged) {
     opacity: 1;
     transform: none;
     filter: none;

@@ -1,7 +1,0 @@
-{# Sentry browser observability — M5-foundation S462 #}
-{# Bundle fra CDN (allowlistet i CSP script-src). Init er SELVHOSTET
-   (/_assets/js/sentry-init.js) → ingen inline-script, så script-src 'self'
-   dækker den. Tidligere var init inline og blev blokeret af den stramme CSP.
-   Public DSN, designet for browser-eksponering. PII redacted i beforeSend. #}
-<script src="https://browser.sentry-cdn.com/9.18.0/bundle.min.js" crossorigin="anonymous"></script>
-<script src="/_assets/js/sentry-init.js"></script>

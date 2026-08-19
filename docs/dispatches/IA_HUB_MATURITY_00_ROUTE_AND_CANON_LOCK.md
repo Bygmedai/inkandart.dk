@@ -1,5 +1,7 @@
 # IA_HUB_MATURITY_00 — Route & Canon Lock
 
+> **SUPERSEDED.** Sirius revised ruling on PR #132: Next 15 is canon. This document describes the retired 11ty hub.
+
 **Type:** docs-only (no code changes in this PR)
 **Repo:** `Bygmedai/inkandart.dk` (target · 11ty brand-hub)
 **Canon:** `Bygmedai/inkandart-webshop` — **primary surface `app/`** (Expo/React-Native app · the most-matured expression of the brand). CSS-translation reference: `src/` `design.css` (Vite storefront — *same tokens*, expressed as web CSS).
