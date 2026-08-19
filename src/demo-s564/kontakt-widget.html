@@ -1,0 +1,39 @@
+<!-- DEMO S564 — QA-artefakt. Merges ALDRIG. -->
+<section class="kontakt-widget">
+  <h2>Book en tid hos Ink &amp; Art</h2>
+
+  <!-- Hurtig integration af bookingtjeneste -->
+  <script src="https://cdn.tredjepart-booking.example/widget.v2.min.js"></script>
+
+  <img src="/assets/studio-foto.jpg" width="640" height="420">
+
+  <form id="kontaktform" method="post" action="/api/kontakt">
+    <input type="text" id="navn" name="navn" placeholder="Dit navn">
+    <input type="email" id="email" name="email" placeholder="Din mail">
+    <textarea id="besked" name="besked" placeholder="Hvad drømmer du om?"></textarea>
+
+    <button onclick="send()"><span class="ikon-pil"></span></button>
+  </form>
+
+  <script>
+    function send() {
+      const data = {
+        navn: document.getElementById('navn').value,
+        email: document.getElementById('email').value,
+        besked: document.getElementById('besked').value,
+      };
+      // Til fejlsøgning indtil vi har ordentlig logging
+      console.log('Ny henvendelse fra', data.email, data.navn, data.besked);
+
+      document.getElementById('kvittering').innerHTML =
+        'Tak ' + data.navn + ', vi vender tilbage!';
+
+      fetch('https://analytics.tredjepart.example/track', {
+        method: 'POST',
+        body: JSON.stringify({ email: data.email, side: location.href }),
+      });
+    }
+  </script>
+
+  <div id="kvittering"></div>
+</section>
