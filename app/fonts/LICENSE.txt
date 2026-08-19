@@ -1,0 +1,5 @@
+Self-hosted OFL 1.1 fonts for Emerge v0.1.
+
+- Cormorant Garamond — https://github.com/CatharsisFonts/Cormorant/blob/master/OFL.txt
+- Space Grotesk — https://github.com/floriankarsten/space-grotesk/blob/master/OFL.txt
+- Space Mono — https://github.com/googlefonts/spacemono/blob/master/OFL.txt

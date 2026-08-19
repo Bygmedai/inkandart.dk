@@ -11,8 +11,9 @@ Larsbjørnsstræde 13, København K.
 
 Den fulde tekniske dokumentation lever i [`docs/`](docs/README.md):
 
+- [`docs/emerge-v0.1.md`](docs/emerge-v0.1.md) — Låst Emerge-spec + Next.js 15-stack
 - [`docs/README.md`](docs/README.md) — Index + Sprint 1 changelog
-- [`docs/architecture.md`](docs/architecture.md) — Stack, i18n, routing, data-model — det "hvorfor"
+- [`docs/architecture.md`](docs/architecture.md) — Ældre 11ty-arkitektur (ikke længere build-target)
 - [`docs/runbook.md`](docs/runbook.md) — Stevens operationelle playbook (artists, billeder, deploys, rollback)
 - [`docs/api-status.md`](docs/api-status.md) — `/api/status` kontrakt + Booksys-swap-plan
 - [`docs/ux-journey.md`](docs/ux-journey.md) — Cross-page UX-mønstre (topbar, lang-toggle, hero-stempler)
@@ -21,12 +22,12 @@ Den fulde tekniske dokumentation lever i [`docs/`](docs/README.md):
 
 ## Stack
 
-- [Eleventy](https://www.11ty.dev/) v3 (static site generator)
-- [Vercel](https://vercel.com/) — hosting + Edge Functions + auto-deploy fra `main`
-- Self-hosted fonts (Bebas Neue + Space Mono, OFL)
-- [Simply.com](https://simply.com/) — DNS + (fremtidig) email forwarding
+- Next.js 15 (App Router) + React 19 — Emerge v0.1
+- Tailwind + shadcn Button-primitive · GSAP ScrollTrigger · Framer Motion · Lenis
+- [Vercel](https://vercel.com/) — hosting + auto-deploy fra `main`
+- Self-hosted fonts (Cormorant Garamond, Space Grotesk, Space Mono)
 
-Detaljer: [`docs/architecture.md`](docs/architecture.md#stack).
+Detaljer: [`docs/emerge-v0.1.md`](docs/emerge-v0.1.md).
 
 ---
 
@@ -35,13 +36,8 @@ Detaljer: [`docs/architecture.md`](docs/architecture.md#stack).
 ```bash
 nvm use            # Node 20
 npm install
-npm run serve      # http://localhost:8080
-npm run build      # output → _site/
-npm run validate   # html-validate (forventes 0 fejl)
-
-npm run poster     # genererer A4 QR-poster (DA) → posters/walk-in-da-YYYY-MM-DD.pdf
-npm run poster:en  # engelsk variant
-npm run images     # bearbejder fotos i src/_assets/img-raw/<slug>/
+npm run dev        # http://localhost:3000
+npm run build      # Next.js production build
 ```
 
 ---
