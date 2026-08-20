@@ -115,9 +115,13 @@ export function SceneV05() {
     });
 
     const measure = () => {
+      // To faser (Haruki S566, forced-reflow-insight): først ALLE skriv,
+      // så præcis én reflow, så ALLE læs. Interleavet skriv/læs kostede
+      // ~90 forced reflows ved load — én pr. [data-depth]-element.
       const s = sTop();
+      for (const it of items) it.el.style.transform = "";
+      void document.body.offsetHeight; // committer transform-nulstillingen én gang
       for (const it of items) {
-        it.el.style.transform = "";
         const r = it.el.getBoundingClientRect();
         it.c = r.top + s + r.height / 2;
       }
@@ -206,7 +210,24 @@ export function SceneV05() {
       tx = e.clientX / window.innerWidth - 0.5;
       ty = e.clientY / window.innerHeight - 0.5;
     };
-    if (!reduce) raf = requestAnimationFrame(loop);
+    // Motor-start udskudt til efter load+idle (Haruki S566 perf-pass):
+    // loaderen dækker alligevel skærmen de første ~1,5 s, så drift/parallax
+    // der starter efter load er visuelt gratis — men holder rAF-arbejdet ude
+    // af TBT-vinduet. Fallback-timeren sikrer start i throttlede tabs.
+    let motorStartet = false;
+    const startMotor = () => {
+      if (motorStartet || reduce) return;
+      motorStartet = true;
+      raf = requestAnimationFrame(loop);
+    };
+    if (!reduce) {
+      if (document.readyState === "complete") {
+        timers.push(window.setTimeout(startMotor, 350));
+      } else {
+        window.addEventListener("load", () => timers.push(window.setTimeout(startMotor, 350)), { once: true });
+        timers.push(window.setTimeout(startMotor, 3000)); // fail-safe
+      }
+    }
     window.addEventListener("mousemove", onMouse, { passive: true });
 
     // header: viser sig når heroen er forladt; fail-safe mod throttlede tabs

@@ -1,31 +1,17 @@
 "use client";
 
-import { ReactLenis, useLenis } from "lenis/react";
-import { useEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ReactLenis } from "lenis/react";
 
-gsap.registerPlugin(ScrollTrigger);
-
-function LenisScrollTrigger() {
-  useLenis(() => {
-    ScrollTrigger.update();
-  });
-  return null;
-}
-
+/**
+ * Kun Lenis (den designede scroll-følelse). GSAP + ScrollTrigger blev
+ * registreret og opdateret pr. tick her, men INTET i træet importerer dem —
+ * SceneV05's motor er selvbygget (rAF + scroll). Fjernet i Haruki S566
+ * perf-pass: −~45 KB script og nul dødt arbejde pr. frame. Skal ScrollTrigger
+ * ind igen, hører registreringen til dér hvor den faktisk bruges.
+ */
 export function Providers({ children }: { children: React.ReactNode }) {
-  useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
-    const onRefresh = () => ScrollTrigger.refresh();
-    window.addEventListener("load", onRefresh);
-    return () => window.removeEventListener("load", onRefresh);
-  }, []);
-
   return (
     <ReactLenis root options={{ lerp: 0.08, duration: 1.15, smoothWheel: true }}>
-      <LenisScrollTrigger />
       {children}
     </ReactLenis>
   );
