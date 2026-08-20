@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 420"><defs><filter id="r" x="-18%" y="-18%" width="136%" height="136%"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="3" seed="23"></feTurbulence><feDisplacementMap in="SourceGraphic" scale="5"></feDisplacementMap></filter></defs><g filter="url(#r)"><path d="M151.9,50.3 A170,170 0 1 0 268.1,50.3" fill="none" stroke="#ddd2bf" stroke-width="11"></path>
+<path d="M151.9,50.3 A170,170 0 1 0 268.1,50.3" fill="none" stroke="#0d0a08" stroke-width="11" stroke-dasharray="5 16" opacity="0.45"></path>
+<g transform="translate(268,50) rotate(24)"><path d="M-8,-16 C12,-19 27,-9 31,2 C26,13 11,18 -5,14 C-12,4 -12,-8 -8,-16 Z" fill="#ddd2bf" stroke="#0d0a08" stroke-width="3"></path><circle cx="12" cy="-4" r="3.6" fill="#0d0a08"></circle></g>
+<path d="M152,50 C160,40 170,35 182,36" stroke="#ddd2bf" stroke-width="6" fill="none" stroke-linecap="round"></path></g></svg>

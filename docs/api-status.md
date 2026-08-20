@@ -1,5 +1,7 @@
 # `/api/status` — kontrakt + drift
 
+> **PENSIONERET** ved Emerge cutover. Walk-in live-status og Booksys-mock er slettet. Git er arkivet.
+
 Walk-in-sidens hjerte. Returnerer shop-niveau åben/lukket-status + næste
 ledige tid, edge-cached og fail-soft mod scheduled hours.
 

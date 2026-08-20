@@ -1,6 +1,7 @@
 node_modules/
-package-lock.json
 _site/
+.next/
+tsconfig.tsbuildinfo
 .vercel/
 .env
 .env.local
@@ -15,3 +16,6 @@ src/_assets/img-raw/
 
 # Lighthouse CI lokal kørsel (regenereres automatisk)
 .lighthouseci/
+
+# Lokal browser-verifikation
+_verify/

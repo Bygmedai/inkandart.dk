@@ -1,5 +1,7 @@
 # UX Journey — på tværs af alle ruter
 
+> **Historisk.** 11ty-hubben. Emerge v0.1: `docs/KROG-EMERGE-v0.1-LOCK.md`.
+
 Dette dokument beskriver hvordan en bruger bevæger sig gennem sitet, og
 hvilke konsistens-mønstre vi har bygget for at gøre rejsen sammenhængende.
 

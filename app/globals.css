@@ -1,0 +1,255 @@
+@import "tailwindcss";
+
+:root {
+  --void: #0a0a0a;
+  --skin: #1c1210;
+  --oxblood: #8b1e1e;
+  --oxblood-dark: #6a1616;
+  --gold: #c9a227;
+  --cold: #2a3a3a;
+  --text: #e8e0d5;
+  --text-soft: #c4bbaf;
+  --text-mute: #8e867b;
+  --gutter: clamp(20px, 5vw, 72px);
+}
+
+@theme inline {
+  --color-void: var(--void);
+  --color-skin: var(--skin);
+  --color-oxblood: var(--oxblood);
+  --color-gold: var(--gold);
+  --color-cold: var(--cold);
+  --color-ink: var(--text);
+}
+
+* { box-sizing: border-box; }
+html, body { background: var(--void); color: var(--text); }
+html { scroll-behavior: auto; }
+body {
+  margin: 0;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+button, input, textarea { border-radius: 0; font: inherit; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 10001;
+  background: var(--void);
+  color: var(--text);
+  padding: 10px 16px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.skip-link:focus { left: 8px; top: 8px; }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Ét blæk-univers: fælles gradning (temperatur mod varm-mørk, oxblood-undertone)
+   på AL billedflade. Ikke et tæppe — lysstyrken står næsten urørt (S564-lektionen:
+   værket skal kunne ses); det er temperaturen og mætningen der samles. */
+.work-print img {
+  filter: saturate(0.7) contrast(1.16) brightness(0.94) sepia(0.14) hue-rotate(-6deg);
+}
+/* Bruddet (de rå studie-billeder): mildere gradning, ingen temperatur-tvang.
+   Bruddet er bevidst — men det skal stadig bo i samme rum. */
+.work-print--raw img {
+  filter: saturate(0.85) contrast(1.08) brightness(0.95);
+}
+.work-print::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(10,10,10,.32) 0%, transparent 18%, transparent 76%, rgba(10,10,10,.48) 100%),
+    linear-gradient(90deg, rgba(10,10,10,.22) 0%, transparent 12%, transparent 88%, rgba(10,10,10,.22) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+  opacity: 0.42;
+}
+@keyframes work-breathe {
+  0%, 100% { opacity: 0.38; }
+  50% { opacity: 0.48; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .work-print::after { animation: work-breathe 18s ease-in-out infinite; }
+}
+
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.11;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.legend-fade {
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+@keyframes legend-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.legend-track {
+  display: flex;
+  width: max-content;
+  animation: legend-marquee 36s linear infinite;
+}
+.legend-track--slow {
+  animation-duration: 40s;
+  animation-direction: reverse;
+}
+.legend-band:hover .legend-track {
+  animation-play-state: paused;
+}
+
+@keyframes emerge-scroll-pulse {
+  0%, 100% { opacity: 0.22; }
+  50% { opacity: 0.55; }
+}
+.emerge-scroll {
+  letter-spacing: 0.46em;
+  animation: emerge-scroll-pulse 6.4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .emerge-scroll { animation: none; }
+}
+
+[data-emerge] {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+html.emerge-js [data-emerge]:not(.is-emerged) {
+  opacity: 0;
+  transform: translateY(36px);
+}
+html.emerge-js [data-emerge].is-emerged {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  transition:
+    opacity 1.15s ease,
+    transform 1.25s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 1.4s ease;
+}
+/* Materialisering: dybere emerge-variant — elementet fremkaldes af mørket
+   (uskarpt + mørkt + let løftet) i stedet for kun at glide op. */
+html.emerge-js [data-emerge="deep"]:not(.is-emerged) {
+  opacity: 0;
+  transform: translateY(48px) scale(1.015);
+  filter: blur(10px) brightness(0.4);
+}
+
+/* ── Sømme: overgange som indhold (Medicine-princippet: rødder→muld) ─────
+   Et blæk-lag der ligger HEN OVER grænsen mellem to zoner og opløses i
+   begge retninger. Ren CSS/markup — virker uden JS. */
+.seam {
+  position: relative;
+  z-index: 20;
+  pointer-events: none;
+}
+.seam-art {
+  mask-image: linear-gradient(180deg, transparent 0%, #000 32%, #000 68%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 32%, #000 68%, transparent 100%);
+}
+.seam-art img {
+  filter: saturate(0.55) contrast(1.2) brightness(0.8) sepia(0.16) hue-rotate(-6deg);
+}
+
+/* ── Drift: småliv i landskabet (bier/sommerfugle-princippet) ────────────
+   Små svævende objekter der krydser laggrænser. Abstrakte former nu
+   (blækdråber, guldflager); Groks fritlagte motiver falder ind som .drift-img. */
+.drift {
+  position: absolute;
+  pointer-events: none;
+}
+.drift-blot {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.055' numOctaves='3' seed='7'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='34'/%3E%3C/filter%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='26' fill='%23120c0a' filter='url(%23w)'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.85;
+}
+.drift-blot--ox {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.07' numOctaves='3' seed='19'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='40'/%3E%3C/filter%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='23' fill='%233d1212' filter='url(%23w)'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+}
+.drift-flake {
+  border-radius: 9999px;
+  background: radial-gradient(circle at 38% 32%, rgba(201,162,39,0.95), rgba(201,162,39,0.28) 55%, transparent 75%);
+  opacity: 0.55;
+}
+.drift-ring {
+  border-radius: 9999px;
+  border: 1px solid rgba(201,162,39,0.34);
+  opacity: 0.6;
+}
+
+/* Portræt: kanterne opløses i mørket i stedet for at slutte i en ramme. */
+.portrait-mask {
+  mask-image: radial-gradient(135% 120% at 50% 38%, #000 52%, transparent 96%);
+  -webkit-mask-image: radial-gradient(135% 120% at 50% 38%, #000 52%, transparent 96%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .legend-track { animation: none; }
+  html.emerge-js [data-emerge],
+  html.emerge-js [data-emerge]:not(.is-emerged) {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}
+
+/* ── Emerge v0.5 (Claudias scene) ─────────────────────────────────────────
+   Keyframes fra spec'en + reduced-motion-slukning af al dekorativ animation. */
+@keyframes fly {0%{transform:translate(-18vw,2svh)}45%{transform:translate(44vw,-3svh)}100%{transform:translate(112vw,1svh)}}
+@keyframes flyBack {0%{transform:translate(112vw,-2svh)}55%{transform:translate(40vw,3svh)}100%{transform:translate(-18vw,0)}}
+@keyframes fall {0%{transform:translateY(-6svh);opacity:0}10%{opacity:.95}82%{opacity:.95}100%{transform:translateY(70svh);opacity:0}}
+@keyframes floatUp {0%{transform:translate(0,20svh);opacity:0}12%{opacity:.9}78%{opacity:.85}100%{transform:translate(3vw,-46svh);opacity:0}}
+@keyframes twk {0%,100%{opacity:.12}50%{opacity:.85}}
+@keyframes mq {from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes loaderBreathe {0%,100%{opacity:.5}50%{opacity:1}}
+@media (prefers-reduced-motion: reduce) {
+  .emerge-v05 * { animation: none !important; }
+}
+
+/* Loader-overlayet findes kun for JS-brugere (emerge-boot sætter klassen
+   beforeInteractive, så der er intet flash). Uden JS: intet overlay —
+   indholdet ER siden. (Haruki S566, PE-kontrakten målt.) */
+[data-loader] {
+  display: none;
+}
+html.emerge-js [data-loader] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

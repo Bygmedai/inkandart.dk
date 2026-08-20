@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 130"><defs><filter id="r" x="-18%" y="-18%" width="136%" height="136%"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="3" seed="97"></feTurbulence><feDisplacementMap in="SourceGraphic" scale="3"></feDisplacementMap></filter></defs><g filter="url(#r)"><rect x="4" y="4" width="372" height="122" fill="#22333a" stroke="#ddd2bf" stroke-width="5"></rect>
+<rect x="16" y="16" width="348" height="98" fill="none" stroke="rgba(221,210,191,.4)" stroke-width="1.5"></rect>
+<circle cx="14" cy="14" r="4" fill="#b8ac97"></circle><circle cx="366" cy="14" r="4" fill="#b8ac97"></circle><circle cx="14" cy="116" r="4" fill="#b8ac97"></circle><circle cx="366" cy="116" r="4" fill="#b8ac97"></circle>
+<text x="190" y="64" text-anchor="middle" font-family="'Space Mono',monospace" font-size="30" letter-spacing="2" fill="#ddd2bf">LARSBJØRNSSTRÆDE</text>
+<text x="190" y="98" text-anchor="middle" font-family="'Space Mono',monospace" font-size="14" letter-spacing="5" fill="#ddd2bf" opacity="0.6">PISSERENDEN · 1454 K</text></g></svg>

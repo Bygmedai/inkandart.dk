@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 14 200 100"><defs><filter id="r" x="-18%" y="-18%" width="136%" height="136%"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" seed="103"></feTurbulence><feDisplacementMap in="SourceGraphic" scale="4"></feDisplacementMap></filter></defs><g filter="url(#r)"><path d="M24,80 C20,58 42,40 70,38 C94,22 128,26 140,46 C150,48 160,56 164,64 L178,68 L162,74 C158,84 146,92 130,94 L46,94 C32,92 26,88 24,80 Z" fill="#17110e" stroke="#b8ac97" stroke-width="2.2"></path>
+<circle cx="118" cy="36" r="11" fill="#17110e" stroke="#b8ac97" stroke-width="2"></circle><circle cx="118" cy="36" r="4" fill="#b8ac97" opacity="0.5"></circle>
+<circle cx="140" cy="54" r="3" fill="#ddd2bf"></circle>
+<path d="M166,66 L184,58 M166,70 L186,68 M164,74 L182,78" stroke="#b8ac97" stroke-width="1.2" opacity="0.8"></path>
+<path d="M26,84 C4,88 0,102 16,106 C28,109 34,102 30,96" fill="none" stroke="#b8ac97" stroke-width="3.4" stroke-linecap="round"></path>
+<line x1="60" y1="94" x2="58" y2="104" stroke="#b8ac97" stroke-width="2.4"></line><line x1="112" y1="94" x2="114" y2="104" stroke="#b8ac97" stroke-width="2.4"></line></g></svg>

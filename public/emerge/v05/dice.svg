@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="10 16 104 112"><defs><filter id="r" x="-18%" y="-18%" width="136%" height="136%"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" seed="167"></feTurbulence><feDisplacementMap in="SourceGraphic" scale="4"></feDisplacementMap></filter></defs><g filter="url(#r)"><path d="M22,44 L62,26 L102,44 L62,62 Z" fill="#241a14" stroke="#b8ac97" stroke-width="2.2"></path>
+<circle cx="62" cy="44" r="4" fill="#b8ac97"></circle>
+<path d="M22,44 L62,62 L62,118 L22,100 Z" fill="#ddd2bf" stroke="#0d0a08" stroke-width="2.4"></path>
+<circle cx="34" cy="66" r="4.5" fill="#0d0a08"></circle><circle cx="50" cy="88" r="4.5" fill="#0d0a08"></circle><circle cx="34" cy="94" r="4.5" fill="#0d0a08"></circle><circle cx="50" cy="60" r="4.5" fill="#0d0a08"></circle>
+<path d="M102,44 L62,62 L62,118 L102,100 Z" fill="#cdc2ac" stroke="#0d0a08" stroke-width="2.4"></path>
+<circle cx="82" cy="74" r="4.5" fill="#0d0a08"></circle><circle cx="82" cy="92" r="4.5" fill="#0d0a08"></circle></g></svg>
