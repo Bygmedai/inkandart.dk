@@ -3,6 +3,7 @@ import { aftercare } from "@/lib/aftercare";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/aftercare" },
   title: "Aftercare · Ink & Art",
   description: aftercare.lead,
 };

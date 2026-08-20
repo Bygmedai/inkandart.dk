@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/privatlivspolitik" },
   title: "Privatlivspolitik · Ink & Art",
 };
 

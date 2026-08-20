@@ -28,7 +28,6 @@ export const metadata: Metadata = {
   title: "Ink & Art Copenhagen",
   description: "Et sted hvor blæk allerede skriver. Larsbjørnsstræde 13, København.",
   metadataBase: new URL("https://inkandart.dk"),
-  alternates: { canonical: "/" },
   openGraph: {
     title: "Ink & Art Copenhagen",
     description: "Et sted hvor blæk allerede skriver.",

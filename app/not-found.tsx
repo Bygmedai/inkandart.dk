@@ -19,7 +19,7 @@ export default function NotFound() {
       }}
     >
       <div>
-        <p style={{ margin: 0, fontFamily: "var(--font-mono), monospace", fontSize: "11px", letterSpacing: ".4em", textTransform: "uppercase", color: "rgba(232,224,213,.4)" }}>404</p>
+        <p aria-hidden="true" style={{ margin: 0, fontFamily: "var(--font-mono), monospace", fontSize: "11px", letterSpacing: ".4em", textTransform: "uppercase", color: "rgba(232,224,213,.4)" }}>404</p>
         <h1 style={{ margin: "14px 0 0", fontFamily: "var(--font-display), serif", fontStyle: "italic", fontWeight: 500, fontSize: "clamp(30px,5vw,52px)", lineHeight: 1.15 }}>
           Siden er væk. Mærket består.
         </h1>
