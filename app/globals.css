@@ -63,8 +63,16 @@ button, input, textarea { border-radius: 0; font: inherit; }
   border: 0;
 }
 
+/* Ét blæk-univers: fælles gradning (temperatur mod varm-mørk, oxblood-undertone)
+   på AL billedflade. Ikke et tæppe — lysstyrken står næsten urørt (S564-lektionen:
+   værket skal kunne ses); det er temperaturen og mætningen der samles. */
 .work-print img {
-  filter: saturate(0.82) contrast(1.14) brightness(0.96);
+  filter: saturate(0.7) contrast(1.16) brightness(0.94) sepia(0.14) hue-rotate(-6deg);
+}
+/* Bruddet (de rå studie-billeder): mildere gradning, ingen temperatur-tvang.
+   Bruddet er bevidst — men det skal stadig bo i samme rum. */
+.work-print--raw img {
+  filter: saturate(0.85) contrast(1.08) brightness(0.95);
 }
 .work-print::after {
   content: "";
@@ -149,6 +157,65 @@ html.emerge-js [data-emerge].is-emerged {
     opacity 1.15s ease,
     transform 1.25s cubic-bezier(0.16, 1, 0.3, 1),
     filter 1.4s ease;
+}
+/* Materialisering: dybere emerge-variant — elementet fremkaldes af mørket
+   (uskarpt + mørkt + let løftet) i stedet for kun at glide op. */
+html.emerge-js [data-emerge="deep"]:not(.is-emerged) {
+  opacity: 0;
+  transform: translateY(48px) scale(1.015);
+  filter: blur(10px) brightness(0.4);
+}
+
+/* ── Sømme: overgange som indhold (Medicine-princippet: rødder→muld) ─────
+   Et blæk-lag der ligger HEN OVER grænsen mellem to zoner og opløses i
+   begge retninger. Ren CSS/markup — virker uden JS. */
+.seam {
+  position: relative;
+  z-index: 20;
+  pointer-events: none;
+}
+.seam-art {
+  mask-image: linear-gradient(180deg, transparent 0%, #000 32%, #000 68%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 32%, #000 68%, transparent 100%);
+}
+.seam-art img {
+  filter: saturate(0.55) contrast(1.2) brightness(0.8) sepia(0.16) hue-rotate(-6deg);
+}
+
+/* ── Drift: småliv i landskabet (bier/sommerfugle-princippet) ────────────
+   Små svævende objekter der krydser laggrænser. Abstrakte former nu
+   (blækdråber, guldflager); Groks fritlagte motiver falder ind som .drift-img. */
+.drift {
+  position: absolute;
+  pointer-events: none;
+}
+.drift-blot {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.055' numOctaves='3' seed='7'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='34'/%3E%3C/filter%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='26' fill='%23120c0a' filter='url(%23w)'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.85;
+}
+.drift-blot--ox {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.07' numOctaves='3' seed='19'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='40'/%3E%3C/filter%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='23' fill='%233d1212' filter='url(%23w)'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+}
+.drift-flake {
+  border-radius: 9999px;
+  background: radial-gradient(circle at 38% 32%, rgba(201,162,39,0.95), rgba(201,162,39,0.28) 55%, transparent 75%);
+  opacity: 0.55;
+}
+.drift-ring {
+  border-radius: 9999px;
+  border: 1px solid rgba(201,162,39,0.34);
+  opacity: 0.6;
+}
+
+/* Portræt: kanterne opløses i mørket i stedet for at slutte i en ramme. */
+.portrait-mask {
+  mask-image: radial-gradient(135% 120% at 50% 38%, #000 52%, transparent 96%);
+  -webkit-mask-image: radial-gradient(135% 120% at 50% 38%, #000 52%, transparent 96%);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -30,6 +30,9 @@ export type Shot = {
   alt: string;
   width: number;
   height: number;
+  /** Nizar-bruddet: rå studie-virkelighed der bevidst bryder blæk-universet.
+      Får mildere gradning (work-print--raw) så bruddet er designet, ikke tilfældigt. */
+  raw?: boolean;
 };
 
 export type Row =
@@ -47,8 +50,8 @@ const mask: Shot = { src: "/work/mask.jpg", alt: "Blackwork", width: 2856, heigh
 const skull: Shot = { src: "/work/skull.jpg", alt: "Skull", width: 644, height: 858 };
 const ear: Shot = { src: "/work/ear.jpg", alt: "Steel", width: 1138, height: 2066 };
 const mark: Shot = { src: "/work/mark.jpg", alt: "The studio mark", width: 1153, height: 718 };
-const underNaalen: Shot = { src: "/work/under-naalen.jpg", alt: "Under the needle", width: 1179, height: 1695 };
-const focus: Shot = { src: "/work/focus.jpg", alt: "Work", width: 1179, height: 1155 };
+const underNaalen: Shot = { src: "/work/under-naalen.jpg", alt: "Under the needle", width: 1179, height: 1695, raw: true };
+const focus: Shot = { src: "/work/focus.jpg", alt: "Work", width: 1179, height: 1155, raw: true };
 const saint: Shot = { src: "/work/saint.jpg", alt: "Fresh blackwork", width: 2856, height: 2142 };
 
 const bloom: Shot = { src: "/mood/bloom.jpg", alt: "", width: 1280, height: 720 };

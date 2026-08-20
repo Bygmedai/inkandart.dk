@@ -18,7 +18,7 @@ export function Studio() {
             sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-cover"
           />
-          <article className="absolute inset-x-0 bottom-0 z-10 px-[var(--gutter)] pb-10 pt-24 bg-gradient-to-t from-[var(--void)] via-[var(--void)]/70 to-transparent">
+          <article data-emerge="deep" className="absolute inset-x-0 bottom-0 z-10 px-[var(--gutter)] pb-10 pt-24 bg-gradient-to-t from-[var(--void)] via-[var(--void)]/70 to-transparent">
             <h2 className="m-0 font-[family-name:var(--font-display)] text-[clamp(36px,6vw,84px)] font-medium leading-[1.05]">
               Blækket skriver allerede.
             </h2>
