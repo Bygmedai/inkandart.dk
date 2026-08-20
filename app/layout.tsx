@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import Script from "next/script";
-import { Providers } from "@/components/emerge/Providers";
 import "./globals.css";
 
 const display = localFont({
@@ -49,7 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Gå til indhold
         </a>
         <div className="grain" aria-hidden="true" />
-        <Providers>{children}</Providers>
+        {children}
       </body>
     </html>
   );
