@@ -28,6 +28,7 @@ export const metadata: Metadata = {
   title: "Ink & Art Copenhagen",
   description: "Et sted hvor blæk allerede skriver. Larsbjørnsstræde 13, København.",
   metadataBase: new URL("https://inkandart.dk"),
+  alternates: { canonical: "/" },
   openGraph: {
     title: "Ink & Art Copenhagen",
     description: "Et sted hvor blæk allerede skriver.",
@@ -44,6 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="da" className={`${display.variable} ${body.variable} ${mono.variable}`}>
       <body className="bg-[var(--void)] text-[var(--text)] antialiased" style={{ fontFamily: "var(--font-body), system-ui, sans-serif" }}>
         <Script src="/emerge-boot.js" strategy="beforeInteractive" />
+        <Script src="/seo-ld.js" strategy="afterInteractive" />
         <a href="#main" className="skip-link">
           Gå til indhold
         </a>
