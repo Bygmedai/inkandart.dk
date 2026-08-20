@@ -114,7 +114,7 @@ export function SceneV05() {
   <p style={{position:'absolute',bottom:'clamp(120px,19svh,220px)',left:'50%',transform:'translateX(-50%)',zIndex:'16',margin:'0',fontFamily:'\'Space Mono\',monospace',fontSize:'clamp(9px,1vw,12px)',letterSpacing:'.6em',textTransform:'uppercase',color:'rgba(232,224,213,.3)',whiteSpace:'nowrap'}}>Scroll down to emerge</p>
 </section>
 
-<section data-screen-label="Under gaden" style={{position:'relative',zIndex:'5',height:'148svh',background:'linear-gradient(180deg,#120d0b 0%,#0d0a09 32%,#080606 100%)'}}>
+<section className="v5-zone-under" data-screen-label="Under gaden" style={{position:'relative',zIndex:'5',height:'148svh',background:'linear-gradient(180deg,#120d0b 0%,#0d0a09 32%,#080606 100%)'}}>
   <img loading="lazy" src="/emerge/v05/edge-top.svg" alt="" style={{position:'absolute',top:'-2px',left:'0',width:'100%',height:'clamp(150px,27svh,330px)',objectFit:'fill',display:'block',zIndex:'3',pointerEvents:'none'}}/>
   <div data-depth="0.34" style={{position:'absolute',left:'-3vw',top:'4%',width:'30vw',height:'100%',opacity:'.85',zIndex:'2'}}><img loading="lazy" src="/emerge/v05/edge-side.svg" alt="" style={{width:'100%',height:'100%',objectFit:'fill',display:'block'}}/></div>
   <div data-depth="0.36" style={{position:'absolute',right:'-3vw',top:'4%',width:'30vw',height:'100%',opacity:'.85',zIndex:'2'}}><img loading="lazy" src="/emerge/v05/edge-side.svg" alt="" style={{width:'100%',height:'100%',objectFit:'fill',display:'block',transform:'scaleX(-1)'}}/></div>

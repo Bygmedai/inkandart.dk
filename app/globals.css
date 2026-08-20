@@ -274,3 +274,13 @@ html.emerge-js [data-loader] {
   .emerge-v05 .v5m-artist-needle { top: 66% !important; right: -4% !important; width: 120px !important; }
   .emerge-v05 .v5m-dice-scroll { bottom: 4% !important; left: 34% !important; width: 44px !important; }
 }
+
+/* Perf: spring layout/paint af under-fold-zonerne over ved load — sektionerne
+   har eksplicitte svh-højder, så boksen er kendt uden det indre (ingen CLS).
+   Motoren læser ikke længere rects (statisk beregning), så intet tvinger dem. */
+.emerge-v05 .v5-zone-under,
+.emerge-v05 #work,
+.emerge-v05 #artists,
+.emerge-v05 #booking {
+  content-visibility: auto;
+}
