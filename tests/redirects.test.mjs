@@ -49,3 +49,23 @@ test("no English catch-all onto the Danish home", () => {
   assert.doesNotMatch(redirectsSrc, /\/en\/:path\*/);
   assert.doesNotMatch(redirectsSrc, /source:\s*"\/en\/:\w+\*"/);
 });
+
+test("every fragment destination points at an anchor that actually exists", () => {
+  // F1 (Haruki-review S566): matrixen pegede på /#artists og /#artist-nizar,
+  // men scenen bar kun id="artist" — 6 af 17 rækker landede stille på toppen.
+  // Dette vidne læser BEGGE sider af kontrakten, så drift fanges i CI.
+  const fragments = [...redirectsSrc.matchAll(/to: "\/#([a-z0-9-]+)"/g)].map((m) => m[1]);
+  assert.ok(fragments.length >= 4, "matrixen skal bære fragment-destinationer");
+  const surfaces = [
+    readFileSync(join(root, "components/emerge/SceneV05.tsx"), "utf8"),
+    readFileSync(join(root, "app/page.tsx"), "utf8"),
+  ].join("\n");
+  for (const id of new Set(fragments)) {
+    assert.match(surfaces, new RegExp(`id="${id}"`), `anker #${id} findes ikke i scenen`);
+  }
+});
+
+test("negativ kontrol: et opdigtet anker ville blive fanget", () => {
+  const surfaces = readFileSync(join(root, "components/emerge/SceneV05.tsx"), "utf8");
+  assert.doesNotMatch(surfaces, /id="findes-ikke-anker"/);
+});

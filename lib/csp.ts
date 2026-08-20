@@ -9,7 +9,7 @@ export const CONTENT_SECURITY_POLICY = [
   "object-src 'none'",
   "base-uri 'self'",
   "frame-ancestors 'none'",
-  "form-action 'self' https://wa.me",
+  "form-action 'self'",
 ].join("; ");
 
 export const CSP_ALLOWED_SCRIPT_TOKENS = ["'self'", "'unsafe-inline'"] as const;

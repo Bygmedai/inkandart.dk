@@ -1,7 +1,67 @@
 "use client";
 
 /* eslint-disable @next/next/no-img-element */
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+/**
+ * Blackbook-signup (Haruki-review S566 F2, Steven-valg 20/8: portér).
+ * Stille email-capture → /api/subscribe (Shopify-kunde m. consent).
+ * Virker uden JS-æstetik-motoren; kræver dog JS for selve POST'en —
+ * uden JS står feltet med et mailto-fallback i noscript.
+ */
+function BlackbookSignup() {
+  const [status, setStatus] = useState<"idle" | "busy" | "ok" | "fejl">("idle");
+  const mono = "'Space Mono',monospace";
+  async function send(form: HTMLFormElement) {
+    const data = new FormData(form);
+    setStatus("busy");
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: String(data.get("email") || ""),
+          company: String(data.get("company") || ""),
+          source: "emerge",
+        }),
+      });
+      const out = await res.json().catch(() => null);
+      setStatus(res.ok && out?.ok ? "ok" : "fejl");
+    } catch {
+      setStatus("fejl");
+    }
+  }
+  return (
+    <form
+      onSubmit={(e) => { e.preventDefault(); void send(e.currentTarget); }}
+      style={{ margin: "34px auto 0", maxWidth: "420px" }}
+    >
+      <label htmlFor="blackbook-email" style={{ display: "block", fontFamily: mono, fontSize: "10px", letterSpacing: ".26em", textTransform: "uppercase", color: "#8e867b" }}>
+        Blackbook — first look at flash & guest spots
+      </label>
+      {/* honeypot: skjult for mennesker, fristende for bots */}
+      <div aria-hidden="true" style={{ position: "absolute", left: "-9999px" }}>
+        <label>Company<input type="text" name="company" tabIndex={-1} autoComplete="off" /></label>
+      </div>
+      <div style={{ display: "flex", gap: "10px", marginTop: "10px", justifyContent: "center" }}>
+        <input
+          id="blackbook-email" type="email" name="email" required autoComplete="email"
+          placeholder="din@mail.dk"
+          style={{ flex: "1", minWidth: "0", background: "transparent", border: "none", borderBottom: "1px solid rgba(232,224,213,.3)", padding: "6px 2px", fontFamily: mono, fontSize: "12px", color: "#e8e0d5", outline: "none" }}
+        />
+        <button
+          type="submit" disabled={status === "busy"}
+          style={{ background: "transparent", border: "none", cursor: "pointer", fontFamily: mono, fontSize: "11px", letterSpacing: ".3em", textTransform: "uppercase", color: "#c9a227", borderBottom: "1px solid rgba(201,162,39,.45)", paddingBottom: "4px" }}
+        >
+          {status === "busy" ? "…" : "Join"}
+        </button>
+      </div>
+      <p role="status" style={{ margin: "10px 0 0", minHeight: "14px", fontFamily: mono, fontSize: "10px", letterSpacing: ".2em", textTransform: "uppercase", color: status === "fejl" ? "rgba(139,30,30,.9)" : "#8e867b" }}>
+        {status === "ok" ? "Du er i bogen." : status === "fejl" ? "Noget gik galt — prøv igen." : ""}
+      </p>
+    </form>
+  );
+}
 
 /**
  * Emerge v0.5 — Claudias komplette scene, porteret 1:1 fra design-spec'en
@@ -199,7 +259,7 @@ export function SceneV05() {
 
   return (
     <div ref={root} className="emerge-v05" style={{ position: "relative", overflow: "clip", background: "#0a0a0a", color: "#e8e0d5", fontFamily: "var(--font-body), system-ui, sans-serif" }}>
-<div data-loader="" style={{position:'fixed',inset:'0',zIndex:'9999',display:'flex',alignItems:'center',justifyContent:'center',background:'#050404',pointerEvents:'none',transition:'opacity 1.3s ease'}}>
+<div data-loader="" aria-hidden="true" style={{position:'fixed',inset:'0',zIndex:'9999',display:'flex',alignItems:'center',justifyContent:'center',background:'#050404',pointerEvents:'none',transition:'opacity 1.3s ease'}}>
   <p style={{margin:'0',fontFamily:'\'Cormorant Garamond\',serif',fontStyle:'italic',fontWeight:'500',fontSize:'clamp(20px,2.6vw,34px)',color:'rgba(232,224,213,.75)',animation:'loaderBreathe 3.4s ease-in-out infinite'}}>The mark is already waiting.</p>
 </div>
 
@@ -207,7 +267,7 @@ export function SceneV05() {
   <a href="#emerge" style={{borderBottom:'none',fontFamily:'\'Cormorant Garamond\',serif',fontWeight:'500',fontSize:'19px',letterSpacing:'.1em',textTransform:'uppercase',whiteSpace:'nowrap'}}>INK <em style={{fontStyle:'italic',color:'#c9a227'}}>&</em> ART</a>
   <nav style={{display:'flex',alignItems:'center',gap:'clamp(14px,2.6vw,36px)'}}>
     <a href="#work" style={{borderBottom:'1px solid transparent',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.28em',textTransform:'uppercase',color:'rgba(232,224,213,.72)'}}>Work</a>
-    <a href="#artist" style={{borderBottom:'1px solid transparent',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.28em',textTransform:'uppercase',color:'rgba(232,224,213,.72)'}}>Artist</a>
+    <a href="#artists" style={{borderBottom:'1px solid transparent',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.28em',textTransform:'uppercase',color:'rgba(232,224,213,.72)'}}>Artist</a>
     <a href="https://inkart.book.dk" style={{borderBottom:'1px solid rgba(201,162,39,.5)',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.28em',textTransform:'uppercase',color:'#c9a227',whiteSpace:'nowrap'}}>Booking →</a>
   </nav>
 </header>
@@ -366,11 +426,11 @@ export function SceneV05() {
   <div data-depth="0.85" style={{position:'absolute',left:'52%',top:'5%',width:'40px',zIndex:'9'}}><img loading="lazy" src="/emerge/v05/cup.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-8deg)'}}/></div>
   <div data-depth="1.2" style={{position:'absolute',left:'56%',top:'3%',width:'12px',zIndex:'10'}}><div style={{animation:'fall 9s linear infinite -1.5s'}}><img loading="lazy" src="/emerge/v05/drop-red.svg" alt="" style={{width:'100%',display:'block'}}/></div></div>
 
-  <div data-depth="0.3" style={{position:'absolute',right:'22%',top:'33%',width:'min(20%,260px)',opacity:'.35',zIndex:'3'}}><img loading="lazy" src="/mood/echo.jpg" alt="" style={{width:'100%',display:'block',filter:'blur(1.5px) saturate(.55) contrast(1.1) brightness(.6) sepia(.16) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-b.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-b.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/></div>
+  <div data-depth="0.3" style={{position:'absolute',right:'22%',top:'33%',width:'min(20%,260px)',opacity:'.35',zIndex:'3'}}><img loading="lazy" src="/optimized/mood/echo-960.webp" srcSet="/optimized/mood/echo-480.webp 480w, /optimized/mood/echo-960.webp 960w" sizes="(max-width: 768px) 60vw, 480px" width={960} height={960} alt="" style={{width:'100%',display:'block',filter:'blur(1.5px) saturate(.55) contrast(1.1) brightness(.6) sepia(.16) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-b.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-b.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/></div>
 
   <div data-depth="0.75" style={{position:'absolute',left:'8%',top:'2.5%',width:'min(30%,420px)',zIndex:'6'}}>
     <figure style={{margin:'0',transform:'rotate(-2.5deg)'}}>
-      <img loading="lazy" src="/work/odin.jpg" alt="Black and grey — Odin" style={{width:'100%',display:'block',filter:'saturate(.7) contrast(1.15) brightness(.9) sepia(.14) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-b.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-b.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/>
+      <img loading="lazy" src="/optimized/work/odin-960.webp" srcSet="/optimized/work/odin-480.webp 480w, /optimized/work/odin-960.webp 960w" sizes="(max-width: 768px) 60vw, 480px" width={960} height={899} alt="Black and grey — Odin" style={{width:'100%',display:'block',filter:'saturate(.7) contrast(1.15) brightness(.9) sepia(.14) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-b.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-b.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/>
       <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>Odin — black & grey</figcaption>
     </figure>
   </div>
@@ -379,7 +439,7 @@ export function SceneV05() {
 
   <div data-depth="0.55" style={{position:'absolute',right:'10%',top:'7.5%',width:'min(22%,300px)',zIndex:'3'}}>
     <figure style={{margin:'0',transform:'rotate(2deg)'}}>
-      <img loading="lazy" src="/work/traditional.jpg" alt="Heart and dagger" style={{width:'100%',display:'block',filter:'saturate(.65) contrast(1.12) brightness(.8) sepia(.14) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-c.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-c.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/>
+      <img loading="lazy" src="/optimized/work/traditional-960.webp" srcSet="/optimized/work/traditional-480.webp 480w, /optimized/work/traditional-960.webp 960w" sizes="(max-width: 768px) 60vw, 480px" width={960} height={1266} alt="Heart and dagger" style={{width:'100%',display:'block',filter:'saturate(.65) contrast(1.12) brightness(.8) sepia(.14) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-c.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-c.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/>
       <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'9.5px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>Heart & dagger</figcaption>
     </figure>
   </div>
@@ -389,7 +449,7 @@ export function SceneV05() {
 
   <div data-depth="0.9" style={{position:'absolute',left:'34%',top:'25%',width:'min(26%,360px)',zIndex:'8'}}>
     <figure style={{margin:'0',transform:'rotate(1.5deg)'}}>
-      <img loading="lazy" src="/work/godspeed.jpg" alt="Cheetahs — fine line" style={{width:'100%',display:'block',filter:'saturate(.7) contrast(1.15) brightness(.95) sepia(.14) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-a.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-a.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/>
+      <img loading="lazy" src="/optimized/work/godspeed-960.webp" srcSet="/optimized/work/godspeed-480.webp 480w, /optimized/work/godspeed-960.webp 960w" sizes="(max-width: 768px) 60vw, 480px" width={960} height={1123} alt="Cheetahs — fine line" style={{width:'100%',display:'block',filter:'saturate(.7) contrast(1.15) brightness(.95) sepia(.14) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-a.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-a.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/>
       <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>Godspeed</figcaption>
     </figure>
   </div>
@@ -397,7 +457,7 @@ export function SceneV05() {
 
   <div data-depth="0.5" style={{position:'absolute',left:'12%',top:'43%',width:'min(20%,280px)',zIndex:'3'}}>
     <figure style={{margin:'0',transform:'rotate(-3deg)'}}>
-      <img loading="lazy" src="/work/signetring.jpg" alt="A mark on the hand" style={{width:'100%',display:'block',filter:'saturate(.65) contrast(1.12) brightness(.78) sepia(.14) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-b.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-b.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/>
+      <img loading="lazy" src="/optimized/work/signetring-960.webp" srcSet="/optimized/work/signetring-480.webp 480w, /optimized/work/signetring-960.webp 960w" sizes="(max-width: 768px) 60vw, 480px" width={960} height={538} alt="A mark on the hand" style={{width:'100%',display:'block',filter:'saturate(.65) contrast(1.12) brightness(.78) sepia(.14) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-b.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-b.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/>
       <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'9.5px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>The signet</figcaption>
     </figure>
   </div>
@@ -405,7 +465,7 @@ export function SceneV05() {
 
   <div data-depth="0.95" style={{position:'absolute',right:'6%',top:'48%',width:'min(32%,460px)',zIndex:'8'}}>
     <figure style={{margin:'0',transform:'rotate(2.2deg)'}}>
-      <img loading="lazy" src="/work/saint.jpg" alt="Fresh blackwork" style={{width:'100%',display:'block',filter:'saturate(.7) contrast(1.15) brightness(.95) sepia(.14) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-c.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-c.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/>
+      <img loading="lazy" src="/optimized/work/saint-960.webp" srcSet="/optimized/work/saint-480.webp 480w, /optimized/work/saint-960.webp 960w" sizes="(max-width: 768px) 60vw, 480px" width={960} height={720} alt="Fresh blackwork" style={{width:'100%',display:'block',filter:'saturate(.7) contrast(1.15) brightness(.95) sepia(.14) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-c.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-c.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/>
       <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>Fresh blackwork</figcaption>
     </figure>
   </div>
@@ -415,7 +475,7 @@ export function SceneV05() {
 
   <div data-depth="0.65" style={{position:'absolute',left:'30%',top:'63%',width:'min(28%,400px)',zIndex:'4'}}>
     <figure style={{margin:'0',transform:'rotate(-1.5deg)'}}>
-      <img loading="lazy" src="/work/session.jpg" alt="Under the needle" style={{width:'100%',display:'block',filter:'saturate(.7) contrast(1.15) brightness(.85) sepia(.14) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-a.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-a.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/>
+      <img loading="lazy" src="/optimized/work/session-960.webp" srcSet="/optimized/work/session-480.webp 480w, /optimized/work/session-960.webp 960w" sizes="(max-width: 768px) 60vw, 480px" width={864} height={1152} alt="Under the needle" style={{width:'100%',display:'block',filter:'saturate(.7) contrast(1.15) brightness(.85) sepia(.14) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-a.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-a.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/>
       <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>Under the needle</figcaption>
     </figure>
   </div>
@@ -423,7 +483,7 @@ export function SceneV05() {
 
   <div data-depth="0.7" style={{position:'absolute',left:'56%',top:'80%',width:'min(24%,340px)',zIndex:'5'}}>
     <figure style={{margin:'0',transform:'rotate(-2deg)'}}>
-      <img loading="lazy" src="/studio/gade.jpg" alt="Larsbjørnsstræde" style={{width:'100%',display:'block',filter:'saturate(.7) contrast(1.15) brightness(.88) sepia(.14) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-b.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-b.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/>
+      <img loading="lazy" src="/optimized/studio/gade-960.webp" srcSet="/optimized/studio/gade-480.webp 480w, /optimized/studio/gade-960.webp 960w" sizes="(max-width: 768px) 60vw, 480px" width={960} height={1202} alt="Larsbjørnsstræde" style={{width:'100%',display:'block',filter:'saturate(.7) contrast(1.15) brightness(.88) sepia(.14) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-b.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-b.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/>
       <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'9.5px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>Larsbjørnsstræde — midt i Pisserenden</figcaption>
     </figure>
   </div>
@@ -449,7 +509,10 @@ export function SceneV05() {
   <div data-depth="0.8" style={{position:'absolute',left:'60%',bottom:'-3%',width:'160px',opacity:'.85',zIndex:'12'}}><img loading="lazy" src="/emerge/v05/splat-black.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-30deg)'}}/></div>
 </section>
 
-<section id="artist" data-screen-label="Artist" style={{position:'relative',zIndex:'3',height:'105svh',background:'linear-gradient(180deg,#040303 0%,#0a0708 40%,#0b0808 70%,#050404 100%)'}}>
+{/* id="artists" er redirect-matrixens mål (lib/redirects.ts); det indre
+    id="artist-nizar" bærer den navngivne ankomst. Krydstjekkes af
+    tests/redirects.test.mjs — omdøb ikke uden at rette matrixen. */}
+<section id="artists" data-screen-label="Artist" style={{position:'relative',zIndex:'3',height:'105svh',background:'linear-gradient(180deg,#040303 0%,#0a0708 40%,#0b0808 70%,#050404 100%)'}}>
   <div data-depth="0.3" style={{position:'absolute',left:'-5vw',top:'0',width:'24vw',height:'100%',opacity:'.7',zIndex:'2'}}><img loading="lazy" src="/emerge/v05/edge-side.svg" alt="" style={{width:'100%',height:'100%',objectFit:'fill',display:'block'}}/></div>
   <div data-depth="0.32" style={{position:'absolute',right:'-5vw',top:'0',width:'24vw',height:'100%',opacity:'.7',zIndex:'2'}}><img loading="lazy" src="/emerge/v05/edge-side.svg" alt="" style={{width:'100%',height:'100%',objectFit:'fill',display:'block',transform:'scaleX(-1)'}}/></div>
   <div data-depth="0.12" style={{position:'absolute',left:'4%',top:'8%',width:'44vw',zIndex:'1'}}><img loading="lazy" src="/emerge/v05/smoke.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(5deg)'}}/></div>
@@ -458,9 +521,9 @@ export function SceneV05() {
   <h2 style={{position:'absolute',top:'5%',left:'50%',transform:'translateX(-50%)',zIndex:'11',margin:'0',fontFamily:'\'Space Mono\',monospace',fontSize:'clamp(9px,1vw,12px)',fontWeight:'400',letterSpacing:'.6em',textTransform:'uppercase',color:'rgba(232,224,213,.28)',whiteSpace:'nowrap'}}>The artist</h2>
 
   <div data-depth="0.35" style={{position:'absolute',left:'24%',top:'12%',width:'min(44%,560px)',opacity:'.16',zIndex:'3'}}><img loading="lazy" src="/emerge/v05/ouroboros.svg" alt="" style={{width:'100%',display:'block'}}/></div>
-  <div data-depth="0.7" style={{position:'absolute',left:'31%',top:'20%',width:'min(26%,340px)',zIndex:'5'}}>
+  <div id="artist-nizar" data-depth="0.7" style={{position:'absolute',left:'31%',top:'20%',width:'min(26%,340px)',zIndex:'5'}}>
     <figure style={{margin:'0'}}>
-      <img loading="lazy" src="/artists/nizar/portrait.jpg" alt="Nizar" style={{width:'100%',display:'block',filter:'saturate(.55) contrast(1.12) brightness(.88) sepia(.16) hue-rotate(-6deg)',maskImage:'radial-gradient(120% 105% at 50% 40%, #000 52%, transparent 92%)',WebkitMaskImage:'radial-gradient(120% 105% at 50% 40%, #000 52%, transparent 92%)'}}/>
+      <img loading="lazy" src="/optimized/artists/nizar/portrait-960.webp" srcSet="/optimized/artists/nizar/portrait-480.webp 480w, /optimized/artists/nizar/portrait-960.webp 960w" sizes="(max-width: 768px) 60vw, 480px" width={960} height={613} alt="Nizar" style={{width:'100%',display:'block',filter:'saturate(.55) contrast(1.12) brightness(.88) sepia(.16) hue-rotate(-6deg)',maskImage:'radial-gradient(120% 105% at 50% 40%, #000 52%, transparent 92%)',WebkitMaskImage:'radial-gradient(120% 105% at 50% 40%, #000 52%, transparent 92%)'}}/>
     </figure>
   </div>
   <div data-depth="0.55" style={{position:'absolute',left:'53%',top:'34%',width:'min(34%,440px)',zIndex:'6'}}>
@@ -512,6 +575,7 @@ export function SceneV05() {
       <a href="https://inkart.book.dk" style={{fontFamily:'\'Space Mono\',monospace',fontSize:'13px',letterSpacing:'.34em',textTransform:'uppercase',color:'#c9a227',borderBottom:'1px solid rgba(201,162,39,.45)',paddingBottom:'6px'}}>Booking →</a>
       <p style={{margin:'28px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.26em',textTransform:'uppercase',color:'#8e867b'}}>Larsbjørnsstræde 13 · 1454 København K · 55 24 86 08</p>
       <p style={{margin:'12px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.26em',textTransform:'uppercase',color:'rgba(139,30,30,.85)'}}>Midt i Pisserenden — du finder os</p>
+      <BlackbookSignup />
     </div>
   </div>
 
