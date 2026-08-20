@@ -264,15 +264,13 @@ html.emerge-js [data-loader] {
   .emerge-v05 .v5m-snake-hero { width: 118px !important; right: -7% !important; top: 14% !important; }
   .emerge-v05 .v5m-rose-big { width: 168px !important; left: -9% !important; }
   .emerge-v05 .v5m-machine-big { width: 118px !important; }
-  .emerge-v05 .v5m-sword-hero { width: 100px !important; }
+  .emerge-v05 .v5m-dagger-hero { width: 100px !important; }
   .emerge-v05 .v5m-swallow-mid { top: 58% !important; }
   .emerge-v05 .v5m-artist-photo { left: 6% !important; top: 13% !important; width: 58vw !important; }
   .emerge-v05 .v5m-artist-quote { left: 8% !important; top: 46% !important; width: 84vw !important; }
   .emerge-v05 .v5m-street { left: 8% !important; width: 56vw !important; }
   .emerge-v05 .v5m-book-dagger { width: 40px !important; left: 4% !important; top: 12% !important; }
   .emerge-v05 .v5m-book-center { padding-left: 22px !important; padding-right: 22px !important; }
-}
-@media (max-width: 640px) {
   .emerge-v05 .v5m-artist-needle { top: 66% !important; right: -4% !important; width: 120px !important; }
   .emerge-v05 .v5m-dice-scroll { bottom: 4% !important; left: 34% !important; width: 44px !important; }
 }

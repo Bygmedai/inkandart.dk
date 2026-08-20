@@ -74,7 +74,7 @@ export function SceneV05() {
   </div>
 
   <div className="v5m-machine-big" data-depth="1.0" style={{position:'absolute',left:'-6%',top:'24%',width:'clamp(200px,24vw,340px)',zIndex:'9'}}><img src="/emerge/v05/machine.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-28deg)',filter:'drop-shadow(0 26px 44px rgba(0,0,0,.75))'}}/></div>
-  <div className="v5m-sword-hero" data-depth="1.1" style={{position:'absolute',right:'5%',bottom:'-6%',width:'clamp(150px,15vw,240px)',zIndex:'10'}}><img src="/emerge/v05/dagger.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(22deg)',filter:'drop-shadow(0 26px 44px rgba(0,0,0,.75))'}}/></div>
+  <div className="v5m-dagger-hero" data-depth="1.1" style={{position:'absolute',right:'5%',bottom:'-6%',width:'clamp(150px,15vw,240px)',zIndex:'10'}}><img src="/emerge/v05/dagger.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(22deg)',filter:'drop-shadow(0 26px 44px rgba(0,0,0,.75))'}}/></div>
   <div data-depth="1.05" style={{position:'absolute',right:'-4%',top:'5%',width:'clamp(200px,24vw,360px)',zIndex:'9'}}><img src="/emerge/v05/needle.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-24deg)',filter:'drop-shadow(0 20px 34px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="1.08" style={{position:'absolute',left:'17%',top:'58%',width:'clamp(80px,8vw,115px)',zIndex:'9'}}><img src="/emerge/v05/rose.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(24deg)',filter:'drop-shadow(0 16px 26px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="1.2" style={{position:'absolute',right:'29%',top:'11%',width:'clamp(48px,5vw,70px)',zIndex:'10'}}><img src="/emerge/v05/skull.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-18deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div>
@@ -337,7 +337,7 @@ export function SceneV05() {
     <h2 style={{margin:'0 auto',maxWidth:'720px',fontFamily:'\'Cormorant Garamond\',serif',fontStyle:'italic',fontWeight:'500',fontSize:'clamp(34px,4.8vw,60px)',lineHeight:'1.15',textShadow:'0 4px 28px rgba(0,0,0,.85)'}}>The mark is already waiting.</h2>
     <div style={{marginTop:'clamp(36px,6svh,70px)'}}>
       <a href="https://inkart.book.dk" style={{fontFamily:'\'Space Mono\',monospace',fontSize:'13px',letterSpacing:'.34em',textTransform:'uppercase',color:'#c9a227',borderBottom:'1px solid rgba(201,162,39,.45)',paddingBottom:'6px'}}>Booking →</a>
-      <p style={{margin:'28px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.26em',textTransform:'uppercase',color:'#8e867b'}}>Larsbjørnsstræde 13 · 1454 København K · <a href="tel:+4555248608" style={{color:'inherit',borderBottom:'1px solid rgba(232,224,213,.25)'}}>55 24 86 08</a></p>
+      <p style={{margin:'28px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.26em',textTransform:'uppercase',color:'#8e867b'}}>Larsbjørnsstræde 13 · 1454 København K · <a href="tel:+4555248608" aria-label="Ring til Ink & Art, 55 24 86 08" style={{color:'inherit',borderBottom:'1px solid rgba(232,224,213,.25)'}}>55 24 86 08</a></p>
       <p style={{margin:'12px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.26em',textTransform:'uppercase',color:'rgba(139,30,30,.85)'}}>Midt i Pisserenden — du finder os</p>
       <BlackbookSignup />
     </div>
