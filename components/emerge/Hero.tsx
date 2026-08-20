@@ -77,7 +77,7 @@ export function Hero() {
             className="object-cover object-bottom"
           />
         </div>
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,10,.55)_0%,rgba(10,10,10,.08)_38%,rgba(10,10,10,.55)_68%,rgba(10,10,10,.92)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,10,.42)_0%,rgba(10,10,10,.04)_36%,rgba(10,10,10,.28)_70%,rgba(10,10,10,.78)_100%)]" />
       </div>
 
       <div data-layer="word" className="relative z-10 flex h-full flex-col items-center justify-center px-[var(--gutter)] pb-[22vh] text-center">

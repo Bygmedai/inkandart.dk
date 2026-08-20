@@ -21,7 +21,7 @@ export function Booking() {
   }
 
   return (
-    <section id="booking" className="px-[var(--gutter)] py-[clamp(80px,14vw,160px)] text-center">
+    <section id="booking" className="px-[var(--gutter)] py-[clamp(64px,10vw,112px)] text-center">
       <div data-emerge>
         <h2 className="m-0 font-[family-name:var(--font-display)] text-[clamp(36px,7vw,92px)] font-medium leading-[.95]">
           Stolen venter.

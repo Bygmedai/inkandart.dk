@@ -8,20 +8,18 @@ export function Artists() {
   useEmerge("#artists [data-emerge]");
 
   return (
-    <section id="artists" className="px-[var(--gutter)] py-[clamp(72px,12vw,140px)]">
-      <div className="grid max-w-[420px] gap-10">
+    <section id="artists" className="px-[var(--gutter)] py-[clamp(48px,8vw,96px)]">
+      <div className="grid max-w-[520px] gap-10">
         {artists.map((artist) => (
           <article id={`artist-${artist.slug}`} key={artist.slug} data-emerge>
-            <div className="relative aspect-[4/5] overflow-hidden bg-[var(--void)]">
+            <div className="work-print relative aspect-[4/5] overflow-hidden bg-[var(--void)]">
               <Image
                 src={artist.portrait}
                 alt={artist.name}
                 fill
-                sizes="(max-width: 820px) 100vw, 420px"
-                className="object-cover object-[center_20%] grayscale contrast-[1.35] brightness-[.42] saturate-0"
+                sizes="(max-width: 820px) 100vw, 520px"
+                className="object-cover object-[center_18%] saturate-[.7] contrast-[1.12] brightness-[.9]"
               />
-              <div className="pointer-events-none absolute inset-0 bg-[var(--void)]/45 mix-blend-multiply" />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[var(--void)] via-[var(--void)]/20 to-[var(--void)]/55" />
             </div>
             <div className="pt-5">
               <h2 className="m-0 font-[family-name:var(--font-display)] text-[clamp(32px,5vw,52px)] font-medium leading-none">

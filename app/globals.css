@@ -64,7 +64,7 @@ button, input, textarea { border-radius: 0; font: inherit; }
 }
 
 .work-print img {
-  filter: saturate(0.28) contrast(1.28) brightness(0.48);
+  filter: saturate(0.82) contrast(1.14) brightness(0.96);
 }
 .work-print::after {
   content: "";
@@ -72,14 +72,15 @@ button, input, textarea { border-radius: 0; font: inherit; }
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(10,10,10,.2) 0%, rgba(10,10,10,.55) 100%),
+    linear-gradient(180deg, rgba(10,10,10,.32) 0%, transparent 18%, transparent 76%, rgba(10,10,10,.48) 100%),
+    linear-gradient(90deg, rgba(10,10,10,.22) 0%, transparent 12%, transparent 88%, rgba(10,10,10,.22) 100%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   mix-blend-mode: multiply;
-  opacity: 0.72;
+  opacity: 0.42;
 }
 @keyframes work-breathe {
-  0%, 100% { opacity: 0.72; }
-  50% { opacity: 0.82; }
+  0%, 100% { opacity: 0.38; }
+  50% { opacity: 0.48; }
 }
 @media (prefers-reduced-motion: no-preference) {
   .work-print::after { animation: work-breathe 18s ease-in-out infinite; }
@@ -139,7 +140,6 @@ button, input, textarea { border-radius: 0; font: inherit; }
 html.emerge-js [data-emerge]:not(.is-emerged) {
   opacity: 0;
   transform: translateY(64px);
-  filter: brightness(0.15);
 }
 html.emerge-js [data-emerge].is-emerged {
   opacity: 1;
