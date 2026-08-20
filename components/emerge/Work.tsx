@@ -9,9 +9,7 @@ export function Work() {
 
   return (
     <section id="work" className="px-[var(--gutter)] py-[clamp(48px,8vw,96px)]">
-      <p className="mb-8 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
-        Selected work
-      </p>
+      <h2 className="sr-only">Work</h2>
       <div className="columns-1 gap-0 sm:columns-2 lg:columns-3">
         {works.map((work, i) => (
           <figure

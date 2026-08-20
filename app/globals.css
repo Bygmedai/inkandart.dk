@@ -51,6 +51,17 @@ button, input, textarea { border-radius: 0; font: inherit; }
   text-transform: uppercase;
 }
 .skip-link:focus { left: 8px; top: 8px; }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
 .grain {
   position: fixed;
@@ -83,6 +94,18 @@ button, input, textarea { border-radius: 0; font: inherit; }
 }
 .legend-band:hover .legend-track {
   animation-play-state: paused;
+}
+
+@keyframes emerge-scroll-pulse {
+  0%, 100% { opacity: 0.22; }
+  50% { opacity: 0.55; }
+}
+.emerge-scroll {
+  letter-spacing: 0.46em;
+  animation: emerge-scroll-pulse 6.4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .emerge-scroll { animation: none; }
 }
 
 [data-emerge] {

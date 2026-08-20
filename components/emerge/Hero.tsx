@@ -44,7 +44,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section ref={root} id="emerge" className="relative h-svh min-h-[640px] overflow-hidden bg-[var(--void)]">
+    <section ref={root} id="emerge" className="relative h-svh min-h-[720px] overflow-hidden bg-[var(--void)]">
       <div className="absolute inset-0" aria-hidden="true">
         <div data-layer="bg" className="absolute inset-0 scale-110">
           <Image
@@ -77,10 +77,10 @@ export function Hero() {
             className="object-cover object-bottom"
           />
         </div>
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,10,.5)_0%,rgba(10,10,10,.08)_42%,rgba(10,10,10,.78)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,10,.55)_0%,rgba(10,10,10,.08)_38%,rgba(10,10,10,.55)_68%,rgba(10,10,10,.92)_100%)]" />
       </div>
 
-      <div data-layer="word" className="relative z-10 flex h-full flex-col items-center justify-center px-[var(--gutter)] text-center">
+      <div data-layer="word" className="relative z-10 flex h-full flex-col items-center justify-center px-[var(--gutter)] pb-[22vh] text-center">
         <h1 className="m-0 font-[family-name:var(--font-display)] text-[clamp(52px,13vw,168px)] font-medium uppercase leading-[.9] tracking-[0.06em]">
           INK <span className="italic text-[var(--gold)]">&amp;</span> ART
         </h1>
@@ -91,7 +91,7 @@ export function Hero() {
 
       <a
         href="#legend"
-        className="absolute bottom-[clamp(28px,6vh,56px)] left-1/2 z-10 -translate-x-1/2 font-[family-name:var(--font-mono)] text-[10.5px] uppercase tracking-[0.22em] text-[var(--gold)]"
+        className="emerge-scroll absolute bottom-[clamp(40px,9vh,88px)] left-1/2 z-10 -translate-x-1/2 whitespace-nowrap font-[family-name:var(--font-mono)] text-[clamp(13px,1.7vw,18px)] font-normal uppercase text-[var(--gold)]"
       >
         Scroll down to emerge
       </a>

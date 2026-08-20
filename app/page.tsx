@@ -16,9 +16,9 @@ export default function HomePage() {
       <main id="main">
         <Hero />
         <Legend />
-        <Artists />
         <Work />
         <Studio />
+        <Artists />
         <Booking />
       </main>
       <Footer />

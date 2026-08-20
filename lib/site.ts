@@ -21,17 +21,17 @@ export const artists = [
     role: "Founder & Artist",
     slug: "nizar",
     portrait: "/artists/nizar/portrait.jpg",
-    line: "Hans hånd former kapitlet. Ikke motivet.",
+    line: "Vi dekorerer ikke. Vi committer.",
   },
 ];
 
 export const works = [
-  { src: "/work/odin.jpg", alt: "Black & grey — et ansigt der bliver", span: "tall" },
-  { src: "/work/under-naalen.jpg", alt: "Under nålen", span: "wide" },
-  { src: "/work/session.jpg", alt: "I stolen", span: "tall" },
-  { src: "/work/signetring.jpg", alt: "Et mærke på hånden", span: "square" },
-  { src: "/work/stolen.jpg", alt: "Stolen", span: "tall" },
-  { src: "/work/focus.jpg", alt: "I arbejdet", span: "wide" },
-  { src: "/work/mark.jpg", alt: "Stedets mærke", span: "square" },
-  { src: "/work/studio-window.jpg", alt: "Studiet om natten", span: "wide" },
+  { src: "/work/odin.jpg", alt: "Black and grey", span: "tall" },
+  { src: "/work/under-naalen.jpg", alt: "Under the needle", span: "wide" },
+  { src: "/work/session.jpg", alt: "In the chair", span: "tall" },
+  { src: "/work/signetring.jpg", alt: "A mark on the hand", span: "square" },
+  { src: "/work/stolen.jpg", alt: "The chair", span: "tall" },
+  { src: "/work/focus.jpg", alt: "Work", span: "wide" },
+  { src: "/work/mark.jpg", alt: "The studio mark", span: "square" },
+  { src: "/work/studio-window.jpg", alt: "Night", span: "wide" },
 ] as const;

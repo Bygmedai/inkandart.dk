@@ -22,12 +22,12 @@ export function Loader() {
           role="status"
         >
           <motion.p
-            className="m-0 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.22em] text-[var(--gold)]"
-            initial={{ opacity: 0, letterSpacing: "0.4em" }}
-            animate={{ opacity: 1, letterSpacing: "0.22em" }}
+            className="m-0 font-[family-name:var(--font-mono)] text-[12px] uppercase tracking-[0.42em] text-[var(--gold)]"
+            initial={{ opacity: 0, letterSpacing: "0.62em" }}
+            animate={{ opacity: 0.7, letterSpacing: "0.42em" }}
             transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
           >
-            The mark is already waiting
+            The mark stays
           </motion.p>
         </motion.div>
       )}

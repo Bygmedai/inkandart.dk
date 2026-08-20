@@ -9,29 +9,27 @@ export function Artists() {
 
   return (
     <section id="artists" className="px-[var(--gutter)] py-[clamp(72px,12vw,140px)]">
-      <p className="mb-6 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
-        The hands
-      </p>
-      <div className="grid max-w-[520px] gap-10">
+      <div className="grid max-w-[420px] gap-10">
         {artists.map((artist) => (
-          <article id={`artist-${artist.slug}`} key={artist.slug} data-emerge className="bg-[var(--skin)]">
-            <div className="relative aspect-[4/5] overflow-hidden">
+          <article id={`artist-${artist.slug}`} key={artist.slug} data-emerge>
+            <div className="relative aspect-[4/5] overflow-hidden bg-[var(--void)]">
               <Image
                 src={artist.portrait}
                 alt={artist.name}
                 fill
-                sizes="(max-width: 820px) 100vw, 520px"
-                className="object-cover object-[center_18%] saturate-[.75] contrast-[1.08] brightness-[.88]"
+                sizes="(max-width: 820px) 100vw, 420px"
+                className="object-cover object-[center_20%] grayscale contrast-[1.35] brightness-[.42] saturate-0"
               />
+              <div className="pointer-events-none absolute inset-0 bg-[var(--void)]/45 mix-blend-multiply" />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[var(--void)] via-[var(--void)]/20 to-[var(--void)]/55" />
             </div>
-            <div className="px-6 py-6">
-              <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.16em] text-[var(--text-mute)]">
-                {artist.role}
-              </p>
-              <h2 className="mt-2 font-[family-name:var(--font-display)] text-[clamp(32px,5vw,52px)] font-medium leading-none">
+            <div className="pt-5">
+              <h2 className="m-0 font-[family-name:var(--font-display)] text-[clamp(32px,5vw,52px)] font-medium leading-none">
                 {artist.name}
               </h2>
-              <p className="mt-3 max-w-[36ch] text-[var(--text-soft)]">{artist.line}</p>
+              <p className="mt-3 max-w-[28ch] font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.18em] text-[var(--gold)]/80">
+                {artist.line}
+              </p>
             </div>
           </article>
         ))}

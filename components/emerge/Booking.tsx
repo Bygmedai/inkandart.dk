@@ -32,8 +32,8 @@ export function Booking() {
         <h2 className="m-0 font-[family-name:var(--font-display)] text-[clamp(36px,7vw,92px)] font-medium leading-[.95]">
           Stolen venter.
         </h2>
-        <p className="mx-auto mt-5 max-w-[38ch] text-[var(--text-soft)]">
-          Skriv et par linjer. Vi svarer når det er tid — ikke før.
+        <p className="mx-auto mt-5 max-w-[36ch] font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.18em] text-[var(--text-mute)]">
+          The needle doesn&apos;t negotiate.
         </p>
 
         <form onSubmit={onSubmit} className="mx-auto mt-10 grid max-w-[420px] gap-3 text-left">
@@ -55,7 +55,7 @@ export function Booking() {
             <input
               name="contact"
               required
-              autoComplete="tel"
+              autoComplete="on"
               className="h-12 border border-[var(--text)]/20 bg-[var(--skin)] px-4 text-[var(--text)]"
             />
           </label>
