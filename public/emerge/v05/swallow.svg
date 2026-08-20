@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 224"><defs><filter id="r" x="-18%" y="-18%" width="136%" height="136%"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" seed="7"></feTurbulence><feDisplacementMap in="SourceGraphic" scale="5"></feDisplacementMap></filter></defs><g filter="url(#r)"><path d="M236,96 L214,88 C210,70 192,58 172,60 C144,34 96,22 48,34 C86,44 112,58 128,76 C100,74 68,82 44,102 C74,102 100,110 118,126 C112,152 96,174 70,190 C104,184 130,166 144,140 C158,146 176,146 192,138 C204,130 212,116 214,104 Z" fill="#17110e" stroke="#b8ac97" stroke-width="2.4"></path>
+<path d="M118,126 C104,150 92,178 88,210 L102,182 L108,206 C116,182 122,156 128,138 Z" fill="#17110e" stroke="#b8ac97" stroke-width="2.4"></path>
+<path d="M196,120 C186,132 172,138 158,136 C168,122 180,112 196,108 Z" fill="#8b1e1e"></path>
+<circle cx="203" cy="81" r="4" fill="#ddd2bf"></circle></g></svg>

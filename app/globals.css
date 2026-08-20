@@ -228,3 +228,16 @@ html.emerge-js [data-emerge="deep"]:not(.is-emerged) {
     transition: none;
   }
 }
+
+/* ── Emerge v0.5 (Claudias scene) ─────────────────────────────────────────
+   Keyframes fra spec'en + reduced-motion-slukning af al dekorativ animation. */
+@keyframes fly {0%{transform:translate(-18vw,2svh)}45%{transform:translate(44vw,-3svh)}100%{transform:translate(112vw,1svh)}}
+@keyframes flyBack {0%{transform:translate(112vw,-2svh)}55%{transform:translate(40vw,3svh)}100%{transform:translate(-18vw,0)}}
+@keyframes fall {0%{transform:translateY(-6svh);opacity:0}10%{opacity:.95}82%{opacity:.95}100%{transform:translateY(70svh);opacity:0}}
+@keyframes floatUp {0%{transform:translate(0,20svh);opacity:0}12%{opacity:.9}78%{opacity:.85}100%{transform:translate(3vw,-46svh);opacity:0}}
+@keyframes twk {0%,100%{opacity:.12}50%{opacity:.85}}
+@keyframes mq {from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes loaderBreathe {0%,100%{opacity:.5}50%{opacity:1}}
+@media (prefers-reduced-motion: reduce) {
+  .emerge-v05 * { animation: none !important; }
+}

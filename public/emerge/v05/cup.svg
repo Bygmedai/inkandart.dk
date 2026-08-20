@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 14 90 84"><defs><filter id="r" x="-18%" y="-18%" width="136%" height="136%"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" seed="157"></feTurbulence><feDisplacementMap in="SourceGraphic" scale="4"></feDisplacementMap></filter></defs><g filter="url(#r)"><path d="M16,30 L74,30 L68,88 L22,88 Z" fill="#1c1512" stroke="#b8ac97" stroke-width="2.4"></path>
+<ellipse cx="45" cy="30" rx="29" ry="9" fill="#241a14" stroke="#b8ac97" stroke-width="2.4"></ellipse>
+<ellipse cx="45" cy="31" rx="21" ry="6" fill="#5a1414"></ellipse>
+<path d="M70,44 C74,54 72,64 68,70 C66,62 66,52 68,46 Z" fill="#8b1e1e"></path></g></svg>
