@@ -57,13 +57,13 @@ export function SceneV05() {
   <div data-depth="0.44" style={{position:'absolute',left:'-4%',top:'22%',width:'112%',opacity:'.85',zIndex:'4'}}><img src="/emerge/v05/wire.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-2.5deg)'}}/></div>
   <div data-depth="0.48" style={{position:'absolute',left:'7%',top:'14%',width:'clamp(170px,18vw,280px)',zIndex:'5'}}><img src="/emerge/v05/sign.svg" alt="Larsbjørnsstræde — Pisserenden" style={{width:'100%',display:'block',transform:'rotate(-6deg)',filter:'drop-shadow(0 16px 28px rgba(0,0,0,.65))'}}/></div>
   <div data-depth="0.36" style={{position:'absolute',left:'66%',top:'58%',width:'clamp(200px,24vw,340px)',opacity:'.55',zIndex:'2'}}><img src="/emerge/v05/splat-red.svg" alt="" style={{width:'100%',display:'block'}}/></div>
-  <div data-depth="0.46" style={{position:'absolute',left:'-3%',bottom:'-4%',width:'clamp(280px,30vw,470px)',zIndex:'5'}}><img src="/emerge/v05/rose.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-10deg)',filter:'saturate(1.15) drop-shadow(0 24px 40px rgba(0,0,0,.6))'}}/></div>
+  <div className="v5m-rose-big" data-depth="0.46" style={{position:'absolute',left:'-3%',bottom:'-4%',width:'clamp(280px,30vw,470px)',zIndex:'5'}}><img src="/emerge/v05/rose.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-10deg)',filter:'saturate(1.15) drop-shadow(0 24px 40px rgba(0,0,0,.6))'}}/></div>
   <div data-depth="0.4" style={{position:'absolute',right:'8%',top:'8%',width:'clamp(120px,13vw,190px)',zIndex:'4'}}><img src="/emerge/v05/rose.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(38deg)',filter:'drop-shadow(0 16px 28px rgba(0,0,0,.55))'}}/></div>
-  <div data-depth="0.5" style={{position:'absolute',right:'-2%',top:'19%',width:'clamp(200px,22vw,320px)',zIndex:'5'}}><img src="/emerge/v05/snake.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(14deg)',filter:'saturate(1.1) drop-shadow(0 20px 34px rgba(0,0,0,.6))'}}/></div>
-  <div data-depth="0.52" style={{position:'absolute',left:'13%',top:'39%',width:'clamp(90px,10vw,140px)',zIndex:'5'}}><img src="/emerge/v05/skull.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-8deg)',filter:'drop-shadow(0 16px 28px rgba(0,0,0,.6))'}}/></div>
+  <div className="v5m-snake-hero" data-depth="0.5" style={{position:'absolute',right:'-2%',top:'19%',width:'clamp(200px,22vw,320px)',zIndex:'5'}}><img src="/emerge/v05/snake.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(14deg)',filter:'saturate(1.1) drop-shadow(0 20px 34px rgba(0,0,0,.6))'}}/></div>
+  <div className="v5m-skull-title" data-depth="0.52" style={{position:'absolute',left:'13%',top:'39%',width:'clamp(90px,10vw,140px)',zIndex:'5'}}><img src="/emerge/v05/skull.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-8deg)',filter:'drop-shadow(0 16px 28px rgba(0,0,0,.6))'}}/></div>
   <div data-depth="0.54" style={{position:'absolute',right:'19%',bottom:'19%',width:'clamp(110px,12vw,180px)',zIndex:'5'}}><img src="/emerge/v05/machine.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-16deg)',filter:'drop-shadow(0 16px 28px rgba(0,0,0,.6))'}}/></div>
   <div data-depth="0.55" style={{position:'absolute',left:'0',top:'11%',width:'100%',zIndex:'5',pointerEvents:'none'}}><div style={{width:'clamp(90px,10vw,140px)',animation:'fly 34s linear infinite'}}><img src="/emerge/v05/swallow.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-4deg)',filter:'drop-shadow(0 10px 18px rgba(0,0,0,.5))'}}/></div></div>
-  <div data-depth="0.5" style={{position:'absolute',left:'29%',bottom:'11%',width:'64px',zIndex:'5'}}><img src="/emerge/v05/dice.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-6deg)',filter:'drop-shadow(0 10px 18px rgba(0,0,0,.6))'}}/></div>
+  <div className="v5m-dice-scroll" data-depth="0.5" style={{position:'absolute',left:'29%',bottom:'11%',width:'64px',zIndex:'5'}}><img src="/emerge/v05/dice.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-6deg)',filter:'drop-shadow(0 10px 18px rgba(0,0,0,.6))'}}/></div>
   <div data-depth="0.52" style={{position:'absolute',left:'23%',bottom:'8%',width:'54px',zIndex:'5'}}><img src="/emerge/v05/cup.svg" alt="" style={{width:'100%',display:'block',filter:'drop-shadow(0 10px 18px rgba(0,0,0,.6))'}}/></div>
   <div data-depth="0.53" style={{position:'absolute',left:'26.5%',bottom:'7%',width:'42px',zIndex:'5'}}><img src="/emerge/v05/cup.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(6deg)',filter:'drop-shadow(0 8px 14px rgba(0,0,0,.6))'}}/></div>
   <div data-depth="0.45" style={{position:'absolute',left:'78%',top:'50%',width:'44px',opacity:'.8',zIndex:'4'}}><img src="/emerge/v05/skull.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(14deg)'}}/></div>
@@ -73,13 +73,13 @@ export function SceneV05() {
     <p style={{margin:'16px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'11px',letterSpacing:'.26em',textTransform:'uppercase',color:'rgba(232,224,213,.6)'}}>Larsbjørnsstræde 13 · Pisserenden · København K</p>
   </div>
 
-  <div data-depth="1.0" style={{position:'absolute',left:'-6%',top:'24%',width:'clamp(200px,24vw,340px)',zIndex:'9'}}><img src="/emerge/v05/machine.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-28deg)',filter:'drop-shadow(0 26px 44px rgba(0,0,0,.75))'}}/></div>
-  <div data-depth="1.1" style={{position:'absolute',right:'5%',bottom:'-6%',width:'clamp(150px,15vw,240px)',zIndex:'10'}}><img src="/emerge/v05/dagger.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(22deg)',filter:'drop-shadow(0 26px 44px rgba(0,0,0,.75))'}}/></div>
+  <div className="v5m-machine-big" data-depth="1.0" style={{position:'absolute',left:'-6%',top:'24%',width:'clamp(200px,24vw,340px)',zIndex:'9'}}><img src="/emerge/v05/machine.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-28deg)',filter:'drop-shadow(0 26px 44px rgba(0,0,0,.75))'}}/></div>
+  <div className="v5m-sword-hero" data-depth="1.1" style={{position:'absolute',right:'5%',bottom:'-6%',width:'clamp(150px,15vw,240px)',zIndex:'10'}}><img src="/emerge/v05/dagger.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(22deg)',filter:'drop-shadow(0 26px 44px rgba(0,0,0,.75))'}}/></div>
   <div data-depth="1.05" style={{position:'absolute',right:'-4%',top:'5%',width:'clamp(200px,24vw,360px)',zIndex:'9'}}><img src="/emerge/v05/needle.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-24deg)',filter:'drop-shadow(0 20px 34px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="1.08" style={{position:'absolute',left:'17%',top:'58%',width:'clamp(80px,8vw,115px)',zIndex:'9'}}><img src="/emerge/v05/rose.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(24deg)',filter:'drop-shadow(0 16px 26px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="1.2" style={{position:'absolute',right:'29%',top:'11%',width:'clamp(48px,5vw,70px)',zIndex:'10'}}><img src="/emerge/v05/skull.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-18deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="1.15" style={{position:'absolute',left:'63%',bottom:'11%',width:'clamp(80px,9vw,130px)',zIndex:'10'}}><img src="/emerge/v05/snake.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(30deg)',filter:'drop-shadow(0 14px 24px rgba(0,0,0,.7))'}}/></div>
-  <div data-depth="1.25" style={{position:'absolute',left:'0',top:'42%',width:'100%',zIndex:'10',pointerEvents:'none'}}><div style={{width:'clamp(60px,7vw,100px)',animation:'fly 19s linear infinite -6s'}}><img src="/emerge/v05/swallow.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-6deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div></div>
+  <div className="v5m-swallow-mid" data-depth="1.25" style={{position:'absolute',left:'0',top:'42%',width:'100%',zIndex:'10',pointerEvents:'none'}}><div style={{width:'clamp(60px,7vw,100px)',animation:'fly 19s linear infinite -6s'}}><img src="/emerge/v05/swallow.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-6deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div></div>
 
   <div data-depth="1.08" data-drift="0" style={{position:'absolute',left:'0',bottom:'-3%',width:'100%',zIndex:'11'}}><img src="/emerge/v05/edge-bottom.svg" alt="" style={{width:'100%',height:'clamp(110px,17svh,200px)',objectFit:'fill',display:'block',filter:'drop-shadow(0 -10px 30px rgba(0,0,0,.5))'}}/></div>
   <div data-depth="1.02" style={{position:'absolute',right:'8%',bottom:'2%',width:'clamp(56px,6.5vw,100px)',zIndex:'10'}}><img src="/emerge/v05/lamp.svg" alt="" style={{width:'100%',display:'block',filter:'drop-shadow(0 14px 26px rgba(0,0,0,.7))'}}/></div>
@@ -245,7 +245,7 @@ export function SceneV05() {
   </div>
   <div data-depth="1.0" style={{position:'absolute',left:'26%',top:'60%',width:'clamp(90px,10vw,150px)',zIndex:'9'}}><img loading="lazy" src="/emerge/v05/machine.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-20deg)',filter:'drop-shadow(0 18px 30px rgba(0,0,0,.75))'}}/></div>
 
-  <div data-depth="0.7" style={{position:'absolute',left:'56%',top:'80%',width:'min(24%,340px)',zIndex:'5'}}>
+  <div className="v5m-street" data-depth="0.7" style={{position:'absolute',left:'56%',top:'80%',width:'min(24%,340px)',zIndex:'5'}}>
     <figure style={{margin:'0',transform:'rotate(-2deg)'}}>
       <img loading="lazy" src="/optimized/studio/gade-960.webp" srcSet="/optimized/studio/gade-480.webp 480w, /optimized/studio/gade-960.webp 960w" sizes="(max-width: 768px) 60vw, 480px" width={960} height={1202} alt="Larsbjørnsstræde" style={{width:'100%',display:'block',filter:'saturate(.7) contrast(1.15) brightness(.88) sepia(.14) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-b.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-b.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/>
       <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'9.5px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>Larsbjørnsstræde — midt i Pisserenden</figcaption>
@@ -285,12 +285,12 @@ export function SceneV05() {
   <h2 style={{position:'absolute',top:'5%',left:'50%',transform:'translateX(-50%)',zIndex:'11',margin:'0',fontFamily:'\'Space Mono\',monospace',fontSize:'clamp(9px,1vw,12px)',fontWeight:'400',letterSpacing:'.6em',textTransform:'uppercase',color:'rgba(232,224,213,.28)',whiteSpace:'nowrap'}}>The artist</h2>
 
   <div data-depth="0.35" style={{position:'absolute',left:'24%',top:'12%',width:'min(44%,560px)',opacity:'.16',zIndex:'3'}}><img loading="lazy" src="/emerge/v05/ouroboros.svg" alt="" style={{width:'100%',display:'block'}}/></div>
-  <div id="artist-nizar" data-depth="0.7" style={{position:'absolute',left:'31%',top:'20%',width:'min(26%,340px)',zIndex:'5'}}>
+  <div className="v5m-artist-photo" id="artist-nizar" data-depth="0.7" style={{position:'absolute',left:'31%',top:'20%',width:'min(26%,340px)',zIndex:'5'}}>
     <figure style={{margin:'0'}}>
       <img loading="lazy" src="/optimized/artists/nizar/portrait-960.webp" srcSet="/optimized/artists/nizar/portrait-480.webp 480w, /optimized/artists/nizar/portrait-960.webp 960w" sizes="(max-width: 768px) 60vw, 480px" width={960} height={613} alt="Nizar" style={{width:'100%',display:'block',filter:'saturate(.55) contrast(1.12) brightness(.88) sepia(.16) hue-rotate(-6deg)',maskImage:'radial-gradient(120% 105% at 50% 40%, #000 52%, transparent 92%)',WebkitMaskImage:'radial-gradient(120% 105% at 50% 40%, #000 52%, transparent 92%)'}}/>
     </figure>
   </div>
-  <div data-depth="0.55" style={{position:'absolute',left:'53%',top:'34%',width:'min(34%,440px)',zIndex:'6'}}>
+  <div className="v5m-artist-quote" data-depth="0.55" style={{position:'absolute',left:'53%',top:'34%',width:'min(34%,440px)',zIndex:'6'}}>
     <div style={{position:'absolute',left:'-8%',top:'-24%',width:'70%',opacity:'.5',zIndex:'-1'}}><img loading="lazy" src="/emerge/v05/splat-red.svg" alt="" style={{width:'100%',display:'block'}}/></div>
     <blockquote style={{margin:'0'}}>
       <p style={{margin:'0',fontFamily:'\'Cormorant Garamond\',serif',fontStyle:'italic',fontWeight:'500',fontSize:'clamp(26px,3.4vw,44px)',lineHeight:'1.2',textShadow:'0 4px 24px rgba(0,0,0,.8)'}}>Vi dekorerer ikke.<br/>Vi committer.</p>
@@ -299,7 +299,7 @@ export function SceneV05() {
   </div>
 
   <div data-depth="0.95" style={{position:'absolute',left:'22%',top:'13%',width:'clamp(90px,10vw,150px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/machine.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-18deg)',filter:'drop-shadow(0 18px 30px rgba(0,0,0,.75))'}}/></div>
-  <div data-depth="1.0" style={{position:'absolute',right:'14%',top:'55%',width:'clamp(160px,19vw,300px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/needle.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(8deg)',filter:'drop-shadow(0 16px 26px rgba(0,0,0,.7))'}}/></div>
+  <div className="v5m-artist-needle" data-depth="1.0" style={{position:'absolute',right:'14%',top:'55%',width:'clamp(160px,19vw,300px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/needle.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(8deg)',filter:'drop-shadow(0 16px 26px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="0.9" style={{position:'absolute',left:'26%',top:'58%',width:'46px',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/cup.svg" alt="" style={{width:'100%',display:'block'}}/></div>
   <div data-depth="0.94" style={{position:'absolute',left:'29.5%',top:'59%',width:'36px',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/cup.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(8deg)'}}/></div>
   <div data-depth="0.98" style={{position:'absolute',left:'32.5%',top:'58.4%',width:'28px',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/cup.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-10deg)'}}/></div>
@@ -333,17 +333,17 @@ export function SceneV05() {
   <div data-depth="0.16" style={{position:'absolute',right:'2%',top:'44%',width:'38vw',opacity:'.8',zIndex:'1'}}><img loading="lazy" src="/emerge/v05/smoke.svg" alt="" style={{width:'100%',display:'block',transform:'scaleX(-1) rotate(6deg)'}}/></div>
 
   <div data-depth="0.35" style={{position:'absolute',left:'50%',top:'16%',width:'min(46%,520px)',marginLeft:'min(-23%,-260px)',opacity:'.2',zIndex:'3'}}><img loading="lazy" src="/emerge/v05/ouroboros.svg" alt="" style={{width:'100%',display:'block'}}/></div>
-  <div data-depth="0.6" data-drift="0" style={{position:'relative',zIndex:'6',paddingTop:'34svh',textAlign:'center'}}>
+  <div className="v5m-book-center" data-depth="0.6" data-drift="0" style={{position:'relative',zIndex:'6',paddingTop:'34svh',textAlign:'center'}}>
     <h2 style={{margin:'0 auto',maxWidth:'720px',fontFamily:'\'Cormorant Garamond\',serif',fontStyle:'italic',fontWeight:'500',fontSize:'clamp(34px,4.8vw,60px)',lineHeight:'1.15',textShadow:'0 4px 28px rgba(0,0,0,.85)'}}>The mark is already waiting.</h2>
     <div style={{marginTop:'clamp(36px,6svh,70px)'}}>
       <a href="https://inkart.book.dk" style={{fontFamily:'\'Space Mono\',monospace',fontSize:'13px',letterSpacing:'.34em',textTransform:'uppercase',color:'#c9a227',borderBottom:'1px solid rgba(201,162,39,.45)',paddingBottom:'6px'}}>Booking →</a>
-      <p style={{margin:'28px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.26em',textTransform:'uppercase',color:'#8e867b'}}>Larsbjørnsstræde 13 · 1454 København K · 55 24 86 08</p>
+      <p style={{margin:'28px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.26em',textTransform:'uppercase',color:'#8e867b'}}>Larsbjørnsstræde 13 · 1454 København K · <a href="tel:+4555248608" style={{color:'inherit',borderBottom:'1px solid rgba(232,224,213,.25)'}}>55 24 86 08</a></p>
       <p style={{margin:'12px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.26em',textTransform:'uppercase',color:'rgba(139,30,30,.85)'}}>Midt i Pisserenden — du finder os</p>
       <BlackbookSignup />
     </div>
   </div>
 
-  <div data-depth="1.1" style={{position:'absolute',left:'16%',top:'22%',width:'clamp(60px,7vw,100px)',zIndex:'8'}}><img loading="lazy" src="/emerge/v05/dagger.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-20deg)',filter:'drop-shadow(0 16px 26px rgba(0,0,0,.75))'}}/></div>
+  <div className="v5m-book-dagger" data-depth="1.1" style={{position:'absolute',left:'16%',top:'22%',width:'clamp(60px,7vw,100px)',zIndex:'8'}}><img loading="lazy" src="/emerge/v05/dagger.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-20deg)',filter:'drop-shadow(0 16px 26px rgba(0,0,0,.75))'}}/></div>
   <div data-depth="0.45" style={{position:'absolute',right:'14%',top:'8%',width:'clamp(90px,10vw,140px)',zIndex:'4'}}><img loading="lazy" src="/emerge/v05/rose.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(184deg)',filter:'drop-shadow(0 14px 24px rgba(0,0,0,.6))'}}/></div>
   <div data-depth="0.9" style={{position:'absolute',right:'20%',top:'38%',width:'clamp(80px,9vw,130px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/machine.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(14deg)',filter:'drop-shadow(0 14px 24px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="1.05" style={{position:'absolute',left:'24%',top:'58%',width:'clamp(70px,8vw,110px)',zIndex:'8'}}><img loading="lazy" src="/emerge/v05/snake.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-38deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div>
