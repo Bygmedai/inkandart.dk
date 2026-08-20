@@ -63,6 +63,28 @@ button, input, textarea { border-radius: 0; font: inherit; }
   border: 0;
 }
 
+.work-print img {
+  filter: saturate(0.28) contrast(1.28) brightness(0.48);
+}
+.work-print::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(10,10,10,.2) 0%, rgba(10,10,10,.55) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+  opacity: 0.72;
+}
+@keyframes work-breathe {
+  0%, 100% { opacity: 0.72; }
+  50% { opacity: 0.82; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .work-print::after { animation: work-breathe 18s ease-in-out infinite; }
+}
+
 .grain {
   position: fixed;
   inset: 0;

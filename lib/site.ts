@@ -27,11 +27,11 @@ export const artists = [
 
 export const works = [
   { src: "/work/odin.jpg", alt: "Black and grey", span: "tall" },
-  { src: "/work/under-naalen.jpg", alt: "Under the needle", span: "wide" },
-  { src: "/work/session.jpg", alt: "In the chair", span: "tall" },
   { src: "/work/signetring.jpg", alt: "A mark on the hand", span: "square" },
   { src: "/work/stolen.jpg", alt: "The chair", span: "tall" },
-  { src: "/work/focus.jpg", alt: "Work", span: "wide" },
   { src: "/work/mark.jpg", alt: "The studio mark", span: "square" },
+  { src: "/work/under-naalen.jpg", alt: "Under the needle", span: "wide" },
   { src: "/work/studio-window.jpg", alt: "Night", span: "wide" },
+  { src: "/work/focus.jpg", alt: "Work", span: "wide" },
+  { src: "/work/session.jpg", alt: "In the chair", span: "tall" },
 ] as const;

@@ -15,7 +15,7 @@ export function Work() {
           <figure
             key={work.src}
             data-emerge
-            className={`relative mb-0 break-inside-avoid overflow-hidden ${
+            className={`work-print relative mb-0 break-inside-avoid overflow-hidden ${
               i % 3 === 1 ? "sm:translate-y-8" : i % 3 === 2 ? "lg:-translate-y-6" : ""
             }`}
           >
@@ -26,7 +26,7 @@ export function Work() {
               height={work.span === "wide" ? 720 : 1500}
               loading="lazy"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="h-auto w-full object-cover saturate-[.7] contrast-[1.12] brightness-[.82]"
+              className="h-auto w-full object-cover"
             />
           </figure>
         ))}
