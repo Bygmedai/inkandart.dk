@@ -18,10 +18,10 @@ function Band({ reverse }: { reverse?: boolean }) {
   );
 }
 
-export function Legend() {
+export function Legend({ id = "legend" }: { id?: string }) {
   return (
-    <section id="legend" tabIndex={-1} className="legend-fade border-y border-[var(--text)]/10 bg-[var(--void)] py-0 outline-none">
-      <h2 className="sr-only">The legend</h2>
+    <section id={id} tabIndex={id === "legend" ? -1 : undefined} className="legend-fade border-y border-[var(--text)]/10 bg-[var(--void)] py-0 outline-none">
+      {id === "legend" ? <h2 className="sr-only">The legend</h2> : null}
       <Band />
       <Band reverse />
     </section>

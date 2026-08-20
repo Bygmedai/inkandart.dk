@@ -17,6 +17,7 @@ export default function HomePage() {
         <Hero />
         <Legend />
         <Work />
+        <Legend id="legend-late" />
         <Studio />
         <Artists />
         <Booking />

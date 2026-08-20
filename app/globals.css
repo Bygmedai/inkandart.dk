@@ -139,7 +139,7 @@ button, input, textarea { border-radius: 0; font: inherit; }
 
 html.emerge-js [data-emerge]:not(.is-emerged) {
   opacity: 0;
-  transform: translateY(64px);
+  transform: translateY(36px);
 }
 html.emerge-js [data-emerge].is-emerged {
   opacity: 1;

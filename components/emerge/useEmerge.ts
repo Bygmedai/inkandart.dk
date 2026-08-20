@@ -17,7 +17,7 @@ export function useEmerge(selector = "[data-emerge]") {
     const triggers = nodes.map((node) =>
       ScrollTrigger.create({
         trigger: node,
-        start: "top 86%",
+        start: "top 92%",
         onEnter: () => node.classList.add("is-emerged"),
         once: true,
       }),
