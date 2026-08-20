@@ -241,3 +241,15 @@ html.emerge-js [data-emerge="deep"]:not(.is-emerged) {
 @media (prefers-reduced-motion: reduce) {
   .emerge-v05 * { animation: none !important; }
 }
+
+/* Loader-overlayet findes kun for JS-brugere (emerge-boot sætter klassen
+   beforeInteractive, så der er intet flash). Uden JS: intet overlay —
+   indholdet ER siden. (Haruki S566, PE-kontrakten målt.) */
+[data-loader] {
+  display: none;
+}
+html.emerge-js [data-loader] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
