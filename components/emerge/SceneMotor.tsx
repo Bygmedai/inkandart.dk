@@ -10,6 +10,27 @@ import { useEffect } from "react";
  */
 export function SceneMotor() {
   useEffect(() => {
+    // Init som SEPARAT task efter hydreringens (S567 perf-pass 3): effekten
+    // kørte ellers synkront i halen af Reacts hydrerings-task og gjorde én
+    // ~270 ms long task ud af to små. rAF+setTimeout(0) lægger et task-skel;
+    // loaderen dækker skærmen imens, så intet blinker.
+    let cancelled = false;
+    let cleanup: (() => void) | undefined;
+    const kick = requestAnimationFrame(() => {
+      window.setTimeout(() => {
+        if (!cancelled) cleanup = init();
+      }, 0);
+    });
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(kick);
+      cleanup?.();
+    };
+  }, []);
+  return null;
+}
+
+function init(): (() => void) | undefined {
     const scope = document.querySelector<HTMLElement>(".emerge-v05");
     if (!scope) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -46,15 +67,37 @@ export function SceneMotor() {
     });
 
     const measure = () => {
-      // To faser (Haruki S566, forced-reflow-insight): først ALLE skriv,
-      // så præcis én reflow, så ALLE læs. Interleavet skriv/læs kostede
-      // ~90 forced reflows ved load — én pr. [data-depth]-element.
-      const s = sTop();
-      for (const it of items) it.el.style.transform = "";
-      void document.body.offsetHeight; // committer transform-nulstillingen én gang
+      // STATISK beregning (S567 perf-pass 3): ingen rect-læsninger overhovedet.
+      // Spec'ens lag er absolut positioneret med inline top/bottom i % af
+      // sektioner med faste svh-højder — centret kan regnes ud af strengene.
+      // Den gamle getBoundingClientRect-løkke tvang én fuld layout af hele
+      // 5.787px-lærredet (~400 ms long task, hele TBT-budgettet) og ville
+      // desuden ophæve content-visibility:auto på under-fold-zonerne.
+      // Præcisionen bruges kun til reveal-tærskler og ±1-viewport-parallax,
+      // hvor ankerpunktet er rigeligt.
+      const secs = Array.from(scope.querySelectorAll<HTMLElement>("section"));
+      const secTop = new Map<HTMLElement, number>();
+      const secH = new Map<HTMLElement, number>();
+      for (const sec of secs) {
+        secTop.set(sec, sec.offsetTop); // sektions-bokse er kendte uden indre layout
+        secH.set(sec, sec.offsetHeight);
+      }
+      const frac = (v: string, h: number) => {
+        if (!v) return null;
+        if (v.endsWith("%")) return (parseFloat(v) / 100) * h;
+        if (v.endsWith("svh") || v.endsWith("vh")) return (parseFloat(v) / 100) * window.innerHeight;
+        if (v.endsWith("px")) return parseFloat(v);
+        return null;
+      };
       for (const it of items) {
-        const r = it.el.getBoundingClientRect();
-        it.c = r.top + s + r.height / 2;
+        const sec = it.el.closest("section") as HTMLElement | null;
+        const t0 = sec ? secTop.get(sec) ?? 0 : 0;
+        const h = sec ? secH.get(sec) ?? window.innerHeight : window.innerHeight;
+        const st = it.el.style;
+        const top = frac(st.top, h);
+        const bot = frac(st.bottom, h);
+        const y = top != null ? top : bot != null ? h - bot : h / 2;
+        it.c = t0 + y;
       }
     };
     measure();
@@ -207,6 +250,4 @@ export function SceneMotor() {
       timers.forEach((t) => window.clearTimeout(t));
       if (raf) cancelAnimationFrame(raf);
     };
-  }, []);
-  return null;
 }

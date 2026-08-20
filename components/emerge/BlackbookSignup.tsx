@@ -33,9 +33,9 @@ export function BlackbookSignup() {
   return (
     <form
       onSubmit={(e) => { e.preventDefault(); void send(e.currentTarget); }}
-      style={{ margin: "34px auto 0", maxWidth: "420px" }}
+      style={{ margin: "34px auto 0", maxWidth: "420px", padding: "0 18px" }}
     >
-      <label htmlFor="blackbook-email" style={{ display: "block", fontFamily: mono, fontSize: "10px", letterSpacing: ".26em", textTransform: "uppercase", color: "#8e867b" }}>
+      <label htmlFor="blackbook-email" style={{ display: "block", fontFamily: mono, fontSize: "10px", letterSpacing: ".26em", textTransform: "uppercase", color: "#8e867b", whiteSpace: "normal", lineHeight: "1.9" }}>
         Blackbook — first look at flash & guest spots
       </label>
       {/* honeypot: skjult for mennesker, fristende for bots */}
