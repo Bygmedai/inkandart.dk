@@ -44,6 +44,13 @@ test("send-as-gift uses Shopify recipient flow, share uses WhatsApp text", () =>
   assert.doesNotMatch(offer, /use client/);
 });
 
+test("homepage relic is a single link to /gavekort, not a checkout", () => {
+  const relic = readFileSync(join(root, "components/emerge/GiftRelic.tsx"), "utf8");
+  assert.match(relic, /href="\/gavekort"/);
+  assert.doesNotMatch(relic, /giftCartUrl/);
+  assert.doesNotMatch(relic, /use client/);
+});
+
 test("gavekort ships its own OG image (exact type, not a product shot)", () => {
   const og = readFileSync(join(root, "app/gavekort/opengraph-image.tsx"), "utf8");
   assert.match(og, /ImageResponse/);
