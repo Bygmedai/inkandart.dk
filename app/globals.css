@@ -1353,3 +1353,125 @@ body:not(:has(.emerge-v05)) main .text-\[10px\] { font-size: 12px; }
   [data-header] a[href="#work"],
   [data-header] a[href="#artists"] { display: none; }
 }
+
+/* ── Collage på undersiderne + tydelige købsflader ───────────────────────
+   Steven, S568: «rul det ud på undersiderne også» + «gør at knapperne med
+   det man kan købe står tydeligt».
+
+   Bygget som ÉT CSS-lag uden at røre en eneste sidefil: Haruki rejser den
+   engelske flade i præcis de filer lige nu, og en collage er ikke værd at
+   kollidere over. Krogene er strukturelle og gratis:
+     · `body:not(:has(.emerge-v05))` = alt der IKKE er forsidens scene
+     · `a[href*="myshopify.com/cart/"]` = præcis de links der kan købe noget,
+       uanset hvis lane de bor i.
+
+   Laget ligger bag indholdet (z-index 0 mod indholdets 1) og har
+   pointer-events: none — det kan ikke æde et tap. Målt med
+   scripts/maal-flader.mjs. */
+
+body:not(:has(.emerge-v05)) { position: relative; }
+
+/* Fjernlaget: store, dæmpede former i kanterne. Følger med ned ad siden. */
+body:not(:has(.emerge-v05))::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    url("/emerge/v05/rose.svg"),
+    url("/emerge/v05/skull.svg"),
+    url("/emerge/v05/snake.svg"),
+    url("/emerge/v05/edge-side.svg");
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+  background-position: -6vw 8vh, 96% 26vh, 101% 74vh, -2vw 0;
+  background-size:
+    clamp(180px, 26vw, 400px) auto,
+    clamp(90px, 12vw, 170px) auto,
+    clamp(150px, 20vw, 300px) auto,
+    clamp(60px, 9vw, 140px) 100%;
+  opacity: 0.24;
+  filter: saturate(0.7) brightness(0.85);
+}
+
+/* Nærlaget: husets genstande, spredt som på gaden. */
+body:not(:has(.emerge-v05))::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    url("/emerge/v05/machine.svg"),
+    url("/emerge/v05/hoop.svg"),
+    url("/emerge/v05/dagger.svg"),
+    url("/emerge/v05/barbell.svg"),
+    url("/emerge/v05/swallow.svg"),
+    url("/emerge/v05/dice.svg");
+  background-repeat: no-repeat;
+  background-position: 4vw 62vh, 92% 54vh, 97% 6vh, 7vw 88vh, 88% 90vh, 3vw 34vh;
+  background-size:
+    clamp(70px, 9vw, 130px) auto,
+    clamp(46px, 6vw, 82px) auto,
+    clamp(60px, 8vw, 110px) auto,
+    clamp(44px, 5.5vw, 76px) auto,
+    clamp(56px, 7vw, 100px) auto,
+    clamp(34px, 4vw, 54px) auto;
+  opacity: 0.42;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.7));
+}
+
+/* Indholdet skal ligge OVEN PÅ collagen — ellers læser man tekst gennem en rose. */
+/* Kun `main` — målt: ingen underside har <header> eller <footer>, så de to
+   ekstra selektorer var dødvægt der kun kunne skabe stacking-contexts
+   ingen bad om (QA #170). Jo smallere blanket, jo færre naboer bider den. */
+body:not(:has(.emerge-v05)) main { position: relative; z-index: 1; }
+
+@media (max-width: 640px) {
+  /* På mobil er der ikke marginer at gemme collagen i — færre, mindre, svagere. */
+  body:not(:has(.emerge-v05))::before { opacity: 0.16; background-position: -18vw 6vh, 99% 22vh, 108% 70vh, -8vw 0; }
+  body:not(:has(.emerge-v05))::after {
+    opacity: 0.3;
+    background-position: -6vw 64vh, 97% 52vh, 101% 5vh, -4vw 90vh, 96% 92vh, -8vw 33vh;
+  }
+}
+
+/* ── Det man kan købe skal ligne noget man kan købe ──────────────────────
+   Beta-testen viste at folk ikke kunne se HVAD vi sælger. Næste led er at
+   se HVOR man køber det. Selektoren rammer cart-permalinks — altså præcis
+   de handlinger der fører til betaling — og kun uden for scenen, hvor
+   kridtet og relikvierne er bevidst anderledes. */
+body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark) {
+  border: 1.5px solid rgba(201, 162, 39, 0.55);
+  background: linear-gradient(180deg, rgba(201, 162, 39, 0.1), rgba(201, 162, 39, 0.03));
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(232, 224, 213, 0.08);
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):hover,
+body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):focus-visible {
+  border-color: var(--gold);
+  background: linear-gradient(180deg, rgba(201, 162, 39, 0.2), rgba(201, 162, 39, 0.07));
+  transform: translateY(-2px);
+}
+
+/* Verbet. `aria-label` lover allerede «Køb …» på disse links — dette gør
+   løftet synligt for dem der ser i stedet for at lytte. */
+body:not(:has(.emerge-v05)) main .gift-denom::after {
+  /* `/ ""` er CSS'ens alt-tekst for genereret indhold: øjet ser «Køb →»,
+     skærmlæseren får intet ekstra oven i linkets aria-label «Køb gavekort
+     på X kr» (QA #170: risiko for dobbelt-annoncering). Browsere uden
+     støtte ignorerer alt-delen og opfører sig som før. */
+  content: "Køb →" / "";
+  display: block;
+  margin-top: 10px;
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark) { transition: none; }
+  body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):hover { transform: none; }
+}
