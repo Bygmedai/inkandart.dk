@@ -20,18 +20,25 @@ export type GiftCard = { kr: number; variantId: string };
 
 /**
  * Gavekort-beløb vi viser som hurtige valg (DKK) → Shopify ProductVariant-ID.
- * Produktet har også 100 / 250 / 4000 kr — de ligger på produktsiden via
- * GIFT_CARD_PRODUCT_URL, så chip-rækken holdes kort og gavevenlig.
+ * Alle otte beløb er live cart-permalinks på /gavekort.
+ * Produktsiden er password-gated — den er ikke en kundedør.
  */
 export const GIFT_CARDS: GiftCard[] = [
+  { kr: 100, variantId: "53467075182920" },
+  { kr: 250, variantId: "53467075215688" },
   { kr: 500, variantId: "53467075248456" },
   { kr: 1000, variantId: "53467075281224" },
   { kr: 1500, variantId: "53467080393032" },
   { kr: 2000, variantId: "53467080425800" },
   { kr: 3000, variantId: "53467080458568" },
+  { kr: 4000, variantId: "53467090420040" },
 ];
 
-/** Produktsiden — alle beløb (også 100 / 250 / 4000). */
+/**
+ * @deprecated Produktsiden er password-gated ("butikken åbner snart").
+ * Alle beløb sælges via cart-permalink på /gavekort. Beholdt så gamle
+ * importører ikke knækker — brug den ikke som kundedør.
+ */
 export const GIFT_CARD_PRODUCT_URL = `https://${SHOPIFY_DOMAIN}/products/${GIFT_CARD_HANDLE}`;
 
 /**

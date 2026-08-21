@@ -1,6 +1,4 @@
-import { kr } from "@/lib/commerce";
-
-const SHOWN = [500, 1000, 1500, 2000, 3000] as const;
+import { GIFT_CARDS, kr } from "@/lib/commerce";
 
 /**
  * Det fysiske kort. Ren dekoration — beløbene bor i de rigtige links.
@@ -17,9 +15,9 @@ export function GiftVoucher() {
         <p className="gift-voucher__line">Giv blæk videre</p>
         <p className="gift-voucher__value">
           <span className="gift-voucher__hot gift-voucher__hot--default">fra 500 kr</span>
-          {SHOWN.map((n) => (
-            <span key={n} className={`gift-voucher__hot gift-voucher__hot--${n}`}>
-              {kr(n)} kr
+          {GIFT_CARDS.map((g) => (
+            <span key={g.kr} className={`gift-voucher__hot gift-voucher__hot--${g.kr}`}>
+              {kr(g.kr)} kr
             </span>
           ))}
         </p>

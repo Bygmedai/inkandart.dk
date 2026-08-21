@@ -495,18 +495,14 @@ html.emerge-js [data-loader] {
   color: rgba(201, 162, 39, 0.8);
 }
 
-.gift-stage:has([data-kr="500"]:hover) .gift-voucher__hot--default,
-.gift-stage:has([data-kr="500"]:focus-visible) .gift-voucher__hot--default,
-.gift-stage:has([data-kr="1000"]:hover) .gift-voucher__hot--default,
-.gift-stage:has([data-kr="1000"]:focus-visible) .gift-voucher__hot--default,
-.gift-stage:has([data-kr="1500"]:hover) .gift-voucher__hot--default,
-.gift-stage:has([data-kr="1500"]:focus-visible) .gift-voucher__hot--default,
-.gift-stage:has([data-kr="2000"]:hover) .gift-voucher__hot--default,
-.gift-stage:has([data-kr="2000"]:focus-visible) .gift-voucher__hot--default,
-.gift-stage:has([data-kr="3000"]:hover) .gift-voucher__hot--default,
-.gift-stage:has([data-kr="3000"]:focus-visible) .gift-voucher__hot--default {
+.gift-stage:has([data-kr]:hover) .gift-voucher__hot--default,
+.gift-stage:has([data-kr]:focus-visible) .gift-voucher__hot--default {
   display: none;
 }
+.gift-stage:has([data-kr="100"]:hover) .gift-voucher__hot--100,
+.gift-stage:has([data-kr="100"]:focus-visible) .gift-voucher__hot--100,
+.gift-stage:has([data-kr="250"]:hover) .gift-voucher__hot--250,
+.gift-stage:has([data-kr="250"]:focus-visible) .gift-voucher__hot--250,
 .gift-stage:has([data-kr="500"]:hover) .gift-voucher__hot--500,
 .gift-stage:has([data-kr="500"]:focus-visible) .gift-voucher__hot--500,
 .gift-stage:has([data-kr="1000"]:hover) .gift-voucher__hot--1000,
@@ -516,7 +512,9 @@ html.emerge-js [data-loader] {
 .gift-stage:has([data-kr="2000"]:hover) .gift-voucher__hot--2000,
 .gift-stage:has([data-kr="2000"]:focus-visible) .gift-voucher__hot--2000,
 .gift-stage:has([data-kr="3000"]:hover) .gift-voucher__hot--3000,
-.gift-stage:has([data-kr="3000"]:focus-visible) .gift-voucher__hot--3000 {
+.gift-stage:has([data-kr="3000"]:focus-visible) .gift-voucher__hot--3000,
+.gift-stage:has([data-kr="4000"]:hover) .gift-voucher__hot--4000,
+.gift-stage:has([data-kr="4000"]:focus-visible) .gift-voucher__hot--4000 {
   display: inline;
 }
 
@@ -640,6 +638,115 @@ html.emerge-js [data-loader] {
 @media (prefers-reduced-motion: reduce) {
   .gift-page__legend .legend-track {
     animation: none;
+  }
+}
+
+.gift-give {
+  display: grid;
+  gap: 18px;
+  max-width: 36rem;
+  margin-top: 40px;
+}
+.gift-give__field {
+  display: grid;
+  gap: 8px;
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.gift-give input,
+.gift-give textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid rgba(232, 224, 213, 0.18);
+  background: rgba(10, 10, 10, 0.4);
+  color: var(--text);
+  text-transform: none;
+  letter-spacing: 0;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 16px;
+}
+.gift-give button {
+  justify-self: start;
+  margin-top: 8px;
+  padding: 14px 22px;
+  border: 1px solid var(--gold);
+  background: transparent;
+  color: var(--gold);
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.gift-voucher--note {
+  max-width: 540px;
+}
+.gift-note__to,
+.gift-note__from {
+  margin: 12px 0 0;
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(232, 224, 213, 0.55);
+}
+.gift-note__to em,
+.gift-note__from em {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: 22px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--text);
+}
+.gift-note__hello {
+  margin: 10px 0 0;
+  max-width: 36ch;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: clamp(18px, 2.4vw, 24px);
+  color: var(--gold);
+  white-space: pre-line;
+}
+.gift-note__code {
+  margin: 16px 0 0;
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(232, 224, 213, 0.4);
+}
+.gift-kort-stage {
+  margin-top: 36px;
+  max-width: 540px;
+}
+.gift-print-hint {
+  margin-top: 28px;
+  max-width: 48ch;
+  color: var(--text-soft);
+}
+@media print {
+  .grain,
+  .skip-link,
+  .gift-print-hide,
+  .gift-page__wash,
+  .gift-page__swallow,
+  .gift-page__dagger,
+  .gift-page__legend {
+    display: none !important;
+  }
+  .gift-page {
+    padding: 0;
+    background: #fff;
+    color: #111;
+  }
+  .gift-voucher {
+    box-shadow: none;
+    transform: none;
+    break-inside: avoid;
   }
 }
 
