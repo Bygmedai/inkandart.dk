@@ -1,0 +1,130 @@
+import type { Metadata } from "next";
+import { site } from "@/lib/site";
+import { SHOP_PRINTS, cartUrl, kr } from "@/lib/commerce";
+import { KerbReservation } from "@/components/emerge/KerbReservation";
+
+/**
+ * /shop — «Gaden sælger.» Kataloget i Emerge-sproget (Villy, P1 — vej B).
+ *
+ * Shoppen er foldet ind i hub'en: dette er oversigten, og de flader der
+ * allerede findes (/gavekort, /walk-in, /flash) er dørene — vi genbygger dem
+ * ikke, vi peger på dem. Det der ikke har en side endnu, bor her: kridtet
+ * (reservationerne, min komponent) og prints-væggen.
+ *
+ * Rails §4: de tre prints er drafts i Shopify og priserne afventer Steven —
+ * derfor viser væggen dem som «snart», uden købshandling. En død knap er
+ * værre end ingen. Når P3 gør dem levende (live: true + variantId i
+ * commerce.ts), flipper kortene selv til køb — copy'en her skal ikke røres.
+ */
+export const metadata: Metadata = {
+  alternates: { canonical: "/shop" },
+  title: "Gaden sælger · Ink & Art",
+  description:
+    "Gavekort, walk-in, flash, reservationer og husets prints — alt det gaden sælger, samlet ét sted. Ink & Art Copenhagen, Larsbjørnsstræde 13.",
+};
+
+/* Dørene: fladerne der allerede findes. Vi peger, vi genbygger ikke. */
+const DOORS = [
+  {
+    href: "/gavekort",
+    label: "Gavekort",
+    linje: "Giv blæk videre. Fem beløb, sendes eller printes.",
+    tilt: -1.4,
+  },
+  {
+    href: "/walk-in",
+    label: "Walk-in",
+    linje: "To små. I aften. 900,- — ingen booking.",
+    tilt: 1.1,
+  },
+  {
+    href: "/flash",
+    label: "Flash",
+    linje: "Færdigtegnede motiver til fast pris. Først til mølle.",
+    tilt: -0.8,
+  },
+] as const;
+
+export default function ShopPage() {
+  return (
+    <main id="main" className="gade">
+      <div className="gade__inner">
+        <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
+          <a href="/">← {site.name}</a>
+        </p>
+
+        <p className="mt-10 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
+          Shop
+        </p>
+        <h1 className="mt-3 font-[family-name:var(--font-display)] text-[clamp(36px,6vw,64px)] font-medium italic">
+          Gaden sælger.
+        </h1>
+        <p className="mt-5 max-w-[54ch] text-[var(--text-soft)]">
+          Alt herunder betales hos Shopify — MobilePay, kort eller wallet.
+          Blækket betales i studiet, {site.address.street}.
+        </p>
+
+        {/* ── Dørene ─────────────────────────────────────────────────── */}
+        <ul className="gade__doors" role="list">
+          {DOORS.map((d) => (
+            <li key={d.href}>
+              <a
+                className="gade__door"
+                href={d.href}
+                style={{ transform: `rotate(${d.tilt}deg)` }}
+              >
+                <span className="gade__door-label">{d.label}</span>
+                <span className="gade__door-linje">{d.linje}</span>
+                <span className="gade__door-pil" aria-hidden="true">
+                  →
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        {/* ── Kridtet: reservationerne (genbrug, min komponent) ───────── */}
+        <section className="gade__afsnit" aria-label="Reservationer">
+          <KerbReservation />
+        </section>
+
+        {/* ── Prints-væggen: ærligt «snart» indtil P3 + prisgate ─────── */}
+        <section className="gade__afsnit" aria-label="Prints og objekter">
+          <p className="gade__afsnit-label">Væggen</p>
+          <h2 className="gade__afsnit-rubrik">Snart på væggen.</h2>
+          <p className="mt-3 max-w-[54ch] text-[var(--text-soft)]">
+            Husets motiver som prints og objekter — trykt og støbt i små oplag.
+            De hænger her, når de er klar. Blackbook ser dem først.
+          </p>
+          <ul className="gade__prints" role="list">
+            {SHOP_PRINTS.map((p, i) => (
+              <li
+                key={p.handle}
+                className="gade__print"
+                style={{ transform: `rotate(${i % 2 === 0 ? -1.2 : 0.9}deg)` }}
+              >
+                <span className="gade__print-navn">{p.navn}</span>
+                <span className="gade__print-linje">{p.linje}</span>
+                {p.live && p.variantId ? (
+                  <a
+                    className="gade__print-koeb"
+                    href={cartUrl(p.variantId)}
+                    aria-label={`Køb ${p.navn}, ${kr(p.kr)} kroner`}
+                  >
+                    {kr(p.kr)},- →
+                  </a>
+                ) : (
+                  <span className="gade__print-snart">Snart</span>
+                )}
+              </li>
+            ))}
+          </ul>
+          <p className="gade__note">
+            Vil du have besked når væggen fyldes?{" "}
+            <a href="/blackbook">Skriv dig i Blackbook →</a>
+          </p>
+        </section>
+      </div>
+    </main>
+  );
+}

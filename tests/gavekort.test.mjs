@@ -68,6 +68,25 @@ test("homepage relic is a single link to /gavekort, not a checkout", () => {
   assert.doesNotMatch(relic, /use client/);
 });
 
+test("note card grows with the greeting — credit-card lock is the offer voucher only", () => {
+  const css = readFileSync(join(root, "app/globals.css"), "utf8");
+  const card = readFileSync(join(root, "components/emerge/GiftNoteCard.tsx"), "utf8");
+  const voucher = readFileSync(join(root, "components/emerge/GiftVoucher.tsx"), "utf8");
+  const offerBlock = css.slice(
+    css.indexOf(".gift-voucher {"),
+    css.indexOf(".gift-voucher__inset"),
+  );
+  assert.match(offerBlock, /aspect-ratio:\s*1\.586\s*\/\s*1/);
+  const note = css.slice(css.indexOf(".gift-voucher--note {"));
+  const noteRule = note.slice(0, note.indexOf(".gift-voucher--note .gift-voucher__inset"));
+  assert.match(noteRule, /aspect-ratio:\s*auto/);
+  assert.match(note, /\.gift-voucher--note \.gift-voucher__inset\s*\{[^}]*position:\s*static/);
+  assert.match(card, /gift-note__foot/);
+  assert.match(card, /gift-note__code/);
+  assert.doesNotMatch(voucher, /gift-voucher--note/);
+  assert.match(css, /@media print[\s\S]*\.gift-voucher--note[\s\S]*break-inside:\s*avoid/);
+});
+
 test("gavekort ships its own OG image (exact type, not a product shot)", () => {
   const og = readFileSync(join(root, "app/gavekort/opengraph-image.tsx"), "utf8");
   assert.match(og, /ImageResponse/);
