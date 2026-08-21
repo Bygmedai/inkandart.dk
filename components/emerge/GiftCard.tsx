@@ -32,6 +32,7 @@ export function GiftCardOffer() {
           href={GIFT_CARD_PRODUCT_URL}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="Alle gavekort-beløb (åbner i nyt vindue)"
           className="border-b border-[var(--gold)]/40 pb-1 text-[var(--gold)]"
         >
           Andre beløb →

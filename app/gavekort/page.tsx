@@ -44,8 +44,11 @@ export default function GavekortPage() {
 
       <GiftCardOffer />
 
-      <section className="mt-12">
-        <h2 className="font-[family-name:var(--font-display)] text-[clamp(24px,4vw,36px)] font-medium">
+      <section className="mt-12" aria-labelledby="gavekort-how">
+        <h2
+          id="gavekort-how"
+          className="font-[family-name:var(--font-display)] text-[clamp(24px,4vw,36px)] font-medium"
+        >
           Sådan virker det
         </h2>
         <ol className="mt-6 list-none p-0">
@@ -63,8 +66,11 @@ export default function GavekortPage() {
         </ol>
       </section>
 
-      <aside className="mt-12 border border-[var(--text)]/15 p-6">
-        <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
+      <aside className="mt-12 border border-[var(--text)]/15 p-6" aria-labelledby="gavekort-wish">
+        <p
+          id="gavekort-wish"
+          className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]"
+        >
           Et ønske?
         </p>
         <p className="mt-3 text-[var(--text-soft)]">
