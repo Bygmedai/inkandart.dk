@@ -30,6 +30,7 @@ const TAGS_BY_SOURCE: Record<string, string[]> = {
   footer: ["newsletter", "site-signup"],
   emerge: ["newsletter", "site-signup", "emerge"],
   flash: ["newsletter", "site-signup", "blackbook", "flash-waitlist"],
+  blackbook: ["newsletter", "site-signup", "blackbook"],
 };
 
 function env(...names: string[]): string | undefined {
