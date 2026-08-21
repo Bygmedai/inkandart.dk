@@ -29,12 +29,12 @@ const steps = [
     d: "Betal med MobilePay, kort eller wallet. Checkout ligger hos Shopify — vi rører aldrig dine betalingsoplysninger.",
   },
   {
-    t: "Koden kommer med det samme",
-    d: "Gavekortet sendes som en kode på mail. Til dig — eller direkte til den du giver den til, hvis du sender som gave.",
+    t: "Koden lander i din mail",
+    d: "Gavekortet er en kode. Den kommer til den mail du betaler med. Den giver du videre — på print, i en besked, i hånden.",
   },
   {
-    t: "Veksles når der betales",
-    d: "Koden er pengene. Brug den på tatovering, piercing eller smykker — hos den artist man selv vælger. Rest gemmes til næste gang.",
+    t: "Giv det videre",
+    d: "Skriv til, fra og en hilsen. Print kortet, eller send linket. Koden skriver du selv på. Den kommer aldrig i URL'en.",
   },
 ];
 
@@ -95,9 +95,14 @@ export default function GavekortPage() {
             Har du fået et kort?
           </p>
           <p className="mt-3 max-w-[48ch] text-[var(--text-soft)]">
-            Koden er i din mail. Brug den når der betales — i shoppen, eller vis
-            den i studiet. Rest bliver stående til næste gang. Hos den artist du
-            selv vælger.
+            Koden er i din mail, eller skrevet på kortet. Brug den når der
+            betales — i shoppen, eller vis den i studiet. Rest bliver stående.
+            Hos den artist du selv vælger.
+          </p>
+          <p className="mt-5 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em]">
+            <a href="/gavekort/til-dig" className="border-b border-[var(--gold)]/40 pb-1 text-[var(--gold)]">
+              Det venter på dig →
+            </a>
           </p>
         </aside>
 
@@ -108,7 +113,7 @@ export default function GavekortPage() {
           >
             Sådan virker det
           </h2>
-          <ol className="mt-6 list-none p-0">
+          <ol className="mt-6 list-none p-0" role="list">
             {steps.map((step, i) => (
               <li key={step.t} className="flex gap-4 border-t border-[var(--text)]/10 py-5">
                 <span className="font-[family-name:var(--font-mono)] text-[11px] text-[var(--gold)]">
