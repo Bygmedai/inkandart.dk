@@ -542,6 +542,57 @@ html.emerge-js [data-loader] {
   border-top: 1px solid rgba(232, 224, 213, 0.1);
 }
 
+/* Relikvie: samme kort, mindre, fundet i landskabet. Hele fladen er linket. */
+.gift-relic {
+  display: block;
+  color: inherit;
+}
+.gift-voucher--relic {
+  max-width: none;
+  width: 100%;
+  transform: rotate(-5.5deg);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.65),
+    inset 0 0 0 1px rgba(232, 224, 213, 0.04);
+  filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.55));
+}
+.gift-voucher--relic .gift-voucher__inset {
+  inset: 8px;
+  padding: 14px 16px;
+}
+.gift-voucher--relic .gift-voucher__brand {
+  font-size: clamp(22px, 3.2vw, 32px);
+  margin-top: 4px;
+}
+.gift-voucher--relic .gift-voucher__line {
+  font-size: clamp(15px, 2vw, 20px);
+}
+.gift-voucher--relic .gift-voucher__stamp {
+  width: 34px;
+  height: 34px;
+  font-size: 15px;
+  top: 12px;
+  right: 12px;
+}
+.gift-relic:hover .gift-voucher--relic,
+.gift-relic:focus-visible .gift-voucher--relic {
+  border-color: var(--gold);
+}
+.gift-relic:focus-visible {
+  outline: none;
+}
+
+@media (max-width: 640px) {
+  .gift-relic-slot {
+    left: 50% !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: 22% !important;
+    width: min(72vw, 260px) !important;
+    transform: translateX(-50%);
+  }
+}
+
 @media (max-width: 640px) {
   .gift-voucher {
     max-width: 100%;
