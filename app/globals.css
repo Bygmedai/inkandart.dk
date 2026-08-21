@@ -758,6 +758,7 @@ html.emerge-js [data-loader] {
     transform: none;
     transition: none;
   }
+}
 
 /* ── Kantstenen: reservationen kridtet på fortovet (Villy, "Under gaden") ──
    Fundne mærker, ikke knapper. Kridtet er inline-SVG (håndtegnet ramme);
