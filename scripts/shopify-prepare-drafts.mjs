@@ -8,18 +8,20 @@
  * Credentials: SHOPIFY_ADMIN_TOKEN, eller SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET
  * (samme navne som /api/subscribe). Aldrig i repoet.
  *
- * Priser røres ikke. Piercing-varianterne røres ikke.
+ * Priser røres ikke. Piercing-depositummer hører ikke til i kataloget.
  */
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const { SHOP_DRAFTS, PIERCE_DEAD } = await import(pathToFileURL(join(root, "lib/shop-drafts.ts")).href);
+const { SHOP_DRAFTS, PIERCE_EXCLUDED } = await import(
+  pathToFileURL(join(root, "lib/shop-drafts.ts")).href
+);
 
 const APPLY = process.argv.includes("--apply");
 const STORE = process.env.SHOPIFY_STORE?.trim() || "d1qp54-0w.myshopify.com";
-const API = `https://${STORE}/admin/api/2024-10`;
+const API = `https://${STORE}/admin/api/2026-07`;
 
 function env(...names) {
   for (const n of names) if (process.env[n]) return process.env[n];
@@ -56,6 +58,8 @@ async function token() {
   return tok.access_token;
 }
 
+const tokenOnce = await token();
+
 async function shopify(path, { method = "GET", body } = {}) {
   const res = await fetch(`${API}${path}`, {
     method,
@@ -81,8 +85,6 @@ async function shopify(path, { method = "GET", body } = {}) {
   return json;
 }
 
-const tokenOnce = await token();
-
 function variantIds(product) {
   return (product.variants ?? []).map((v) => String(v.id));
 }
@@ -93,7 +95,7 @@ async function listDrafts() {
 }
 
 function findDraft(products, draft) {
-  return products.find((p) => draft.match.test(p.title) || draft.match.test(p.body_html ?? ""));
+  return products.find((p) => p.handle === draft.key);
 }
 
 console.log(APPLY ? "APPLY — skriver drafts, publicerer ikke" : "DRY-RUN — ingen skrivning");
@@ -103,8 +105,8 @@ console.log("drafts i butikken:", products.length);
 
 for (const p of products) {
   for (const id of variantIds(p)) {
-    if (PIERCE_DEAD.includes(id)) {
-      console.error("ABORT: piercing-variant i draft-listen", id, p.title);
+    if (PIERCE_EXCLUDED.includes(id)) {
+      console.error("ABORT: piercing-depositum i draft-listen", id, p.title);
       process.exit(3);
     }
   }
@@ -114,12 +116,12 @@ let missing = 0;
 for (const draft of SHOP_DRAFTS) {
   const found = findDraft(products, draft);
   if (!found) {
-    console.log("MANGLER", draft.title, "— ingen draft matchede", draft.match);
+    console.log("MANGLER", draft.title, "— ingen draft med handle", draft.key);
     missing += 1;
     continue;
   }
   const ids = variantIds(found);
-  if (ids.some((id) => PIERCE_DEAD.includes(id))) {
+  if (ids.some((id) => PIERCE_EXCLUDED.includes(id))) {
     console.error("ABORT: ville røre piercing", found.title, ids);
     process.exit(3);
   }

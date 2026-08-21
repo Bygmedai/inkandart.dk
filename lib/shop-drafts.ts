@@ -3,10 +3,15 @@
  *
  * Publiceres IKKE før Steven har bekræftet priserne (250/250/1.200 er
  * juni-placeholders). Scriptet `scripts/shopify-prepare-drafts.mjs` skriver
- * copy + billeder og tvinger status=draft. Piercing-varianterne røres ikke.
+ * copy + billeder og tvinger status=draft.
+ *
+ * `key` ER Shopify-handlen. Match sker på handle, aldrig på titel/body.
+ *
+ * Piercing-depositummer hører ikke til i print-kataloget — uanset om
+ * varianten er 302 eller 410.
  */
 
-export const PIERCE_DEAD = [
+export const PIERCE_EXCLUDED = [
   "53511714570568",
   "53511714996552",
   "53511715422536",
@@ -14,9 +19,8 @@ export const PIERCE_DEAD = [
 ] as const;
 
 export type ShopDraft = {
+  /** Shopify handle — og den eneste nøgle scriptet matcher på. */
   key: "dolk" | "ouroboros" | "signetring";
-  /** Title-match mod Shopify-draft. */
-  match: RegExp;
   title: string;
   type: "Print" | "Smykke";
   /** Placeholder — skriv IKKE til Shopify før Steven siger til. */
@@ -28,7 +32,6 @@ export type ShopDraft = {
 export const SHOP_DRAFTS: ShopDraft[] = [
   {
     key: "dolk",
-    match: /dolk|dagger/i,
     title: "Dolk",
     type: "Print",
     pricePlaceholder: 250,
@@ -37,7 +40,6 @@ export const SHOP_DRAFTS: ShopDraft[] = [
   },
   {
     key: "ouroboros",
-    match: /ouroboros|slangen der bider/i,
     title: "Ouroboros",
     type: "Print",
     pricePlaceholder: 250,
@@ -46,7 +48,6 @@ export const SHOP_DRAFTS: ShopDraft[] = [
   },
   {
     key: "signetring",
-    match: /signet|signetring/i,
     title: "Signetring",
     type: "Smykke",
     pricePlaceholder: 1200,
