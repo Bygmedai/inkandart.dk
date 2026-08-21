@@ -81,6 +81,26 @@ test("shop.inkandart.dk sendes til kataloget — host-gated 308 (vej B, S568)", 
   assert.match(nextConfig, /hostRedirects/);
 });
 
+test("HOST_MIGRATION er et kontrolleret audit-spor, ikke pynt", () => {
+  // ROUTE_MIGRATION og HOST_MIGRATION er dokumentation af hvad vi flyttede og
+  // hvorfor — de importeres ingen steder. QA på #167 kaldte det med rette en
+  // dead export. Svaret er ikke at slette sporet, men at gøre det bærende:
+  // hver dokumenteret host-flytning SKAL svare til en regel der findes.
+  // Skriver nogen en regel uden at dokumentere den (eller omvendt), går den rød.
+  const rows = [...redirectsSrc.matchAll(
+    /\{\s*from:\s*"([^"\/]+)\/:path\*",\s*to:\s*"([^"]+)",\s*reason:\s*"([^"]+)"/g
+  )];
+  assert.ok(rows.length >= 1, "HOST_MIGRATION skal beskrive mindst én flytning");
+  for (const [, host, to, reason] of rows) {
+    const rule = redirectsSrc.match(
+      new RegExp(`value:\\s*"${host.replace(/\./g, "\\.")}"[\\s\\S]{0,160}?destination:\\s*"([^"]+)"`)
+    );
+    assert.ok(rule, `${host} er dokumenteret, men har ingen hostRedirect`);
+    assert.equal(rule[1], to, `${host}: dokumentationen siger ${to}, reglen siger ${rule[1]}`);
+    assert.ok(reason.length > 8, `${host}: begrundelsen skal kunne læses af et menneske`);
+  }
+});
+
 test("enhver wildcard-source bærer sin egen host-vagt", () => {
   // En /:path*-redirect uden host-betingelse ville sende HELE hub'en til
   // /shop. Vidnet kræver at vagten står i samme objekt som wildcarden.
