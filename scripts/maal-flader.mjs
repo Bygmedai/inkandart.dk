@@ -72,7 +72,15 @@ const MAALER = () => {
       const grad = cs.backgroundImage && cs.backgroundImage !== "none"
         ? parse((cs.backgroundImage.match(/rgba?\([^)]+\)/) || [""])[0])
         : null;
-      if (grad) { kaede.push([grad[0], grad[1], grad[2], 1]); break; }
+      // Gradientens første farve tæller med SIN EGEN alfa. Første udgave
+      // tvang den til 1 og meldte så gavekortenes tekst som 1.28:1, fordi
+      // en gennemsigtig guldtone (alfa .1) blev læst som fyldt guld.
+      // Et værktøj der råber falsk to gange bliver slukket.
+      if (grad) {
+        kaede.push(grad);
+        if (grad[3] >= 1) break;
+        continue;
+      }
       const bg = parse(cs.backgroundColor);
       if (bg && bg[3] > 0) kaede.push(bg);
       if (bg && bg[3] >= 1) break;
