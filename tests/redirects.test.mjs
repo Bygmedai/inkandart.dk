@@ -8,6 +8,33 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const redirectsSrc = readFileSync(join(root, "lib/redirects.ts"), "utf8");
 const nextConfig = readFileSync(join(root, "next.config.ts"), "utf8");
 
+/**
+ * Læs hele det objekt-literal der omslutter en position — begge veje fra
+ * fundet, bundet af objektets egne krøllede parenteser.
+ *
+ * Et vidne der kun kigger fremad kan snydes af feltrækkefølgen (QA #167).
+ * Samme lektion som ruleBody() i reservation.test.mjs: bind udsnittet til
+ * strukturen, ikke til et gæt på hvor mange tegn der er nok.
+ */
+function enclosingObject(src, index) {
+  let start = -1;
+  let depth = 0;
+  for (let i = index; i >= 0; i--) {
+    if (src[i] === "}") depth++;
+    else if (src[i] === "{") {
+      if (depth === 0) { start = i; break; }
+      depth--;
+    }
+  }
+  assert.notEqual(start, -1, "ingen omsluttende objekt-literal fundet");
+  depth = 0;
+  for (let i = start; i < src.length; i++) {
+    if (src[i] === "{") depth++;
+    else if (src[i] === "}" && --depth === 0) return src.slice(start, i + 1);
+  }
+  throw new Error("objekt-literalet lukker aldrig");
+}
+
 test("next.config uses the explicit redirect matrix", () => {
   assert.match(nextConfig, /nextRedirects/);
   assert.doesNotMatch(nextConfig, /\/en\/:path\*/);
@@ -103,11 +130,28 @@ test("HOST_MIGRATION er et kontrolleret audit-spor, ikke pynt", () => {
 
 test("enhver wildcard-source bærer sin egen host-vagt", () => {
   // En /:path*-redirect uden host-betingelse ville sende HELE hub'en til
-  // /shop. Vidnet kræver at vagten står i samme objekt som wildcarden.
+  // /shop. Vidnet kræver at vagten står i SAMME OBJEKT som wildcarden.
   const hits = [...redirectsSrc.matchAll(/source:\s*"\/:path\*"/g)];
   assert.ok(hits.length >= 1, "host-reglen skal findes");
   for (const h of hits) {
-    const ctx = redirectsSrc.slice(h.index, h.index + 220);
-    assert.match(ctx, /has:\s*\[\{\s*type:\s*"host"/, "wildcard-redirect uden host-vagt");
+    const obj = enclosingObject(redirectsSrc, h.index);
+    assert.match(obj, /has:\s*\[\{\s*type:\s*"host"/, "wildcard-redirect uden host-vagt");
   }
+});
+
+test("negativ kontrol: vagt-vidnet er uafhængigt af feltrækkefølge", () => {
+  // QA på #167: det gamle vidne slicede 220 tegn FREMAD fra `source:`. Skrev
+  // nogen `has` FØR `source`, gled vagten ud af vinduet, og testen var stille
+  // grøn mod en ubeskyttet wildcard. Et hegn der kun dækker den ene side er
+  // ikke et hegn. enclosingObject() læser hele objektet — begge veje.
+  const guardFirst = `[{ has: [{ type: "host", value: "x.dk" }], source: "/:path*", destination: "/y" }]`;
+  const sourceFirst = `[{ source: "/:path*", has: [{ type: "host", value: "x.dk" }], destination: "/y" }]`;
+  const unguarded = `[{ source: "/:path*", destination: "/y", statusCode: 308 }]`;
+  const guard = /has:\s*\[\{\s*type:\s*"host"/;
+  for (const [navn, src] of [["vagt først", guardFirst], ["source først", sourceFirst]]) {
+    const i = src.indexOf('source: "/:path*"');
+    assert.match(enclosingObject(src, i), guard, `${navn}: vagten skulle være fundet`);
+  }
+  const i = unguarded.indexOf('source: "/:path*"');
+  assert.doesNotMatch(enclosingObject(unguarded, i), guard, "ubeskyttet wildcard skulle være fanget");
 });
