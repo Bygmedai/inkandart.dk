@@ -69,3 +69,13 @@ test("den engelske side er mærket lang=en", () => {
   assert.match(enPage, /lang="en"/);
   assert.doesNotMatch(enPage, /lang="da"/);
 });
+
+test("hegnet er dybt — ordbøgerne har samme form hele vejen ned", () => {
+  // Første udgave mappede kun topniveauet; en manglende nestet nøgle slap
+  // igennem. Fundet med negativ kontrol, ikke med held.
+  const shape = (o) =>
+    o && typeof o === "object" && !Array.isArray(o)
+      ? Object.fromEntries(Object.keys(o).sort().map((k) => [k, shape(o[k])]))
+      : typeof o;
+  assert.deepEqual(shape(t("en")), shape(t("da")));
+});

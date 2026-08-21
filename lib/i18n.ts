@@ -38,6 +38,26 @@ export function alternates(path: string) {
 
 const da = {
   langName: "Dansk",
+  nav: { work: "Work", artist: "Artist", gift: "Gavekort", booking: "Booking →" },
+  dock: { book: "Book", call: "Ring", gift: "Gavekort" },
+  giftRelicAria: "Gavekort — giv blæk videre",
+  scene: {
+    scroll: "Scroll down to emerge",
+    /* Kundens ord (S568): «knapperne skal være større og mere tydelige».
+       Verbet skal være et verbum — ikke «Booking». */
+    bookCta: "Book tid",
+    /** Under gaden — gadens eget bånd. Dansk ER pointen her: det er stedet. */
+    gadeLegend:
+      "MIDT I PISSERENDEN  —  DUERNE HAR OGSÅ BLÆK  —  RENDESTENEN LØBER IKKE MED VAND  —  KANTSTENEN ER VORES VENTEVÆRELSE  —  ",
+    gadeCaption: "Larsbjørnsstræde — midt i Pisserenden",
+    artistLine1: "Vi dekorerer ikke.",
+    artistLine2: "Vi committer.",
+    findUs: "Midt i Pisserenden — du finder os",
+    flash: "Flash →",
+    callAria: (phone: string) => `Ring til Ink & Art, ${phone}`,
+    screens: { hero: "Hero", street: "Under gaden", work: "Work", artist: "Artist", booking: "Booking" },
+  },
+
   otherLangName: "English",
   skipToContent: "Gå til indhold",
   backTo: "←",
@@ -60,17 +80,52 @@ const da = {
   },
 } as const;
 
-/** Formen er dansk. Engelsk skal udfylde præcis den samme form. */
-type Copy = {
-  [K in keyof typeof da]: (typeof da)[K] extends string
-    ? string
-    : (typeof da)[K] extends readonly unknown[]
-      ? unknown
-      : unknown;
-};
+/**
+ * Formen er dansk — HELE VEJEN NED.
+ *
+ * Første udgave af det her hegn mappede kun topniveauet, så en manglende
+ * NESTET nøgle slap igennem. Fundet med negativ kontrol: jeg fjernede
+ * `scene.findUs` fra den engelske ordbog, og buildet blev grønt. Et hegn
+ * der kun dækker den yderste ring er ikke et hegn.
+ *
+ * `Widen` beholder strukturen og løsner literalerne, så engelsk må have
+ * sine egne ord — men ikke sine egne huller.
+ */
+type Widen<T> = T extends string
+  ? string
+  : T extends number
+    ? number
+    : T extends boolean
+      ? boolean
+      : T extends (...a: infer A) => infer R
+        ? (...a: A) => R
+        : T extends readonly (infer U)[]
+          ? Widen<U>[]
+          : { [K in keyof T]: Widen<T[K]> };
+
+type Copy = Widen<typeof da>;
 
 const en: Copy = {
   langName: "English",
+  nav: { work: "Work", artist: "Artist", gift: "Gift cards", booking: "Booking →" },
+  dock: { book: "Book", call: "Call", gift: "Gift cards" },
+  giftRelicAria: "Gift cards — pass the ink on",
+  scene: {
+    scroll: "Scroll down to emerge",
+    bookCta: "Book now",
+    // Gadenavnene oversættes IKKE — Pisserenden er stedet, ikke en beskrivelse.
+    // Kun sætningerne omkring dem skifter sprog.
+    gadeLegend:
+      "DEEP IN PISSERENDEN  —  EVEN THE PIGEONS HAVE INK  —  THE GUTTER DOESN'T RUN WITH WATER  —  THE KERB IS OUR WAITING ROOM  —  ",
+    gadeCaption: "Larsbjørnsstræde — deep in Pisserenden",
+    artistLine1: "We don't decorate.",
+    artistLine2: "We commit.",
+    findUs: "Deep in Pisserenden — you'll find us",
+    flash: "Flash →",
+    callAria: (phone: string) => `Call Ink & Art, ${phone}`,
+    screens: { hero: "Hero", street: "Under the street", work: "Work", artist: "Artist", booking: "Booking" },
+  },
+
   otherLangName: "Dansk",
   skipToContent: "Skip to content",
   backTo: "←",

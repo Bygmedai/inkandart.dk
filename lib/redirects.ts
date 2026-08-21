@@ -17,7 +17,6 @@ export const ROUTE_MIGRATION: MigrationRow[] = [
   { from: "/artister/:slug/", to: "/#artists", reason: "Unknown artist slugs land on the hands" },
   { from: "/find-din-tatovering/", to: "/#artists", reason: "Match-wizard retired" },
   { from: "/del-din-ide/", to: "/#booking", reason: "Idea intake is the quiet form" },
-  { from: "/en/", to: "/", reason: "English home is the same landscape" },
   { from: "/en/privacy/", to: "/privatlivspolitik/", reason: "Legal page is Danish-canonical" },
   { from: "/en/aftercare/", to: "/aftercare/", reason: "Aftercare preserved" },
   { from: "/en/artists/", to: "/#artists", reason: "EN artists index" },
@@ -81,6 +80,4 @@ export const nextRedirects: Redirect[] = [
   ...slashPair("/en/flash", "/flash"),
   ...slashPair("/en/find-your-tattoo", "/#artists"),
   ...slashPair("/en/share-your-idea", "/#booking"),
-  { source: "/en", destination: "/", statusCode: 308 },
-  { source: "/en/", destination: "/", statusCode: 308 },
 ];

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { site } from "@/lib/site";
 import { GiftCardOffer } from "@/components/emerge/GiftCard";
 
+import { SkipLink } from "@/components/i18n/SkipLink";
 export const metadata: Metadata = {
   alternates: { canonical: "/gavekort" },
   title: "Gavekort · Ink & Art",
@@ -40,6 +41,8 @@ const steps = [
 
 export default function GavekortPage() {
   return (
+    <>
+      <SkipLink lang="da" />
     <main id="main" className="gift-page">
       <div className="gift-page__wash" aria-hidden="true" />
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -151,5 +154,6 @@ export default function GavekortPage() {
         </aside>
       </div>
     </main>
+    </>
   );
 }
