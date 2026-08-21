@@ -33,9 +33,14 @@ export function MobileDock() {
       observers.push(io);
     }
     if (booking) {
+      // Højde-uafhængig tuck: rootMargin skærmer viewportens nederste 25% fra,
+      // så dock'en tucker når booking-zonens TOP når 75% ned i skærmen —
+      // en fast scroll-position uanset hvor høj sektionen er. (Tidligere en
+      // ratio-tærskel på hele sektionen, der flyttede sig når booking-højden
+      // ændrede sig; se #141's 110→128svh. Nu er min mekanik afkoblet fra layoutet.)
       const io = new IntersectionObserver(
         ([e]) => setBookingIn(e.isIntersecting),
-        { threshold: 0.2 },
+        { threshold: 0, rootMargin: "0px 0px -25% 0px" },
       );
       io.observe(booking);
       observers.push(io);

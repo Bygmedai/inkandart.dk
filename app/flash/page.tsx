@@ -112,7 +112,7 @@ export default function FlashPage() {
         >
           Sådan virker et drop
         </h2>
-        <ol className="mt-6 list-none p-0">
+        <ol role="list" className="mt-6 list-none p-0">
           {howItDrops.map((step, i) => (
             <li key={step.t} className="flex gap-4 border-t border-[var(--text)]/10 py-5">
               <span className="font-[family-name:var(--font-mono)] text-[11px] text-[var(--gold)]">
