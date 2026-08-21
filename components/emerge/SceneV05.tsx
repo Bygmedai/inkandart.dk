@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { BlackbookSignup } from "./BlackbookSignup";
+import { GiftRelic } from "./GiftRelic";
 import { SceneMotor } from "./SceneMotor";
 
 
@@ -327,21 +328,21 @@ export function SceneV05() {
   <div style={{position:'absolute',left:'0',right:'0',bottom:'0',height:'18svh',background:'linear-gradient(180deg,transparent,#050404 94%)',zIndex:'11',pointerEvents:'none'}}></div>
 </section>
 
-<section id="booking" data-screen-label="Booking" style={{position:'relative',zIndex:'2',height:'110svh',background:'linear-gradient(180deg,#050404 0%,#070505 45%,#030303 100%)'}}>
+<section id="booking" data-screen-label="Booking" style={{position:'relative',zIndex:'2',height:'128svh',background:'linear-gradient(180deg,#050404 0%,#070505 45%,#030303 100%)'}}>
   <div data-depth="0.3" style={{position:'absolute',left:'-7vw',top:'0',width:'22vw',height:'96%',opacity:'.6',zIndex:'2'}}><img loading="lazy" src="/emerge/v05/edge-side.svg" alt="" style={{width:'100%',height:'100%',objectFit:'fill',display:'block'}}/></div>
   <div data-depth="0.32" style={{position:'absolute',right:'-7vw',top:'0',width:'22vw',height:'96%',opacity:'.6',zIndex:'2'}}><img loading="lazy" src="/emerge/v05/edge-side.svg" alt="" style={{width:'100%',height:'100%',objectFit:'fill',display:'block',transform:'scaleX(-1)'}}/></div>
   <div data-depth="0.14" style={{position:'absolute',left:'8%',top:'14%',width:'40vw',zIndex:'1'}}><img loading="lazy" src="/emerge/v05/smoke.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-5deg)'}}/></div>
   <div data-depth="0.16" style={{position:'absolute',right:'2%',top:'44%',width:'38vw',opacity:'.8',zIndex:'1'}}><img loading="lazy" src="/emerge/v05/smoke.svg" alt="" style={{width:'100%',display:'block',transform:'scaleX(-1) rotate(6deg)'}}/></div>
 
   <div data-depth="0.35" style={{position:'absolute',left:'50%',top:'16%',width:'min(46%,520px)',marginLeft:'min(-23%,-260px)',opacity:'.2',zIndex:'3'}}><img loading="lazy" src="/emerge/v05/ouroboros.svg" alt="" style={{width:'100%',display:'block'}}/></div>
-  <div className="v5m-book-center" data-depth="0.6" data-drift="0" style={{position:'relative',zIndex:'6',paddingTop:'34svh',textAlign:'center'}}>
+  <div className="v5m-book-center" data-depth="0.6" data-drift="0" style={{position:'relative',zIndex:'6',paddingTop:'22svh',textAlign:'center'}}>
     <h2 style={{margin:'0 auto',maxWidth:'720px',fontFamily:'\'Cormorant Garamond\',serif',fontStyle:'italic',fontWeight:'500',fontSize:'clamp(34px,4.8vw,60px)',lineHeight:'1.15',textShadow:'0 4px 28px rgba(0,0,0,.85)'}}>The mark is already waiting.</h2>
-    <div style={{marginTop:'clamp(36px,6svh,70px)'}}>
+    <GiftRelic />
+    <div style={{marginTop:'clamp(28px,5svh,56px)'}}>
       <a href="https://inkart.book.dk" style={{fontFamily:'\'Space Mono\',monospace',fontSize:'13px',letterSpacing:'.34em',textTransform:'uppercase',color:'#c9a227',borderBottom:'1px solid rgba(201,162,39,.45)',paddingBottom:'6px'}}>Booking →</a>
       <p style={{margin:'28px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.26em',textTransform:'uppercase',color:'#8e867b'}}>Larsbjørnsstræde 13 · 1454 København K · <a href="tel:+4555248608" aria-label="Ring til Ink & Art, 55 24 86 08" style={{color:'inherit',borderBottom:'1px solid rgba(232,224,213,.25)'}}>55 24 86 08</a></p>
       <p style={{margin:'12px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.26em',textTransform:'uppercase',color:'rgba(139,30,30,.85)'}}>Midt i Pisserenden — du finder os</p>
       <p style={{margin:'26px 0 0',display:'flex',gap:'24px',justifyContent:'center',flexWrap:'wrap'}}>
-        <a href="/gavekort" style={{fontFamily:'\'Space Mono\',monospace',fontSize:'11px',letterSpacing:'.3em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',borderBottom:'1px solid rgba(201,162,39,.35)',paddingBottom:'5px'}}>Gavekort →</a>
         <a href="/flash" style={{fontFamily:'\'Space Mono\',monospace',fontSize:'11px',letterSpacing:'.3em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',borderBottom:'1px solid rgba(201,162,39,.35)',paddingBottom:'5px'}}>Flash →</a>
       </p>
       <BlackbookSignup />
