@@ -53,35 +53,6 @@ det blev opdaget, ikke besluttet.
 **Beskriv indgrebet som det er.** «Ét slot» og «ét slot plus tre
 layout-værdier i booking-zonen» udløser to forskellige reviews.
 
-### Udseende er din — plads er sektionsejerens
-
-Grænsen går ikke ved filen, men ved hvad ændringen gør. Vildes formulering
-efter #141 (ratificeret S567):
-
-> «Relikviets udseende er din lane; dets plads i min sektion er min.»
-
-| Du må | Du skal spørge sektionsejeren |
-|---|---|
-| komponentens eget udtryk, farver, motiv, indre layout | sektionshøjder, padding, margin i en andens zone |
-| tilføje `<DinKomponent />` i et slot | flytte eller ændre det omgivende layout for at gøre plads |
-
-**Hvorfor det ikke bare er territorium:** i #141 blev `#booking` 18svh
-højere for at give plads til relikviet. Ingen så, at mobil-dock'ens tuck er
-koblet til netop den sektions højde. Målt bagefter:
-
-```
-booking 100svh → dock tucker 499 px før sektionen
-booking 128svh → 459 px          (Groks ændring flyttede den 40 px)
-booking 180svh → 419 px
-```
-
-Tuck-punktet flytter sig ~1 px pr. svh — lydløst, uden at nogen test går
-rød. Intet gik i stykker, fordi det blev regressionstestet før merge. Men
-det blev opdaget, ikke besluttet.
-
-**Beskriv indgrebet som det er.** «Ét slot» og «ét slot plus tre
-layout-værdier i booking-zonen» udløser to forskellige reviews.
-
 ---
 
 ## 2. Rebase efter squash-merge — stående aftale
