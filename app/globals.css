@@ -272,15 +272,6 @@ html.emerge-js [data-loader] {
   .emerge-v05 .v5m-book-center { padding-left: 22px !important; padding-right: 22px !important; }
   .emerge-v05 .v5m-artist-needle { top: 66% !important; right: -4% !important; width: 120px !important; }
   .emerge-v05 .v5m-dice-scroll { bottom: 4% !important; left: 34% !important; width: 44px !important; }
-  .emerge-v05 .walkin-relic-slot {
-    left: 50% !important;
-    right: auto !important;
-    top: auto !important;
-    bottom: 28% !important;
-    width: min(72vw, 240px) !important;
-    transform: translateX(-50%);
-    z-index: 17 !important;
-  }
 }
 
 /* Perf: spring layout/paint af under-fold-zonerne over ved load — sektionerne
@@ -706,11 +697,16 @@ html.emerge-js [data-loader] {
 }
 
 /* Walk-in-skilt: søster til Larsbjørnsstræde-skiltet. Svalen sidder på. */
+.walkin-relic-slot {
+  width: min(58vw, 260px);
+  margin: 22px auto 0;
+  padding-top: 20px;
+}
 .walkin-relic {
   position: relative;
   display: block;
   color: inherit;
-  transform: rotate(5deg);
+  transform: rotate(-3.5deg);
   filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.65));
   transition:
     transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
@@ -723,9 +719,9 @@ html.emerge-js [data-loader] {
 }
 .walkin-relic__swallow {
   position: absolute;
-  right: -12%;
-  top: -28%;
-  width: 38%;
+  right: 6%;
+  top: -26%;
+  width: 30%;
   height: auto;
   pointer-events: none;
   filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.6));
@@ -733,7 +729,7 @@ html.emerge-js [data-loader] {
 }
 .walkin-relic:hover,
 .walkin-relic:focus-visible {
-  transform: rotate(3deg) translateY(-4px);
+  transform: rotate(-1.5deg) translateY(-4px);
   filter: drop-shadow(0 22px 34px rgba(0, 0, 0, 0.8));
 }
 .walkin-relic:focus-visible {

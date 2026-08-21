@@ -56,7 +56,7 @@ export function WalkinRelic() {
             x="190"
             y="122"
             textAnchor="middle"
-            fill="rgba(201,162,39,.85)"
+            fill="#e4c45a"
             fontFamily="var(--font-mono), 'Space Mono', monospace"
             fontSize="12"
             letterSpacing="4"

@@ -59,7 +59,6 @@ export function SceneV05() {
   <div data-depth="0.44" style={{position:'absolute',right:'3%',top:'54%',width:'200px',zIndex:'4'}}><img src="/emerge/v05/splat-black.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(70deg)'}}/></div>
   <div data-depth="0.44" style={{position:'absolute',left:'-4%',top:'22%',width:'112%',opacity:'.85',zIndex:'4'}}><img src="/emerge/v05/wire.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-2.5deg)'}}/></div>
   <div data-depth="0.48" style={{position:'absolute',left:'7%',top:'14%',width:'clamp(170px,18vw,280px)',zIndex:'5'}}><img src="/emerge/v05/sign.svg" alt="Larsbjørnsstræde — Pisserenden" style={{width:'100%',display:'block',transform:'rotate(-6deg)',filter:'drop-shadow(0 16px 28px rgba(0,0,0,.65))'}}/></div>
-  <div className="walkin-relic-slot" data-depth="0.5" data-drift="0" style={{position:'absolute',right:'5%',top:'12%',width:'clamp(170px,18vw,280px)',zIndex:'16'}}><WalkinRelic /></div>
   <div data-depth="0.36" style={{position:'absolute',left:'66%',top:'58%',width:'clamp(200px,24vw,340px)',opacity:'.55',zIndex:'2'}}><img src="/emerge/v05/splat-red.svg" alt="" style={{width:'100%',display:'block'}}/></div>
   <div className="v5m-rose-big" data-depth="0.46" style={{position:'absolute',left:'-3%',bottom:'-4%',width:'clamp(280px,30vw,470px)',zIndex:'5'}}><img src="/emerge/v05/rose.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-10deg)',filter:'saturate(1.15) drop-shadow(0 24px 40px rgba(0,0,0,.6))'}}/></div>
   <div data-depth="0.4" style={{position:'absolute',right:'8%',top:'8%',width:'clamp(120px,13vw,190px)',zIndex:'4'}}><img src="/emerge/v05/rose.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(38deg)',filter:'drop-shadow(0 16px 28px rgba(0,0,0,.55))'}}/></div>
@@ -72,9 +71,10 @@ export function SceneV05() {
   <div data-depth="0.53" style={{position:'absolute',left:'26.5%',bottom:'7%',width:'42px',zIndex:'5'}}><img src="/emerge/v05/cup.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(6deg)',filter:'drop-shadow(0 8px 14px rgba(0,0,0,.6))'}}/></div>
   <div data-depth="0.45" style={{position:'absolute',left:'78%',top:'50%',width:'44px',opacity:'.8',zIndex:'4'}}><img src="/emerge/v05/skull.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(14deg)'}}/></div>
 
-  <div data-depth="0.6" data-drift="0" style={{position:'relative',zIndex:'18',paddingTop:'35svh',textAlign:'center'}}>
+  <div data-depth="0.6" data-drift="0" style={{position:'relative',zIndex:'18',paddingTop:'30svh',textAlign:'center'}}>
     <h1 style={{margin:'0',fontFamily:'\'Cormorant Garamond\',serif',fontWeight:'500',fontSize:'clamp(56px,11.5vw,152px)',lineHeight:'.9',letterSpacing:'.05em',textTransform:'uppercase',textShadow:'0 6px 40px rgba(0,0,0,.8)'}}>INK <em style={{fontStyle:'italic',color:'#c9a227'}}>&</em> ART</h1>
     <p style={{margin:'16px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'11px',letterSpacing:'.26em',textTransform:'uppercase',color:'rgba(232,224,213,.6)'}}>Larsbjørnsstræde 13 · Pisserenden · København K</p>
+    <div className="walkin-relic-slot"><WalkinRelic /></div>
   </div>
 
   <div className="v5m-machine-big" data-depth="1.0" style={{position:'absolute',left:'-6%',top:'24%',width:'clamp(200px,24vw,340px)',zIndex:'9'}}><img src="/emerge/v05/machine.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-28deg)',filter:'drop-shadow(0 26px 44px rgba(0,0,0,.75))'}}/></div>
