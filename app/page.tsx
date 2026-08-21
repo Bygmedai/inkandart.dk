@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SceneV05 } from "@/components/emerge/SceneV05";
+import { MobileDock } from "@/components/emerge/MobileDock";
 
 export const metadata: Metadata = {
   // Self-referential canonical — bevidst pr. side, ikke i layout: layout-metadata
@@ -13,6 +14,7 @@ export default function HomePage() {
   return (
     <main id="main">
       <SceneV05 />
+      <MobileDock />
     </main>
   );
 }

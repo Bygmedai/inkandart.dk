@@ -562,3 +562,56 @@ html.emerge-js [data-loader] {
     animation: none;
   }
 }
+
+/* ── Mobil-dock: stille Book · Ring · Gavekort efter hero (Vilde) ────────────
+   Kun mobil (≤767px). Skjult i hero, glider op efter første scroll, tucker sig
+   ved booking-finalen. Gavekort er guld — den fangede krone. */
+.mobile-dock {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9970;
+  display: none;
+  grid-template-columns: repeat(3, 1fr);
+  background: rgba(8, 7, 7, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(201, 162, 39, 0.28);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  transform: translateY(115%);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+.mobile-dock.is-shown {
+  transform: translateY(0);
+  pointer-events: auto;
+}
+@media (max-width: 767px) {
+  .mobile-dock {
+    display: grid;
+  }
+}
+.mobile-dock__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 8px;
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(232, 224, 213, 0.82);
+  border-right: 1px solid rgba(232, 224, 213, 0.08);
+}
+.mobile-dock__item:last-child {
+  border-right: none;
+}
+.mobile-dock__item--gold {
+  color: var(--gold);
+}
+@media (prefers-reduced-motion: reduce) {
+  .mobile-dock {
+    transition: none;
+  }
+}
