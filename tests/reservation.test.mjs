@@ -51,9 +51,39 @@ test("slotten er ét slot i Under gaden — og ligger over zonens bundfade", () 
   assert.ok(Number(z[1]) > 9, `kerb-slot skal ligge over bundfaden (z-9), var z-${z[1]}`);
 });
 
+/**
+ * Læs ÉN CSS-regels krop — bundet af sine egne krøllede parenteser.
+ *
+ * Tidligere klippede denne fil fra `indexOf(selector)` til filens ende. Det
+ * hegn flytter sig hver gang naboen appender: da Fuglemor og gade-crew lagde
+ * blokke til halen af globals.css, målte udsnittet pludselig andres CSS
+ * (Haruki, S568 — samme fælde kostede #152 en runde). Nu måler vi reglen.
+ */
+function ruleBody(css, selector) {
+  const i = css.indexOf(selector);
+  assert.notEqual(i, -1, `regel ${selector} findes ikke i globals.css`);
+  const open = css.indexOf("{", i);
+  assert.notEqual(open, -1, `regel ${selector} har ingen krop`);
+  let depth = 0;
+  for (let j = open; j < css.length; j++) {
+    if (css[j] === "{") depth++;
+    else if (css[j] === "}" && --depth === 0) return css.slice(open + 1, j);
+  }
+  throw new Error(`regel ${selector} lukker aldrig`);
+}
+
 test("mobil-placeringen bruger boks-model, ikke transform (lektionen fra #146)", () => {
-  const mobile = css.slice(css.indexOf(".emerge-v05 .kerb-slot"));
+  const mobile = ruleBody(css, ".emerge-v05 .kerb-slot");
   assert.match(mobile, /left: 5% !important/);
   assert.match(mobile, /right: 5% !important/);
-  assert.doesNotMatch(mobile.slice(0, 300), /translateX/);
+  // Motoren ejer transform på [data-depth]-bokse — centrering er boks-model.
+  assert.doesNotMatch(mobile, /transform/);
+});
+
+test("negativ kontrol: ruleBody måler reglen, ikke resten af filen", () => {
+  // Vidnet på hegnet. Naboens CSS må ikke kunne læses ind i vores regel:
+  // .kerb-slot-kroppen indeholder ikke fuglens eller crewets erklæringer,
+  // selv om de ligger i samme fil.
+  const mobile = ruleBody(css, ".emerge-v05 .kerb-slot");
+  assert.doesNotMatch(mobile, /mor__|crew__|gade__/);
 });
