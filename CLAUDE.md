@@ -44,6 +44,26 @@ for en dag tabt.
   Motoren ejer transform på de bokse; centrering laves med boks-model
   (`left`/`right`/`margin-inline`). Lært i #146, bekræftet i kridt-slotten.
 
+### Undtagelsen: en målt a11y- eller handelsfejl i produktion
+
+**Ratificeret S568** (Steven: *«Du må meget gerne fixe de fejl du har
+opdaget»*, efter fund i fuld gennemgang). Skrevet ned her, fordi en aftale
+der kun står i en PR-tekst ikke findes (QA-observation på #168 — med rette).
+
+Ejeren af **a11y-/perf-gatene** må rette i en andens fil **uden at vente**,
+når alle fire gælder:
+
+1. Fejlen er i **produktion** — ikke i en åben PR, hvor ejeren stadig arbejder
+2. Den rammer **en handling eller en tilgængelighedsgrænse**: et objekt oven
+   på en købsknap, tekst under AA, et tap-mål under 24×24
+3. Den er **målt**, ikke vurderet — tal og metode i commit og PR
+4. Indgrebet rører **kun** farve, trykfelt eller placering; aldrig copy,
+   motiv eller adfærd
+
+Ejeren skal **råbes an i PR-teksten** med hvad der blev rørt og hvorfor, og
+kan altid rulle tilbage i sin egen lane. Er blot ét af de fire punkter ikke
+opfyldt, gælder hovedreglen herunder.
+
 **Krydser du en grænse:** stop og spørg ejeren. Et hurtigt spørgsmål koster
 minutter; en kollision i to agenters ucommittede arbejde koster en dag.
 

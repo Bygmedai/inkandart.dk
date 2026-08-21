@@ -1140,11 +1140,11 @@ html.emerge-js [data-loader] {
 .gade__note a {
   color: rgba(201, 162, 39, 0.85);
   border-bottom: 1px solid rgba(201, 162, 39, 0.4);
-  padding-bottom: 2px;
-  /* Selvstændig CTA, ikke et link i en sætning → 24×24 (SC 2.5.8). */
-  display: inline-flex;
-  align-items: center;
-  min-height: 24px;
+  /* Trykfelt uden at flytte stregen: `inline-flex` + `min-height` ville
+     lægge border-bottom under FLEX-kanten, ikke under skriften — stregen
+     sank 4–8 px (QA #168). Polstring opad vokser hitboksen; de 2 px
+     nedad holder understregningen præcis hvor den var. */
+  padding: 8px 0 2px;
 }
 @media (prefers-reduced-motion: reduce) {
   .gade__door, .gade__door:hover, .gade__door:focus-visible { transition: none; }
@@ -1288,8 +1288,12 @@ html.emerge-js [data-loader] {
 
    Links INDE i en sætning (fx «book» og telefonnummeret i kridtets note)
    er bevidst ikke omfattet — de er undtaget i SC 2.5.8, og en ramme om
-   dem ville bryde linjefaldet i brødteksten. */
-main p a[href="/"] {
+   dem ville bryde linjefaldet i brødteksten.
+
+   Selektoren stiller INGEN krav til forælderen (QA #168: `main p a` ville
+   tie stille, hvis en side lagde linket i en <div> eller <nav>). Alle
+   `href="/"` i app/ er tilbage-linket — det håndhæves i redirects-testen. */
+main a[href="/"] {
   display: inline-flex;
   align-items: center;
   min-height: 24px;

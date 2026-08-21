@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { test } from "node:test";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -71,4 +71,36 @@ test("/shop er ikke forældreløs — der går en dør ind fra forsiden", () => 
   // uden en dør er ikke en side, den er en URL.
   const scene = readFileSync(join(root, "components/emerge/SceneV05.tsx"), "utf8");
   assert.match(scene, /href="\/shop"/, "forsiden skal linke til kataloget");
+});
+
+test("tilbage-linket er dækket af tap-reglen på ALLE undersider", () => {
+  // QA #168: reglen hed `main p a[href="/"]` og antog dermed en <p>-forælder
+  // ingen havde lovet. Nu er selektoren fri af markup — men den hviler på at
+  // `href="/"` KUN bruges til tilbage-linket. Det er den antagelse vi måler.
+  const css = readFileSync(join(root, "app/globals.css"), "utf8");
+  assert.match(css, /main a\[href="\/"\]\s*\{[^}]*min-height:\s*24px/);
+
+  const sider = readdirSync(join(root, "app"), { withFileTypes: true })
+    .filter((d) => d.isDirectory())
+    .flatMap((d) => {
+      const her = join(root, "app", d.name, "page.tsx");
+      const under = readdirSync(join(root, "app", d.name), { withFileTypes: true })
+        .filter((x) => x.isDirectory())
+        .map((x) => join(root, "app", d.name, x.name, "page.tsx"));
+      return [her, ...under];
+    })
+    .filter((f) => existsSync(f));
+
+  assert.ok(sider.length >= 7, `forventede undersider, fandt ${sider.length}`);
+  for (const f of sider) {
+    const src = readFileSync(f, "utf8");
+    for (const m of src.matchAll(/href="\/"/g)) {
+      const efter = src.slice(m.index, m.index + 90);
+      assert.match(
+        efter, /←/,
+        `${f.split("/app/")[1]}: et href="/" der ikke er tilbage-linket — ` +
+          "tap-reglen ville også ramme det; genovervej selektoren"
+      );
+    }
+  }
 });
