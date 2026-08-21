@@ -37,10 +37,10 @@ export function SceneV05() {
 <header data-header="" style={{position:'fixed',top:'0',left:'0',right:'0',zIndex:'9980',display:'flex',alignItems:'center',justifyContent:'space-between',gap:'16px',padding:'13px 5vw',background:'rgba(8,7,7,.86)',backdropFilter:'blur(10px)',WebkitBackdropFilter:'blur(10px)',borderBottom:'1px solid rgba(232,224,213,.09)',transform:'translateY(-110%)',opacity:'0',transition:'transform .7s cubic-bezier(.16,1,.3,1),opacity .5s ease'}}>
   <a href="#emerge" style={{borderBottom:'none',fontFamily:'\'Cormorant Garamond\',serif',fontWeight:'500',fontSize:'19px',letterSpacing:'.1em',textTransform:'uppercase',whiteSpace:'nowrap'}}>INK <em style={{fontStyle:'italic',color:'#c9a227'}}>&</em> ART</a>
   <nav style={{display:'flex',alignItems:'center',gap:'clamp(14px,2.6vw,36px)'}}>
-    <a href="#work" style={{borderBottom:'1px solid transparent',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.28em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',display:'inline-flex',alignItems:'center',minHeight:'24px'}}>Work</a>
-    <a href="#artists" style={{borderBottom:'1px solid transparent',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.28em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',display:'inline-flex',alignItems:'center',minHeight:'24px'}}>Artist</a>
-    <a href="/gavekort" style={{borderBottom:'1px solid transparent',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.28em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',display:'inline-flex',alignItems:'center',minHeight:'24px'}}>Gavekort</a>
-    <a href="https://inkart.book.dk" style={{borderBottom:'1px solid rgba(201,162,39,.5)',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.28em',textTransform:'uppercase',color:'#c9a227',whiteSpace:'nowrap',display:'inline-flex',alignItems:'center',minHeight:'24px'}}>Booking →</a>
+    <a href="#work" style={{borderBottom:'1px solid transparent',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.28em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',paddingTop:'8px'}}>Work</a>
+    <a href="#artists" style={{borderBottom:'1px solid transparent',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.28em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',paddingTop:'8px'}}>Artist</a>
+    <a href="/gavekort" style={{borderBottom:'1px solid transparent',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.28em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',paddingTop:'8px'}}>Gavekort</a>
+    <a href="https://inkart.book.dk" style={{borderBottom:'1px solid rgba(201,162,39,.5)',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.28em',textTransform:'uppercase',color:'#c9a227',whiteSpace:'nowrap',paddingTop:'8px'}}>Booking →</a>
   </nav>
 </header>
 
@@ -354,12 +354,12 @@ export function SceneV05() {
     <h2 style={{margin:'0 auto',maxWidth:'720px',fontFamily:'\'Cormorant Garamond\',serif',fontStyle:'italic',fontWeight:'500',fontSize:'clamp(34px,4.8vw,60px)',lineHeight:'1.15',textShadow:'0 4px 28px rgba(0,0,0,.85)'}}>The mark is already waiting.</h2>
     <GiftRelic />
     <div style={{marginTop:'clamp(28px,5svh,56px)'}}>
-      <a href="https://inkart.book.dk" style={{fontFamily:'\'Space Mono\',monospace',fontSize:'13px',letterSpacing:'.34em',textTransform:'uppercase',color:'#c9a227',borderBottom:'1px solid rgba(201,162,39,.45)',display:'inline-flex',alignItems:'center',minHeight:'24px',paddingBottom:'6px'}}>Booking →</a>
-      <p style={{margin:'28px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.26em',textTransform:'uppercase',color:'#8e867b'}}>Larsbjørnsstræde 13 · 1454 København K · <a href="tel:+4555248608" aria-label="Ring til Ink & Art, 55 24 86 08" style={{color:'inherit',borderBottom:'1px solid rgba(232,224,213,.25)',padding:'7px 0'}}>55 24 86 08</a></p>
+      <a href="https://inkart.book.dk" style={{fontFamily:'\'Space Mono\',monospace',fontSize:'13px',letterSpacing:'.34em',textTransform:'uppercase',color:'#c9a227',borderBottom:'1px solid rgba(201,162,39,.45)',paddingTop:'8px',paddingBottom:'6px'}}>Booking →</a>
+      <p style={{margin:'28px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.26em',textTransform:'uppercase',color:'#8e867b'}}>Larsbjørnsstræde 13 · 1454 København K · <a href="tel:+4555248608" aria-label="Ring til Ink & Art, 55 24 86 08" style={{color:'inherit',borderBottom:'1px solid rgba(232,224,213,.25)',paddingTop:'12px'}}>55 24 86 08</a></p>
       <p style={{margin:'12px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.26em',textTransform:'uppercase',color:'rgba(139,30,30,.85)'}}>Midt i Pisserenden — du finder os</p>
       <p style={{margin:'26px 0 0',display:'flex',gap:'24px',justifyContent:'center',flexWrap:'wrap'}}>
-        <a href="/flash" style={{fontFamily:'\'Space Mono\',monospace',fontSize:'11px',letterSpacing:'.3em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',borderBottom:'1px solid rgba(201,162,39,.35)',paddingBottom:'5px',display:'inline-flex',alignItems:'center',minHeight:'24px'}}>Flash →</a>
-        <a href="/shop" style={{fontFamily:'\'Space Mono\',monospace',fontSize:'11px',letterSpacing:'.3em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',borderBottom:'1px solid rgba(201,162,39,.35)',paddingBottom:'5px',display:'inline-flex',alignItems:'center',minHeight:'24px'}}>Shop →</a>
+        <a href="/flash" style={{fontFamily:'\'Space Mono\',monospace',fontSize:'11px',letterSpacing:'.3em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',borderBottom:'1px solid rgba(201,162,39,.35)',paddingBottom:'5px',paddingTop:'6px'}}>Flash →</a>
+        <a href="/shop" style={{fontFamily:'\'Space Mono\',monospace',fontSize:'11px',letterSpacing:'.3em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',borderBottom:'1px solid rgba(201,162,39,.35)',paddingBottom:'5px',paddingTop:'6px'}}>Shop →</a>
       </p>
       <BlackbookSignup />
     </div>
