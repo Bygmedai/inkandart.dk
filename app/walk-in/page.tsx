@@ -5,6 +5,7 @@ import { WalkinRelic } from "@/components/emerge/WalkinRelic";
 import { LangSwitch } from "@/components/i18n/LangSwitch";
 import { alternates } from "@/lib/i18n";
 
+import { SkipLink } from "@/components/i18n/SkipLink";
 export const metadata: Metadata = {
   alternates: alternates("/walk-in"),
   title: "Walk-in · Ink & Art",
@@ -14,6 +15,8 @@ export const metadata: Metadata = {
 
 export default function WalkInPage() {
   return (
+    <>
+      <SkipLink lang="da" />
     <main id="main" className="walkin-page">
       <div className="walkin-page__inner">
         <p className="walkin-page__top font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
@@ -81,5 +84,6 @@ export default function WalkInPage() {
         </p>
       </div>
     </main>
+    </>
   );
 }

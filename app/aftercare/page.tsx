@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { aftercare } from "@/lib/aftercare";
 import { site } from "@/lib/site";
 
+import { SkipLink } from "@/components/i18n/SkipLink";
 export const metadata: Metadata = {
   alternates: { canonical: "/aftercare" },
   title: "Aftercare · Ink & Art",
@@ -10,6 +11,8 @@ export const metadata: Metadata = {
 
 export default function AftercarePage() {
   return (
+    <>
+      <SkipLink lang="da" />
     <main className="mx-auto max-w-[68ch] px-[var(--gutter)] py-24">
       <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
         <a href="/">← {site.name}</a>
@@ -75,5 +78,6 @@ export default function AftercarePage() {
         </a>
       </aside>
     </main>
+    </>
   );
 }

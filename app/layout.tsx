@@ -46,9 +46,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-[var(--void)] text-[var(--text)] antialiased" style={{ fontFamily: "var(--font-body), system-ui, sans-serif" }}>
         <Script src="/emerge-boot.js" strategy="beforeInteractive" />
         <Script src="/seo-ld.js" strategy="afterInteractive" />
-        <a href="#main" className="skip-link">
-          Gå til indhold
-        </a>
         <div className="grain" aria-hidden="true" />
         {children}
         {/* Vercel Web Analytics — cookieløs, ingen PII, samme oprindelse (/_vercel/insights/*).

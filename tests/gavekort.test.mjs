@@ -63,8 +63,11 @@ test("giving the card stays on our site", () => {
 
 test("homepage relic is a single link to /gavekort, not a checkout", () => {
   const relic = readFileSync(join(root, "components/emerge/GiftRelic.tsx"), "utf8");
-  assert.match(relic, /href="\/gavekort"/);
+  // S568: linket følger nu sproget (/gavekort på dansk, /en/gavekort på engelsk).
+  // Intentionen er uændret — relikviet er en DØR til gavekortsiden, ikke en checkout.
+  assert.match(relic, /localePath\(lang, "\/gavekort"\)/);
   assert.doesNotMatch(relic, /giftCartUrl/);
+  assert.doesNotMatch(relic, /\/cart\//);
   assert.doesNotMatch(relic, /use client/);
 });
 

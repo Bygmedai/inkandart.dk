@@ -3,6 +3,7 @@ import { site } from "@/lib/site";
 import { SHOP_PRINTS, cartUrl, kr } from "@/lib/commerce";
 import { KerbReservation } from "@/components/emerge/KerbReservation";
 
+import { SkipLink } from "@/components/i18n/SkipLink";
 /**
  * /shop — «Gaden sælger.» Kataloget i Emerge-sproget (Villy, P1 — vej B).
  *
@@ -47,6 +48,8 @@ const DOORS = [
 
 export default function ShopPage() {
   return (
+    <>
+      <SkipLink lang="da" />
     <main id="main" className="gade">
       <div className="gade__inner">
         <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
@@ -126,5 +129,6 @@ export default function ShopPage() {
         </section>
       </div>
     </main>
+    </>
   );
 }
