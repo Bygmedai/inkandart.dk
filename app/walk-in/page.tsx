@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { site } from "@/lib/site";
 import { WALKIN, kr, walkinCartUrl } from "@/lib/commerce";
 import { WalkinRelic } from "@/components/emerge/WalkinRelic";
+import { LangSwitch } from "@/components/i18n/LangSwitch";
+import { alternates } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  alternates: { canonical: "/walk-in" },
+  alternates: alternates("/walk-in"),
   title: "Walk-in · Ink & Art",
   description:
     "To små tatoveringer for 900 kr. Ingen booking. Kom forbi Larsbjørnsstræde 13 og vis kvitteringen.",
@@ -14,8 +16,9 @@ export default function WalkInPage() {
   return (
     <main id="main" className="walkin-page">
       <div className="walkin-page__inner">
-        <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
+        <p className="walkin-page__top font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
           <a href="/">← {site.name}</a>
+          <LangSwitch lang="da" path="/walk-in" />
         </p>
         <p className="mt-10 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
           Walk-in

@@ -49,7 +49,6 @@ test("matrix covers the retired 11ty routes", () => {
     "/del-din-ide/",
     "/en/privacy/",
     "/en/aftercare/",
-    "/en/walk-in/",
     "/en/artists/",
     "/en/flash/",
     "/en/find-your-tattoo/",
@@ -58,6 +57,13 @@ test("matrix covers the retired 11ty routes", () => {
   for (const from of required) {
     assert.match(redirectsSrc, new RegExp(from.replace(/[.*]/g, "\\$&")));
   }
+});
+
+test("English walk-in is a live page too — S568, ikke længere en 308", () => {
+  // Redirects køres FØR routing i Next. Blev reglen stående, ville
+  // app/en/walk-in/page.tsx aldrig kunne nås. Testen vender nu den vej.
+  assert.doesNotMatch(redirectsSrc, /slashPair\("\/en\/walk-in"/);
+  assert.doesNotMatch(redirectsSrc, /from: "\/en\/walk-in\//);
 });
 
 test("Danish walk-in is a live page, not a 308 to the chair", () => {
