@@ -41,8 +41,12 @@ test("copy'en lover ikke en tid vi ikke har (rails §4)", () => {
 test("slotten er ét slot i Under gaden — og ligger over zonens bundfade", () => {
   assert.match(scene, /KerbReservation/);
   assert.match(scene, /className="kerb-slot"/);
-  // bundfaden er zIndex 9; kridtet skal ligge over den for ikke at blive dæmpet
-  assert.match(scene, /className="kerb-slot"[^>]*zIndex:'10'/);
+  // Bundfaden er zIndex 9; kridtet skal ligge over den for ikke at blive dæmpet.
+  // Formaterings-robust: find slottens tag og læs dens zIndex, uanset linjebrud.
+  const slotTag = scene.slice(scene.indexOf('className="kerb-slot"'));
+  const zIndex = slotTag.slice(0, slotTag.indexOf(">")).match(/zIndex:'(\d+)'/);
+  assert.ok(zIndex, "kerb-slot mangler zIndex");
+  assert.ok(Number(zIndex[1]) > 9, `kerb-slot skal ligge over bundfaden (z-9), var z-${zIndex[1]}`);
 });
 
 test("mobil-placeringen bruger boks-model, ikke transform (lektionen fra #146)", () => {

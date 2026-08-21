@@ -773,7 +773,8 @@ html.emerge-js [data-loader] {
   font-size: clamp(9px, 1.1vw, 11px);
   letter-spacing: 0.34em;
   text-transform: uppercase;
-  color: rgba(232, 224, 213, 0.34);
+  /* WCAG AA: ~5,4:1 mod zonens bund. Kridt-stemningen holder, teksten læses. */
+  color: rgba(232, 224, 213, 0.58);
 }
 .kerb__marks {
   display: flex;
@@ -845,7 +846,8 @@ html.emerge-js [data-loader] {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   line-height: 1.9;
-  color: rgba(232, 224, 213, 0.34);
+  /* Depositum-oplysningen er ikke atmosfære — den skal kunne læses. ~6,1:1. */
+  color: rgba(232, 224, 213, 0.62);
 }
 .kerb__note a {
   color: rgba(201, 162, 39, 0.85);

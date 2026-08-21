@@ -68,7 +68,12 @@ export function KerbReservation() {
       {/* Ærligt: depositummet holder pladsen — tiden aftales bagefter. */}
       <p className="kerb__note">
         Trækkes fra prisen. Tiden aftaler vi bagefter —{" "}
-        <a href={site.bookingUrl} target="_blank" rel="noopener noreferrer">
+        <a
+          href={site.bookingUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Book tid hos Ink &amp; Art (åbner i nyt vindue)"
+        >
           book
         </a>{" "}
         eller ring{" "}
