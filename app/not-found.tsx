@@ -27,6 +27,9 @@ export default function NotFound() {
           <Link href="/" style={{ color: "#e8e0d5", borderBottom: "1px solid rgba(232,224,213,.3)", paddingBottom: "4px" }}>
             Ind i landskabet
           </Link>
+          <Link href="/gavekort" style={{ color: "#e8e0d5", borderBottom: "1px solid rgba(201,162,39,.35)", paddingBottom: "4px" }}>
+            Gavekort
+          </Link>
           <a href={site.bookingUrl} style={{ color: "#c9a227", borderBottom: "1px solid rgba(201,162,39,.45)", paddingBottom: "4px" }}>
             Booking →
           </a>
