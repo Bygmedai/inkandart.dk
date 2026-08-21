@@ -65,7 +65,15 @@ const MAALER = () => {
   const effBg = (el) => {
     const kaede = [];
     for (let n = el; n; n = n.parentElement) {
-      const bg = parse(getComputedStyle(n).backgroundColor);
+      const cs = getComputedStyle(n);
+      // En gradient tæller som baggrund. Uden dette så værktøjet en fyldt
+      // guldknap som «gennemsigtig» og meldte mørk-på-mørk (1.05:1) — en
+      // falsk alarm, og et værktøj der råber forkert bliver ignoreret.
+      const grad = cs.backgroundImage && cs.backgroundImage !== "none"
+        ? parse((cs.backgroundImage.match(/rgba?\([^)]+\)/) || [""])[0])
+        : null;
+      if (grad) { kaede.push([grad[0], grad[1], grad[2], 1]); break; }
+      const bg = parse(cs.backgroundColor);
       if (bg && bg[3] > 0) kaede.push(bg);
       if (bg && bg[3] >= 1) break;
     }
