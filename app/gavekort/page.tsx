@@ -82,6 +82,7 @@ export default function GavekortPage() {
           href={`https://wa.me/${site.whatsapp.replace(/\D/g, "")}`}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="Skriv til os på WhatsApp (åbner i nyt vindue)"
         >
           Skriv på WhatsApp
         </a>
