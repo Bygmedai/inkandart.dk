@@ -1067,6 +1067,7 @@ html.emerge-js [data-loader] {
 
 @media (max-width: 640px) {
   .mor--hero[data-perch="walkin"] { left: 70%; top: 52%; }
+  .mor--under[data-perch="gutter"] { left: 82%; top: 64%; }
   .mor--under[data-perch="chalk"] { left: 48%; top: 56%; }
   .mor--booking[data-perch="gift"] { left: 78%; top: 40%; }
 }

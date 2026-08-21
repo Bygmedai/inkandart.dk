@@ -14,6 +14,7 @@ export function MorMotor() {
 
     const birds = Array.from(document.querySelectorAll<HTMLElement>("[data-mor]"));
     const cleanups: Array<() => void> = [];
+    const timers: number[] = [];
 
     for (const el of birds) {
       const zone = el.dataset.mor as MorZone | undefined;
@@ -36,15 +37,17 @@ export function MorMotor() {
         const line = el.querySelector<HTMLElement>(".mor__line");
         if (line) line.textContent = "";
 
-        window.setTimeout(() => {
-          el.classList.remove("is-airborne");
-          if (!line) return;
-          if (Math.random() < 0.36) {
-            line.textContent = next.line;
-            el.classList.add("is-said");
-            window.setTimeout(() => el.classList.remove("is-said"), 4200);
-          }
-        }, 1100);
+        timers.push(
+          window.setTimeout(() => {
+            el.classList.remove("is-airborne");
+            if (!line) return;
+            if (Math.random() < 0.36) {
+              line.textContent = next.line;
+              el.classList.add("is-said");
+              timers.push(window.setTimeout(() => el.classList.remove("is-said"), 4200));
+            }
+          }, 1100),
+        );
       };
 
       el.addEventListener("click", hop);
@@ -55,7 +58,10 @@ export function MorMotor() {
       });
     }
 
-    return () => cleanups.forEach((fn) => fn());
+    return () => {
+      cleanups.forEach((fn) => fn());
+      timers.forEach((t) => window.clearTimeout(t));
+    };
   }, []);
 
   return null;

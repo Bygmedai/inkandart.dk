@@ -61,6 +61,17 @@ test("lines are chalk-caps, aria-hidden, one sr-only description", () => {
   }
 });
 
+test("MorMotor clears hop timers on unmount — same contract as SceneMotor", () => {
+  assert.match(motor, /const timers: number\[\] = \[\]/);
+  assert.match(motor, /timers\.push\(\s*window\.setTimeout/);
+  assert.match(motor, /timers\.forEach\(\(t\) => window\.clearTimeout\(t\)\)/);
+});
+
+test("under-gutter on mobile does not sit on the chalk", () => {
+  const block = css.slice(css.indexOf("Fuglemor"));
+  assert.match(block, /@media \(max-width: 640px\)[\s\S]*?\.mor--under\[data-perch="gutter"\]/);
+});
+
 test("no new dependency for the bird", () => {
   const before = ["gsap", "lottie", "animejs", "motion"];
   const deps = {
