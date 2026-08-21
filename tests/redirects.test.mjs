@@ -19,7 +19,6 @@ test("matrix covers the retired 11ty routes", () => {
     "/walk-in/",
     "/artister/",
     "/artister/nizar/",
-    "/flash/",
     "/find-din-tatovering/",
     "/del-din-ide/",
     "/en/privacy/",

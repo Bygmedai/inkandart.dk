@@ -29,6 +29,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const TAGS_BY_SOURCE: Record<string, string[]> = {
   footer: ["newsletter", "site-signup"],
   emerge: ["newsletter", "site-signup", "emerge"],
+  flash: ["newsletter", "site-signup", "blackbook", "flash-waitlist"],
 };
 
 function env(...names: string[]): string | undefined {
