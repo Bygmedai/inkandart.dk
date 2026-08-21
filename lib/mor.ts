@@ -1,11 +1,11 @@
-/** Fuglemor. Én linje — hun orker ikke at variere. */
+/** Fuglemor. Bankens linjer roterer i motoren — hun mumler, hun performer ikke. */
 
-import type { VoiceKey } from "./voice";
+import type { LineKey, VoiceKey } from "./voice";
 
 export const MOR_ZONES = ["hero", "under", "work", "artist", "booking"] as const;
 export type MorZone = (typeof MOR_ZONES)[number];
 
-export type MorPerch = { id: string; line: VoiceKey };
+export type MorPerch = { id: string; line: LineKey };
 
 export const MOR_PERCHES: Record<MorZone, MorPerch[]> = {
   hero: [

@@ -1323,6 +1323,29 @@ html[lang="en"] .gade-tape__en { display: inline; }
 .crew--skull-work[data-perch="a"] { left: 72%; top: 36%; }
 .crew--skull-work[data-perch="b"] { left: 80%; top: 42%; }
 
+/* Mumlen på landskabets egne objekter. Linjen ligger på figuren, ikke
+   over hele bounding-boxen — rose/maskine er for store til en caption. */
+.mutter__line {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 16%;
+  z-index: 2;
+  margin: 0 auto;
+  max-width: 22ch;
+  text-align: center;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: clamp(11px, 1.1vw, 13px);
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  color: rgba(232, 224, 213, 0.82);
+  opacity: 0;
+  pointer-events: none;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85);
+  transition: opacity 0.45s ease;
+}
+.is-said > .mutter__line { opacity: 1; }
+
 @media (max-width: 640px) {
   .mor--hero[data-perch="walkin"] { left: 70%; top: 52%; }
   .mor--under[data-perch="gutter"] { left: 82%; top: 64%; }
@@ -1342,7 +1365,8 @@ html[lang="en"] .gade-tape__en { display: inline; }
 @media (prefers-reduced-motion: reduce) {
   .mor,
   .mor:hover:not(.is-airborne) .mor__body,
-  .crew {
+  .crew,
+  .mutter__line {
     transition: none;
   }
   .mor:hover:not(.is-airborne) .mor__body {
@@ -1353,4 +1377,5 @@ html[lang="en"] .gade-tape__en { display: inline; }
   .crew.is-tumble .crew__body {
     animation: none;
   }
+  .is-said > .mutter__line { opacity: 0; }
 }

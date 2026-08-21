@@ -89,9 +89,11 @@ test("lines are chalk-caps, aria-hidden, one sr-only description", () => {
   assert.equal(MOR_SR_KEY, "mor.sr");
   const keys = Object.values(MOR_PERCHES).flatMap((p) => p.map((x) => x.line));
   assert.equal(keys.every((k) => k === "mor.line"), true);
-  assert.match(VOICE.da["mor.line"], /skidt på bedre steder/i);
-  assert.match(VOICE.en["mor.line"], /shit on better places/i);
-  assert.doesNotMatch(VOICE.da["mor.line"], /[A-ZÆØÅ]{4,}/);
+  assert.match(VOICE.da["mor.line"][0], /skidt på bedre steder/i);
+  assert.match(VOICE.en["mor.line"][0], /shit on better places/i);
+  for (const line of VOICE.da["mor.line"]) {
+    assert.doesNotMatch(line, /[A-ZÆØÅ]{4,}/);
+  }
 });
 
 test("collage tape is a found scrap, not a door", () => {

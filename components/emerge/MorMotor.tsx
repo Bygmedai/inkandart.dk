@@ -3,13 +3,26 @@
 import { useEffect } from "react";
 import { CREW } from "@/lib/crew";
 import { MOR_PERCHES, type MorZone } from "@/lib/mor";
-import { VOICE, voiceFromLang, type Voice, type VoiceKey } from "@/lib/voice";
+import { MUTTERS, MUTTER_FIRST } from "@/lib/mutter";
+import {
+  VOICE,
+  isLineKey,
+  pickLine,
+  voiceFromLang,
+  type LineKey,
+  type Voice,
+  type VoiceKey,
+} from "@/lib/voice";
+
+const HOLD = 6800;
+const QUIET = 8400;
 
 /**
  * Isoleret klient-ø for hele gadens vågne liv. Scenen er server-HTML.
  * Ingen rAF. Timers ryddes ved unmount. Reduced-motion: vi binder ikke.
  *
  * Kontrakt til Haruki: document.documentElement.lang. `en` → engelske linjer.
+ * Én figur mumler ad gangen. Lang pause. Linjerne roterer i banken.
  */
 export function MorMotor() {
   useEffect(() => {
@@ -19,17 +32,39 @@ export function MorMotor() {
     const timers: number[] = [];
     const cleanups: Array<() => void> = [];
     const busy = new Map<string, number>();
-    let v: Voice = voiceFromLang(document.documentElement.lang);
-
-    const say = (key: VoiceKey) => VOICE[v][key];
+    const lastLine = new Map<string, string>();
+    let quietUntil = 0;
+    const v: Voice = voiceFromLang(document.documentElement.lang);
 
     document.querySelectorAll<HTMLElement>("[data-voice]").forEach((el) => {
       const key = el.dataset.voice as VoiceKey | undefined;
-      if (key && key in VOICE[v]) el.textContent = VOICE[v][key];
+      if (key === "mor.sr") el.textContent = VOICE[v][key];
     });
 
     const land = (who: string) => {
       document.dispatchEvent(new CustomEvent("crew:land", { detail: { who } }));
+    };
+
+    const inView = (el: HTMLElement) => {
+      const r = el.getBoundingClientRect();
+      return r.bottom > 64 && r.top < window.innerHeight - 64 && r.width > 8 && r.height > 8;
+    };
+
+    const utter = (host: HTMLElement, line: HTMLElement | null, key: LineKey): boolean => {
+      if (!line) return false;
+      const now = Date.now();
+      if (now < quietUntil) return false;
+      const text = pickLine(v, key, lastLine.get(key));
+      lastLine.set(key, text);
+      line.textContent = text;
+      host.classList.add("is-said");
+      quietUntil = now + HOLD + QUIET;
+      timers.push(
+        window.setTimeout(() => {
+          host.classList.remove("is-said");
+        }, HOLD),
+      );
+      return true;
     };
 
     const hopMor = (el: HTMLElement) => {
@@ -53,11 +88,7 @@ export function MorMotor() {
           el.classList.remove("is-airborne");
           land(id);
           if (!line) return;
-          if (Math.random() < 0.4) {
-            line.textContent = say(next.line);
-            el.classList.add("is-said");
-            timers.push(window.setTimeout(() => el.classList.remove("is-said"), 4200));
-          }
+          if (Math.random() < 0.4) utter(el, line, next.line);
         }, 1100),
       );
     };
@@ -83,11 +114,8 @@ export function MorMotor() {
           el.classList.remove("is-airborne");
           el.classList.remove("is-tumble");
           land(spec.who);
-          if (line && spec.line && (reason === "react" || Math.random() < 0.28)) {
-            line.textContent = say(spec.line);
-            el.classList.add("is-said");
-            timers.push(window.setTimeout(() => el.classList.remove("is-said"), 3200));
-          }
+          if (!line || !spec.line) return;
+          if (reason === "react" || Math.random() < 0.28) utter(el, line, spec.line);
         }, 900),
       );
     };
@@ -126,13 +154,84 @@ export function MorMotor() {
     document.addEventListener("crew:land", onLand);
     cleanups.push(() => document.removeEventListener("crew:land", onLand));
 
+    const mutterHosts: HTMLElement[] = [];
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const el = entry.target as HTMLElement;
+          const key = el.dataset.mutter;
+          if (!key || !isLineKey(key)) continue;
+          timers.push(
+            window.setTimeout(() => {
+              if (!inView(el)) return;
+              if (Math.random() >= 0.45) return;
+              utter(el, el.querySelector<HTMLElement>(".mutter__line"), key);
+            }, 1600 + Math.random() * 2400),
+          );
+        }
+      },
+      { threshold: 0.35 },
+    );
+
+    const armMutter = (el: HTMLElement, key: LineKey) => {
+      if (el.dataset.mutter) return;
+      el.dataset.mutter = key;
+      if (!el.querySelector(".mutter__line")) {
+        const p = document.createElement("p");
+        p.className = "mutter__line";
+        p.setAttribute("aria-hidden", "true");
+        el.appendChild(p);
+      }
+      mutterHosts.push(el);
+      io.observe(el);
+      const box = el.getBoundingClientRect();
+      if (box.width >= 44 && box.height >= 44) {
+        const onSpeak = () => {
+          utter(el, el.querySelector<HTMLElement>(".mutter__line"), key);
+        };
+        el.addEventListener("click", onSpeak);
+        el.addEventListener("pointerenter", onSpeak);
+        cleanups.push(() => {
+          el.removeEventListener("click", onSpeak);
+          el.removeEventListener("pointerenter", onSpeak);
+        });
+      }
+      cleanups.push(() => io.unobserve(el));
+    };
+
+    for (const m of MUTTERS) {
+      const el = document.querySelector<HTMLElement>(m.sel);
+      if (el) armMutter(el, m.key);
+    }
+    for (const m of MUTTER_FIRST) {
+      const img = document.querySelector<HTMLImageElement>(`.emerge-v05 img[src="${m.src}"]`);
+      const el = img?.parentElement;
+      if (el) armMutter(el, m.key);
+    }
+    cleanups.push(() => io.disconnect());
+
     const chaos = () => {
       if (reduce.matches) return;
-      const delay = 3800 + Math.random() * 6400;
+      const delay = 7200 + Math.random() * 8800;
       timers.push(
         window.setTimeout(() => {
-          const live = bits.filter((el) => (busy.get(el.dataset.crew ?? "") ?? 0) < Date.now());
-          if (live.length) hopCrew(live[Math.floor(Math.random() * live.length)], "idle");
+          if (Date.now() >= quietUntil) {
+            const liveCrew = bits.filter(
+              (el) => (busy.get(el.dataset.crew ?? "") ?? 0) < Date.now() && inView(el),
+            );
+            const liveMut = mutterHosts.filter((el) => inView(el) && !el.classList.contains("is-said"));
+            const roll = Math.random();
+            if (roll < 0.45 && liveCrew.length) {
+              hopCrew(liveCrew[Math.floor(Math.random() * liveCrew.length)]!, "idle");
+            } else if (liveMut.length) {
+              const el = liveMut[Math.floor(Math.random() * liveMut.length)]!;
+              const key = el.dataset.mutter;
+              if (key && isLineKey(key)) utter(el, el.querySelector(".mutter__line"), key);
+            } else if (liveCrew.length) {
+              hopCrew(liveCrew[Math.floor(Math.random() * liveCrew.length)]!, "idle");
+            }
+          }
           chaos();
         }, delay),
       );

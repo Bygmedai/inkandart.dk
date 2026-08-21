@@ -4,7 +4,8 @@ import { test } from "node:test";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { CREW } from "../lib/crew.ts";
-import { VOICE } from "../lib/voice.ts";
+import { MUTTERS, MUTTER_FIRST } from "../lib/mutter.ts";
+import { VOICE, linesOf, pickLine } from "../lib/voice.ts";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const scene = readFileSync(join(root, "components/emerge/SceneV05.tsx"), "utf8");
@@ -20,13 +21,29 @@ test("da and en voice tables have the same keys", () => {
 });
 
 test("lines are dry sentences, not merch-caps", () => {
-  assert.match(VOICE.da["rat.line"], /ikke noget at prale af/);
-  assert.match(VOICE.da["skull.line"], /midlertidigt/);
-  assert.match(VOICE.da["dice.line"], /Sødt/);
+  assert.match(VOICE.da["rat.line"][0], /ikke noget at prale af/);
+  assert.match(VOICE.da["skull.line"][0], /midlertidigt/);
+  assert.match(VOICE.da["dice.line"][0], /Sødt/);
   for (const key of Object.keys(VOICE.da)) {
     if (key === "mor.sr") continue;
-    assert.doesNotMatch(VOICE.da[key], /^[A-ZÆØÅ0-9 .,'’-]+$/);
+    for (const line of VOICE.da[key]) {
+      assert.doesNotMatch(line, /^[A-ZÆØÅ0-9 .,'’-]+$/);
+    }
   }
+});
+
+test("each figure has 4–5 rotatable lines, same count da/en", () => {
+  for (const key of Object.keys(VOICE.da)) {
+    if (key === "mor.sr") continue;
+    const da = linesOf("da", key);
+    const en = linesOf("en", key);
+    assert.ok(da.length >= 4 && da.length <= 5, key);
+    assert.equal(da.length, en.length, key);
+    assert.equal(new Set(da).size, da.length, `${key} da dup`);
+    assert.equal(new Set(en).size, en.length, `${key} en dup`);
+  }
+  const a = pickLine("da", "rat.line");
+  assert.equal(VOICE.da["rat.line"].includes(a), true);
 });
 
 test("crew is swapped in, not piled on — existing assets only", () => {
@@ -57,6 +74,25 @@ test("no rAF — chaos is shuffled timeouts, cleared on unmount", () => {
   assert.match(motor, /chaos/);
   assert.match(motor, /timers\.forEach\(\(t\) => window\.clearTimeout\(t\)\)/);
   assert.match(motor, /voiceFromLang/);
+  assert.match(motor, /pickLine/);
+  assert.match(motor, /quietUntil/);
+  assert.match(motor, /IntersectionObserver/);
+});
+
+test("in-place mutters hook existing objects — no extra SVG, no hop on text", () => {
+  for (const m of MUTTERS) {
+    assert.match(scene, new RegExp(m.sel.slice(1).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  }
+  for (const m of MUTTER_FIRST) {
+    assert.match(scene, new RegExp(m.src.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  }
+  assert.match(css, /\.mutter__line\s*\{/);
+  assert.match(css, /pointer-events:\s*none/);
+  assert.doesNotMatch(motor, /requestAnimationFrame/);
+  assert.equal(
+    MUTTERS.every((m) => m.key.endsWith(".line")),
+    true,
+  );
 });
 
 test("Haruki's lang contract: html[lang=en] flips tape without JS", () => {
