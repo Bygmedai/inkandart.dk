@@ -29,6 +29,37 @@ export const ROUTE_MIGRATION: MigrationRow[] = [
   { from: "/en/share-your-idea/", to: "/#booking", reason: "EN intake → chair" },
 ];
 
+/**
+ * Vej B (Steven, S568): webshoppen er pensioneret som storefront — kataloget
+ * bor i hub'en på /shop. Den gamle butik var en SPA uden egne stier, så alle
+ * stier lander samme sted: fladt, ærligt, 308.
+ *
+ * Reglen er host-gated og dermed INERT indtil shop.inkandart.dk peges på
+ * dette projekt — indtil da bærer webshop-repoets vercel.json den samme 308.
+ * Wildcard-sourcen må ALDRIG stå uden sin host-vagt: uden den ville hele
+ * hub'en redirecte til /shop. Testen håndhæver parret.
+ */
+export const HOST_MIGRATION: MigrationRow[] = [
+  {
+    from: "shop.inkandart.dk/:path*",
+    to: "https://inkandart.dk/shop",
+    reason: "Vej B: kataloget bor i hub'en (S568)",
+  },
+];
+
+export type HostRedirect = Redirect & {
+  has: [{ type: "host"; value: string }];
+};
+
+export const hostRedirects: HostRedirect[] = [
+  {
+    source: "/:path*",
+    has: [{ type: "host", value: "shop.inkandart.dk" }],
+    destination: "https://inkandart.dk/shop",
+    statusCode: 308,
+  },
+];
+
 function slashPair(source: string, destination: string): Redirect[] {
   const trimmed = source.replace(/\/$/, "");
   return [

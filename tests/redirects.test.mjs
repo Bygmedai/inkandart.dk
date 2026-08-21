@@ -72,3 +72,22 @@ test("negativ kontrol: et opdigtet anker ville blive fanget", () => {
   const surfaces = readFileSync(join(root, "components/emerge/SceneV05.tsx"), "utf8");
   assert.doesNotMatch(surfaces, /id="findes-ikke-anker"/);
 });
+
+test("shop.inkandart.dk sendes til kataloget — host-gated 308 (vej B, S568)", () => {
+  const m = redirectsSrc.match(
+    /source:\s*"\/:path\*",\s*has:\s*\[\{\s*type:\s*"host",\s*value:\s*"shop\.inkandart\.dk"\s*\}\],\s*destination:\s*"https:\/\/inkandart\.dk\/shop",\s*statusCode:\s*308/
+  );
+  assert.ok(m, "host-reglen mangler eller er skilt fra sin host-vagt");
+  assert.match(nextConfig, /hostRedirects/);
+});
+
+test("enhver wildcard-source bærer sin egen host-vagt", () => {
+  // En /:path*-redirect uden host-betingelse ville sende HELE hub'en til
+  // /shop. Vidnet kræver at vagten står i samme objekt som wildcarden.
+  const hits = [...redirectsSrc.matchAll(/source:\s*"\/:path\*"/g)];
+  assert.ok(hits.length >= 1, "host-reglen skal findes");
+  for (const h of hits) {
+    const ctx = redirectsSrc.slice(h.index, h.index + 220);
+    assert.match(ctx, /has:\s*\[\{\s*type:\s*"host"/, "wildcard-redirect uden host-vagt");
+  }
+});
