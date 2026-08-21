@@ -32,7 +32,7 @@ export default function WalkInPage() {
           <WalkinRelic />
         </div>
 
-        <ol className="mt-14 list-none p-0 max-w-[54ch]">
+        <ol className="mt-14 list-none p-0 max-w-[54ch]" role="list">
           <li className="flex gap-4 border-t border-[var(--text)]/10 py-5">
             <span className="font-[family-name:var(--font-mono)] text-[11px] text-[var(--gold)]">01</span>
             <div>

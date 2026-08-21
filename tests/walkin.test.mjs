@@ -26,6 +26,16 @@ test("hero relic is a checkout handoff, not a hop to /walk-in", () => {
   assert.match(scene, /walkin-relic-slot/);
 });
 
+test("walk-in slot is not a parallax participant and is not transform-centered", () => {
+  const css = readFileSync(join(root, "app/globals.css"), "utf8");
+  assert.doesNotMatch(scene, /walkin-relic-slot"[^>]*data-depth/);
+  assert.doesNotMatch(css, /walkin-relic-slot[\s\S]{0,400}translateX\(-50%\)/);
+});
+
+test("walk-in steps keep list semantics without bullets", () => {
+  assert.match(page, /role="list"/);
+});
+
 test("walk-in is a first-class route for QR", () => {
   assert.match(sitemap, /inkandart\.dk\/walk-in/);
   assert.match(page, /To små/);

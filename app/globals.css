@@ -699,8 +699,10 @@ html.emerge-js [data-loader] {
 /* Walk-in-skilt: søster til Larsbjørnsstræde-skiltet. Svalen sidder på. */
 .walkin-relic-slot {
   width: min(58vw, 260px);
-  margin: 22px auto 0;
+  margin-inline: auto;
+  margin-top: 22px;
   padding-top: 20px;
+  /* SceneMotor ejer transform på [data-depth]. Centrering er boks-model. */
 }
 .walkin-relic {
   position: relative;
