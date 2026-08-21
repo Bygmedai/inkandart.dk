@@ -8,7 +8,7 @@ import { useState } from "react";
  * Virker uden JS-æstetik-motoren; kræver dog JS for selve POST'en —
  * uden JS står feltet med et mailto-fallback i noscript.
  */
-export function BlackbookSignup() {
+export function BlackbookSignup({ source = "emerge" }: { source?: string }) {
   const [status, setStatus] = useState<"idle" | "busy" | "ok" | "fejl">("idle");
   const mono = "'Space Mono',monospace";
   async function send(form: HTMLFormElement) {
@@ -21,7 +21,7 @@ export function BlackbookSignup() {
         body: JSON.stringify({
           email: String(data.get("email") || ""),
           company: String(data.get("company") || ""),
-          source: "emerge",
+          source,
         }),
       });
       const out = await res.json().catch(() => null);

@@ -34,9 +34,15 @@ export const GIFT_CARDS: GiftCard[] = [
 /** Produktsiden — alle beløb (også 100 / 250 / 4000). */
 export const GIFT_CARD_PRODUCT_URL = `https://${SHOPIFY_DOMAIN}/products/${GIFT_CARD_HANDLE}`;
 
-/** Cart-permalink: lægger ét gavekort i kurven og sender direkte til checkout. */
-export function giftCartUrl(variantId: string): string {
+/** Cart-permalink for enhver variant (gavekort, flash, …): lægger varen i
+    kurven og sender direkte til Shopify-checkout. */
+export function cartUrl(variantId: string): string {
   return `https://${SHOPIFY_DOMAIN}/cart/${variantId}:1?skip_shop_pay=true`;
+}
+
+/** Gavekort-alias — bevaret for læsbarhed på gavekort-fladen. */
+export function giftCartUrl(variantId: string): string {
+  return cartUrl(variantId);
 }
 
 /** Dansk tusind-separator uden ICU-afhængighed (deterministisk server-render). */
