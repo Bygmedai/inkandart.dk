@@ -88,20 +88,10 @@ test("lines are chalk-caps, aria-hidden, one sr-only description", () => {
   assert.match(bird, /MOR_SR_KEY/);
   assert.equal(MOR_SR_KEY, "mor.sr");
   const keys = Object.values(MOR_PERCHES).flatMap((p) => p.map((x) => x.line));
-  for (const key of [
-    "mor.gutter",
-    "mor.warm",
-    "mor.chalk",
-    "mor.gift",
-    "mor.walkin",
-    "mor.unmarked",
-    "mor.smoke",
-    "mor.sit",
-  ]) {
-    assert.equal(keys.includes(key), true, key);
-    assert.equal(VOICE.da[key].length > 0, true);
-    assert.equal(VOICE.en[key].length > 0, true);
-  }
+  assert.equal(keys.every((k) => k === "mor.line"), true);
+  assert.match(VOICE.da["mor.line"], /skidt på bedre steder/i);
+  assert.match(VOICE.en["mor.line"], /shit on better places/i);
+  assert.doesNotMatch(VOICE.da["mor.line"], /[A-ZÆØÅ]{4,}/);
 });
 
 test("collage tape is a found scrap, not a door", () => {
@@ -109,8 +99,8 @@ test("collage tape is a found scrap, not a door", () => {
   assert.doesNotMatch(scene, /gade-tape-slot"[^>]*data-depth/);
   assert.doesNotMatch(tape, /^\s*["']use client["']/m);
   assert.match(tape, /aria-hidden="true"/);
-  assert.match(tape, /TUSSE/);
-  assert.match(tape, /IKKE TERAPI/);
+  assert.match(tape, /Stadig her/);
+  assert.match(tape, /Still here/);
   const slot = rule(".gade-tape-slot");
   assert.match(slot, /pointer-events:\s*none/);
   assert.doesNotMatch(tape, /<img /);

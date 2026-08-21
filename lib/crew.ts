@@ -12,7 +12,7 @@ export type CrewSpec = {
   perches: string[];
   /** Hvem der kan få dem til at hoppe. */
   reactsTo: string[];
-  line?: "rat.steal" | "rat.late" | "skull.ha" | "skull.watch" | "dice.line";
+  line?: "rat.line" | "skull.line" | "dice.line";
 };
 
 export const CREW: CrewSpec[] = [
@@ -22,7 +22,7 @@ export const CREW: CrewSpec[] = [
     src: "/emerge/v05/rat.svg",
     perches: ["a", "b", "c"],
     reactsTo: ["mor-under"],
-    line: "rat.steal",
+    line: "rat.line",
   },
   {
     who: "dice-under",
@@ -38,7 +38,7 @@ export const CREW: CrewSpec[] = [
     src: "/emerge/v05/skull.svg",
     perches: ["a", "b"],
     reactsTo: ["dice-under"],
-    line: "skull.watch",
+    line: "skull.line",
   },
   {
     who: "rat-work",
@@ -46,7 +46,7 @@ export const CREW: CrewSpec[] = [
     src: "/emerge/v05/rat.svg",
     perches: ["a", "b"],
     reactsTo: ["mor-work"],
-    line: "rat.late",
+    line: "rat.line",
   },
   {
     who: "dice-work",
@@ -62,6 +62,6 @@ export const CREW: CrewSpec[] = [
     src: "/emerge/v05/skull.svg",
     perches: ["a", "b"],
     reactsTo: ["dice-work"],
-    line: "skull.ha",
+    line: "skull.line",
   },
 ];

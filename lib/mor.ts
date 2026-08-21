@@ -1,4 +1,4 @@
-/** Fuglemor — gadens mor. Linjer bor i lib/voice.ts (da+en). */
+/** Fuglemor. Én linje — hun orker ikke at variere. */
 
 import type { VoiceKey } from "./voice";
 
@@ -9,25 +9,25 @@ export type MorPerch = { id: string; line: VoiceKey };
 
 export const MOR_PERCHES: Record<MorZone, MorPerch[]> = {
   hero: [
-    { id: "gutter", line: "mor.gutter" },
-    { id: "sign", line: "mor.warm" },
-    { id: "walkin", line: "mor.walkin" },
+    { id: "gutter", line: "mor.line" },
+    { id: "sign", line: "mor.line" },
+    { id: "walkin", line: "mor.line" },
   ],
   under: [
-    { id: "gutter", line: "mor.smoke" },
-    { id: "chalk", line: "mor.chalk" },
+    { id: "gutter", line: "mor.line" },
+    { id: "chalk", line: "mor.line" },
   ],
   work: [
-    { id: "gutter", line: "mor.unmarked" },
-    { id: "gade", line: "mor.tusse" },
+    { id: "gutter", line: "mor.line" },
+    { id: "gade", line: "mor.line" },
   ],
   artist: [
-    { id: "gutter", line: "mor.sit" },
-    { id: "quote", line: "mor.warm" },
+    { id: "gutter", line: "mor.line" },
+    { id: "quote", line: "mor.line" },
   ],
   booking: [
-    { id: "gutter", line: "mor.gutter" },
-    { id: "gift", line: "mor.gift" },
+    { id: "gutter", line: "mor.line" },
+    { id: "gift", line: "mor.line" },
   ],
 };
 

@@ -19,6 +19,16 @@ test("da and en voice tables have the same keys", () => {
   assert.deepEqual(da, en);
 });
 
+test("lines are dry sentences, not merch-caps", () => {
+  assert.match(VOICE.da["rat.line"], /ikke noget at prale af/);
+  assert.match(VOICE.da["skull.line"], /midlertidigt/);
+  assert.match(VOICE.da["dice.line"], /Sødt/);
+  for (const key of Object.keys(VOICE.da)) {
+    if (key === "mor.sr") continue;
+    assert.doesNotMatch(VOICE.da[key], /^[A-ZÆØÅ0-9 .,'’-]+$/);
+  }
+});
+
 test("crew is swapped in, not piled on — existing assets only", () => {
   for (const c of CREW) {
     assert.match(scene, new RegExp(`who="${c.who}"`));
@@ -51,7 +61,8 @@ test("no rAF — chaos is shuffled timeouts, cleared on unmount", () => {
 
 test("Haruki's lang contract: html[lang=en] flips tape without JS", () => {
   assert.match(tape, /gade-tape__en/);
-  assert.match(tape, /NOT THERAPY/);
+  assert.match(tape, /Still here/);
+  assert.match(tape, /Not a statement/);
   assert.match(css, /html\[lang="en"\] \.gade-tape__da/);
   assert.match(css, /html\[lang="en"\] \.gade-tape__en/);
 });
