@@ -365,7 +365,10 @@ export function SceneV05() {
 
   <footer data-drift="0" style={{position:'absolute',left:'0',right:'0',bottom:'0',zIndex:'10',display:'flex',flexWrap:'wrap',justifyContent:'space-between',gap:'12px',padding:'0 5vw 26px',fontFamily:'\'Space Mono\',monospace',fontSize:'9.5px',letterSpacing:'.2em',textTransform:'uppercase',color:'rgba(232,224,213,.4)'}}>
     <span>Ink & Art Copenhagen — the mark stays</span>
-    <a href="https://www.instagram.com/ink.and.art.cph/" style={{color:'rgba(232,224,213,.4)',borderBottom:'1px solid rgba(232,224,213,.2)'}}>@ink.and.art.cph</a>
+    <span style={{display:'flex',gap:'18px'}}>
+      <a href="/blackbook" style={{color:'rgba(232,224,213,.4)',borderBottom:'1px solid rgba(201,162,39,.35)'}}>Blackbook</a>
+      <a href="https://www.instagram.com/ink.and.art.cph/" style={{color:'rgba(232,224,213,.4)',borderBottom:'1px solid rgba(232,224,213,.2)'}}>@ink.and.art.cph</a>
+    </span>
   </footer>
 </section>    </div>
   );
