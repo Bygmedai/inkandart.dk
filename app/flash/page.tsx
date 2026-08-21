@@ -68,6 +68,7 @@ export default function FlashPage() {
                   ) : f.variantId ? (
                     <a
                       href={cartUrl(f.variantId)}
+                      aria-label={`Køb ${f.title} — ${kr(f.priceKr)} kr`}
                       className="mt-3 inline-flex border border-[var(--gold)]/40 px-4 py-2 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)] transition-colors hover:border-[var(--gold)]"
                     >
                       Tag den →
