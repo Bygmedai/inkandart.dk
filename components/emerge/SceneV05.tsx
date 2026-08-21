@@ -2,6 +2,7 @@
 import { BlackbookSignup } from "./BlackbookSignup";
 import { GiftRelic } from "./GiftRelic";
 import { SceneMotor } from "./SceneMotor";
+import { WalkinRelic } from "./WalkinRelic";
 
 
 /**
@@ -58,6 +59,7 @@ export function SceneV05() {
   <div data-depth="0.44" style={{position:'absolute',right:'3%',top:'54%',width:'200px',zIndex:'4'}}><img src="/emerge/v05/splat-black.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(70deg)'}}/></div>
   <div data-depth="0.44" style={{position:'absolute',left:'-4%',top:'22%',width:'112%',opacity:'.85',zIndex:'4'}}><img src="/emerge/v05/wire.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-2.5deg)'}}/></div>
   <div data-depth="0.48" style={{position:'absolute',left:'7%',top:'14%',width:'clamp(170px,18vw,280px)',zIndex:'5'}}><img src="/emerge/v05/sign.svg" alt="Larsbjørnsstræde — Pisserenden" style={{width:'100%',display:'block',transform:'rotate(-6deg)',filter:'drop-shadow(0 16px 28px rgba(0,0,0,.65))'}}/></div>
+  <div className="walkin-relic-slot" data-depth="0.5" data-drift="0" style={{position:'absolute',right:'5%',top:'12%',width:'clamp(170px,18vw,280px)',zIndex:'16'}}><WalkinRelic /></div>
   <div data-depth="0.36" style={{position:'absolute',left:'66%',top:'58%',width:'clamp(200px,24vw,340px)',opacity:'.55',zIndex:'2'}}><img src="/emerge/v05/splat-red.svg" alt="" style={{width:'100%',display:'block'}}/></div>
   <div className="v5m-rose-big" data-depth="0.46" style={{position:'absolute',left:'-3%',bottom:'-4%',width:'clamp(280px,30vw,470px)',zIndex:'5'}}><img src="/emerge/v05/rose.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-10deg)',filter:'saturate(1.15) drop-shadow(0 24px 40px rgba(0,0,0,.6))'}}/></div>
   <div data-depth="0.4" style={{position:'absolute',right:'8%',top:'8%',width:'clamp(120px,13vw,190px)',zIndex:'4'}}><img src="/emerge/v05/rose.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(38deg)',filter:'drop-shadow(0 16px 28px rgba(0,0,0,.55))'}}/></div>

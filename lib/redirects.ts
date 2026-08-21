@@ -12,7 +12,6 @@ export type MigrationRow = {
 };
 
 export const ROUTE_MIGRATION: MigrationRow[] = [
-  { from: "/walk-in/", to: "/#booking", reason: "Walk-in folded into the chair" },
   { from: "/artister/", to: "/#artists", reason: "Artist index is a home section" },
   { from: "/artister/nizar/", to: "/#artist-nizar", reason: "Named artist anchor" },
   { from: "/artister/:slug/", to: "/#artists", reason: "Unknown artist slugs land on the hands" },
@@ -21,7 +20,7 @@ export const ROUTE_MIGRATION: MigrationRow[] = [
   { from: "/en/", to: "/", reason: "English home is the same landscape" },
   { from: "/en/privacy/", to: "/privatlivspolitik/", reason: "Legal page is Danish-canonical" },
   { from: "/en/aftercare/", to: "/aftercare/", reason: "Aftercare preserved" },
-  { from: "/en/walk-in/", to: "/#booking", reason: "EN walk-in → chair" },
+  { from: "/en/walk-in/", to: "/walk-in", reason: "EN walk-in → svalen" },
   { from: "/en/artists/", to: "/#artists", reason: "EN artists index" },
   { from: "/en/artists/nizar/", to: "/#artist-nizar", reason: "EN named artist" },
   { from: "/en/artists/:slug/", to: "/#artists", reason: "EN unknown artist" },
@@ -39,7 +38,6 @@ function slashPair(source: string, destination: string): Redirect[] {
 }
 
 export const nextRedirects: Redirect[] = [
-  ...slashPair("/walk-in", "/#booking"),
   ...slashPair("/artister/nizar", "/#artist-nizar"),
   ...slashPair("/artister/:slug", "/#artists"),
   ...slashPair("/artister", "/#artists"),
@@ -47,7 +45,7 @@ export const nextRedirects: Redirect[] = [
   ...slashPair("/del-din-ide", "/#booking"),
   ...slashPair("/en/privacy", "/privatlivspolitik"),
   ...slashPair("/en/aftercare", "/aftercare"),
-  ...slashPair("/en/walk-in", "/#booking"),
+  ...slashPair("/en/walk-in", "/walk-in"),
   ...slashPair("/en/artists/nizar", "/#artist-nizar"),
   ...slashPair("/en/artists/:slug", "/#artists"),
   ...slashPair("/en/artists", "/#artists"),
