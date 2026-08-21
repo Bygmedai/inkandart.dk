@@ -41,8 +41,37 @@ test("negativ kontrol: en aria-label alene ville IKKE tælle", () => {
   assert.doesNotMatch(synligTekst(kunAttribut), /tatovering/i);
 });
 
+/**
+ * Læs ét objekt-literal, bundet af sine egne krøllede parenteser.
+ *
+ * Første udgave klippede fra `indexOf("export const metadata")` til
+ * `indexOf("export const viewport")` — altså et hegn der hviler på at en
+ * ANDEN eksport står bagefter i filen. Det er samme anti-mønster som CSS-
+ * udsnittet CLAUDE.md advarer mod, og QA på #169 fangede det. Tredje gang
+ * i dag: bind til strukturen, ikke til naboen.
+ */
+function objektEfter(src, noegle) {
+  const i = src.indexOf(noegle);
+  assert.notEqual(i, -1, `${noegle} findes ikke`);
+  const start = src.indexOf("{", i);
+  assert.notEqual(start, -1, `${noegle} har ingen krop`);
+  let dybde = 0;
+  for (let j = start; j < src.length; j++) {
+    if (src[j] === "{") dybde++;
+    else if (src[j] === "}" && --dybde === 0) return src.slice(start, j + 1);
+  }
+  throw new Error(`${noegle} lukker aldrig`);
+}
+
+test("negativ kontrol: metadata-udsnittet stopper ved sin egen krølle", () => {
+  const fixtur = 'export const metadata = { title: "A" };\nexport const viewport = { themeColor: "#fff" };';
+  const blok = objektEfter(fixtur, "export const metadata");
+  assert.match(blok, /title/);
+  assert.doesNotMatch(blok, /themeColor/, "udsnittet må ikke løbe ind i naboens eksport");
+});
+
 test("titel og beskrivelse svarer på «hvad er det her?»", () => {
-  const blok = layout.slice(layout.indexOf("export const metadata"), layout.indexOf("export const viewport"));
+  const blok = objektEfter(layout, "export const metadata");
   for (const ord of [/tatovering/i, /piercing/i, /Larsbjørnsstræde/]) {
     assert.match(blok, ord, `metadata mangler ${ord}`);
   }

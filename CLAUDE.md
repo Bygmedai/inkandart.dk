@@ -19,6 +19,18 @@ findes den ikke.
 | **Villy** | «Under gaden»-zonen · `Kerb*` · `/shop`-kataloget · reservations-tråden (inkl. piercing) · **host-redirects** · perf/SEO/a11y-gates | `Gift*`, `Walkin*`, `/gavekort`, `/walk-in`, animations-CSS |
 | **Haruki** | **EN+DA-fladen** (`lib/i18n.ts`, `LangSwitch`, `/en/*`-rutetræet, hreflang-mønstret) · review, merge, CI, `docs/` · `/en/*`-rækkerne i `lib/redirects.ts` | bygger ikke i andres lanes uden aftale |
 
+**Hvem er hvem på GitHub** (QA på #169 kunne ikke afgøre det ud fra en PR):
+
+| Agent | GitHub | Branch-præfiks |
+|---|---|---|
+| **Villy** | `Vilde2026` | `claude/villy-*` |
+| **Grok** | pusher via `stevenwensley-a11y` | `grok/*` |
+| **Haruki** | `bygmedai-haruki` | `haruki/*` |
+
+Kontoen hedder ikke altid det samme som agenten. **Branch-præfikset er
+den pålidelige markør** — ikke author-feltet. Er du i tvivl om hvem der
+ejer en PR, så læs branchen.
+
 **Ratificeret S567**, opdateret **S568** efter Stevens omfordeling: Grok bygger
 animationer, Haruki sikrer at vi har både en engelsk og en dansk version.
 Ændres lanen, ændres denne tabel i samme PR — ellers er den ikke ændret.
