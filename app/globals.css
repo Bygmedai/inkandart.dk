@@ -980,3 +980,142 @@ html.emerge-js [data-loader] {
   .kerb__mark:hover,
   .kerb__mark:focus-visible { transition: none; }
 }
+
+/* ── /shop: «Gaden sælger.» (Villy, P1 — vej B) ──────────────────────────
+   Kataloget som fundne objekter: dørene er skæve skilte, prints-væggen er
+   sedler med kridt-ramme. Samme boks-model-disciplin som resten — rotation
+   sidder på indre elementer, aldrig på noget motoren kunne eje. */
+.gade {
+  min-height: 100svh;
+  padding: 28px 0 96px;
+  background: linear-gradient(180deg, #0a0a0a 0%, #0d0a09 40%, #080606 100%);
+}
+.gade__inner {
+  margin: 0 auto;
+  max-width: 72ch;
+  padding: 0 var(--gutter);
+}
+.gade__doors {
+  display: grid;
+  gap: clamp(14px, 2.4vw, 24px);
+  margin: 48px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.gade__door {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "label pil" "linje pil";
+  align-items: center;
+  gap: 2px 18px;
+  padding: 18px 22px;
+  border: 1.5px solid rgba(232, 224, 213, 0.32);
+  background: rgba(18, 13, 11, 0.55);
+  color: inherit;
+  filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.55));
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.45s ease;
+}
+.gade__door:hover,
+.gade__door:focus-visible {
+  border-color: rgba(201, 162, 39, 0.6);
+  transform: rotate(0deg) translateY(-2px) !important;
+}
+.gade__door:focus-visible { outline: 2px solid var(--gold); outline-offset: 6px; }
+.gade__door-label {
+  grid-area: label;
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(13px, 1.6vw, 16px);
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+.gade__door-linje {
+  grid-area: linje;
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(10px, 1.15vw, 12px);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(232, 224, 213, 0.55);
+}
+.gade__door-pil {
+  grid-area: pil;
+  font-family: var(--font-mono), monospace;
+  font-size: 18px;
+  color: var(--gold);
+}
+.gade__afsnit { margin-top: clamp(56px, 9vw, 88px); }
+.gade__afsnit-label {
+  margin: 0;
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: rgba(232, 224, 213, 0.58);
+}
+.gade__afsnit-rubrik {
+  margin: 10px 0 0;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(26px, 4vw, 40px);
+}
+.gade__prints {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: clamp(14px, 2.4vw, 24px);
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.gade__print {
+  display: grid;
+  gap: 8px;
+  padding: 20px;
+  border: 1.5px dashed rgba(232, 224, 213, 0.3);
+  background: rgba(10, 8, 7, 0.5);
+}
+.gade__print-navn {
+  font-family: var(--font-mono), monospace;
+  font-size: 13px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+.gade__print-linje {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-soft);
+}
+.gade__print-koeb {
+  justify-self: start;
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  border-bottom: 1px solid rgba(201, 162, 39, 0.45);
+  padding-bottom: 3px;
+}
+.gade__print-snart {
+  justify-self: start;
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(232, 224, 213, 0.4);
+  border: 1px solid rgba(232, 224, 213, 0.22);
+  padding: 4px 10px;
+}
+.gade__note {
+  margin: 26px 0 0;
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(232, 224, 213, 0.62);
+}
+.gade__note a {
+  color: rgba(201, 162, 39, 0.85);
+  border-bottom: 1px solid rgba(201, 162, 39, 0.4);
+  padding-bottom: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .gade__door, .gade__door:hover, .gade__door:focus-visible { transition: none; }
+}

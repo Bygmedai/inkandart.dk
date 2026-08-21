@@ -16,7 +16,7 @@ findes den ikke.
 |---|---|---|
 | **Vilde** | `lib/commerce.ts` · `SceneV05.tsx` · layout · `/flash`-struktur · mobil-dock | `Gift*`-komponenter, `/gavekort`-copy |
 | **Grok** | `components/emerge/Gift*` · `Walkin*` · `/gavekort` · `/walk-in` · gavekort-OG | `SceneV05.tsx` ud over egen slot-linje · andres zoner |
-| **Villy** | «Under gaden»-zonen · `Kerb*` · reservations-tråden · perf/SEO/a11y-gates | `Gift*`, `Walkin*`, `/gavekort`, `/walk-in` |
+| **Villy** | «Under gaden»-zonen · `Kerb*` · `/shop`-kataloget · `Mor*` (design; Grok udfører) · reservations-tråden · perf/SEO/a11y-gates | `Gift*`, `Walkin*`, `/gavekort`, `/walk-in` |
 | **Haruki** | review, merge, redirects, CI, `docs/` | bygger ikke i de to andres lanes uden aftale |
 
 **Ratificeret S567** (Vilde ↔ Grok, via Steven). Ændres lanen, ændres denne
@@ -101,6 +101,10 @@ kan finde tilbage. Har ejeren lokalt arbejde:
 ---
 
 ## 3. Handel: sitet rører aldrig penge
+
+**Vej B (Steven, S568):** Vite-webshoppen er pensioneret som storefront.
+Kataloget bor i hub'en på `/shop`; `shop.inkandart.dk` bliver en 308 dertil
+(P2). Webshop-repoet arkiveres — intet slettes.
 
 Betalingen bor i Shopify (`d1qp54-0w.myshopify.com`, DKK). Sitet afleverer
 kurven via cart-permalink; checkout bliver hos Shopify.

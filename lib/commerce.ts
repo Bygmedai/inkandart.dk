@@ -100,6 +100,53 @@ export const RESERVATIONS: Reservation[] = [
   },
 ];
 
+/**
+ * Prints & objekter til /shop-kataloget (Villy, S568 — vej B: shoppen foldet
+ * ind i hub'en). RÅB: append-only-blok; Vilde ejer filen, Grok fylder
+ * variantId'er via P3 når Shopify-varerne er publiceret.
+ *
+ * ALLE tre er drafts i Shopify i dag og priserne afventer Stevens
+ * bekræftelse — derfor `live: false` og INGEN variantId. Kataloget viser dem
+ * som «snart på væggen» uden købshandling (rails §4: tom hylde skal se tom
+ * ud, og en død knap er værre end ingen). Når P3 publicerer og prisgaten er
+ * åbnet: sæt live: true + variantId (verificér 302/fulgt-200 mod 410 først).
+ */
+export type ShopPrint = {
+  navn: string;
+  kr: number;
+  /** Shopify-handle — findes allerede som draft. */
+  handle: string;
+  /** Kun true når varen er publiceret OG prisen er bekræftet af Steven. */
+  live: boolean;
+  variantId?: string;
+  /** Én linje i universets stemme — kridtsproget, ikke webshop-dansk. */
+  linje: string;
+};
+
+export const SHOP_PRINTS: ShopPrint[] = [
+  {
+    navn: "Dolk",
+    kr: 250,
+    handle: "dolk",
+    live: false,
+    linje: "Et af husets motiver, trykt i hånden på tykt papir.",
+  },
+  {
+    navn: "Ouroboros",
+    kr: 250,
+    handle: "ouroboros",
+    live: false,
+    linje: "Slangen der bider sig selv i halen. Lille oplag.",
+  },
+  {
+    navn: "Signetring",
+    kr: 1200,
+    handle: "signetring",
+    live: false,
+    linje: "Støbt i sterlingsølv efter en af husets tegninger.",
+  },
+];
+
 /** Cart-permalink for enhver variant (gavekort, flash, …): lægger varen i
     kurven og sender direkte til Shopify-checkout. */
 export function cartUrl(variantId: string): string {
