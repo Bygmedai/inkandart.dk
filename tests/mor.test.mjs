@@ -3,7 +3,8 @@ import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { MOR_PERCHES, MOR_SR, MOR_ZONES } from "../lib/mor.ts";
+import { MOR_PERCHES, MOR_SR_KEY, MOR_ZONES } from "../lib/mor.ts";
+import { VOICE } from "../lib/voice.ts";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const scene = readFileSync(join(root, "components/emerge/SceneV05.tsx"), "utf8");
@@ -82,22 +83,24 @@ test("under-gutter on mobile does not sit on the chalk", () => {
 });
 
 test("lines are chalk-caps, aria-hidden, one sr-only description", () => {
-  assert.equal(MOR_SR.length > 20, true);
   assert.match(bird, /aria-hidden="true"/);
   assert.match(bird, /sr-only/);
-  assert.match(bird, /MOR_SR/);
-  const lines = Object.values(MOR_PERCHES).flatMap((p) => p.map((x) => x.line));
-  for (const line of [
-    "HUN HAR SET DET HELE FRA TAGRENDEN",
-    "KOM IND. DER ER VARMT.",
-    "DEN PLADS HOLDER JEG",
-    "GIV DET VIDERE",
-    "TO SMÅ. I AFTEN.",
-    "INGEN FLYVER HERFRA UMÆRKET",
-    "JEG RYGER MIN. IKKE DIN.",
-    "HOLD KÆFT OG SÆT DIG",
+  assert.match(bird, /MOR_SR_KEY/);
+  assert.equal(MOR_SR_KEY, "mor.sr");
+  const keys = Object.values(MOR_PERCHES).flatMap((p) => p.map((x) => x.line));
+  for (const key of [
+    "mor.gutter",
+    "mor.warm",
+    "mor.chalk",
+    "mor.gift",
+    "mor.walkin",
+    "mor.unmarked",
+    "mor.smoke",
+    "mor.sit",
   ]) {
-    assert.equal(lines.includes(line), true, line);
+    assert.equal(keys.includes(key), true, key);
+    assert.equal(VOICE.da[key].length > 0, true);
+    assert.equal(VOICE.en[key].length > 0, true);
   }
 });
 
