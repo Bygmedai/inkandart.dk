@@ -36,3 +36,18 @@ test("gavekort is a first-class route", () => {
   assert.match(sitemap, /inkandart\.dk\/gavekort/);
   assert.match(page, /Har du fået et kort\?/);
 });
+
+test("send-as-gift uses Shopify recipient flow, share uses WhatsApp text", () => {
+  assert.match(offer, /Send som gave/);
+  assert.match(offer, /GIFT_CARD_PRODUCT_URL/);
+  assert.match(offer, /wa\.me\/\?text=/);
+  assert.doesNotMatch(offer, /use client/);
+});
+
+test("gavekort ships its own OG image (exact type, not a product shot)", () => {
+  const og = readFileSync(join(root, "app/gavekort/opengraph-image.tsx"), "utf8");
+  assert.match(og, /ImageResponse/);
+  assert.match(og, /Giv blæk videre/);
+  assert.match(og, /1200/);
+  assert.doesNotMatch(og, /woff2/);
+});

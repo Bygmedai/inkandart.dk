@@ -475,12 +475,12 @@ html.emerge-js [data-loader] {
   font-size: 11px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--text-mute);
+  color: var(--text-soft);
 }
 .gift-denom__reach {
   font-size: 13px;
   line-height: 1.35;
-  color: var(--text-mute);
+  color: var(--text-soft);
 }
 .gift-denom:hover,
 .gift-denom:focus-visible {
@@ -518,6 +518,22 @@ html.emerge-js [data-loader] {
 .gift-stage:has([data-kr="3000"]:hover) .gift-voucher__hot--3000,
 .gift-stage:has([data-kr="3000"]:focus-visible) .gift-voucher__hot--3000 {
   display: inline;
+}
+
+.gift-share {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  margin: 22px 0 0;
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.gift-share a {
+  color: var(--gold);
+  border-bottom: 1px solid rgba(201, 162, 39, 0.4);
+  padding-bottom: 3px;
 }
 
 .gift-redeem {

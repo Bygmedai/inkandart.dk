@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
 import { site } from "@/lib/site";
 import { GiftCardOffer } from "@/components/emerge/GiftCard";
@@ -11,7 +10,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Giv blæk videre · Gavekort",
     description:
-      "Et gavekort til Ink & Art. Veksles i studiet — hos den artist man selv vælger.",
+      "Et gavekort til Ink & Art. Koden lander i indbakken — hos dig, eller hos den du giver den til.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Giv blæk videre · Gavekort",
+    description:
+      "Et gavekort til Ink & Art. Koden lander i indbakken — hos dig, eller hos den du giver den til.",
   },
 };
 
@@ -25,11 +30,11 @@ const steps = [
   },
   {
     t: "Koden kommer med det samme",
-    d: "Gavekortet sendes som en kode på mail. Videresend den, eller print den ud og læg den i et kort.",
+    d: "Gavekortet sendes som en kode på mail. Til dig — eller direkte til den du giver den til, hvis du sender som gave.",
   },
   {
-    t: "Veksles i studiet",
-    d: "Modtageren bruger koden på tatovering, piercing eller smykker — hos den artist de selv vælger. Rest gemmes til næste gang.",
+    t: "Veksles når der betales",
+    d: "Koden er pengene. Brug den på tatovering, piercing eller smykker — hos den artist man selv vælger. Rest gemmes til næste gang.",
   },
 ];
 
@@ -37,6 +42,7 @@ export default function GavekortPage() {
   return (
     <main id="main" className="gift-page">
       <div className="gift-page__wash" aria-hidden="true" />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         className="gift-page__swallow"
         src="/emerge/v05/swallow.svg"
@@ -45,6 +51,7 @@ export default function GavekortPage() {
         height={104}
         aria-hidden="true"
       />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         className="gift-page__dagger"
         src="/emerge/v05/dagger.svg"
@@ -75,7 +82,7 @@ export default function GavekortPage() {
         <p className="mt-5 max-w-[54ch] text-[var(--text-soft)]">
           Et gavekort til Ink &amp; Art bindes ikke til én bestemt idé. Det kan
           veksles til tatovering, piercing og smykker — hos den artist man selv
-          vælger. Køb det her; det lander som en kode i indbakken med det samme.
+          vælger. Køb det her; koden lander i indbakken med det samme.
         </p>
 
         <GiftCardOffer />
@@ -88,8 +95,9 @@ export default function GavekortPage() {
             Har du fået et kort?
           </p>
           <p className="mt-3 max-w-[48ch] text-[var(--text-soft)]">
-            Bring koden til {site.address.street}. Vi veksler den i stolen — hos
-            den artist du selv vælger. Rest bliver stående til næste gang.
+            Koden er i din mail. Brug den når der betales — i shoppen, eller vis
+            den i studiet. Rest bliver stående til næste gang. Hos den artist du
+            selv vælger.
           </p>
         </aside>
 

@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { kr } from "@/lib/commerce";
 
 const SHOWN = [500, 1000, 1500, 2000, 3000] as const;
@@ -26,6 +25,7 @@ export function GiftVoucher() {
         </p>
         <p className="gift-voucher__place">Larsbjørnsstræde 13 · Pisserenden</p>
       </div>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         className="gift-voucher__rose"
         src="/emerge/v05/rose.svg"
