@@ -25,23 +25,40 @@ const css = readFileSync(join(root, "app/globals.css"), "utf8");
  */
 const MAERKE_BAAND = { fra: 58, til: 87 };
 
-function mobilBlok(src) {
-  // Sidste @media (max-width: 640px)-blok med figur-percher, bundet af
-  // sine egne krøllede parenteser (ikke et udsnit til filens ende).
-  const i = src.lastIndexOf('@media (max-width: 640px)');
-  assert.notEqual(i, -1, "mobil-blokken findes ikke");
-  const open = src.indexOf("{", i);
-  let depth = 0;
-  for (let j = open; j < src.length; j++) {
-    if (src[j] === "{") depth++;
-    else if (src[j] === "}" && --depth === 0) return src.slice(open + 1, j);
+/**
+ * Saml perch-reglerne fra ALLE mobil-blokke — ikke fra «den sidste».
+ *
+ * Første udgave brugte `lastIndexOf("@media (max-width: 640px)")` og antog
+ * dermed at figurernes blok lå sidst i filen. Da collagen på undersiderne
+ * lagde endnu en mobil-blok til halen, pegede hegnet pludselig på en blok
+ * uden percher og fejlede med «der skal findes mindst ét mobil-perch».
+ *
+ * Det er FJERDE gang på én dag den fejlklasse dukker op — og denne gang var
+ * naboen mig selv. Derfor: find blokkene ved deres indhold, ikke ved deres
+ * plads i filen.
+ */
+function mobilPercher(src) {
+  const percher = [];
+  const naal = "@media (max-width: 640px)";
+  for (let i = src.indexOf(naal); i !== -1; i = src.indexOf(naal, i + 1)) {
+    const open = src.indexOf("{", i);
+    let dybde = 0;
+    for (let j = open; j < src.length; j++) {
+      if (src[j] === "{") dybde++;
+      else if (src[j] === "}" && --dybde === 0) {
+        const krop = src.slice(open + 1, j);
+        percher.push(
+          ...[...krop.matchAll(/\.(mor|crew)--[a-z-]+\[data-perch="[a-z]+"\]\s*\{[^}]*top:\s*([\d.]+)%/g)]
+        );
+        break;
+      }
+    }
   }
-  throw new Error("mobil-blokken lukker aldrig");
+  return percher;
 }
 
 test("ingen figur-perch parkerer i kridtets mærke-bånd på mobil", () => {
-  const blok = mobilBlok(css);
-  const perches = [...blok.matchAll(/\.(mor|crew)--[a-z-]+\[data-perch="[a-z]+"\]\s*\{[^}]*top:\s*([\d.]+)%/g)];
+  const perches = mobilPercher(css);
   assert.ok(perches.length >= 1, "der skal findes mindst ét mobil-perch at måle");
   for (const [, slags, top] of perches) {
     const t = Number(top);
