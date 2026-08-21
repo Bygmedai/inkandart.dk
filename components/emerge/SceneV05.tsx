@@ -329,6 +329,10 @@ export function SceneV05() {
 </section>
 
 <section id="booking" data-screen-label="Booking" style={{position:'relative',zIndex:'2',height:'128svh',background:'linear-gradient(180deg,#050404 0%,#070505 45%,#030303 100%)'}}>
+  {/* Ankeret mobil-dock'en tucker på — 1px, første barn af zonen, så tuck-punktet
+      følger zonens TOP og er uafhængigt af sektionshøjden. Flyt ikke dette ud af
+      toppen uden at fortælle dock'en (MobileDock læser [data-dock-sentinel]). */}
+  <div data-dock-sentinel="" aria-hidden="true" style={{position:'absolute',top:'0',left:'0',width:'1px',height:'1px',pointerEvents:'none'}}></div>
   <div data-depth="0.3" style={{position:'absolute',left:'-7vw',top:'0',width:'22vw',height:'96%',opacity:'.6',zIndex:'2'}}><img loading="lazy" src="/emerge/v05/edge-side.svg" alt="" style={{width:'100%',height:'100%',objectFit:'fill',display:'block'}}/></div>
   <div data-depth="0.32" style={{position:'absolute',right:'-7vw',top:'0',width:'22vw',height:'96%',opacity:'.6',zIndex:'2'}}><img loading="lazy" src="/emerge/v05/edge-side.svg" alt="" style={{width:'100%',height:'100%',objectFit:'fill',display:'block',transform:'scaleX(-1)'}}/></div>
   <div data-depth="0.14" style={{position:'absolute',left:'8%',top:'14%',width:'40vw',zIndex:'1'}}><img loading="lazy" src="/emerge/v05/smoke.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-5deg)'}}/></div>

@@ -21,7 +21,7 @@ export function MobileDock() {
 
   useEffect(() => {
     const hero = document.getElementById("emerge");
-    const booking = document.getElementById("booking");
+    const sentinel = document.querySelector("[data-dock-sentinel]");
     const observers: IntersectionObserver[] = [];
 
     if (hero) {
@@ -32,12 +32,15 @@ export function MobileDock() {
       io.observe(hero);
       observers.push(io);
     }
-    if (booking) {
+    if (sentinel) {
+      // Tuck når booking-zonens top-anker (1px sentinel) når 75% ned i viewporten.
+      // Binært på et punkt — sektionshøjden er irrelevant (SceneV05 kan ændre
+      // booking-zonen frit uden at flytte tuck-punktet).
       const io = new IntersectionObserver(
         ([e]) => setBookingIn(e.isIntersecting),
-        { threshold: 0.2 },
+        { threshold: 0, rootMargin: "0px 0px -25% 0px" },
       );
-      io.observe(booking);
+      io.observe(sentinel);
       observers.push(io);
     }
     return () => observers.forEach((io) => io.disconnect());

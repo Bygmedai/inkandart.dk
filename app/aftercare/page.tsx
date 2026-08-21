@@ -26,7 +26,7 @@ export default function AftercarePage() {
         <h2 className="font-[family-name:var(--font-display)] text-[clamp(24px,4vw,36px)] font-medium">
           {aftercare.tattooTitle}
         </h2>
-        <ol className="mt-6 list-none p-0">
+        <ol role="list" className="mt-6 list-none p-0">
           {aftercare.tattoo.map((step, i) => (
             <li key={step.t} className="flex gap-4 border-t border-[var(--text)]/10 py-5">
               <span className="font-[family-name:var(--font-mono)] text-[11px] text-[var(--gold)]">
@@ -45,7 +45,7 @@ export default function AftercarePage() {
         <h2 className="font-[family-name:var(--font-display)] text-[clamp(24px,4vw,36px)] font-medium">
           {aftercare.piercingTitle}
         </h2>
-        <ol className="mt-6 list-none p-0">
+        <ol role="list" className="mt-6 list-none p-0">
           {aftercare.piercing.map((step, i) => (
             <li key={step.t} className="flex gap-4 border-t border-[var(--text)]/10 py-5">
               <span className="font-[family-name:var(--font-mono)] text-[11px] text-[var(--gold)]">
