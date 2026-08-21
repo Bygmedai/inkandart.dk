@@ -85,7 +85,7 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
 
   <div data-depth="0.6" data-drift="0" style={{position:'relative',zIndex:'18',paddingTop:'30svh',textAlign:'center'}}>
     <h1 style={{margin:'0',fontFamily:'\'Cormorant Garamond\',serif',fontWeight:'500',fontSize:'clamp(56px,11.5vw,152px)',lineHeight:'.9',letterSpacing:'.05em',textTransform:'uppercase',textShadow:'0 6px 40px rgba(0,0,0,.8)'}}>INK <em style={{fontStyle:'italic',color:'#c9a227'}}>&</em> ART</h1>
-    <p style={{margin:'18px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'clamp(13px,1.5vw,17px)',letterSpacing:'.34em',textTransform:'uppercase',color:'rgba(232,224,213,.92)',textShadow:'0 2px 18px rgba(0,0,0,.9)'}}>Tatovering &amp; piercing</p>
+    <p style={{margin:'18px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'clamp(13px,1.5vw,17px)',letterSpacing:'.34em',textTransform:'uppercase',color:'rgba(232,224,213,.92)',textShadow:'0 2px 18px rgba(0,0,0,.9)'}}>{c.trade}</p>
     <p style={{margin:'10px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'13px',letterSpacing:'.26em',textTransform:'uppercase',color:'rgba(232,224,213,.68)'}}>Larsbjørnsstræde 13 · Pisserenden · København K</p>
     <p style={{margin:'26px 0 0'}}>
       <a className="hero-cta" href="https://inkart.book.dk">{c.bookCta}</a>
@@ -384,6 +384,7 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
       <p style={{margin:'12px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'12px',letterSpacing:'.26em',textTransform:'uppercase',color:'rgba(139,30,30,.85)'}}>{c.findUs}</p>
       <p style={{margin:'26px 0 0',display:'flex',gap:'24px',justifyContent:'center',flexWrap:'wrap'}}>
         <a href={L("/flash")} style={{fontFamily:'\'Space Mono\',monospace',fontSize:'13px',letterSpacing:'.3em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',borderBottom:'1px solid rgba(201,162,39,.35)',paddingBottom:'5px'}}>{c.flash}</a>
+        <a href={L("/shop")} style={{fontFamily:'\'Space Mono\',monospace',fontSize:'13px',letterSpacing:'.3em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',borderBottom:'1px solid rgba(201,162,39,.35)',paddingBottom:'5px'}}>{c.shop}</a>
       </p>
       <BlackbookSignup />
     </div>

@@ -1497,3 +1497,12 @@ body:not(:has(.emerge-v05)) main .gift-denom::after {
   outline: 2px solid var(--gold);
   outline-offset: 4px;
 }
+
+/* Sprogskifteren på kataloget — samme række som tilbage-linket, ligesom
+   Harukis walk-in og gavekort. */
+.gade__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}

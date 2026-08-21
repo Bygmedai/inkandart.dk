@@ -46,6 +46,8 @@ const da = {
     /* Kundens ord (S568): «knapperne skal være større og mere tydelige».
        Verbet skal være et verbum — ikke «Booking». */
     bookCta: "Book tid",
+    trade: "Tatovering & piercing",
+    shop: "Shop →",
     /** Under gaden — gadens eget bånd. Dansk ER pointen her: det er stedet. */
     gadeLegend:
       "MIDT I PISSERENDEN  —  DUERNE HAR OGSÅ BLÆK  —  RENDESTENEN LØBER IKKE MED VAND  —  KANTSTENEN ER VORES VENTEVÆRELSE  —  ",
@@ -62,6 +64,33 @@ const da = {
   skipToContent: "Gå til indhold",
   backTo: "←",
 
+  shop: {
+    metaTitle: "Gaden sælger · Ink & Art",
+    metaDescription:
+      "Gavekort, walk-in, flash, reservationer og husets prints — alt det gaden sælger, samlet ét sted. Ink & Art Copenhagen, Larsbjørnsstræde 13.",
+    kicker: "Shop",
+    title: "Gaden sælger.",
+    intro: "Alt herunder betales hos Shopify — MobilePay, kort eller wallet. Blækket betales i studiet,",
+    doors: {
+      gavekort: "Giv blæk videre. Fem beløb, sendes eller printes.",
+      walkin: "To små. I aften. 900,- — ingen booking.",
+      flash: "Færdigtegnede motiver til fast pris. Først til mølle.",
+    },
+    reservations: "Reservationer",
+    wallLabel: "Væggen",
+    wallTitle: "Snart på væggen.",
+    wallIntro:
+      "Husets motiver som prints og objekter — trykt og støbt i små oplag. De hænger her, når de er klar. Blackbook ser dem først.",
+    prints: {
+      dolk: "Et af husets motiver, trykt i hånden på tykt papir.",
+      ouroboros: "Slangen der bider sig selv i halen. Lille oplag.",
+      signetring: "Støbt i sterlingsølv efter en af husets tegninger.",
+    },
+    soon: "Snart",
+    buyAria: (navn: string, pris: string) => `Køb ${navn}, ${pris} kroner`,
+    note: "Vil du have besked når væggen fyldes?",
+    noteLink: "Skriv dig i Blackbook →",
+  },
   walkin: {
     kicker: "Walk-in",
     title: "To små. I aften.",
@@ -113,6 +142,8 @@ const en: Copy = {
   scene: {
     scroll: "Scroll down to emerge",
     bookCta: "Book now",
+    trade: "Tattoo & piercing",
+    shop: "Shop →",
     // Gadenavnene oversættes IKKE — Pisserenden er stedet, ikke en beskrivelse.
     // Kun sætningerne omkring dem skifter sprog.
     gadeLegend:
@@ -130,6 +161,33 @@ const en: Copy = {
   skipToContent: "Skip to content",
   backTo: "←",
 
+  shop: {
+    metaTitle: "The street sells · Ink & Art",
+    metaDescription:
+      "Gift cards, walk-in, flash, deposits and the house prints — everything the street sells, in one place. Ink & Art Copenhagen, Larsbjørnsstræde 13.",
+    kicker: "Shop",
+    title: "The street sells.",
+    intro: "Everything below is paid at Shopify — MobilePay, card or wallet. The ink itself is paid in the studio,",
+    doors: {
+      gavekort: "Pass the ink on. Five amounts, sent or printed.",
+      walkin: "Two small ones. Tonight. 900,- — no booking.",
+      flash: "Ready-drawn pieces at a fixed price. First come, first served.",
+    },
+    reservations: "Deposits",
+    wallLabel: "The wall",
+    wallTitle: "Soon on the wall.",
+    wallIntro:
+      "House motifs as prints and objects — printed and cast in small runs. They hang here when they are ready. Blackbook sees them first.",
+    prints: {
+      dolk: "One of the house motifs, hand-printed on heavy paper.",
+      ouroboros: "The snake that bites its own tail. Small run.",
+      signetring: "Cast in sterling silver after one of the house drawings.",
+    },
+    soon: "Soon",
+    buyAria: (navn: string, pris: string) => `Buy ${navn}, ${pris} kroner`,
+    note: "Want word when the wall fills up?",
+    noteLink: "Sign the Blackbook →",
+  },
   walkin: {
     kicker: "Walk-in",
     // Ikke «Two small. Tonight.» — det lyder som en menu. Dette er samme
