@@ -8,6 +8,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const page = readFileSync(join(root, "app/shop/page.tsx"), "utf8");
 const commerce = readFileSync(join(root, "lib/commerce.ts"), "utf8");
 const sitemap = readFileSync(join(root, "app/sitemap.ts"), "utf8");
+const css = readFileSync(join(root, "app/globals.css"), "utf8");
 
 test("/shop er en rigtig rute med canonical og plads i sitemap", () => {
   assert.match(page, /alternates: \{ canonical: "\/shop" \}/);
@@ -42,4 +43,23 @@ test("dørene peger på flader der findes — ingen genopbygning", () => {
 
 test("siden er en server-komponent uden klient-JS (rails §5)", () => {
   assert.doesNotMatch(page, /^\s*["']use client["']/m);
+});
+
+test("småteksten i gaden holder AA-kontrast — opacity må ikke skride ned igen", () => {
+  // QA-blocker på #154: «Snart»-chippen stod med alpha 0.4 ved 10px — målt
+  // ~3.2:1 mod kortets near-black; AA kræver 4.5:1 under 18px. Testen måler
+  // reglen (alpha-værdien), ikke den præcise streng, så en omformatering
+  // overlever — men en dæmpning under 0.6 går rød.
+  const alphaOf = (selector) => {
+    const m = css.match(
+      new RegExp(`\\.${selector}\\s*\\{[^}]*color:\\s*rgba\\(232,\\s*224,\\s*213,\\s*(0?\\.\\d+)\\)`)
+    );
+    assert.ok(m, `${selector} mangler sin rgba-farve i globals.css`);
+    return Number(m[1]);
+  };
+  // Gulv 0.58 = kridt-præcedensen fra #149: målt ≥5.6:1 på near-black —
+  // margin over AA-kravet, også på dørens lidt lysere baggrund.
+  for (const s of ["gade__print-snart", "gade__door-linje", "gade__afsnit-label", "gade__note"]) {
+    assert.ok(alphaOf(s) >= 0.58, `${s}: alpha ${alphaOf(s)} er under kontrast-gulvet`);
+  }
 });

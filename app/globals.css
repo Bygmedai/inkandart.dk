@@ -1034,7 +1034,8 @@ html.emerge-js [data-loader] {
   font-size: clamp(10px, 1.15vw, 12px);
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(232, 224, 213, 0.55);
+  /* 0.62 ≈ 6:1 på dørens baggrund — 0.55 var ~4.5:1 ved 10px, lige på grænsen */
+  color: rgba(232, 224, 213, 0.62);
 }
 .gade__door-pil {
   grid-area: pil;
@@ -1099,8 +1100,9 @@ html.emerge-js [data-loader] {
   font-size: 10px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(232, 224, 213, 0.4);
-  border: 1px solid rgba(232, 224, 213, 0.22);
+  /* 0.68 ≈ 7:1 mod kortets near-black — AA kræver 4.5:1 ved 10px (QA #154) */
+  color: rgba(232, 224, 213, 0.68);
+  border: 1px solid rgba(232, 224, 213, 0.3);
   padding: 4px 10px;
 }
 .gade__note {
