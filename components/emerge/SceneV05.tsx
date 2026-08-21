@@ -37,10 +37,10 @@ export function SceneV05() {
 <header data-header="" style={{position:'fixed',top:'0',left:'0',right:'0',zIndex:'9980',display:'flex',alignItems:'center',justifyContent:'space-between',gap:'16px',padding:'13px 5vw',background:'rgba(8,7,7,.86)',backdropFilter:'blur(10px)',WebkitBackdropFilter:'blur(10px)',borderBottom:'1px solid rgba(232,224,213,.09)',transform:'translateY(-110%)',opacity:'0',transition:'transform .7s cubic-bezier(.16,1,.3,1),opacity .5s ease'}}>
   <a href="#emerge" style={{borderBottom:'none',fontFamily:'\'Cormorant Garamond\',serif',fontWeight:'500',fontSize:'19px',letterSpacing:'.1em',textTransform:'uppercase',whiteSpace:'nowrap'}}>INK <em style={{fontStyle:'italic',color:'#c9a227'}}>&</em> ART</a>
   <nav style={{display:'flex',alignItems:'center',gap:'clamp(14px,2.6vw,36px)'}}>
-    <a href="#work" style={{borderBottom:'1px solid transparent',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.28em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',paddingTop:'8px'}}>Work</a>
-    <a href="#artists" style={{borderBottom:'1px solid transparent',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.28em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',paddingTop:'8px'}}>Artist</a>
-    <a href="/gavekort" style={{borderBottom:'1px solid transparent',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.28em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',paddingTop:'8px'}}>Gavekort</a>
-    <a href="https://inkart.book.dk" style={{borderBottom:'1px solid rgba(201,162,39,.5)',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.28em',textTransform:'uppercase',color:'#c9a227',whiteSpace:'nowrap',paddingTop:'8px'}}>Booking →</a>
+    <a href="#work" style={{borderBottom:'1px solid transparent',fontFamily:'\'Space Mono\',monospace',fontSize:'12px',letterSpacing:'.28em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',paddingTop:'8px'}}>Work</a>
+    <a href="#artists" style={{borderBottom:'1px solid transparent',fontFamily:'\'Space Mono\',monospace',fontSize:'12px',letterSpacing:'.28em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',paddingTop:'8px'}}>Artist</a>
+    <a href="/gavekort" style={{borderBottom:'1px solid transparent',fontFamily:'\'Space Mono\',monospace',fontSize:'12px',letterSpacing:'.28em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',paddingTop:'8px'}}>Gavekort</a>
+    <a href="https://inkart.book.dk" style={{borderBottom:'1px solid rgba(201,162,39,.5)',fontFamily:'\'Space Mono\',monospace',fontSize:'12px',letterSpacing:'.28em',textTransform:'uppercase',color:'#c9a227',whiteSpace:'nowrap',paddingTop:'8px'}}>Booking →</a>
   </nav>
 </header>
 
@@ -79,7 +79,10 @@ export function SceneV05() {
   <div data-depth="0.6" data-drift="0" style={{position:'relative',zIndex:'18',paddingTop:'30svh',textAlign:'center'}}>
     <h1 style={{margin:'0',fontFamily:'\'Cormorant Garamond\',serif',fontWeight:'500',fontSize:'clamp(56px,11.5vw,152px)',lineHeight:'.9',letterSpacing:'.05em',textTransform:'uppercase',textShadow:'0 6px 40px rgba(0,0,0,.8)'}}>INK <em style={{fontStyle:'italic',color:'#c9a227'}}>&</em> ART</h1>
     <p style={{margin:'18px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'clamp(13px,1.5vw,17px)',letterSpacing:'.34em',textTransform:'uppercase',color:'rgba(232,224,213,.92)',textShadow:'0 2px 18px rgba(0,0,0,.9)'}}>Tatovering &amp; piercing</p>
-    <p style={{margin:'10px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'11px',letterSpacing:'.26em',textTransform:'uppercase',color:'rgba(232,224,213,.68)'}}>Larsbjørnsstræde 13 · Pisserenden · København K</p>
+    <p style={{margin:'10px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'13px',letterSpacing:'.26em',textTransform:'uppercase',color:'rgba(232,224,213,.68)'}}>Larsbjørnsstræde 13 · Pisserenden · København K</p>
+    <p style={{margin:'26px 0 0'}}>
+      <a className="hero-cta" href="https://inkart.book.dk">Book tid</a>
+    </p>
     <div className="walkin-relic-slot"><WalkinRelic /></div>
   </div>
 
@@ -121,7 +124,7 @@ export function SceneV05() {
   <div data-depth="1.45" style={{position:'absolute',left:'-12%',top:'-14%',width:'44vw',height:'44svh',background:'radial-gradient(closest-side, rgba(6,5,5,.85), rgba(6,5,5,.45) 55%, transparent 95%)',zIndex:'15',pointerEvents:'none'}}></div>
   <div data-depth="1.45" style={{position:'absolute',right:'-12%',bottom:'-12%',width:'46vw',height:'42svh',background:'radial-gradient(closest-side, rgba(6,5,5,.8), rgba(6,5,5,.42) 55%, transparent 95%)',zIndex:'15',pointerEvents:'none'}}></div>
 
-  <p style={{position:'absolute',bottom:'clamp(120px,19svh,220px)',left:'50%',transform:'translateX(-50%)',zIndex:'16',margin:'0',fontFamily:'\'Space Mono\',monospace',fontSize:'clamp(9px,1vw,12px)',letterSpacing:'.6em',textTransform:'uppercase',color:'rgba(232,224,213,.62)',whiteSpace:'nowrap'}}>Scroll down to emerge</p>
+  <p style={{position:'absolute',bottom:'clamp(120px,19svh,220px)',left:'50%',transform:'translateX(-50%)',zIndex:'16',margin:'0',fontFamily:'\'Space Mono\',monospace',fontSize:'clamp(12px,1.5vw,16px)',letterSpacing:'.6em',textTransform:'uppercase',color:'rgba(232,224,213,.62)',whiteSpace:'nowrap'}}>Scroll down to emerge</p>
 </section>
 
 <section className="v5-zone-under" data-screen-label="Under gaden" style={{position:'relative',zIndex:'5',height:'148svh',background:'linear-gradient(180deg,#120d0b 0%,#0d0a09 32%,#080606 100%)'}}>
@@ -213,7 +216,7 @@ export function SceneV05() {
   <div data-depth="0.16" style={{position:'absolute',right:'0',top:'38%',width:'40vw',opacity:'.8',zIndex:'1'}}><img loading="lazy" src="/emerge/v05/smoke.svg" alt="" style={{width:'100%',display:'block',transform:'scaleX(-1) rotate(4deg)'}}/></div>
   <div data-depth="0.12" style={{position:'absolute',left:'20%',top:'74%',width:'46vw',opacity:'.7',zIndex:'1'}}><img loading="lazy" src="/emerge/v05/smoke.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(3deg)'}}/></div>
 
-  <h2 style={{position:'absolute',top:'1.2%',left:'50%',transform:'translateX(-50%)',zIndex:'11',margin:'0',fontFamily:'\'Space Mono\',monospace',fontSize:'clamp(9px,1vw,12px)',fontWeight:'400',letterSpacing:'.6em',textTransform:'uppercase',color:'rgba(232,224,213,.62)',whiteSpace:'nowrap'}}>Selected work</h2>
+  <h2 style={{position:'absolute',top:'1.2%',left:'50%',transform:'translateX(-50%)',zIndex:'11',margin:'0',fontFamily:'\'Space Mono\',monospace',fontSize:'clamp(12px,1.5vw,16px)',fontWeight:'400',letterSpacing:'.6em',textTransform:'uppercase',color:'rgba(232,224,213,.62)',whiteSpace:'nowrap'}}>Selected work</h2>
   <div data-depth="0.85" style={{position:'absolute',left:'52%',top:'5%',width:'40px',zIndex:'9'}}><img loading="lazy" src="/emerge/v05/cup.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-8deg)'}}/></div>
   <div data-depth="1.2" style={{position:'absolute',left:'56%',top:'3%',width:'12px',zIndex:'10'}}><div style={{animation:'fall 9s linear infinite -1.5s'}}><img loading="lazy" src="/emerge/v05/drop-red.svg" alt="" style={{width:'100%',display:'block'}}/></div></div>
 
@@ -222,7 +225,7 @@ export function SceneV05() {
   <div data-depth="0.75" style={{position:'absolute',left:'8%',top:'2.5%',width:'min(30%,420px)',zIndex:'6'}}>
     <figure style={{margin:'0',transform:'rotate(-2.5deg)'}}>
       <img loading="lazy" src="/optimized/work/odin-960.webp" srcSet="/optimized/work/odin-480.webp 480w, /optimized/work/odin-960.webp 960w" sizes="(max-width: 768px) 60vw, 480px" width={960} height={899} alt="Black and grey — Odin" style={{width:'100%',display:'block',filter:'saturate(.7) contrast(1.15) brightness(.9) sepia(.14) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-b.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-b.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/>
-      <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>Odin — black & grey</figcaption>
+      <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'12px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>Odin — black & grey</figcaption>
     </figure>
   </div>
   <div data-depth="0.95" style={{position:'absolute',left:'30%',top:'13%',width:'170px',zIndex:'9'}}><img loading="lazy" src="/emerge/v05/splat-black.svg" alt="" style={{width:'100%',display:'block'}}/></div>
@@ -231,7 +234,7 @@ export function SceneV05() {
   <div data-depth="0.55" style={{position:'absolute',right:'10%',top:'7.5%',width:'min(22%,300px)',zIndex:'3'}}>
     <figure style={{margin:'0',transform:'rotate(2deg)'}}>
       <img loading="lazy" src="/optimized/work/traditional-960.webp" srcSet="/optimized/work/traditional-480.webp 480w, /optimized/work/traditional-960.webp 960w" sizes="(max-width: 768px) 60vw, 480px" width={960} height={1266} alt="Heart and dagger" style={{width:'100%',display:'block',filter:'saturate(.65) contrast(1.12) brightness(.8) sepia(.14) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-c.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-c.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/>
-      <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'9.5px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>Heart & dagger</figcaption>
+      <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'12px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>Heart & dagger</figcaption>
     </figure>
   </div>
   <div data-depth="0.9" style={{position:'absolute',right:'8%',top:'5.5%',width:'clamp(56px,6vw,88px)',zIndex:'9'}}><img loading="lazy" src="/emerge/v05/dagger.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-16deg)',filter:'drop-shadow(0 14px 24px rgba(0,0,0,.7))'}}/></div>
@@ -241,7 +244,7 @@ export function SceneV05() {
   <div data-depth="0.9" style={{position:'absolute',left:'34%',top:'25%',width:'min(26%,360px)',zIndex:'8'}}>
     <figure style={{margin:'0',transform:'rotate(1.5deg)'}}>
       <img loading="lazy" src="/optimized/work/godspeed-960.webp" srcSet="/optimized/work/godspeed-480.webp 480w, /optimized/work/godspeed-960.webp 960w" sizes="(max-width: 768px) 60vw, 480px" width={960} height={1123} alt="Cheetahs — fine line" style={{width:'100%',display:'block',filter:'saturate(.7) contrast(1.15) brightness(.95) sepia(.14) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-a.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-a.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/>
-      <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>Godspeed</figcaption>
+      <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'12px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>Godspeed</figcaption>
     </figure>
   </div>
   <div data-depth="1.15" style={{position:'absolute',left:'32%',top:'38%',width:'16px',zIndex:'9'}}><div style={{animation:'fall 8.5s linear infinite -2s'}}><img loading="lazy" src="/emerge/v05/drop-red.svg" alt="" style={{width:'100%',display:'block'}}/></div></div>
@@ -249,7 +252,7 @@ export function SceneV05() {
   <div data-depth="0.5" style={{position:'absolute',left:'12%',top:'43%',width:'min(20%,280px)',zIndex:'3'}}>
     <figure style={{margin:'0',transform:'rotate(-3deg)'}}>
       <img loading="lazy" src="/optimized/work/signetring-960.webp" srcSet="/optimized/work/signetring-480.webp 480w, /optimized/work/signetring-960.webp 960w" sizes="(max-width: 768px) 60vw, 480px" width={960} height={538} alt="A mark on the hand" style={{width:'100%',display:'block',filter:'saturate(.65) contrast(1.12) brightness(.78) sepia(.14) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-b.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-b.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/>
-      <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'9.5px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>The signet</figcaption>
+      <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'12px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>The signet</figcaption>
     </figure>
   </div>
   <div data-depth="0.8" style={{position:'absolute',left:'9%',top:'41%',width:'clamp(90px,10vw,140px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/snake.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(118deg)',filter:'drop-shadow(0 16px 26px rgba(0,0,0,.7))'}}/></div>
@@ -257,7 +260,7 @@ export function SceneV05() {
   <div data-depth="0.95" style={{position:'absolute',right:'6%',top:'48%',width:'min(32%,460px)',zIndex:'8'}}>
     <figure style={{margin:'0',transform:'rotate(2.2deg)'}}>
       <img loading="lazy" src="/optimized/work/saint-960.webp" srcSet="/optimized/work/saint-480.webp 480w, /optimized/work/saint-960.webp 960w" sizes="(max-width: 768px) 60vw, 480px" width={960} height={720} alt="Fresh blackwork" style={{width:'100%',display:'block',filter:'saturate(.7) contrast(1.15) brightness(.95) sepia(.14) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-c.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-c.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/>
-      <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>Fresh blackwork</figcaption>
+      <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'12px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>Fresh blackwork</figcaption>
     </figure>
   </div>
   <div data-depth="1.1" style={{position:'absolute',right:'32%',top:'46%',width:'170px',opacity:'.85',zIndex:'9'}}><img loading="lazy" src="/emerge/v05/splat-red.svg" alt="" style={{width:'100%',display:'block'}}/></div>
@@ -267,7 +270,7 @@ export function SceneV05() {
   <div data-depth="0.65" style={{position:'absolute',left:'30%',top:'63%',width:'min(28%,400px)',zIndex:'4'}}>
     <figure style={{margin:'0',transform:'rotate(-1.5deg)'}}>
       <img loading="lazy" src="/optimized/work/session-960.webp" srcSet="/optimized/work/session-480.webp 480w, /optimized/work/session-960.webp 960w" sizes="(max-width: 768px) 60vw, 480px" width={864} height={1152} alt="Under the needle" style={{width:'100%',display:'block',filter:'saturate(.7) contrast(1.15) brightness(.85) sepia(.14) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-a.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-a.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/>
-      <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>Under the needle</figcaption>
+      <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'12px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>Under the needle</figcaption>
     </figure>
   </div>
   <div data-depth="1.0" style={{position:'absolute',left:'26%',top:'60%',width:'clamp(90px,10vw,150px)',zIndex:'9'}}><img loading="lazy" src="/emerge/v05/machine.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-20deg)',filter:'drop-shadow(0 18px 30px rgba(0,0,0,.75))'}}/></div>
@@ -275,7 +278,7 @@ export function SceneV05() {
   <div className="v5m-street" data-depth="0.7" style={{position:'absolute',left:'56%',top:'80%',width:'min(24%,340px)',zIndex:'5'}}>
     <figure style={{margin:'0',transform:'rotate(-2deg)'}}>
       <img loading="lazy" src="/optimized/studio/gade-960.webp" srcSet="/optimized/studio/gade-480.webp 480w, /optimized/studio/gade-960.webp 960w" sizes="(max-width: 768px) 60vw, 480px" width={960} height={1202} alt="Larsbjørnsstræde" style={{width:'100%',display:'block',filter:'saturate(.7) contrast(1.15) brightness(.88) sepia(.14) hue-rotate(-6deg)',maskImage:'url(\'/emerge/v05/mask-b.svg\')',WebkitMaskImage:'url(\'/emerge/v05/mask-b.svg\')',maskSize:'100% 100%',WebkitMaskSize:'100% 100%'}}/>
-      <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'9.5px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>Larsbjørnsstræde — midt i Pisserenden</figcaption>
+      <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'12px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>Larsbjørnsstræde — midt i Pisserenden</figcaption>
     </figure>
   </div>
   <div className="mor-slot" data-depth="1.05" data-drift="0"><MorBird zone="work" /></div>
@@ -309,7 +312,7 @@ export function SceneV05() {
   <div data-depth="0.12" style={{position:'absolute',left:'4%',top:'8%',width:'44vw',zIndex:'1'}}><img loading="lazy" src="/emerge/v05/smoke.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(5deg)'}}/></div>
   <div data-depth="0.16" style={{position:'absolute',right:'0',top:'52%',width:'42vw',opacity:'.8',zIndex:'1'}}><img loading="lazy" src="/emerge/v05/smoke.svg" alt="" style={{width:'100%',display:'block',transform:'scaleX(-1) rotate(-6deg)'}}/></div>
 
-  <h2 style={{position:'absolute',top:'5%',left:'50%',transform:'translateX(-50%)',zIndex:'11',margin:'0',fontFamily:'\'Space Mono\',monospace',fontSize:'clamp(9px,1vw,12px)',fontWeight:'400',letterSpacing:'.6em',textTransform:'uppercase',color:'rgba(232,224,213,.62)',whiteSpace:'nowrap'}}>The artist</h2>
+  <h2 style={{position:'absolute',top:'5%',left:'50%',transform:'translateX(-50%)',zIndex:'11',margin:'0',fontFamily:'\'Space Mono\',monospace',fontSize:'clamp(12px,1.5vw,16px)',fontWeight:'400',letterSpacing:'.6em',textTransform:'uppercase',color:'rgba(232,224,213,.62)',whiteSpace:'nowrap'}}>The artist</h2>
 
   <div data-depth="0.35" style={{position:'absolute',left:'24%',top:'12%',width:'min(44%,560px)',opacity:'.16',zIndex:'3'}}><img loading="lazy" src="/emerge/v05/ouroboros.svg" alt="" style={{width:'100%',display:'block'}}/></div>
   <div className="v5m-artist-photo" id="artist-nizar" data-depth="0.7" style={{position:'absolute',left:'31%',top:'20%',width:'min(26%,340px)',zIndex:'5'}}>
@@ -321,7 +324,7 @@ export function SceneV05() {
     <div style={{position:'absolute',left:'-8%',top:'-24%',width:'70%',opacity:'.5',zIndex:'-1'}}><img loading="lazy" src="/emerge/v05/splat-red.svg" alt="" style={{width:'100%',display:'block'}}/></div>
     <blockquote style={{margin:'0'}}>
       <p style={{margin:'0',fontFamily:'\'Cormorant Garamond\',serif',fontStyle:'italic',fontWeight:'500',fontSize:'clamp(26px,3.4vw,44px)',lineHeight:'1.2',textShadow:'0 4px 24px rgba(0,0,0,.8)'}}>Vi dekorerer ikke.<br/>Vi committer.</p>
-      <footer style={{marginTop:'18px',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>Nizar — Founder & Artist</footer>
+      <footer style={{marginTop:'18px',fontFamily:'\'Space Mono\',monospace',fontSize:'12px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>Nizar — Founder & Artist</footer>
     </blockquote>
   </div>
 
@@ -369,12 +372,12 @@ export function SceneV05() {
     <h2 style={{margin:'0 auto',maxWidth:'720px',fontFamily:'\'Cormorant Garamond\',serif',fontStyle:'italic',fontWeight:'500',fontSize:'clamp(34px,4.8vw,60px)',lineHeight:'1.15',textShadow:'0 4px 28px rgba(0,0,0,.85)'}}>The mark is already waiting.</h2>
     <GiftRelic />
     <div style={{marginTop:'clamp(28px,5svh,56px)'}}>
-      <a href="https://inkart.book.dk" style={{fontFamily:'\'Space Mono\',monospace',fontSize:'13px',letterSpacing:'.34em',textTransform:'uppercase',color:'#c9a227',borderBottom:'1px solid rgba(201,162,39,.45)',paddingTop:'8px',paddingBottom:'6px'}}>Booking →</a>
-      <p style={{margin:'28px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.26em',textTransform:'uppercase',color:'#8e867b'}}>Larsbjørnsstræde 13 · 1454 København K · <a href="tel:+4555248608" aria-label="Ring til Ink & Art, 55 24 86 08" style={{color:'inherit',borderBottom:'1px solid rgba(232,224,213,.25)',paddingTop:'12px'}}>55 24 86 08</a></p>
-      <p style={{margin:'12px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'10px',letterSpacing:'.26em',textTransform:'uppercase',color:'rgba(139,30,30,.85)'}}>Midt i Pisserenden — du finder os</p>
+      <a href="https://inkart.book.dk" style={{fontFamily:'\'Space Mono\',monospace',fontSize:'13px',letterSpacing:'.34em',textTransform:'uppercase'}} className="hero-cta">Book tid</a>
+      <p style={{margin:'28px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'12px',letterSpacing:'.26em',textTransform:'uppercase',color:'#8e867b'}}>Larsbjørnsstræde 13 · 1454 København K · <a href="tel:+4555248608" aria-label="Ring til Ink & Art, 55 24 86 08" style={{color:'inherit',borderBottom:'1px solid rgba(232,224,213,.25)',paddingTop:'12px'}}>55 24 86 08</a></p>
+      <p style={{margin:'12px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'12px',letterSpacing:'.26em',textTransform:'uppercase',color:'rgba(139,30,30,.85)'}}>Midt i Pisserenden — du finder os</p>
       <p style={{margin:'26px 0 0',display:'flex',gap:'24px',justifyContent:'center',flexWrap:'wrap'}}>
-        <a href="/flash" style={{fontFamily:'\'Space Mono\',monospace',fontSize:'11px',letterSpacing:'.3em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',borderBottom:'1px solid rgba(201,162,39,.35)',paddingBottom:'5px',paddingTop:'6px'}}>Flash →</a>
-        <a href="/shop" style={{fontFamily:'\'Space Mono\',monospace',fontSize:'11px',letterSpacing:'.3em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',borderBottom:'1px solid rgba(201,162,39,.35)',paddingBottom:'5px',paddingTop:'6px'}}>Shop →</a>
+        <a href="/flash" style={{fontFamily:'\'Space Mono\',monospace',fontSize:'13px',letterSpacing:'.3em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',borderBottom:'1px solid rgba(201,162,39,.35)',paddingBottom:'5px',paddingTop:'6px'}}>Flash →</a>
+        <a href="/shop" style={{fontFamily:'\'Space Mono\',monospace',fontSize:'13px',letterSpacing:'.3em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',borderBottom:'1px solid rgba(201,162,39,.35)',paddingBottom:'5px',paddingTop:'6px'}}>Shop →</a>
       </p>
       <BlackbookSignup />
     </div>
@@ -395,7 +398,7 @@ export function SceneV05() {
   <div data-depth="1.18" style={{position:'absolute',left:'80%',top:'26%',width:'12px',zIndex:'8'}}><img loading="lazy" src="/emerge/v05/spark.svg" alt="" style={{width:'100%',display:'block',animation:'twk 4.4s ease-in-out infinite -2.6s'}}/></div>
   <div data-depth="1.15" style={{position:'absolute',left:'48%',top:'70%',width:'9px',zIndex:'9'}}><div style={{animation:'floatUp 16s linear infinite -6s'}}><img loading="lazy" src="/emerge/v05/ember.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(30deg)'}}/></div></div>
 
-  <footer data-drift="0" style={{position:'absolute',left:'0',right:'0',bottom:'0',zIndex:'10',display:'flex',flexWrap:'wrap',justifyContent:'space-between',gap:'12px',padding:'0 5vw 26px',fontFamily:'\'Space Mono\',monospace',fontSize:'9.5px',letterSpacing:'.2em',textTransform:'uppercase',color:'rgba(232,224,213,.62)'}}>
+  <footer data-drift="0" style={{position:'absolute',left:'0',right:'0',bottom:'0',zIndex:'10',display:'flex',flexWrap:'wrap',justifyContent:'space-between',gap:'12px',padding:'0 5vw 26px',fontFamily:'\'Space Mono\',monospace',fontSize:'12px',letterSpacing:'.2em',textTransform:'uppercase',color:'rgba(232,224,213,.62)'}}>
     <span>Ink & Art Copenhagen — the mark stays</span>
     <span style={{display:'flex',gap:'18px'}}>
       <a href="/blackbook" style={{color:'rgba(232,224,213,.62)',borderBottom:'1px solid rgba(201,162,39,.35)'}}>Blackbook</a>

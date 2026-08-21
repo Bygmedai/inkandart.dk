@@ -809,7 +809,7 @@ html.emerge-js [data-loader] {
   justify-content: center;
   padding: 15px 8px;
   font-family: var(--font-mono), monospace;
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: rgba(232, 224, 213, 0.82);
@@ -902,7 +902,7 @@ html.emerge-js [data-loader] {
 .kerb__legend {
   margin: 0 0 14px;
   font-family: var(--font-mono), monospace;
-  font-size: clamp(9px, 1.1vw, 11px);
+  font-size: clamp(12px, 1.3vw, 14px);
   letter-spacing: 0.34em;
   text-transform: uppercase;
   /* WCAG AA: ~5,4:1 mod zonens bund. Kridt-stemningen holder, teksten læses. */
@@ -949,7 +949,7 @@ html.emerge-js [data-loader] {
 }
 .kerb__label {
   font-family: var(--font-mono), monospace;
-  font-size: clamp(9px, 1.1vw, 11px);
+  font-size: clamp(12px, 1.35vw, 14px);
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: rgba(232, 224, 213, 0.62);
@@ -974,7 +974,7 @@ html.emerge-js [data-loader] {
 .kerb__note {
   margin: 16px 0 0;
   font-family: var(--font-mono), monospace;
-  font-size: clamp(9px, 1.05vw, 11px);
+  font-size: clamp(12px, 1.3vw, 14px);
   letter-spacing: 0.16em;
   text-transform: uppercase;
   line-height: 1.9;
@@ -1297,4 +1297,59 @@ main a[href="/"] {
   display: inline-flex;
   align-items: center;
   min-height: 24px;
+}
+
+/* ── Primær handling: én knap man ikke kan overse ────────────────────────
+   Kunde-test (S568): «siden er uoverskuelig», «teksten er for lille»,
+   «knapperne skal være større og mere tydelige». Målt før: mobil-dockens
+   Book-knap viser sig FØRST når heroen er ude af syne — så den første
+   skærm havde ingen booking-handling overhovedet, kun et 10px link i
+   toppen. For en utålmodig besøgende er det ét skridt for langt.
+
+   Knappen er stor (≥52px), fyldt, i husets guld, og siger et verbum. */
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 clamp(28px, 6vw, 44px);
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(14px, 1.7vw, 17px);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #14100c;
+  background: linear-gradient(180deg, #d9b23c, var(--gold));
+  border: 1.5px solid #e6cc63;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+}
+.hero-cta:hover,
+.hero-cta:focus-visible {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.66), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-cta { transition: none; }
+  .hero-cta:hover { transform: none; }
+}
+
+/* Skriftgulv på undersiderne: samme klage, samme svar. 11px mono med
+   0.3em sporing er dekoration, ikke læsbar tekst. */
+body:not(:has(.emerge-v05)) main .text-\[11px\] { font-size: 13px; }
+body:not(:has(.emerge-v05)) main .text-\[10px\] { font-size: 12px; }
+
+/* ── Mobil-header: de kommercielle handlinger skal kunne være der ────────
+   Målt på origin/main FØR denne PR: «Booking →» var klippet af skærmen på
+   både 360px og 390px. Kunden der sagde «book leder til et andet sted på
+   siden» kunne med stor sandsynlighed slet ikke SE booking-linket — det
+   eneste book-agtige hun kunne ramme var en anker-genvej, der scroller.
+
+   Løsningen er ikke mindre skrift (det var hele klagen), men færre valg:
+   de to anker-genveje forsvinder på smalle skærme. Siden scroller
+   alligevel, og de kommercielle handlinger — gavekort og booking — bliver
+   tilbage. Færre valg er også venligere for den utålmodige. */
+@media (max-width: 520px) {
+  [data-header] a[href="#work"],
+  [data-header] a[href="#artists"] { display: none; }
 }
