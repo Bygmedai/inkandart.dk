@@ -49,7 +49,7 @@ export function MobileDock() {
     <nav
       className={`mobile-dock${shown ? " is-shown" : ""}`}
       aria-label="Hurtige handlinger"
-      aria-hidden={!shown}
+      aria-hidden={!shown || undefined}
     >
       <a
         className="mobile-dock__item"
