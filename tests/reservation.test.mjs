@@ -1,0 +1,53 @@
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { test } from "node:test";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+const commerce = readFileSync(join(root, "lib/commerce.ts"), "utf8");
+const kerb = readFileSync(join(root, "components/emerge/KerbReservation.tsx"), "utf8");
+const scene = readFileSync(join(root, "components/emerge/SceneV05.tsx"), "utf8");
+const css = readFileSync(join(root, "app/globals.css"), "utf8");
+
+test("reservationerne bruger de verificerede live-varianter", () => {
+  assert.match(commerce, /53492757627208/); // reservér en tid · 100,- → 200
+  assert.match(commerce, /53463786127688/); // heldags-session · 1.000,- → 200
+  assert.match(commerce, /RESERVATIONS/);
+});
+
+test("døde piercing-varianter er IKKE i handelslaget (rails §4: ingen død handling)", () => {
+  // Alle fire var 410 mod den rigtige butik 2026-08-21. En knap der ikke kan
+  // købe er værre end ingen knap — de må først ind når Shopify er rettet.
+  for (const dead of ["53511714570568", "53511714996552", "53511715422536", "53511715881288"]) {
+    assert.doesNotMatch(commerce, new RegExp(dead), `død variant ${dead} må ikke bruges`);
+  }
+});
+
+test("kridtet er en checkout-handoff uden klient-JS (rails §5)", () => {
+  assert.match(kerb, /cartUrl\(/);
+  // Direktivet — ikke ordet. Doc-kommentaren nævner "use client" med vilje.
+  assert.doesNotMatch(kerb, /^\s*["']use client["']/m);
+  assert.match(kerb, /aria-label=\{r\.aria\}/);
+});
+
+test("copy'en lover ikke en tid vi ikke har (rails §4)", () => {
+  assert.match(kerb, /Trækkes fra prisen/);
+  assert.match(kerb, /Tiden aftaler vi bagefter/);
+  // ingen påstand om at depositummet ER en booket tid
+  assert.doesNotMatch(kerb, /du har (nu )?en tid/i);
+});
+
+test("slotten er ét slot i Under gaden — og ligger over zonens bundfade", () => {
+  assert.match(scene, /KerbReservation/);
+  assert.match(scene, /className="kerb-slot"/);
+  // bundfaden er zIndex 9; kridtet skal ligge over den for ikke at blive dæmpet
+  assert.match(scene, /className="kerb-slot"[^>]*zIndex:'10'/);
+});
+
+test("mobil-placeringen bruger boks-model, ikke transform (lektionen fra #146)", () => {
+  const mobile = css.slice(css.indexOf(".emerge-v05 .kerb-slot"));
+  assert.match(mobile, /left: 5% !important/);
+  assert.match(mobile, /right: 5% !important/);
+  assert.doesNotMatch(mobile.slice(0, 300), /translateX/);
+});

@@ -15,11 +15,34 @@ findes den ikke.
 | Agent | Ejer | Rører ikke |
 |---|---|---|
 | **Vilde** | `lib/commerce.ts` · `SceneV05.tsx` · layout · `/flash`-struktur · mobil-dock | `Gift*`-komponenter, `/gavekort`-copy |
-| **Grok** | `components/emerge/Gift*` · `/gavekort` · gavekort-OG | `lib/commerce.ts` · `SceneV05.tsx` · layout |
+| **Grok** | `components/emerge/Gift*` · `Walkin*` · `/gavekort` · `/walk-in` · gavekort-OG | `SceneV05.tsx` ud over egen slot-linje · andres zoner |
+| **Villy** | «Under gaden»-zonen · `Kerb*` · reservations-tråden · perf/SEO/a11y-gates | `Gift*`, `Walkin*`, `/gavekort`, `/walk-in` |
 | **Haruki** | review, merge, redirects, CI, `docs/` | bygger ikke i de to andres lanes uden aftale |
 
 **Ratificeret S567** (Vilde ↔ Grok, via Steven). Ændres lanen, ændres denne
 tabel i samme PR — ellers er den ikke ændret.
+
+### Slot-reglen — sådan deler fire agenter én scenefil
+
+`SceneV05.tsx` er den flade alle vil lægge objekter i. Derfor er den tynd:
+hvert kommercielt objekt er sin egen komponent med én ejer, og scenen kender
+kun **én linje** pr. objekt (`<GiftRelic />`, `<WalkinRelic />`,
+`<KerbReservation />`). Så bliver en kollision til en triviel merge i stedet
+for en dag tabt.
+
+- I `SceneV05` må du kun tilføje eller ændre **din egen slot-linje**.
+- `lib/commerce.ts` er **append-only med råb**: læg din blok til, rør ikke
+  andres, og sig det i PR-teksten (Groks form i #146 er standarden). Pas på
+  `/**`-linjen når du løser en rebase-konflikt — to blokke deler den, og den
+  har allerede kostet to agenter en fejlsøgning.
+- **Verificér variant-ID'er med positiv OG negativ kontrol** før du lover en
+  handel. En **levende** variant svarer `302` på et bart kald (`200` hvis du
+  følger redirect med `curl -L`); en **død** svarer `410` med det samme.
+  Mål altså 302-eller-fulgt-200 mod 410 — ikke «200 mod 410» (Haruki, S568).
+  Fire piercing-varianter var 410 i august 2026 — de indgår derfor ikke.
+- **Ingen CSS-`transform` på en slot der er `[data-depth]`-deltager.**
+  Motoren ejer transform på de bokse; centrering laves med boks-model
+  (`left`/`right`/`margin-inline`). Lært i #146, bekræftet i kridt-slotten.
 
 **Krydser du en grænse:** stop og spørg ejeren. Et hurtigt spørgsmål koster
 minutter; en kollision i to agenters ucommittede arbejde koster en dag.

@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { BlackbookSignup } from "./BlackbookSignup";
 import { GiftRelic } from "./GiftRelic";
+import { KerbReservation } from "./KerbReservation";
 import { SceneMotor } from "./SceneMotor";
 import { WalkinRelic } from "./WalkinRelic";
 
@@ -155,11 +156,12 @@ export function SceneV05() {
     </div>
   </div>
 
+  <div className="kerb-slot" data-depth="0.62" data-drift="0" style={{position:'absolute',left:'8%',top:'79%',zIndex:'10'}}><KerbReservation /></div>
   <div data-depth="0.9" style={{position:'absolute',right:'6%',top:'39%',width:'clamp(160px,18vw,260px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/snake.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(142deg)',filter:'saturate(1.1) drop-shadow(0 20px 34px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="1.0" style={{position:'absolute',left:'0',top:'44%',width:'100%',zIndex:'7',pointerEvents:'none'}}><div style={{width:'clamp(70px,8vw,110px)',animation:'fly 26s linear infinite -9s'}}><img loading="lazy" src="/emerge/v05/swallow.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-5deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div></div>
   <div data-depth="0.85" style={{position:'absolute',left:'5%',top:'53%',width:'clamp(100px,12vw,160px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/machine.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(12deg)',filter:'drop-shadow(0 18px 30px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="1.05" style={{position:'absolute',left:'78%',top:'58%',width:'clamp(80px,9vw,125px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/dagger.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(168deg)',filter:'drop-shadow(0 18px 30px rgba(0,0,0,.7))'}}/></div>
-  <div data-depth="0.7" style={{position:'absolute',left:'12%',top:'86%',width:'clamp(110px,13vw,170px)',zIndex:'5'}}><img loading="lazy" src="/emerge/v05/skull.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-24deg)',filter:'drop-shadow(0 16px 26px rgba(0,0,0,.6))'}}/></div>
+  <div data-depth="0.7" style={{position:'absolute',left:'1%',top:'91%',width:'clamp(110px,13vw,170px)',zIndex:'5'}}><img loading="lazy" src="/emerge/v05/skull.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-24deg)',filter:'drop-shadow(0 16px 26px rgba(0,0,0,.6))'}}/></div>
   <div data-depth="0.95" style={{position:'absolute',left:'30%',top:'64%',width:'56px',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/cup.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(94deg)'}}/></div>
   <div data-depth="0.8" style={{position:'absolute',left:'32%',top:'66.5%',width:'130px',opacity:'.85',zIndex:'6'}}><img loading="lazy" src="/emerge/v05/splat-black.svg" alt="" style={{width:'100%',display:'block'}}/></div>
   <div data-depth="1.1" style={{position:'absolute',left:'52%',top:'88%',width:'44px',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/dice.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(32deg)'}}/></div>
