@@ -107,8 +107,12 @@ const MAALER = () => {
 
   // Æder et bevægeligt objekt et tap på en handling?
   const spis = [];
+  // NB: 'book' som delstreng ville også fange /blackbook (QA #168). Vi vil
+  // have booking-systemet, ikke nyhedsbrevet — derfor værtsnavnet.
   const handlinger = [
-    ...document.querySelectorAll(".kerb__mark, a[href*='/cart/'], a[href*='book'], a[href^='tel:']"),
+    ...document.querySelectorAll(
+      ".kerb__mark, a[href*='/cart/'], a[href*='inkart.book.dk'], a[href^='tel:']"
+    ),
   ];
   for (const m of document.querySelectorAll("[data-mor],[data-crew],[data-mutter]")) {
     const mb = m.getBoundingClientRect();
