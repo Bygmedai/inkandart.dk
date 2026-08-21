@@ -62,33 +62,8 @@ test("succes er succes", async () => {
   assert.deepEqual(await r.json(), { ok: true });
 });
 
-test("allerede tilmeldt kunde: ingen unødig skrivning", async () => {
-  mockShopify((n) => n === 1
-    ? res(200, { data: { customerCreate: { userErrors: [{ message: "Email has already been taken" }] } } })
-    : res(200, { data: { customers: { edges: [{ node: { id: "gid://7", defaultEmailAddress: { marketingState: "SUBSCRIBED" } } }] } } }));
-  const r = await post({ email: "a@b.dk" });
-  assert.deepEqual(await r.json(), { ok: true, already: true, subscribed: true });
-  assert.equal(calls.length, 2, "må ikke kalde consent-update når der allerede er consent");
-});
 
-test("REGRESSION: eksisterende kunde UDEN consent bliver faktisk tilmeldt", async () => {
-  mockShopify((n) => {
-    if (n === 1) return res(200, { data: { customerCreate: { userErrors: [{ message: "Email has already been taken" }] } } });
-    if (n === 2) return res(200, { data: { customers: { edges: [{ node: { id: "gid://7", defaultEmailAddress: { marketingState: "NOT_SUBSCRIBED" } } }] } } });
-    return res(200, { data: { customerEmailMarketingConsentUpdate: { customer: { id: "gid://7" }, userErrors: [] } } });
-  });
-  const r = await post({ email: "a@b.dk" });
-  assert.deepEqual(await r.json(), { ok: true, already: true, subscribed: true });
-  assert.equal(calls.length, 3, "consent-update skal faktisk kaldes");
-  assert.match(JSON.stringify(calls[2].body), /SUBSCRIBED/);
-});
 
-test("«taken» men kunden findes ikke er en modsigelse, ikke en succes", async () => {
-  mockShopify((n) => n === 1
-    ? res(200, { data: { customerCreate: { userErrors: [{ message: "Email has already been taken" }] } } })
-    : res(200, { data: { customers: { edges: [] } } }));
-  assert.equal((await post({ email: "a@b.dk" })).status, 502);
-});
 
 test("honeypot rører aldrig Shopify", async () => {
   mockShopify(() => res(200, {}));
@@ -117,4 +92,68 @@ test("kalder en Shopify-API-version der er understøttet (2024-10 var udløbet)"
   assert.ok(version, "URL skal indeholde en API-version");
   assert.ok(["2025-10", "2026-01", "2026-04", "2026-07"].includes(version),
     `${version} er ikke i den understøttede liste (målt mod butikken 2026-08-21)`);
+});
+
+/* ── S568, Sirius' anden QA: konvolutten var lukket, operationerne var ikke.
+      Hver af de her fejlede mod #156's foerste udgave. ─────────────────── */
+
+const TAKEN = () => res(200, { data: { customerCreate: { userErrors: [{ message: "Email has already been taken" }] } } });
+const FOUND = (state, mail = "a@b.dk") =>
+  res(200, { data: { customers: { edges: [{ node: { id: "gid://9", defaultEmailAddress: { emailAddress: mail, marketingState: state } } }] } } });
+
+test("REGRESSION: {data:{}} må ALDRIG blive til ok:true", async () => {
+  mockShopify(() => res(200, { data: {} }));
+  const r = await post({ email: "a@b.dk" });
+  assert.equal(r.status, 502, "#156's første udgave svarede 200 ok:true her");
+});
+
+test("REGRESSION: succes uden customer.id er ikke en succes", async () => {
+  mockShopify(() => res(200, { data: { customerCreate: { customer: {}, userErrors: [] } } }));
+  assert.equal((await post({ email: "a@b.dk" })).status, 502);
+});
+
+test("REGRESSION: manglende userErrors er ikke nul fejl", async () => {
+  mockShopify(() => res(200, { data: { customerCreate: { customer: { id: "gid://1" } } } }));
+  assert.equal((await post({ email: "a@b.dk" })).status, 502);
+});
+
+test("REGRESSION: consent-update med {data:{}} er ikke en tilmelding", async () => {
+  mockShopify((n) => (n === 1 ? TAKEN() : n === 2 ? FOUND("NOT_SUBSCRIBED") : res(200, { data: {} })));
+  assert.equal((await post({ email: "a@b.dk" })).status, 502);
+});
+
+test("REGRESSION: consent-update uden customer.id er ikke en tilmelding", async () => {
+  mockShopify((n) => (n === 1 ? TAKEN() : n === 2 ? FOUND("NOT_SUBSCRIBED")
+    : res(200, { data: { customerEmailMarketingConsentUpdate: { userErrors: [] } } })));
+  assert.equal((await post({ email: "a@b.dk" })).status, 502);
+});
+
+test("REGRESSION: vi sætter ALDRIG en anden persons consent på et delvist træf", async () => {
+  mockShopify((n) => (n === 1 ? TAKEN() : FOUND("NOT_SUBSCRIBED", "anden@person.dk")));
+  const r = await post({ email: "a@b.dk" });
+  assert.equal(r.status, 422, "delvist søgetræf må ikke give skriveadgang til en fremmed");
+  assert.equal(calls.length, 2, "consent-update må ikke kaldes");
+});
+
+test("«findes allerede» afgøres ved opslag, ikke ved strengmatch på fejlteksten", async () => {
+  // UserError har intet code-felt (verificeret mod skemaet) — derfor slår vi op.
+  mockShopify((n) => (n === 1
+    ? res(200, { data: { customerCreate: { userErrors: [{ message: "noget helt tredje" }] } } })
+    : FOUND("SUBSCRIBED")));
+  const r = await post({ email: "a@b.dk" });
+  assert.deepEqual(await r.json(), { ok: true, already: true, subscribed: true },
+    "en dublet er en dublet uanset hvad Shopify kalder den");
+});
+
+test("ægte afvisning: ingen kunde med den email findes", async () => {
+  mockShopify((n) => (n === 1
+    ? res(200, { data: { customerCreate: { userErrors: [{ message: "Email is invalid" }] } } })
+    : res(200, { data: { customers: { edges: [] } } })));
+  assert.equal((await post({ email: "a@b.dk" })).status, 422);
+});
+
+test("email sendes som citeret søgeværdi, ikke rå interpolation", async () => {
+  mockShopify((n) => (n === 1 ? TAKEN() : FOUND("SUBSCRIBED")));
+  await post({ email: "a@b.dk" });
+  assert.match(JSON.stringify(calls[1].body), /email:\\"a@b\.dk\\"/);
 });

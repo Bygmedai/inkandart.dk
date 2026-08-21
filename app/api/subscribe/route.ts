@@ -157,8 +157,8 @@ const CREATE_CUSTOMER = `mutation newsletterSignup($input: CustomerInput!) {
 }`;
 
 const FIND_CUSTOMER = `query findCustomer($q: String!) {
-  customers(first: 1, query: $q) {
-    edges { node { id defaultEmailAddress { marketingState } } }
+  customers(first: 5, query: $q) {
+    edges { node { id defaultEmailAddress { emailAddress marketingState } } }
   }
 }`;
 
@@ -168,6 +168,45 @@ const UPDATE_CONSENT = `mutation setConsent($input: CustomerEmailMarketingConsen
     userErrors { field message }
   }
 }`;
+
+/* ────────────────────────────────────────────────────────────────────────
+ * Lukkede dekodere — én pr. operation.
+ *
+ * S568, Sirius' anden QA: shopGraphql() validerede kun konvolutten, saa
+ * `{data:{}}` slap igennem som succes. Fejlen var ikke vaek, den var flyttet
+ * ét objekt ned. En validator er foerst lukket naar den er lukket HELE vejen
+ * ned til den vaerdi der udloeser succes.
+ *
+ * Reglerne her: `userErrors` skal FINDES som array (fravaer != nul fejl), og
+ * en succes skal baere det id operationen lover. Alt andet kaster.
+ * ──────────────────────────────────────────────────────────────────────── */
+
+function op(data: Record<string, unknown>, name: string): Record<string, unknown> {
+  const node = data?.[name];
+  if (!node || typeof node !== "object" || Array.isArray(node)) {
+    throw new Error(`shopify_missing_operation:${name}`);
+  }
+  return node as Record<string, unknown>;
+}
+
+/** Fravaer af userErrors er IKKE nul fejl — det er et ukendt svar. */
+function userErrors(node: Record<string, unknown>, name: string): Array<{ message?: string }> {
+  const errs = node.userErrors;
+  if (!Array.isArray(errs)) throw new Error(`shopify_missing_userErrors:${name}`);
+  return errs as Array<{ message?: string }>;
+}
+
+function customerId(node: Record<string, unknown>, name: string): string {
+  const c = node.customer as { id?: unknown } | undefined;
+  const id = typeof c?.id === "string" ? c.id.trim() : "";
+  if (!id) throw new Error(`shopify_missing_customer_id:${name}`);
+  return id;
+}
+
+/** Shopify-soegesyntaks: vaerdien skal i anfoerselstegn og escapes. */
+function emailQuery(email: string): string {
+  return `email:"${email.replace(/["\\]/g, "")}"`;
+}
 
 function json(obj: unknown, status = 200): Response {
   return new Response(JSON.stringify(obj), {
@@ -220,27 +259,29 @@ export async function POST(req: Request): Promise<Response> {
   if (!token) return json({ ok: false, error: "unconfigured" }, 500);
 
   try {
-    const created = await shopGraphql(store, token, CREATE_CUSTOMER, {
-      input: {
-        email,
-        emailMarketingConsent: { marketingState: "SUBSCRIBED", marketingOptInLevel: "SINGLE_OPT_IN" },
-        tags,
-      },
-    });
+    const created = op(
+      await shopGraphql(store, token, CREATE_CUSTOMER, {
+        input: {
+          email,
+          emailMarketingConsent: { marketingState: "SUBSCRIBED", marketingOptInLevel: "SINGLE_OPT_IN" },
+          tags,
+        },
+      }),
+      "customerCreate",
+    );
 
-    const errs =
-      (created?.customerCreate as { userErrors?: Array<{ message?: string }> } | undefined)?.userErrors || [];
+    const errs = userErrors(created, "customerCreate");
 
-    if (!errs.length) return json({ ok: true });
-
-    // Findes kunden allerede? Saa er "taken" ikke en fejl — men den er
-    // heller ikke en tilmelding foer vi har set consent-tilstanden efter.
-    if (errs.some((e) => /taken|already/i.test(e?.message || ""))) {
-      return await ensureSubscribed(store, token, email);
+    if (!errs.length) {
+      customerId(created, "customerCreate"); // succes uden id er ikke en succes
+      return json({ ok: true });
     }
 
-    console.error("subscribe: userErrors", JSON.stringify(errs));
-    return json({ ok: false, error: "rejected" }, 422);
+    // Der ER fejl. Om det betyder «findes allerede» afgoeres IKKE ved at
+    // laese fejlteksten — `customerCreate.userErrors` er af typen UserError,
+    // som slet ikke har et `code`-felt (verificeret mod skemaet S568). Vi
+    // spoerger butikken i stedet: findes kunden med praecis denne email?
+    return await resolveExisting(store, token, email, errs);
   } catch (err) {
     console.error("subscribe: upstream failed", err instanceof Error ? err.message : err);
     return json({ ok: false, error: "upstream" }, 502);
@@ -248,42 +289,58 @@ export async function POST(req: Request): Promise<Response> {
 }
 
 /**
- * En allerede eksisterende kunde har ikke noedvendigvis sagt ja til
- * markedsfoering. S566-versionen svarede `{ok:true, already:true}` uden at
- * se efter — UI'et sagde «Du er i bogen» til nogen der ikke var i den.
- * Her laeser vi consent-tilstanden og saetter den hvis den mangler; det er
- * praecis det brugeren netop har bedt om ved at sende formularen.
+ * Afgoer en fejlet oprettelse ved opslag, ikke ved strengmatch.
+ *
+ * Findes kunden med PRAECIS denne email? Saa var fejlen en dublet, og
+ * brugeren har netop bedt om at komme paa listen — saet consent hvis det
+ * mangler. Findes hun ikke, var fejlen en aegte afvisning.
+ *
+ * Den praecise sammenligning er ikke pedanteri: `customers(query:)` er en
+ * SOEGNING. Uden den kunne vi saette en HELT ANDEN persons marketing-consent
+ * paa et delvist traef. (Sirius, S568.)
  */
-async function ensureSubscribed(store: string, token: string, email: string): Promise<Response> {
-  const found = await shopGraphql(store, token, FIND_CUSTOMER, { q: `email:${email}` });
-  const node = (
-    found?.customers as
-      | { edges?: Array<{ node?: { id?: string; defaultEmailAddress?: { marketingState?: string } } }> }
-      | undefined
-  )?.edges?.[0]?.node;
+async function resolveExisting(
+  store: string,
+  token: string,
+  email: string,
+  createErrors: Array<{ message?: string }>,
+): Promise<Response> {
+  const found = op(await shopGraphql(store, token, FIND_CUSTOMER, { q: emailQuery(email) }), "customers");
+  const edges = found.edges;
+  if (!Array.isArray(edges)) throw new Error("shopify_missing_edges:customers");
 
-  if (!node?.id) {
-    // Shopify sagde "taken", men vi kan ikke finde kunden. Det er en
-    // modsigelse, ikke en succes.
-    throw new Error("shopify_taken_but_not_found");
+  const exact = (edges as Array<{ node?: { id?: string; defaultEmailAddress?: { emailAddress?: string; marketingState?: string } } }>)
+    .map((e) => e?.node)
+    .filter((n) => typeof n?.id === "string" && n?.defaultEmailAddress?.emailAddress?.toLowerCase() === email);
+
+  if (exact.length === 0) {
+    // Ingen kunde med den email — saa var oprettelsesfejlen aegte.
+    console.error("subscribe: userErrors", JSON.stringify(createErrors));
+    return json({ ok: false, error: "rejected" }, 422);
+  }
+  if (exact.length > 1) {
+    throw new Error("shopify_ambiguous_customer");
   }
 
+  const node = exact[0]!;
   if (node.defaultEmailAddress?.marketingState === "SUBSCRIBED") {
     return json({ ok: true, already: true, subscribed: true });
   }
 
-  const updated = await shopGraphql(store, token, UPDATE_CONSENT, {
-    input: {
-      customerId: node.id,
-      emailMarketingConsent: { marketingState: "SUBSCRIBED", marketingOptInLevel: "SINGLE_OPT_IN" },
-    },
-  });
-  const uerrs =
-    (updated?.customerEmailMarketingConsentUpdate as { userErrors?: Array<{ message?: string }> } | undefined)
-      ?.userErrors || [];
+  const updated = op(
+    await shopGraphql(store, token, UPDATE_CONSENT, {
+      input: {
+        customerId: node.id,
+        emailMarketingConsent: { marketingState: "SUBSCRIBED", marketingOptInLevel: "SINGLE_OPT_IN" },
+      },
+    }),
+    "customerEmailMarketingConsentUpdate",
+  );
+  const uerrs = userErrors(updated, "customerEmailMarketingConsentUpdate");
   if (uerrs.length) {
     console.error("subscribe: consent update failed", JSON.stringify(uerrs));
     return json({ ok: false, error: "rejected" }, 422);
   }
+  customerId(updated, "customerEmailMarketingConsentUpdate"); // ellers ved vi ikke at den skrev
   return json({ ok: true, already: true, subscribed: true });
 }
