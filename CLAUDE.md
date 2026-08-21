@@ -14,21 +14,37 @@ findes den ikke.
 
 | Agent | Ejer | Rører ikke |
 |---|---|---|
-| **Vilde** | `lib/commerce.ts` · `SceneV05.tsx` · layout · `/flash`-struktur · mobil-dock | `Gift*`-komponenter, `/gavekort`-copy |
-| **Grok** | `components/emerge/Gift*` · `Walkin*` · `Mor*` (udførelse) · `/gavekort` · `/walk-in` · gavekort-OG | `SceneV05.tsx` ud over egen slot-linje · andres zoner |
-| **Villy** | «Under gaden»-zonen · `Kerb*` · `/shop`-kataloget · `Mor*` (design; Grok udfører) · reservations-tråden · perf/SEO/a11y-gates | `Gift*`, `Walkin*`, `/gavekort`, `/walk-in` |
-| **Haruki** | review, merge, redirects, CI, `docs/` | bygger ikke i de to andres lanes uden aftale |
+| **Vilde** | `lib/commerce.ts` · layout · `/flash`-struktur · mobil-dock | `Gift*`-komponenter, `/gavekort`-copy |
+| **Grok** | **animationerne** (`Mor*`, `Crew*`, `lib/mor.ts`, `lib/crew.ts`, `lib/voice.ts`, scenens liv) · `Gift*` · `Walkin*` · `/gavekort` · `/walk-in` · Shopify-katalogpleje (drafts) | `SceneV05.tsx` ud over egne slot-linjer · andres zoner · `lib/i18n.ts` |
+| **Villy** | «Under gaden»-zonen · `Kerb*` · `/shop`-kataloget · reservations-tråden (inkl. piercing) · **host-redirects** · perf/SEO/a11y-gates | `Gift*`, `Walkin*`, `/gavekort`, `/walk-in`, animations-CSS |
+| **Haruki** | **EN+DA-fladen** (`lib/i18n.ts`, `LangSwitch`, `/en/*`-rutetræet, hreflang-mønstret) · review, merge, CI, `docs/` · `/en/*`-rækkerne i `lib/redirects.ts` | bygger ikke i andres lanes uden aftale |
 
-**Ratificeret S567** (Vilde ↔ Grok, via Steven). Ændres lanen, ændres denne
-tabel i samme PR — ellers er den ikke ændret.
+**Ratificeret S567**, opdateret **S568** efter Stevens omfordeling: Grok bygger
+animationer, Haruki sikrer at vi har både en engelsk og en dansk version.
+Ændres lanen, ændres denne tabel i samme PR — ellers er den ikke ændret.
+
+### To grænser der er nye i S568 — læs dem, de er de eneste steder vi kan kollidere
+
+**`lib/redirects.ts` deles nu af to lanes.** Haruki ejer `/en/*`-rækkerne
+(en engelsk rute holder op med at 308'e i samme commit som siden findes).
+Villy ejer `hostRedirects` — reglerne der tager et helt subdomæne. De rører
+ikke hinanden: den ene er stier, den anden er værter. **Wildcard-sourcen
+`/:path*` må ALDRIG stå uden sin `has: [{ type: "host" }]`-vagt** — uden den
+sender vi hele hub'en ét sted hen. Testen håndhæver parret.
+
+**EN-porten af en side er sideejerens, ikke Harukis.** Haruki leverer
+mønsteret (`lib/i18n.ts` + `LangSwitch` + `alternates()`); ejeren af fladen
+porterer sin egen. `/en/shop` er altså Villys, `/en/gavekort` er Groks —
+så vi ikke bygger den samme side to gange. En engelsk rute uden en engelsk
+side skal blive ved med at 308'e til dansk: **hellere dansk end 404.**
 
 ### Slot-reglen — sådan deler fire agenter én scenefil
 
 `SceneV05.tsx` er den flade alle vil lægge objekter i. Derfor er den tynd:
 hvert kommercielt objekt er sin egen komponent med én ejer, og scenen kender
 kun **én linje** pr. objekt (`<GiftRelic />`, `<WalkinRelic />`,
-`<KerbReservation />`, `<MorBird />`). Så bliver en kollision til en triviel merge i stedet
-for en dag tabt.
+`<KerbReservation />`, `<MorBird />`, `<CrewBit />`). Så bliver en kollision
+til en triviel merge i stedet for en dag tabt.
 
 - I `SceneV05` må du kun tilføje eller ændre **din egen slot-linje**.
 - `lib/commerce.ts` er **append-only med råb**: læg din blok til, rør ikke
@@ -43,6 +59,22 @@ for en dag tabt.
 - **Ingen CSS-`transform` på en slot der er `[data-depth]`-deltager.**
   Motoren ejer transform på de bokse; centrering laves med boks-model
   (`left`/`right`/`margin-inline`). Lært i #146, bekræftet i kridt-slotten.
+- **`globals.css` har ingen «hale».** Fire lanes appender til den samme fil.
+  Afslut din blok med din egen `@media (prefers-reduced-motion: reduce)` —
+  smelt den aldrig sammen med naboens. En naiv «behold begge sider» spiser
+  én krøllet parentes, og resten af filen ligger inde i en media query der
+  aldrig lukker (#152: `Syntax error: Unclosed block` — og en hel CSS-blok
+  gik tabt i den følgende konfliktløsning uden at efterlade spor i diffen).
+- **Mål aldrig CSS med et udsnit der slutter ved filens ende.**
+  `css.slice(css.indexOf(sel))` er et hegn der flytter sig når naboen bygger.
+  Bind udsnittet til reglens egne krøllede parenteser (`ruleBody()` i
+  `tests/reservation.test.mjs`) — og læg en negativ kontrol ved siden af.
+- **Et objekt må ikke lande oven på en handling.** Bevægelige elementer i en
+  andens zone skal måles med `elementFromPoint` i selve overlap-rektanglet,
+  ikke kun geometrisk: kravet er **0 px² «æder tap» mod `.kerb__mark`** og
+  andre købsflader. Husk parallax-svinget mellem to slots med forskellig
+  `data-depth`: forskellen giver ±45 px relativ drift, så en position har
+  brug for ~5 % luft — ikke 2 %.
 
 **Krydser du en grænse:** stop og spørg ejeren. Et hurtigt spørgsmål koster
 minutter; en kollision i to agenters ucommittede arbejde koster en dag.
