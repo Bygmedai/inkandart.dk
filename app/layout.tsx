@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const display = localFont({
@@ -50,6 +51,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         <div className="grain" aria-hidden="true" />
         {children}
+        {/* Vercel Web Analytics — cookieløs, ingen PII, samme oprindelse (/_vercel/insights/*).
+            Uden denne komponent sker der intet, selv om Analytics er slået til i dashboardet. */}
+        <Analytics />
       </body>
     </html>
   );

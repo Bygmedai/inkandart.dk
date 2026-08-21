@@ -24,7 +24,12 @@ export default function PrivacyPage() {
           Booking sker via vores bookingsystem. Nyhedsbreve og formularer bruges til at svare dig,
           ikke til at sælge dine data. Du kan bede om sletning når som helst.
         </p>
-        <p>Sidst opdateret 2026-05-02.</p>
+        <p>
+          Vi måler besøg med Vercel Web Analytics. Det er cookieløst: der sættes ingen
+          cookies, der bruges ingen fingerprinting, og din IP-adresse gemmes ikke. Vi ser
+          kun hvilke sider der bliver besøgt, og hvor besøget kom fra — aldrig hvem du er.
+        </p>
+        <p>Sidst opdateret 2026-08-21.</p>
       </div>
     </main>
   );
