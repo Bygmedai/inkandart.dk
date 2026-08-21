@@ -11,8 +11,10 @@ const scene = readFileSync(join(root, "components/emerge/SceneV05.tsx"), "utf8")
 const css = readFileSync(join(root, "app/globals.css"), "utf8");
 
 test("reservationerne bruger de verificerede live-varianter", () => {
-  assert.match(commerce, /53492757627208/); // reservér en tid · 100,- → 200
-  assert.match(commerce, /53463786127688/); // heldags-session · 1.000,- → 200
+  // Levende variant: 302 på et bart kald (200 hvis man følger redirect).
+  // Død variant: 410. Se anvisningen i commerce.ts (Haruki, S568).
+  assert.match(commerce, /53492757627208/); // reservér en tid · 100,-
+  assert.match(commerce, /53463786127688/); // heldags-session · 1.000,-
   assert.match(commerce, /RESERVATIONS/);
 });
 
