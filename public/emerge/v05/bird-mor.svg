@@ -1,6 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-14 0 180 170"><defs><filter id="r" x="-18%" y="-18%" width="136%" height="136%"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" seed="101"></feTurbulence><feDisplacementMap in="SourceGraphic" scale="4"></feDisplacementMap></filter></defs><g filter="url(#r)"><path d="M20,92 C16,76 34,58 60,54 C70,36 96,30 112,40 C118,34 128,34 134,40 C142,46 142,56 136,62 C146,76 148,96 138,112 C126,130 98,140 74,136 C52,134 30,122 20,92 Z" fill="#17110e" stroke="#b8ac97" stroke-width="2.4"></path>
 <path d="M20,92 L-6,72 L2,94 L-10,96 L14,110 Z" fill="#17110e" stroke="#b8ac97" stroke-width="2.2"></path>
 <path d="M134,46 L152,52 L134,58 Z" fill="#c9a227" stroke="#0d0a08" stroke-width="1.5"></path>
+<g transform="translate(148,51) rotate(16)">
+  <rect x="0" y="-2" width="26" height="4" fill="#ddd2bf" stroke="#0d0a08" stroke-width="1.1"></rect>
+  <rect x="0" y="-2" width="5.5" height="4" fill="#8b1e1e"></rect>
+  <circle cx="26" cy="0" r="1.8" fill="#c45a5a"></circle>
+</g>
 <circle cx="123" cy="48" r="3.2" fill="#ddd2bf"></circle>
 <ellipse cx="86" cy="106" rx="36" ry="24" fill="#ddd2bf" opacity="0.92" transform="rotate(-10 86 106)"></ellipse>
 <path d="M86,96 C81,88 70,88 67,96 C64,104 74,112 86,120 C98,112 108,104 105,96 C102,88 91,88 86,96 Z" fill="#8b1e1e" stroke="#0d0a08" stroke-width="1.6"></path>

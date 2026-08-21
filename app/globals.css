@@ -1145,3 +1145,128 @@ html.emerge-js [data-loader] {
 @media (prefers-reduced-motion: reduce) {
   .gade__door, .gade__door:hover, .gade__door:focus-visible { transition: none; }
 }
+
+/* ── Fuglemor: gadens mor (Villys design, Groks udførelse) ───────────────
+   Egen blok EFTER #154's reduced-motion. To blokke, ikke én sammensmeltet.
+   Slotten er zonens overlay (inset 0). Motoren ejer transform på [data-depth].
+   Hop er left/top. Letter er transform på INNER img. */
+.mor-slot {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  pointer-events: none;
+}
+.mor {
+  position: absolute;
+  width: clamp(56px, 6.5vw, 100px);
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 12;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.7));
+  transition:
+    left 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+    top 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mor__flip,
+.mor__body {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.mor--work .mor__flip {
+  transform: scaleX(-1);
+}
+.mor--hero { width: clamp(64px, 7vw, 100px); }
+.mor--hero[data-perch="gutter"] { left: 56%; top: 86%; }
+.mor--hero[data-perch="sign"] { left: 20%; top: 24%; }
+.mor--hero[data-perch="walkin"] { left: 62%; top: 48%; }
+.mor--under { width: clamp(52px, 6vw, 84px); }
+.mor--under[data-perch="gutter"] { left: 74%; top: 86%; }
+.mor--under[data-perch="chalk"] { left: 40%; top: 72%; }
+.mor--work { width: clamp(56px, 6.5vw, 90px); }
+.mor--work[data-perch="gutter"] { left: 52%; top: 88%; }
+.mor--work[data-perch="gade"] { left: 64%; top: 78%; }
+.mor--artist { width: clamp(50px, 5.5vw, 76px); }
+.mor--artist[data-perch="gutter"] { left: 58%; top: 78%; }
+.mor--artist[data-perch="quote"] { left: 68%; top: 30%; }
+.mor--booking { width: clamp(50px, 5.5vw, 74px); }
+.mor--booking[data-perch="gutter"] { left: 60%; top: 80%; }
+.mor--booking[data-perch="gift"] { left: 72%; top: 36%; }
+
+.mor:hover:not(.is-airborne) .mor__body {
+  transform: translateY(-10px);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mor.is-airborne .mor__body {
+  animation: morLetter 1.1s ease;
+}
+@keyframes morLetter {
+  0% { transform: translateY(0) rotate(0); }
+  32% { transform: translateY(-28px) rotate(-10deg); }
+  68% { transform: translateY(8px) rotate(6deg); }
+  100% { transform: translateY(0) rotate(0); }
+}
+
+.mor__line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100% + 8px);
+  margin: 0 auto;
+  max-width: 26ch;
+  text-align: center;
+  font-family: var(--font-mono), "Space Mono", monospace;
+  font-size: clamp(8px, 0.95vw, 11px);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  line-height: 1.45;
+  color: var(--gold);
+  opacity: 0;
+  pointer-events: none;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85);
+  transition: opacity 0.4s ease;
+}
+.mor.is-said .mor__line {
+  opacity: 1;
+}
+
+.gade-tape-slot {
+  position: absolute;
+  left: 58%;
+  top: 44%;
+  width: min(38vw, 210px);
+  z-index: 8;
+  pointer-events: none;
+  transform: none;
+}
+.gade-tape {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.55));
+}
+
+@media (max-width: 640px) {
+  .mor--hero[data-perch="walkin"] { left: 70%; top: 52%; }
+  .mor--under[data-perch="gutter"] { left: 82%; top: 64%; }
+  .mor--under[data-perch="chalk"] { left: 48%; top: 56%; }
+  .mor--booking[data-perch="gift"] { left: 78%; top: 40%; }
+  .gade-tape-slot {
+    left: 48%;
+    top: 36%;
+    width: min(46vw, 180px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mor,
+  .mor:hover:not(.is-airborne) .mor__body {
+    transition: none;
+  }
+  .mor:hover:not(.is-airborne) .mor__body {
+    transform: none;
+  }
+  .mor.is-airborne .mor__body {
+    animation: none;
+  }
+}
