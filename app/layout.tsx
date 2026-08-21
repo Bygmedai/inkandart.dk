@@ -25,13 +25,23 @@ const mono = localFont({
   display: "swap",
 });
 
+/**
+ * Titel og beskrivelse er der hvor et menneske og en søgemaskine først
+ * spørger «hvad er det her?». Indtil S568 svarede vi «Et sted hvor blæk
+ * allerede skriver» — smukt, og ubrugeligt: ordet «tatovering» stod kun i
+ * to aria-labels, «piercing» stod slet ikke på siden, og to beta-testere
+ * spurgte «er det en tatoveringsbutik?». Stemningen bærer stadig; fagene
+ * står nu foran den.
+ */
 export const metadata: Metadata = {
-  title: "Ink & Art Copenhagen",
-  description: "Et sted hvor blæk allerede skriver. Larsbjørnsstræde 13, København.",
+  title: "Ink & Art Copenhagen — tatovering & piercing i Pisserenden",
+  description:
+    "Tatoveringer og piercinger i hjertet af Pisserenden. Walk-in på to små for 900 kr, book en tid, eller giv et gavekort. Larsbjørnsstræde 13, København K.",
   metadataBase: new URL("https://inkandart.dk"),
   openGraph: {
-    title: "Ink & Art Copenhagen",
-    description: "Et sted hvor blæk allerede skriver.",
+    title: "Ink & Art Copenhagen — tatovering & piercing",
+    description:
+      "Tatoveringer og piercinger i Pisserenden. Walk-in, booking og gavekort. Larsbjørnsstræde 13, København K.",
     images: ["/og-image.jpg"],
   },
 };

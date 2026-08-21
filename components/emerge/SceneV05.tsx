@@ -78,7 +78,8 @@ export function SceneV05() {
 
   <div data-depth="0.6" data-drift="0" style={{position:'relative',zIndex:'18',paddingTop:'30svh',textAlign:'center'}}>
     <h1 style={{margin:'0',fontFamily:'\'Cormorant Garamond\',serif',fontWeight:'500',fontSize:'clamp(56px,11.5vw,152px)',lineHeight:'.9',letterSpacing:'.05em',textTransform:'uppercase',textShadow:'0 6px 40px rgba(0,0,0,.8)'}}>INK <em style={{fontStyle:'italic',color:'#c9a227'}}>&</em> ART</h1>
-    <p style={{margin:'16px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'11px',letterSpacing:'.26em',textTransform:'uppercase',color:'rgba(232,224,213,.6)'}}>Larsbjørnsstræde 13 · Pisserenden · København K</p>
+    <p style={{margin:'18px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'clamp(13px,1.5vw,17px)',letterSpacing:'.34em',textTransform:'uppercase',color:'rgba(232,224,213,.92)',textShadow:'0 2px 18px rgba(0,0,0,.9)'}}>Tatovering &amp; piercing</p>
+    <p style={{margin:'10px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'11px',letterSpacing:'.26em',textTransform:'uppercase',color:'rgba(232,224,213,.68)'}}>Larsbjørnsstræde 13 · Pisserenden · København K</p>
     <div className="walkin-relic-slot"><WalkinRelic /></div>
   </div>
 
@@ -188,6 +189,20 @@ export function SceneV05() {
   <div style={{position:'absolute',left:'0',right:'0',bottom:'0',height:'16svh',background:'linear-gradient(180deg,transparent,#050404 92%)',zIndex:'9',pointerEvents:'none'}}></div>
   <div data-depth="0.7" style={{position:'absolute',left:'38%',bottom:'-4%',width:'190px',opacity:'.85',zIndex:'10'}}><img loading="lazy" src="/emerge/v05/splat-black.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(40deg)'}}/></div>
   <div data-depth="1.1" style={{position:'absolute',left:'64%',bottom:'-2%',width:'14px',zIndex:'10'}}><div style={{animation:'fall 10s linear infinite -3s'}}><img loading="lazy" src="/emerge/v05/drop-dark.svg" alt="" style={{width:'100%',display:'block'}}/></div></div>
+
+  {/* Fagets egne genstande — tilføjet efter Stevens beta-test (S568), hvor to
+      førstegangsbesøgende spurgte «er det en tatoveringsbutik?». Heroen siger
+      det nu med ord; her siger gaden det med ting. Piercing-motiverne (hoop,
+      barbell) er nye i biblioteket — huset piercer, men intet i universet
+      viste det. Placeret i kanterne, uden for kridtets bånd. */}
+  <div data-depth="0.52" style={{position:'absolute',left:'4%',top:'12%',width:'clamp(74px,9vw,132px)',zIndex:'5',opacity:'.92'}}><img loading="lazy" src="/emerge/v05/machine.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-14deg)',filter:'drop-shadow(0 12px 22px rgba(0,0,0,.65))'}}/></div>
+  <div data-depth="1.18" style={{position:'absolute',left:'88%',top:'18%',width:'clamp(56px,6.5vw,96px)',zIndex:'8'}}><img loading="lazy" src="/emerge/v05/hoop.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(8deg)',filter:'drop-shadow(0 12px 22px rgba(0,0,0,.65))'}}/></div>
+  <div data-depth="0.78" style={{position:'absolute',left:'91%',top:'40%',width:'clamp(96px,12vw,180px)',zIndex:'6',opacity:'.9'}}><img loading="lazy" src="/emerge/v05/needle.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-6deg)',filter:'drop-shadow(0 12px 22px rgba(0,0,0,.65))'}}/></div>
+  <div data-depth="1.24" style={{position:'absolute',left:'6%',top:'36%',width:'clamp(46px,5.5vw,78px)',zIndex:'8'}}><img loading="lazy" src="/emerge/v05/barbell.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-18deg)',filter:'drop-shadow(0 12px 22px rgba(0,0,0,.65))'}}/></div>
+  <div data-depth="0.62" style={{position:'absolute',left:'2%',top:'62%',width:'clamp(52px,6vw,88px)',zIndex:'6',opacity:'.85'}}><img loading="lazy" src="/emerge/v05/hoop.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-11deg)',filter:'drop-shadow(0 12px 22px rgba(0,0,0,.65))'}}/></div>
+  <div data-depth="1.3" style={{position:'absolute',left:'93%',top:'70%',width:'clamp(44px,5vw,74px)',zIndex:'8'}}><img loading="lazy" src="/emerge/v05/barbell.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(14deg)',filter:'drop-shadow(0 12px 22px rgba(0,0,0,.65))'}}/></div>
+  <div data-depth="0.9" style={{position:'absolute',left:'86%',top:'88%',width:'clamp(66px,8vw,112px)',zIndex:'7',opacity:'.88'}}><img loading="lazy" src="/emerge/v05/machine.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(9deg)',filter:'drop-shadow(0 12px 22px rgba(0,0,0,.65))'}}/></div>
+  <div data-depth="1.15" style={{position:'absolute',left:'12%',top:'90%',width:'clamp(38px,4.5vw,62px)',zIndex:'8'}}><img loading="lazy" src="/emerge/v05/dice.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-7deg)',filter:'drop-shadow(0 12px 22px rgba(0,0,0,.65))'}}/></div>
 </section>
 
 <section id="work" data-screen-label="Work" style={{position:'relative',zIndex:'4',height:'180svh',background:'linear-gradient(180deg,#050404 0%,#0b0808 26%,#0d0908 62%,#070505 100%)'}}>
