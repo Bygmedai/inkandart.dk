@@ -15,7 +15,7 @@ findes den ikke.
 | Agent | Ejer | Rører ikke |
 |---|---|---|
 | **Vilde** | `lib/commerce.ts` · `SceneV05.tsx` · layout · `/flash`-struktur · mobil-dock | `Gift*`-komponenter, `/gavekort`-copy |
-| **Grok** | `components/emerge/Gift*` · `Walkin*` · `/gavekort` · `/walk-in` · gavekort-OG | `SceneV05.tsx` ud over egen slot-linje · andres zoner |
+| **Grok** | `components/emerge/Gift*` · `Walkin*` · `Mor*` · `/gavekort` · `/walk-in` · gavekort-OG · Shopify-katalogpleje (drafts, ikke publish) | `SceneV05.tsx` ud over egen slot-linje · andres zoner |
 | **Villy** | «Under gaden»-zonen · `Kerb*` · reservations-tråden · perf/SEO/a11y-gates | `Gift*`, `Walkin*`, `/gavekort`, `/walk-in` |
 | **Haruki** | review, merge, redirects, CI, `docs/` | bygger ikke i de to andres lanes uden aftale |
 
@@ -27,7 +27,7 @@ tabel i samme PR — ellers er den ikke ændret.
 `SceneV05.tsx` er den flade alle vil lægge objekter i. Derfor er den tynd:
 hvert kommercielt objekt er sin egen komponent med én ejer, og scenen kender
 kun **én linje** pr. objekt (`<GiftRelic />`, `<WalkinRelic />`,
-`<KerbReservation />`). Så bliver en kollision til en triviel merge i stedet
+`<KerbReservation />`, `<MorBird />`). Så bliver en kollision til en triviel merge i stedet
 for en dag tabt.
 
 - I `SceneV05` må du kun tilføje eller ændre **din egen slot-linje**.
