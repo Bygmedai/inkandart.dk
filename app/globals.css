@@ -682,7 +682,23 @@ html.emerge-js [data-loader] {
   cursor: pointer;
 }
 .gift-voucher--note {
+  width: 100%;
   max-width: 540px;
+  aspect-ratio: auto;
+  height: auto;
+  /* Kreditkort-forholdet er gulv, ikke loft — hilsenen må skubbe. */
+  min-height: calc(100cqi / 1.586);
+}
+.gift-voucher--note .gift-voucher__inset {
+  position: static;
+  inset: auto;
+  margin: 12px;
+  min-height: calc(100cqi / 1.586 - 24px);
+  box-sizing: border-box;
+}
+.gift-note__foot {
+  margin-top: auto;
+  padding-top: 16px;
 }
 .gift-note__to,
 .gift-note__from {
@@ -710,6 +726,7 @@ html.emerge-js [data-loader] {
   font-size: clamp(18px, 2.4vw, 24px);
   color: var(--gold);
   white-space: pre-line;
+  overflow-wrap: anywhere;
 }
 .gift-note__code {
   margin: 16px 0 0;
@@ -722,6 +739,8 @@ html.emerge-js [data-loader] {
 .gift-kort-stage {
   margin-top: 36px;
   max-width: 540px;
+  width: 100%;
+  container-type: inline-size;
 }
 .gift-print-hint {
   margin-top: 28px;
@@ -747,6 +766,11 @@ html.emerge-js [data-loader] {
     box-shadow: none;
     transform: none;
     break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .gift-voucher--note {
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 }
 
