@@ -63,3 +63,12 @@ test("småteksten i gaden holder AA-kontrast — opacity må ikke skride ned ige
     assert.ok(alphaOf(s) >= 0.58, `${s}: alpha ${alphaOf(s)} er under kontrast-gulvet`);
   }
 });
+
+test("/shop er ikke forældreløs — der går en dør ind fra forsiden", () => {
+  // Målt 2026-08-21 mod produktion: /shop lå i sitemap.xml, men forsiden
+  // havde NUL links til den (kun /gavekort, /flash, /blackbook). Google
+  // kunne indeksere kataloget; et menneske kunne ikke finde det. En side
+  // uden en dør er ikke en side, den er en URL.
+  const scene = readFileSync(join(root, "components/emerge/SceneV05.tsx"), "utf8");
+  assert.match(scene, /href="\/shop"/, "forsiden skal linke til kataloget");
+});

@@ -1141,6 +1141,10 @@ html.emerge-js [data-loader] {
   color: rgba(201, 162, 39, 0.85);
   border-bottom: 1px solid rgba(201, 162, 39, 0.4);
   padding-bottom: 2px;
+  /* Selvstændig CTA, ikke et link i en sætning → 24×24 (SC 2.5.8). */
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
 }
 @media (prefers-reduced-motion: reduce) {
   .gade__door, .gade__door:hover, .gade__door:focus-visible { transition: none; }
@@ -1248,7 +1252,11 @@ html.emerge-js [data-loader] {
 
 @media (max-width: 640px) {
   .mor--hero[data-perch="walkin"] { left: 70%; top: 52%; }
-  .mor--under[data-perch="gutter"] { left: 82%; top: 64%; }
+  /* 64% lagde hende oven på kridtets 100 kr-mærke: 2554 px² målt med
+     elementFromPoint, altså et dødt hjørne på husets billigste indgang.
+     50% giver ~11% luft til kridtets overkant (61%) — rigeligt til
+     parallax-svinget mellem mor-slot (1.12) og kerb-slot (0.62), ±45 px. */
+  .mor--under[data-perch="gutter"] { left: 82%; top: 50%; }
   .mor--under[data-perch="chalk"] { left: 48%; top: 56%; }
   .mor--booking[data-perch="gift"] { left: 78%; top: 40%; }
   .gade-tape-slot {
@@ -1269,4 +1277,20 @@ html.emerge-js [data-loader] {
   .mor.is-airborne .mor__body {
     animation: none;
   }
+}
+
+/* ── Tap-mål på navigation (WCAG 2.2 SC 2.5.8: 24×24) ────────────────────
+   Tilbage-linket «← Ink & Art» står øverst på hver underside som en
+   selvstændig navigation — ikke som et link inde i en sætning, så
+   undtagelsen for inline-links gælder ikke. Målt til 103×16 på alle otte
+   sider (2026-08-21). Vi rører hverken skrift, farve eller placering:
+   kun den lodrette ramme om selve linket.
+
+   Links INDE i en sætning (fx «book» og telefonnummeret i kridtets note)
+   er bevidst ikke omfattet — de er undtaget i SC 2.5.8, og en ramme om
+   dem ville bryde linjefaldet i brødteksten. */
+main p a[href="/"] {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
 }
