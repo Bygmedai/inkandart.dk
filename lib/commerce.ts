@@ -34,6 +34,23 @@ export const GIFT_CARDS: GiftCard[] = [
 /** Produktsiden — alle beløb (også 100 / 250 / 4000). */
 export const GIFT_CARD_PRODUCT_URL = `https://${SHOPIFY_DOMAIN}/products/${GIFT_CARD_HANDLE}`;
 
+/**
+ * Walk-in: to små tattoos, 900 kr. Live Shopify-produkt
+ * (handle 2-sma-tattoos-walk-in-tilbud, variant availableForSale).
+ * Svalen i heroen er døren — checkout via cart-permalink, samme handoff som gavekort.
+ */
+export const WALKIN = {
+  kr: 900,
+  variantId: "53492552827208",
+  handle: "2-sma-tattoos-walk-in-tilbud",
+} as const;
+
+export const WALKIN_PRODUCT_URL = `https://${SHOPIFY_DOMAIN}/products/${WALKIN.handle}`;
+
+export function walkinCartUrl(): string {
+  return cartUrl(WALKIN.variantId);
+}
+
 /** Cart-permalink for enhver variant (gavekort, flash, …): lægger varen i
     kurven og sender direkte til Shopify-checkout. */
 export function cartUrl(variantId: string): string {

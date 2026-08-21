@@ -16,7 +16,6 @@ test("next.config uses the explicit redirect matrix", () => {
 
 test("matrix covers the retired 11ty routes", () => {
   const required = [
-    "/walk-in/",
     "/artister/",
     "/artister/nizar/",
     "/find-din-tatovering/",
@@ -32,6 +31,11 @@ test("matrix covers the retired 11ty routes", () => {
   for (const from of required) {
     assert.match(redirectsSrc, new RegExp(from.replace(/[.*]/g, "\\$&")));
   }
+});
+
+test("Danish walk-in is a live page, not a 308 to the chair", () => {
+  assert.doesNotMatch(redirectsSrc, /slashPair\("\/walk-in"/);
+  assert.doesNotMatch(redirectsSrc, /from: "\/walk-in\/", to: "\/#booking"/);
 });
 
 test("named artist keeps its own anchor", () => {

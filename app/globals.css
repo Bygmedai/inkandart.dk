@@ -695,3 +695,67 @@ html.emerge-js [data-loader] {
     transition: none;
   }
 }
+
+/* Walk-in-skilt: søster til Larsbjørnsstræde-skiltet. Svalen sidder på. */
+.walkin-relic-slot {
+  width: min(58vw, 260px);
+  margin-inline: auto;
+  margin-top: 22px;
+  padding-top: 20px;
+  /* SceneMotor ejer transform på [data-depth]. Centrering er boks-model. */
+}
+.walkin-relic {
+  position: relative;
+  display: block;
+  color: inherit;
+  transform: rotate(-3.5deg);
+  filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.65));
+  transition:
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.5s ease;
+}
+.walkin-relic__sign {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.walkin-relic__swallow {
+  position: absolute;
+  right: 6%;
+  top: -26%;
+  width: 30%;
+  height: auto;
+  pointer-events: none;
+  filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.6));
+  transform: rotate(-8deg);
+}
+.walkin-relic:hover,
+.walkin-relic:focus-visible {
+  transform: rotate(-1.5deg) translateY(-4px);
+  filter: drop-shadow(0 22px 34px rgba(0, 0, 0, 0.8));
+}
+.walkin-relic:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 8px;
+}
+.walkin-page {
+  min-height: 100svh;
+  padding: 28px 0 96px;
+}
+.walkin-page__inner {
+  margin: 0 auto;
+  max-width: 68ch;
+  padding: 0 var(--gutter);
+}
+.walkin-page__relic {
+  margin-top: 48px;
+  max-width: 380px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .walkin-relic,
+  .walkin-relic:hover,
+  .walkin-relic:focus-visible {
+    transform: none;
+    transition: none;
+  }
+}

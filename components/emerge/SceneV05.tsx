@@ -2,6 +2,7 @@
 import { BlackbookSignup } from "./BlackbookSignup";
 import { GiftRelic } from "./GiftRelic";
 import { SceneMotor } from "./SceneMotor";
+import { WalkinRelic } from "./WalkinRelic";
 
 
 /**
@@ -70,9 +71,10 @@ export function SceneV05() {
   <div data-depth="0.53" style={{position:'absolute',left:'26.5%',bottom:'7%',width:'42px',zIndex:'5'}}><img src="/emerge/v05/cup.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(6deg)',filter:'drop-shadow(0 8px 14px rgba(0,0,0,.6))'}}/></div>
   <div data-depth="0.45" style={{position:'absolute',left:'78%',top:'50%',width:'44px',opacity:'.8',zIndex:'4'}}><img src="/emerge/v05/skull.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(14deg)'}}/></div>
 
-  <div data-depth="0.6" data-drift="0" style={{position:'relative',zIndex:'18',paddingTop:'35svh',textAlign:'center'}}>
+  <div data-depth="0.6" data-drift="0" style={{position:'relative',zIndex:'18',paddingTop:'30svh',textAlign:'center'}}>
     <h1 style={{margin:'0',fontFamily:'\'Cormorant Garamond\',serif',fontWeight:'500',fontSize:'clamp(56px,11.5vw,152px)',lineHeight:'.9',letterSpacing:'.05em',textTransform:'uppercase',textShadow:'0 6px 40px rgba(0,0,0,.8)'}}>INK <em style={{fontStyle:'italic',color:'#c9a227'}}>&</em> ART</h1>
     <p style={{margin:'16px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'11px',letterSpacing:'.26em',textTransform:'uppercase',color:'rgba(232,224,213,.6)'}}>Larsbjørnsstræde 13 · Pisserenden · København K</p>
+    <div className="walkin-relic-slot"><WalkinRelic /></div>
   </div>
 
   <div className="v5m-machine-big" data-depth="1.0" style={{position:'absolute',left:'-6%',top:'24%',width:'clamp(200px,24vw,340px)',zIndex:'9'}}><img src="/emerge/v05/machine.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-28deg)',filter:'drop-shadow(0 26px 44px rgba(0,0,0,.75))'}}/></div>
