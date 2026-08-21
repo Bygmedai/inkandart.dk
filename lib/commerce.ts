@@ -58,6 +58,48 @@ export function walkinCartUrl(): string {
   return cartUrl(WALKIN.variantId);
 }
 
+/**
+ * Reservationer — depositum der holder en plads (Villy, S567).
+ *
+ * Begge er live Shopify-produkter af typen "Depositum": beløbet trækkes fra
+ * prisen på tatoveringen, og selve tiden aftales bagefter. Det er derfor
+ * copy'en siger «trækkes fra» og ikke «du har en tid» (rails §4).
+ *
+ * Verificeret 2026-08-21 mod den rigtige butik — positiv OG negativ kontrol.
+ * NB (Haruki, S568): en LEVENDE variant svarer 302 på et bart kald; de 200
+ * dukker først op hvis du følger redirect (curl -L). En DØD svarer 410 med
+ * det samme. Mål derfor 302-eller-fulgt-200 mod 410 — ikke «200 mod 410»:
+ *   cart/53492757627208:1 → 302 (fulgt: 200)   reservér en tid · 100,-
+ *   cart/53463786127688:1 → 302 (fulgt: 200)   heldags-session 4t+ · 1.000,-
+ *   cart/99999999999999:1 → 410                negativ kontrol
+ *
+ * NB: de fire piercing-depositum-varianter er 410 (ikke købbare) og indgår
+ * derfor ikke — en død handling er værre end ingen (rails §4).
+ */
+export type Reservation = {
+  kr: number;
+  variantId: string;
+  /** Kridtets overlinje — hvad pladsen er. */
+  label: string;
+  /** Skærmlæser-sætningen; kridtet er grafik. */
+  aria: string;
+};
+
+export const RESERVATIONS: Reservation[] = [
+  {
+    kr: 100,
+    variantId: "53492757627208",
+    label: "Hold min plads",
+    aria: "Reservér en tid med 100 kroner i depositum",
+  },
+  {
+    kr: 1000,
+    variantId: "53463786127688",
+    label: "Hele dagen",
+    aria: "Reservér en heldags-session med 1.000 kroner i depositum",
+  },
+];
+
 /** Cart-permalink for enhver variant (gavekort, flash, …): lægger varen i
     kurven og sender direkte til Shopify-checkout. */
 export function cartUrl(variantId: string): string {
