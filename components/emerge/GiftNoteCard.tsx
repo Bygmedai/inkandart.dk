@@ -35,9 +35,15 @@ export function GiftNoteCard({ note }: { note: GiftNote }) {
         </div>
       </div>
       {/* eslint-disable-next-line @next/next/no-img-element */}
+      {/* Bliver på v05 med vilje (Villy, S569). Kassen er låst til 88×96, og
+          v06-rosen har forholdet 0,768 — den ville blive maset 19 % fladere.
+          En SVG letterboxer i en skæv kasse; en WebP strækkes. Målt i
+          browseren, og hegnet i tests/figur-form.test.mjs holder det fast.
+          Skal den skiftes, skal kassen samtidig til 88×115 — og det er
+          layout i Groks Gift*-lane, ikke en asset-udskiftning. */}
       <img
         className="gift-voucher__rose"
-        src="/emerge/v06/rose-940.webp"
+        src="/emerge/v05/rose.svg"
         alt=""
         width={88}
         height={96}
