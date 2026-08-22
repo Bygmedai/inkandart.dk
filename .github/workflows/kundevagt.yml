@@ -1,0 +1,30 @@
+# Kundevagt — læser produktet som en kunde, hver 6. time.
+#
+# Liveness er ikke leverance (Geopol: 5.579 grønne cron-kørsler mens
+# produktet stod stille). Denne vagt åbner siderne, prøver kurven og de
+# engelske døre — med negative kontroller, så grøn beviser noget.
+#
+# Kendt begrænsning: GitHub slår cron fra efter 60 dages repo-stilhed.
+# Weekly cron-rebuild holder repoet i live; ryger den, ryger vagten også —
+# fraværet af kørsler er derfor også et signal (tjek Actions-fanen).
+name: Kundevagt
+on:
+  schedule:
+    - cron: "23 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  kundevagt:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node scripts/kundevagt.mjs
