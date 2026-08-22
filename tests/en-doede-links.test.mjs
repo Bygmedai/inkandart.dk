@@ -60,3 +60,36 @@ test("negativ kontrol: hegnet ville fange en rute vi ikke har bygget", () => {
   assert.equal(findes.has("/en/findes-ikke"), false);
   assert.equal(findes.has("/en/walk-in"), true, "walk-in ER bygget og skal tælle som levende");
 });
+
+/* ── S568, Haruki: hegnet flyttet fra testen ind i funktionen ──────────────
+   Vildes test ovenfor læser kildetekst. Et computed localePath(lang, "/x")
+   er usynligt for et regex — og præcis dét lod fire døde døre nå produktion
+   på /en. Nu KAN localePath ikke pege på en rute der ikke findes.          */
+
+test("REGRESSION: localePath kan ikke bygge en engelsk rute vi ikke har", async () => {
+  const { localePath, EN_ROUTES } = await import("../lib/i18n.ts");
+  // Målt i produktion 22/8: /en/gavekort og /en/blackbook svarede 410 GONE,
+  // og forsiden /en linkede til dem fire gange.
+  assert.equal(localePath("en", "/gavekort"), "/gavekort");
+  assert.equal(localePath("en", "/blackbook"), "/blackbook");
+  // De byggede ruter skal stadig blive engelske.
+  assert.equal(localePath("en", "/walk-in"), "/en/walk-in");
+  assert.equal(localePath("en", "/shop"), "/en/shop");
+  assert.equal(localePath("en", "/"), "/en");
+  // Dansk er upåvirket.
+  assert.equal(localePath("da", "/gavekort"), "/gavekort");
+  // Fragment og query overlever.
+  assert.equal(localePath("en", "/#booking"), "/en#booking");
+});
+
+test("registeret matcher de sider der faktisk findes på disken", async () => {
+  const { EN_ROUTES } = await import("../lib/i18n.ts");
+  const dir = join(root, "app/en");
+  const paa_disken = new Set(["/"]);
+  for (const d of readdirSync(dir, { withFileTypes: true })) {
+    if (!d.isDirectory() || d.name.startsWith("[")) continue;
+    if (existsSync(join(dir, d.name, "page.tsx"))) paa_disken.add(`/${d.name}`);
+  }
+  assert.deepEqual([...EN_ROUTES].sort(), [...paa_disken].sort(),
+    "EN_ROUTES skal opdateres i samme PR som en /en-side bygges eller fjernes");
+});
