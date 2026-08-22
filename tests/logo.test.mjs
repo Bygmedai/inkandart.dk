@@ -39,7 +39,7 @@ function webpMaal(sti) {
 test("seglet ligger i repoet — ikke i en gitignoreret build-mappe", () => {
   assert.ok(existsSync(join(root, LOGO)), `${LOGO} mangler`);
   assert.ok(
-    existsSync(join(root, "assets/logo-original.png")),
+    existsSync(join(root, "assets/brand/logo-original.png")),
     "originalen skal ligge med, så ingen skal grave i git-historikken igen",
   );
 });
@@ -107,4 +107,59 @@ test("negativ kontrol: vidnet læser den rigtige clamp", () => {
   const h1 = heroOverskrift();
   assert.ok(h1.length < 1200, `h1-udsnittet er ${h1.length} tegn — det har grebet for meget`);
   assert.doesNotMatch(h1, /data-depth|v05\/|hero-cta/, "udsnittet har fanget nabo-markup");
+});
+
+/** Bredde/højde fra en JPEG's SOF-marker. */
+function jpegMaal(sti) {
+  const b = readFileSync(sti);
+  let i = 2;
+  while (i < b.length) {
+    if (b[i] !== 0xff) { i++; continue; }
+    const m = b[i + 1];
+    // SOF0..SOF3, SOF5..SOF7, SOF9..SOF11, SOF13..SOF15 bærer målene
+    if (m >= 0xc0 && m <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(m)) {
+      return [b.readUInt16BE(i + 7), b.readUInt16BE(i + 5)];
+    }
+    i += 2 + b.readUInt16BE(i + 2);
+  }
+  return null;
+}
+
+test("delekortet er et rigtigt billede i den lovede størrelse", () => {
+  // CLAUDE.md §5: et OG-billede skal bekræftes som et ægte billede i den
+  // lovede størrelse. Det gamle var et foto af studiets baglokale — køleskab,
+  // forsyningsskab, skraldespand — og bar hverken navn eller mærke. Det er
+  // sitets ansigt hver eneste gang nogen deler linket.
+  const sti = join(root, "public/og-image.jpg");
+  assert.ok(existsSync(sti), "og-image.jpg mangler");
+  const maal = jpegMaal(sti);
+  assert.ok(maal, "og-image.jpg er ikke en læsbar JPEG");
+  assert.deepEqual(maal, [1200, 630], `OG-billedet er ${maal.join("x")}, ikke 1200x630`);
+  // Det gamle foto vejede 135 kB. Et brandkort skal ikke veje mere.
+  const kb = readFileSync(sti).length / 1024;
+  assert.ok(kb < 120, `og-image.jpg vejer ${kb.toFixed(0)} kB`);
+});
+
+test("ikonerne er lavet af mærket — emblemet hvor seglet er for tæt", () => {
+  // Hele seglet mast ned i 32px blev til ulæseligt mudder: den gotiske
+  // ringtekst kan ikke overleve dér. Favicon'et bruger derfor emblemet —
+  // de krydsede maskiner inde i seglet — som holder helt ned til 16px.
+  assert.ok(existsSync(join(root, "public/brand/emblem.svg")), "emblemet mangler");
+  const emblem = readFileSync(join(root, "public/brand/emblem.svg"), "utf8");
+  assert.match(emblem, /<svg[^>]*viewBox=/);
+  assert.match(emblem, /currentColor/, "emblemet skal arve farve, så det kan bruges i flere sammenhænge");
+  for (const f of ["public/favicon-32.png", "public/favicon.ico", "public/apple-touch-icon.png"]) {
+    assert.ok(existsSync(join(root, f)), `${f} mangler`);
+  }
+});
+
+test("intet er slettet — originalerne ligger i assets/brand", () => {
+  // Huset pensionerer, det sletter ikke. Nizar har tegnet mærket selv;
+  // hans original og det gamle delekort skal kunne findes igen.
+  for (const f of [
+    "assets/brand/logo-original.png",
+    "assets/brand/og-image-studiefoto-pensioneret.jpg",
+  ]) {
+    assert.ok(existsSync(join(root, f)), `${f} skal bevares`);
+  }
 });
