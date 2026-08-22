@@ -161,3 +161,27 @@ test("negativ kontrol: vagt-vidnet er uafhængigt af feltrækkefølge", () => {
   const i = unguarded.indexOf('source: "/:path*"');
   assert.doesNotMatch(enclosingObject(unguarded, i), guard, "ubeskyttet wildcard skulle være fanget");
 });
+
+test("en dansk side under /en/ 308'er til dansk — den dør aldrig med 410 (S568-accept)", () => {
+  // Positiv: /en/gavekort var 410 i produktion 2026-08-22 — en kunde med et
+  // delt engelsk link ramte en død dør. §1-reglen: hellere dansk end 404/410.
+  for (const sti of ["/en/gavekort", "/en/blackbook", "/en/gavekort/giv"]) {
+    assert.match(
+      redirectsSrc,
+      new RegExp(`slashPair\\("${sti.replace(/\//g, "\\/")}"`),
+      `${sti} mangler sin 308 til den danske side`,
+    );
+  }
+  // Negativ kontrol 1: ruter med en RIGTIG engelsk side må ALDRIG stå i
+  // matricen — en 308 her ville skjule den engelske flade.
+  for (const levende of ["/en/walk-in", "/en/shop"]) {
+    assert.doesNotMatch(
+      redirectsSrc,
+      new RegExp(`slashPair\\("${levende.replace(/\//g, "\\/")}"`),
+      `${levende} har en engelsk side og må ikke redirectes`,
+    );
+  }
+  // Negativ kontrol 2: destinationer er danske stier, ikke /en/*.
+  const gavekortRow = enclosingObject(redirectsSrc, redirectsSrc.indexOf('"/en/gavekort/"'));
+  assert.match(gavekortRow, /to: "\/gavekort\/"/);
+});
