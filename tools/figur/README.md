@@ -10,7 +10,13 @@ installeret som standard, og installationen stod ingen steder (Villy, S569).
     pip install cairosvg pillow
     npm i -g svgo
 
-    export RECRAFT_KEY_FILE=/tmp/.recraft_key   # hentes fra Bitwarden, ALDRIG fra repo/chat
+Nøglen kan komme to veje. **Aldrig fra repo, commit eller chat.**
+
+    export RECRAFT_API_KEY=…                    # remote-miljø: sæt den i miljøets
+                                                # indstillinger, så rører den aldrig disk
+    export RECRAFT_KEY_FILE=/tmp/.recraft_key   # lokal maskine: Bitwarden-slusen
+
+Variablen vinder over filen. Uden nogen af dem siger `rc.mjs` én linje og stopper.
 
     # 1. tegn (raster, fuld stilkontrol)
     node rc.mjs gen --n 4 --style any --model recraftv4_1 --o /tmp/rose \

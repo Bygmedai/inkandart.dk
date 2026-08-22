@@ -6,10 +6,24 @@ const BASE = "https://external.api.recraft.ai/v1";
 // README beder dig saette RECRAFT_KEY_FILE, og curl-trinnet bruger den. Den her
 // fil gjorde ikke — stien var hardkodet, saa halvdelen af opskriften adloed
 // variablen og den anden halvdel crashede paa en fil der ikke fandtes.
+// To kanaler, fordi vi koerer to slags maskiner:
+//   RECRAFT_API_KEY   — miljoevariabel. Den rigtige vej i et remote-miljoe, hvor
+//                       noeglen saettes i miljoeets indstillinger og aldrig
+//                       passerer en chat, en fil eller en commit.
+//   RECRAFT_KEY_FILE  — sti til en fil (default /tmp/.recraft_key). Bitwarden-
+//                       slusen paa en lokal maskine.
+// Variablen vinder, saa et miljoe kan koere uden at laegge noeglen paa disk.
 const KEY_FILE = process.env.RECRAFT_KEY_FILE ?? "/tmp/.recraft_key";
-let KEY;
-try { KEY = readFileSync(KEY_FILE,"utf8").trim(); }
-catch { console.error(`ingen noegle i ${KEY_FILE} — saet RECRAFT_KEY_FILE, hent noeglen fra Bitwarden (ALDRIG fra repo/chat)`); process.exit(1); }
+let KEY = process.env.RECRAFT_API_KEY?.trim();
+if (!KEY) {
+  try { KEY = readFileSync(KEY_FILE,"utf8").trim(); }
+  catch {
+    console.error(
+      `ingen noegle. Saet RECRAFT_API_KEY i miljoeet, eller laeg noeglen i ${KEY_FILE} ` +
+      `(RECRAFT_KEY_FILE peger et andet sted hen). Hentes fra Bitwarden — ALDRIG fra repo, commit eller chat.`);
+    process.exit(1);
+  }
+}
 const MIME={".png":"image/png",".jpg":"image/jpeg",".jpeg":"image/jpeg",".svg":"image/svg+xml",".webp":"image/webp"};
 const dataUrl=p=>`data:${MIME[extname(p).toLowerCase()]??"image/png"};base64,${readFileSync(p).toString("base64")}`;
 async function call(path, body, method="POST"){
