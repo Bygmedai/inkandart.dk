@@ -42,7 +42,16 @@ export const metadata: Metadata = {
     title: "Ink & Art Copenhagen — tatovering & piercing",
     description:
       "Tatoveringer og piercinger i Pisserenden. Walk-in, booking og gavekort. Larsbjørnsstræde 13, København K.",
-    images: ["/og-image.jpg"],
+    /* Nyt filnavn med vilje. WhatsApp, Facebook, LinkedIn og iMessage cacher
+       et OG-billede pr. URL og slipper det ikke af sig selv — et link der
+       allerede er delt ville blive ved med at vise det gamle baglokale-foto,
+       uanset hvad vi lagde på /og-image.jpg. En ny sti har ingen cache at
+       ramme. Filen bag det gamle navn er også skiftet, så alt der peger
+       derhen får det rigtige billede. */
+    images: [
+      { url: "/og-inkandart-2026.jpg", width: 1200, height: 630,
+        alt: "Ink & Art Copenhagen — tatovering & piercing, Larsbjørnsstræde 13" },
+    ],
   },
 };
 

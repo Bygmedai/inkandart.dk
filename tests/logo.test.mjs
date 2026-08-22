@@ -125,6 +125,25 @@ function jpegMaal(sti) {
   return null;
 }
 
+test("det delekort layoutet PEGER på, findes faktisk", () => {
+  // CLAUDE.md §5's fælde: en og:image der peger på en fil der ikke er der,
+  // består build og fejler i drift — du opdager det først når nogen deler
+  // linket og der ikke kommer noget billede. Vidnet følger stien.
+  const layout = readFileSync(join(root, "app/layout.tsx"), "utf8");
+  const m = layout.match(/url:\s*"(\/[^"]+\.(?:jpg|jpeg|png|webp))"/);
+  assert.ok(m, "kunne ikke finde og:image-stien i layout.tsx");
+  const fil = join(root, "public", m[1]);
+  assert.ok(existsSync(fil), `layout peger på ${m[1]}, men filen findes ikke i public/`);
+  const maal = jpegMaal(fil);
+  assert.deepEqual(maal, [1200, 630], `${m[1]} er ${maal?.join("x")}, ikke 1200x630`);
+
+  // Filnavnet skal være versioneret. Platformene cacher pr. URL og slipper
+  // ikke af sig selv; genbruges /og-image.jpg, viser gamle delinger det
+  // gamle billede for evigt.
+  assert.notEqual(m[1], "/og-image.jpg",
+    "delekortet skal have et versioneret filnavn, ellers rammer vi platformenes cache");
+});
+
 test("delekortet er et rigtigt billede i den lovede størrelse", () => {
   // CLAUDE.md §5: et OG-billede skal bekræftes som et ægte billede i den
   // lovede størrelse. Det gamle var et foto af studiets baglokale — køleskab,
