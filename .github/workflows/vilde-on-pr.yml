@@ -21,6 +21,13 @@ on:
         required: true
         type: string
 
+# Én Vilde ad gangen pr. PR. Nyt push aflyser det review der allerede kører —
+# det var alligevel forældet i samme sekund commit'en landede.
+# Målt 21-08: 100 runs fordelt på 39 branches = 61 overflødige reviews.
+concurrency:
+  group: vilde-qa-${{ github.event.pull_request.number || github.event.inputs.pr_number }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
   pull-requests: write  # for at poste comments
@@ -29,6 +36,8 @@ permissions:
 
 jobs:
   vilde-qa:
+    # Drafts reviewes ikke. Vilde kigger når PR'en er klar til mennesker.
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -59,7 +68,7 @@ jobs:
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          claude_args: "--model claude-sonnet-4-6 --max-turns 25"
+          claude_args: "--model claude-sonnet-4-6 --max-turns 15"
           # mode is auto-detected: providing 'prompt' triggers automation mode
           track_progress: "true"
           prompt: |
