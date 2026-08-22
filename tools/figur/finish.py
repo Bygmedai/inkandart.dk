@@ -33,6 +33,7 @@ def snap(rgb, mono=False):
 def hexs(rgb): return '#%02x%02x%02x' % rgb
 
 def process(src, dst, keep_bg=False, mono=False):
+    fjernet_antal = None
     s = open(src).read()
     m = re.search(r'viewBox="([\d.\- ]+)"', s)
     vb = [float(x) for x in m.group(1).split()]
@@ -53,6 +54,7 @@ def process(src, dst, keep_bg=False, mono=False):
             if dm and is_bg(dm.group(1)) and removed==0:
                 s = s.replace(t, '', 1); removed+=1
         print(f'  baggrundsflader fjernet: {removed}')
+        fjernet_antal = removed
 
     # farvesnap
     seen={}
@@ -74,6 +76,19 @@ def process(src, dst, keep_bg=False, mono=False):
     png = tempfile.mktemp(suffix='.png')
     cairosvg.svg2png(url=tmp, write_to=png, output_width=800, background_color=None)
     im = Image.open(png).convert('RGBA'); bb = im.getbbox()
+
+    # Vidnet. is_bg() gaetter paa path-strengen og kender kun rene M/L-polygoner;
+    # `M0 0H2048V2048H0Z` (som Recraft ogsaa udsender — se skull.svg) slipper
+    # igennem. Foer sagde scriptet bare "baggrundsflader fjernet: 0" og koerte
+    # videre, og du opdagede foerst kassen naar figuren laa i collagen.
+    # Vi renderer alligevel her, saa vi MAALER resultatet i stedet for at tro paa
+    # heuristikken: er hjoernerne ikke gennemsigtige, er baggrunden der stadig.
+    if not keep_bg:
+        hj = [im.getpixel(p) for p in
+              [(0,0), (im.width-1,0), (0,im.height-1), (im.width-1,im.height-1)]]
+        if any(px[3] != 0 for px in hj):
+            sys.exit(f'FEJL: baggrundsfladen sidder der stadig (fjernet: {fjernet_antal}). '
+                     f'Se paa path-formatet i {src} — is_bg() kender kun M/L-polygoner.')
     if bb:
         sx = vb[2]/im.width; sy = vb[3]/im.height
         pad = vb[2]*0.01

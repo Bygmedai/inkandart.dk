@@ -19,9 +19,9 @@ const figurer: Fig[] = [
   {
     navn: "svale",
     v05: "/emerge/v05/swallow.svg",
-    v06: "/emerge/v06/swallow-240.webp",
-    bredder: [54, 120, 240],
-    note: "Flyver på tværs af forsiden i 40–54px og sidder på gavekortet i 120px. Personligheden skal overleve i det små: kompakt krop, stort hoved, rød strube, kløftet hale.",
+    v06: "/emerge/v06/swallow-298.webp",
+    bredder: [54, 120, 149],
+    note: "Flyver på tværs af forsiden og sidder på gavekortet. Målt på den levende forside er den største forekomst 149px (96px på mobil) — rækkerne herunder er de rigtige størrelser, ikke runde tal. Personligheden skal overleve i det små: kompakt krop, stort hoved, rød strube, kløftet hale.",
   },
   {
     navn: "rose",
@@ -51,6 +51,11 @@ export default function FigurLab() {
         giver volumen, og ét lys fra øverste venstre hjørne på tværs af hele sættet.
         v05 havde én flad flade og den samme 2,4px kontur hele vejen rundt om hver
         eneste figur.
+      </p>
+      <p style={{ maxWidth: "62ch", lineHeight: 1.6, opacity: 0.55, margin: "-32px 0 48px", fontSize: 14 }}>
+        Alle tre v06-filer er 2× den største viste størrelse, så ingen af dem
+        skaleres op på en 2×-skærm. Uden det ville den mindste figur se blødere ud
+        end de andre af en grund der intet har med tegningen at gøre.
       </p>
 
       {figurer.map((f) => (

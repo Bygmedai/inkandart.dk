@@ -1,6 +1,14 @@
 # Figur-pipeline — Ink & Art
 
-Sådan laves en collage-figur. Fire trin, reproducerbart, ingen browser.
+Sådan laves en collage-figur. Fem trin, reproducerbart, ingen browser.
+
+## Først: værktøjerne
+
+Opskriften kunne ikke køres som den stod — `svgo` og `cairosvg` er ikke
+installeret som standard, og installationen stod ingen steder (Villy, S569).
+
+    pip install cairosvg pillow
+    npm i -g svgo
 
     export RECRAFT_KEY_FILE=/tmp/.recraft_key   # hentes fra Bitwarden, ALDRIG fra repo/chat
 
@@ -18,7 +26,29 @@ Sådan laves en collage-figur. Fire trin, reproducerbart, ingen browser.
     # 4. efterbehandl: fjern baggrund, snap til husets palet, beskær, svgo
     python3 finish.py rose_raw.svg rose.svg          # --mono = uden rød
 
-    # 5. eksportér som WebP i 2x visningsstørrelse (teksturen overlever ikke som SVG-vægt)
+    # 5. eksportér som WebP — 2x den STØRSTE størrelse figuren vises i
+    ./export.py assets/figur/v06/rose.svg public/emerge/v06 --vist 470
+    #   -> rose-940.webp  (filnavnet er pixelbredden, så reglen kan efterses)
+
+## 2×-reglen — den er ikke kosmetik
+
+Filen skal være **dobbelt så bred som den største størrelse figuren vises i**.
+Ikke et rundt tal, ikke "cirka" — mål figuren på den levende side.
+
+Hvorfor det står så skarpt: svalen blev eksporteret i 240px og vist i 240px,
+altså 1×, mens rose og kranie lå på 2×. På en almindelig 2×-skærm blev svalen
+skaleret dobbelt op ved siden af en v05-SVG der er knivskarp ved enhver
+opløsning — og svalen var netop den figur der skulle bedømmes. En sammenligning
+må ikke være skæv på grund af eksporten. Målt på den levende forside:
+
+| figur | største visning | fil |
+|---|---|---|
+| rose | 470px | `rose-940.webp` |
+| kranie | 340px | `skull-680.webp` |
+| svale | 149px | `swallow-298.webp` |
+
+`export.py` afviser desuden en SVG hvis hjørnerne ikke er gennemsigtige —
+en uigennemsigtig baggrund bliver til en synlig kasse i collagen.
 
 ## Hvorfor prompten ser ud som den gør
 
@@ -75,3 +105,25 @@ det er dét der læses som amatør, ikke wobble-filteret.
   gore. Vejen over vektorisering + paletsnap giver husets varme ben-tone.
 - **Lavere opløsning før vektorisering sparer intet** — vektorisatoren skalerer
   op til 2048 uanset hvad. 512px ind gav 510 kB ud, samme som 1024px.
+
+
+## Hvor stort figurerne faktisk vises (målt i browseren, S569)
+
+Detaljen i et linoleumssnit skalerer med snittets størrelse. Det er ikke en
+begrænsning ved Recraft, det er hvad et gouge kan: en 14px glød **er** et
+massivt mærke i et rigtigt tryk. Så sættet har tre klasser, og de skal ikke
+have samme behandling:
+
+| klasse | målt bredde | figurer | behandling |
+|---|---|---|---|
+| bærer siden | 250–780px | ouroboros, røg, slange, maskine, rose, daggert, splat-rød, nål, splat-sort, skilt | fuld v06, flere runder |
+| læselig | 100–250px | kranie, røg-blob, svale, flaske, ring, fuglemor | fuld v06 |
+| grænsen | 70–99px | lampe, barbell, rotte, terning | v06, men prompt uden fin skravering |
+| mærker | under 70px | kop, cigaret, gnist, dråber, glød | **bliv flade — bevidst valg** |
+| rammeværk | 543–1618px | wire, skyline, kanter | rør dem ikke, det er papirets kant |
+
+`spark.svg` er den mest brugte fil i sættet (18 kaldsteder) og renderes i 23px.
+Skravering ved den størrelse bliver til mudder, ikke til volumen.
+
+**Skift hele sættet på én gang.** Ni figurer i linoleumssnit ved siden af
+toogtyve flade udklip læser som uafsluttet — værre end begge rene sæt.

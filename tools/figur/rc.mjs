@@ -1,9 +1,15 @@
 #!/usr/bin/env node
 // Recraft-runner v2 — Ink & Art. Noegle fra /tmp/.recraft_key (Bitwarden-sluse).
 import { readFileSync, writeFileSync } from "node:fs";
-import { extname } from "node:path";
+import { extname, basename, dirname, join } from "node:path";
 const BASE = "https://external.api.recraft.ai/v1";
-const KEY = readFileSync("/tmp/.recraft_key","utf8").trim();
+// README beder dig saette RECRAFT_KEY_FILE, og curl-trinnet bruger den. Den her
+// fil gjorde ikke — stien var hardkodet, saa halvdelen af opskriften adloed
+// variablen og den anden halvdel crashede paa en fil der ikke fandtes.
+const KEY_FILE = process.env.RECRAFT_KEY_FILE ?? "/tmp/.recraft_key";
+let KEY;
+try { KEY = readFileSync(KEY_FILE,"utf8").trim(); }
+catch { console.error(`ingen noegle i ${KEY_FILE} — saet RECRAFT_KEY_FILE, hent noeglen fra Bitwarden (ALDRIG fra repo/chat)`); process.exit(1); }
 const MIME={".png":"image/png",".jpg":"image/jpeg",".jpeg":"image/jpeg",".svg":"image/svg+xml",".webp":"image/webp"};
 const dataUrl=p=>`data:${MIME[extname(p).toLowerCase()]??"image/png"};base64,${readFileSync(p).toString("base64")}`;
 async function call(path, body, method="POST"){
@@ -39,7 +45,13 @@ else if(cmd==="gen"){
   let i=0;
   for(const d of res.data){
     const buf=Buffer.from(await (await fetch(d.url)).arrayBuffer());
-    const f=`${out}${n>1?"-"+(++i):""}${out.includes(".")?"":ext}`;
+    // Indekset skal ind FOER endelsen, og "har stien en endelse?" skal spoerges
+    // om filnavnet — ikke om hele stien. `--o /tmp/v0.6/rose` gav foer
+    // `/tmp/v0.6/rose-1` helt uden endelse, fordi mappenavnet indeholdt et punktum.
+    const harEndelse = basename(out).includes(".");
+    const stamme = harEndelse ? out.slice(0, out.length-extname(out).length) : out;
+    const endelse = harEndelse ? extname(out) : ext;
+    const f = `${stamme}${n>1?"-"+(++i):""}${endelse}`;
     writeFileSync(f,buf); console.log(f, buf.length, "bytes");
   }
   const after=await credits();
