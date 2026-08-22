@@ -1441,14 +1441,14 @@ body:not(:has(.emerge-v05)) main { position: relative; z-index: 1; }
    se HVOR man køber det. Selektoren rammer cart-permalinks — altså præcis
    de handlinger der fører til betaling — og kun uden for scenen, hvor
    kridtet og relikvierne er bevidst anderledes. */
-body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark) {
+body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb) {
   border: 1.5px solid rgba(201, 162, 39, 0.55);
   background: linear-gradient(180deg, rgba(201, 162, 39, 0.1), rgba(201, 162, 39, 0.03));
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(232, 224, 213, 0.08);
   transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
 }
-body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):hover,
-body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):focus-visible {
+body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb):hover,
+body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb):focus-visible {
   border-color: var(--gold);
   background: linear-gradient(180deg, rgba(201, 162, 39, 0.2), rgba(201, 162, 39, 0.07));
   transform: translateY(-2px);
@@ -1472,8 +1472,8 @@ body:not(:has(.emerge-v05)) main .gift-denom::after {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark) { transition: none; }
-  body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):hover { transform: none; }
+  body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb) { transition: none; }
+  body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb):hover { transform: none; }
 }
 
 /* Sprogskifter — samme side, andet sprog. Aldrig tilbage til forsiden. */
@@ -1505,4 +1505,88 @@ body:not(:has(.emerge-v05)) main .gift-denom::after {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+}
+
+/* ── Depositum-kort: «hold en plads» som noget man ikke kan overse ───────
+   Villy, S569. Seks levende varer havde ingen flade på sitet — piercing (4)
+   og flash-tider (2). Denne blok er deres udseende.
+
+   Kundetesten styrer målene, ikke smagen: knappen er ≥56px høj (WCAG 2.2
+   SC 2.5.8 kræver 24×24 — vi ligger langt over med vilje, for en utålmodig
+   besøgende), prisen står PÅ knappen, og feltet er fyldt i husets guld med
+   mørk tekst, så det læser som en handling og ikke som endnu en ramme.
+
+   NB — målt, ikke antaget: første udgave stolede på at «min regel står
+   sidst i filen». Det holder ikke. Den generelle købsflade-regel rammer også
+   disse links, og den har ÉN klasse mere i selektoren:
+
+     generel  body:not(:has(.emerge-v05)) main a[href*=…]:not(.kerb__mark)  → 0,3,3
+     min      body:not(:has(.emerge-v05)) main a.depot__koeb                → 0,2,3
+
+   Højere specificitet vinder uanset rækkefølge. Resultatet var mørk tekst
+   (#14100c) på den generelles næsten gennemsigtige gradient over et næsten
+   sort kort: **1.07:1 målt** på begge viewports — ulæseligt, og præcis den
+   modsatte fejl af den jeg ville rette. Løsningen er ikke at vinde et
+   specificitets-kapløb, men at sige det højt: kridtet står allerede uden for
+   den generelle regel med `:not(.kerb__mark)`; nu gør guldknappen det samme
+   med `:not(.depot__koeb)`. To undtagelser man kan læse, i stedet for en
+   rangorden man skal regne ud. */
+.depot {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: clamp(14px, 2.4vw, 22px);
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.depot__kort {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  padding: 20px;
+  border: 1.5px solid rgba(232, 224, 213, 0.18);
+  background: rgba(10, 8, 7, 0.5);
+}
+.depot__sted {
+  font-family: var(--font-mono), monospace;
+  font-size: 14px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+body:not(:has(.emerge-v05)) main a.depot__koeb {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 56px;
+  padding: 0 18px;
+  color: #14100c;
+  background: linear-gradient(180deg, #d9b23c, var(--gold));
+  border: 1.5px solid #e6cc63;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease;
+}
+body:not(:has(.emerge-v05)) main a.depot__koeb:hover,
+body:not(:has(.emerge-v05)) main a.depot__koeb:focus-visible {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.62), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+.depot__verbum {
+  font-family: var(--font-mono), monospace;
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.depot__pris {
+  font-family: var(--font-mono), monospace;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+@media (prefers-reduced-motion: reduce) {
+  body:not(:has(.emerge-v05)) main a.depot__koeb { transition: none; }
+  body:not(:has(.emerge-v05)) main a.depot__koeb:hover { transform: none; }
 }

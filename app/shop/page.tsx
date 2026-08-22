@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { site } from "@/lib/site";
-import { SHOP_PRINTS, cartUrl, kr } from "@/lib/commerce";
+import { SHOP_PRINTS, PIERCINGS, FLASH_DEPOSITS, cartUrl, kr } from "@/lib/commerce";
+import { DepositumRaekke } from "@/components/emerge/DepositumRaekke";
+import { t } from "@/lib/i18n";
 import { KerbReservation } from "@/components/emerge/KerbReservation";
 import { LangSwitch } from "@/components/i18n/LangSwitch";
 
@@ -48,6 +50,8 @@ const DOORS = [
 ] as const;
 
 export default function ShopPage() {
+  const c = t("da").shop;
+
   return (
     <>
       <SkipLink lang="da" />
@@ -87,6 +91,44 @@ export default function ShopPage() {
             </li>
           ))}
         </ul>
+
+        {/* ── Piercing: levende varer der ikke stod nogen steder ──────── */}
+        <section className="gade__afsnit" aria-label={c.piercing.label}>
+          <p className="gade__afsnit-label">{c.piercing.label}</p>
+          <h2 className="gade__afsnit-rubrik">{c.piercing.title}</h2>
+          <p className="mt-3 max-w-[54ch] text-[var(--text-soft)]">
+            {c.piercing.intro}
+          </p>
+          <DepositumRaekke
+            varer={PIERCINGS}
+            sted={(id) => c.piercing.slots[id as keyof typeof c.piercing.slots]}
+            ariaSted={(id) => c.piercing.ariaSlots[id as keyof typeof c.piercing.ariaSlots]}
+            koeb={c.piercing.koeb}
+            aria={c.piercing.aria}
+          />
+        </section>
+
+        {/* ── Flash-tider: samme handling, andet sted ─────────────────── */}
+        <section className="gade__afsnit" aria-label={c.flashDepositum.label}>
+          <p className="gade__afsnit-label">{c.flashDepositum.label}</p>
+          <h2 className="gade__afsnit-rubrik">{c.flashDepositum.title}</h2>
+          <p className="mt-3 max-w-[54ch] text-[var(--text-soft)]">
+            {c.flashDepositum.intro}
+          </p>
+          <DepositumRaekke
+            varer={FLASH_DEPOSITS}
+            sted={(id) =>
+              c.flashDepositum.slots[id as keyof typeof c.flashDepositum.slots]
+            }
+            ariaSted={(id) =>
+              c.flashDepositum.ariaSlots[
+                id as keyof typeof c.flashDepositum.ariaSlots
+              ]
+            }
+            koeb={c.flashDepositum.koeb}
+            aria={c.flashDepositum.aria}
+          />
+        </section>
 
         {/* ── Kridtet: reservationerne (genbrug, min komponent) ───────── */}
         <section className="gade__afsnit" aria-label="Reservationer">

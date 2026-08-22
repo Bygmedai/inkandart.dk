@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { site } from "@/lib/site";
-import { SHOP_PRINTS, cartUrl, kr } from "@/lib/commerce";
+import { SHOP_PRINTS, PIERCINGS, FLASH_DEPOSITS, cartUrl, kr } from "@/lib/commerce";
+import { DepositumRaekke } from "@/components/emerge/DepositumRaekke";
 import { KerbReservation } from "@/components/emerge/KerbReservation";
 import { LangSwitch } from "@/components/i18n/LangSwitch";
 import { SkipLink } from "@/components/i18n/SkipLink";
@@ -70,6 +71,38 @@ export default function ShopPageEn() {
               </li>
             ))}
           </ul>
+
+          {/* Samme handling, samme gate — kun sætningerne skifter sprog.
+              Variant-ID'erne er de samme levende varer som på dansk. */}
+          <section className="gade__afsnit" aria-label={c.piercing.label}>
+            <p className="gade__afsnit-label">{c.piercing.label}</p>
+            <h2 className="gade__afsnit-rubrik">{c.piercing.title}</h2>
+            <p className="mt-3 max-w-[54ch] text-[var(--text-soft)]">{c.piercing.intro}</p>
+            <DepositumRaekke
+              varer={PIERCINGS}
+              sted={(id) => c.piercing.slots[id as keyof typeof c.piercing.slots]}
+            ariaSted={(id) => c.piercing.ariaSlots[id as keyof typeof c.piercing.ariaSlots]}
+              koeb={c.piercing.koeb}
+              aria={c.piercing.aria}
+            />
+          </section>
+
+          <section className="gade__afsnit" aria-label={c.flashDepositum.label}>
+            <p className="gade__afsnit-label">{c.flashDepositum.label}</p>
+            <h2 className="gade__afsnit-rubrik">{c.flashDepositum.title}</h2>
+            <p className="mt-3 max-w-[54ch] text-[var(--text-soft)]">{c.flashDepositum.intro}</p>
+            <DepositumRaekke
+              varer={FLASH_DEPOSITS}
+              sted={(id) =>
+                c.flashDepositum.slots[id as keyof typeof c.flashDepositum.slots]
+              }
+              ariaSted={(id) =>
+                c.flashDepositum.ariaSlots[id as keyof typeof c.flashDepositum.ariaSlots]
+              }
+              koeb={c.flashDepositum.koeb}
+              aria={c.flashDepositum.aria}
+            />
+          </section>
 
           <section className="gade__afsnit" aria-label={c.reservations}>
             <KerbReservation />
