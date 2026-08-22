@@ -37,7 +37,7 @@ export function GiftNoteCard({ note }: { note: GiftNote }) {
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         className="gift-voucher__rose"
-        src="/emerge/v05/rose.svg"
+        src="/emerge/v06/rose-940.webp"
         alt=""
         width={88}
         height={96}
