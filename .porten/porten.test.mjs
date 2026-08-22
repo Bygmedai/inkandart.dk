@@ -24,7 +24,12 @@ t('konklusion=null på completed spærrer', () => er(porten({ ...grøn, checks: 
 t('agent der rører .github/workflows spærrer', () => er(porten({ ...grøn, filer: ['.github/workflows/ci.yml'] }).dom, SPAERRET));
 t('agent der rører supabase/migrations spærrer', () => er(porten({ ...grøn, filer: ['supabase/migrations/001.sql'] }).dom, SPAERRET));
 t('agent der rører AGENTS.md spærrer', () => er(porten({ ...grøn, filer: ['AGENTS.md'] }).dom, SPAERRET));
-t('menneske må godt røre låst sti', () => er(porten({ ...grøn, filer: ['.github/workflows/ci.yml'], forfatterErAgent: false }).dom, AABEN));
+// F4 (præmortem #178): «menneske må godt» hvilede på en klassifikation der
+// fejlede ÅBENT (login «koko» = menneske). Låst sti spærrer nu for ALLE —
+// mennesket udøver sin ret ved selv at merge, ikke ved at porten gætter.
+t('låst sti spærrer også for et menneske — mennesket merger selv', () => er(porten({ ...grøn, filer: ['.github/workflows/ci.yml'], forfatterErAgent: false }).dom, SPAERRET));
+t('F4: agent med ukendt login («koko») spærres på låst sti', () => er(porten({ ...grøn, filer: ['.github/workflows/ci.yml'], forfatterErAgent: false }).dom, SPAERRET));
+t('F1: .porten/ er selv en låst sti — dommeren kan ikke ombygges i stilhed', () => er(porten({ ...grøn, filer: ['.porten/porten.mjs'] }).dom, SPAERRET));
 t('manglende filliste spærrer', () => er(porten({ ...grøn, filer: null }).dom, SPAERRET));
 t('ingen anmelderdom spærrer', () => er(porten({ ...grøn, anmeldelse: null }).dom, SPAERRET));
 t('anmelderdom uden alvorstal spærrer', () => er(porten({ ...grøn, anmeldelse: { kilde: 'x', alvor: {} } }).dom, SPAERRET));
@@ -78,14 +83,32 @@ t('KONKLUSION_TIL_DOM har ingen sandhedsværdi der kan opstå ved tomhed',
   () => { for (const [k,v] of Object.entries(KONKLUSION_TIL_DOM)) if (v && v.normal === 0 && k !== 'success') throw new Error(`${k} åbner uden at være success`); er(true,true); });
 
 console.log('\n  — Porten samlet —');
-t('ren afhængigheds-PR + grøn CI → ÅBEN uden anmelder',
-  () => er(porten({...CI, filer:['package.json','package-lock.json']}).dom, AABEN));
+t('ren afhængigheds-PR fra DEPENDABOT + grøn CI → ÅBEN uden anmelder',
+  () => er(porten({...CI, filer:['package.json','package-lock.json'], erDependabot:true}).dom, AABEN));
+// F5 (præmortem #178): stier er ikke afsender. package.json-only fra en
+// vilkårlig forfatter kunne før tage dependabot-banen med postinstall i lasten.
+t('F5: samme diff UDEN dependabot-identitet kræver anmelder → SPÆRRET',
+  () => er(porten({...CI, filer:['package.json','package-lock.json']}).dom, SPAERRET));
+// F2 (præmortem #178): Map pr. navn var last-wins — en senere post med samme
+// navn (fx en forfalsket commit-status) overdøvede en ægte rød check-run.
+t('F2: rød check-run efterfulgt af grøn post med SAMME navn → SPÆRRET', () =>
+  er(porten({...CI, checks:[
+    {navn:'build',status:'completed',konklusion:'failure'},
+    {navn:'build',status:'completed',konklusion:'success'},
+    {navn:'test',status:'completed',konklusion:'success'},
+  ], filer:['package.json'], erDependabot:true}).dom, SPAERRET));
+t('F2 spejlvendt: grøn først, rød sidst → stadig SPÆRRET (rækkefølge er ligegyldig)', () =>
+  er(porten({...CI, checks:[
+    {navn:'build',status:'completed',konklusion:'success'},
+    {navn:'build',status:'completed',konklusion:'failure'},
+    {navn:'test',status:'completed',konklusion:'success'},
+  ], filer:['package.json'], erDependabot:true}).dom, SPAERRET));
 t('afhængigheds-PR med RØD CI → SPÆRRET',
-  () => er(porten({...CI, checks:[{navn:'build',status:'completed',konklusion:'success'},{navn:'test',status:'completed',konklusion:'failure'}], filer:['package.json']}).dom, SPAERRET));
+  () => er(porten({...CI, checks:[{navn:'build',status:'completed',konklusion:'success'},{navn:'test',status:'completed',konklusion:'failure'}], filer:['package.json'], erDependabot:true}).dom, SPAERRET));
 t('afhængigheds-PR der også rører kildekode → kræver anmelder → SPÆRRET',
-  () => er(porten({...CI, filer:['package.json','src/a.ts']}).dom, SPAERRET));
+  () => er(porten({...CI, filer:['package.json','src/a.ts'], erDependabot:true}).dom, SPAERRET));
 t('afhængigheds-PR der rører en LÅST sti → SPÆRRET uanset hvad',
-  () => er(porten({...CI, filer:['package.json','.github/workflows/ci.yml']}).dom, SPAERRET));
+  () => er(porten({...CI, filer:['package.json','.github/workflows/ci.yml'], erDependabot:true}).dom, SPAERRET));
 t('kildekode + udførende anmelder grøn → ÅBEN',
   () => er(porten({...medAnmelder('success'), filer:['src/a.ts']}).dom, AABEN));
 t('kildekode + anmelder sprunget over (manglende kredit) → SPÆRRET',

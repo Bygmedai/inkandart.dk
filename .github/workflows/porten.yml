@@ -43,9 +43,14 @@ jobs:
       # lagt der af installeren og signeret, så den kan opdateres ét sted og
       # udrulles derfra. Sideeffekt: den virker også på public repoer, som slet
       # ikke må kalde reusable workflows fra et privat .github.
-      - name: Hent repoet (Porten ligger i .porten/)
+      # F1 (præmortem #178): uden ref checkes PR'ens træ ud, og porten kørte
+      # den anklagedes egen kode — en PR kunne udskifte dommeren med et stub.
+      # Dommeren hentes nu fra base-repoets main; PR'ens fakta kommer fra API'et.
+      - name: Hent dommeren fra main — aldrig fra PR'ens træ
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
+          ref: main
+          repository: ${{ github.repository }}
           persist-credentials: false
 
       - name: Porten skal findes — manglende port er ikke en åben port
@@ -115,7 +120,12 @@ jobs:
             // --- anmelderdom: maskinlæsbar blok, aldrig fritekst ---
             // Format: en check-run hvis output.text indeholder <!-- porten-alvor: {"normal":0,"nit":2} -->
             let anmeldelse = null;
+            // F3 (præmortem #178): blokken blev læst fra ENHVER check-run — en
+            // selvinstalleret app kunne selv levere sin frikendelse. Kun
+            // udførende anmeldere på allowlisten høres.
+            const TILLADTE_ANMELDERE = ['Vercel Agent Review'];
             for (const r of runs) {
+              if (!TILLADTE_ANMELDERE.includes(r.name)) continue;
               const t = r.output?.text ?? '';
               const m = /<!--\s*porten-alvor:\s*(\{.*?\})\s*-->/s.exec(t);
               if (!m) continue;
@@ -136,7 +146,9 @@ jobs:
             }
 
             const paakraevede = `check,Scan for secrets`.split(',').map(s => s.trim()).filter(Boolean);
-            const resultat = porten({ checks, paakraevede, filer, forfatterErAgent, anmeldelse, forhaandsvisning });
+            // F5: dependabot-banen kræver positivt bevist afsender, ikke kun stier.
+            const erDependabot = pr.user?.login === 'dependabot[bot]' && pr.user?.type === 'Bot';
+            const resultat = porten({ checks, paakraevede, filer, forfatterErAgent, erDependabot, anmeldelse, forhaandsvisning });
 
             // --- én kvittering per PR, redigeret på stedet (S564 F4: ti domme på ti pushes) ---
             const MAERKE = '<!-- bygmedai-porten -->';

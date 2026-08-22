@@ -26,6 +26,7 @@ export const UMAALT = 'UMÅLT';
 
 /** Stier hvor en agent aldrig må ændre noget uden et menneske. Sirius betingelse 5 + 10. */
 export const LAASTE_STIER = [
+  /^\.porten\//,   // F1 (præmortem #178): dommeren selv. Ændringer kræver menneske.
   /^\.github\/workflows\//,
   /^\.github\/actions\//,
   /^\.github\/CODEOWNERS$/,
@@ -126,12 +127,16 @@ export function porten(kendsgerninger) {
     return { dom: SPAERRET, grunde, noter };
   }
   const checks = Array.isArray(k.checks) ? k.checks : [];
-  const kort = new Map(checks.map((c) => [c.navn, c]));
+  // F2 (præmortem #178): et Map pr. navn er last-wins — en senere, forfalsket
+  // eller genkørt post med samme navn ville overdøve en ægte rød. ALLE poster
+  // med navnet skal være grønne; én rød/uafsluttet blandt dubletter spærrer.
   for (const navn of paakraevede) {
-    const c = kort.get(navn);
-    if (!c) { grunde.push(`Påkrævet check «${navn}» har ikke rapporteret. Manglende svar er ikke et ja.`); continue; }
-    if (c.status !== 'completed') { grunde.push(`Påkrævet check «${navn}» kører stadig (${c.status}).`); continue; }
-    if (c.konklusion !== 'success') { grunde.push(`Påkrævet check «${navn}» sluttede som «${c.konklusion ?? 'uden konklusion'}».`); continue; }
+    const alle = checks.filter((c) => c && c.navn === navn);
+    if (alle.length === 0) { grunde.push(`Påkrævet check «${navn}» har ikke rapporteret. Manglende svar er ikke et ja.`); continue; }
+    const igang = alle.find((c) => c.status !== 'completed');
+    if (igang) { grunde.push(`Påkrævet check «${navn}» kører stadig (${igang.status}).`); continue; }
+    const roed = alle.find((c) => c.konklusion !== 'success');
+    if (roed) { grunde.push(`Påkrævet check «${navn}» sluttede som «${roed.konklusion ?? 'uden konklusion'}»${alle.length > 1 ? ` (${alle.length} poster med samme navn — den værste tæller)` : ''}.`); continue; }
   }
 
   // ---- 2. Rører PR'en en låst sti? ----
@@ -140,10 +145,12 @@ export function porten(kendsgerninger) {
     grunde.push('Filliste kunne ikke hentes. Uden den ved jeg ikke om forsyningskæden blev rørt.');
   } else {
     const ramt = filer.filter((f) => LAASTE_STIER.some((m) => m.test(f)));
-    if (ramt.length && k.forfatterErAgent === true) {
-      grunde.push(`Agent-PR rører ${ramt.length} låst sti: ${ramt.slice(0, 4).join(', ')}${ramt.length > 4 ? ' …' : ''}. Kræver menneske.`);
-    } else if (ramt.length) {
-      noter.push(`Rører låst sti (${ramt.join(', ')}) — tilladt fordi forfatteren ikke er en agent.`);
+    // F4 (præmortem #178): agent-klassifikation pr. login-fragment fejlede
+    // ÅBENT (login «koko» = menneske). Klassifikation kan spoofes; et
+    // menneskes merge kan ikke. Låst sti => porten er rød for ALLE, og
+    // Steven merger selv med sin dokumenterede vurdering.
+    if (ramt.length) {
+      grunde.push(`Rører ${ramt.length} låst sti: ${ramt.slice(0, 4).join(', ')}${ramt.length > 4 ? ' …' : ''}. Kræver et menneskes merge — uanset forfatter.`);
     }
   }
 
@@ -153,9 +160,12 @@ export function porten(kendsgerninger) {
   // Dens eget grundlag er at anmelder nr. to intet tilfører (81,2 % → 80,3 %).
   // På en ren afhængigheds-diff ER build+test oraklet — der er ingen kildekode
   // at have en mening om. På kildekode kræves en anmelder der KØRTE patchen.
-  const kunDeps = filer !== null && kunAfhaengigheder(filer);
+  // F5 (præmortem #178): stier alene identificerer ingen afsender. En
+  // package.json-only PR fra hvem som helst kunne før tage dependabot-banen
+  // med en postinstall i lasten. Banen kræver nu positivt bevist afsender.
+  const kunDeps = filer !== null && kunAfhaengigheder(filer) && k.erDependabot === true;
   if (kunDeps) {
-    noter.push(`Ren afhængigheds-PR (${filer.length} fil${filer.length === 1 ? '' : 'er'}). Build og test er oraklet — ingen anmelder krævet.`);
+    noter.push(`Ren afhængigheds-PR fra dependabot (${filer.length} fil${filer.length === 1 ? '' : 'er'}). Build og test er oraklet — ingen anmelder krævet.`);
   } else {
     // Struktureret dom fra en udførende anmelder, ellers den gamle kvittering-blok.
     const a = k.anmeldelse ?? domFraCheck(checks, k.anmeldere);
