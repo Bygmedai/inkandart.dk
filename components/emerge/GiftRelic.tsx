@@ -1,11 +1,12 @@
+import { localePath, t, type Locale } from "@/lib/i18n";
 /**
  * Gavekortet som fundet objekt i landskabet.
  * Samme sprog som gadeskiltet: turbulence, nitte, dobbeltramme.
  * Hele fladen linker til /gavekort — ingen beløb, ingen checkout.
  */
-export function GiftRelic() {
+export function GiftRelic({ lang = "da" }: { lang?: Locale } = {}) {
   return (
-    <a className="gift-relic" href="/gavekort" aria-label="Gavekort — giv blæk videre">
+    <a className="gift-relic" href={localePath(lang, "/gavekort")} aria-label={t(lang).giftRelicAria}>
       <span className="gift-relic__stack" aria-hidden="true" />
       <svg
         className="gift-relic__card"

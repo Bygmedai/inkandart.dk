@@ -3,6 +3,7 @@ import { site } from "@/lib/site";
 import { GiftNoteCard } from "@/components/emerge/GiftNoteCard";
 import { giftNoteQuery, readGiftNote } from "@/lib/gift-note";
 
+import { SkipLink } from "@/components/i18n/SkipLink";
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
   title: "Dit gavekort · Ink & Art",
@@ -21,6 +22,10 @@ export default async function KortPage({
   )}`;
 
   return (
+
+    <>
+
+      <SkipLink lang="da" />
     <main id="main" className="gift-page gift-page--kort">
       <div className="gift-page__inner">
         <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)] gift-print-hide">
@@ -45,5 +50,6 @@ export default async function KortPage({
         </p>
       </div>
     </main>
+    </>
   );
 }

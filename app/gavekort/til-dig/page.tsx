@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { site } from "@/lib/site";
 
+import { SkipLink } from "@/components/i18n/SkipLink";
 export const metadata: Metadata = {
   alternates: { canonical: "/gavekort/til-dig" },
   title: "Det venter på dig · Ink & Art",
@@ -14,6 +15,8 @@ export const metadata: Metadata = {
 
 export default function TilDigPage() {
   return (
+    <>
+      <SkipLink lang="da" />
     <main id="main" className="gift-page">
       <div className="gift-page__inner">
         <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
@@ -71,5 +74,6 @@ export default function TilDigPage() {
         </p>
       </div>
     </main>
+    </>
   );
 }

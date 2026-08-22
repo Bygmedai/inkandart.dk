@@ -70,7 +70,13 @@ test("/shop er ikke forældreløs — der går en dør ind fra forsiden", () => 
   // kunne indeksere kataloget; et menneske kunne ikke finde det. En side
   // uden en dør er ikke en side, den er en URL.
   const scene = readFileSync(join(root, "components/emerge/SceneV05.tsx"), "utf8");
-  assert.match(scene, /href="\/shop"/, "forsiden skal linke til kataloget");
+  // Efter i18n (#166) hedder linket href={L("/shop")} — samme dør, anden
+  // form. Hegnet måler REGLEN («der går en dør ind til kataloget»), ikke
+  // hvordan href tilfældigvis er skrevet. Begge former tæller.
+  assert.match(
+    scene, /href=(?:"\/shop"|\{L\("\/shop"\)\})/,
+    "forsiden skal linke til kataloget — som literal eller via sprog-hjælperen"
+  );
 });
 
 test("tilbage-linket er dækket af tap-reglen på ALLE undersider", () => {

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { site } from "@/lib/site";
 import { BlackbookSignup } from "@/components/emerge/BlackbookSignup";
 
+import { SkipLink } from "@/components/i18n/SkipLink";
 export const metadata: Metadata = {
   alternates: { canonical: "/blackbook" },
   title: "Blackbook · Ink & Art",
@@ -26,6 +27,8 @@ const perks = [
 
 export default function BlackbookPage() {
   return (
+    <>
+      <SkipLink lang="da" />
     <main id="main" className="mx-auto max-w-[68ch] px-[var(--gutter)] py-24">
       <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
         <a href="/">← {site.name}</a>
@@ -71,5 +74,6 @@ export default function BlackbookPage() {
         </a>
       </p>
     </main>
+    </>
   );
 }

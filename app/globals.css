@@ -1475,3 +1475,34 @@ body:not(:has(.emerge-v05)) main .gift-denom::after {
   body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark) { transition: none; }
   body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):hover { transform: none; }
 }
+
+/* Sprogskifter — samme side, andet sprog. Aldrig tilbage til forsiden. */
+.walkin-page__top,
+.gift-page__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid rgba(201, 162, 39, 0.4);
+  color: var(--gold);
+  letter-spacing: 0.16em;
+}
+.lang-switch:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+
+/* Sprogskifteren på kataloget — samme række som tilbage-linket, ligesom
+   Harukis walk-in og gavekort. */
+.gade__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
