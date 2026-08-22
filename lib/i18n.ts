@@ -19,9 +19,31 @@ export type Locale = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = "da";
 
 /** `/walk-in` på dansk, `/en/walk-in` på engelsk. Roden er dansk. */
+/**
+ * Ruter der FAKTISK findes under /en. Alt andet falder tilbage til dansk.
+ *
+ * S568-fejlen: `localePath` byggede glad `/en/gavekort`, uanset at ruten
+ * ikke fandtes — og `app/en/[...slug]/route.ts` svarer 410 GONE på ukendte
+ * engelske stier. Forsiden /en havde FIRE døde døre i produktion: tre til
+ * /en/gavekort (nav, gaverelikvie, mobil-dock) og én til /en/blackbook.
+ *
+ * Vilde skrev en test mod netop det, men den læser kildetekst — og et
+ * computed `localePath(lang, "/gavekort")` er usynligt for et regex.
+ * Derfor bor hegnet nu i funktionen: den KAN ikke længere pege på en dør
+ * der ikke findes. «Hellere dansk end 410.»
+ *
+ * Når en ejer porterer sin side, tilføjes stien her — og linkene følger
+ * automatisk med.
+ */
+export const EN_ROUTES: ReadonlySet<string> = new Set(["/", "/walk-in", "/shop"]);
+
+/** `/walk-in` på dansk, `/en/walk-in` på engelsk — hvis ruten findes. */
 export function localePath(lang: Locale, path: string): string {
   const p = path.startsWith("/") ? path : `/${path}`;
-  return lang === DEFAULT_LOCALE ? p : `/en${p === "/" ? "" : p}`;
+  if (lang === DEFAULT_LOCALE) return p;
+  const bare = p.split(/[#?]/)[0];
+  if (!EN_ROUTES.has(bare)) return p; // ingen engelsk side endnu → dansk
+  return `/en${bare === "/" ? "" : bare}${p.slice(bare.length)}`;
 }
 
 /** Gensidige hreflang-par + x-default. Google kræver at de peger på hinanden. */
