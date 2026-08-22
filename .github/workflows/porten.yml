@@ -1,0 +1,28 @@
+# bygmedai-stak: 78d7c0c5e15c74bf
+# Lægges i HVERT repo som .github/workflows/porten.yml. Fem linjer. Det er hele omkostningen per repo.
+name: Porten
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  check_suite:
+    types: [completed]
+# S565 · MÅLT: uden denne blok fejler Porten ved opstart med nul jobs.
+# Den kaldte workflow beder om pull-requests: write (den skriver én kvittering pr. PR).
+# Repoernes default_workflow_permissions er «read», og en kaldt workflow kan kun
+# INDSNÆVRE kalderens token — aldrig udvide det. Fejlen ligner en syntaksfejl.
+permissions:
+  contents: read
+  pull-requests: write
+  checks: read
+  statuses: read
+
+concurrency:
+  group: porten-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+jobs:
+  porten:
+    uses: Bygmedai/.github/.github/workflows/porten.yml@main
+    with:
+      # Check-run-navnene på dette repo: CI's job hedder «check», TruffleHogs hedder
+      # «Scan for secrets». Porten matcher på check-run-navn, ikke på job-id.
+      paakraevede: 'check,Scan for secrets'
