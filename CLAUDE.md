@@ -67,7 +67,11 @@ til en triviel merge i stedet for en dag tabt.
   handel. En **levende** variant svarer `302` på et bart kald (`200` hvis du
   følger redirect med `curl -L`); en **død** svarer `410` med det samme.
   Mål altså 302-eller-fulgt-200 mod 410 — ikke «200 mod 410» (Haruki, S568).
-  Fire piercing-varianter var 410 i august 2026 — de indgår derfor ikke.
+  De fire piercing-varianter var 410 den 2026-08-21 og blev holdt ude; de
+  måler 302/fulgt-200 den 2026-08-22 og indgår nu (`PIERCINGS`). Pointen
+  består: **en måling har en dato.** Er den mere end et par dage gammel,
+  så mål igen før du bygger på den — `scripts/maal-varianter.sh` gør det
+  for hele kataloget på én gang, med negativ kontrol indbygget.
 - **Ingen CSS-`transform` på en slot der er `[data-depth]`-deltager.**
   Motoren ejer transform på de bokse; centrering laves med boks-model
   (`left`/`right`/`margin-inline`). Lært i #146, bekræftet i kridt-slotten.

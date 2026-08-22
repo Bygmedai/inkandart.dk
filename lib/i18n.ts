@@ -88,6 +88,58 @@ const da = {
     },
     soon: "Snart",
     buyAria: (navn: string, pris: string) => `Køb ${navn}, ${pris} kroner`,
+    /**
+     * Piercing — huset har solgt det i Shopify siden juli, men ordet stod
+     * ikke ét sted på sitet. Beta-testen ("Er det en tatto shop?") var det
+     * samme hul set fra kundens side. Copy'en siger hvad depositummet ER —
+     * en holdt plads, ikke en booket tid (rails §4).
+     */
+    piercing: {
+      label: "Piercing",
+      title: "Vi piercer også.",
+      intro:
+        "Nålen er ikke kun til blæk. Hold din plads med 100,- i depositum — beløbet trækkes fra prisen. Tiden aftaler vi bagefter.",
+      slots: {
+        ore: "Øre",
+        krop: "Krop",
+        ansigt: "Ansigt",
+        mund: "Mund",
+      },
+      /**
+       * Skærmlæser-udgaven af stednavnet. Knappen viser «Øre» fordi et kort
+       * skal kunne skimmes; en oplæst sætning skal kunne HØRES, og «Reservér
+       * piercing — Øre — med 100 kroner» er ikke en sætning. Derfor bøjer vi
+       * ordet her i stedet for at genbruge etiketten.
+       */
+      ariaSlots: {
+        ore: "øret",
+        krop: "kroppen",
+        ansigt: "ansigtet",
+        mund: "munden",
+      },
+      koeb: "Hold plads",
+      aria: (sted: string, pris: string) =>
+        `Reservér piercing i ${sted} med ${pris} kroner i depositum`,
+    },
+    /** Flash-tider: depositummet holder en TID, aldrig et bestemt motiv. */
+    flashDepositum: {
+      label: "Flash-tid",
+      title: "Hold en flash-tid.",
+      intro:
+        "Motiverne lægges op løbende, men tiden kan holdes nu. Depositummet trækkes fra prisen på tatoveringen.",
+      slots: {
+        shoppen: "I shoppen · Larsbjørnsstræde 13",
+        module: "På Module",
+      },
+      /** Samme grund: etiketten har et «·» i sig, en sætning må ikke. */
+      ariaSlots: {
+        shoppen: "i shoppen på Larsbjørnsstræde 13",
+        module: "på Module",
+      },
+      koeb: "Hold tiden",
+      aria: (sted: string, pris: string) =>
+        `Hold en flash-tid ${sted} med ${pris} kroner i depositum`,
+    },
     note: "Vil du have besked når væggen fyldes?",
     noteLink: "Skriv dig i Blackbook →",
   },
@@ -185,6 +237,44 @@ const en: Copy = {
     },
     soon: "Soon",
     buyAria: (navn: string, pris: string) => `Buy ${navn}, ${pris} kroner`,
+    piercing: {
+      label: "Piercing",
+      title: "We pierce too.",
+      intro:
+        "The needle isn't only for ink. Hold your slot with a 100,- deposit — it comes off the price. We agree the time afterwards.",
+      slots: {
+        ore: "Ear",
+        krop: "Body",
+        ansigt: "Face",
+        mund: "Mouth",
+      },
+      ariaSlots: {
+        ore: "the ear",
+        krop: "the body",
+        ansigt: "the face",
+        mund: "the mouth",
+      },
+      koeb: "Hold a slot",
+      aria: (sted: string, pris: string) =>
+        `Reserve a piercing in ${sted} with a ${pris} kroner deposit`,
+    },
+    flashDepositum: {
+      label: "Flash slot",
+      title: "Hold a flash slot.",
+      intro:
+        "Pieces go up as they're drawn, but the slot can be held now. The deposit comes off the price of the tattoo.",
+      slots: {
+        shoppen: "In the shop · Larsbjørnsstræde 13",
+        module: "At Module",
+      },
+      ariaSlots: {
+        shoppen: "in the shop on Larsbjørnsstræde 13",
+        module: "at Module",
+      },
+      koeb: "Hold the slot",
+      aria: (sted: string, pris: string) =>
+        `Hold a flash slot ${sted} with a ${pris} kroner deposit`,
+    },
     note: "Want word when the wall fills up?",
     noteLink: "Sign the Blackbook →",
   },
