@@ -1217,14 +1217,13 @@ html.emerge-js [data-loader] {
   right: 0;
   bottom: calc(100% + 8px);
   margin: 0 auto;
-  max-width: 26ch;
+  max-width: 28ch;
   text-align: center;
-  font-family: var(--font-mono), "Space Mono", monospace;
-  font-size: clamp(8px, 0.95vw, 11px);
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  line-height: 1.45;
-  color: var(--gold);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: clamp(11px, 1.15vw, 13px);
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  color: rgba(232, 224, 213, 0.82);
   opacity: 0;
   pointer-events: none;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85);
@@ -1249,6 +1248,107 @@ html.emerge-js [data-loader] {
   height: auto;
   filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.55));
 }
+.gade-tape__en { display: none; }
+html[lang="en"] .gade-tape__da { display: none; }
+html[lang="en"] .gade-tape__en { display: inline; }
+
+/* ── Crew: rotte, terning, kranie. Percher uden for tekstbånd og handel.
+   Marquees: 19 / 46 / 73. Kridt: 79 desktop, 62 mobil. Tape: 44/58. */
+.crew-slot {
+  position: absolute;
+  inset: 0;
+  z-index: 11;
+  pointer-events: none;
+}
+.crew {
+  position: absolute;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 11;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.7));
+  transition:
+    left 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    top 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.crew__body {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.crew__line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100% + 6px);
+  margin: 0 auto;
+  max-width: 28ch;
+  text-align: center;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: clamp(11px, 1.1vw, 13px);
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  color: rgba(232, 224, 213, 0.82);
+  opacity: 0;
+  pointer-events: none;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
+  transition: opacity 0.35s ease;
+}
+.crew.is-said .crew__line { opacity: 1; }
+.crew.is-airborne .crew__body { animation: crewHop 0.9s ease; }
+.crew.is-tumble .crew__body { animation: crewTumble 0.9s ease; }
+@keyframes crewHop {
+  0% { transform: translateY(0); }
+  40% { transform: translateY(-16px); }
+  100% { transform: translateY(0); }
+}
+@keyframes crewTumble {
+  0% { transform: rotate(0); }
+  45% { transform: rotate(48deg) translateY(-10px); }
+  100% { transform: rotate(-14deg); }
+}
+
+.crew--rat-ledge { width: clamp(46px, 5vw, 66px); }
+.crew--rat-ledge[data-perch="a"] { left: 7%; top: 28%; }
+.crew--rat-ledge[data-perch="b"] { left: 14%; top: 58%; }
+.crew--rat-ledge[data-perch="c"] { left: 4%; top: 8%; }
+.crew--dice-under { width: 44px; }
+.crew--dice-under[data-perch="a"] { left: 78%; top: 88%; }
+.crew--dice-under[data-perch="b"] { left: 88%; top: 90%; }
+.crew--skull-under { width: clamp(72px, 8vw, 110px); }
+.crew--skull-under[data-perch="a"] { left: 2%; top: 88%; }
+.crew--skull-under[data-perch="b"] { left: 12%; top: 90%; }
+.crew--rat-work { width: clamp(46px, 5vw, 68px); }
+.crew--rat-work[data-perch="a"] { left: 30%; top: 93%; }
+.crew--rat-work[data-perch="b"] { left: 8%; top: 90%; }
+.crew--dice-work { width: 40px; }
+.crew--dice-work[data-perch="a"] { left: 82%; top: 72%; }
+.crew--dice-work[data-perch="b"] { left: 88%; top: 66%; }
+.crew--skull-work { width: clamp(40px, 4.5vw, 60px); }
+.crew--skull-work[data-perch="a"] { left: 72%; top: 36%; }
+.crew--skull-work[data-perch="b"] { left: 80%; top: 42%; }
+
+/* Mumlen på landskabets egne objekter. Linjen ligger på figuren, ikke
+   over hele bounding-boxen — rose/maskine er for store til en caption. */
+.mutter__line {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 16%;
+  z-index: 2;
+  margin: 0 auto;
+  max-width: 22ch;
+  text-align: center;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: clamp(11px, 1.1vw, 13px);
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  color: rgba(232, 224, 213, 0.82);
+  opacity: 0;
+  pointer-events: none;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85);
+  transition: opacity 0.45s ease;
+}
+.is-said > .mutter__line { opacity: 1; }
 
 @media (max-width: 640px) {
   .mor--hero[data-perch="walkin"] { left: 70%; top: 52%; }
@@ -1264,19 +1364,28 @@ html.emerge-js [data-loader] {
     top: 36%;
     width: min(46vw, 180px);
   }
+  .crew--rat-ledge[data-perch="b"] { left: 6%; top: 48%; }
+  .crew--skull-under[data-perch="a"] { left: 4%; top: 50%; }
+  .crew--skull-under[data-perch="b"] { left: 10%; top: 52%; }
+  .crew--dice-under[data-perch="a"] { left: 82%; top: 88%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .mor,
-  .mor:hover:not(.is-airborne) .mor__body {
+  .mor:hover:not(.is-airborne) .mor__body,
+  .crew,
+  .mutter__line {
     transition: none;
   }
   .mor:hover:not(.is-airborne) .mor__body {
     transform: none;
   }
-  .mor.is-airborne .mor__body {
+  .mor.is-airborne .mor__body,
+  .crew.is-airborne .crew__body,
+  .crew.is-tumble .crew__body {
     animation: none;
   }
+  .is-said > .mutter__line { opacity: 0; }
 }
 
 /* ── Tap-mål på navigation (WCAG 2.2 SC 2.5.8: 24×24) ────────────────────

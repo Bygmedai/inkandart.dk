@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { BlackbookSignup } from "./BlackbookSignup";
+import { CrewBit } from "./CrewBit";
 import { GadeTape } from "./GadeTape";
 import { GiftRelic } from "./GiftRelic";
 import { KerbReservation } from "./KerbReservation";
@@ -173,17 +174,22 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
 
   <div className="kerb-slot" data-depth="0.62" data-drift="0" style={{position:'absolute',left:'8%',top:'79%',zIndex:'10'}}><KerbReservation /></div>
   <div className="mor-slot" data-depth="1.12" data-drift="0"><MorBird zone="under" /></div>
+  <div className="crew-slot" data-depth="1.0" data-drift="0">
+    <CrewBit who="rat-ledge" src="/emerge/v05/rat.svg" />
+    <CrewBit who="dice-under" src="/emerge/v05/dice.svg" />
+    <CrewBit who="skull-under" src="/emerge/v05/skull.svg" />
+  </div>
   <div className="gade-tape-slot"><GadeTape /></div>
   <div data-depth="0.9" style={{position:'absolute',right:'6%',top:'39%',width:'clamp(160px,18vw,260px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/snake.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(142deg)',filter:'saturate(1.1) drop-shadow(0 20px 34px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="1.0" style={{position:'absolute',left:'0',top:'44%',width:'100%',zIndex:'7',pointerEvents:'none'}}><div style={{width:'clamp(70px,8vw,110px)',animation:'fly 26s linear infinite -9s'}}><img loading="lazy" src="/emerge/v05/swallow.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-5deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div></div>
   <div data-depth="0.85" style={{position:'absolute',left:'5%',top:'53%',width:'clamp(100px,12vw,160px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/machine.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(12deg)',filter:'drop-shadow(0 18px 30px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="1.05" style={{position:'absolute',left:'78%',top:'58%',width:'clamp(80px,9vw,125px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/dagger.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(168deg)',filter:'drop-shadow(0 18px 30px rgba(0,0,0,.7))'}}/></div>
-  <div data-depth="0.7" style={{position:'absolute',left:'1%',top:'91%',width:'clamp(110px,13vw,170px)',zIndex:'5'}}><img loading="lazy" src="/emerge/v05/skull.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-24deg)',filter:'drop-shadow(0 16px 26px rgba(0,0,0,.6))'}}/></div>
+
   <div data-depth="0.95" style={{position:'absolute',left:'30%',top:'64%',width:'56px',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/cup.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(94deg)'}}/></div>
   <div data-depth="0.8" style={{position:'absolute',left:'32%',top:'66.5%',width:'130px',opacity:'.85',zIndex:'6'}}><img loading="lazy" src="/emerge/v05/splat-black.svg" alt="" style={{width:'100%',display:'block'}}/></div>
-  <div data-depth="1.1" style={{position:'absolute',left:'52%',top:'88%',width:'44px',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/dice.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(32deg)'}}/></div>
+
   <div data-depth="1.15" style={{position:'absolute',left:'56%',top:'89.5%',width:'34px',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/dice.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-50deg)'}}/></div>
-  <div data-depth="1.0" style={{position:'absolute',left:'7%',top:'28%',width:'clamp(46px,5vw,66px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/rat.svg" alt="" style={{width:'100%',display:'block',filter:'drop-shadow(0 8px 14px rgba(0,0,0,.7))'}}/></div>
+
   <div data-depth="1.12" style={{position:'absolute',right:'17%',top:'84%',width:'clamp(52px,6vw,76px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/rat.svg" alt="" style={{width:'100%',display:'block',transform:'scaleX(-1)',filter:'drop-shadow(0 8px 14px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="0.92" style={{position:'absolute',right:'5%',top:'66%',width:'clamp(70px,8vw,110px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/bottle.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(14deg)',filter:'drop-shadow(0 8px 16px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="1.18" style={{position:'absolute',left:'44%',top:'31%',width:'clamp(26px,2.6vw,38px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/cigarette.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-12deg)'}}/></div>
@@ -289,12 +295,16 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
     </figure>
   </div>
   <div className="mor-slot" data-depth="1.05" data-drift="0"><MorBird zone="work" /></div>
-  <div data-depth="1.15" style={{position:'absolute',left:'30%',top:'93%',width:'clamp(46px,5vw,68px)',zIndex:'9'}}><img loading="lazy" src="/emerge/v05/rat.svg" alt="" style={{width:'100%',display:'block',filter:'drop-shadow(0 8px 14px rgba(0,0,0,.7))'}}/></div>
+  <div className="crew-slot" data-depth="1.05" data-drift="0">
+    <CrewBit who="rat-work" src="/emerge/v05/rat.svg" />
+    <CrewBit who="dice-work" src="/emerge/v05/dice.svg" />
+    <CrewBit who="skull-work" src="/emerge/v05/skull.svg" />
+  </div>
 
   <div data-depth="0.45" style={{position:'absolute',left:'68%',top:'4%',width:'clamp(60px,7vw,100px)',opacity:'.85',zIndex:'3'}}><img loading="lazy" src="/emerge/v05/skull.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(12deg)'}}/></div>
-  <div data-depth="1.2" style={{position:'absolute',left:'60%',top:'40%',width:'clamp(40px,4.5vw,60px)',zIndex:'10'}}><img loading="lazy" src="/emerge/v05/skull.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-14deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div>
+
   <div data-depth="1.0" style={{position:'absolute',left:'0',top:'56%',width:'100%',zIndex:'10',pointerEvents:'none'}}><div style={{width:'clamp(60px,7vw,100px)',animation:'flyBack 32s linear infinite -12s'}}><img loading="lazy" src="/emerge/v05/swallow.svg" alt="" style={{width:'100%',display:'block',transform:'scaleX(-1) rotate(4deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div></div>
-  <div data-depth="0.88" style={{position:'absolute',left:'74%',top:'74%',width:'40px',zIndex:'9'}}><img loading="lazy" src="/emerge/v05/dice.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(24deg)'}}/></div>
+
   <div data-depth="0.92" style={{position:'absolute',left:'16%',top:'79%',width:'clamp(60px,7vw,96px)',zIndex:'9'}}><img loading="lazy" src="/emerge/v05/bottle.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(6deg)',filter:'drop-shadow(0 8px 16px rgba(0,0,0,.7))'}}/></div>
 
   <div data-depth="0.9" style={{position:'absolute',left:'22%',top:'34%',width:'18px',zIndex:'9'}}><img loading="lazy" src="/emerge/v05/spark.svg" alt="" style={{width:'100%',display:'block',animation:'twk 5.6s ease-in-out infinite -1.6s'}}/></div>

@@ -1,38 +1,34 @@
-/** Fuglemor — gadens mor. Tekst-stemme, ingen lyd. Steven godkender tonen. */
+/** Fuglemor. Bankens linjer roterer i motoren — hun mumler, hun performer ikke. */
+
+import type { LineKey, VoiceKey } from "./voice";
 
 export const MOR_ZONES = ["hero", "under", "work", "artist", "booking"] as const;
 export type MorZone = (typeof MOR_ZONES)[number];
 
-export type MorPerch = { id: string; line: string };
+export type MorPerch = { id: string; line: LineKey };
 
-/**
- * Landingssteder pr. zone. Positionerne bor i CSS (boks-model, ikke
- * transform). Linjerne er kridtsprogets mono-caps — sjældne nok til at
- * være et fund. Steven godkender tonen på PR'en.
- */
 export const MOR_PERCHES: Record<MorZone, MorPerch[]> = {
   hero: [
-    { id: "gutter", line: "HUN HAR SET DET HELE FRA TAGRENDEN" },
-    { id: "sign", line: "KOM IND. DER ER VARMT." },
-    { id: "walkin", line: "TO SMÅ. I AFTEN." },
+    { id: "gutter", line: "mor.line" },
+    { id: "sign", line: "mor.line" },
+    { id: "walkin", line: "mor.line" },
   ],
   under: [
-    { id: "gutter", line: "JEG RYGER MIN. IKKE DIN." },
-    { id: "chalk", line: "DEN PLADS HOLDER JEG" },
+    { id: "gutter", line: "mor.line" },
+    { id: "chalk", line: "mor.line" },
   ],
   work: [
-    { id: "gutter", line: "INGEN FLYVER HERFRA UMÆRKET" },
-    { id: "gade", line: "VI SÆLGER TUSSE. IKKE OPMÆRKSOMHED." },
+    { id: "gutter", line: "mor.line" },
+    { id: "gade", line: "mor.line" },
   ],
   artist: [
-    { id: "gutter", line: "HOLD KÆFT OG SÆT DIG" },
-    { id: "quote", line: "KOM IND. DER ER VARMT." },
+    { id: "gutter", line: "mor.line" },
+    { id: "quote", line: "mor.line" },
   ],
   booking: [
-    { id: "gutter", line: "HUN HAR SET DET HELE FRA TAGRENDEN" },
-    { id: "gift", line: "GIV DET VIDERE" },
+    { id: "gutter", line: "mor.line" },
+    { id: "gift", line: "mor.line" },
   ],
 };
 
-export const MOR_SR =
-  "En due i tagrenden. Hun ryger, hun kigger, og hun holder af gaden.";
+export const MOR_SR_KEY: VoiceKey = "mor.sr";
