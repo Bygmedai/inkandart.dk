@@ -80,8 +80,8 @@ export default function ShopPageEn() {
             <p className="mt-3 max-w-[54ch] text-[var(--text-soft)]">{c.piercing.intro}</p>
             <DepositumRaekke
               varer={PIERCINGS}
-              sted={(id) => c.piercing.slots[id as keyof typeof c.piercing.slots]}
-            ariaSted={(id) => c.piercing.ariaSlots[id as keyof typeof c.piercing.ariaSlots]}
+              sted={c.piercing.slots}
+              ariaSted={c.piercing.ariaSlots}
               koeb={c.piercing.koeb}
               aria={c.piercing.aria}
             />
@@ -93,12 +93,8 @@ export default function ShopPageEn() {
             <p className="mt-3 max-w-[54ch] text-[var(--text-soft)]">{c.flashDepositum.intro}</p>
             <DepositumRaekke
               varer={FLASH_DEPOSITS}
-              sted={(id) =>
-                c.flashDepositum.slots[id as keyof typeof c.flashDepositum.slots]
-              }
-              ariaSted={(id) =>
-                c.flashDepositum.ariaSlots[id as keyof typeof c.flashDepositum.ariaSlots]
-              }
+              sted={c.flashDepositum.slots}
+              ariaSted={c.flashDepositum.ariaSlots}
               koeb={c.flashDepositum.koeb}
               aria={c.flashDepositum.aria}
             />

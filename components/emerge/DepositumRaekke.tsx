@@ -25,10 +25,20 @@ export function DepositumRaekke({
   aria,
 }: {
   varer: Deposit[];
-  /** id → stednavn i brugerens sprog ("Øre", "Ear", "På Module", …). */
-  sted: (id: string) => string;
+  /**
+   * id → stednavn i brugerens sprog ("Øre", "Ear", "På Module", …).
+   *
+   * Tabellen kommer ind som den er, ikke som en opslags-funktion. Første
+   * udgave gjorde det omvendt, og hvert kaldsted måtte skrive
+   * `slots[id as keyof typeof slots]` — et kast der tier TypeScript og
+   * returnerer `undefined` i drift hvis et id ikke matcher (QA #177). Nu
+   * er der intet kast at skrive, og et manglende ord viser sit eget id
+   * i stedet for ordet «undefined». Hegnet i tests/koebsflader.test.mjs
+   * fanger stadig manglen i CI — men fejlen kan ikke længere nå brugeren.
+   */
+  sted: Record<string, string>;
   /** id → samme sted, bøjet så det kan HØRES i en sætning ("øret"). */
-  ariaSted: (id: string) => string;
+  ariaSted: Record<string, string>;
   /** Verbet på knappen ("Hold plads" / "Hold a slot"). */
   koeb: string;
   /** Skærmlæser-sætningen. Knappens synlige tekst er kort med vilje. */
@@ -37,14 +47,14 @@ export function DepositumRaekke({
   return (
     <ul className="depot" role="list">
       {varer.map((v) => {
-        const navn = sted(v.id);
+        const navn = sted[v.id] ?? v.id;
         return (
           <li key={v.variantId} className="depot__kort">
             <span className="depot__sted">{navn}</span>
             <a
               className="depot__koeb"
               href={cartUrl(v.variantId)}
-              aria-label={aria(ariaSted(v.id), kr(v.kr))}
+              aria-label={aria(ariaSted[v.id] ?? navn, kr(v.kr))}
             >
               <span className="depot__verbum">{koeb}</span>
               <span className="depot__pris">{kr(v.kr)},-</span>
