@@ -46,6 +46,11 @@ const da = {
     /* Kundens ord (S568): «knapperne skal være større og mere tydelige».
        Verbet skal være et verbum — ikke «Booking». */
     bookCta: "Book tid",
+    /** Doeren i bunden af Nizars afsnit — kriterium 3. Personlig med vilje:
+        man har lige moedt manden, saa knappen skal naevne ham. */
+    bookArtist: "Book hos Nizar",
+    /** Doeren i bunden af «Selected work» — kriterium 2. */
+    bookWork: "Book tid",
     trade: "Tatovering & piercing",
     shop: "Shop →",
     /** Under gaden — gadens eget bånd. Dansk ER pointen her: det er stedet. */
@@ -194,6 +199,8 @@ const en: Copy = {
   scene: {
     scroll: "Scroll down to emerge",
     bookCta: "Book now",
+    bookArtist: "Book with Nizar",
+    bookWork: "Book a time",
     trade: "Tattoo & piercing",
     shop: "Shop →",
     // Gadenavnene oversættes IKKE — Pisserenden er stedet, ikke en beskrivelse.
