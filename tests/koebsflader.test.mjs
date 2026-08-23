@@ -141,8 +141,21 @@ test("skærmlæser-sætningen er en sætning, ikke en etiket", () => {
   // HTML lød flash-tiden: «Hold en flash-tid I shoppen · Larsbjørnsstræde 13
   // med 500 kroner…» — stort I midt i en sætning og et punktum-tegn læst højt.
   // Etiketter skimmes, sætninger høres; de er ikke det samme ord.
-  const blokke = [...i18n.matchAll(/ariaSlots: \{[\s\S]*?\n      \},/g)].map((m) => m[0]);
-  assert.ok(blokke.length >= 4, "ariaSlots findes ikke i begge ordbøger");
+  // Bind til de kroellede parenteser, ikke til indrykningen. Foerste udgave
+  // sluttede paa "\n      }," — seks mellemrum — og da kerb-blokken kom til
+  // paa fire, loeb det lazy match videre ind i naboens indhold og dumpede
+  // paa et «·» der slet ikke var i en ariaSlots. Samme faelde som CSS-hegnene.
+  const blokke = [];
+  for (const m of i18n.matchAll(/ariaSlots: \{/g)) {
+    let dybde = 0;
+    for (let j = m.index + m[0].length - 1; j < i18n.length; j++) {
+      if (i18n[j] === "{") dybde++;
+      else if (i18n[j] === "}" && --dybde === 0) { blokke.push(i18n.slice(m.index, j + 1)); break; }
+    }
+  }
+  assert.ok(blokke.length >= 4, `fandt kun ${blokke.length} ariaSlots-blokke`);
+  // negativ kontrol: en blok maa ikke have slugt naboen
+  for (const b of blokke) assert.ok(b.length < 700, `en ariaSlots-blok er ${b.length} tegn — den har grebet for meget`);
   for (const blok of blokke) {
     assert.doesNotMatch(blok, /·/, "et «·» kan ikke læses højt");
   }
@@ -166,5 +179,57 @@ test("guldknappen står uden for den generelle købsflade-regel", () => {
   assert.ok(generelle.length >= 4, "den generelle købsflade-regel findes ikke");
   for (const sel of generelle) {
     assert.match(sel, /:not\(\.depot__koeb\)/, `${sel} friholder ikke guldknappen`);
+  }
+});
+
+test("kridtet henter hvert ord fra ordbogen — ikke fra komponenten", () => {
+  // Baggrunden (S569): KerbReservation tog intet sprog, og etiketterne laa
+  // paa dansk i lib/commerce.ts. En engelsk kunde paa /en/shop moedte
+  // «Hold min plads» og «Traekkes fra prisen» paa selve koebsknapperne.
+  const kerb = read("components/emerge/KerbReservation.tsx");
+  assert.match(kerb, /\{ lang = "da" \}/, "kridtet skal tage et sprog");
+  assert.match(kerb, /t\(lang\)\.kerb/, "kridtet skal hente ord fra ordbogen");
+  // Ingen dansk tilbage i det der RENDERES. Kommentarerne forklarer med
+  // vilje hvad der stod foer — en forklaring er ikke en streng, og foerste
+  // udgave af vidnet dumpede paa sin egen doc-blok.
+  const udenKommentarer = kerb.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
+  for (const ord of ["Kantstenen", "Hold min plads", "Trækkes fra prisen", "eller ring"]) {
+    assert.ok(!udenKommentarer.includes(ord), `«${ord}» står stadig hardkodet i markup`);
+  }
+  // og handelslaget baerer kun tal og ID'er
+  const res = commerce.slice(
+    commerce.indexOf("export const RESERVATIONS"),
+    commerce.indexOf("\n];", commerce.indexOf("export const RESERVATIONS")),
+  );
+  assert.doesNotMatch(res, /label:|aria:/, "RESERVATIONS må ikke bære copy");
+  assert.match(res, /id: "plads"/);
+});
+
+test("hvert kaldsted giver kridtet og fuglen det rigtige sprog", () => {
+  const en = read("app/en/shop/page.tsx");
+  assert.match(en, /<KerbReservation lang="en"/, "/en/shop giver ikke engelsk videre");
+  const scene = read("components/emerge/SceneV05.tsx");
+  assert.match(scene, /<KerbReservation lang=\{lang\}/, "scenen giver ikke sit sprog videre");
+  const morSlots = [...scene.matchAll(/<MorBird zone="\w+"([^/]*)\/>/g)];
+  assert.ok(morSlots.length >= 4, `fandt kun ${morSlots.length} MorBird-slots`);
+  for (const m of morSlots) {
+    assert.match(m[1], /lang=\{lang\}/, `en MorBird-slot mangler sproget: ${m[0]}`);
+  }
+});
+
+test("de tosprogede par peger paa hinanden (hreflang begge veje)", () => {
+  // /shop havde INGEN hreflang mens /en/shop pegede paa begge. Et ensrettet
+  // par tæller ikke hos Google.
+  for (const [sti, kald] of [
+    ["app/shop/page.tsx", '/shop'],
+    ["app/en/shop/page.tsx", '/shop'],
+    ["app/walk-in/page.tsx", '/walk-in'],
+    ["app/en/walk-in/page.tsx", '/walk-in'],
+  ]) {
+    const src = read(sti);
+    assert.ok(
+      src.includes(`alternates("${kald}")`),
+      `${sti} kalder ikke alternates("${kald}") — parret bliver ensrettet`,
+    );
   }
 });

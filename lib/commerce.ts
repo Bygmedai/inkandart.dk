@@ -78,27 +78,20 @@ export function walkinCartUrl(): string {
  * (ny måling dér). Kantstenen selv står uændret på to mærker.
  */
 export type Reservation = {
+  /**
+   * Noegle til copy i i18n. Etiketten og skaermlaeser-saetningen laa foer
+   * HER, paa dansk — og fulgte derfor med ud paa /en og /en/shop, hvor en
+   * engelsk kunde moedte «Hold min plads» paa selve koebsknappen.
+   * Samme greb som PIERCINGS: tal og ID'er her, ord i i18n.
+   */
+  id: string;
   kr: number;
   variantId: string;
-  /** Kridtets overlinje — hvad pladsen er. */
-  label: string;
-  /** Skærmlæser-sætningen; kridtet er grafik. */
-  aria: string;
 };
 
 export const RESERVATIONS: Reservation[] = [
-  {
-    kr: 100,
-    variantId: "53492757627208",
-    label: "Hold min plads",
-    aria: "Reservér en tid med 100 kroner i depositum",
-  },
-  {
-    kr: 1000,
-    variantId: "53463786127688",
-    label: "Hele dagen",
-    aria: "Reservér en heldags-session med 1.000 kroner i depositum",
-  },
+  { id: "plads", kr: 100, variantId: "53492757627208" },
+  { id: "heldag", kr: 1000, variantId: "53463786127688" },
 ];
 
 /**

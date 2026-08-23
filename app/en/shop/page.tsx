@@ -101,7 +101,7 @@ export default function ShopPageEn() {
           </section>
 
           <section className="gade__afsnit" aria-label={c.reservations}>
-            <KerbReservation />
+            <KerbReservation lang="en" />
           </section>
 
           <section className="gade__afsnit" aria-label={c.wallLabel}>

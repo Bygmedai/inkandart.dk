@@ -67,6 +67,23 @@ const da = {
 
   /** Seglet i toppen af undersiderne er baade maerke og vej hjem. */
   mastheadAria: "Ink & Art Copenhagen — til forsiden",
+  /** Fuglemors skaermlaeser-linje (Groks motiv, ordene bor her). */
+  morSr: "En due i tagrenden. Hun ryger, hun kigger, og hun holder af gaden.",
+  /** Kridtet paa kantstenen — stod foer hardkodet dansk i komponenten. */
+  kerb: {
+    legend: "Kantstenen er vores venteværelse",
+    slots: { plads: "Hold min plads", heldag: "Hele dagen" },
+    ariaSlots: {
+      plads: "Reservér en tid med 100 kroner i depositum",
+      heldag: "Reservér en heldags-session med 1.000 kroner i depositum",
+    },
+    note: "Trækkes fra prisen. Tiden aftaler vi bagefter —",
+    book: "book",
+    eller: "eller ring",
+    bookAria: "Book tid hos Ink & Art (åbner i nyt vindue)",
+    ringAria: (navn: string, tlf: string) => `Ring til ${navn}, ${tlf}`,
+  },
+
   otherLangName: "English",
   skipToContent: "Gå til indhold",
   backTo: "←",
@@ -219,6 +236,21 @@ const en: Copy = {
   },
 
   mastheadAria: "Ink & Art Copenhagen — home",
+  morSr: "A pigeon in the gutter. She smokes, she watches, and she loves this street.",
+  kerb: {
+    legend: "The kerb is our waiting room",
+    slots: { plads: "Hold my spot", heldag: "The whole day" },
+    ariaSlots: {
+      plads: "Reserve a slot with a 100 kroner deposit",
+      heldag: "Reserve a full-day session with a 1.000 kroner deposit",
+    },
+    note: "Comes off the price. We agree the time afterwards —",
+    book: "book",
+    eller: "or call",
+    bookAria: "Book a time at Ink & Art (opens in a new window)",
+    ringAria: (navn: string, tlf: string) => `Call ${navn}, ${tlf}`,
+  },
+
   otherLangName: "Dansk",
   skipToContent: "Skip to content",
   backTo: "←",

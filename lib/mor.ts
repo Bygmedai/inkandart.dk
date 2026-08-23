@@ -34,5 +34,11 @@ export const MOR_PERCHES: Record<MorZone, MorPerch[]> = {
   ],
 };
 
+/**
+ * @deprecated Ordene bor nu i lib/i18n.ts (`morSr`), saa de kan tales paa
+ * begge sprog. Stod her paa dansk og blev laest hoejt paa dansk for en
+ * engelsk bruger paa /en (Villy, S569). Beholdt saa intet knaekker; brug den
+ * ikke.
+ */
 export const MOR_SR =
   "En due i tagrenden. Hun ryger, hun kigger, og hun holder af gaden.";

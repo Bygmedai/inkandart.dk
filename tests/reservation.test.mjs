@@ -58,14 +58,21 @@ test("kridtet er en checkout-handoff uden klient-JS (rails §5)", () => {
   assert.match(kerb, /cartUrl\(/);
   // Direktivet — ikke ordet. Doc-kommentaren nævner "use client" med vilje.
   assert.doesNotMatch(kerb, /^\s*["']use client["']/m);
-  assert.match(kerb, /aria-label=\{r\.aria\}/);
+  assert.match(kerb, /aria-label=\{c\.ariaSlots\[/, "kridtet skal hente skærmlæser-teksten fra ordbogen");
 });
 
 test("copy'en lover ikke en tid vi ikke har (rails §4)", () => {
-  assert.match(kerb, /Trækkes fra prisen/);
-  assert.match(kerb, /Tiden aftaler vi bagefter/);
+  // Copy'en flyttede til i18n (S569): den laa hardkodet dansk i komponenten
+  // og fulgte derfor med ud paa /en og /en/shop. Loeftet maales nu dér hvor
+  // ordene bor — og paa BEGGE sprog, saa den engelske ikke kan love mere.
+  const i18n = readFileSync(join(root, "lib/i18n.ts"), "utf8");
+  assert.match(i18n, /Trækkes fra prisen/);
+  assert.match(i18n, /Comes off the price/);
+  assert.match(i18n, /Tiden aftaler vi bagefter/);
+  assert.match(i18n, /We agree the time afterwards/);
   // ingen påstand om at depositummet ER en booket tid
-  assert.doesNotMatch(kerb, /du har (nu )?en tid/i);
+  assert.doesNotMatch(i18n, /du har (nu )?en tid/i);
+  assert.doesNotMatch(i18n, /you (now )?have an appointment/i);
 });
 
 test("slotten er ét slot i Under gaden — og ligger over zonens bundfade", () => {
