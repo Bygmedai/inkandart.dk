@@ -222,39 +222,16 @@ overdrivelse her bliver til en skuffelse ved disken.
 
 ## 6. Accept — hvornår noget er færdigt
 
-**Ratificeret S568.** Baggrund: Geopol blev meldt færdig ad flere omgange
-med arkitekt-kendelser og grundige QA'er — og var fundamentalt i stykker.
-Målingen bagefter viste hvorfor: en bedømmer der har læst en autoritets
-konklusion, er allerede kompromitteret (en blot påstået dom i konteksten
-flipper en model i 66,5 % af tilfældene), og agenter melder målbart succes
-på ødelagte systemer. Så:
+**Processen bor i `docs/PROCES.md`** — ens i alle husets repoer, udrullet af
+`tools/udrul-proces.mjs`, og `AGENTS.md` peger på den så en Grok- eller
+Codex-session finder den selv. Kort: ingen melder «done»; acceptkriterier skrives før der
+bygges; bygger og dommer er aldrig samme leverandør; dommeren skriver sin
+dom ned før den læser tråden og indleder med `BLOKKERE: n`; Porten spærrer
+mekanisk; Steven accepterer ved at betjene produktet; kundevagten kører
+videre.
 
-- **«Done» findes ikke som agent-udsagn.** En agent melder «klar til
-  Stevens accept». Accept er Stevens handling: han betjener produktet mod
-  kriterierne i `docs/accept/<navn>.md`. *Hvorfor: accept er køberens
-  handling — leverandørens erklæring er testimoni (FAR 46; SUBSAFE).*
-- **Acceptkriterier skrives før bygning** — af agenten, i Stevens sprog
-  (Givet/Når/Så), godkendt af Steven før første commit. Skabelon:
-  `docs/accept/SKABELON.md`. *Hvorfor: kriterier skrevet efter bygningen
-  beskriver det byggede, ikke det ønskede.*
-- **Blind QA.** En reviewer får artefaktet og acceptkriterierne — ikke
-  forfatternavn, ikke PR-teksten som selvforståelse, ikke andres
-  vurderinger — og afgiver sin dom FØR andres domme læses. Revieweren
-  KØRER tingen; at læse rapporten om den er 70 % enighed med mennesker,
-  at køre den er 90 %. *Hvorfor: skaden sker i det øjeblik dommen ligger
-  i konteksten — ikke ved dens titel.*
-- **Ingen titel dømmer.** Analyser (også Sirius's) er input til byggeren —
-  aldrig «rulings», og de må ikke ligge i en reviewers kontekst før egen
-  dom. Byggere arbejder alene med fuld autonomi i egen lane (målt S568:
-  Grok alene i terminalen slog kæden bygger→arkitekt→QA på kvalitet);
-  kontrollen ligger EFTER, blindt og udførelsesbaseret — ikke midt i.
-- **Præmortem før accept** — frisk agent, adversarielt mandat, rapport
-  direkte til Steven: `docs/PREMORTEM-BRIEF.md`. Første kørsel fandt fem
-  blokkere i #178 som 48/48 selvtests ikke fangede.
-- **Hvert produkt fødes med en kundevagt** — en vagt der læser produktet
-  som en kunde, med negative kontroller (`scripts/kundevagt.mjs`).
-  *Hvorfor: liveness er ikke leverance — Geopol havde 5.579 grønne
-  cron-kørsler mens produktet stod stille.*
+Begrundelserne og rollefordelingen står i `docs/PROCES.md`. Denne fil er
+husreglerne for netop dette repo — ikke processen.
 
 ---
 
