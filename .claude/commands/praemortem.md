@@ -42,6 +42,8 @@ Arbejdsform — **udførelse, ikke mening**:
 1. **3–6 konkrete fiaskohistorier** med fil og linje, helst med et kørt
    modeksempel.
 2. **Blokkere før accept** vs. **accepteret restrisiko** — skarpt adskilt.
+   Indled afsnittet med `BLOKKERE: n` (også hvis n er 0) — fangstgraden i
+   `scripts/fabriksmaal.mjs` kan ikke regnes uden den linje.
 3. **Én ting der er bedre end forventet.** Hvis alt er skidt, har du ikke
    kigget godt nok.
 

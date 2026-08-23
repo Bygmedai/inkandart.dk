@@ -259,6 +259,17 @@ på ødelagte systemer. Så:
   selv (`.claude/commands/praemortem.md`), så en relay koster ét ord i
   stedet for en indsat tekst. Rapport direkte til Steven. Første kørsel
   fandt fem blokkere i #178 som 48/48 selvtests ikke fangede.
+- **Bygger og dommer er aldrig samme leverandør (S569).** Vilde (Anthropic)
+  bygger og Grok (xAI) dømmer, eller omvendt — rollerne byttes fra opgave
+  til opgave. Briefs: `docs/briefs/`. *Hvorfor: selv-præference er
+  identitetsdrevet — en model der dømmer sit eget hus' arbejde er mildere;
+  to firmaers modeller er naturligt i konkurrence.*
+- **Vi måler om tiltagene virker.** `scripts/fabriksmaal.mjs` — hvert tal
+  udledt af artefakter, aldrig af en agents rapport. Det bærende tal er
+  **fangstgraden**: fejl fanget før accept ÷ (før + undsluppet efter).
+  Dommere skriver `BLOKKERE: n`; undslupne fejl får label `undsluppet`.
+  *Hvorfor: udviklere med AI blev 19 % langsommere og troede de var 20 %
+  hurtigere (METR). Selvrapport er ikke data.*
 - **Hvert produkt fødes med en kundevagt** — en vagt der læser produktet
   som en kunde, med negative kontroller (`scripts/kundevagt.mjs`).
   *Hvorfor: liveness er ikke leverance — Geopol havde 5.579 grønne
