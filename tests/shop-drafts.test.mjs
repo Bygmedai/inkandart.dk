@@ -42,8 +42,22 @@ test("writes target handle, never a fuzzy title/body regex", () => {
 test("piercing deposits are excluded from the print catalogue, not labelled dead", () => {
   assert.match(script, /PIERCE_EXCLUDED/);
   assert.doesNotMatch(script, /PIERCE_DEAD/);
+  // RÅB (Villy, S569): linjen herunder krævede før at piercing-ID'erne slet
+  // ikke fandtes i commerce.ts, fordi alle fire var 410 den 2026-08-21. De
+  // måler levende 2026-08-22 og har nu en købsflade (PIERCINGS). Testens eget
+  // emne — «excluded from the PRINT catalogue» — er uændret og måles skarpere
+  // nu: de må ikke stå i SHOP_PRINTS.
+  // Udsnittet skal slutte hvor LISTEN slutter — ikke ved næste `export`.
+  // Doc-blokken over PIERCINGS indeholder måletabellen med de samme ID'er,
+  // så et udsnit der løb helt derhen ville læse kommentaren som data.
+  const fra = commerce.indexOf("export const SHOP_PRINTS");
+  assert.notEqual(fra, -1, "SHOP_PRINTS findes ikke");
+  const til = commerce.indexOf("\n];", fra);
+  assert.notEqual(til, -1, "SHOP_PRINTS lukker aldrig");
+  const prints = commerce.slice(fra, til);
+  assert.ok(prints.length > 0, "SHOP_PRINTS-udsnittet er tomt");
   for (const id of PIERCE_EXCLUDED) {
-    assert.doesNotMatch(commerce, new RegExp(id));
+    assert.doesNotMatch(prints, new RegExp(id));
   }
 });
 

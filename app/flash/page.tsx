@@ -5,6 +5,7 @@ import { cartUrl, kr } from "@/lib/commerce";
 import { BlackbookSignup } from "@/components/emerge/BlackbookSignup";
 
 import { SkipLink } from "@/components/i18n/SkipLink";
+import { Masthead } from "@/components/brand/Masthead";
 export const metadata: Metadata = {
   alternates: { canonical: "/flash" },
   title: "Flash · Ink & Art",
@@ -27,9 +28,7 @@ export default function FlashPage() {
 
       <SkipLink lang="da" />
     <main id="main" className="mx-auto max-w-[68ch] px-[var(--gutter)] py-24">
-      <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
-        <a href="/">← {site.name}</a>
-      </p>
+      <Masthead lang="da" />
       <p className="mt-10 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
         Flash
       </p>

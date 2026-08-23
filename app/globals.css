@@ -237,22 +237,10 @@ html.emerge-js [data-emerge="deep"]:not(.is-emerged) {
 @keyframes floatUp {0%{transform:translate(0,20svh);opacity:0}12%{opacity:.9}78%{opacity:.85}100%{transform:translate(3vw,-46svh);opacity:0}}
 @keyframes twk {0%,100%{opacity:.12}50%{opacity:.85}}
 @keyframes mq {from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@keyframes loaderBreathe {0%,100%{opacity:.5}50%{opacity:1}}
 @media (prefers-reduced-motion: reduce) {
   .emerge-v05 * { animation: none !important; }
 }
 
-/* Loader-overlayet findes kun for JS-brugere (emerge-boot sætter klassen
-   beforeInteractive, så der er intet flash). Uden JS: intet overlay —
-   indholdet ER siden. (Haruki S566, PE-kontrakten målt.) */
-[data-loader] {
-  display: none;
-}
-html.emerge-js [data-loader] {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 /* ── Emerge v0.5 · mobil-pasning (≤640px) ────────────────────────────────
    Claudias komposition er sat på desktop-lærredet; på smalle skærme flyttes/
@@ -1441,14 +1429,14 @@ body:not(:has(.emerge-v05)) main { position: relative; z-index: 1; }
    se HVOR man køber det. Selektoren rammer cart-permalinks — altså præcis
    de handlinger der fører til betaling — og kun uden for scenen, hvor
    kridtet og relikvierne er bevidst anderledes. */
-body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark) {
+body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb) {
   border: 1.5px solid rgba(201, 162, 39, 0.55);
   background: linear-gradient(180deg, rgba(201, 162, 39, 0.1), rgba(201, 162, 39, 0.03));
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(232, 224, 213, 0.08);
   transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
 }
-body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):hover,
-body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):focus-visible {
+body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb):hover,
+body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb):focus-visible {
   border-color: var(--gold);
   background: linear-gradient(180deg, rgba(201, 162, 39, 0.2), rgba(201, 162, 39, 0.07));
   transform: translateY(-2px);
@@ -1472,8 +1460,8 @@ body:not(:has(.emerge-v05)) main .gift-denom::after {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark) { transition: none; }
-  body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):hover { transform: none; }
+  body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb) { transition: none; }
+  body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb):hover { transform: none; }
 }
 
 /* Sprogskifter — samme side, andet sprog. Aldrig tilbage til forsiden. */
@@ -1505,4 +1493,165 @@ body:not(:has(.emerge-v05)) main .gift-denom::after {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+}
+
+/* ── Depositum-kort: «hold en plads» som noget man ikke kan overse ───────
+   Villy, S569. Seks levende varer havde ingen flade på sitet — piercing (4)
+   og flash-tider (2). Denne blok er deres udseende.
+
+   Kundetesten styrer målene, ikke smagen: knappen er ≥56px høj (WCAG 2.2
+   SC 2.5.8 kræver 24×24 — vi ligger langt over med vilje, for en utålmodig
+   besøgende), prisen står PÅ knappen, og feltet er fyldt i husets guld med
+   mørk tekst, så det læser som en handling og ikke som endnu en ramme.
+
+   NB — målt, ikke antaget: første udgave stolede på at «min regel står
+   sidst i filen». Det holder ikke. Den generelle købsflade-regel rammer også
+   disse links, og den har ÉN klasse mere i selektoren:
+
+     generel  body:not(:has(.emerge-v05)) main a[href*=…]:not(.kerb__mark)  → 0,3,3
+     min      body:not(:has(.emerge-v05)) main a.depot__koeb                → 0,2,3
+
+   Højere specificitet vinder uanset rækkefølge. Resultatet var mørk tekst
+   (#14100c) på den generelles næsten gennemsigtige gradient over et næsten
+   sort kort: **1.07:1 målt** på begge viewports — ulæseligt, og præcis den
+   modsatte fejl af den jeg ville rette. Løsningen er ikke at vinde et
+   specificitets-kapløb, men at sige det højt: kridtet står allerede uden for
+   den generelle regel med `:not(.kerb__mark)`; nu gør guldknappen det samme
+   med `:not(.depot__koeb)`. To undtagelser man kan læse, i stedet for en
+   rangorden man skal regne ud. */
+.depot {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: clamp(14px, 2.4vw, 22px);
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.depot__kort {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  padding: 20px;
+  border: 1.5px solid rgba(232, 224, 213, 0.18);
+  background: rgba(10, 8, 7, 0.5);
+}
+.depot__sted {
+  font-family: var(--font-mono), monospace;
+  font-size: 14px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+body:not(:has(.emerge-v05)) main a.depot__koeb {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 56px;
+  padding: 0 18px;
+  color: #14100c;
+  background: linear-gradient(180deg, #d9b23c, var(--gold));
+  border: 1.5px solid #e6cc63;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease;
+}
+body:not(:has(.emerge-v05)) main a.depot__koeb:hover,
+body:not(:has(.emerge-v05)) main a.depot__koeb:focus-visible {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.62), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+.depot__verbum {
+  font-family: var(--font-mono), monospace;
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.depot__pris {
+  font-family: var(--font-mono), monospace;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+@media (prefers-reduced-motion: reduce) {
+  body:not(:has(.emerge-v05)) main a.depot__koeb { transition: none; }
+  body:not(:has(.emerge-v05)) main a.depot__koeb:hover { transform: none; }
+}
+
+/* ── Zonedøre: én udgang i «Selected work» og én i «The artist» ──────────
+   Kriterium 2, 3 og 4 i docs/accept/forsiden-udgange.md. Målt før: de to
+   zoner havde 42 og 31 billeder og NUL links — 3,4 skærme uden en handling,
+   præcis dér hvor en besøgende har set noget de kan lide.
+
+   Positionerne er ikke valgt med øjet. For hver zone er hver 2. procent
+   afprøvet mod alle FOTOS i zonen (ikke de fritlagte motiver — en guldknap
+   over mørk collage er fin, over et fotos motiv er den sjusket), og kun
+   positioner med 0 px² overlap er brugt. Derefter er parret valgt så
+   afstanden mellem to handlinger holder sig under halvanden skærm.
+
+   Målt efter, på den byggede side:
+     desktop  work 46 % · artist 40 %  → største hul 1.312 px = 1,46 skærme
+     mobil    work 24 % · artist 46 %  → største hul 1.262 px = 1,50 skærme
+   Begge under kravet. (Mit overslag før målingen sagde 1,55 på mobil og
+   dermed et brud — det holdt ikke; positionen af artist-døren flyttede
+   mere end regnestykket forudsagde. Tallene her er de målte.) */
+.zone-doer--work { bottom: 24%; }
+.zone-doer--artist { bottom: 46%; }
+@media (min-width: 900px) {
+  .zone-doer--work { bottom: 46%; }
+  .zone-doer--artist { bottom: 40%; }
+}
+
+/* ── Masthead: husets segl i toppen af hver underside ────────────────────
+   docs/accept/masthead.md. Baggrund: fire forskellige mønstre øverst, og to
+   sider — /gavekort/giv og /gavekort/kort — uden nogen vej hjem overhovedet.
+   Midt i gavekort-flowet.
+
+   Seglet er lille med vilje (kriterium 5): et anker, ikke en overskrift.
+   48px er over WCAG 2.2 SC 2.5.8's 24px, så tap-målet er dækket af mærket
+   selv — ingen usynlig padding nødvendig. */
+.masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 8px;
+}
+.masthead__segl {
+  display: block;
+  width: 48px;
+  height: 48px;
+  flex: none;
+  border-bottom: none;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.6));
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+.masthead__segl img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.masthead__segl:hover,
+.masthead__segl:focus-visible {
+  transform: translateY(-1px);
+  filter: drop-shadow(0 9px 20px rgba(0, 0, 0, 0.7));
+}
+.masthead__segl:focus-visible { outline: 2px solid var(--gold); outline-offset: 6px; }
+@media (prefers-reduced-motion: reduce) {
+  .masthead__segl { transition: none; }
+  .masthead__segl:hover { transform: none; }
+}
+
+/* RÅB (Villy, S569 — Groks /gavekort-lane): «← Gavekort» på /gavekort/giv
+   måler 111×20 px, altså under WCAG 2.2 SC 2.5.8's 24×24. Målt i produktion
+   med scripts/maal-flader.mjs, uændret fra main — jeg har ikke lavet den,
+   men jeg ejer gaten.
+
+   Indgrebet rører kun trykfeltet: lodret padding vokser hitboxen uden at
+   flytte linjen (samme greb som .gade__note a). Ingen copy, intet motiv,
+   ingen adfærd. Rul den tilbage i din egen lane hvis du er uenig. */
+.gift-page__inner a[href="/gavekort"] {
+  display: inline-block;
+  padding: 6px 0 4px;
 }

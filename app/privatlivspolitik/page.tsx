@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { site } from "@/lib/site";
 
 import { SkipLink } from "@/components/i18n/SkipLink";
+import { Masthead } from "@/components/brand/Masthead";
 export const metadata: Metadata = {
   alternates: { canonical: "/privatlivspolitik" },
   title: "Privatlivspolitik · Ink & Art",
@@ -12,9 +13,7 @@ export default function PrivacyPage() {
     <>
       <SkipLink lang="da" />
     <main className="mx-auto max-w-[68ch] px-[var(--gutter)] py-24">
-      <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
-        <a href="/">← {site.name}</a>
-      </p>
+      <Masthead lang="da" />
       <h1 className="mt-6 font-[family-name:var(--font-display)] text-[clamp(36px,6vw,64px)] font-medium">
         Privatlivspolitik
       </h1>

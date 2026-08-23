@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { site } from "@/lib/site";
-import { SHOP_PRINTS, cartUrl, kr } from "@/lib/commerce";
+import { SHOP_PRINTS, PIERCINGS, FLASH_DEPOSITS, cartUrl, kr } from "@/lib/commerce";
+import { DepositumRaekke } from "@/components/emerge/DepositumRaekke";
 import { KerbReservation } from "@/components/emerge/KerbReservation";
 import { LangSwitch } from "@/components/i18n/LangSwitch";
 import { SkipLink } from "@/components/i18n/SkipLink";
 import { alternates, t } from "@/lib/i18n";
+import { Masthead } from "@/components/brand/Masthead";
 
 /**
  * /en/shop — den engelske udgave af kataloget (Villy, S568).
@@ -44,10 +46,9 @@ export default function ShopPageEn() {
       <SkipLink lang="en" />
       <main id="main" className="gade" lang="en">
         <div className="gade__inner">
-          <p className="gade__top font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
-            <a href="/en">← {site.name}</a>
-            <LangSwitch lang="en" path="/shop" />
-          </p>
+          <Masthead lang="en">
+          <LangSwitch lang="en" path="/shop" />
+        </Masthead>
 
           <p className="mt-10 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
             {c.kicker}
@@ -71,8 +72,36 @@ export default function ShopPageEn() {
             ))}
           </ul>
 
+          {/* Samme handling, samme gate — kun sætningerne skifter sprog.
+              Variant-ID'erne er de samme levende varer som på dansk. */}
+          <section className="gade__afsnit" aria-label={c.piercing.label}>
+            <p className="gade__afsnit-label">{c.piercing.label}</p>
+            <h2 className="gade__afsnit-rubrik">{c.piercing.title}</h2>
+            <p className="mt-3 max-w-[54ch] text-[var(--text-soft)]">{c.piercing.intro}</p>
+            <DepositumRaekke
+              varer={PIERCINGS}
+              sted={c.piercing.slots}
+              ariaSted={c.piercing.ariaSlots}
+              koeb={c.piercing.koeb}
+              aria={c.piercing.aria}
+            />
+          </section>
+
+          <section className="gade__afsnit" aria-label={c.flashDepositum.label}>
+            <p className="gade__afsnit-label">{c.flashDepositum.label}</p>
+            <h2 className="gade__afsnit-rubrik">{c.flashDepositum.title}</h2>
+            <p className="mt-3 max-w-[54ch] text-[var(--text-soft)]">{c.flashDepositum.intro}</p>
+            <DepositumRaekke
+              varer={FLASH_DEPOSITS}
+              sted={c.flashDepositum.slots}
+              ariaSted={c.flashDepositum.ariaSlots}
+              koeb={c.flashDepositum.koeb}
+              aria={c.flashDepositum.aria}
+            />
+          </section>
+
           <section className="gade__afsnit" aria-label={c.reservations}>
-            <KerbReservation />
+            <KerbReservation lang="en" />
           </section>
 
           <section className="gade__afsnit" aria-label={c.wallLabel}>

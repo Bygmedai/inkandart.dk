@@ -3,6 +3,7 @@ import { aftercare } from "@/lib/aftercare";
 import { site } from "@/lib/site";
 
 import { SkipLink } from "@/components/i18n/SkipLink";
+import { Masthead } from "@/components/brand/Masthead";
 export const metadata: Metadata = {
   alternates: { canonical: "/aftercare" },
   title: "Aftercare · Ink & Art",
@@ -14,9 +15,7 @@ export default function AftercarePage() {
     <>
       <SkipLink lang="da" />
     <main className="mx-auto max-w-[68ch] px-[var(--gutter)] py-24">
-      <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
-        <a href="/">← {site.name}</a>
-      </p>
+      <Masthead lang="da" />
       <p className="mt-10 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
         {aftercare.file}
       </p>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { site } from "@/lib/site";
 
 import { SkipLink } from "@/components/i18n/SkipLink";
+import { Masthead } from "@/components/brand/Masthead";
 export const metadata: Metadata = {
   alternates: { canonical: "/gavekort/til-dig" },
   title: "Det venter på dig · Ink & Art",
@@ -19,9 +20,7 @@ export default function TilDigPage() {
       <SkipLink lang="da" />
     <main id="main" className="gift-page">
       <div className="gift-page__inner">
-        <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
-          <a href="/">← {site.name}</a>
-        </p>
+        <Masthead lang="da" />
         <p className="mt-10 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
           Til dig
         </p>

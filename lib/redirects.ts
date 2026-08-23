@@ -23,6 +23,11 @@ export const ROUTE_MIGRATION: MigrationRow[] = [
   { from: "/en/artists/nizar/", to: "/#artist-nizar", reason: "EN named artist" },
   { from: "/en/artists/:slug/", to: "/#artists", reason: "EN unknown artist" },
   { from: "/en/flash/", to: "/flash/", reason: "EN flash → flash-siden (DA-kanonisk)" },
+  { from: "/en/gavekort/", to: "/gavekort/", reason: "Hellere dansk end 410 — §1-reglen. Målt 410 i prod 2026-08-22" },
+  { from: "/en/gavekort/giv/", to: "/gavekort/giv/", reason: "Hellere dansk end 410" },
+  { from: "/en/gavekort/til-dig/", to: "/gavekort/til-dig/", reason: "Hellere dansk end 410" },
+  { from: "/en/blackbook/", to: "/blackbook/", reason: "Hellere dansk end 410" },
+  { from: "/en/privatlivspolitik/", to: "/privatlivspolitik/", reason: "DA-sti under /en/ — samme regel som /en/privacy" },
   { from: "/en/find-your-tattoo/", to: "/#artists", reason: "EN wizard retired" },
   { from: "/en/share-your-idea/", to: "/#booking", reason: "EN intake → chair" },
 ];
@@ -78,6 +83,11 @@ export const nextRedirects: Redirect[] = [
   ...slashPair("/en/artists/:slug", "/#artists"),
   ...slashPair("/en/artists", "/#artists"),
   ...slashPair("/en/flash", "/flash"),
+  ...slashPair("/en/gavekort/giv", "/gavekort/giv"),
+  ...slashPair("/en/gavekort/til-dig", "/gavekort/til-dig"),
+  ...slashPair("/en/gavekort", "/gavekort"),
+  ...slashPair("/en/blackbook", "/blackbook"),
+  ...slashPair("/en/privatlivspolitik", "/privatlivspolitik"),
   ...slashPair("/en/find-your-tattoo", "/#artists"),
   ...slashPair("/en/share-your-idea", "/#booking"),
 ];

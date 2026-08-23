@@ -73,31 +73,25 @@ export function walkinCartUrl(): string {
  *   cart/53463786127688:1 → 302 (fulgt: 200)   heldags-session 4t+ · 1.000,-
  *   cart/99999999999999:1 → 410                negativ kontrol
  *
- * NB: de fire piercing-depositum-varianter er 410 (ikke købbare) og indgår
- * derfor ikke — en død handling er værre end ingen (rails §4).
+ * NB: de fire piercing-depositum-varianter VAR 410 den 2026-08-21 og blev
+ * holdt ude med vilje. De er levende i dag og bor nu i PIERCINGS nedenfor
+ * (ny måling dér). Kantstenen selv står uændret på to mærker.
  */
 export type Reservation = {
+  /**
+   * Noegle til copy i i18n. Etiketten og skaermlaeser-saetningen laa foer
+   * HER, paa dansk — og fulgte derfor med ud paa /en og /en/shop, hvor en
+   * engelsk kunde moedte «Hold min plads» paa selve koebsknappen.
+   * Samme greb som PIERCINGS: tal og ID'er her, ord i i18n.
+   */
+  id: string;
   kr: number;
   variantId: string;
-  /** Kridtets overlinje — hvad pladsen er. */
-  label: string;
-  /** Skærmlæser-sætningen; kridtet er grafik. */
-  aria: string;
 };
 
 export const RESERVATIONS: Reservation[] = [
-  {
-    kr: 100,
-    variantId: "53492757627208",
-    label: "Hold min plads",
-    aria: "Reservér en tid med 100 kroner i depositum",
-  },
-  {
-    kr: 1000,
-    variantId: "53463786127688",
-    label: "Hele dagen",
-    aria: "Reservér en heldags-session med 1.000 kroner i depositum",
-  },
+  { id: "plads", kr: 100, variantId: "53492757627208" },
+  { id: "heldag", kr: 1000, variantId: "53463786127688" },
 ];
 
 /**
@@ -145,6 +139,66 @@ export const SHOP_PRINTS: ShopPrint[] = [
     live: false,
     linje: "Støbt i sterlingsølv efter en af husets tegninger.",
   },
+];
+
+/**
+ * Depositum-flader (Villy, S569) — de LEVENDE varer der ikke stod nogen steder.
+ *
+ * Fundet ved at holde Shopify-kataloget op mod den rensede side: ti produkter
+ * er ACTIVE og availableForSale, men kun fire havde en flade på sitet. De
+ * seks herunder kunne købes af enhver der kendte linket — og af ingen andre.
+ *
+ * Målt 2026-08-22 mod d1qp54-0w.myshopify.com efter husets protokol
+ * (LEVENDE = 302 bart / 200 fulgt · DØD = 410 med det samme), positiv OG
+ * negativ kontrol i samme kørsel — scripts/maal-varianter.sh:
+ *   cart/53463786062152:1 → 302 (fulgt 200)   flash på Module ·   100,-
+ *   cart/53463786094920:1 → 302 (fulgt 200)   flash i shoppen ·   500,-
+ *   cart/53511714570568:1 → 302 (fulgt 200)   piercing · øre ·    100,-
+ *   cart/53511714996552:1 → 302 (fulgt 200)   piercing · krop ·   100,-
+ *   cart/53511715422536:1 → 302 (fulgt 200)   piercing · ansigt · 100,-
+ *   cart/53511715881288:1 → 302 (fulgt 200)   piercing · mund ·   100,-
+ *   cart/53342061822280:1 → 410               Dolk (draft)      negativ kontrol
+ *   cart/99999999999999:1 → 410               findes ikke       negativ kontrol
+ *
+ * Copy'en bor i lib/i18n.ts (nøglet på `id`), ikke her — så fladen kan tales
+ * på begge sprog uden at handelslaget kender til sprog. Kun tal og ID'er her.
+ */
+export type Deposit = {
+  /** Nøgle til copy i i18n (shop.piercing.slots / flash.depositum). */
+  id: string;
+  /** DKK. Depositum — trækkes fra prisen på selve arbejdet. */
+  kr: number;
+  /** Shopify ProductVariant-ID. Kun verificeret levende ID hører til her. */
+  variantId: string;
+  /** Shopify-handle — så en fremtidig læser kan finde varen igen. */
+  handle: string;
+};
+
+/**
+ * Piercing — fire steder på kroppen, samme depositum.
+ *
+ * Dette er også svaret på beta-testen ("Er det en tatto shop?"): ordet
+ * «piercing» fandtes ikke ét sted på sitet, selv om huset har solgt det i
+ * Shopify siden juli. Nu er det både en sætning og en handling.
+ */
+export const PIERCINGS: Deposit[] = [
+  { id: "ore", kr: 100, variantId: "53511714570568", handle: "piercing-ore-reserver-tid" },
+  { id: "krop", kr: 100, variantId: "53511714996552", handle: "piercing-krop-reserver-tid" },
+  { id: "ansigt", kr: 100, variantId: "53511715422536", handle: "piercing-ansigt-reserver-tid" },
+  { id: "mund", kr: 100, variantId: "53511715881288", handle: "piercing-mund-reserver-tid" },
+];
+
+/**
+ * Flash-tider. To steder, to depositummer — huset har sat begge priser.
+ *
+ * NB: `flash`-listen i lib/flash.ts er tom (motiverne er ikke leveret endnu).
+ * Det er ikke i modstrid: depositummet holder en TID, ikke et bestemt motiv —
+ * præcis som Shopify-varens egen beskrivelse siger. Copy'en må derfor aldrig
+ * love et motiv (rails §4).
+ */
+export const FLASH_DEPOSITS: Deposit[] = [
+  { id: "shoppen", kr: 500, variantId: "53463786094920", handle: "depositum-flash-i-shoppen" },
+  { id: "module", kr: 100, variantId: "53463786062152", handle: "depositum-flash-pa-module" },
 ];
 
 /** Cart-permalink for enhver variant (gavekort, flash, …): lægger varen i

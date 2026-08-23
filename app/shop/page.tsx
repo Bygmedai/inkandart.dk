@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { site } from "@/lib/site";
-import { SHOP_PRINTS, cartUrl, kr } from "@/lib/commerce";
+import { SHOP_PRINTS, PIERCINGS, FLASH_DEPOSITS, cartUrl, kr } from "@/lib/commerce";
+import { DepositumRaekke } from "@/components/emerge/DepositumRaekke";
+import { alternates, t } from "@/lib/i18n";
 import { KerbReservation } from "@/components/emerge/KerbReservation";
 import { LangSwitch } from "@/components/i18n/LangSwitch";
 
 import { SkipLink } from "@/components/i18n/SkipLink";
+import { Masthead } from "@/components/brand/Masthead";
 /**
  * /shop — «Gaden sælger.» Kataloget i Emerge-sproget (Villy, P1 — vej B).
  *
@@ -19,7 +22,7 @@ import { SkipLink } from "@/components/i18n/SkipLink";
  * commerce.ts), flipper kortene selv til køb — copy'en her skal ikke røres.
  */
 export const metadata: Metadata = {
-  alternates: { canonical: "/shop" },
+  alternates: { ...alternates("/shop"), canonical: "/shop" },
   title: "Gaden sælger · Ink & Art",
   description:
     "Gavekort, walk-in, flash, reservationer og husets prints — alt det gaden sælger, samlet ét sted. Ink & Art Copenhagen, Larsbjørnsstræde 13.",
@@ -48,15 +51,16 @@ const DOORS = [
 ] as const;
 
 export default function ShopPage() {
+  const c = t("da").shop;
+
   return (
     <>
       <SkipLink lang="da" />
     <main id="main" className="gade">
       <div className="gade__inner">
-        <p className="gade__top font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
-          <a href="/">← {site.name}</a>
+        <Masthead lang="da">
           <LangSwitch lang="da" path="/shop" />
-        </p>
+        </Masthead>
 
         <p className="mt-10 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
           Shop
@@ -87,6 +91,38 @@ export default function ShopPage() {
             </li>
           ))}
         </ul>
+
+        {/* ── Piercing: levende varer der ikke stod nogen steder ──────── */}
+        <section className="gade__afsnit" aria-label={c.piercing.label}>
+          <p className="gade__afsnit-label">{c.piercing.label}</p>
+          <h2 className="gade__afsnit-rubrik">{c.piercing.title}</h2>
+          <p className="mt-3 max-w-[54ch] text-[var(--text-soft)]">
+            {c.piercing.intro}
+          </p>
+          <DepositumRaekke
+            varer={PIERCINGS}
+            sted={c.piercing.slots}
+            ariaSted={c.piercing.ariaSlots}
+            koeb={c.piercing.koeb}
+            aria={c.piercing.aria}
+          />
+        </section>
+
+        {/* ── Flash-tider: samme handling, andet sted ─────────────────── */}
+        <section className="gade__afsnit" aria-label={c.flashDepositum.label}>
+          <p className="gade__afsnit-label">{c.flashDepositum.label}</p>
+          <h2 className="gade__afsnit-rubrik">{c.flashDepositum.title}</h2>
+          <p className="mt-3 max-w-[54ch] text-[var(--text-soft)]">
+            {c.flashDepositum.intro}
+          </p>
+          <DepositumRaekke
+            varer={FLASH_DEPOSITS}
+            sted={c.flashDepositum.slots}
+            ariaSted={c.flashDepositum.ariaSlots}
+            koeb={c.flashDepositum.koeb}
+            aria={c.flashDepositum.aria}
+          />
+        </section>
 
         {/* ── Kridtet: reservationerne (genbrug, min komponent) ───────── */}
         <section className="gade__afsnit" aria-label="Reservationer">

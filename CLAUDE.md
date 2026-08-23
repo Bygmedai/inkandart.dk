@@ -67,7 +67,11 @@ til en triviel merge i stedet for en dag tabt.
   handel. En **levende** variant svarer `302` på et bart kald (`200` hvis du
   følger redirect med `curl -L`); en **død** svarer `410` med det samme.
   Mål altså 302-eller-fulgt-200 mod 410 — ikke «200 mod 410» (Haruki, S568).
-  Fire piercing-varianter var 410 i august 2026 — de indgår derfor ikke.
+  De fire piercing-varianter var 410 den 2026-08-21 og blev holdt ude; de
+  måler 302/fulgt-200 den 2026-08-22 og indgår nu (`PIERCINGS`). Pointen
+  består: **en måling har en dato.** Er den mere end et par dage gammel,
+  så mål igen før du bygger på den — `scripts/maal-varianter.sh` gør det
+  for hele kataloget på én gang, med negativ kontrol indbygget.
 - **Ingen CSS-`transform` på en slot der er `[data-depth]`-deltager.**
   Motoren ejer transform på de bokse; centrering laves med boks-model
   (`left`/`right`/`margin-inline`). Lært i #146, bekræftet i kridt-slotten.
@@ -216,4 +220,19 @@ overdrivelse her bliver til en skuffelse ved disken.
 
 ---
 
-*Ratificeret S567 (2026-08-21). Ændringer sker via PR, ikke via besked.*
+## 6. Accept — hvornår noget er færdigt
+
+**Processen bor i `docs/PROCES.md`** — ens i alle husets repoer, udrullet af
+`tools/udrul-proces.mjs`, og `AGENTS.md` peger på den så en Grok- eller
+Codex-session finder den selv. Kort: ingen melder «done»; acceptkriterier skrives før der
+bygges; bygger og dommer er aldrig samme leverandør; dommeren skriver sin
+dom ned før den læser tråden og indleder med `BLOKKERE: n`; Porten spærrer
+mekanisk; Steven accepterer ved at betjene produktet; kundevagten kører
+videre.
+
+Begrundelserne og rollefordelingen står i `docs/PROCES.md`. Denne fil er
+husreglerne for netop dette repo — ikke processen.
+
+---
+
+*Ratificeret S567 (2026-08-21) · §6 S568 (2026-08-22). Ændringer sker via PR, ikke via besked.*

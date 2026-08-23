@@ -36,9 +36,6 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
       <SceneMotor />
       <MorMotor />
 {/* PE (Haruki S566): loaderen VISES kun når emerge-boot har sat html.emerge-js — uden JS ville den ellers dække hele siden permanent (fixed, opak, z-9999). Layout bor i globals.css. */}
-<div data-loader="" aria-hidden="true" style={{position:'fixed',inset:'0',zIndex:'9999',background:'#050404',pointerEvents:'none',transition:'opacity 1.3s ease'}}>
-  <p style={{margin:'0',fontFamily:'\'Cormorant Garamond\',serif',fontStyle:'italic',fontWeight:'500',fontSize:'clamp(20px,2.6vw,34px)',color:'rgba(232,224,213,.75)',animation:'loaderBreathe 3.4s ease-in-out infinite'}}>The mark is already waiting.</p>
-</div>
 
 <header data-header="" style={{position:'fixed',top:'0',left:'0',right:'0',zIndex:'9980',display:'flex',alignItems:'center',justifyContent:'space-between',gap:'16px',padding:'13px 5vw',background:'rgba(8,7,7,.86)',backdropFilter:'blur(10px)',WebkitBackdropFilter:'blur(10px)',borderBottom:'1px solid rgba(232,224,213,.09)',transform:'translateY(-110%)',opacity:'0',transition:'transform .7s cubic-bezier(.16,1,.3,1),opacity .5s ease'}}>
   <a href="#emerge" style={{borderBottom:'none',fontFamily:'\'Cormorant Garamond\',serif',fontWeight:'500',fontSize:'19px',letterSpacing:'.1em',textTransform:'uppercase',whiteSpace:'nowrap'}}>INK <em style={{fontStyle:'italic',color:'#c9a227'}}>&</em> ART</a>
@@ -61,8 +58,8 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
   <div data-depth="0.18" style={{position:'absolute',right:'-2%',top:'38%',width:'40vw',zIndex:'1'}}><img src="/emerge/v05/smoke.svg" alt="" style={{width:'100%',display:'block',transform:'scaleX(-1) rotate(8deg)'}}/></div>
   <div data-depth="0.2" style={{position:'absolute',left:'28%',bottom:'2%',width:'50vw',opacity:'.7',zIndex:'1'}}><img src="/emerge/v05/smoke.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-4deg)'}}/></div>
   <div data-depth="0.15" style={{position:'absolute',left:'56%',top:'6%',width:'220px',opacity:'.14',zIndex:'1'}}><img src="/emerge/v05/smoke-blob.svg" alt="" style={{width:'100%',display:'block',filter:'blur(2px)'}}/></div>
-  <div data-depth="0.22" style={{position:'absolute',left:'0',top:'26%',width:'100%',zIndex:'1',pointerEvents:'none'}}><div style={{width:'54px',opacity:'.5',animation:'flyBack 58s linear infinite'}}><img src="/emerge/v05/swallow.svg" alt="" style={{width:'100%',display:'block',transform:'scaleX(-1)',filter:'blur(1.2px)'}}/></div></div>
-  <div data-depth="0.24" style={{position:'absolute',left:'0',top:'33%',width:'100%',zIndex:'1',pointerEvents:'none'}}><div style={{width:'40px',opacity:'.35',animation:'flyBack 66s linear infinite -30s'}}><img src="/emerge/v05/swallow.svg" alt="" style={{width:'100%',display:'block',transform:'scaleX(-1) rotate(4deg)',filter:'blur(1.6px)'}}/></div></div>
+  <div data-depth="0.22" style={{position:'absolute',left:'0',top:'26%',width:'100%',zIndex:'1',pointerEvents:'none'}}><div style={{width:'54px',opacity:'.5',animation:'flyBack 58s linear infinite'}}><img src="/emerge/v06/swallow-298.webp" alt="" style={{width:'100%',display:'block',transform:'scaleX(-1)',filter:'blur(1.2px)'}}/></div></div>
+  <div data-depth="0.24" style={{position:'absolute',left:'0',top:'33%',width:'100%',zIndex:'1',pointerEvents:'none'}}><div style={{width:'40px',opacity:'.35',animation:'flyBack 66s linear infinite -30s'}}><img src="/emerge/v06/swallow-298.webp" alt="" style={{width:'100%',display:'block',transform:'scaleX(-1) rotate(4deg)',filter:'blur(1.6px)'}}/></div></div>
 
   <div data-depth="0.34" style={{position:'absolute',top:'0',left:'0',width:'100%',zIndex:'3'}}><img src="/emerge/v05/edge-top.svg" alt="" style={{width:'100%',height:'clamp(160px,30svh,340px)',objectFit:'fill',display:'block'}}/></div>
   <div data-depth="0.38" style={{position:'absolute',left:'-2vw',top:'-6svh',width:'37vw',zIndex:'3'}}><img src="/emerge/v05/edge-side.svg" alt="" style={{width:'100%',height:'114svh',objectFit:'fill',display:'block'}}/></div>
@@ -72,19 +69,28 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
   <div data-depth="0.44" style={{position:'absolute',left:'-4%',top:'22%',width:'112%',opacity:'.85',zIndex:'4'}}><img src="/emerge/v05/wire.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-2.5deg)'}}/></div>
   <div data-depth="0.48" style={{position:'absolute',left:'7%',top:'14%',width:'clamp(170px,18vw,280px)',zIndex:'5'}}><img src="/emerge/v05/sign.svg" alt="Larsbjørnsstræde — Pisserenden" style={{width:'100%',display:'block',transform:'rotate(-6deg)',filter:'drop-shadow(0 16px 28px rgba(0,0,0,.65))'}}/></div>
   <div data-depth="0.36" style={{position:'absolute',left:'66%',top:'58%',width:'clamp(200px,24vw,340px)',opacity:'.55',zIndex:'2'}}><img src="/emerge/v05/splat-red.svg" alt="" style={{width:'100%',display:'block'}}/></div>
-  <div className="v5m-rose-big" data-depth="0.46" style={{position:'absolute',left:'-3%',bottom:'-4%',width:'clamp(280px,30vw,470px)',zIndex:'5'}}><img src="/emerge/v05/rose.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-10deg)',filter:'saturate(1.15) drop-shadow(0 24px 40px rgba(0,0,0,.6))'}}/></div>
-  <div data-depth="0.4" style={{position:'absolute',right:'8%',top:'8%',width:'clamp(120px,13vw,190px)',zIndex:'4'}}><img src="/emerge/v05/rose.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(38deg)',filter:'drop-shadow(0 16px 28px rgba(0,0,0,.55))'}}/></div>
+  <div className="v5m-rose-big" data-depth="0.46" style={{position:'absolute',left:'-3%',bottom:'-4%',width:'clamp(280px,30vw,470px)',zIndex:'5'}}><img src="/emerge/v06/rose-940.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(-10deg)',filter:'saturate(1.15) drop-shadow(0 24px 40px rgba(0,0,0,.6))'}}/></div>
+  <div data-depth="0.4" style={{position:'absolute',right:'8%',top:'8%',width:'clamp(120px,13vw,190px)',zIndex:'4'}}><img src="/emerge/v06/rose-940.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(38deg)',filter:'drop-shadow(0 16px 28px rgba(0,0,0,.55))'}}/></div>
   <div className="v5m-snake-hero" data-depth="0.5" style={{position:'absolute',right:'-2%',top:'19%',width:'clamp(200px,22vw,320px)',zIndex:'5'}}><img src="/emerge/v05/snake.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(14deg)',filter:'saturate(1.1) drop-shadow(0 20px 34px rgba(0,0,0,.6))'}}/></div>
-  <div className="v5m-skull-title" data-depth="0.52" style={{position:'absolute',left:'13%',top:'39%',width:'clamp(90px,10vw,140px)',zIndex:'5'}}><img src="/emerge/v05/skull.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-8deg)',filter:'drop-shadow(0 16px 28px rgba(0,0,0,.6))'}}/></div>
+  <div className="v5m-skull-title" data-depth="0.52" style={{position:'absolute',left:'13%',top:'39%',width:'clamp(90px,10vw,140px)',zIndex:'5'}}><img src="/emerge/v06/skull-680.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(-8deg)',filter:'drop-shadow(0 16px 28px rgba(0,0,0,.6))'}}/></div>
   <div data-depth="0.54" style={{position:'absolute',right:'19%',bottom:'19%',width:'clamp(110px,12vw,180px)',zIndex:'5'}}><img src="/emerge/v05/machine.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-16deg)',filter:'drop-shadow(0 16px 28px rgba(0,0,0,.6))'}}/></div>
-  <div data-depth="0.55" style={{position:'absolute',left:'0',top:'11%',width:'100%',zIndex:'5',pointerEvents:'none'}}><div style={{width:'clamp(90px,10vw,140px)',animation:'fly 34s linear infinite'}}><img src="/emerge/v05/swallow.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-4deg)',filter:'drop-shadow(0 10px 18px rgba(0,0,0,.5))'}}/></div></div>
+  <div data-depth="0.55" style={{position:'absolute',left:'0',top:'11%',width:'100%',zIndex:'5',pointerEvents:'none'}}><div style={{width:'clamp(90px,10vw,140px)',animation:'fly 34s linear infinite'}}><img src="/emerge/v06/swallow-298.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(-4deg)',filter:'drop-shadow(0 10px 18px rgba(0,0,0,.5))'}}/></div></div>
   <div className="v5m-dice-scroll" data-depth="0.5" style={{position:'absolute',left:'29%',bottom:'11%',width:'64px',zIndex:'5'}}><img src="/emerge/v05/dice.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-6deg)',filter:'drop-shadow(0 10px 18px rgba(0,0,0,.6))'}}/></div>
   <div data-depth="0.52" style={{position:'absolute',left:'23%',bottom:'8%',width:'54px',zIndex:'5'}}><img src="/emerge/v05/cup.svg" alt="" style={{width:'100%',display:'block',filter:'drop-shadow(0 10px 18px rgba(0,0,0,.6))'}}/></div>
   <div data-depth="0.53" style={{position:'absolute',left:'26.5%',bottom:'7%',width:'42px',zIndex:'5'}}><img src="/emerge/v05/cup.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(6deg)',filter:'drop-shadow(0 8px 14px rgba(0,0,0,.6))'}}/></div>
-  <div data-depth="0.45" style={{position:'absolute',left:'78%',top:'50%',width:'44px',opacity:'.8',zIndex:'4'}}><img src="/emerge/v05/skull.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(14deg)'}}/></div>
+  <div data-depth="0.45" style={{position:'absolute',left:'78%',top:'50%',width:'44px',opacity:'.8',zIndex:'4'}}><img src="/emerge/v06/skull-680.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(14deg)'}}/></div>
 
-  <div data-depth="0.6" data-drift="0" style={{position:'relative',zIndex:'18',paddingTop:'30svh',textAlign:'center'}}>
-    <h1 style={{margin:'0',fontFamily:'\'Cormorant Garamond\',serif',fontWeight:'500',fontSize:'clamp(56px,11.5vw,152px)',lineHeight:'.9',letterSpacing:'.05em',textTransform:'uppercase',textShadow:'0 6px 40px rgba(0,0,0,.8)'}}>INK <em style={{fontStyle:'italic',color:'#c9a227'}}>&</em> ART</h1>
+  <div data-depth="0.6" data-drift="0" style={{position:'relative',zIndex:'18',paddingTop:'25svh',textAlign:'center'}}>
+    <h1 style={{margin:'0',display:'flex',justifyContent:'center'}}>
+      {/* Husets officielle segl — samme mærke som på døren i Larsbjørnsstræde.
+          Vektoriseret med potrace fra originalen, så størrelsen er fri:
+          14 kB gzip'et mod rasterens 31 kB, og skarp i enhver opløsning.
+          Overskriften beholder sin semantik via alt-teksten. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/brand/logo-segl.svg" alt="Ink &amp; Art Copenhagen"
+           width={376} height={376}
+           style={{width:'clamp(148px,24vw,300px)',height:'auto',display:'block',filter:'drop-shadow(0 20px 50px rgba(0,0,0,.78))'}} />
+    </h1>
     <p style={{margin:'18px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'clamp(13px,1.5vw,17px)',letterSpacing:'.34em',textTransform:'uppercase',color:'rgba(232,224,213,.92)',textShadow:'0 2px 18px rgba(0,0,0,.9)'}}>{c.trade}</p>
     <p style={{margin:'10px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'13px',letterSpacing:'.26em',textTransform:'uppercase',color:'rgba(232,224,213,.68)'}}>Larsbjørnsstræde 13 · Pisserenden · København K</p>
     <p style={{margin:'26px 0 0'}}>
@@ -96,14 +102,14 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
   <div className="v5m-machine-big" data-depth="1.0" style={{position:'absolute',left:'-6%',top:'24%',width:'clamp(200px,24vw,340px)',zIndex:'9'}}><img src="/emerge/v05/machine.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-28deg)',filter:'drop-shadow(0 26px 44px rgba(0,0,0,.75))'}}/></div>
   <div className="v5m-dagger-hero" data-depth="1.1" style={{position:'absolute',right:'5%',bottom:'-6%',width:'clamp(150px,15vw,240px)',zIndex:'10'}}><img src="/emerge/v05/dagger.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(22deg)',filter:'drop-shadow(0 26px 44px rgba(0,0,0,.75))'}}/></div>
   <div data-depth="1.05" style={{position:'absolute',right:'-4%',top:'5%',width:'clamp(200px,24vw,360px)',zIndex:'9'}}><img src="/emerge/v05/needle.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-24deg)',filter:'drop-shadow(0 20px 34px rgba(0,0,0,.7))'}}/></div>
-  <div data-depth="1.08" style={{position:'absolute',left:'17%',top:'58%',width:'clamp(80px,8vw,115px)',zIndex:'9'}}><img src="/emerge/v05/rose.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(24deg)',filter:'drop-shadow(0 16px 26px rgba(0,0,0,.7))'}}/></div>
-  <div data-depth="1.2" style={{position:'absolute',right:'29%',top:'11%',width:'clamp(48px,5vw,70px)',zIndex:'10'}}><img src="/emerge/v05/skull.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-18deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div>
+  <div data-depth="1.08" style={{position:'absolute',left:'17%',top:'58%',width:'clamp(80px,8vw,115px)',zIndex:'9'}}><img src="/emerge/v06/rose-940.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(24deg)',filter:'drop-shadow(0 16px 26px rgba(0,0,0,.7))'}}/></div>
+  <div data-depth="1.2" style={{position:'absolute',right:'29%',top:'11%',width:'clamp(48px,5vw,70px)',zIndex:'10'}}><img src="/emerge/v06/skull-680.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(-18deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="1.15" style={{position:'absolute',left:'63%',bottom:'11%',width:'clamp(80px,9vw,130px)',zIndex:'10'}}><img src="/emerge/v05/snake.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(30deg)',filter:'drop-shadow(0 14px 24px rgba(0,0,0,.7))'}}/></div>
-  <div className="v5m-swallow-mid" data-depth="1.25" style={{position:'absolute',left:'0',top:'23%',width:'100%',zIndex:'10',pointerEvents:'none'}}><div style={{width:'clamp(60px,7vw,100px)',animation:'fly 19s linear infinite -6s'}}><img src="/emerge/v05/swallow.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-6deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div></div>
+  <div className="v5m-swallow-mid" data-depth="1.25" style={{position:'absolute',left:'0',top:'23%',width:'100%',zIndex:'10',pointerEvents:'none'}}><div style={{width:'clamp(60px,7vw,100px)',animation:'fly 19s linear infinite -6s'}}><img src="/emerge/v06/swallow-298.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(-6deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div></div>
 
   <div data-depth="1.08" data-drift="0" style={{position:'absolute',left:'0',bottom:'-3%',width:'100%',zIndex:'11'}}><img src="/emerge/v05/edge-bottom.svg" alt="" style={{width:'100%',height:'clamp(110px,17svh,200px)',objectFit:'fill',display:'block',filter:'drop-shadow(0 -10px 30px rgba(0,0,0,.5))'}}/></div>
   <div data-depth="1.02" style={{position:'absolute',right:'8%',bottom:'2%',width:'clamp(56px,6.5vw,100px)',zIndex:'10'}}><img src="/emerge/v05/lamp.svg" alt="" style={{width:'100%',display:'block',filter:'drop-shadow(0 14px 26px rgba(0,0,0,.7))'}}/></div>
-  <div className="mor-slot" data-depth="1.12" data-drift="0"><MorBird zone="hero" /></div>
+  <div className="mor-slot" data-depth="1.12" data-drift="0"><MorBird zone="hero" lang={lang} /></div>
   <div data-depth="1.16" style={{position:'absolute',left:'13%',bottom:'2%',width:'clamp(50px,5.5vw,76px)',zIndex:'12'}}><img src="/emerge/v05/rat.svg" alt="" style={{width:'100%',display:'block',filter:'drop-shadow(0 8px 16px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="1.1" style={{position:'absolute',left:'74%',bottom:'1.5%',width:'clamp(72px,8vw,120px)',zIndex:'12'}}><img src="/emerge/v05/bottle.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-3deg)',filter:'drop-shadow(0 8px 16px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="1.2" style={{position:'absolute',left:'34%',bottom:'3.5%',width:'clamp(30px,3vw,44px)',zIndex:'12'}}><img src="/emerge/v05/cigarette.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(8deg)'}}/></div>
@@ -131,7 +137,7 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
   <div data-depth="1.45" style={{position:'absolute',left:'-12%',top:'-14%',width:'44vw',height:'44svh',background:'radial-gradient(closest-side, rgba(6,5,5,.85), rgba(6,5,5,.45) 55%, transparent 95%)',zIndex:'15',pointerEvents:'none'}}></div>
   <div data-depth="1.45" style={{position:'absolute',right:'-12%',bottom:'-12%',width:'46vw',height:'42svh',background:'radial-gradient(closest-side, rgba(6,5,5,.8), rgba(6,5,5,.42) 55%, transparent 95%)',zIndex:'15',pointerEvents:'none'}}></div>
 
-  <p style={{position:'absolute',bottom:'clamp(120px,19svh,220px)',left:'50%',transform:'translateX(-50%)',zIndex:'16',margin:'0',fontFamily:'\'Space Mono\',monospace',fontSize:'clamp(12px,1.5vw,16px)',letterSpacing:'.6em',textTransform:'uppercase',color:'rgba(232,224,213,.62)',whiteSpace:'nowrap'}}>{c.scroll}</p>
+  <p style={{position:'absolute',bottom:'clamp(28px,4.5svh,64px)',left:'50%',transform:'translateX(-50%)',zIndex:'16',margin:'0',fontFamily:'\'Space Mono\',monospace',fontSize:'clamp(12px,1.5vw,16px)',letterSpacing:'.6em',textTransform:'uppercase',color:'rgba(232,224,213,.62)',whiteSpace:'nowrap'}}>{c.scroll}</p>
 </section>
 
 <section className="v5-zone-under" data-screen-label={c.screens.street} style={{position:'relative',zIndex:'5',height:'148svh',background:'linear-gradient(180deg,#120d0b 0%,#0d0a09 32%,#080606 100%)'}}>
@@ -148,8 +154,8 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
   <div data-depth="1.2" style={{position:'absolute',left:'71.2%',top:'3%',width:'9px',zIndex:'5'}}><div style={{animation:'fall 8s linear infinite -3.4s'}}><img loading="lazy" src="/emerge/v05/drop-red.svg" alt="" style={{width:'100%',display:'block'}}/></div></div>
   <div data-depth="0.6" style={{position:'absolute',left:'64%',top:'20%',width:'200px',zIndex:'4'}}><img loading="lazy" src="/emerge/v05/splat-red.svg" alt="" style={{width:'100%',display:'block'}}/></div>
 
-  <div data-depth="0.44" style={{position:'absolute',left:'21%',top:'-1.5%',width:'clamp(110px,13vw,180px)',zIndex:'4'}}><img loading="lazy" src="/emerge/v05/rose.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(174deg)',filter:'saturate(1.1) drop-shadow(0 18px 30px rgba(0,0,0,.6))'}}/></div>
-  <div data-depth="0.4" style={{position:'absolute',right:'25%',top:'0.5%',width:'clamp(70px,8vw,115px)',zIndex:'4'}}><img loading="lazy" src="/emerge/v05/rose.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(187deg)',filter:'drop-shadow(0 14px 24px rgba(0,0,0,.55))'}}/></div>
+  <div data-depth="0.44" style={{position:'absolute',left:'21%',top:'-1.5%',width:'clamp(110px,13vw,180px)',zIndex:'4'}}><img loading="lazy" src="/emerge/v06/rose-940.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(174deg)',filter:'saturate(1.1) drop-shadow(0 18px 30px rgba(0,0,0,.6))'}}/></div>
+  <div data-depth="0.4" style={{position:'absolute',right:'25%',top:'0.5%',width:'clamp(70px,8vw,115px)',zIndex:'4'}}><img loading="lazy" src="/emerge/v06/rose-940.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(187deg)',filter:'drop-shadow(0 14px 24px rgba(0,0,0,.55))'}}/></div>
   <div data-depth="0.48" style={{position:'absolute',left:'-4%',top:'36%',width:'110%',opacity:'.7',zIndex:'4'}}><img loading="lazy" src="/emerge/v05/wire.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(2.6deg)'}}/></div>
 
   <div data-depth="0.5" data-drift="0" style={{position:'absolute',left:'0',right:'0',top:'19%',zIndex:'6',overflow:'hidden',maskImage:'linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)',WebkitMaskImage:'linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)'}}>
@@ -171,14 +177,14 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
     </div>
   </div>
 
-  <div className="kerb-slot" data-depth="0.62" data-drift="0" style={{position:'absolute',left:'8%',top:'79%',zIndex:'10'}}><KerbReservation /></div>
-  <div className="mor-slot" data-depth="1.12" data-drift="0"><MorBird zone="under" /></div>
+  <div className="kerb-slot" data-depth="0.62" data-drift="0" style={{position:'absolute',left:'8%',top:'79%',zIndex:'10'}}><KerbReservation lang={lang} /></div>
+  <div className="mor-slot" data-depth="1.12" data-drift="0"><MorBird zone="under" lang={lang} /></div>
   <div className="gade-tape-slot"><GadeTape /></div>
   <div data-depth="0.9" style={{position:'absolute',right:'6%',top:'39%',width:'clamp(160px,18vw,260px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/snake.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(142deg)',filter:'saturate(1.1) drop-shadow(0 20px 34px rgba(0,0,0,.7))'}}/></div>
-  <div data-depth="1.0" style={{position:'absolute',left:'0',top:'44%',width:'100%',zIndex:'7',pointerEvents:'none'}}><div style={{width:'clamp(70px,8vw,110px)',animation:'fly 26s linear infinite -9s'}}><img loading="lazy" src="/emerge/v05/swallow.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-5deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div></div>
+  <div data-depth="1.0" style={{position:'absolute',left:'0',top:'44%',width:'100%',zIndex:'7',pointerEvents:'none'}}><div style={{width:'clamp(70px,8vw,110px)',animation:'fly 26s linear infinite -9s'}}><img loading="lazy" src="/emerge/v06/swallow-298.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(-5deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div></div>
   <div data-depth="0.85" style={{position:'absolute',left:'5%',top:'53%',width:'clamp(100px,12vw,160px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/machine.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(12deg)',filter:'drop-shadow(0 18px 30px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="1.05" style={{position:'absolute',left:'78%',top:'58%',width:'clamp(80px,9vw,125px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/dagger.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(168deg)',filter:'drop-shadow(0 18px 30px rgba(0,0,0,.7))'}}/></div>
-  <div data-depth="0.7" style={{position:'absolute',left:'1%',top:'91%',width:'clamp(110px,13vw,170px)',zIndex:'5'}}><img loading="lazy" src="/emerge/v05/skull.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-24deg)',filter:'drop-shadow(0 16px 26px rgba(0,0,0,.6))'}}/></div>
+  <div data-depth="0.7" style={{position:'absolute',left:'1%',top:'91%',width:'clamp(110px,13vw,170px)',zIndex:'5'}}><img loading="lazy" src="/emerge/v06/skull-680.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(-24deg)',filter:'drop-shadow(0 16px 26px rgba(0,0,0,.6))'}}/></div>
   <div data-depth="0.95" style={{position:'absolute',left:'30%',top:'64%',width:'56px',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/cup.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(94deg)'}}/></div>
   <div data-depth="0.8" style={{position:'absolute',left:'32%',top:'66.5%',width:'130px',opacity:'.85',zIndex:'6'}}><img loading="lazy" src="/emerge/v05/splat-black.svg" alt="" style={{width:'100%',display:'block'}}/></div>
   <div data-depth="1.1" style={{position:'absolute',left:'52%',top:'88%',width:'44px',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/dice.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(32deg)'}}/></div>
@@ -236,7 +242,7 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
     </figure>
   </div>
   <div data-depth="0.95" style={{position:'absolute',left:'30%',top:'13%',width:'170px',zIndex:'9'}}><img loading="lazy" src="/emerge/v05/splat-black.svg" alt="" style={{width:'100%',display:'block'}}/></div>
-  <div data-depth="1.0" style={{position:'absolute',left:'5%',top:'1%',width:'clamp(70px,8vw,110px)',zIndex:'9'}}><img loading="lazy" src="/emerge/v05/rose.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(22deg)',filter:'drop-shadow(0 14px 24px rgba(0,0,0,.7))'}}/></div>
+  <div data-depth="1.0" style={{position:'absolute',left:'5%',top:'1%',width:'clamp(70px,8vw,110px)',zIndex:'9'}}><img loading="lazy" src="/emerge/v06/rose-940.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(22deg)',filter:'drop-shadow(0 14px 24px rgba(0,0,0,.7))'}}/></div>
 
   <div data-depth="0.55" style={{position:'absolute',right:'10%',top:'7.5%',width:'min(22%,300px)',zIndex:'3'}}>
     <figure style={{margin:'0',transform:'rotate(2deg)'}}>
@@ -288,12 +294,12 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
       <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'12px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>{c.gadeCaption}</figcaption>
     </figure>
   </div>
-  <div className="mor-slot" data-depth="1.05" data-drift="0"><MorBird zone="work" /></div>
+  <div className="mor-slot" data-depth="1.05" data-drift="0"><MorBird zone="work" lang={lang} /></div>
   <div data-depth="1.15" style={{position:'absolute',left:'30%',top:'93%',width:'clamp(46px,5vw,68px)',zIndex:'9'}}><img loading="lazy" src="/emerge/v05/rat.svg" alt="" style={{width:'100%',display:'block',filter:'drop-shadow(0 8px 14px rgba(0,0,0,.7))'}}/></div>
 
-  <div data-depth="0.45" style={{position:'absolute',left:'68%',top:'4%',width:'clamp(60px,7vw,100px)',opacity:'.85',zIndex:'3'}}><img loading="lazy" src="/emerge/v05/skull.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(12deg)'}}/></div>
-  <div data-depth="1.2" style={{position:'absolute',left:'60%',top:'40%',width:'clamp(40px,4.5vw,60px)',zIndex:'10'}}><img loading="lazy" src="/emerge/v05/skull.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-14deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div>
-  <div data-depth="1.0" style={{position:'absolute',left:'0',top:'56%',width:'100%',zIndex:'10',pointerEvents:'none'}}><div style={{width:'clamp(60px,7vw,100px)',animation:'flyBack 32s linear infinite -12s'}}><img loading="lazy" src="/emerge/v05/swallow.svg" alt="" style={{width:'100%',display:'block',transform:'scaleX(-1) rotate(4deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div></div>
+  <div data-depth="0.45" style={{position:'absolute',left:'68%',top:'4%',width:'clamp(60px,7vw,100px)',opacity:'.85',zIndex:'3'}}><img loading="lazy" src="/emerge/v06/skull-680.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(12deg)'}}/></div>
+  <div data-depth="1.2" style={{position:'absolute',left:'60%',top:'40%',width:'clamp(40px,4.5vw,60px)',zIndex:'10'}}><img loading="lazy" src="/emerge/v06/skull-680.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(-14deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div>
+  <div data-depth="1.0" style={{position:'absolute',left:'0',top:'56%',width:'100%',zIndex:'10',pointerEvents:'none'}}><div style={{width:'clamp(60px,7vw,100px)',animation:'flyBack 32s linear infinite -12s'}}><img loading="lazy" src="/emerge/v06/swallow-298.webp" alt="" style={{width:'100%',display:'block',transform:'scaleX(-1) rotate(4deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div></div>
   <div data-depth="0.88" style={{position:'absolute',left:'74%',top:'74%',width:'40px',zIndex:'9'}}><img loading="lazy" src="/emerge/v05/dice.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(24deg)'}}/></div>
   <div data-depth="0.92" style={{position:'absolute',left:'16%',top:'79%',width:'clamp(60px,7vw,96px)',zIndex:'9'}}><img loading="lazy" src="/emerge/v05/bottle.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(6deg)',filter:'drop-shadow(0 8px 16px rgba(0,0,0,.7))'}}/></div>
 
@@ -308,6 +314,11 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
 
   <div style={{position:'absolute',left:'0',right:'0',bottom:'0',height:'24svh',background:'linear-gradient(180deg,transparent,#040303 94%)',zIndex:'11',pointerEvents:'none'}}></div>
   <div data-depth="0.8" style={{position:'absolute',left:'60%',bottom:'-3%',width:'160px',opacity:'.85',zIndex:'12'}}><img loading="lazy" src="/emerge/v05/splat-black.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-30deg)'}}/></div>
+
+  {/* Kriterium 2: doeren i bunden af «Selected work». Maalt foer: 42 billeder, nul links — og det er praecis her intentionen topper. */}
+  <p className="zone-doer zone-doer--work" style={{position:'absolute',left:'50%',transform:'translateX(-50%)',zIndex:'20',margin:'0'}}>
+    <a className="hero-cta" href="https://inkart.book.dk">{c.bookWork}</a>
+  </p>
 </section>
 
 {/* id="artists" er redirect-matrixens mål (lib/redirects.ts); det indre
@@ -340,11 +351,11 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
   <div data-depth="0.9" style={{position:'absolute',left:'26%',top:'58%',width:'46px',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/cup.svg" alt="" style={{width:'100%',display:'block'}}/></div>
   <div data-depth="0.94" style={{position:'absolute',left:'29.5%',top:'59%',width:'36px',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/cup.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(8deg)'}}/></div>
   <div data-depth="0.98" style={{position:'absolute',left:'32.5%',top:'58.4%',width:'28px',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/cup.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-10deg)'}}/></div>
-  <div data-depth="0.45" style={{position:'absolute',right:'22%',top:'10%',width:'clamp(80px,9vw,130px)',zIndex:'4'}}><img loading="lazy" src="/emerge/v05/rose.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(178deg)',filter:'drop-shadow(0 14px 24px rgba(0,0,0,.6))'}}/></div>
+  <div data-depth="0.45" style={{position:'absolute',right:'22%',top:'10%',width:'clamp(80px,9vw,130px)',zIndex:'4'}}><img loading="lazy" src="/emerge/v06/rose-940.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(178deg)',filter:'drop-shadow(0 14px 24px rgba(0,0,0,.6))'}}/></div>
   <div data-depth="1.1" style={{position:'absolute',left:'12%',top:'38%',width:'clamp(54px,6vw,84px)',zIndex:'8'}}><img loading="lazy" src="/emerge/v05/dagger.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(30deg)',filter:'drop-shadow(0 14px 24px rgba(0,0,0,.7))'}}/></div>
-  <div data-depth="1.05" style={{position:'absolute',right:'8%',top:'26%',width:'clamp(44px,5vw,68px)',zIndex:'8'}}><img loading="lazy" src="/emerge/v05/skull.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(16deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div>
+  <div data-depth="1.05" style={{position:'absolute',right:'8%',top:'26%',width:'clamp(44px,5vw,68px)',zIndex:'8'}}><img loading="lazy" src="/emerge/v06/skull-680.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(16deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="1.12" style={{position:'absolute',left:'64%',top:'74%',width:'clamp(48px,5.5vw,72px)',zIndex:'8'}}><img loading="lazy" src="/emerge/v05/rat.svg" alt="" style={{width:'100%',display:'block',transform:'scaleX(-1)',filter:'drop-shadow(0 8px 14px rgba(0,0,0,.7))'}}/></div>
-  <div data-depth="0.85" style={{position:'absolute',left:'0',top:'66%',width:'100%',zIndex:'7',pointerEvents:'none'}}><div style={{width:'clamp(56px,6.5vw,90px)',animation:'fly 29s linear infinite -14s'}}><img loading="lazy" src="/emerge/v05/swallow.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-5deg)',filter:'drop-shadow(0 10px 18px rgba(0,0,0,.7))'}}/></div></div>
+  <div data-depth="0.85" style={{position:'absolute',left:'0',top:'66%',width:'100%',zIndex:'7',pointerEvents:'none'}}><div style={{width:'clamp(56px,6.5vw,90px)',animation:'fly 29s linear infinite -14s'}}><img loading="lazy" src="/emerge/v06/swallow-298.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(-5deg)',filter:'drop-shadow(0 10px 18px rgba(0,0,0,.7))'}}/></div></div>
 
   <div data-depth="0.92" style={{position:'absolute',left:'18%',top:'24%',width:'16px',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/spark.svg" alt="" style={{width:'100%',display:'block',animation:'twk 5.4s ease-in-out infinite -2s'}}/></div>
   <div data-depth="1.15" style={{position:'absolute',left:'78%',top:'44%',width:'13px',zIndex:'8'}}><img loading="lazy" src="/emerge/v05/spark.svg" alt="" style={{width:'100%',display:'block',animation:'twk 4.8s ease-in-out infinite -1s'}}/></div>
@@ -352,7 +363,7 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
   <div data-depth="1.25" style={{position:'absolute',left:'36%',top:'4%',width:'12px',zIndex:'8'}}><div style={{animation:'fall 9.5s linear infinite -3s'}}><img loading="lazy" src="/emerge/v05/drop-dark.svg" alt="" style={{width:'100%',display:'block'}}/></div></div>
   <div data-depth="1.3" style={{position:'absolute',left:'68%',top:'6%',width:'10px',zIndex:'8'}}><div style={{animation:'fall 11.5s linear infinite -6.5s'}}><img loading="lazy" src="/emerge/v05/drop-red.svg" alt="" style={{width:'100%',display:'block'}}/></div></div>
   <div data-depth="1.2" style={{position:'absolute',left:'10%',top:'74%',width:'10px',zIndex:'8'}}><div style={{animation:'floatUp 15s linear infinite -4s'}}><img loading="lazy" src="/emerge/v05/ember.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(20deg)'}}/></div></div>
-  <div data-depth="0.6" style={{position:'absolute',left:'38%',top:'74%',width:'clamp(100px,12vw,160px)',zIndex:'5'}}><img loading="lazy" src="/emerge/v05/skull.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-22deg)',filter:'drop-shadow(0 14px 24px rgba(0,0,0,.6))'}}/></div>
+  <div data-depth="0.6" style={{position:'absolute',left:'38%',top:'74%',width:'clamp(100px,12vw,160px)',zIndex:'5'}}><img loading="lazy" src="/emerge/v06/skull-680.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(-22deg)',filter:'drop-shadow(0 14px 24px rgba(0,0,0,.6))'}}/></div>
   <div data-depth="0.9" style={{position:'absolute',left:'48%',top:'82%',width:'170px',opacity:'.85',zIndex:'6'}}><img loading="lazy" src="/emerge/v05/splat-black.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(24deg)'}}/></div>
   <div data-depth="0.5" style={{position:'absolute',left:'-4%',top:'78%',width:'70%',opacity:'.6',zIndex:'4'}}><img loading="lazy" src="/emerge/v05/wire.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(4deg)'}}/></div>
   <div data-depth="1.05" style={{position:'absolute',right:'26%',top:'78%',width:'clamp(60px,7vw,100px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/snake.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(64deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div>
@@ -360,8 +371,13 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
   <div data-depth="1.1" style={{position:'absolute',right:'12%',top:'86%',width:'120px',opacity:'.7',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/splat-red.svg" alt="" style={{width:'100%',display:'block'}}/></div>
   <div data-depth="1.15" style={{position:'absolute',left:'72%',top:'90%',width:'clamp(26px,2.6vw,36px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/cigarette.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-6deg)'}}/></div>
 
-  <div className="mor-slot" data-depth="1.12" data-drift="0"><MorBird zone="artist" /></div>
+  <div className="mor-slot" data-depth="1.12" data-drift="0"><MorBird zone="artist" lang={lang} /></div>
   <div style={{position:'absolute',left:'0',right:'0',bottom:'0',height:'18svh',background:'linear-gradient(180deg,transparent,#050404 94%)',zIndex:'11',pointerEvents:'none'}}></div>
+
+  {/* Kriterium 3: doeren i bunden af Nizars afsnit. Man har lige laest om ham — her skal man kunne booke HAM, ikke lede videre. */}
+  <p className="zone-doer zone-doer--artist" style={{position:'absolute',left:'50%',transform:'translateX(-50%)',zIndex:'20',margin:'0'}}>
+    <a className="hero-cta" href="https://inkart.book.dk">{c.bookArtist}</a>
+  </p>
 </section>
 
 <section id="booking" data-screen-label={c.screens.booking} style={{position:'relative',zIndex:'2',height:'128svh',background:'linear-gradient(180deg,#050404 0%,#070505 45%,#030303 100%)'}}>
@@ -391,12 +407,12 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
   </div>
 
   <div className="v5m-book-dagger" data-depth="1.1" style={{position:'absolute',left:'16%',top:'22%',width:'clamp(60px,7vw,100px)',zIndex:'8'}}><img loading="lazy" src="/emerge/v05/dagger.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-20deg)',filter:'drop-shadow(0 16px 26px rgba(0,0,0,.75))'}}/></div>
-  <div data-depth="0.45" style={{position:'absolute',right:'14%',top:'8%',width:'clamp(90px,10vw,140px)',zIndex:'4'}}><img loading="lazy" src="/emerge/v05/rose.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(184deg)',filter:'drop-shadow(0 14px 24px rgba(0,0,0,.6))'}}/></div>
+  <div data-depth="0.45" style={{position:'absolute',right:'14%',top:'8%',width:'clamp(90px,10vw,140px)',zIndex:'4'}}><img loading="lazy" src="/emerge/v06/rose-940.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(184deg)',filter:'drop-shadow(0 14px 24px rgba(0,0,0,.6))'}}/></div>
   <div data-depth="0.9" style={{position:'absolute',right:'20%',top:'38%',width:'clamp(80px,9vw,130px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/machine.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(14deg)',filter:'drop-shadow(0 14px 24px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="1.05" style={{position:'absolute',left:'24%',top:'58%',width:'clamp(70px,8vw,110px)',zIndex:'8'}}><img loading="lazy" src="/emerge/v05/snake.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-38deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div>
-  <div data-depth="0.95" style={{position:'absolute',left:'70%',top:'64%',width:'clamp(52px,6vw,80px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/skull.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(10deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div>
-  <div data-depth="0.85" style={{position:'absolute',left:'0',top:'52%',width:'100%',zIndex:'7',pointerEvents:'none'}}><div style={{width:'clamp(50px,6vw,84px)',animation:'flyBack 36s linear infinite -8s'}}><img loading="lazy" src="/emerge/v05/swallow.svg" alt="" style={{width:'100%',display:'block',transform:'scaleX(-1) rotate(5deg)',filter:'drop-shadow(0 10px 18px rgba(0,0,0,.7))'}}/></div></div>
-  <div className="mor-slot" data-depth="1.12" data-drift="0"><MorBird zone="booking" /></div>
+  <div data-depth="0.95" style={{position:'absolute',left:'70%',top:'64%',width:'clamp(52px,6vw,80px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v06/skull-680.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(10deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div>
+  <div data-depth="0.85" style={{position:'absolute',left:'0',top:'52%',width:'100%',zIndex:'7',pointerEvents:'none'}}><div style={{width:'clamp(50px,6vw,84px)',animation:'flyBack 36s linear infinite -8s'}}><img loading="lazy" src="/emerge/v06/swallow-298.webp" alt="" style={{width:'100%',display:'block',transform:'scaleX(-1) rotate(5deg)',filter:'drop-shadow(0 10px 18px rgba(0,0,0,.7))'}}/></div></div>
+  <div className="mor-slot" data-depth="1.12" data-drift="0"><MorBird zone="booking" lang={lang} /></div>
   <div data-depth="1.08" style={{position:'absolute',left:'32%',top:'83%',width:'clamp(44px,5vw,64px)',zIndex:'8'}}><img loading="lazy" src="/emerge/v05/rat.svg" alt="" style={{width:'100%',display:'block',transform:'scaleX(-1)',filter:'drop-shadow(0 8px 14px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="0.9" style={{position:'absolute',left:'14%',top:'80%',width:'120px',opacity:'.7',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/splat-red.svg" alt="" style={{width:'100%',display:'block'}}/></div>
   <div data-depth="1.25" style={{position:'absolute',left:'40%',top:'6%',width:'13px',zIndex:'9'}}><div style={{animation:'fall 9s linear infinite -2s'}}><img loading="lazy" src="/emerge/v05/drop-dark.svg" alt="" style={{width:'100%',display:'block'}}/></div></div>

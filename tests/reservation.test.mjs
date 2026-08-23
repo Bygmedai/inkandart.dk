@@ -18,26 +18,61 @@ test("reservationerne bruger de verificerede live-varianter", () => {
   assert.match(commerce, /RESERVATIONS/);
 });
 
-test("døde piercing-varianter er IKKE i handelslaget (rails §4: ingen død handling)", () => {
-  // Alle fire var 410 mod den rigtige butik 2026-08-21. En knap der ikke kan
-  // købe er værre end ingen knap — de må først ind når Shopify er rettet.
-  for (const dead of ["53511714570568", "53511714996552", "53511715422536", "53511715881288"]) {
-    assert.doesNotMatch(commerce, new RegExp(dead), `død variant ${dead} må ikke bruges`);
+test("piercing-varianterne er levende nu — og bor i PIERCINGS, ikke i kridtet", () => {
+  // Hegnet stod tidligere omvendt: de fire var 410 den 2026-08-21, og testen
+  // holdt dem UDE af handelslaget. Det var rigtigt dengang. De måler
+  // 302/fulgt-200 den 2026-08-22 (scripts/maal-varianter.sh, negativ kontrol
+  // i samme kørsel), så hegnet er vendt — ikke slettet. Reglen det håndhæver
+  // er uændret: et variant-ID må kun stå i handelslaget hvis nogen har målt
+  // det levende. CI kan ikke måle netværk; derfor måler denne test at ID'et
+  // står i den liste vi har målt, og at ingen af dem er sluppet ind i
+  // RESERVATIONS (kantstenen på forsiden er bevidst kun de to).
+  const piercings = commerce.slice(
+    commerce.indexOf("export const PIERCINGS"),
+    commerce.indexOf("export const FLASH_DEPOSITS"),
+  );
+  assert.ok(piercings.length > 0, "PIERCINGS-blokken findes ikke");
+  for (const id of ["53511714570568", "53511714996552", "53511715422536", "53511715881288"]) {
+    assert.match(piercings, new RegExp(id), `piercing-variant ${id} mangler`);
   }
+  const reservations = commerce.slice(
+    commerce.indexOf("export const RESERVATIONS"),
+    commerce.indexOf("export const SHOP_PRINTS"),
+  );
+  for (const id of ["53511714570568", "53511714996552", "53511715422536", "53511715881288"]) {
+    assert.doesNotMatch(reservations, new RegExp(id), `${id} hører ikke til på kantstenen`);
+  }
+});
+
+test("negativ kontrol: udsnittene måler deres egen blok", () => {
+  // Vidnet. Uden det kunne begge slice() ramme hele filen og bestå på ingenting.
+  const piercings = commerce.slice(
+    commerce.indexOf("export const PIERCINGS"),
+    commerce.indexOf("export const FLASH_DEPOSITS"),
+  );
+  assert.doesNotMatch(piercings, /53467075182920/, "gavekort-ID lækker ind i PIERCINGS-udsnittet");
+  assert.doesNotMatch(piercings, /53463786094920/, "flash-ID lækker ind i PIERCINGS-udsnittet");
 });
 
 test("kridtet er en checkout-handoff uden klient-JS (rails §5)", () => {
   assert.match(kerb, /cartUrl\(/);
   // Direktivet — ikke ordet. Doc-kommentaren nævner "use client" med vilje.
   assert.doesNotMatch(kerb, /^\s*["']use client["']/m);
-  assert.match(kerb, /aria-label=\{r\.aria\}/);
+  assert.match(kerb, /aria-label=\{c\.ariaSlots\[/, "kridtet skal hente skærmlæser-teksten fra ordbogen");
 });
 
 test("copy'en lover ikke en tid vi ikke har (rails §4)", () => {
-  assert.match(kerb, /Trækkes fra prisen/);
-  assert.match(kerb, /Tiden aftaler vi bagefter/);
+  // Copy'en flyttede til i18n (S569): den laa hardkodet dansk i komponenten
+  // og fulgte derfor med ud paa /en og /en/shop. Loeftet maales nu dér hvor
+  // ordene bor — og paa BEGGE sprog, saa den engelske ikke kan love mere.
+  const i18n = readFileSync(join(root, "lib/i18n.ts"), "utf8");
+  assert.match(i18n, /Trækkes fra prisen/);
+  assert.match(i18n, /Comes off the price/);
+  assert.match(i18n, /Tiden aftaler vi bagefter/);
+  assert.match(i18n, /We agree the time afterwards/);
   // ingen påstand om at depositummet ER en booket tid
-  assert.doesNotMatch(kerb, /du har (nu )?en tid/i);
+  assert.doesNotMatch(i18n, /du har (nu )?en tid/i);
+  assert.doesNotMatch(i18n, /you (now )?have an appointment/i);
 });
 
 test("slotten er ét slot i Under gaden — og ligger over zonens bundfade", () => {

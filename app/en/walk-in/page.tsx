@@ -6,6 +6,7 @@ import { LangSwitch } from "@/components/i18n/LangSwitch";
 import { alternates, t } from "@/lib/i18n";
 
 import { SkipLink } from "@/components/i18n/SkipLink";
+import { Masthead } from "@/components/brand/Masthead";
 const c = t("en").walkin;
 
 export const metadata: Metadata = {
@@ -20,10 +21,9 @@ export default function WalkInPageEn() {
       <SkipLink lang="en" />
     <main id="main" className="walkin-page" lang="en">
       <div className="walkin-page__inner">
-        <p className="walkin-page__top font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
-          <a href="/en">← {site.name}</a>
+        <Masthead lang="en">
           <LangSwitch lang="en" path="/walk-in" />
-        </p>
+        </Masthead>
         <p className="mt-10 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
           {c.kicker}
         </p>
