@@ -1,6 +1,6 @@
 # Accept: Husets mærke i toppen af hver underside
 
-Status: **UDKAST — afventer Stevens sniff**
+Status: **GODKENDT (2026-08-23)**
 
 Det vi køber: at man altid kan se hvis hus man er i, og altid kan komme hjem
 — fra enhver side, med ét tryk på Nizars segl.

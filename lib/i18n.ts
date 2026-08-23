@@ -65,6 +65,8 @@ const da = {
     screens: { hero: "Hero", street: "Under gaden", work: "Work", artist: "Artist", booking: "Booking" },
   },
 
+  /** Seglet i toppen af undersiderne er baade maerke og vej hjem. */
+  mastheadAria: "Ink & Art Copenhagen — til forsiden",
   otherLangName: "English",
   skipToContent: "Gå til indhold",
   backTo: "←",
@@ -216,6 +218,7 @@ const en: Copy = {
     screens: { hero: "Hero", street: "Under the street", work: "Work", artist: "Artist", booking: "Booking" },
   },
 
+  mastheadAria: "Ink & Art Copenhagen — home",
   otherLangName: "Dansk",
   skipToContent: "Skip to content",
   backTo: "←",
