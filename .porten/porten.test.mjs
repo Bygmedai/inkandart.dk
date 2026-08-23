@@ -1,4 +1,4 @@
-import { porten, LAASTE_STIER, AABEN, SPAERRET, kunAfhaengigheder, domFraCheck, UDFOERENDE_ANMELDERE, KONKLUSION_TIL_DOM } from './porten.mjs';
+import { porten, kvittering, LAASTE_STIER, AABEN, SPAERRET, kunAfhaengigheder, domFraCheck, UDFOERENDE_ANMELDERE, KONKLUSION_TIL_DOM, TAVSE_KONKLUSIONER } from './porten.mjs';
 let n = 0, f = 0;
 const t = (navn, fn) => { n++; try { fn(); } catch (e) { f++; console.log(`  ✗ ${navn}\n      ${e.message}`); return; } console.log(`  ✓ ${navn}`); };
 const er = (a, b, m) => { if (a !== b) throw new Error(`${m ?? ''} fik ${JSON.stringify(a)}, ville have ${JSON.stringify(b)}`); };
@@ -31,8 +31,10 @@ t('låst sti spærrer også for et menneske — mennesket merger selv', () => er
 t('F4: agent med ukendt login («koko») spærres på låst sti', () => er(porten({ ...grøn, filer: ['.github/workflows/ci.yml'], forfatterErAgent: false }).dom, SPAERRET));
 t('F1: .porten/ er selv en låst sti — dommeren kan ikke ombygges i stilhed', () => er(porten({ ...grøn, filer: ['.porten/porten.mjs'] }).dom, SPAERRET));
 t('manglende filliste spærrer', () => er(porten({ ...grøn, filer: null }).dom, SPAERRET));
-t('ingen anmelderdom spærrer', () => er(porten({ ...grøn, anmeldelse: null }).dom, SPAERRET));
-t('anmelderdom uden alvorstal spærrer', () => er(porten({ ...grøn, anmeldelse: { kilde: 'x', alvor: {} } }).dom, SPAERRET));
+// S570: tavshed spærrer ikke længere — se porten.mjs punkt 3.
+t('ingen anmelder til stede åbner, når repoets egne checks er grønne', () => er(porten({ ...grøn, anmeldelse: null }).dom, AABEN));
+t('MODPRØVE: ingen anmelder + RØD egen check spærrer stadig', () => er(porten({ ...grøn, anmeldelse: null, checks: [grøn.checks[0], { navn: 'test', status: 'completed', konklusion: 'failure' }] }).dom, SPAERRET));
+t('anmelderdom uden alvorstal spærrer (ulæselig ≠ tavs)', () => er(porten({ ...grøn, anmeldelse: { kilde: 'x', alvor: {} } }).dom, SPAERRET));
 t('anmelderdom med normal>0 spærrer', () => er(porten({ ...grøn, anmeldelse: { kilde: 'x', alvor: { normal: 1, nit: 0 } } }).dom, SPAERRET));
 t('S564-fælden: tom streng må ALDRIG læses som nul', () => er(porten({ ...grøn, anmeldelse: { kilde: 'x', alvor: { normal: '' } } }).dom, SPAERRET));
 t('S564-fælden 2: "0" som streng er ikke tallet 0', () => er(porten({ ...grøn, anmeldelse: { kilde: 'x', alvor: { normal: '0' } } }).dom, SPAERRET));
@@ -111,8 +113,30 @@ t('afhængigheds-PR der rører en LÅST sti → SPÆRRET uanset hvad',
   () => er(porten({...CI, filer:['package.json','.github/workflows/ci.yml'], erDependabot:true}).dom, SPAERRET));
 t('kildekode + udførende anmelder grøn → ÅBEN',
   () => er(porten({...medAnmelder('success'), filer:['src/a.ts']}).dom, AABEN));
-t('kildekode + anmelder sprunget over (manglende kredit) → SPÆRRET',
-  () => er(porten({...medAnmelder('neutral'), filer:['src/a.ts']}).dom, SPAERRET));
+t('S570: kildekode + anmelder sprunget over (manglende kredit) → ÅBEN, noteret',
+  () => er(porten({...medAnmelder('neutral'), filer:['src/a.ts']}).dom, AABEN));
+t('S570 MODPRØVE: samme tavse anmelder + RØD egen check → SPÆRRET',
+  () => er(porten({...medAnmelder('neutral'), filer:['src/a.ts'],
+    checks:[{navn:'build',status:'completed',konklusion:'success'},{navn:'test',status:'completed',konklusion:'failure'},{navn:'Vercel Agent Review',status:'completed',konklusion:'neutral'}]}).dom, SPAERRET));
+t('S570: tavshed skal STÅ i kvitteringen — et grønt lys må ikke skjule hvorfor',
+  () => { const r = porten({...medAnmelder('neutral'), filer:['src/a.ts']});
+    if (!r.noter.some((n) => /afgav ingen dom \(neutral\)/.test(n))) throw new Error('tavsheden blev ikke noteret: '+JSON.stringify(r.noter)); er(true,true); });
+t('S570: helt fraværende anmelder skal OGSÅ stå i kvitteringen',
+  () => { const r = porten({...CI, filer:['src/a.ts']});
+    if (!r.noter.some((n) => /Ingen udførende anmelder var til stede/.test(n))) throw new Error('fraværet blev ikke noteret: '+JSON.stringify(r.noter)); er(true,true); });
+t('S570: hver tavs konklusion åbner — enkeltvis, ikke kun neutral',
+  () => { for (const kk of TAVSE_KONKLUSIONER) { if (kk === 'timed_out') continue;
+      const d = porten({...medAnmelder(kk), filer:['src/a.ts']}).dom;
+      if (d !== AABEN) throw new Error(`${kk} spærrede`); } er(true,true); });
+t('S570 MODPRØVE: en UKENDT konklusion er ikke tavshed → SPÆRRET',
+  () => er(porten({...medAnmelder('noget_helt_nyt'), filer:['src/a.ts']}).dom, SPAERRET));
+t('S570 MODPRØVE: anmelder der stadig kører spærrer stadig — fristen er ventet ud',
+  () => er(porten({...medAnmelder(null,'in_progress'), filer:['src/a.ts']}).dom, SPAERRET));
+t('S570 MODPRØVE: tavs anmelder ophæver ikke låst sti',
+  () => er(porten({...medAnmelder('neutral'), filer:['.porten/porten.mjs']}).dom, SPAERRET));
+t('S570: domFraCheck mærker tavshed, ikke ulæselighed',
+  () => { er(domFraCheck(medAnmelder('neutral').checks).tavs, true);
+          er(domFraCheck([{navn:'Vercel Agent Review',status:'completed',konklusion:'noget_nyt'}]).tavs, false); });
 t('kildekode + anmelder fandt noget → SPÆRRET',
   () => er(porten({...medAnmelder('failure'), filer:['src/a.ts']}).dom, SPAERRET));
 t('manglende filliste → aldrig ren afhængigheds-PR → SPÆRRET',
@@ -122,5 +146,38 @@ t('eksplicit anmeldelse slår stadig igennem (bagudkompatibel)',
 t('eksplicit anmeldelse med fund spærrer, selv om Vercel er grøn',
   () => er(porten({...medAnmelder('success'), filer:['src/a.ts'], anmeldelse:{kilde:'harbor',alvor:{normal:2,nit:0}}}).dom, SPAERRET));
 
+console.log('\n  — S570: form og afsender skal være enige —');
+t('F5 bevaret: dependency-diff uden dependabot-identitet + TAVS anmelder → SPÆRRET',
+  () => er(porten({...medAnmelder('neutral'), filer:['package.json'], erDependabot:false}).dom, SPAERRET));
+t('F5 bevaret: samme, men slet ingen anmelder → SPÆRRET',
+  () => er(porten({...CI, filer:['package.json'], erDependabot:false}).dom, SPAERRET));
+t('dependabot der rører kildekode + tavs anmelder → SPÆRRET',
+  () => er(porten({...medAnmelder('neutral'), filer:['package.json','src/a.ts'], erDependabot:true}).dom, SPAERRET));
+t('MODPRØVE: almindelig kildekode-PR (form og afsender enige) + tavs anmelder → ÅBEN',
+  () => er(porten({...medAnmelder('neutral'), filer:['src/a.ts'], erDependabot:false}).dom, AABEN));
+t('MODPRØVE: ægte dependabot-diff er stadig ÅBEN uden anmelder overhovedet',
+  () => er(porten({...CI, filer:['package.json','package-lock.json'], erDependabot:true}).dom, AABEN));
+t('uenig form + RIGTIG grøn anmelderdom → ÅBEN (det er tavsheden der spærrer, ikke formen)',
+  () => er(porten({...medAnmelder('success'), filer:['package.json'], erDependabot:false}).dom, AABEN));
+t('grunden skal NAVNGIVE uenigheden — ikke bare sige nej',
+  () => { const r = porten({...medAnmelder('neutral'), filer:['package.json'], erDependabot:false});
+    if (!r.grunde.some((g) => /form og afsenderens identitet er uenige/.test(g))) throw new Error('grunden forklarer ikke: '+JSON.stringify(r.grunde)); er(true,true); });
+
+
+console.log('\n  — S570: kvitteringen må ikke påstå mere end den ved —');
+t('tavs anmelder → kvitteringen siger IKKE «fandt intet af vægt»', () => {
+  const r = porten({...medAnmelder('neutral'), filer:['src/a.ts']});
+  const k = kvittering(r);
+  if (/fandt intet af vægt/.test(k)) throw new Error('kvitteringen påstår en dom der aldrig blev afgivet');
+  if (!/Anmelderen tav/.test(k)) throw new Error('kvitteringen skjuler at anmelderen tav');
+  er(true, true);
+});
+t('MODPRØVE: rigtig grøn dom → kvitteringen SIGER «fandt intet af vægt»', () => {
+  const k = kvittering(porten({...medAnmelder('success'), filer:['src/a.ts']}));
+  if (!/fandt intet af vægt/.test(k)) throw new Error('den rigtige dom forsvandt');
+  er(true, true);
+});
+
 console.log(`\n${n - f}/${n} bestået`);
+
 process.exit(f ? 1 : 0);

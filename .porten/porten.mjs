@@ -69,6 +69,13 @@ export const AFHAENGIGHEDSFILER = [
  */
 export const UDFOERENDE_ANMELDERE = ['Vercel Agent Review'];
 
+/**
+ * Konklusioner hvor anmelderen ER færdig, men bevidst ikke afgav nogen dom.
+ * S570: dette er TAVSHED, ikke et fund. Se noten ved punkt 3.
+ * «Review skipped — insufficient Credit» lander som `neutral`.
+ */
+export const TAVSE_KONKLUSIONER = new Set(['timed_out', 'cancelled', 'neutral', 'skipped', 'stale']);
+
 /** check-run-konklusion → dom. Alt der ikke står her, er IKKE en dom. */
 export const KONKLUSION_TIL_DOM = {
   success:         { normal: 0, nit: 0 },
@@ -97,9 +104,12 @@ export function domFraCheck(checks, anmeldere = UDFOERENDE_ANMELDERE) {
     const c = checks.find((x) => x.navn === navn);
     if (!c) continue;
     if (c.status !== 'completed') return { kilde: navn, alvor: null, uafsluttet: true };
-    const alvor = Object.prototype.hasOwnProperty.call(KONKLUSION_TIL_DOM, c.konklusion)
-      ? KONKLUSION_TIL_DOM[c.konklusion] : null;
-    return { kilde: navn, alvor, konklusion: c.konklusion };
+    const kendt = Object.prototype.hasOwnProperty.call(KONKLUSION_TIL_DOM, c.konklusion);
+    const alvor = kendt ? KONKLUSION_TIL_DOM[c.konklusion] : null;
+    // S570: skeln mellem «anmelderen tav» (kendt konklusion uden dom) og
+    // «anmelderens dom kunne ikke læses» (ukendt konklusion). Det første er
+    // tavshed. Det andet kan skjule et fund og skal blive ved med at spærre.
+    return { kilde: navn, alvor, konklusion: c.konklusion, tavs: kendt && alvor === null };
   }
   return null;
 }
@@ -163,18 +173,55 @@ export function porten(kendsgerninger) {
   // F5 (præmortem #178): stier alene identificerer ingen afsender. En
   // package.json-only PR fra hvem som helst kunne før tage dependabot-banen
   // med en postinstall i lasten. Banen kræver nu positivt bevist afsender.
-  const kunDeps = filer !== null && kunAfhaengigheder(filer) && k.erDependabot === true;
+  let anmelderTav = false;
+  const kunDepsFiler = filer !== null && kunAfhaengigheder(filer);
+  const kunDeps = kunDepsFiler && k.erDependabot === true;
+
+  // S570: diffens FORM og afsenderens IDENTITET skal være enige. Er de ikke
+  // det, er PR'en formet som noget den ikke er, og så er tavshed ikke god nok.
+  //   · ren afhængigheds-diff fra en der IKKE er dependabot   → F5, præmortem #178:
+  //     enhver kunne før tage dependabot-banen med en postinstall i lasten.
+  //   · dependabot der ALLIGEVEL rører kildekode              → botten gør noget den ikke gør.
+  // I begge tilfælde kræves en rigtig dom. Det er ikke fryse-risikoen —
+  // fryse-risikoen var almindelige kildekode-PR'er, og dem rører dette ikke.
+  const afsenderUenigMedForm = filer !== null
+    && ((kunDepsFiler && k.erDependabot !== true) || (!kunDepsFiler && k.erDependabot === true));
+
   if (kunDeps) {
     noter.push(`Ren afhængigheds-PR fra dependabot (${filer.length} fil${filer.length === 1 ? '' : 'er'}). Build og test er oraklet — ingen anmelder krævet.`);
   } else {
-    // Struktureret dom fra en udførende anmelder, ellers den gamle kvittering-blok.
+    // S570 · MÅLT 23/8: Porten spærrede på tavshed. I bygmedai-adskillelse
+    // afgav «Vercel Agent Review» en brugbar dom 0 af 10 seneste PR'er —
+    // resten var `neutral` («Review skipped — insufficient Credit») eller helt
+    // fraværende. På inkandart.dk: 11 `neutral` i træk før kreditten blev slået
+    // til 23/8. En port der kræver en anmelder man ikke kan købe mere af, er
+    // ikke en port — den er en lukket dør. Gjort til påkrævet check havde den
+    // frosset seks repoer.
+    //
+    // Reglen nu: tavshed er en NOTE. Repoets egne påkrævede checks er oraklet,
+    // og de er allerede afgjort i punkt 1 ovenfor. Det følger husets eget
+    // S565-grundlag: anmelder nr. to flyttede 81,2 % → 80,3 %.
+    //
+    // Tre ting spærrer stadig, og de er ikke tavshed:
+    //   · anmelderen fandt noget          → et fund er et fund
+    //   · anmelderen er ikke færdig       → vi har allerede ventet fristen ud
+    //   · anmelderens dom kunne ikke læses → ulæselig dom kan skjule et fund
     const a = k.anmeldelse ?? domFraCheck(checks, k.anmeldere);
+    const tavshedSpaerrer = afsenderUenigMedForm;
+    if (!a || typeof a !== 'object' || a.tavs === true) anmelderTav = true;
+    const tavshedsgrund = 'Diffens form og afsenderens identitet er uenige — her gætter jeg ikke på tavshed.';
     if (!a || typeof a !== 'object') {
-      grunde.push('Ingen udførende anmelder har afgivet dom. Jeg gætter ikke på tavshed.');
+      (tavshedSpaerrer ? grunde : noter).push(tavshedSpaerrer
+        ? `Ingen udførende anmelder har afgivet dom. ${tavshedsgrund}`
+        : 'Ingen udførende anmelder var til stede. Repoets egne checks er oraklet.');
     } else if (a.uafsluttet) {
       grunde.push(`Anmelder «${a.kilde}» er ikke færdig endnu.`);
+    } else if (a.tavs === true) {
+      (tavshedSpaerrer ? grunde : noter).push(tavshedSpaerrer
+        ? `Anmelder «${a.kilde}» afgav ingen dom (${a.konklusion}). ${tavshedsgrund}`
+        : `Anmelder «${a.kilde}» afgav ingen dom (${a.konklusion}). Repoets egne checks er oraklet.`);
     } else if (!a.alvor || typeof a.alvor.normal !== 'number') {
-      grunde.push(`Anmelder «${a.kilde ?? 'ukendt'}» afgav ingen brugbar dom${a.konklusion ? ` (${a.konklusion})` : ''}. Ubrugelig dom er ingen dom.`);
+      grunde.push(`Anmelder «${a.kilde ?? 'ukendt'}» afgav en ulæselig dom${a.konklusion ? ` (${a.konklusion})` : ''}. Ulæselig dom er ikke tavshed — den kan skjule et fund.`);
     } else if (a.alvor.normal > 0) {
       grunde.push(`Anmelder «${a.kilde}» fandt ${a.alvor.normal} fund af vægt.`);
     } else {
@@ -190,12 +237,17 @@ export function porten(kendsgerninger) {
   }
 
   if (grunde.length === 0) dom = AABEN;
-  return { dom, grunde, noter };
+  return { dom, grunde, noter, anmelderTav };
 }
 
-export function kvittering({ dom, grunde, noter }) {
+export function kvittering({ dom, grunde, noter, anmelderTav }) {
   if (dom === AABEN) {
-    return ['## 🟢 Porten er åben', '', 'Alle påkrævede checks er grønne, ingen låst sti er rørt, og anmelderen fandt intet af vægt.', '', ...noter.map((n) => `- ${n}`), '', '_Du behøver ikke læse diffen. Porten har målt det du ellers skulle gætte._'].join('\n');
+    // S570: sig aldrig at anmelderen fandt intet, når hun ikke sagde noget.
+    // Et grønt lys skal kunne læses som det er: hvem der målte hvad.
+    const linje = anmelderTav
+      ? 'Alle påkrævede checks er grønne, og ingen låst sti er rørt. Anmelderen tav — repoets egne checks er oraklet her.'
+      : 'Alle påkrævede checks er grønne, ingen låst sti er rørt, og anmelderen fandt intet af vægt.';
+    return ['## 🟢 Porten er åben', '', linje, '', ...noter.map((n) => `- ${n}`), '', '_Du behøver ikke læse diffen. Porten har målt det du ellers skulle gætte._'].join('\n');
   }
   return ['## 🔴 Porten er spærret', '', 'Den skal ikke merges endnu. Her er hvorfor:', '', ...grunde.map((g) => `- ${g}`), ...(noter.length ? ['', '<sub>' + noter.join(' · ') + '</sub>'] : [])].join('\n');
 }
