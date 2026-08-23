@@ -109,7 +109,7 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
 
   <div data-depth="1.08" data-drift="0" style={{position:'absolute',left:'0',bottom:'-3%',width:'100%',zIndex:'11'}}><img src="/emerge/v05/edge-bottom.svg" alt="" style={{width:'100%',height:'clamp(110px,17svh,200px)',objectFit:'fill',display:'block',filter:'drop-shadow(0 -10px 30px rgba(0,0,0,.5))'}}/></div>
   <div data-depth="1.02" style={{position:'absolute',right:'8%',bottom:'2%',width:'clamp(56px,6.5vw,100px)',zIndex:'10'}}><img src="/emerge/v05/lamp.svg" alt="" style={{width:'100%',display:'block',filter:'drop-shadow(0 14px 26px rgba(0,0,0,.7))'}}/></div>
-  <div className="mor-slot" data-depth="1.12" data-drift="0"><MorBird zone="hero" /></div>
+  <div className="mor-slot" data-depth="1.12" data-drift="0"><MorBird zone="hero" lang={lang} /></div>
   <div data-depth="1.16" style={{position:'absolute',left:'13%',bottom:'2%',width:'clamp(50px,5.5vw,76px)',zIndex:'12'}}><img src="/emerge/v05/rat.svg" alt="" style={{width:'100%',display:'block',filter:'drop-shadow(0 8px 16px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="1.1" style={{position:'absolute',left:'74%',bottom:'1.5%',width:'clamp(72px,8vw,120px)',zIndex:'12'}}><img src="/emerge/v05/bottle.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-3deg)',filter:'drop-shadow(0 8px 16px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="1.2" style={{position:'absolute',left:'34%',bottom:'3.5%',width:'clamp(30px,3vw,44px)',zIndex:'12'}}><img src="/emerge/v05/cigarette.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(8deg)'}}/></div>
@@ -177,8 +177,8 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
     </div>
   </div>
 
-  <div className="kerb-slot" data-depth="0.62" data-drift="0" style={{position:'absolute',left:'8%',top:'79%',zIndex:'10'}}><KerbReservation /></div>
-  <div className="mor-slot" data-depth="1.12" data-drift="0"><MorBird zone="under" /></div>
+  <div className="kerb-slot" data-depth="0.62" data-drift="0" style={{position:'absolute',left:'8%',top:'79%',zIndex:'10'}}><KerbReservation lang={lang} /></div>
+  <div className="mor-slot" data-depth="1.12" data-drift="0"><MorBird zone="under" lang={lang} /></div>
   <div className="gade-tape-slot"><GadeTape /></div>
   <div data-depth="0.9" style={{position:'absolute',right:'6%',top:'39%',width:'clamp(160px,18vw,260px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/snake.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(142deg)',filter:'saturate(1.1) drop-shadow(0 20px 34px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="1.0" style={{position:'absolute',left:'0',top:'44%',width:'100%',zIndex:'7',pointerEvents:'none'}}><div style={{width:'clamp(70px,8vw,110px)',animation:'fly 26s linear infinite -9s'}}><img loading="lazy" src="/emerge/v06/swallow-298.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(-5deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div></div>
@@ -294,7 +294,7 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
       <figcaption style={{marginTop:'12px',fontFamily:'\'Space Mono\',monospace',fontSize:'12px',letterSpacing:'.3em',textTransform:'uppercase',color:'#8e867b'}}>{c.gadeCaption}</figcaption>
     </figure>
   </div>
-  <div className="mor-slot" data-depth="1.05" data-drift="0"><MorBird zone="work" /></div>
+  <div className="mor-slot" data-depth="1.05" data-drift="0"><MorBird zone="work" lang={lang} /></div>
   <div data-depth="1.15" style={{position:'absolute',left:'30%',top:'93%',width:'clamp(46px,5vw,68px)',zIndex:'9'}}><img loading="lazy" src="/emerge/v05/rat.svg" alt="" style={{width:'100%',display:'block',filter:'drop-shadow(0 8px 14px rgba(0,0,0,.7))'}}/></div>
 
   <div data-depth="0.45" style={{position:'absolute',left:'68%',top:'4%',width:'clamp(60px,7vw,100px)',opacity:'.85',zIndex:'3'}}><img loading="lazy" src="/emerge/v06/skull-680.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(12deg)'}}/></div>
@@ -371,7 +371,7 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
   <div data-depth="1.1" style={{position:'absolute',right:'12%',top:'86%',width:'120px',opacity:'.7',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/splat-red.svg" alt="" style={{width:'100%',display:'block'}}/></div>
   <div data-depth="1.15" style={{position:'absolute',left:'72%',top:'90%',width:'clamp(26px,2.6vw,36px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/cigarette.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-6deg)'}}/></div>
 
-  <div className="mor-slot" data-depth="1.12" data-drift="0"><MorBird zone="artist" /></div>
+  <div className="mor-slot" data-depth="1.12" data-drift="0"><MorBird zone="artist" lang={lang} /></div>
   <div style={{position:'absolute',left:'0',right:'0',bottom:'0',height:'18svh',background:'linear-gradient(180deg,transparent,#050404 94%)',zIndex:'11',pointerEvents:'none'}}></div>
 
   {/* Kriterium 3: doeren i bunden af Nizars afsnit. Man har lige laest om ham — her skal man kunne booke HAM, ikke lede videre. */}
@@ -412,7 +412,7 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
   <div data-depth="1.05" style={{position:'absolute',left:'24%',top:'58%',width:'clamp(70px,8vw,110px)',zIndex:'8'}}><img loading="lazy" src="/emerge/v05/snake.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-38deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="0.95" style={{position:'absolute',left:'70%',top:'64%',width:'clamp(52px,6vw,80px)',zIndex:'7'}}><img loading="lazy" src="/emerge/v06/skull-680.webp" alt="" style={{width:'100%',display:'block',transform:'rotate(10deg)',filter:'drop-shadow(0 12px 20px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="0.85" style={{position:'absolute',left:'0',top:'52%',width:'100%',zIndex:'7',pointerEvents:'none'}}><div style={{width:'clamp(50px,6vw,84px)',animation:'flyBack 36s linear infinite -8s'}}><img loading="lazy" src="/emerge/v06/swallow-298.webp" alt="" style={{width:'100%',display:'block',transform:'scaleX(-1) rotate(5deg)',filter:'drop-shadow(0 10px 18px rgba(0,0,0,.7))'}}/></div></div>
-  <div className="mor-slot" data-depth="1.12" data-drift="0"><MorBird zone="booking" /></div>
+  <div className="mor-slot" data-depth="1.12" data-drift="0"><MorBird zone="booking" lang={lang} /></div>
   <div data-depth="1.08" style={{position:'absolute',left:'32%',top:'83%',width:'clamp(44px,5vw,64px)',zIndex:'8'}}><img loading="lazy" src="/emerge/v05/rat.svg" alt="" style={{width:'100%',display:'block',transform:'scaleX(-1)',filter:'drop-shadow(0 8px 14px rgba(0,0,0,.7))'}}/></div>
   <div data-depth="0.9" style={{position:'absolute',left:'14%',top:'80%',width:'120px',opacity:'.7',zIndex:'7'}}><img loading="lazy" src="/emerge/v05/splat-red.svg" alt="" style={{width:'100%',display:'block'}}/></div>
   <div data-depth="1.25" style={{position:'absolute',left:'40%',top:'6%',width:'13px',zIndex:'9'}}><div style={{animation:'fall 9s linear infinite -2s'}}><img loading="lazy" src="/emerge/v05/drop-dark.svg" alt="" style={{width:'100%',display:'block'}}/></div></div>

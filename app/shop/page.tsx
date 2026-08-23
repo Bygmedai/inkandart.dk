@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { site } from "@/lib/site";
 import { SHOP_PRINTS, PIERCINGS, FLASH_DEPOSITS, cartUrl, kr } from "@/lib/commerce";
 import { DepositumRaekke } from "@/components/emerge/DepositumRaekke";
-import { t } from "@/lib/i18n";
+import { alternates, t } from "@/lib/i18n";
 import { KerbReservation } from "@/components/emerge/KerbReservation";
 import { LangSwitch } from "@/components/i18n/LangSwitch";
 
@@ -22,7 +22,7 @@ import { Masthead } from "@/components/brand/Masthead";
  * commerce.ts), flipper kortene selv til køb — copy'en her skal ikke røres.
  */
 export const metadata: Metadata = {
-  alternates: { canonical: "/shop" },
+  alternates: { ...alternates("/shop"), canonical: "/shop" },
   title: "Gaden sælger · Ink & Art",
   description:
     "Gavekort, walk-in, flash, reservationer og husets prints — alt det gaden sælger, samlet ét sted. Ink & Art Copenhagen, Larsbjørnsstræde 13.",

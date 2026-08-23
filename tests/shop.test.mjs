@@ -11,7 +11,10 @@ const sitemap = readFileSync(join(root, "app/sitemap.ts"), "utf8");
 const css = readFileSync(join(root, "app/globals.css"), "utf8");
 
 test("/shop er en rigtig rute med canonical og plads i sitemap", () => {
-  assert.match(page, /alternates: \{ canonical: "\/shop" \}/);
+  // hreflang kom til (S569): parret var ensrettet — /en/shop pegede paa
+  // begge sprog, /shop pegede ikke tilbage. Canonical staar stadig.
+  assert.match(page, /canonical: "\/shop"/);
+  assert.match(page, /\.\.\.alternates\("\/shop"\)/, "/shop mangler hreflang mod den engelske udgave");
   assert.match(sitemap, /inkandart\.dk\/shop/);
 });
 

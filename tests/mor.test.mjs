@@ -82,10 +82,16 @@ test("under-gutter on mobile does not sit on the chalk", () => {
 });
 
 test("lines are chalk-caps, aria-hidden, one sr-only description", () => {
-  assert.equal(MOR_SR.length > 20, true);
+  // RAAB (Villy, S569): hendes skaermlaeser-linje er flyttet fra
+  // lib/mor.ts til lib/i18n.ts, saa den kan tales paa begge sprog. Foer
+  // blev den laest hoejt paa DANSK for en engelsk bruger paa /en.
+  // Motivet, positionerne og linjerne i MOR_PERCHES er urort.
   assert.match(bird, /aria-hidden="true"/);
   assert.match(bird, /sr-only/);
-  assert.match(bird, /MOR_SR/);
+  assert.match(bird, /t\(lang\)\.morSr/, "fuglens sr-tekst skal komme fra ordbogen");
+  const i18n = readFileSync(join(root, "lib/i18n.ts"), "utf8");
+  assert.match(i18n, /morSr: "En due i tagrenden/, "dansk linje mangler");
+  assert.match(i18n, /morSr: "A pigeon in the gutter/, "engelsk linje mangler");
   const lines = Object.values(MOR_PERCHES).flatMap((p) => p.map((x) => x.line));
   for (const line of [
     "HUN HAR SET DET HELE FRA TAGRENDEN",

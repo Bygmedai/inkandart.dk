@@ -1,5 +1,6 @@
 import { RESERVATIONS, cartUrl, kr } from "@/lib/commerce";
 import { site } from "@/lib/site";
+import { t, type Locale } from "@/lib/i18n";
 
 /**
  * Kantstenen som venteværelse — reservationen kridtet på fortovet.
@@ -11,6 +12,11 @@ import { site } from "@/lib/site";
  *
  * Server-komponent (rails §5: ingen `use client` på handelsflader). Kridtet
  * er ren markup + inline SVG; virker uden JS, og uden motoren.
+ *
+ * SPROG (Villy, S569): komponenten tog foer intet sprog, og etiketterne laa
+ * paa dansk i lib/commerce.ts. Resultatet var at en engelsk kunde paa
+ * /en og /en/shop moedte «Hold min plads» og «Traekkes fra prisen» — paa
+ * selve knapperne der tager imod penge. Nu kommer hvert ord fra t(lang).
  */
 
 /** Håndtegnet ramme — fire streger der ikke helt mødes, som kridt gør. */
@@ -46,18 +52,19 @@ function ChalkFrame({ seed }: { seed: number }) {
   );
 }
 
-export function KerbReservation() {
+export function KerbReservation({ lang = "da" }: { lang?: Locale }) {
+  const c = t(lang).kerb;
   return (
     <div className="kerb">
-      <p className="kerb__legend">Kantstenen er vores venteværelse</p>
+      <p className="kerb__legend">{c.legend}</p>
 
       <ul className="kerb__marks" role="list">
         {RESERVATIONS.map((r, i) => (
           <li key={r.variantId} className="kerb__slot">
-            <a className="kerb__mark" href={cartUrl(r.variantId)} aria-label={r.aria}>
+            <a className="kerb__mark" href={cartUrl(r.variantId)} aria-label={c.ariaSlots[r.id as keyof typeof c.ariaSlots]}>
               <ChalkFrame seed={i === 0 ? 41 : 83} />
               <span className="kerb__text">
-                <span className="kerb__label">{r.label}</span>
+                <span className="kerb__label">{c.slots[r.id as keyof typeof c.slots]}</span>
                 <span className="kerb__amount">{kr(r.kr)},-</span>
               </span>
             </a>
@@ -67,17 +74,17 @@ export function KerbReservation() {
 
       {/* Ærligt: depositummet holder pladsen — tiden aftales bagefter. */}
       <p className="kerb__note">
-        Trækkes fra prisen. Tiden aftaler vi bagefter —{" "}
+        {c.note}{" "}
         <a
           href={site.bookingUrl}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Book tid hos Ink &amp; Art (åbner i nyt vindue)"
+          aria-label={c.bookAria}
         >
-          book
+          {c.book}
         </a>{" "}
-        eller ring{" "}
-        <a href={`tel:${site.phoneIntl}`} aria-label={`Ring til ${site.name}, ${site.phone}`}>
+        {c.eller}{" "}
+        <a href={`tel:${site.phoneIntl}`} aria-label={c.ringAria(site.name, site.phone)}>
           {site.phone}
         </a>
         .
