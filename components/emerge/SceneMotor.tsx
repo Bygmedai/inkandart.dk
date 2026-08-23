@@ -228,15 +228,14 @@ function init(): (() => void) | undefined {
     applyHeader();
     window.addEventListener("scroll", applyHeader, { passive: true });
 
-    const loader = scope.querySelector<HTMLElement>("[data-loader]");
-    if (loader) {
-      const hide = () => { loader.style.opacity = "0"; };
-      const kill = () => {
-        loader.style.transition = "none"; loader.style.opacity = "0"; loader.style.display = "none";
-      };
-      if (reduce) kill();
-      else { timers.push(window.setTimeout(hide, 1500)); timers.push(window.setTimeout(kill, 3200)); }
-    }
+    // Gardinet er fjernet (Villy, S569, kriterium 1). Maalt paa den levende
+    // side: det blev sat i display:flex ved ~677 ms — ALTSAA EFTER siden var
+    // tegnet — og tonede foerst ud ved 1.611 ms. Besoegende saa indhold, saa
+    // sort, saa indhold igen: praecis det blink det skulle forhindre.
+    // Og det daekkede intet: med gardinet slaaet fra staar heroen i EEN
+    // uaendret tilstand hele vejen (samme position, opacity 1), og der findes
+    // nul [data-emerge]-elementer paa siden. Det var en rest fra et tidligere
+    // design hvor fremkaldelsen fandtes.
 
     const onResize = () => measure();
     window.addEventListener("resize", onResize);

@@ -36,9 +36,6 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
       <SceneMotor />
       <MorMotor />
 {/* PE (Haruki S566): loaderen VISES kun når emerge-boot har sat html.emerge-js — uden JS ville den ellers dække hele siden permanent (fixed, opak, z-9999). Layout bor i globals.css. */}
-<div data-loader="" aria-hidden="true" style={{position:'fixed',inset:'0',zIndex:'9999',background:'#050404',pointerEvents:'none',transition:'opacity 1.3s ease'}}>
-  <p style={{margin:'0',fontFamily:'\'Cormorant Garamond\',serif',fontStyle:'italic',fontWeight:'500',fontSize:'clamp(20px,2.6vw,34px)',color:'rgba(232,224,213,.75)',animation:'loaderBreathe 3.4s ease-in-out infinite'}}>The mark is already waiting.</p>
-</div>
 
 <header data-header="" style={{position:'fixed',top:'0',left:'0',right:'0',zIndex:'9980',display:'flex',alignItems:'center',justifyContent:'space-between',gap:'16px',padding:'13px 5vw',background:'rgba(8,7,7,.86)',backdropFilter:'blur(10px)',WebkitBackdropFilter:'blur(10px)',borderBottom:'1px solid rgba(232,224,213,.09)',transform:'translateY(-110%)',opacity:'0',transition:'transform .7s cubic-bezier(.16,1,.3,1),opacity .5s ease'}}>
   <a href="#emerge" style={{borderBottom:'none',fontFamily:'\'Cormorant Garamond\',serif',fontWeight:'500',fontSize:'19px',letterSpacing:'.1em',textTransform:'uppercase',whiteSpace:'nowrap'}}>INK <em style={{fontStyle:'italic',color:'#c9a227'}}>&</em> ART</a>
@@ -140,7 +137,7 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
   <div data-depth="1.45" style={{position:'absolute',left:'-12%',top:'-14%',width:'44vw',height:'44svh',background:'radial-gradient(closest-side, rgba(6,5,5,.85), rgba(6,5,5,.45) 55%, transparent 95%)',zIndex:'15',pointerEvents:'none'}}></div>
   <div data-depth="1.45" style={{position:'absolute',right:'-12%',bottom:'-12%',width:'46vw',height:'42svh',background:'radial-gradient(closest-side, rgba(6,5,5,.8), rgba(6,5,5,.42) 55%, transparent 95%)',zIndex:'15',pointerEvents:'none'}}></div>
 
-  <p style={{position:'absolute',bottom:'clamp(120px,19svh,220px)',left:'50%',transform:'translateX(-50%)',zIndex:'16',margin:'0',fontFamily:'\'Space Mono\',monospace',fontSize:'clamp(12px,1.5vw,16px)',letterSpacing:'.6em',textTransform:'uppercase',color:'rgba(232,224,213,.62)',whiteSpace:'nowrap'}}>{c.scroll}</p>
+  <p style={{position:'absolute',bottom:'clamp(28px,4.5svh,64px)',left:'50%',transform:'translateX(-50%)',zIndex:'16',margin:'0',fontFamily:'\'Space Mono\',monospace',fontSize:'clamp(12px,1.5vw,16px)',letterSpacing:'.6em',textTransform:'uppercase',color:'rgba(232,224,213,.62)',whiteSpace:'nowrap'}}>{c.scroll}</p>
 </section>
 
 <section className="v5-zone-under" data-screen-label={c.screens.street} style={{position:'relative',zIndex:'5',height:'148svh',background:'linear-gradient(180deg,#120d0b 0%,#0d0a09 32%,#080606 100%)'}}>
@@ -317,6 +314,11 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
 
   <div style={{position:'absolute',left:'0',right:'0',bottom:'0',height:'24svh',background:'linear-gradient(180deg,transparent,#040303 94%)',zIndex:'11',pointerEvents:'none'}}></div>
   <div data-depth="0.8" style={{position:'absolute',left:'60%',bottom:'-3%',width:'160px',opacity:'.85',zIndex:'12'}}><img loading="lazy" src="/emerge/v05/splat-black.svg" alt="" style={{width:'100%',display:'block',transform:'rotate(-30deg)'}}/></div>
+
+  {/* Kriterium 2: doeren i bunden af «Selected work». Maalt foer: 42 billeder, nul links — og det er praecis her intentionen topper. */}
+  <p className="zone-doer zone-doer--work" style={{position:'absolute',left:'50%',transform:'translateX(-50%)',zIndex:'20',margin:'0'}}>
+    <a className="hero-cta" href="https://inkart.book.dk">{c.bookWork}</a>
+  </p>
 </section>
 
 {/* id="artists" er redirect-matrixens mål (lib/redirects.ts); det indre
@@ -371,6 +373,11 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
 
   <div className="mor-slot" data-depth="1.12" data-drift="0"><MorBird zone="artist" /></div>
   <div style={{position:'absolute',left:'0',right:'0',bottom:'0',height:'18svh',background:'linear-gradient(180deg,transparent,#050404 94%)',zIndex:'11',pointerEvents:'none'}}></div>
+
+  {/* Kriterium 3: doeren i bunden af Nizars afsnit. Man har lige laest om ham — her skal man kunne booke HAM, ikke lede videre. */}
+  <p className="zone-doer zone-doer--artist" style={{position:'absolute',left:'50%',transform:'translateX(-50%)',zIndex:'20',margin:'0'}}>
+    <a className="hero-cta" href="https://inkart.book.dk">{c.bookArtist}</a>
+  </p>
 </section>
 
 <section id="booking" data-screen-label={c.screens.booking} style={{position:'relative',zIndex:'2',height:'128svh',background:'linear-gradient(180deg,#050404 0%,#070505 45%,#030303 100%)'}}>

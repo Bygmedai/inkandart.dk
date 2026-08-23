@@ -237,22 +237,10 @@ html.emerge-js [data-emerge="deep"]:not(.is-emerged) {
 @keyframes floatUp {0%{transform:translate(0,20svh);opacity:0}12%{opacity:.9}78%{opacity:.85}100%{transform:translate(3vw,-46svh);opacity:0}}
 @keyframes twk {0%,100%{opacity:.12}50%{opacity:.85}}
 @keyframes mq {from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@keyframes loaderBreathe {0%,100%{opacity:.5}50%{opacity:1}}
 @media (prefers-reduced-motion: reduce) {
   .emerge-v05 * { animation: none !important; }
 }
 
-/* Loader-overlayet findes kun for JS-brugere (emerge-boot sætter klassen
-   beforeInteractive, så der er intet flash). Uden JS: intet overlay —
-   indholdet ER siden. (Haruki S566, PE-kontrakten målt.) */
-[data-loader] {
-  display: none;
-}
-html.emerge-js [data-loader] {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 /* ── Emerge v0.5 · mobil-pasning (≤640px) ────────────────────────────────
    Claudias komposition er sat på desktop-lærredet; på smalle skærme flyttes/
@@ -1589,4 +1577,28 @@ body:not(:has(.emerge-v05)) main a.depot__koeb:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   body:not(:has(.emerge-v05)) main a.depot__koeb { transition: none; }
   body:not(:has(.emerge-v05)) main a.depot__koeb:hover { transform: none; }
+}
+
+/* ── Zonedøre: én udgang i «Selected work» og én i «The artist» ──────────
+   Kriterium 2, 3 og 4 i docs/accept/forsiden-udgange.md. Målt før: de to
+   zoner havde 42 og 31 billeder og NUL links — 3,4 skærme uden en handling,
+   præcis dér hvor en besøgende har set noget de kan lide.
+
+   Positionerne er ikke valgt med øjet. For hver zone er hver 2. procent
+   afprøvet mod alle FOTOS i zonen (ikke de fritlagte motiver — en guldknap
+   over mørk collage er fin, over et fotos motiv er den sjusket), og kun
+   positioner med 0 px² overlap er brugt. Derefter er parret valgt så
+   afstanden mellem to handlinger holder sig under halvanden skærm.
+
+   Målt efter, på den byggede side:
+     desktop  work 46 % · artist 40 %  → største hul 1.312 px = 1,46 skærme
+     mobil    work 24 % · artist 46 %  → største hul 1.262 px = 1,50 skærme
+   Begge under kravet. (Mit overslag før målingen sagde 1,55 på mobil og
+   dermed et brud — det holdt ikke; positionen af artist-døren flyttede
+   mere end regnestykket forudsagde. Tallene her er de målte.) */
+.zone-doer--work { bottom: 24%; }
+.zone-doer--artist { bottom: 46%; }
+@media (min-width: 900px) {
+  .zone-doer--work { bottom: 46%; }
+  .zone-doer--artist { bottom: 40%; }
 }

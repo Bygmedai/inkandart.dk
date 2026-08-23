@@ -1,6 +1,6 @@
 # Accept: Forsiden får udgange (og holder op med at spilde de første tre sekunder)
 
-Status: **UDKAST — afventer Stevens sniff**
+Status: **GODKENDT (2026-08-23)**
 
 Det vi køber: at en fremmed der lander på inkandart.dk **kan komme videre
 dér hvor de får lyst** — og at siden ikke bruger sine første sekunder og sin
