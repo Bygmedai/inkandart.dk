@@ -34,7 +34,7 @@ jobs:
   porten:
     name: porten
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       # S565 · MÅLT: den hentede før Bygmedai/.github på tværs af repoer. GITHUB_TOKEN
       # rækker kun til sit eget repo, så hvert kald døde med «repository not found».
@@ -43,14 +43,16 @@ jobs:
       # lagt der af installeren og signeret, så den kan opdateres ét sted og
       # udrulles derfra. Sideeffekt: den virker også på public repoer, som slet
       # ikke må kalde reusable workflows fra et privat .github.
-      # F1 (præmortem #178): uden ref checkes PR'ens træ ud, og porten kørte
-      # den anklagedes egen kode — en PR kunne udskifte dommeren med et stub.
-      # Dommeren hentes nu fra base-repoets main; PR'ens fakta kommer fra API'et.
-      - name: Hent dommeren fra main — aldrig fra PR'ens træ
+      # F1 (præmortem inkandart#178): uden ref hentede den PR'ens MERGEDE træ —
+      # altså den anklagedes egen kode. En PR kunne udskifte .porten/porten.mjs
+      # med et stub der altid siger ÅBEN, og porten ville køre det stub.
+      # Dommeren hentes nu fra kalderens default-branch, som findes på både
+      # pull_request og check_suite. En PR der ændrer porten selv rammer
+      # LAASTE_STIER og kræver et menneskes merge — det er den rigtige vej.
+      - name: Hent dommeren fra default-branch — aldrig fra PR'ens træ
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
-          ref: main
-          repository: ${{ github.repository }}
+          ref: ${{ github.event.repository.default_branch }}
           persist-credentials: false
 
       - name: Porten skal findes — manglende port er ikke en åben port
@@ -89,21 +91,67 @@ jobs:
             }
             if (!maal.length) { core.info('Ingen åben PR knyttet til hændelsen — intet at dømme.'); return; }
 
+            // Fristen deles på tværs af alle PRs i denne kørsel — to PRs à 12 min
+            // ville ellers sprænge jobbets eget loft og dræbe dommen.
+            const FRIST_MS = 12 * 60 * 1000;
+            const t0 = Date.now();
+
             // Én dom per tilknyttet PR (indrykning bevaret for læsbar diff).
             for (const pr of maal) {
 
+            // F3 (præmortem inkandart#178): anmelder-blokken blev læst fra
+            // ENHVER check-run — en selvinstalleret app kunne levere sin egen
+            // frikendelse. Kun udførende anmeldere paa allowlisten høres.
+            const TILLADTE_ANMELDERE = ['Vercel Agent Review'];
+
             // --- checks: struktureret, ikke tekstsøgt ---
-            const runs = await github.paginate(github.rest.checks.listForRef, {
-              ...context.repo, ref: pr.head.sha, per_page: 100,
-            });
-            const statuser = await github.paginate(github.rest.repos.listCommitStatusesForRef, {
-              ...context.repo, ref: pr.head.sha, per_page: 100,
-            });
-            const checks = [
-              ...runs.map(r => ({ navn: r.name, status: r.status, konklusion: r.conclusion })),
-              ...statuser.map(s => ({ navn: s.context, status: 'completed',
-                konklusion: s.state === 'success' ? 'success' : s.state })),
-            ].filter(c => c.navn !== 'porten');   // porten dømmer ikke sig selv
+            //
+            // S569 · MÅLT (inkandart#186): porten dømte et ØJEBLIK og ramte
+            // næsten altid «CI kører stadig». check_suite gen-dømte bagefter og
+            // rettede KOMMENTAREN til «åben» — men den kørsel hører til
+            // default-branchens SHA og kan ikke røre PR'ens egen check-run.
+            // Resultatet: kvitteringen sagde ÅBEN mens check-run'en stod rød,
+            // for evigt. Som påkrævet tjek ville porten dermed blokere præcis
+            // de PRs den selv havde erklæret åbne.
+            //
+            // Derfor venter porten nu på at fakta ER fakta, og fælder ÉN dom.
+            // Fristen er et loft, ikke en forventning: udløber den, dømmes der
+            // på det der foreligger — og et påkrævet tjek der ikke har
+            // rapporteret er stadig SPÆRRET. Ventetid kan aldrig blive til et ja.
+            const PULS_MS = 15 * 1000;
+            let runs, statuser, checks;
+            for (;;) {
+              runs = await github.paginate(github.rest.checks.listForRef, {
+                ...context.repo, ref: pr.head.sha, per_page: 100,
+              });
+              statuser = await github.paginate(github.rest.repos.listCommitStatusesForRef, {
+                ...context.repo, ref: pr.head.sha, per_page: 100,
+              });
+              checks = [
+                ...runs.map(r => ({ navn: r.name, status: r.status, konklusion: r.conclusion })),
+                ...statuser.map(s => ({ navn: s.context, status: 'completed',
+                  konklusion: s.state === 'success' ? 'success' : s.state })),
+              ].filter(c => c.navn !== 'porten');   // porten dømmer ikke sig selv
+
+              const paakraevedeNavne = `check,Scan for secrets`.split(',').map(x => x.trim()).filter(Boolean);
+              const venterPaaCheck = paakraevedeNavne.filter((n) => {
+                const alle = checks.filter((c) => c.navn === n);
+                return alle.length === 0 || alle.some((c) => c.status !== 'completed');
+              });
+              // Anmelderen ventes der kun på hvis den FAKTISK er startet. Er den
+              // slet ikke til stede, er fraværet selv dommen — og den er rød.
+              const venterPaaAnmelder = runs
+                .filter((r) => TILLADTE_ANMELDERE.includes(r.name) && r.status !== 'completed')
+                .map((r) => r.name);
+
+              if (!venterPaaCheck.length && !venterPaaAnmelder.length) break;
+              if (Date.now() - t0 > FRIST_MS) {
+                core.warning(`Frist udløbet efter ${Math.round((Date.now() - t0) / 1000)}s. Venter stadig på: ${[...venterPaaCheck, ...venterPaaAnmelder].join(', ')}. Dømmer på det der foreligger.`);
+                break;
+              }
+              core.info(`Venter på: ${[...venterPaaCheck, ...venterPaaAnmelder].join(', ')} (${Math.round((Date.now() - t0) / 1000)}s)`);
+              await new Promise((r) => setTimeout(r, PULS_MS));
+            }
 
             // --- filer ---
             let filer = null;
@@ -120,10 +168,6 @@ jobs:
             // --- anmelderdom: maskinlæsbar blok, aldrig fritekst ---
             // Format: en check-run hvis output.text indeholder <!-- porten-alvor: {"normal":0,"nit":2} -->
             let anmeldelse = null;
-            // F3 (præmortem #178): blokken blev læst fra ENHVER check-run — en
-            // selvinstalleret app kunne selv levere sin frikendelse. Kun
-            // udførende anmeldere på allowlisten høres.
-            const TILLADTE_ANMELDERE = ['Vercel Agent Review'];
             for (const r of runs) {
               if (!TILLADTE_ANMELDERE.includes(r.name)) continue;
               const t = r.output?.text ?? '';
@@ -147,6 +191,8 @@ jobs:
 
             const paakraevede = `check,Scan for secrets`.split(',').map(s => s.trim()).filter(Boolean);
             // F5: dependabot-banen kræver positivt bevist afsender, ikke kun stier.
+            // En package.json-only PR fra hvem som helst kunne før gå udenom
+            // anmelderen med en postinstall i lasten.
             const erDependabot = pr.user?.login === 'dependabot[bot]' && pr.user?.type === 'Bot';
             const resultat = porten({ checks, paakraevede, filer, forfatterErAgent, erDependabot, anmeldelse, forhaandsvisning });
 
