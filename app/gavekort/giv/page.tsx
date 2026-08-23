@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { site } from "@/lib/site";
 
 import { SkipLink } from "@/components/i18n/SkipLink";
+import { Masthead } from "@/components/brand/Masthead";
 export const metadata: Metadata = {
   alternates: { canonical: "/gavekort/giv" },
   title: "Giv det videre · Ink & Art",
@@ -15,6 +16,7 @@ export default function GivPage() {
       <SkipLink lang="da" />
     <main id="main" className="gift-page">
       <div className="gift-page__inner">
+          <Masthead lang="da" />
         <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
           <a href="/gavekort">← Gavekort</a>
         </p>

@@ -1602,3 +1602,56 @@ body:not(:has(.emerge-v05)) main a.depot__koeb:focus-visible {
   .zone-doer--work { bottom: 46%; }
   .zone-doer--artist { bottom: 40%; }
 }
+
+/* ── Masthead: husets segl i toppen af hver underside ────────────────────
+   docs/accept/masthead.md. Baggrund: fire forskellige mønstre øverst, og to
+   sider — /gavekort/giv og /gavekort/kort — uden nogen vej hjem overhovedet.
+   Midt i gavekort-flowet.
+
+   Seglet er lille med vilje (kriterium 5): et anker, ikke en overskrift.
+   48px er over WCAG 2.2 SC 2.5.8's 24px, så tap-målet er dækket af mærket
+   selv — ingen usynlig padding nødvendig. */
+.masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 8px;
+}
+.masthead__segl {
+  display: block;
+  width: 48px;
+  height: 48px;
+  flex: none;
+  border-bottom: none;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.6));
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+.masthead__segl img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.masthead__segl:hover,
+.masthead__segl:focus-visible {
+  transform: translateY(-1px);
+  filter: drop-shadow(0 9px 20px rgba(0, 0, 0, 0.7));
+}
+.masthead__segl:focus-visible { outline: 2px solid var(--gold); outline-offset: 6px; }
+@media (prefers-reduced-motion: reduce) {
+  .masthead__segl { transition: none; }
+  .masthead__segl:hover { transform: none; }
+}
+
+/* RÅB (Villy, S569 — Groks /gavekort-lane): «← Gavekort» på /gavekort/giv
+   måler 111×20 px, altså under WCAG 2.2 SC 2.5.8's 24×24. Målt i produktion
+   med scripts/maal-flader.mjs, uændret fra main — jeg har ikke lavet den,
+   men jeg ejer gaten.
+
+   Indgrebet rører kun trykfeltet: lodret padding vokser hitboxen uden at
+   flytte linjen (samme greb som .gade__note a). Ingen copy, intet motiv,
+   ingen adfærd. Rul den tilbage i din egen lane hvis du er uenig. */
+.gift-page__inner a[href="/gavekort"] {
+  display: inline-block;
+  padding: 6px 0 4px;
+}

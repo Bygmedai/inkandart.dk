@@ -6,6 +6,7 @@ import { KerbReservation } from "@/components/emerge/KerbReservation";
 import { LangSwitch } from "@/components/i18n/LangSwitch";
 import { SkipLink } from "@/components/i18n/SkipLink";
 import { alternates, t } from "@/lib/i18n";
+import { Masthead } from "@/components/brand/Masthead";
 
 /**
  * /en/shop — den engelske udgave af kataloget (Villy, S568).
@@ -45,10 +46,9 @@ export default function ShopPageEn() {
       <SkipLink lang="en" />
       <main id="main" className="gade" lang="en">
         <div className="gade__inner">
-          <p className="gade__top font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
-            <a href="/en">← {site.name}</a>
-            <LangSwitch lang="en" path="/shop" />
-          </p>
+          <Masthead lang="en">
+          <LangSwitch lang="en" path="/shop" />
+        </Masthead>
 
           <p className="mt-10 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
             {c.kicker}

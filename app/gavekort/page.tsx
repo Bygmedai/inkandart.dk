@@ -3,6 +3,7 @@ import { site } from "@/lib/site";
 import { GiftCardOffer } from "@/components/emerge/GiftCard";
 
 import { SkipLink } from "@/components/i18n/SkipLink";
+import { Masthead } from "@/components/brand/Masthead";
 export const metadata: Metadata = {
   alternates: { canonical: "/gavekort" },
   title: "Gavekort · Ink & Art",
@@ -65,9 +66,7 @@ export default function GavekortPage() {
       />
 
       <div className="gift-page__inner">
-        <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
-          <a href="/">← {site.name}</a>
-        </p>
+        <Masthead lang="da" />
 
         <div className="legend-fade gift-page__legend" aria-hidden="true">
           <div className="legend-track legend-track--slow">
