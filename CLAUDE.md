@@ -237,20 +237,28 @@ på ødelagte systemer. Så:
   (Givet/Når/Så), godkendt af Steven før første commit. Skabelon:
   `docs/accept/SKABELON.md`. *Hvorfor: kriterier skrevet efter bygningen
   beskriver det byggede, ikke det ønskede.*
-- **Blind QA.** En reviewer får artefaktet og acceptkriterierne — ikke
-  forfatternavn, ikke PR-teksten som selvforståelse, ikke andres
-  vurderinger — og afgiver sin dom FØR andres domme læses. Revieweren
-  KØRER tingen; at læse rapporten om den er 70 % enighed med mennesker,
-  at køre den er 90 %. *Hvorfor: skaden sker i det øjeblik dommen ligger
-  i konteksten — ikke ved dens titel.*
+- **Uafhængig dom — ved rækkefølge, ikke ved sandkasse (korrigeret S569).**
+  En reviewer har fuld repo-adgang; det er meningen, og det kan ikke laves
+  om (CLAUDE.md auto-læses, `git log` navngiver, `gh` når hver tråd).
+  Kravet er rækkefølge: **hent diff + acceptkriterier, skriv din dom ned,
+  læs FØRST derefter PR-tekst og kommentarer — og sig hvad de ændrede.**
+  Revieweren KØRER tingen; at læse rapporten om den er 70 % enighed med
+  mennesker, at køre den er 90 %. *Hvorfor: giften er en dom i konteksten
+  (66,5 % vending), ikke repo-viden. Repo-viden gør kritikeren kompetent.*
+- **Dommen ligger hvor den kan køres uden en relay.** Grok og Vilde
+  **bygger** — det er dér deres autonomi er værdien. Præmortem, Porten og
+  kundevagten dømmer, fordi Haruki kan starte dem selv. *Hvorfor: der er
+  ingen bus mellem agenterne (målt S569); hver relay går gennem Steven, og
+  en plan med tre relays pr. leverance står stille.*
 - **Ingen titel dømmer.** Analyser (også Sirius's) er input til byggeren —
   aldrig «rulings», og de må ikke ligge i en reviewers kontekst før egen
   dom. Byggere arbejder alene med fuld autonomi i egen lane (målt S568:
   Grok alene i terminalen slog kæden bygger→arkitekt→QA på kvalitet);
   kontrollen ligger EFTER, blindt og udførelsesbaseret — ikke midt i.
-- **Præmortem før accept** — frisk agent, adversarielt mandat, rapport
-  direkte til Steven: `docs/PREMORTEM-BRIEF.md`. Første kørsel fandt fem
-  blokkere i #178 som 48/48 selvtests ikke fangede.
+- **Præmortem før accept** — `/praemortem <nr>` i dette repo henter briefen
+  selv (`.claude/commands/praemortem.md`), så en relay koster ét ord i
+  stedet for en indsat tekst. Rapport direkte til Steven. Første kørsel
+  fandt fem blokkere i #178 som 48/48 selvtests ikke fangede.
 - **Hvert produkt fødes med en kundevagt** — en vagt der læser produktet
   som en kunde, med negative kontroller (`scripts/kundevagt.mjs`).
   *Hvorfor: liveness er ikke leverance — Geopol havde 5.579 grønne
