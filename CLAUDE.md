@@ -222,58 +222,16 @@ overdrivelse her bliver til en skuffelse ved disken.
 
 ## 6. Accept — hvornår noget er færdigt
 
-**Ratificeret S568.** Baggrund: Geopol blev meldt færdig ad flere omgange
-med arkitekt-kendelser og grundige QA'er — og var fundamentalt i stykker.
-Målingen bagefter viste hvorfor: en bedømmer der har læst en autoritets
-konklusion, er allerede kompromitteret (en blot påstået dom i konteksten
-flipper en model i 66,5 % af tilfældene), og agenter melder målbart succes
-på ødelagte systemer. Så:
+**Processen bor i `docs/PROCES.md`** — ens i alle husets repoer, udrullet af
+`tools/udrul-proces.mjs`, og `AGENTS.md` peger på den så en Grok- eller
+Codex-session finder den selv. Kort: ingen melder «done»; acceptkriterier skrives før der
+bygges; bygger og dommer er aldrig samme leverandør; dommeren skriver sin
+dom ned før den læser tråden og indleder med `BLOKKERE: n`; Porten spærrer
+mekanisk; Steven accepterer ved at betjene produktet; kundevagten kører
+videre.
 
-- **«Done» findes ikke som agent-udsagn.** En agent melder «klar til
-  Stevens accept». Accept er Stevens handling: han betjener produktet mod
-  kriterierne i `docs/accept/<navn>.md`. *Hvorfor: accept er køberens
-  handling — leverandørens erklæring er testimoni (FAR 46; SUBSAFE).*
-- **Acceptkriterier skrives før bygning** — af agenten, i Stevens sprog
-  (Givet/Når/Så), godkendt af Steven før første commit. Skabelon:
-  `docs/accept/SKABELON.md`. *Hvorfor: kriterier skrevet efter bygningen
-  beskriver det byggede, ikke det ønskede.*
-- **Uafhængig dom — ved rækkefølge, ikke ved sandkasse (korrigeret S569).**
-  En reviewer har fuld repo-adgang; det er meningen, og det kan ikke laves
-  om (CLAUDE.md auto-læses, `git log` navngiver, `gh` når hver tråd).
-  Kravet er rækkefølge: **hent diff + acceptkriterier, skriv din dom ned,
-  læs FØRST derefter PR-tekst og kommentarer — og sig hvad de ændrede.**
-  Revieweren KØRER tingen; at læse rapporten om den er 70 % enighed med
-  mennesker, at køre den er 90 %. *Hvorfor: giften er en dom i konteksten
-  (66,5 % vending), ikke repo-viden. Repo-viden gør kritikeren kompetent.*
-- **Dommen ligger hvor den kan køres uden en relay.** Grok og Vilde
-  **bygger** — det er dér deres autonomi er værdien. Præmortem, Porten og
-  kundevagten dømmer, fordi Haruki kan starte dem selv. *Hvorfor: der er
-  ingen bus mellem agenterne (målt S569); hver relay går gennem Steven, og
-  en plan med tre relays pr. leverance står stille.*
-- **Ingen titel dømmer.** Analyser (også Sirius's) er input til byggeren —
-  aldrig «rulings», og de må ikke ligge i en reviewers kontekst før egen
-  dom. Byggere arbejder alene med fuld autonomi i egen lane (målt S568:
-  Grok alene i terminalen slog kæden bygger→arkitekt→QA på kvalitet);
-  kontrollen ligger EFTER, blindt og udførelsesbaseret — ikke midt i.
-- **Præmortem før accept** — `/praemortem <nr>` i dette repo henter briefen
-  selv (`.claude/commands/praemortem.md`), så en relay koster ét ord i
-  stedet for en indsat tekst. Rapport direkte til Steven. Første kørsel
-  fandt fem blokkere i #178 som 48/48 selvtests ikke fangede.
-- **Bygger og dommer er aldrig samme leverandør (S569).** Vilde (Anthropic)
-  bygger og Grok (xAI) dømmer, eller omvendt — rollerne byttes fra opgave
-  til opgave. Briefs: `docs/briefs/`. *Hvorfor: selv-præference er
-  identitetsdrevet — en model der dømmer sit eget hus' arbejde er mildere;
-  to firmaers modeller er naturligt i konkurrence.*
-- **Vi måler om tiltagene virker.** `scripts/fabriksmaal.mjs` — hvert tal
-  udledt af artefakter, aldrig af en agents rapport. Det bærende tal er
-  **fangstgraden**: fejl fanget før accept ÷ (før + undsluppet efter).
-  Dommere skriver `BLOKKERE: n`; undslupne fejl får label `undsluppet`.
-  *Hvorfor: udviklere med AI blev 19 % langsommere og troede de var 20 %
-  hurtigere (METR). Selvrapport er ikke data.*
-- **Hvert produkt fødes med en kundevagt** — en vagt der læser produktet
-  som en kunde, med negative kontroller (`scripts/kundevagt.mjs`).
-  *Hvorfor: liveness er ikke leverance — Geopol havde 5.579 grønne
-  cron-kørsler mens produktet stod stille.*
+Begrundelserne og rollefordelingen står i `docs/PROCES.md`. Denne fil er
+husreglerne for netop dette repo — ikke processen.
 
 ---
 
