@@ -124,9 +124,9 @@ const da = {
     },
     reservations: "Reservationer",
     wallLabel: "Væggen",
-    wallTitle: "Snart på væggen.",
+    wallTitle: "På væggen.",
     wallIntro:
-      "Husets motiver som prints og objekter — trykt og støbt i små oplag. De hænger her, når de er klar. Blackbook ser dem først.",
+      "Husets motiver som prints og objekter — trykt og støbt i små oplag. Når et er væk, er det væk. Blackbook ser de næste først.",
     prints: {
       dolk: "Et af husets motiver, trykt i hånden på tykt papir.",
       ouroboros: "Slangen der bider sig selv i halen. Lille oplag.",
@@ -186,7 +186,7 @@ const da = {
       aria: (sted: string, pris: string) =>
         `Hold en flash-tid ${sted} med ${pris} kroner i depositum`,
     },
-    note: "Vil du have besked når væggen fyldes?",
+    note: "Vil du have besked når de næste hænger?",
     noteLink: "Skriv dig i Blackbook →",
   },
   walkin: {
@@ -291,9 +291,9 @@ const en: Copy = {
     },
     reservations: "Deposits",
     wallLabel: "The wall",
-    wallTitle: "Soon on the wall.",
+    wallTitle: "On the wall.",
     wallIntro:
-      "House motifs as prints and objects — printed and cast in small runs. They hang here when they are ready. Blackbook sees them first.",
+      "House motifs as prints and objects — printed and cast in small runs. When one is gone, it is gone. Blackbook sees the next ones first.",
     prints: {
       dolk: "One of the house motifs, hand-printed on heavy paper.",
       ouroboros: "The snake that bites its own tail. Small run.",
@@ -339,7 +339,7 @@ const en: Copy = {
       aria: (sted: string, pris: string) =>
         `Hold a flash slot ${sted} with a ${pris} kroner deposit`,
     },
-    note: "Want word when the wall fills up?",
+    note: "Want word when the next ones go up?",
     noteLink: "Sign the Blackbook →",
   },
   walkin: {
