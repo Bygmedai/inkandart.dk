@@ -18,6 +18,14 @@ test("/shop er en rigtig rute med canonical og plads i sitemap", () => {
   assert.match(sitemap, /inkandart\.dk\/shop/);
 });
 
+test("REGRESSION: /en/shop har egen linje i sitemap.xml, ikke kun /shop", () => {
+  // /en/shop er en rigtig, indekserbar side (canonical: /en/shop, ingen
+  // robots-noindex) — men stod ikke i app/sitemap.ts. Testen ovenfor
+  // matcher kun understrengen "inkandart.dk/shop", som IKKE findes i
+  // ".../en/shop" (der ligger "/en" imellem), så den fangede ikke hullet.
+  assert.match(sitemap, /inkandart\.dk\/en\/shop"/);
+});
+
 test("prints uden live-variant får ALDRIG en købshandling (rails §4)", () => {
   // Købslinket er gated bag `p.live && p.variantId` — en draft kan ikke
   // rendere en knap der ikke kan købe.
