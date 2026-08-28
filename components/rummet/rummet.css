@@ -540,7 +540,188 @@ html:has([data-house="rummet"]) .grain {
 }
 
 /* Trailing header book is mobile-only (dot). Desktop uses the one inside rooms. */
-.rum-nav > .rum-nav__book { display: flex; }
+.rum-nav > .rum-nav__cluster { display: flex; }
 @media (min-width: 900px) {
-  .rum-nav > .rum-nav__book { display: none; }
+  .rum-nav > .rum-nav__cluster { display: none; }
+}
+
+/* ── M2 Stolen / Mærket ── */
+
+.rum-nav__cluster,
+.rum-dock__cluster {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.rum-dock__cluster {
+  flex: none;
+  align-items: stretch;
+}
+
+.rum-cart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  font-family: var(--font-poster), sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--hud);
+}
+
+.rum-book--row {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 44px;
+  margin-top: 16px;
+  padding: 10px 0;
+  justify-content: flex-start;
+}
+
+.rum-stolen__grid {
+  margin-top: 28px;
+  display: grid;
+  gap: 36px;
+}
+@media (min-width: 800px) {
+  .rum-stolen__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 48px;
+  }
+}
+
+.rum-kort {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.rum-kort__foto {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border: 1px solid var(--rum-line);
+  overflow: hidden;
+  background: #111;
+}
+.rum-kort__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.rum-kort__body {
+  padding-top: 16px;
+}
+.rum-kort__arkiv {
+  margin: 12px 0 0;
+}
+.rum-kort__arkiv a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 15px;
+  color: var(--hud);
+  text-transform: none;
+}
+.rum-kort__arkiv a:hover {
+  color: var(--hud);
+}
+
+.rum-maerket__hylden {
+  margin-top: 36px;
+  max-width: 1100px;
+}
+.rum-maerket__vaeg {
+  margin-top: 48px;
+}
+
+.rum-hylden {
+  margin-top: 16px;
+  display: grid;
+  gap: 28px;
+}
+@media (min-width: 700px) {
+  .rum-hylden {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.rum-hylden__item {
+  color: inherit;
+  text-decoration: none;
+  min-height: 44px;
+}
+
+.rum-gave {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+.rum-gave__n {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 4px;
+}
+
+.rum-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  margin-top: 12px;
+}
+.rum-filter a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 15px;
+  color: var(--beton);
+  text-transform: none;
+}
+.rum-filter a[aria-current="page"],
+.rum-filter a:hover {
+  color: var(--hud);
+}
+
+.rum-vaeg {
+  margin-top: 20px;
+  display: grid;
+  gap: 36px;
+}
+@media (min-width: 700px) {
+  .rum-vaeg {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 32px;
+  }
+}
+@media (min-width: 1100px) {
+  .rum-vaeg {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+.rum-vaeg__item { min-width: 0; }
+.rum-skilt {
+  margin: 10px 0 0;
+}
+
+.rum-produkt__plade {
+  margin-top: 28px;
+  max-width: 560px;
+}
+.rum-produkt__fragt {
+  margin-top: 20px;
+}
+.rum-produkt__koeb {
+  margin-top: 8px;
+  max-width: 560px;
+}
+.rum-produkt__koeb button {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(232, 220, 200, 0.28);
+  cursor: pointer;
+  color: var(--hud);
+  padding: 0;
 }

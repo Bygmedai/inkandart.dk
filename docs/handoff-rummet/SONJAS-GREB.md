@@ -12,10 +12,12 @@ M1: indholdet bor i tre filer i repoet. Decap `/admin` er sat op mod dem, men OA
 
 **Værk i arkivet**  
 `content/vaerker.yml`. Nyt punkt: `id` (slot, fx `V-09`), `artist` (`nizar` / `emma` / `gaest`), `foto`, `maa_vises: true`. Titel tom indtil den er rigtig — skriv aldrig en påhit-titel. `i_dag: true` på præcis ét værk = pladen på Huset.  
-Hylden: først når `edition_ref` er sat. Ellers: «Vi laver ikke varer uden værk.»
+`maa_vises: false` — værket er væk fra Væggen og Hylden.  
+Filter på Mærket: `/maerket?artist=nizar` (samme id som i YAML).  
+Hylden: `edition_ref` er Shopify **product handle** (fx `sort-hjort-hoodie` fra admin-URL), ikke GID. Tom = «Vi laver ikke varer uden værk.»
 
 **I stolen**  
-`content/artists.yml`. Nizar og Emma har `stol: true`. Gæsten er rækken med `periode: gaest`. Tomt `fornavn` + `aktiv: true` = «Gæst · navn følger». `aktiv: false` = «Ingen gæst i stolen». Sonja og Simone røres ikke her — de sidder ikke i stolen.
+`content/artists.yml`. Nizar og Emma har `stol: true`. Gæsten er rækken med `periode: gaest`. Tomt `fornavn` + `aktiv: true` = «Gæst · navn følger». `aktiv: false` = «Ingen gæst i stolen». Navngiven gæst: `periode_til` → «I huset til …». Sonja og Simone røres ikke her — de sidder ikke i stolen.
 
 ## Døren
 

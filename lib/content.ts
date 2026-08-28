@@ -166,3 +166,39 @@ export function vaerkLabel(vaerk: Vaerk, artist?: Artist): string {
   const bits = [vaerk.titel || vaerk.id, who, vaerk.aar].filter(Boolean);
   return bits.join(", ");
 }
+
+/** Visible works for one artist id. Copy stays in the page. */
+export function visibleVaerkerForArtist(vaerker: Vaerk[], artistId: string): Vaerk[] {
+  const id = artistId.trim();
+  if (!id) return [];
+  return visibleVaerker(vaerker).filter((v) => v.artist === id);
+}
+
+export function visibleCountForArtist(vaerker: Vaerk[], artistId: string): number {
+  return visibleVaerkerForArtist(vaerker, artistId).length;
+}
+
+/** Væggen filter. Empty/missing id → all visible works. */
+export function filterVisibleByArtist(vaerker: Vaerk[], artistId?: string | null): Vaerk[] {
+  const id = (artistId || "").trim();
+  if (!id) return visibleVaerker(vaerker);
+  return visibleVaerkerForArtist(vaerker, id);
+}
+
+/** Hylden candidates — YAML side. Storefront matching happens elsewhere. */
+export function shelfVaerker(vaerker: Vaerk[]): Vaerk[] {
+  return visibleVaerker(vaerker).filter((v) => Boolean(v.edition_ref));
+}
+
+/** Product page lookup: edition_ref is the Shopify product handle. */
+export function vaerkByEditionHandle(vaerker: Vaerk[], handle: string): Vaerk | undefined {
+  const h = handle.trim();
+  if (!h) return undefined;
+  return visibleVaerker(vaerker).find((v) => v.edition_ref === h);
+}
+
+export function vaerkById(vaerker: Vaerk[], id: string): Vaerk | undefined {
+  const key = id.trim();
+  if (!key) return undefined;
+  return visibleVaerker(vaerker).find((v) => v.id === key);
+}

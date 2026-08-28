@@ -60,7 +60,7 @@ collections:
               - { label: Må vises, name: maa_vises, widget: boolean, default: true }
               - { label: DEMO, name: demo, widget: boolean, default: true }
               - { label: Værket i dag, name: i_dag, widget: boolean, default: false }
-              - { label: Edition-ref, name: edition_ref, widget: string, required: false }
+              - { label: Edition-ref, name: edition_ref, widget: string, required: false, hint: "Shopify product handle, not GID. From the admin URL, e.g. sort-hjort-hoodie." }
 
   - name: nat
     label: Natten
