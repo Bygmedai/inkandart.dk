@@ -22,7 +22,6 @@ export default function StolenPage() {
   return (
     <RummetShell>
       <main id="main" className="rum-room rum-stolen">
-        <p className="rum-label">Rummet</p>
         <h1 className="rum-room__title rum-poster">Stolen</h1>
 
         <div className="rum-stolen__grid">

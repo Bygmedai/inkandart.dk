@@ -58,7 +58,6 @@ export default async function MaerketPage({
   return (
     <RummetShell>
       <main id="main" className="rum-room rum-maerket">
-        <p className="rum-label">Rummet</p>
         <h1 className="rum-room__title rum-poster">Mærket</h1>
 
         <section className="rum-maerket__hylden" aria-labelledby="hylden">
