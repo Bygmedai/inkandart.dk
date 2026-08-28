@@ -157,3 +157,27 @@ test("email sendes som citeret søgeværdi, ikke rå interpolation", async () =>
   await post({ email: "a@b.dk" });
   assert.match(JSON.stringify(calls[1].body), /email:\\"a@b\.dk\\"/);
 });
+
+test("telefon alene opretter en Shopify-kunde med phone + blackbook-tag", async () => {
+  mockShopify(() => res(200, { data: { customerCreate: { customer: { id: "gid://1" }, userErrors: [] } } }));
+  const r = await post({ phone: "55248608", source: "blackbook" });
+  assert.equal(r.status, 200);
+  assert.deepEqual(await r.json(), { ok: true });
+  const input = calls[0].body.variables.input;
+  assert.equal(input.phone, "+4555248608");
+  assert.ok(input.tags.includes("blackbook"));
+  assert.equal(input.email, undefined);
+});
+
+test("ugyldigt telefonnummer afvises før upstream", async () => {
+  mockShopify(() => res(200, {}));
+  assert.equal((await post({ phone: "12" })).status, 422);
+  assert.equal(calls.length, 0);
+});
+
+test("honeypot med telefon rører aldrig Shopify", async () => {
+  mockShopify(() => res(200, {}));
+  const r = await post({ phone: "55248608", company: "bot", source: "blackbook" });
+  assert.equal(r.status, 200);
+  assert.equal(calls.length, 0);
+});

@@ -75,19 +75,14 @@ test("småteksten i gaden holder AA-kontrast — opacity må ikke skride ned ige
   }
 });
 
-test("/shop er ikke forældreløs — der går en dør ind fra forsiden", () => {
-  // Målt 2026-08-21 mod produktion: /shop lå i sitemap.xml, men forsiden
-  // havde NUL links til den (kun /gavekort, /flash, /blackbook). Google
-  // kunne indeksere kataloget; et menneske kunne ikke finde det. En side
-  // uden en dør er ikke en side, den er en URL.
-  const scene = readFileSync(join(root, "components/emerge/SceneV05.tsx"), "utf8");
-  // Efter i18n (#166) hedder linket href={L("/shop")} — samme dør, anden
-  // form. Hegnet måler REGLEN («der går en dør ind til kataloget»), ikke
-  // hvordan href tilfældigvis er skrevet. Begge former tæller.
-  assert.match(
-    scene, /href=(?:"\/shop"|\{L\("\/shop"\)\})/,
-    "forsiden skal linke til kataloget — som literal eller via sprog-hjælperen"
-  );
+test("/shop er ikke forældreløs — der går en dør ind fra huset", () => {
+  // Rummet M1: forsiden er Huset. Kataloget hedder Mærket; Gaden bærer
+  // stadig døren til /shop indtil M2 bygger væggen. En side uden en dør
+  // er ikke en side, den er en URL.
+  const nav = readFileSync(join(root, "components/rummet/Nav.tsx"), "utf8");
+  const gaden = readFileSync(join(root, "app/gaden/page.tsx"), "utf8");
+  assert.match(nav, /href: "\/maerket"/, "Huset skal have en dør til Mærket");
+  assert.match(gaden, /href="\/shop"/, "Gaden skal stadig åbne /shop indtil M2");
 });
 
 test("tilbage-linket er dækket af tap-reglen på ALLE undersider", () => {

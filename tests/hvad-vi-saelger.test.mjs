@@ -5,7 +5,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const scene = readFileSync(join(root, "components/emerge/SceneV05.tsx"), "utf8");
+const scene = readFileSync(join(root, "app/page.tsx"), "utf8");
 const layout = readFileSync(join(root, "app/layout.tsx"), "utf8");
 
 /**
@@ -30,8 +30,8 @@ const synligTekst = (src) =>
 
 test("forsiden siger med synlig tekst hvad vi laver", () => {
   const synlig = synligTekst(scene);
-  assert.match(synlig, /Tatovering/i, "ordet «tatovering» skal stå synligt i scenen");
-  assert.match(synlig, /piercing/i, "ordet «piercing» skal stå synligt i scenen");
+  assert.match(synlig, /Tatovering/i, "ordet «tatovering» skal stå synligt på Huset");
+  assert.match(synlig, /piercing/i, "ordet «piercing» skal stå synligt på Huset");
 });
 
 test("negativ kontrol: en aria-label alene ville IKKE tælle", () => {

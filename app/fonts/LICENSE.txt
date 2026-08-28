@@ -1,5 +1,12 @@
-Self-hosted OFL 1.1 fonts for Emerge v0.1.
+Self-hosted OFL 1.1 fonts.
 
+Emerge (remaining surfaces):
 - Cormorant Garamond — https://github.com/CatharsisFonts/Cormorant/blob/master/OFL.txt
 - Space Grotesk — https://github.com/floriankarsten/space-grotesk/blob/master/OFL.txt
 - Space Mono — https://github.com/googlefonts/spacemono/blob/master/OFL.txt
+
+Rummet (Anton + Instrument Sans, latin + latin-ext, display=swap):
+- Anton — SIL Open Font License 1.1, Vernon Adams
+  https://github.com/google/fonts/blob/main/ofl/anton/OFL.txt
+- Instrument Sans — SIL Open Font License 1.1, Rodrigo Fuenzalida & Jordan Egstad
+  https://github.com/googlefonts/instrument-sans/blob/main/OFL.txt

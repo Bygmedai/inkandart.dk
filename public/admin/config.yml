@@ -1,0 +1,81 @@
+# Decap CMS — Rummet content. OAuth (decap-oauth-worker) is not wired in M1;
+# the path is real so Sonja can open /admin once the worker is pointed here.
+local_backend: true
+backend:
+  name: git-gateway
+  branch: main
+  squash_merges: true
+
+media_folder: public/slots
+public_folder: /slots
+
+locale: da
+
+collections:
+  - name: artists
+    label: Artister
+    label_singular: Artist
+    folder: content
+    filter: { field: id, exists: true }
+    format: yml
+    extension: yml
+    create: false
+    delete: false
+    identifier_field: id
+    files:
+      - label: Artister
+        name: artists
+        file: content/artists.yml
+        fields:
+          - label: Artister
+            name: artists
+            widget: list
+            fields:
+              - { label: Id, name: id, widget: string }
+              - { label: Fornavn, name: fornavn, widget: string }
+              - { label: Håndværk, name: haandvaerk, widget: string, required: false }
+              - { label: Periode, name: periode, widget: select, options: [fast, gaest] }
+              - { label: I huset til, name: periode_til, widget: string, required: false }
+              - { label: Foto, name: foto, widget: image }
+              - { label: Aktiv, name: aktiv, widget: boolean, default: true }
+              - { label: Sidder i stolen, name: stol, widget: boolean, default: true }
+
+  - name: vaerker
+    label: Værker
+    files:
+      - label: Værker
+        name: vaerker
+        file: content/vaerker.yml
+        fields:
+          - label: Værker
+            name: vaerker
+            widget: list
+            fields:
+              - { label: Slot / id, name: id, widget: string }
+              - { label: Titel, name: titel, widget: string, required: false, hint: "Tom = untitled. Opdigt aldrig en titel." }
+              - { label: Artist-id, name: artist, widget: string, hint: "nizar / emma / gaest" }
+              - { label: År, name: aar, widget: string, required: false }
+              - { label: Arkivnr, name: arkivnr, widget: string, required: false }
+              - { label: Foto, name: foto, widget: image }
+              - { label: Må vises, name: maa_vises, widget: boolean, default: true }
+              - { label: DEMO, name: demo, widget: boolean, default: true }
+              - { label: Værket i dag, name: i_dag, widget: boolean, default: false }
+              - { label: Edition-ref, name: edition_ref, widget: string, required: false }
+
+  - name: nat
+    label: Natten
+    files:
+      - label: Natten
+        name: nat
+        file: content/nat.yml
+        fields:
+          - label: Nætter
+            name: nat
+            widget: list
+            fields:
+              - { label: Nr, name: nr, widget: string, required: false }
+              - { label: Dato, name: dato, widget: string, required: false }
+              - { label: Navne, name: navne, widget: list, required: false }
+              - { label: Tidsrum, name: tidsrum, widget: string, required: false }
+              - { label: Plakat, name: plakatfoto, widget: image, required: false }
+              - { label: Aktiv i aften, name: aktiv, widget: boolean, default: false }

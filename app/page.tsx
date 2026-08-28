@@ -1,25 +1,153 @@
 import type { Metadata } from "next";
-import { SceneV05 } from "@/components/emerge/SceneV05";
-import { MobileDock } from "@/components/emerge/MobileDock";
+import Link from "next/link";
+import { RummetShell } from "@/components/rummet/Shell";
+import { Plade } from "@/components/rummet/Plade";
+import { Door } from "@/components/rummet/Door";
+import { BookDoor } from "@/components/rummet/BookDoor";
+import {
+  loadHouse,
+  artistById,
+  chairArtists,
+  guestState,
+  activeNat,
+  featuredVaerk,
+} from "@/lib/content";
 import { alternates } from "@/lib/i18n";
 
-import { SkipLink } from "@/components/i18n/SkipLink";
 export const metadata: Metadata = {
-  // Self-referential canonical — bevidst pr. side, ikke i layout: layout-metadata
-  // arves, og en root-canonical ville stemple undersiderne som kopier af forsiden.
   alternates: alternates("/"),
+  title: "Ink & Art Copenhagen — tatovering & piercing i Pisserenden",
+  description:
+    "Tatovering og piercing i Pisserenden. Larsbjørnsstræde 13, København K.",
 };
 
-/* Emerge v0.5 — Claudias landskab: Hero · Under gaden · Work · Artist · Booking.
-   Én sammenhængende scene; sektionsgrænserne bæres af kant-lagene i scenen selv. */
-export default function HomePage() {
+export default function HusetPage() {
+  const house = loadHouse();
+  const featured = featuredVaerk(house.vaerker);
+  const featuredArtist = featured ? artistById(house.artists, featured.artist) : undefined;
+  const chairs = chairArtists(house.artists);
+  const guest = guestState(house.artists);
+  const nat = activeNat(house.nats);
+
   return (
-    <>
-      <SkipLink lang="da" />
-    <main id="main">
-      <SceneV05 />
-      <MobileDock />
-    </main>
-    </>
+    <RummetShell door={false}>
+      <main id="main" className="rum-huset">
+        <section id="work" className="rum-huset__plade">
+          <p className="rum-label">Værket i dag</p>
+          {featured ? (
+            <div style={{ marginTop: 16 }}>
+              <Plade vaerk={featured} artist={featuredArtist} />
+            </div>
+          ) : (
+            <div className="rum-empty" style={{ marginTop: 16 }}>
+              <p className="rum-empty__title rum-poster">Ingen værk i dag</p>
+            </div>
+          )}
+        </section>
+
+        <section className="rum-huset__side">
+          <p className="rum-label" id="artists">
+            I huset
+          </p>
+
+          {chairs.map((a) => (
+            <article
+              key={a.id}
+              id={a.id === "nizar" ? "artist-nizar" : undefined}
+              className="rum-chair"
+            >
+              <div className="rum-chair__foto">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={a.foto} alt={a.fornavn} />
+                <span className="rum-demo">DEMO {slotId(a.foto)}</span>
+              </div>
+              <div>
+                <h2 className="rum-chair__navn rum-poster">{a.fornavn}</h2>
+                {a.haandvaerk ? <p className="rum-chair__craft">{a.haandvaerk}</p> : null}
+                <p className="rum-label rum-chair__meta">Fast</p>
+              </div>
+            </article>
+          ))}
+
+          {guest.kind === "empty" ? (
+            <div className="rum-empty" style={{ marginTop: 16 }}>
+              <p className="rum-empty__title rum-poster">Ingen gæst i stolen</p>
+            </div>
+          ) : (
+            <article className="rum-chair">
+              <div className="rum-chair__foto">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={guest.artist.foto}
+                  alt={guest.kind === "named" ? guest.artist.fornavn : "Gæst"}
+                />
+                <span className="rum-demo">DEMO {slotId(guest.artist.foto)}</span>
+              </div>
+              <div>
+                <h2 className="rum-chair__navn rum-poster">
+                  {guest.kind === "named" ? guest.artist.fornavn : "Gæst · navn følger"}
+                </h2>
+                {guest.kind === "named" && guest.artist.haandvaerk ? (
+                  <p className="rum-chair__craft">{guest.artist.haandvaerk}</p>
+                ) : null}
+                <p className="rum-label rum-chair__meta">
+                  {guest.kind === "named" && guest.artist.periode_til
+                    ? `I huset til ${guest.artist.periode_til}`
+                    : "Gæst"}
+                </p>
+              </div>
+            </article>
+          )}
+
+          <p className="rum-fact">
+            Tatovering og piercing. Larsbjørnsstræde 13. Walk-in og tider: [TAL BEKRÆFTES].
+          </p>
+
+          <div style={{ marginTop: 20 }}>
+            <BookDoor id="booking" />
+          </div>
+
+          <div className="rum-nat">
+            <p className="rum-label">I aften</p>
+            {nat ? (
+              <div className="rum-nat__card rum-nat__card--live">
+                <p className="rum-nat__title rum-poster">{nat.nr || nat.dato || "Nat"}</p>
+                <p className="rum-label rum-nat__meta">
+                  {[nat.dato, nat.tidsrum].filter(Boolean).join(" · ")}
+                </p>
+                {nat.navne.length ? (
+                  <p className="rum-chair__craft" style={{ marginTop: 10 }}>
+                    {nat.navne.join(" · ")}
+                  </p>
+                ) : (
+                  <p className="rum-chair__craft" style={{ marginTop: 10 }}>
+                    Gæste-DJ
+                  </p>
+                )}
+                <Link href="/natten" className="rum-nat__go">
+                  Se plakaten
+                </Link>
+              </div>
+            ) : (
+              <div className="rum-empty" style={{ marginTop: 16 }}>
+                <p className="rum-empty__title rum-poster">Ingen nat i aften</p>
+                <p className="rum-body-copy" style={{ marginTop: 12, color: "var(--beton)" }}>
+                  Næste nat står i Blackbook.
+                </p>
+              </div>
+            )}
+          </div>
+
+          <div className="rum-huset__door">
+            <Door variant="inline" />
+          </div>
+        </section>
+      </main>
+    </RummetShell>
   );
+}
+
+function slotId(src: string): string {
+  const name = src.split("/").pop() || src;
+  return name.replace(/\.[a-z0-9]+$/i, "");
 }

@@ -1,15 +1,19 @@
-# `/api/subscribe` — Blackbook-signup (porteret ved Emerge-cutover)
+# `/api/subscribe` — Blackbook-signup
 
-> **LEVER.** Porteret 1:1 fra det gamle Vercel Edge-endpoint til
-> `app/api/subscribe/route.ts` (Haruki-review S566 F2; Stevens valg 20/8:
-> portér — leadlisten er et aktiv). UI: stille email-felt i booking-zonen
-> (`BlackbookSignup` i `SceneV05.tsx`), `source: "emerge"`.
+> **LEVER.** Porteret fra det gamle Vercel Edge-endpoint til
+> `app/api/subscribe/route.ts`. Rummet M1: Døren sender **telefon**
+> (`source: "blackbook"`). Emerge-feltet sender stadig email.
 
-Opretter (eller no-op'er på) en Shopify-kunde med email-marketing-consent.
-Auth via client_credentials (Dev Dashboard custom app "Blackbook signup");
-legacy `SHOPIFY_ADMIN_TOKEN` respekteres som fallback. Hærdning uændret:
-server-only credentials, honeypot, email-validering, idempotent på "taken",
-server-side tag-whitelist.
+Opretter (eller no-op'er på) en Shopify-kunde.
 
-Env (Vercel, uændrede navne): `SHOPIFY_CLIENT_ID` / `SHOPIFY_CLIENT_SECRET`
-(case-tolerant læsning), valgfrit `SHOPIFY_STORE`.
+- Email-path: email + email-marketing-consent + tags.
+- Phone-path (M1): `phone` + sms-marketing-consent + tags, heriblandt `blackbook`.
+- Auth via client_credentials (Dev Dashboard custom app "Blackbook signup");
+  legacy `SHOPIFY_ADMIN_TOKEN` som fallback.
+- Hærdning: server-only credentials, honeypot `company`, validering,
+  idempotent på «findes allerede», server-side tag-whitelist.
+- Ingen ny mail-sender. Ingen DNS. Ingen tredjepartsscript.
+- Linje på Døren: «Vi sender kun natten. Afmeld med STOP.»
+
+Env (Vercel): `SHOPIFY_CLIENT_ID` / `SHOPIFY_CLIENT_SECRET`
+(case-tolerant), valgfrit `SHOPIFY_STORE`.

@@ -1,0 +1,91 @@
+# Værker. Untitled DEMO — ingen opdigtede titler.
+# edition_ref tom = hylden er tom («Vi laver ikke varer uden værk.»).
+# i_dag: det værk Huset viser som pladen.
+
+- id: V-01
+  titel: ""
+  artist: nizar
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-01.jpg
+  maa_vises: true
+  demo: true
+  i_dag: true
+  edition_ref: ""
+
+- id: V-02
+  titel: ""
+  artist: nizar
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-02.jpg
+  maa_vises: true
+  demo: true
+  i_dag: false
+  edition_ref: ""
+
+- id: V-03
+  titel: ""
+  artist: emma
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-03.jpg
+  maa_vises: true
+  demo: true
+  i_dag: false
+  edition_ref: ""
+
+- id: V-04
+  titel: ""
+  artist: emma
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-04.jpg
+  maa_vises: true
+  demo: true
+  i_dag: false
+  edition_ref: ""
+
+- id: V-05
+  titel: ""
+  artist: nizar
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-05.jpg
+  maa_vises: true
+  demo: true
+  i_dag: false
+  edition_ref: ""
+
+- id: V-06
+  titel: ""
+  artist: emma
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-06.jpg
+  maa_vises: true
+  demo: true
+  i_dag: false
+  edition_ref: ""
+
+- id: V-07
+  titel: ""
+  artist: nizar
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-07.jpg
+  maa_vises: true
+  demo: true
+  i_dag: false
+  edition_ref: ""
+
+- id: V-08
+  titel: ""
+  artist: emma
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-08.jpg
+  maa_vises: true
+  demo: true
+  i_dag: false
+  edition_ref: ""

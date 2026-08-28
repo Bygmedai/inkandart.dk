@@ -1,0 +1,44 @@
+# Artist-modellen. I huset = hvem der sidder i stolen.
+# Sonja og Simone er huset, ikke stolen — stol: false.
+# Håndværkslinjer ud over faget er [AFVENTER] — ikke mockuppens slogans.
+
+- id: nizar
+  fornavn: Nizar Saad
+  haandvaerk: Tattovør
+  periode: fast
+  foto: /slots/S-01.jpg
+  aktiv: true
+  stol: true
+
+- id: emma
+  fornavn: Emma Winding
+  haandvaerk: Tattovør
+  periode: fast
+  foto: /slots/S-02.jpg
+  aktiv: true
+  stol: true
+
+- id: gaest
+  fornavn: ""
+  haandvaerk: ""
+  periode: gaest
+  periode_til: ""
+  foto: /slots/S-03.jpg
+  aktiv: true
+  stol: true
+
+- id: sonja
+  fornavn: Sonja Rebner
+  haandvaerk: Store manager + SoMe
+  periode: fast
+  foto: /slots/S-05.jpg
+  aktiv: true
+  stol: false
+
+- id: simone
+  fornavn: Simone Chimera
+  haandvaerk: CEO, event manager
+  periode: fast
+  foto: /slots/S-06.jpg
+  aktiv: true
+  stol: false

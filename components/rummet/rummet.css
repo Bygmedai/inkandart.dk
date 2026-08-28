@@ -1,0 +1,531 @@
+/* Rummet tokens — only on Rummet surfaces. Emerge :root stays for remaining pages. */
+
+[data-house="rummet"] {
+  --nat: #070707;
+  --hud: #e8dcc8;
+  --blod: #b91c1c;
+  --strobe: #c8ff3d;
+  --beton: #8a8580;
+  --rum-line: rgba(232, 220, 200, 0.12);
+  --void: #070707;
+  --text: #e8dcc8;
+  --text-soft: #e8dcc8;
+  --text-mute: #8a8580;
+  --gold: #8a8580;
+  --oxblood: #b91c1c;
+  --gutter: clamp(20px, 6vw, 96px);
+
+  background: var(--nat);
+  color: var(--hud);
+  font-family: var(--font-chair), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 900px) {
+  [data-house="rummet"] {
+    padding-bottom: 0;
+  }
+}
+
+[data-house="rummet"] * { border-radius: 0; }
+
+[data-house="rummet"] :focus-visible {
+  outline: 2px solid var(--hud);
+  outline-offset: 2px;
+}
+
+[data-house="rummet"] .rum-nat :focus-visible {
+  outline-color: var(--strobe);
+}
+
+html:has([data-house="rummet"]) {
+  background: #070707;
+}
+html:has([data-house="rummet"]) .grain {
+  display: none;
+}
+
+.rum-poster {
+  font-family: var(--font-poster), "Anton", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 0.92;
+}
+
+.rum-label {
+  font-family: var(--font-chair), system-ui, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--beton);
+  line-height: 1.3;
+}
+
+.rum-body-copy {
+  font-size: 16px;
+  line-height: 1.5;
+  text-transform: none;
+}
+
+/* ── Nav ── */
+
+.rum-nav {
+  height: 64px;
+  padding: 0 var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--rum-line);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--nat);
+}
+
+@media (min-width: 900px) {
+  .rum-nav { height: 88px; }
+}
+
+.rum-nav__mark {
+  font-family: var(--font-poster), sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.18em;
+  color: var(--hud);
+  text-transform: uppercase;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .rum-nav__mark { font-size: 21px; }
+}
+
+.rum-nav__rooms {
+  display: none;
+  align-items: center;
+  gap: 34px;
+}
+@media (min-width: 900px) {
+  .rum-nav__rooms { display: flex; }
+}
+
+.rum-nav__room {
+  font-family: var(--font-poster), sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--beton);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.rum-nav__room[aria-current="page"],
+.rum-nav__room:hover {
+  color: var(--hud);
+}
+
+.rum-nav__split {
+  display: none;
+  width: 1px;
+  height: 15px;
+  background: rgba(232, 220, 200, 0.2);
+}
+@media (min-width: 900px) {
+  .rum-nav__split { display: block; }
+}
+
+.rum-nav__book {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  min-width: 44px;
+  justify-content: center;
+  color: var(--hud);
+  font-family: var(--font-poster), sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.rum-dot {
+  display: block;
+  width: 8px;
+  height: 8px;
+  background: var(--blod);
+  flex: none;
+}
+
+.rum-nav__book-word { display: none; }
+@media (min-width: 900px) {
+  .rum-nav__book-word { display: inline; }
+}
+
+/* ── Mobile room bar ── */
+
+.rum-dock {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  display: flex;
+  align-items: stretch;
+  border-top: 1px solid var(--rum-line);
+  background: var(--nat);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (min-width: 900px) {
+  .rum-dock { display: none; }
+}
+
+.rum-dock a {
+  flex: 1;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-poster), sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--beton);
+  padding: 12px 4px;
+}
+.rum-dock a[aria-current="page"] { color: var(--hud); }
+.rum-dock__book { flex: none; width: 48px; }
+
+/* ── Huset ── */
+
+.rum-huset {
+  padding: 24px var(--gutter) 48px;
+  display: grid;
+  gap: 40px;
+}
+@media (min-width: 1100px) {
+  .rum-huset {
+    grid-template-columns: minmax(280px, 560px) 1fr;
+    gap: 72px;
+    padding-top: 36px;
+    padding-bottom: 68px;
+    align-items: start;
+  }
+}
+
+.rum-huset__plade { min-width: 0; }
+.rum-huset__side {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.rum-plade { margin: 0; }
+.rum-plade__frame {
+  position: relative;
+  border: 1px solid var(--rum-line);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #111;
+}
+@media (min-width: 1100px) {
+  .rum-plade__frame {
+    max-height: min(68svh, 700px);
+    width: 100%;
+    aspect-ratio: 4 / 5;
+  }
+}
+.rum-plade__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.rum-demo {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--beton);
+  background: rgba(7, 7, 7, 0.72);
+  padding: 4px 8px;
+}
+.rum-plade__titel {
+  margin: 16px 0 0;
+  font-size: clamp(22px, 3vw, 34px);
+}
+.rum-plade__artist {
+  margin: 8px 0 0;
+  font-size: 15px;
+  opacity: 0.74;
+}
+.rum-plade__meta {
+  margin: 4px 0 0;
+}
+
+.rum-chair {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(232, 220, 200, 0.1);
+  text-decoration: none;
+  color: inherit;
+  min-height: 44px;
+}
+@media (min-width: 900px) {
+  .rum-chair {
+    grid-template-columns: 104px 1fr;
+    gap: 22px;
+    padding: 22px 0;
+  }
+}
+.rum-chair__foto {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border: 1px solid var(--rum-line);
+  overflow: hidden;
+}
+.rum-chair__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.rum-chair__navn {
+  margin: 0;
+  font-size: clamp(22px, 2.4vw, 30px);
+}
+.rum-chair__craft {
+  margin: 8px 0 0;
+  font-size: 15px;
+  opacity: 0.74;
+}
+.rum-chair__meta { margin: 6px 0 0; }
+
+.rum-empty {
+  border: 1px solid var(--rum-line);
+  padding: 22px 24px;
+  color: var(--beton);
+}
+.rum-empty__title {
+  margin: 0;
+  font-size: clamp(28px, 4vw, 40px);
+  color: var(--beton);
+}
+
+.rum-nat {
+  margin-top: 28px;
+}
+.rum-nat__card {
+  margin-top: 14px;
+  border: 1px solid var(--rum-line);
+  padding: 22px 24px;
+}
+.rum-nat__card--live {
+  border-left: 3px solid var(--strobe);
+}
+.rum-nat__title {
+  margin: 0;
+  font-size: clamp(32px, 4vw, 48px);
+}
+.rum-nat__meta { margin: 12px 0 0; }
+.rum-nat__go {
+  margin-top: 16px;
+  font-family: var(--font-poster), sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 15px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.rum-huset__door {
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(232, 220, 200, 0.1);
+}
+
+.rum-fact {
+  margin: 20px 0 0;
+  font-size: 16px;
+  color: var(--hud);
+  opacity: 0.78;
+  max-width: 46ch;
+}
+
+.rum-book {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--font-poster), sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hud);
+  border-bottom: 1px solid rgba(232, 220, 200, 0.28);
+}
+
+/* ── Door ── */
+
+.rum-door {
+  padding: 28px var(--gutter) 36px;
+}
+.rum-door--inline {
+  padding: 0;
+}
+.rum-door__head {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+.rum-door__name {
+  font-family: var(--font-poster), sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--hud);
+}
+.rum-door__line {
+  margin: 12px 0 0;
+  color: var(--beton);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.rum-door__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+  margin-top: 18px;
+}
+.rum-door__field {
+  flex: 1;
+  min-width: 180px;
+}
+.rum-door__field label {
+  display: block;
+  font-size: 12px;
+  color: var(--beton);
+  margin-bottom: 6px;
+}
+.rum-door__field input[type="tel"] {
+  width: 100%;
+  min-height: 44px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(232, 220, 200, 0.28);
+  color: var(--hud);
+  font-size: 16px;
+  padding: 8px 0;
+}
+.rum-door__go {
+  min-height: 44px;
+  min-width: 88px;
+  padding: 0 16px;
+  background: var(--hud);
+  color: var(--nat);
+  font-family: var(--font-poster), sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+}
+.rum-door__go:disabled { opacity: 0.5; cursor: wait; }
+.rum-door__status {
+  margin: 10px 0 0;
+  min-height: 1.2em;
+  font-size: 13px;
+  color: var(--beton);
+}
+.rum-door__hp {
+  position: absolute;
+  left: -9999px;
+}
+
+/* ── Footer ── */
+
+.rum-footer {
+  margin-top: auto;
+  padding: 20px var(--gutter) 28px;
+  border-top: 1px solid var(--rum-line);
+  color: var(--beton);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.rum-footer a { color: var(--beton); }
+.rum-footer a:hover { color: var(--hud); }
+
+/* ── Room stubs ── */
+
+.rum-room {
+  padding: 36px var(--gutter) 72px;
+  max-width: 1100px;
+}
+.rum-room__title {
+  margin: 12px 0 0;
+  font-size: clamp(48px, 10vw, 96px);
+}
+.rum-room__slot {
+  position: relative;
+  margin-top: 28px;
+  border: 1px solid var(--rum-line);
+  max-width: 560px;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+}
+.rum-room__slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.rum-room__note {
+  margin: 24px 0 0;
+  max-width: 46ch;
+}
+
+.rum-legal {
+  padding: 36px var(--gutter) 80px;
+  max-width: 68ch;
+}
+.rum-legal h1 {
+  margin: 12px 0 0;
+  font-size: clamp(36px, 6vw, 64px);
+}
+.rum-legal ol { list-style: none; padding: 0; margin: 24px 0 0; }
+.rum-legal li {
+  display: flex;
+  gap: 16px;
+  border-top: 1px solid var(--rum-line);
+  padding: 20px 0;
+}
+.rum-legal h2 {
+  margin: 40px 0 0;
+  font-size: clamp(24px, 4vw, 36px);
+}
+.rum-legal h3 {
+  margin: 0;
+  font-size: 16px;
+}
+.rum-legal p { margin: 12px 0 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-house="rummet"] * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Trailing header book is mobile-only (dot). Desktop uses the one inside rooms. */
+.rum-nav > .rum-nav__book { display: flex; }
+@media (min-width: 900px) {
+  .rum-nav > .rum-nav__book { display: none; }
+}

@@ -31,12 +31,20 @@ function kundesider() {
     .map((p) => p.replace(root + "/", ""))
     .filter((p) => p !== "app/page.tsx")          // forsiden har sit eget segl i heroen
     .filter((p) => !p.includes("figur-lab"))      // intern, ikke linket
-    .filter((p) => p !== "app/en/page.tsx");      // ER den engelske forside
+    .filter((p) => p !== "app/en/page.tsx")       // ER den engelske forside
+    .filter((p) => !p.startsWith("app/stolen/"))
+    .filter((p) => !p.startsWith("app/maerket/"))
+    .filter((p) => !p.startsWith("app/natten/"))
+    .filter((p) => !p.startsWith("app/gaden/"))
+    .filter((p) => !p.startsWith("app/betingelser/"))
+    .filter((p) => p !== "app/aftercare/page.tsx")
+    .filter((p) => p !== "app/privatlivspolitik/page.tsx")
+    .filter((p) => p !== "app/blackbook/page.tsx");
 }
 
 test("hver kundevendt underside har praecis ét segl i toppen", () => {
   const sider = kundesider();
-  assert.ok(sider.length >= 10, `fandt kun ${sider.length} undersider — leder vi det rigtige sted?`);
+  assert.ok(sider.length >= 8, `fandt kun ${sider.length} undersider — leder vi det rigtige sted?`);
   for (const sti of sider) {
     const src = readFileSync(join(root, sti), "utf8");
     const antal = (src.match(/<Masthead\b/g) || []).length;
@@ -71,7 +79,7 @@ test("negativ kontrol: ingen kundeside er en blindgyde", () => {
   const uden = [];
   for (const sti of kundesider()) {
     const src = readFileSync(join(root, sti), "utf8");
-    if (!/<Masthead\b/.test(src) && !/href="\/(en)?"/.test(src)) uden.push(sti);
+    if (!/<Masthead\b/.test(src) && !/<RummetShell\b/.test(src) && !/redirect\("\/#doer"\)/.test(src) && !/href="\/(en)?"/.test(src)) uden.push(sti);
   }
   assert.deepEqual(uden, [], `disse sider har ingen vej hjem: ${uden.join(", ")}`);
 });
