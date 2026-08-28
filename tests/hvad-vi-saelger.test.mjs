@@ -5,7 +5,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const scene = readFileSync(join(root, "app/page.tsx"), "utf8");
+const scene = readFileSync(join(root, "app/(rummet)/page.tsx"), "utf8");
 const layout = readFileSync(join(root, "app/layout.tsx"), "utf8");
 
 /**

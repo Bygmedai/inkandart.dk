@@ -8,8 +8,8 @@ import { LOCALES, localePath, alternates, t } from "../lib/i18n.ts";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const redirects = readFileSync(join(root, "lib/redirects.ts"), "utf8");
 const sitemap = readFileSync(join(root, "app/sitemap.ts"), "utf8");
-const daPage = readFileSync(join(root, "app/walk-in/page.tsx"), "utf8");
-const enPage = readFileSync(join(root, "app/en/walk-in/page.tsx"), "utf8");
+const daPage = readFileSync(join(root, "app/(emerge)/walk-in/page.tsx"), "utf8");
+const enPage = readFileSync(join(root, "app/(emerge)/en/walk-in/page.tsx"), "utf8");
 const sw = readFileSync(join(root, "components/i18n/LangSwitch.tsx"), "utf8");
 
 test("dansk bor på roden, engelsk på /en — ingen rute er flyttet", () => {
@@ -17,7 +17,7 @@ test("dansk bor på roden, engelsk på /en — ingen rute er flyttet", () => {
   assert.equal(localePath("da", "/walk-in"), "/walk-in");
   assert.equal(localePath("en", "/walk-in"), "/en/walk-in");
   assert.equal(localePath("en", "/"), "/en");
-  assert.equal(existsSync(join(root, "app/walk-in/page.tsx")), true);
+  assert.equal(existsSync(join(root, "app/(emerge)/walk-in/page.tsx")), true);
 });
 
 test("REGRESSION: en engelsk side vi HAR bygget må ikke 308'es væk", () => {

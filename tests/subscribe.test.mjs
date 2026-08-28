@@ -181,3 +181,18 @@ test("honeypot med telefon rører aldrig Shopify", async () => {
   assert.equal(r.status, 200);
   assert.equal(calls.length, 0);
 });
+
+test("REGRESSION: telefon-dublet slår op på defaultPhoneNumber, ikke 422", async () => {
+  mockShopify((n) => {
+    if (n === 1) {
+      return res(200, { data: { customerCreate: { userErrors: [{ message: "Phone has already been taken" }] } } });
+    }
+    return res(200, { data: { customers: { edges: [{ node: { id: "gid://9", defaultPhoneNumber: { phoneNumber: "+4555248608" } } }] } } });
+  });
+  const r = await post({ phone: "55248608", source: "blackbook" });
+  assert.equal(r.status, 200);
+  assert.deepEqual(await r.json(), { ok: true, already: true });
+  const q = JSON.stringify(calls[1].body);
+  assert.match(q, /phone:/);
+  assert.match(q, /defaultPhoneNumber/);
+});

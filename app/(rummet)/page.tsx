@@ -33,7 +33,7 @@ export default function HusetPage() {
     <RummetShell door={false}>
       <main id="main" className="rum-huset">
         <section id="work" className="rum-huset__plade">
-          <p className="rum-label">Værket i dag</p>
+          <p className="rum-label">Nylavet</p>
           {featured ? (
             <div style={{ marginTop: 16 }}>
               <Plade vaerk={featured} artist={featuredArtist} />
@@ -47,7 +47,7 @@ export default function HusetPage() {
 
         <section className="rum-huset__side">
           <p className="rum-label" id="artists">
-            I huset
+            I stolen
           </p>
 
           {chairs.map((a) => (
@@ -100,7 +100,7 @@ export default function HusetPage() {
           )}
 
           <p className="rum-fact">
-            Tatovering og piercing. Larsbjørnsstræde 13. Walk-in og tider: [TAL BEKRÆFTES].
+            Walk-in når der er en fri stol — ellers book. Larsbjørnsstræde 13, kælderen.
           </p>
 
           <div style={{ marginTop: 20 }}>

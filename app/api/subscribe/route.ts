@@ -158,7 +158,7 @@ const CREATE_CUSTOMER = `mutation newsletterSignup($input: CustomerInput!) {
 
 const FIND_CUSTOMER = `query findCustomer($q: String!) {
   customers(first: 5, query: $q) {
-    edges { node { id defaultEmailAddress { emailAddress marketingState } } }
+    edges { node { id defaultEmailAddress { emailAddress marketingState } defaultPhoneNumber { phoneNumber } } }
   }
 }`;
 

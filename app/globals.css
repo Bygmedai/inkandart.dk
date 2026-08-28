@@ -27,7 +27,7 @@ html, body { background: var(--void); color: var(--text); }
 html { scroll-behavior: auto; }
 body {
   margin: 0;
-  font-family: var(--font-body), system-ui, sans-serif;
+  font-family: system-ui, sans-serif;
   font-size: 16px;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
@@ -1324,8 +1324,8 @@ main a[href="/"] {
 
 /* Skriftgulv på undersiderne: samme klage, samme svar. 11px mono med
    0.3em sporing er dekoration, ikke læsbar tekst. */
-body:not(:has(.emerge-v05)) main .text-\[11px\] { font-size: 13px; }
-body:not(:has(.emerge-v05)) main .text-\[10px\] { font-size: 12px; }
+body:not(:has(.emerge-v05)):not(:has([data-rummet])) main .text-\[11px\] { font-size: 13px; }
+body:not(:has(.emerge-v05)):not(:has([data-rummet])) main .text-\[10px\] { font-size: 12px; }
 
 /* ── Mobil-header: de kommercielle handlinger skal kunne være der ────────
    Målt på origin/main FØR denne PR: «Booking →» var klippet af skærmen på
@@ -1349,7 +1349,7 @@ body:not(:has(.emerge-v05)) main .text-\[10px\] { font-size: 12px; }
    Bygget som ÉT CSS-lag uden at røre en eneste sidefil: Haruki rejser den
    engelske flade i præcis de filer lige nu, og en collage er ikke værd at
    kollidere over. Krogene er strukturelle og gratis:
-     · `body:not(:has(.emerge-v05))` = alt der IKKE er forsidens scene
+     · `body:not(:has(.emerge-v05)):not(:has([data-rummet]))` = Emerge-undersider; aldrig Rummet
      · `a[href*="myshopify.com/cart/"]` = præcis de links der kan købe noget,
        uanset hvis lane de bor i.
 
@@ -1357,10 +1357,10 @@ body:not(:has(.emerge-v05)) main .text-\[10px\] { font-size: 12px; }
    pointer-events: none — det kan ikke æde et tap. Målt med
    scripts/maal-flader.mjs. */
 
-body:not(:has(.emerge-v05)) { position: relative; }
+body:not(:has(.emerge-v05)):not(:has([data-rummet])) { position: relative; }
 
 /* Fjernlaget: store, dæmpede former i kanterne. Følger med ned ad siden. */
-body:not(:has(.emerge-v05))::before {
+body:not(:has(.emerge-v05)):not(:has([data-rummet]))::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -1383,7 +1383,7 @@ body:not(:has(.emerge-v05))::before {
 }
 
 /* Nærlaget: husets genstande, spredt som på gaden. */
-body:not(:has(.emerge-v05))::after {
+body:not(:has(.emerge-v05)):not(:has([data-rummet]))::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -1413,12 +1413,12 @@ body:not(:has(.emerge-v05))::after {
 /* Kun `main` — målt: ingen underside har <header> eller <footer>, så de to
    ekstra selektorer var dødvægt der kun kunne skabe stacking-contexts
    ingen bad om (QA #170). Jo smallere blanket, jo færre naboer bider den. */
-body:not(:has(.emerge-v05)) main { position: relative; z-index: 1; }
+body:not(:has(.emerge-v05)):not(:has([data-rummet])) main { position: relative; z-index: 1; }
 
 @media (max-width: 640px) {
   /* På mobil er der ikke marginer at gemme collagen i — færre, mindre, svagere. */
-  body:not(:has(.emerge-v05))::before { opacity: 0.16; background-position: -18vw 6vh, 99% 22vh, 108% 70vh, -8vw 0; }
-  body:not(:has(.emerge-v05))::after {
+  body:not(:has(.emerge-v05)):not(:has([data-rummet]))::before { opacity: 0.16; background-position: -18vw 6vh, 99% 22vh, 108% 70vh, -8vw 0; }
+  body:not(:has(.emerge-v05)):not(:has([data-rummet]))::after {
     opacity: 0.3;
     background-position: -6vw 64vh, 97% 52vh, 101% 5vh, -4vw 90vh, 96% 92vh, -8vw 33vh;
   }
@@ -1429,14 +1429,14 @@ body:not(:has(.emerge-v05)) main { position: relative; z-index: 1; }
    se HVOR man køber det. Selektoren rammer cart-permalinks — altså præcis
    de handlinger der fører til betaling — og kun uden for scenen, hvor
    kridtet og relikvierne er bevidst anderledes. */
-body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb) {
+body:not(:has(.emerge-v05)):not(:has([data-rummet])) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb) {
   border: 1.5px solid rgba(201, 162, 39, 0.55);
   background: linear-gradient(180deg, rgba(201, 162, 39, 0.1), rgba(201, 162, 39, 0.03));
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(232, 224, 213, 0.08);
   transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
 }
-body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb):hover,
-body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb):focus-visible {
+body:not(:has(.emerge-v05)):not(:has([data-rummet])) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb):hover,
+body:not(:has(.emerge-v05)):not(:has([data-rummet])) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb):focus-visible {
   border-color: var(--gold);
   background: linear-gradient(180deg, rgba(201, 162, 39, 0.2), rgba(201, 162, 39, 0.07));
   transform: translateY(-2px);
@@ -1444,7 +1444,7 @@ body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark)
 
 /* Verbet. `aria-label` lover allerede «Køb …» på disse links — dette gør
    løftet synligt for dem der ser i stedet for at lytte. */
-body:not(:has(.emerge-v05)) main .gift-denom::after {
+body:not(:has(.emerge-v05)):not(:has([data-rummet])) main .gift-denom::after {
   /* `/ ""` er CSS'ens alt-tekst for genereret indhold: øjet ser «Køb →»,
      skærmlæseren får intet ekstra oven i linkets aria-label «Køb gavekort
      på X kr» (QA #170: risiko for dobbelt-annoncering). Browsere uden
@@ -1460,8 +1460,8 @@ body:not(:has(.emerge-v05)) main .gift-denom::after {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb) { transition: none; }
-  body:not(:has(.emerge-v05)) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb):hover { transform: none; }
+  body:not(:has(.emerge-v05)):not(:has([data-rummet])) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb) { transition: none; }
+  body:not(:has(.emerge-v05)):not(:has([data-rummet])) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb):hover { transform: none; }
 }
 
 /* Sprogskifter — samme side, andet sprog. Aldrig tilbage til forsiden. */
@@ -1508,8 +1508,8 @@ body:not(:has(.emerge-v05)) main .gift-denom::after {
    sidst i filen». Det holder ikke. Den generelle købsflade-regel rammer også
    disse links, og den har ÉN klasse mere i selektoren:
 
-     generel  body:not(:has(.emerge-v05)) main a[href*=…]:not(.kerb__mark)  → 0,3,3
-     min      body:not(:has(.emerge-v05)) main a.depot__koeb                → 0,2,3
+     generel  body:not(:has(.emerge-v05)):not(:has([data-rummet])) main a[href*=…]:not(.kerb__mark)  → 0,3,3
+     min      body:not(:has(.emerge-v05)):not(:has([data-rummet])) main a.depot__koeb                → 0,2,3
 
    Højere specificitet vinder uanset rækkefølge. Resultatet var mørk tekst
    (#14100c) på den generelles næsten gennemsigtige gradient over et næsten
@@ -1542,7 +1542,7 @@ body:not(:has(.emerge-v05)) main .gift-denom::after {
   text-transform: uppercase;
   color: var(--text);
 }
-body:not(:has(.emerge-v05)) main a.depot__koeb {
+body:not(:has(.emerge-v05)):not(:has([data-rummet])) main a.depot__koeb {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1555,8 +1555,8 @@ body:not(:has(.emerge-v05)) main a.depot__koeb {
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.35);
   transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease;
 }
-body:not(:has(.emerge-v05)) main a.depot__koeb:hover,
-body:not(:has(.emerge-v05)) main a.depot__koeb:focus-visible {
+body:not(:has(.emerge-v05)):not(:has([data-rummet])) main a.depot__koeb:hover,
+body:not(:has(.emerge-v05)):not(:has([data-rummet])) main a.depot__koeb:focus-visible {
   transform: translateY(-2px);
   filter: brightness(1.08);
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.62), inset 0 1px 0 rgba(255, 255, 255, 0.45);
@@ -1575,8 +1575,8 @@ body:not(:has(.emerge-v05)) main a.depot__koeb:focus-visible {
   white-space: nowrap;
 }
 @media (prefers-reduced-motion: reduce) {
-  body:not(:has(.emerge-v05)) main a.depot__koeb { transition: none; }
-  body:not(:has(.emerge-v05)) main a.depot__koeb:hover { transform: none; }
+  body:not(:has(.emerge-v05)):not(:has([data-rummet])) main a.depot__koeb { transition: none; }
+  body:not(:has(.emerge-v05)):not(:has([data-rummet])) main a.depot__koeb:hover { transform: none; }
 }
 
 /* ── Zonedøre: én udgang i «Selected work» og én i «The artist» ──────────

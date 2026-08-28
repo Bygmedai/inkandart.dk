@@ -48,7 +48,7 @@ test("content-filerne parse'r og tom-tilstandene følger data", async () => {
 
 test("ingen dummy-navne eller opdigtede priser på Huset", () => {
   const src = [
-    read("app/page.tsx"),
+    read("app/(rummet)/page.tsx"),
     read("content/artists.yml"),
     read("content/vaerker.yml"),
     read("content/nat.yml"),
@@ -58,7 +58,12 @@ test("ingen dummy-navne eller opdigtede priser på Huset", () => {
   }
   assert.match(src, /Nizar Saad/);
   assert.match(src, /Emma Winding/);
-  assert.match(src, /\[TAL BEKRÆFTES\]/);
+  assert.match(src, /Nylavet/);
+  assert.match(src, /I stolen/);
+  assert.match(src, /Walk-in når der er en fri stol — ellers book\. Larsbjørnsstræde 13, kælderen\./);
+  assert.doesNotMatch(src, /Værket i dag/);
+  assert.doesNotMatch(src, />\s*I huset\s*</);
+  assert.doesNotMatch(src, /Walk-in og tider/);
 });
 
 test("Rummet-tokens og fonte er self-hostet", () => {
@@ -71,10 +76,24 @@ test("Rummet-tokens og fonte er self-hostet", () => {
   assert.match(css, /outline:\s*2px solid var\(--hud\)/);
   assert.match(css, /outline-offset:\s*2px/);
 
-  const layout = read("app/layout.tsx");
-  assert.match(layout, /Anton-latin\.woff2/);
-  assert.match(layout, /InstrumentSans-latin\.woff2/);
-  assert.doesNotMatch(layout, /fonts\.googleapis\.com/);
+  const rootLayout = read("app/layout.tsx");
+  const rummetLayout = read("app/(rummet)/layout.tsx");
+  const emergeLayout = read("app/(emerge)/layout.tsx");
+  assert.match(rummetLayout, /Anton-latin\.woff2/);
+  assert.match(rummetLayout, /InstrumentSans-latin\.woff2/);
+  assert.doesNotMatch(rummetLayout, /fonts\.googleapis\.com/);
+  assert.doesNotMatch(rummetLayout, /CormorantGaramond/);
+  assert.doesNotMatch(rummetLayout, /SpaceGrotesk/);
+  assert.doesNotMatch(rootLayout, /CormorantGaramond/);
+  assert.doesNotMatch(rootLayout, /SpaceGrotesk/);
+  assert.doesNotMatch(rootLayout, /Anton-latin/);
+  assert.doesNotMatch(rootLayout, /InstrumentSans/);
+  assert.doesNotMatch(rootLayout, /emerge-boot/);
+  assert.doesNotMatch(rootLayout, /className="grain"/);
+  assert.match(emergeLayout, /CormorantGaramond/);
+  assert.match(emergeLayout, /SpaceGrotesk/);
+  assert.match(emergeLayout, /emerge-boot\.js/);
+  assert.match(emergeLayout, /className="grain"/);
   for (const f of [
     "app/fonts/Anton-latin.woff2",
     "app/fonts/Anton-latin-ext.woff2",
@@ -86,7 +105,7 @@ test("Rummet-tokens og fonte er self-hostet", () => {
 });
 
 test("rum-ruter og slots findes", () => {
-  for (const p of ["app/stolen/page.tsx", "app/maerket/page.tsx", "app/natten/page.tsx", "app/gaden/page.tsx"]) {
+  for (const p of ["app/(rummet)/stolen/page.tsx", "app/(rummet)/maerket/page.tsx", "app/(rummet)/natten/page.tsx", "app/(rummet)/gaden/page.tsx"]) {
     assert.ok(existsSync(join(root, p)), `${p} mangler`);
   }
   const slots = readdirSync(join(root, "public/slots")).filter((n) => n.endsWith(".jpg"));
@@ -102,6 +121,30 @@ test("metadata opfinder ikke walk-in 900 kr", () => {
   assert.match(layout, /tatovering/i);
   assert.match(layout, /piercing/i);
   assert.match(layout, /Larsbjørnsstræde/);
+});
+
+test("Emerge-scatter rammer ikke Rummet", () => {
+  const shell = read("components/rummet/Shell.tsx");
+  const rummetLayout = read("app/(rummet)/layout.tsx");
+  const css = read("app/globals.css");
+  assert.match(shell, /data-rummet/);
+  assert.match(rummetLayout, /data-rummet/);
+  assert.match(css, /body:not\(:has\(\.emerge-v05\)\):not\(:has\(\[data-rummet\]\)\)::before/);
+  assert.match(css, /body:not\(:has\(\.emerge-v05\)\):not\(:has\(\[data-rummet\]\)\)::after/);
+  assert.doesNotMatch(css, /body:not\(:has\(\.emerge-v05\)\)::before/);
+  assert.doesNotMatch(css, /body:not\(:has\(\.emerge-v05\)\)::after/);
+});
+
+test("Rummet-nav bærer seglet som hjem-anker", () => {
+  const nav = read("components/rummet/Nav.tsx");
+  const css = read("components/rummet/rummet.css");
+  assert.match(nav, /logo-segl\.svg/);
+  assert.match(nav, /className="rum-nav__mark"/);
+  assert.match(nav, /href="\/"/);
+  const i = css.indexOf(".rum-nav__mark {");
+  assert.notEqual(i, -1, "rum-nav__mark-reglen mangler");
+  const krop = css.slice(i, css.indexOf("}", i));
+  assert.match(krop, /min-height:\s*44px/);
 });
 
 test("Book.dk er et klædt hop, ikke et embed", () => {

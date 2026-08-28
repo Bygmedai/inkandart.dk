@@ -94,7 +94,7 @@ test("every fragment destination points at an anchor that actually exists", () =
   assert.ok(fragments.length >= 4, "matrixen skal bære fragment-destinationer");
   const surfaces = [
     readFileSync(join(root, "components/emerge/SceneV05.tsx"), "utf8"),
-    readFileSync(join(root, "app/page.tsx"), "utf8"),
+    readFileSync(join(root, "app/(rummet)/page.tsx"), "utf8"),
   ].join("\n");
   for (const id of new Set(fragments)) {
     assert.match(surfaces, new RegExp(`id="${id}"`), `anker #${id} findes ikke i scenen`);

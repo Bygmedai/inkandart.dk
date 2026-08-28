@@ -119,7 +119,7 @@ export function artistById(artists: Artist[], id: string): Artist | undefined {
   return artists.find((a) => a.id === id);
 }
 
-/** Who sits in the chair — I huset. */
+/** Who sits in the chair — I stolen. */
 export function chairArtists(artists: Artist[]): Artist[] {
   return artists.filter((a) => a.stol && a.periode !== "gaest");
 }

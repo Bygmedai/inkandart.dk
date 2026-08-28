@@ -43,9 +43,11 @@
   outline-color: var(--strobe);
 }
 
+html:has([data-rummet]),
 html:has([data-house="rummet"]) {
   background: #070707;
 }
+html:has([data-rummet]) .grain,
 html:has([data-house="rummet"]) .grain {
   display: none;
 }
@@ -99,8 +101,21 @@ html:has([data-house="rummet"]) .grain {
   color: var(--hud);
   text-transform: uppercase;
   min-height: 44px;
+  min-width: 44px;
   display: inline-flex;
   align-items: center;
+  gap: 10px;
+}
+.rum-nav__segl {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  display: block;
+}
+.rum-nav__segl img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 @media (min-width: 900px) {
   .rum-nav__mark { font-size: 21px; }

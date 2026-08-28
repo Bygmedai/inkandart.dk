@@ -12,7 +12,7 @@ export function RummetShell({
   door?: boolean;
 }) {
   return (
-    <div data-house="rummet">
+    <div data-house="rummet" data-rummet="">
       <SkipLink lang="da" />
       <Nav />
       <div className="rum-main">{children}</div>

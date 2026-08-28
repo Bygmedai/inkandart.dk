@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { test } from "node:test";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const page = readFileSync(join(root, "app/shop/page.tsx"), "utf8");
+const page = readFileSync(join(root, "app/(emerge)/shop/page.tsx"), "utf8");
 const commerce = readFileSync(join(root, "lib/commerce.ts"), "utf8");
 const sitemap = readFileSync(join(root, "app/sitemap.ts"), "utf8");
 const css = readFileSync(join(root, "app/globals.css"), "utf8");
@@ -80,7 +80,7 @@ test("/shop er ikke forældreløs — der går en dør ind fra huset", () => {
   // stadig døren til /shop indtil M2 bygger væggen. En side uden en dør
   // er ikke en side, den er en URL.
   const nav = readFileSync(join(root, "components/rummet/Nav.tsx"), "utf8");
-  const gaden = readFileSync(join(root, "app/gaden/page.tsx"), "utf8");
+  const gaden = readFileSync(join(root, "app/(rummet)/gaden/page.tsx"), "utf8");
   assert.match(nav, /href: "\/maerket"/, "Huset skal have en dør til Mærket");
   assert.match(gaden, /href="\/shop"/, "Gaden skal stadig åbne /shop indtil M2");
 });
@@ -92,16 +92,15 @@ test("tilbage-linket er dækket af tap-reglen på ALLE undersider", () => {
   const css = readFileSync(join(root, "app/globals.css"), "utf8");
   assert.match(css, /main a\[href="\/"\]\s*\{[^}]*min-height:\s*24px/);
 
-  const sider = readdirSync(join(root, "app"), { withFileTypes: true })
-    .filter((d) => d.isDirectory())
-    .flatMap((d) => {
-      const her = join(root, "app", d.name, "page.tsx");
-      const under = readdirSync(join(root, "app", d.name), { withFileTypes: true })
-        .filter((x) => x.isDirectory())
-        .map((x) => join(root, "app", d.name, x.name, "page.tsx"));
-      return [her, ...under];
-    })
-    .filter((f) => existsSync(f));
+  const sider = [];
+  const gaa = (mappe) => {
+    for (const navn of readdirSync(mappe)) {
+      const p = join(mappe, navn);
+      if (statSync(p).isDirectory()) gaa(p);
+      else if (navn === "page.tsx") sider.push(p);
+    }
+  };
+  gaa(join(root, "app"));
 
   assert.ok(sider.length >= 7, `forventede undersider, fandt ${sider.length}`);
   for (const f of sider) {

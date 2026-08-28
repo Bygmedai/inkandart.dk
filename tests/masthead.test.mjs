@@ -29,17 +29,9 @@ function kundesider() {
   gaa(join(root, "app"));
   return ud
     .map((p) => p.replace(root + "/", ""))
-    .filter((p) => p !== "app/page.tsx")          // forsiden har sit eget segl i heroen
+    .filter((p) => !p.includes("(rummet)"))       // Rummet har Nav-segl, ikke Masthead
     .filter((p) => !p.includes("figur-lab"))      // intern, ikke linket
-    .filter((p) => p !== "app/en/page.tsx")       // ER den engelske forside
-    .filter((p) => !p.startsWith("app/stolen/"))
-    .filter((p) => !p.startsWith("app/maerket/"))
-    .filter((p) => !p.startsWith("app/natten/"))
-    .filter((p) => !p.startsWith("app/gaden/"))
-    .filter((p) => !p.startsWith("app/betingelser/"))
-    .filter((p) => p !== "app/aftercare/page.tsx")
-    .filter((p) => p !== "app/privatlivspolitik/page.tsx")
-    .filter((p) => p !== "app/blackbook/page.tsx");
+    .filter((p) => !p.endsWith("/en/page.tsx"));  // ER den engelske forside
 }
 
 test("hver kundevendt underside har praecis ét segl i toppen", () => {
@@ -53,7 +45,7 @@ test("hver kundevendt underside har praecis ét segl i toppen", () => {
 });
 
 test("de engelske sider peger hjem til engelsk, ikke til dansk", () => {
-  for (const sti of kundesider().filter((p) => p.startsWith("app/en/"))) {
+  for (const sti of kundesider().filter((p) => p.includes("/en/"))) {
     const src = readFileSync(join(root, sti), "utf8");
     assert.match(src, /<Masthead lang="en"/, `${sti} skal give Masthead lang="en"`);
   }
