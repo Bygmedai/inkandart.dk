@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style data-omelette-injected>html,body{background:transparent}</style><script data-omelette-injected>(()=>{{const n=new URLSearchParams(location.search).get("theme");if(n==="light"||n==="dark"){document.documentElement.dataset.theme=n}}{if(new URLSearchParams(location.search).get("_omthumb")==="1"){const n=(f)=>{const g=f.focus;if(!g)return;f.focus=function(h){g.call(this,{...h,preventScroll:true})}};n(HTMLElement.prototype);n(SVGElement.prototype);if(typeof MathMLElement!=="undefined"){n(MathMLElement.prototype)}const d=(f)=>{f.removeAttribute("autofocus");f.inert=true;if(!(f instanceof HTMLElement))f.removeAttribute("tabindex")};const p=(f)=>{if(f.hasAttribute("autofocus"))d(f);for(const g of f.querySelectorAll("[autofocus]")){d(g)}};p(document.documentElement);new MutationObserver((f)=>{for(const g of f){for(const h of g.addedNodes){if(h.nodeType===1)p(h)}}}).observe(document,{childList:true,subtree:true})}}{const n=()=>{try{if(document.querySelector('meta[name="color-scheme"]'))return;const d=getComputedStyle(document.documentElement).getPropertyValue("color-scheme").trim();if(d&&d!=="normal")return;const p=(y)=>{if(!y)return null;const m=getComputedStyle(y).backgroundColor.match(/^rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:[,\s/]+([\d.]+%?))?\s*\)$/);if(!m)return null;const w=m[4]==null?1:parseFloat(m[4])/(m[4].endsWith("%")?100:1);if(w<0.99)return null;return[+m[1],+m[2],+m[3]]};const f=p(document.body)||p(document.documentElement);if(!f)return;const g=(y)=>{const m=y/255;return m<=0.04045?m/12.92:((m+0.055)/1.055)**2.4};const h=0.2126*g(f[0])+0.7152*g(f[1])+0.0722*g(f[2]);document.documentElement.style.setProperty("color-scheme",h<0.4?"dark":"light")}catch{}};if(document.readyState==="complete")n();else window.addEventListener("load",n)}var I=[];var B=false;var K=false;var C=()=>{};if(K===true){try{const n=setTimeout.bind(window);const d=1e4;const p=15;const f=1e4;const g=120000;const h=200;const y=(o)=>{try{let r;if(typeof o==="string")r=o;else if(o instanceof URL)r=o.href;else if(typeof Request!=="undefined"&&o instanceof Request)r=o.url;else return null;if(!r)return null;const l=document.baseURI;const i=new URL(r,l);if(i.protocol!=="http:"&&i.protocol!=="https:")return null;if(i.origin!==new URL(l).origin)return null;return i.origin+i.pathname}catch{return null}};const m=new Map;const w=(o)=>{let r=m.get(o);if(!r){if(m.size>=h){const l=m.keys().next().value;if(l!==undefined)m.delete(l)}r={fails:[],until:0,cooldown:f,hard:false};m.set(o,r)}return r};const R=(o)=>{const r=m.get(o);return r!==undefined&&r.until>Date.now()};const O=(o,r)=>{const l=Date.now();const i=w(o);if(r)i.hard=true;if(i.until>l)return;i.fails.push(l);while(i.fails.length>0&&i.fails[0]<=l-d)i.fails.shift();if(i.fails.length>=p){i.until=l+i.cooldown;if(i.hard)i.cooldown=Math.min(i.cooldown*2,g);i.fails.length=0;try{n(()=>{try{S(true)}catch{}},i.until-l+100)}catch{}console.warn("[omelette] asset circuit breaker: pausing requests to "+o+" for "+Math.round((i.until-l)/1000)+"s after "+p+" failures in "+d/1000+"s")}};const e=(o)=>{m.delete(o)};const t=100;const a=new WeakMap;const u=new Set;let s=null;const S=(o)=>{for(const r of Array.from(u)){try{const l=a.get(r);if(l===undefined){u.delete(r);continue}if(o){const i=y(l);if(i!==null&&R(i))continue}a.delete(r);u.delete(r);if(s!==null)s.call(r,l)}catch{}}};C=()=>{try{m.clear();S(false)}catch{}};document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")C()});const _=window.fetch;if(typeof _==="function"){const o=function(...r){let l=null;try{l=y(r[0])}catch{}if(l!==null&&R(l)){let c;try{if(r[1]&&r[1].signal!==undefined){c=r[1].signal||undefined}else if(typeof Request!=="undefined"&&r[0]instanceof Request){c=r[0].signal||undefined}}catch{c=undefined}return new Promise((k,b)=>{const E=()=>{try{return c.reason!==undefined?c.reason:new DOMException("The operation was aborted.","AbortError")}catch{return new DOMException("The operation was aborted.","AbortError")}};try{if(c&&c.aborted){b(E());return}}catch{}let T=false;const j=()=>{if(T)return;T=true;b(E())};try{if(c)c.addEventListener("abort",j,{once:true})}catch{}n(()=>{if(T)return;T=true;try{if(c)c.removeEventListener("abort",j)}catch{}let L;try{L=new Response(null,{status:429,statusText:"Too Many Requests",headers:{"Retry-After":"10"}})}catch{L={ok:false,status:429}}k(L)},250)})}const i=_.apply(window,r);if(l!==null){const c=l;i.then((k)=>{try{if(k.ok)e(c);else if(k.status===401||k.status===403||k.status===404||k.status===429){O(c,k.status!==404)}}catch{}},()=>{})}return i};window.fetch=o}const v=Object.getOwnPropertyDescriptor(HTMLImageElement.prototype,"src");if(v!==undefined&&v.set!==undefined&&v.get!==undefined){const o=v.set;s=o;Object.defineProperty(HTMLImageElement.prototype,"src",{configurable:true,enumerable:v.enumerable,get:v.get,set(r){const l=`${r}`;try{const i=y(l);if(i!==null&&R(i)){a.set(this,l);if(u.size<t)u.add(this);return}}catch{}try{a.delete(this);u.delete(this)}catch{}o.call(this,l)}})}try{const o=HTMLImageElement.prototype.setAttribute;HTMLImageElement.prototype.setAttribute=function(r,l){if(arguments.length<2){o.apply(this,arguments);return}if(typeof r==="string"&&r.toLowerCase()==="src"){const i=`${l}`;try{const c=y(i);if(c!==null&&R(c)){a.set(this,i);if(u.size<t)u.add(this);return}a.delete(this);u.delete(this)}catch{}o.call(this,r,i);return}o.call(this,r,l)}}catch{}window.addEventListener("error",(o)=>{try{const r=o.target;if(r instanceof HTMLImageElement){const l=y(r.currentSrc||r.src||"");if(l!==null)O(l,true)}}catch{}},true);window.addEventListener("load",(o)=>{try{const r=o.target;if(r instanceof HTMLImageElement){const l=y(r.currentSrc||r.src||"");if(l!==null)e(l);const i=a.get(r);if(i!==undefined){let c=false;try{c=new URL(i,document.baseURI).href===new URL(r.currentSrc||r.src||"",document.baseURI).href}catch{c=false}if(c){a.delete(r);u.delete(r)}}}}catch{}},true)}catch{}}var J=30000;var G=3000;document.addEventListener("DOMContentLoaded",()=>{const n=window.Babel;const d="om-src-id";if(n&&n.registerPlugin&&!(n.availablePlugins&&n.availablePlugins[d])){n.registerPlugin(d,({types:h})=>({visitor:{JSXOpeningElement(y,m){const w=y.node;if(w.name&&w.name.type==="JSXMemberExpression")return;for(let t=0;t<w.attributes.length;t++){const a=w.attributes[t];if(a.type==="JSXAttribute"&&a.name&&a.name.name==="data-om-id")return}const R=m.file&&m.file.opts&&m.file.opts.filename||"?";const O=w.loc&&w.loc.start;const e=`jsx:${R}:${w.start??0}:${O?O.line:0}:${O?O.column+1:0}`;w.attributes.push(h.jsxAttribute(h.jsxIdentifier("data-om-id"),h.stringLiteral(e)))}}}))}const p="om-text-extract";let f=false;if(B&&n&&n.registerPlugin&&!(n.availablePlugins&&n.availablePlugins[p])){const h=window.React;if(h&&h.useSyncExternalStore&&h.createElement){f=true;const y={};const m=new Set;let w=0;window.__omTextO=y;window.__omTextSet=(e)=>{for(const t in e){const a=e[t];if(a==null)delete y[t];else y[t]=a}w++;m.forEach((t)=>t())};const R=(e)=>{m.add(e);return()=>m.delete(e)};const O=()=>w;window.__OmT=function e(t){h.useSyncExternalStore(R,O,O);return h.createElement("span",{"data-om-text":t.i,className:"__om-t"},t.i in y?y[t.i]:t.children)};n.registerPlugin(p,({types:e})=>{const t={style:1,script:1,noscript:1,textarea:1,title:1,option:1,text:1,tspan:1,textPath:1};const a={placeholder:1,alt:1,title:1,label:1,"aria-label":1,"aria-description":1,"aria-placeholder":1};const u=(o,r)=>e.logicalExpression("??",e.memberExpression(e.logicalExpression("||",e.memberExpression(e.identifier("window"),e.identifier("__omTextO")),e.objectExpression([])),e.stringLiteral(o),true),r);const s=(o)=>o.file&&o.file.opts&&o.file.opts.filename||"?";const S=(o)=>o.file&&o.file.code||"";const _=(o,r)=>{const l=(c)=>c&&c.start!=null&&c.end!=null&&(c.type==="StringLiteral"||c.type==="TemplateLiteral"&&c.expressions.length===0)?[c.start,c.end]:null;const i=l(r);if(i)return i;if(r&&r.type==="Identifier"){const c=o.scope.getBinding(r.name);if(c&&c.constant&&c.path.node.type==="VariableDeclarator"){return l(c.path.node.init)}}return null};const v=(o,r,l)=>{const i=o.node;let c=false;const k=(E,T)=>{c=true;return e.jsxElement(e.jsxOpeningElement(e.jsxIdentifier("__OmT"),[e.jsxAttribute(e.jsxIdentifier("i"),e.stringLiteral(E))],false),e.jsxClosingElement(e.jsxIdentifier("__OmT")),[T],false)};const b=i.children.map((E)=>{if(E.type==="JSXText"){if(E.start==null||E.end==null)return E;const T=l.slice(E.start,E.end);const j=T.length-T.trimStart().length;const L=T.length-T.trimEnd().length;if(j+L>=T.length)return E;return k(`txt:${r}:${E.start+j}:${E.end-L}`,E)}if(E.type==="JSXExpressionContainer"){const T=_(o,E.expression);if(T)return k(`str:${r}:${T[0]}:${T[1]}`,E)}return E});if(c)i.children=b};return{visitor:{JSXOpeningElement(o,r){const l=o.node;const i=s(r);const c={};for(let k=0;k<l.attributes.length;k++){const b=l.attributes[k];if(b.type!=="JSXAttribute"||!b.name)continue;const E=b.name.name;if(!a[E])continue;if(!b.value||b.value.type!=="StringLiteral")continue;if(b.value.start==null||b.value.end==null)continue;const T=`txt:${i}:${b.value.start}:${b.value.end}`;c[E]=T;b.value=e.jsxExpressionContainer(u(T,e.stringLiteral(b.value.value)))}if(Object.keys(c).length){l.attributes.push(e.jsxAttribute(e.jsxIdentifier("data-om-text-attrs"),e.stringLiteral(JSON.stringify(c))))}},JSXElement(o,r){const l=o.node.openingElement;const i=l&&l.name&&l.name.name;if(i==="__OmT")return;if(typeof i==="string"&&t[i])return;v(o,s(r),S(r))},JSXFragment(o,r){v(o,s(r),S(r))}}}})}}const g=f?["transform-react-jsx-source",d,p]:["transform-react-jsx-source",d];document.querySelectorAll('script[type="text/babel"],script[type="text/jsx"]').forEach((h,y)=>{const m=h.getAttribute("data-plugins")||"";const w=g.filter((R)=>m.indexOf(R)<0);if(w.length){h.setAttribute("data-plugins",m?`${m},${w.join(",")}`:w.join(","))}if(!h.hasAttribute("data-filename")){h.setAttribute("data-filename",h.getAttribute("src")||`inline-${y}`)}})});var A=window.parent;var U="not editable here — open the project in the Claude Design editor to save";var W=()=>Promise.resolve({persisted:false,noHost:true,reason:U});var H=W;var M="data/storage.json";var z=()=>{try{const n=new URL(document.baseURI);const d=n.pathname.match(/\/projects\/([^/]+)\/serve\//);if(d)return d[1];return n.hostname.split(".")[0]||""}catch{return location.hostname.split(".")[0]||""}};var Z=()=>{try{const n=new URL(document.baseURI);const d=n.pathname.indexOf("/serve/");if(d>=0)return n.origin+n.pathname.slice(0,d+"/serve/".length)+M}catch{}return"./"+M};var x=null;var N=()=>{if(!x){x=fetch(Z(),{cache:"no-store"}).then((n)=>{if(n.ok)return n.text();return n.status===404?"":null}).catch(()=>null).then((n)=>{if(n===null){x=null;return null}const d=new Map;if(!n)return d;let p;try{p=JSON.parse(n)}catch{console.warn("[omelette.storage] "+M+" is not valid JSON; treating the store as unreadable so a save cannot overwrite the "+"hand-edited bytes. Fix the JSON (or delete the file) to re-enable persistence.");x=null;return null}if(p===null||typeof p!=="object"||Array.isArray(p)){console.warn("[omelette.storage] "+M+" doesn't hold a JSON object; treating the store as unreadable so a save cannot "+"overwrite the hand-edited bytes. Make the top level a JSON object to re-enable persistence.");x=null;return null}const f=p;if("data"in f){const g=f.data;if(g===null||typeof g!=="object"||Array.isArray(g)){console.warn("[omelette.storage] "+M+' has a "data" field that is not a JSON object; treating the store as unreadable so a '+'save cannot overwrite the hand-edited bytes. Make "data" a JSON object to re-enable persistence.');x=null;return null}const h=f._meta;const y=h!==null&&typeof h==="object"?h.project:undefined;if(typeof y==="string"&&y!==""&&y!==z())return d;for(const m of Object.keys(g))d.set(m,g[m]);return d}for(const g of Object.keys(f)){if(g!=="_meta")d.set(g,f[g])}return d})}return x};var F=(n)=>H(M,JSON.stringify({_meta:{project:z(),version:1},data:Object.fromEntries(n)},null,2));var D=Promise.resolve();var $=(n)=>{const d=D.then(n);D=d.then(()=>{return},()=>{return});return d};var V=/sk-(?:ant-)?[A-Za-z0-9_-]{16,}|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{20,}|xox[a-z]-[A-Za-z0-9][A-Za-z0-9-]{9,}|AIza[0-9A-Za-z_-]{30,}|-----BEGIN [A-Z ]*PRIVATE KEY-----/;var Y=/password|passwd|secret|api[_-]?key|access[_-]?token|auth[_-]?token|credential/i;var Q=(n,d,p)=>{if(V.test(d)||Y.test(n)&&typeof p==="string"&&p.length>=8){console.warn('[omelette.storage] the value for "'+n+'" looks like a credential. The storage file is a plaintext project file — visible to '+"everyone with project access and copied when the project is duplicated. Do not store secrets here.")}};var q={persisted:false,reason:"could not load the existing store — not overwriting it"};var X={persisted:false,reason:"stored value changed since a failed read — re-read this key before saving"};var P=new Set;var ee={get:(n)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.get: key must be a string"))}return $(N).then((d)=>{if(d===null){P.add(n);return null}P.delete(n);if(!d.has(n))return null;const p=d.get(n);return p==null?null:JSON.parse(JSON.stringify(p))})},set:(n,d)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.set: key must be a string"))}let p;try{p=JSON.stringify(d)}catch(g){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable ("+String(g)+")"))}if(p===undefined){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable"))}Q(n,p,d);const f=JSON.parse(p);return $(()=>N().then((g)=>{if(g===null)return q;if(P.has(n)){if(g.has(n))return X;P.delete(n)}g.set(n,f);return F(g)}))},delete:(n)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.delete: key must be a string"))}return $(()=>N().then((d)=>{if(d===null)return q;if(P.has(n)){if(d.has(n))return X;P.delete(n)}d.delete(n);return F(d)}))},keys:()=>$(N).then((n)=>n===null?[]:Array.from(n.keys()))};window.omelette={writeFile:(n,d)=>H(n,d).then((p)=>{if(!p.persisted&&!p.noHost){throw new Error(p.reason||"write failed")}}),storage:ee};if(A&&A!==window){const n=(e,t)=>{try{A.postMessage({__omelette_log:true,type:e,data:t},"*")}catch{}};["log","warn","error"].forEach((e)=>{const t=console[e];console[e]=(...a)=>{const u=a.map((s)=>{try{return typeof s==="object"?JSON.stringify(s):String(s)}catch{try{return String(s)}catch{return"[unstringifiable]"}}}).join(" ");n(e,u);t.apply(console,a)}});window.addEventListener("error",(e)=>{const t=e.target;if(t&&t!==window&&t.tagName){const a=t.src||t.href||"";n("resource_error",`${t.tagName} failed to load: ${a}`)}else{n("error",`${e.message||"Unknown error"} at ${e.filename||"?"}:${e.lineno||0}:${e.colno||0}`)}},true);window.addEventListener("unhandledrejection",(e)=>{const t=e.reason;const a=t instanceof Error?`${t.message} ${t.stack}`:String(t);n("error",`Unhandled rejection: ${a}`)});window.addEventListener("click",(e)=>{if(e.defaultPrevented||e.button!==0)return;if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;const t=e.composedPath?e.composedPath():[];const a=["button","input","select","textarea","summary","label"];let u=null;for(const v of t){if(!(v instanceof Element))continue;if(v.localName==="a"){if(!(v instanceof HTMLAnchorElement))return;u=v;break}if(a.indexOf(v.localName)!==-1)return}if(!u)return;if(u.isContentEditable)return;const s=u.closest("[contenteditable]");if(s&&s.getAttribute("contenteditable")!=="false")return;const S=(u.getAttribute("target")||"_self").toLowerCase();if(S!=="_self"&&S!=="_top"&&S!=="_parent")return;let _;try{_=new URL(u.href)}catch{return}if(_.protocol!=="http:"&&_.protocol!=="https:")return;if(location.origin==="null")return;if(_.origin===location.origin)return;e.preventDefault();window.open(_.href,"_blank","noopener,noreferrer")});const d=()=>{try{A.postMessage({type:"omelette:height",height:document.documentElement.scrollHeight},"*")}catch{}};if(window.ResizeObserver)new ResizeObserver(d).observe(document.documentElement);const p=()=>{d();if(!document.querySelector('script[type="text/babel"],script[type="text/jsx"]'))return;const e=()=>document.getElementById("root")||document.querySelector("body > div[id]");const t=e()?.firstElementChild??null;let a=0;const u=()=>{const s=e();if(s&&s.firstElementChild!==t||++a>30){d();return}setTimeout(u,100)};setTimeout(u,100)};if(document.readyState==="complete")p();else window.addEventListener("load",p);const f={};let g=0;const h=(e)=>new Promise((t,a)=>{if(!I.length){a(new Error("claude.complete: no parent origin"));return}const u=`c${++g}`;const s=()=>setTimeout(()=>{delete f[u];a(new Error(`claude.complete: no data for ${J/1000}s`))},J);const S=s();f[u]={resolve:t,reject:a,text:"",t:S,arm:s};try{for(const _ of I){A.postMessage({__om_api:true,id:u,body:e},_)}}catch(_){clearTimeout(S);delete f[u];a(_)}});const y=8;const m=async(e,t)=>{if(!Array.isArray(e.messages)){throw new Error("claude.complete: tools require a messages array")}const a=e.messages.slice();const u={...e,tools:e.tools.map((_)=>{if(_===null||typeof _!=="object")return _;const v={};for(const o of Object.keys(_)){if(typeof _[o]!=="function")v[o]=_[o]}return v})};const s=u.tool_choice;const S=s!=null&&(s.type==="any"||s.type==="tool")?{...u,tool_choice:s.disable_parallel_tool_use!==undefined?{type:"auto",disable_parallel_tool_use:s.disable_parallel_tool_use}:{type:"auto"}}:u;for(let _=0;_<y;_++){const v=await h({..._===0?u:S,messages:a});const o=v.message;const r=o&&Array.isArray(o.content)?o.content:null;const l=r?r.filter((c)=>c?.type==="tool_use"):[];if(o?.stop_reason!=="tool_use"||l.length===0){return v.text}const i=[];for(const c of l){const k=t.get(c.name);if(!k){i.push({type:"tool_result",tool_use_id:c.id,content:`no handler for tool "${c.name}"`,is_error:true});continue}try{const b=await k(c.input);const E=typeof b==="string"?b:O(b)??"";i.push({type:"tool_result",tool_use_id:c.id,content:E})}catch(b){i.push({type:"tool_result",tool_use_id:c.id,content:String(b?.message??b??"tool handler failed"),is_error:true})}}a.push({role:"assistant",content:r},{role:"user",content:i})}throw new Error(`claude.complete: exceeded ${y} tool turns`)};window.claude={complete(e){const t=e;if(t!==null&&typeof t==="object"&&Array.isArray(t.tools)&&t.tools.some((a)=>a!==null&&typeof a==="object"&&typeof a.run==="function")){const a=new Map;for(const u of t.tools){if(u!==null&&typeof u==="object"&&typeof u.run==="function"){a.set(String(u.name),u.run)}}return m(t,a)}return h(e).then((a)=>a.text)}};const w={};let R=0;H=(e,t)=>new Promise((a)=>{if(!I.length){a({persisted:false,noHost:true,reason:U});return}const u=`f${++R}`;const s=setTimeout(()=>{delete w[u];a({persisted:false,noHost:true,reason:U})},G);w[u]={settle:a,t:s};try{for(const S of I){A.postMessage({__om_file:true,id:u,op:"write",path:e,content:t},S)}}catch{clearTimeout(s);delete w[u];a({persisted:false,noHost:true,reason:U})}});const O=(e)=>{try{return JSON.stringify(e)}catch{return JSON.stringify(String(e))}};window.addEventListener("message",(e)=>{if(I.indexOf(e.origin)<0)return;if(e.source!==A)return;const t=e.data;if(!t)return;if(t.type==="omelette-preview-refresh"){if(typeof t.token!=="string"||!/^[0-9a-f.-]+(\.(rc|pr-[0-9]+))?(\.[0-9]+\.[0-9a-f]{16})?$/.test(t.token))return;const s=Math.max(1,Math.floor((t.expiresAt||0)-Date.now()/1000));document.cookie="__Host-omelette-preview="+t.token+"; Path=/; Secure; SameSite=None; Partitioned; Max-Age="+s;C();return}if(t.__om_file_r){const s=w[t.id];if(!s)return;clearTimeout(s.t);delete w[t.id];s.settle(t.ok?{persisted:true}:{persisted:false,reason:t.error||"write failed"});return}if(t.__om_api_r){const s=f[t.id];if(!s)return;if(t.error!=null){clearTimeout(s.t);delete f[t.id];s.reject(new Error(t.error));return}if(t.chunk!=null){clearTimeout(s.t);s.t=s.arm();s.text+=t.chunk;return}if(t.done){clearTimeout(s.t);delete f[t.id];s.resolve({text:t.text!=null?t.text:s.text,message:t.message});return}return}if(!t.__om_eval)return;const a=t;const u=(s)=>{e.source.postMessage({...s,__om_eval_r:1,id:a.id},e.origin)};try{const s=(0,eval)(a.code);if(s&&typeof s.then==="function"){s.then((S)=>u({ok:1,v:O(S)}),(S)=>u({ok:0,e:String(S)}))}else{u({ok:1,v:O(s)})}}catch(s){u({ok:0,e:String(s)})}})}})();
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  html, body { margin:0; padding:0; background:#171717; }
+  a { color:#E8DCC8; text-decoration:none; }
+  a:hover { color:#B91C1C; }
+  image-slot { color:#8A8580; }
+</style>
+</helmet>
+
+<section style="display:flex;flex-direction:column;gap:96px;padding:72px;background:#171717;font-family:'Instrument Sans',system-ui,sans-serif;color:#E8DCC8">
+
+  <div id="1a" style="display:flex;flex-direction:column;gap:96px">
+
+    <div style="max-width:1440px;display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;align-items:center;gap:14px">
+        <span style="display:inline-block;padding:4px 9px;background:#E8DCC8;color:#070707;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase">1a</span>
+        <span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Ink and Art · visuelt system · 27. august 2026</span>
+      </div>
+      <div style="font:400 76px/.9 'Anton',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#E8DCC8">Rummet</div>
+      <div style="max-width:760px;font:400 17px/1.6 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.78;text-wrap:pretty">Nat, hud, blod, beton. Ét motiv pr. kasse. Væggen bærer værket, hylden bærer editionen, plakaten bærer natten. Alle billedfelter er tomme felter i shoot-listens beskæringer — de kan fyldes ved at trække et foto ind, og de skiftes 1:1 uden redesign.</div>
+    </div>
+
+    <!-- ================= S1 · HUSET ================= -->
+    <div data-frame="S1" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">S1 · Huset — første skærm · desktop 1440</div>
+      <div style="width:1440px;background:#070707;border:1px solid rgba(232,220,200,.14)">
+
+        <div style="height:88px;padding:0 96px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(232,220,200,.12)">
+          <div style="font:400 21px/1 'Anton',sans-serif;letter-spacing:.18em;color:#E8DCC8">INK AND ART</div>
+          <div style="display:flex;align-items:center;gap:34px">
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#8A8580">STOLEN</span>
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#8A8580">MÆRKET</span>
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#8A8580">NATTEN</span>
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#8A8580">GADEN</span>
+            <span style="display:block;width:1px;height:15px;background:rgba(232,220,200,.2)"></span>
+            <span style="display:flex;align-items:center;gap:9px"><span style="display:block;width:7px;height:7px;background:#B91C1C"></span><span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#E8DCC8">BLACKBOOK</span></span>
+          </div>
+        </div>
+
+        <div style="padding:52px 96px 68px;display:grid;grid-template-columns:560px 1fr;gap:72px">
+
+          <div>
+            <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Værket i dag</div>
+            <div style="position:relative;width:560px;height:700px;margin-top:16px;border:1px solid rgba(232,220,200,.12)">
+              <image-slot id="V-01" shape="rect" fit="cover" placeholder="V-01 · værk · 4:5" style="width:100%;height:100%"></image-slot>
+            </div>
+            <div style="margin-top:18px">
+              <div style="font:400 34px/1 'Anton',sans-serif;letter-spacing:.02em;text-transform:uppercase;color:#E8DCC8">Sort hjort</div>
+              <div style="margin-top:9px;font:400 15px/1.5 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.74">Nizar Haddad</div>
+              <div style="margin-top:4px;font:400 11px/1.5 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">2026 · unik · arkiv 0114</div>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column">
+            <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">I huset</div>
+
+            <div style="display:grid;grid-template-columns:104px 1fr;gap:22px;padding:22px 0;border-bottom:1px solid rgba(232,220,200,.1)">
+              <div style="position:relative;width:104px;height:130px;border:1px solid rgba(232,220,200,.12)">
+                <image-slot id="S-01" shape="rect" fit="cover" placeholder="S-01" style="width:100%;height:100%"></image-slot>
+              </div>
+              <div>
+                <div style="font:400 30px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Nizar Haddad</div>
+                <div style="margin-top:8px;font:400 15px/1.45 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.74">Sortværk, håndpoke, store flader</div>
+                <div style="margin-top:6px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Fast · i huset</div>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:104px 1fr;gap:22px;padding:22px 0;border-bottom:1px solid rgba(232,220,200,.1)">
+              <div style="position:relative;width:104px;height:130px;border:1px solid rgba(232,220,200,.12)">
+                <image-slot id="S-02" shape="rect" fit="cover" placeholder="S-02" style="width:100%;height:100%"></image-slot>
+              </div>
+              <div>
+                <div style="font:400 30px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Emma Ravn</div>
+                <div style="margin-top:8px;font:400 15px/1.45 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.74">Fine line, piercing</div>
+                <div style="margin-top:6px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Fast · i huset</div>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:104px 1fr;gap:22px;padding:22px 0;border-bottom:1px solid rgba(232,220,200,.1)">
+              <div style="position:relative;width:104px;height:130px;border:1px solid rgba(232,220,200,.12)">
+                <image-slot id="S-03" shape="rect" fit="cover" placeholder="S-03" style="width:100%;height:100%"></image-slot>
+              </div>
+              <div>
+                <div style="font:400 30px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Kaya Lind</div>
+                <div style="margin-top:8px;font:400 15px/1.45 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.74">Blackwork, ornament</div>
+                <div style="margin-top:6px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">I huset til 14/9</div>
+              </div>
+            </div>
+
+            <div style="margin-top:34px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">I aften</div>
+
+            <sc-if value="{{ natIAften }}" hint-placeholder-val="{{ true }}">
+              <div style="margin-top:16px;border:1px solid rgba(232,220,200,.14);border-left:3px solid rgba(232,220,200,.4);padding:26px 28px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px">
+                <div>
+                  <div style="font:400 48px/.9 'Anton',sans-serif;letter-spacing:.02em;text-transform:uppercase;color:#E8DCC8">Module 07</div>
+                  <div style="margin-top:12px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Fredag 12/9 · 22–04 · kld</div>
+                </div>
+                <div style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#E8DCC8">SE PLAKATEN</div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ ingenNat }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:16px;border:1px solid rgba(232,220,200,.14);padding:26px 28px">
+                <div style="font:400 40px/.95 'Anton',sans-serif;letter-spacing:.02em;text-transform:uppercase;color:#8A8580">Ingen nat i aften</div>
+                <div style="margin-top:12px;font:400 15px/1.5 'Instrument Sans',sans-serif;color:#8A8580">Næste nat står i Blackbook.</div>
+              </div>
+            </sc-if>
+
+            <div style="margin-top:auto;padding-top:38px;border-top:1px solid rgba(232,220,200,.1);display:flex;align-items:flex-end;justify-content:space-between;gap:32px">
+              <div style="display:flex;align-items:flex-start;gap:12px;max-width:280px">
+                <span style="display:block;width:7px;height:7px;margin-top:7px;background:#B91C1C;flex:none"></span>
+                <div style="font:400 15px/1.5 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.78">Blackbook. Står du på listen, ser du natten først.</div>
+              </div>
+              <div style="display:flex;align-items:flex-end;gap:20px">
+                <div style="width:220px;padding-bottom:9px;border-bottom:1px solid rgba(232,220,200,.28);font:400 15px/1 'Instrument Sans',sans-serif;color:#8A8580">Telefonnummer</div>
+                <div style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#E8DCC8">SKRIV DIG PÅ</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= S2 · STOLEN ================= -->
+    <div data-frame="S2" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">S2 · Stolen — artist som kort · desktop 1440</div>
+      <div style="width:1440px;background:#070707;border:1px solid rgba(232,220,200,.14)">
+
+        <div style="height:88px;padding:0 96px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(232,220,200,.12)">
+          <div style="font:400 21px/1 'Anton',sans-serif;letter-spacing:.18em;color:#E8DCC8">INK AND ART</div>
+          <div style="display:flex;align-items:center;gap:34px">
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#E8DCC8">STOLEN</span>
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#8A8580">MÆRKET</span>
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#8A8580">NATTEN</span>
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#8A8580">GADEN</span>
+            <span style="display:block;width:1px;height:15px;background:rgba(232,220,200,.2)"></span>
+            <span style="display:flex;align-items:center;gap:9px"><span style="display:block;width:7px;height:7px;background:#B91C1C"></span><span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#E8DCC8">BLACKBOOK</span></span>
+          </div>
+        </div>
+
+        <div style="padding:60px 96px 0">
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:40px;padding-bottom:22px;border-bottom:1px solid rgba(232,220,200,.14)">
+            <div style="font:400 92px/.84 'Anton',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#E8DCC8">Stolen</div>
+            <div style="font:400 11px/1.7 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580;text-align:right">Larsbjørnsstræde 13, kld<br>1454 København K</div>
+          </div>
+        </div>
+
+        <div style="padding:44px 96px 72px;display:grid;grid-template-columns:repeat(3,400px);gap:24px">
+
+          <div>
+            <div style="position:relative;width:400px;height:500px;border:1px solid rgba(232,220,200,.12)">
+              <image-slot id="S-04" shape="rect" fit="cover" placeholder="S-04 · stolen · 4:5" style="width:100%;height:100%"></image-slot>
+            </div>
+            <div style="margin-top:18px;font:400 38px/.95 'Anton',sans-serif;letter-spacing:.02em;text-transform:uppercase;color:#E8DCC8">Nizar Haddad</div>
+            <div style="margin-top:10px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Fast · i huset</div>
+            <div style="margin-top:14px;font:400 16px/1.55 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.76">Sortværk og håndpoke. Store flader, få linjer. Sætter alle priser i huset.</div>
+            <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(232,220,200,.12);display:flex;align-items:center;justify-content:space-between">
+              <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#E8DCC8">BOOK TID →</span>
+              <span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">6 værker i arkivet</span>
+            </div>
+          </div>
+
+          <div>
+            <div style="position:relative;width:400px;height:500px;border:1px solid rgba(232,220,200,.12)">
+              <image-slot id="S-05" shape="rect" fit="cover" placeholder="S-05 · stolen · 4:5" style="width:100%;height:100%"></image-slot>
+            </div>
+            <div style="margin-top:18px;font:400 38px/.95 'Anton',sans-serif;letter-spacing:.02em;text-transform:uppercase;color:#E8DCC8">Emma Ravn</div>
+            <div style="margin-top:10px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Fast · i huset</div>
+            <div style="margin-top:14px;font:400 16px/1.55 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.76">Fine line og piercing. Tager små motiver samme uge.</div>
+            <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(232,220,200,.12);display:flex;align-items:center;justify-content:space-between">
+              <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#E8DCC8">BOOK TID →</span>
+              <span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">4 værker i arkivet</span>
+            </div>
+          </div>
+
+          <div>
+            <div style="position:relative;width:400px;height:500px;border:1px solid rgba(232,220,200,.12)">
+              <image-slot id="S-06" shape="rect" fit="cover" placeholder="S-06 · gæst · 4:5" style="width:100%;height:100%"></image-slot>
+            </div>
+            <div style="margin-top:18px;font:400 38px/.95 'Anton',sans-serif;letter-spacing:.02em;text-transform:uppercase;color:#E8DCC8">Kaya Lind</div>
+            <div style="margin-top:10px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">I huset til 14/9</div>
+            <div style="margin-top:14px;font:400 16px/1.55 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.76">Blackwork og ornament. Rejser videre til Oslo.</div>
+            <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(232,220,200,.12);display:flex;align-items:center;justify-content:space-between">
+              <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#E8DCC8">BOOK TID →</span>
+              <span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">2 pladser tilbage</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= S3 · MÆRKET ================= -->
+    <div data-frame="S3" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">S3 · Mærket — plade-væg og hylde · desktop 1440</div>
+      <div style="width:1440px;background:#070707;border:1px solid rgba(232,220,200,.14)">
+
+        <div style="height:88px;padding:0 96px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(232,220,200,.12)">
+          <div style="font:400 21px/1 'Anton',sans-serif;letter-spacing:.18em;color:#E8DCC8">INK AND ART</div>
+          <div style="display:flex;align-items:center;gap:34px">
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#8A8580">STOLEN</span>
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#E8DCC8">MÆRKET</span>
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#8A8580">NATTEN</span>
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#8A8580">GADEN</span>
+            <span style="display:block;width:1px;height:15px;background:rgba(232,220,200,.2)"></span>
+            <span style="display:flex;align-items:center;gap:9px"><span style="display:block;width:7px;height:7px;background:#B91C1C"></span><span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#E8DCC8">BLACKBOOK</span></span>
+          </div>
+        </div>
+
+        <div style="padding:60px 96px 0">
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:40px;padding-bottom:22px;border-bottom:1px solid rgba(232,220,200,.14)">
+            <div style="font:400 92px/.84 'Anton',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#E8DCC8">Mærket</div>
+            <div style="font:400 11px/1.7 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580;text-align:right">Værkarkivet · 114 værker<br>Aldrig samme motiv to gange</div>
+          </div>
+        </div>
+
+        <div style="padding:44px 96px 0;display:grid;grid-template-columns:repeat(3,400px);gap:24px 24px">
+
+          <div>
+            <div style="position:relative;width:400px;height:500px;border:1px solid rgba(232,220,200,.12)">
+              <image-slot id="V-02" shape="rect" fit="cover" placeholder="V-02 · værk · 4:5" style="width:100%;height:100%"></image-slot>
+            </div>
+            <div style="margin-top:14px;font:400 22px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Sort hjort</div>
+            <div style="margin-top:7px;font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.72">Nizar Haddad</div>
+            <div style="margin-top:3px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">2026</div>
+          </div>
+
+          <div>
+            <div style="position:relative;width:400px;height:500px;border:1px solid rgba(232,220,200,.12)">
+              <image-slot id="V-03" shape="rect" fit="cover" placeholder="V-03 · værk · 4:5" style="width:100%;height:100%"></image-slot>
+            </div>
+            <div style="margin-top:14px;font:400 22px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Nålens vej</div>
+            <div style="margin-top:7px;font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.72">Emma Ravn</div>
+            <div style="margin-top:3px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">2026</div>
+          </div>
+
+          <div>
+            <div style="position:relative;width:400px;height:500px;border:1px solid rgba(232,220,200,.12)">
+              <image-slot id="V-04" shape="rect" fit="cover" placeholder="V-04 · værk · 4:5" style="width:100%;height:100%"></image-slot>
+            </div>
+            <div style="margin-top:14px;font:400 22px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Kælderlys</div>
+            <div style="margin-top:7px;font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.72">Kaya Lind</div>
+            <div style="margin-top:3px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">2026 · gæst</div>
+          </div>
+
+          <div>
+            <div style="position:relative;width:400px;height:500px;border:1px solid rgba(232,220,200,.12)">
+              <image-slot id="V-05" shape="rect" fit="cover" placeholder="V-05 · værk · 4:5" style="width:100%;height:100%"></image-slot>
+            </div>
+            <div style="margin-top:14px;font:400 22px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Hegnet</div>
+            <div style="margin-top:7px;font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.72">Nizar Haddad</div>
+            <div style="margin-top:3px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">2025</div>
+          </div>
+
+          <div>
+            <div style="position:relative;width:400px;height:500px;border:1px solid rgba(232,220,200,.12)">
+              <image-slot id="V-06" shape="rect" fit="cover" placeholder="V-06 · værk · 4:5" style="width:100%;height:100%"></image-slot>
+            </div>
+            <div style="margin-top:14px;font:400 22px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Tolv timer</div>
+            <div style="margin-top:7px;font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.72">Nizar Haddad</div>
+            <div style="margin-top:3px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">2025</div>
+          </div>
+
+          <div>
+            <div style="position:relative;width:400px;height:500px;border:1px solid rgba(232,220,200,.12)">
+              <image-slot id="V-07" shape="rect" fit="cover" placeholder="V-07 · værk · 4:5" style="width:100%;height:100%"></image-slot>
+            </div>
+            <div style="margin-top:14px;font:400 22px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Rygsøjle</div>
+            <div style="margin-top:7px;font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.72">Emma Ravn</div>
+            <div style="margin-top:3px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">2025</div>
+          </div>
+        </div>
+
+        <div style="margin:64px 96px 0;padding-top:26px;border-top:1px solid rgba(232,220,200,.14)">
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:40px">
+            <div style="font:400 52px/.9 'Anton',sans-serif;letter-spacing:.02em;text-transform:uppercase;color:#E8DCC8">Hylden</div>
+            <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Editionen af værket · tre varer</div>
+          </div>
+        </div>
+
+        <sc-if value="{{ hyldeFyldt }}" hint-placeholder-val="{{ true }}">
+          <div style="padding:34px 96px 72px;display:grid;grid-template-columns:repeat(3,400px);gap:24px">
+            <div>
+              <div style="position:relative;width:400px;height:500px;border:1px solid rgba(232,220,200,.12)">
+                <image-slot id="P-01" shape="rect" fit="cover" placeholder="P-01 · print · 4:5" style="width:100%;height:100%"></image-slot>
+              </div>
+              <div style="margin-top:14px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px">
+                <div>
+                  <div style="font:400 22px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Sort hjort · print A2</div>
+                  <div style="margin-top:7px;font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.72">Nizar Haddad · 2026</div>
+                  <div style="margin-top:3px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Edition 50 · nummereret</div>
+                </div>
+                <div style="font:400 30px/1 'Anton',sans-serif;letter-spacing:.02em;color:#B91C1C;flex:none">349</div>
+              </div>
+            </div>
+            <div>
+              <div style="position:relative;width:400px;height:500px;border:1px solid rgba(232,220,200,.12)">
+                <image-slot id="P-02" shape="rect" fit="cover" placeholder="P-02 · hoodie · 4:5" style="width:100%;height:100%"></image-slot>
+              </div>
+              <div style="margin-top:14px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px">
+                <div>
+                  <div style="font:400 22px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Sort hjort · hoodie</div>
+                  <div style="margin-top:7px;font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.72">Nizar Haddad · 2026</div>
+                  <div style="margin-top:3px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Edition 50 · nummereret</div>
+                </div>
+                <div style="font:400 30px/1 'Anton',sans-serif;letter-spacing:.02em;color:#B91C1C;flex:none">599</div>
+              </div>
+            </div>
+            <div>
+              <div style="position:relative;width:400px;height:500px;border:1px solid rgba(232,220,200,.12)">
+                <image-slot id="P-03" shape="rect" fit="cover" placeholder="P-03 · t-shirt · 4:5" style="width:100%;height:100%"></image-slot>
+              </div>
+              <div style="margin-top:14px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px">
+                <div>
+                  <div style="font:400 22px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Nålens vej · t-shirt</div>
+                  <div style="margin-top:7px;font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.72">Emma Ravn · 2026</div>
+                  <div style="margin-top:3px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Edition 50 · nummereret</div>
+                </div>
+                <div style="font:400 30px/1 'Anton',sans-serif;letter-spacing:.02em;color:#B91C1C;flex:none">299</div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ hyldeTom }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:34px 96px 72px">
+            <div style="border:1px solid rgba(232,220,200,.14);padding:64px 48px">
+              <div style="font:400 56px/.92 'Anton',sans-serif;letter-spacing:.02em;text-transform:uppercase;color:#8A8580">Hylden er tom</div>
+              <div style="margin-top:16px;max-width:520px;font:400 16px/1.6 'Instrument Sans',sans-serif;color:#8A8580">Næste edition sættes op, når værket er i arkivet. Vi laver ikke varer uden værk.</div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+
+    <!-- ================= S4 · NATTEN ================= -->
+    <div data-frame="S4" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">S4 · Natten — plakaten · desktop 1440</div>
+      <div style="width:1440px;background:#070707;border:1px solid rgba(232,220,200,.14)">
+
+        <div style="height:88px;padding:0 96px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(232,220,200,.12)">
+          <div style="font:400 21px/1 'Anton',sans-serif;letter-spacing:.18em;color:#E8DCC8">INK AND ART</div>
+          <div style="display:flex;align-items:center;gap:34px">
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#8A8580">STOLEN</span>
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#8A8580">MÆRKET</span>
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#E8DCC8">NATTEN</span>
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#8A8580">GADEN</span>
+            <span style="display:block;width:1px;height:15px;background:rgba(232,220,200,.2)"></span>
+            <span style="display:flex;align-items:center;gap:9px"><span style="display:block;width:7px;height:7px;background:#B91C1C"></span><span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#E8DCC8">BLACKBOOK</span></span>
+          </div>
+        </div>
+
+        <div style="padding:60px 96px 72px;display:grid;grid-template-columns:560px 1fr;gap:80px">
+
+          <div style="position:relative;width:560px;height:792px;border:1px solid rgba(232,220,200,.18);overflow:hidden">
+            <image-slot id="H-01" shape="rect" fit="cover" placeholder="H-01 · hjørnet · 3:4" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
+            <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(7,7,7,.62) 0%,rgba(7,7,7,.18) 38%,rgba(7,7,7,.94) 100%)"></div>
+            <div style="position:absolute;left:36px;right:36px;top:32px;pointer-events:none;display:flex;align-items:flex-start;justify-content:space-between">
+              <span style="font:400 20px/1 'Anton',sans-serif;letter-spacing:.2em;color:#E8DCC8">INK AND ART</span>
+              <span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#E8DCC8;opacity:.7">Nr. 07</span>
+            </div>
+            <div style="position:absolute;left:36px;right:36px;bottom:34px;pointer-events:none">
+              <div style="height:3px;background:#C8FF3D;margin-bottom:22px"></div>
+              <div style="font:400 96px/.82 'Anton',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#E8DCC8">Fredag<br>12 sept</div>
+              <div style="margin-top:22px;font:400 15px/1.5 'Instrument Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#E8DCC8">Kraftværk · Bjørk Nyholm · Sonja</div>
+              <div style="margin-top:10px;font:400 11px/1.5 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">22–04 · Larsbjørnsstræde 13 kld · Blackbook</div>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column">
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:40px;padding-bottom:22px;border-bottom:1px solid rgba(232,220,200,.14)">
+              <div style="font:400 92px/.84 'Anton',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#E8DCC8">Natten</div>
+              <div style="display:flex;align-items:center;gap:10px;flex:none;padding-bottom:8px">
+                <span style="display:block;width:8px;height:8px;background:#B91C1C"></span>
+                <span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">I aften</span>
+              </div>
+            </div>
+
+            <div style="margin-top:30px;max-width:460px;font:400 17px/1.6 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.78;text-wrap:pretty">DJ i butikken. Én plakat pr. nat, samme hjørne, samme kamera. Døren er listen.</div>
+
+            <div style="margin-top:38px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Lyd</div>
+            <div style="margin-top:14px;display:flex;flex-direction:column">
+              <div style="display:flex;align-items:baseline;gap:24px;padding:16px 0;border-bottom:1px solid rgba(232,220,200,.1)">
+                <span style="width:74px;flex:none;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">22–00</span>
+                <span style="font:400 26px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Sonja</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:24px;padding:16px 0;border-bottom:1px solid rgba(232,220,200,.1)">
+                <span style="width:74px;flex:none;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">00–02</span>
+                <span style="font:400 26px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Bjørk Nyholm</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:24px;padding:16px 0;border-bottom:1px solid rgba(232,220,200,.1)">
+                <span style="width:74px;flex:none;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">02–04</span>
+                <span style="font:400 26px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Kraftværk</span>
+              </div>
+            </div>
+
+            <div style="margin-top:auto;padding-top:44px">
+              <div style="border:1px solid rgba(232,220,200,.16);padding:30px 32px">
+                <div style="display:flex;align-items:center;gap:11px">
+                  <span style="display:block;width:8px;height:8px;background:#B91C1C"></span>
+                  <span style="font:400 22px/1 'Anton',sans-serif;letter-spacing:.14em;color:#E8DCC8">BLACKBOOK</span>
+                </div>
+                <div style="margin-top:18px;display:flex;align-items:flex-end;gap:24px">
+                  <div style="flex:1;padding-bottom:11px;border-bottom:1px solid rgba(232,220,200,.28);font:400 16px/1 'Instrument Sans',sans-serif;color:#8A8580">Telefonnummer</div>
+                  <div style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#E8DCC8;flex:none">IND →</div>
+                </div>
+                <div style="margin-top:16px;font:400 13px/1.5 'Instrument Sans',sans-serif;color:#8A8580">Én linje. Ingen mails. Du får natten 48 timer før.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= S5 · NATTEN, TOM ================= -->
+    <div data-frame="S5" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">S5 · Natten — tom tilstand · desktop 1440</div>
+      <div style="width:1440px;background:#070707;border:1px solid rgba(232,220,200,.14)">
+        <div style="height:88px;padding:0 96px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(232,220,200,.12)">
+          <div style="font:400 21px/1 'Anton',sans-serif;letter-spacing:.18em;color:#E8DCC8">INK AND ART</div>
+          <div style="display:flex;align-items:center;gap:34px">
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#8A8580">STOLEN</span>
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#8A8580">MÆRKET</span>
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#E8DCC8">NATTEN</span>
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#8A8580">GADEN</span>
+            <span style="display:block;width:1px;height:15px;background:rgba(232,220,200,.2)"></span>
+            <span style="display:flex;align-items:center;gap:9px"><span style="display:block;width:7px;height:7px;background:#B91C1C"></span><span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#E8DCC8">BLACKBOOK</span></span>
+          </div>
+        </div>
+
+        <div style="padding:60px 96px 72px;display:grid;grid-template-columns:560px 1fr;gap:80px">
+          <div style="width:560px;height:600px;border:1px solid rgba(232,220,200,.14);display:flex;flex-direction:column;justify-content:flex-end;padding:40px 36px">
+            <div style="font:400 64px/.9 'Anton',sans-serif;letter-spacing:.02em;text-transform:uppercase;color:#8A8580">Ingen nat<br>i aften</div>
+            <div style="margin-top:20px;font:400 11px/1.5 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Sidste nat: 29/8 · Module 06</div>
+          </div>
+          <div style="display:flex;flex-direction:column">
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:40px;padding-bottom:22px;border-bottom:1px solid rgba(232,220,200,.14)">
+              <div style="font:400 92px/.84 'Anton',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#E8DCC8">Natten</div>
+            </div>
+            <div style="margin-top:30px;max-width:460px;font:400 17px/1.6 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.78;text-wrap:pretty">Næste nat annonceres kun i Blackbook. Vi sætter ikke en dato op, før lyden er på plads.</div>
+            <div style="margin-top:auto;padding-top:44px">
+              <div style="border:1px solid rgba(232,220,200,.16);padding:30px 32px">
+                <div style="display:flex;align-items:center;gap:11px">
+                  <span style="display:block;width:8px;height:8px;background:#B91C1C"></span>
+                  <span style="font:400 22px/1 'Anton',sans-serif;letter-spacing:.14em;color:#E8DCC8">BLACKBOOK</span>
+                </div>
+                <div style="margin-top:18px;display:flex;align-items:flex-end;gap:24px">
+                  <div style="flex:1;padding-bottom:11px;border-bottom:1px solid rgba(232,220,200,.28);font:400 16px/1 'Instrument Sans',sans-serif;color:#8A8580">Telefonnummer</div>
+                  <div style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#E8DCC8;flex:none">IND →</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= S6 · GADEN ================= -->
+    <div data-frame="S6" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">S6 · Gaden — nr. 13, walk-in · desktop 1440</div>
+      <div style="width:1440px;background:#070707;border:1px solid rgba(232,220,200,.14)">
+        <div style="height:88px;padding:0 96px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(232,220,200,.12)">
+          <div style="font:400 21px/1 'Anton',sans-serif;letter-spacing:.18em;color:#E8DCC8">INK AND ART</div>
+          <div style="display:flex;align-items:center;gap:34px">
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#8A8580">STOLEN</span>
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#8A8580">MÆRKET</span>
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#8A8580">NATTEN</span>
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#E8DCC8">GADEN</span>
+            <span style="display:block;width:1px;height:15px;background:rgba(232,220,200,.2)"></span>
+            <span style="display:flex;align-items:center;gap:9px"><span style="display:block;width:7px;height:7px;background:#B91C1C"></span><span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#E8DCC8">BLACKBOOK</span></span>
+          </div>
+        </div>
+
+        <div style="padding:60px 96px 0;display:grid;grid-template-columns:616px 1fr;gap:80px">
+          <div style="position:relative;width:616px;height:770px;border:1px solid rgba(232,220,200,.12)">
+            <image-slot id="G-01" shape="rect" fit="cover" placeholder="G-01 · facade nr. 13 · 4:5" style="width:100%;height:100%"></image-slot>
+          </div>
+          <div style="display:flex;flex-direction:column">
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:40px;padding-bottom:22px;border-bottom:1px solid rgba(232,220,200,.14)">
+              <div style="font:400 92px/.84 'Anton',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#E8DCC8">Gaden</div>
+              <div style="font:400 76px/.8 'Anton',sans-serif;letter-spacing:.02em;color:#8A8580;flex:none">13</div>
+            </div>
+            <div style="margin-top:30px;max-width:460px;font:400 17px/1.6 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.78;text-wrap:pretty">Larsbjørnsstræde 13. Ned ad trappen, til venstre. Ring på hvis døren er lukket — vi er dernede.</div>
+
+            <div style="margin-top:40px;display:flex;flex-direction:column">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid rgba(232,220,200,.1)">
+                <span style="font:400 22px/1 'Anton',sans-serif;letter-spacing:.05em;text-transform:uppercase;color:#E8DCC8">Walk-in</span>
+                <span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Tors–lør 14–18</span>
+              </div>
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid rgba(232,220,200,.1)">
+                <span style="font:400 22px/1 'Anton',sans-serif;letter-spacing:.05em;text-transform:uppercase;color:#E8DCC8">Booket tid</span>
+                <span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Man–lør 11–19</span>
+              </div>
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid rgba(232,220,200,.1)">
+                <span style="font:400 22px/1 'Anton',sans-serif;letter-spacing:.05em;text-transform:uppercase;color:#E8DCC8">Gavekort</span>
+                <span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">I huset og i shoppen</span>
+              </div>
+            </div>
+
+            <div style="margin-top:auto;padding-top:44px;font:400 11px/1.7 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Pisserenden · 1454 København K<br>booking@inkandart.dk</div>
+          </div>
+        </div>
+
+        <div style="padding:40px 96px 72px;display:grid;grid-template-columns:repeat(3,400px);gap:24px">
+          <div style="position:relative;width:400px;height:250px;border:1px solid rgba(232,220,200,.12)">
+            <image-slot id="G-02" shape="rect" fit="cover" placeholder="G-02 · trappen · 8:5" style="width:100%;height:100%"></image-slot>
+          </div>
+          <div style="position:relative;width:400px;height:250px;border:1px solid rgba(232,220,200,.12)">
+            <image-slot id="G-03" shape="rect" fit="cover" placeholder="G-03 · skiltet · 8:5" style="width:100%;height:100%"></image-slot>
+          </div>
+          <div style="position:relative;width:400px;height:250px;border:1px solid rgba(232,220,200,.12)">
+            <image-slot id="G-04" shape="rect" fit="cover" placeholder="G-04 · gaden om natten · 8:5" style="width:100%;height:100%"></image-slot>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= S7 · SHOP ================= -->
+    <div data-frame="S7" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">S7 · Shop — ét produkt som edition · desktop 1440</div>
+      <div style="width:1440px;background:#070707;border:1px solid rgba(232,220,200,.14)">
+        <div style="height:88px;padding:0 96px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(232,220,200,.12)">
+          <div style="font:400 21px/1 'Anton',sans-serif;letter-spacing:.18em;color:#E8DCC8">INK AND ART</div>
+          <div style="display:flex;align-items:center;gap:34px">
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#8A8580">STOLEN</span>
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#E8DCC8">MÆRKET</span>
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#8A8580">NATTEN</span>
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#8A8580">GADEN</span>
+            <span style="display:block;width:1px;height:15px;background:rgba(232,220,200,.2)"></span>
+            <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#8A8580">KURV 1</span>
+          </div>
+        </div>
+
+        <div style="padding:56px 96px 72px;display:grid;grid-template-columns:560px 1fr;gap:80px">
+          <div>
+            <div style="position:relative;width:560px;height:700px;border:1px solid rgba(232,220,200,.12)">
+              <image-slot id="P-02b" shape="rect" fit="cover" placeholder="P-02 · hoodie på krop · 4:5" style="width:100%;height:100%"></image-slot>
+            </div>
+            <div style="margin-top:16px;display:grid;grid-template-columns:repeat(4,131px);gap:12px">
+              <div style="position:relative;width:131px;height:164px;border:1px solid rgba(232,220,200,.28)">
+                <image-slot id="P-02c" shape="rect" fit="cover" placeholder="detalje" style="width:100%;height:100%"></image-slot>
+              </div>
+              <div style="position:relative;width:131px;height:164px;border:1px solid rgba(232,220,200,.1)">
+                <image-slot id="P-02d" shape="rect" fit="cover" placeholder="tryk" style="width:100%;height:100%"></image-slot>
+              </div>
+              <div style="position:relative;width:131px;height:164px;border:1px solid rgba(232,220,200,.1)">
+                <image-slot id="P-02e" shape="rect" fit="cover" placeholder="label" style="width:100%;height:100%"></image-slot>
+              </div>
+              <div style="position:relative;width:131px;height:164px;border:1px solid rgba(232,220,200,.1)">
+                <image-slot id="V-01b" shape="rect" fit="cover" placeholder="værket" style="width:100%;height:100%"></image-slot>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column">
+            <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Hylden · edition</div>
+            <div style="margin-top:14px;font:400 60px/.88 'Anton',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#E8DCC8">Sort hjort<br>hoodie</div>
+            <div style="margin-top:18px;font:400 16px/1.5 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.74">Nizar Haddad · 2026 · edition 50, nummereret</div>
+
+            <div style="margin-top:34px;padding-top:26px;border-top:1px solid rgba(232,220,200,.14);display:flex;align-items:flex-end;gap:20px">
+              <div style="font:400 64px/.85 'Anton',sans-serif;letter-spacing:.01em;color:#B91C1C">599</div>
+              <div style="padding-bottom:9px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">kr. · fri fragt over 499</div>
+            </div>
+
+            <div style="margin-top:34px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Størrelse</div>
+            <div style="margin-top:14px;display:flex;gap:10px">
+              <div style="width:60px;height:48px;border:1px solid rgba(232,220,200,.18);display:flex;align-items:center;justify-content:center;font:400 15px/1 'Anton',sans-serif;letter-spacing:.08em;color:#8A8580">S</div>
+              <div style="width:60px;height:48px;border:1px solid #E8DCC8;display:flex;align-items:center;justify-content:center;font:400 15px/1 'Anton',sans-serif;letter-spacing:.08em;color:#E8DCC8">M</div>
+              <div style="width:60px;height:48px;border:1px solid rgba(232,220,200,.18);display:flex;align-items:center;justify-content:center;font:400 15px/1 'Anton',sans-serif;letter-spacing:.08em;color:#8A8580">L</div>
+              <div style="width:60px;height:48px;border:1px solid rgba(232,220,200,.18);display:flex;align-items:center;justify-content:center;font:400 15px/1 'Anton',sans-serif;letter-spacing:.08em;color:#8A8580">XL</div>
+            </div>
+
+            <div style="margin-top:30px;width:100%;height:60px;background:#E8DCC8;display:flex;align-items:center;justify-content:center;font:400 18px/1 'Anton',sans-serif;letter-spacing:.16em;color:#070707">LÆG I KURV</div>
+
+            <div style="margin-top:34px;padding-top:24px;border-top:1px solid rgba(232,220,200,.12);font:400 16px/1.6 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.74;max-width:440px;text-wrap:pretty">Motivet er tatoveret i huset og ligger i værkarkivet som «Sort hjort, Nizar Haddad, 2026». Trykket er editionen af det værk — samme label på væggen og på varen.</div>
+
+            <div style="margin-top:auto;padding-top:34px;font:400 11px/1.7 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Økologisk bomuld · trykt i EU<br>Levering 5–8 dage</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= S8 · BOOKING ================= -->
+    <div data-frame="S8" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">S8 · Booking — døren og skinnet · desktop 1440</div>
+      <div style="width:1440px;background:#070707;border:1px solid rgba(232,220,200,.14);display:grid;grid-template-columns:1fr 1fr">
+
+        <div style="padding:64px 56px;border-right:1px solid rgba(232,220,200,.12);display:flex;flex-direction:column">
+          <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">1 · i huset</div>
+          <div style="margin-top:16px;font:400 72px/.86 'Anton',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#E8DCC8">Døren</div>
+          <div style="margin-top:20px;max-width:420px;font:400 17px/1.6 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.78;text-wrap:pretty">Du har valgt Nizar. Bookingen ligger i husets kalender — samme rum, samme farver. Depositum betales i shoppen.</div>
+
+          <div style="margin-top:36px;display:grid;grid-template-columns:88px 1fr;gap:20px;padding:20px 0;border-top:1px solid rgba(232,220,200,.12);border-bottom:1px solid rgba(232,220,200,.12)">
+            <div style="position:relative;width:88px;height:110px;border:1px solid rgba(232,220,200,.12)">
+              <image-slot id="S-07" shape="rect" fit="cover" placeholder="S-07" style="width:100%;height:100%"></image-slot>
+            </div>
+            <div>
+              <div style="font:400 28px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Nizar Haddad</div>
+              <div style="margin-top:8px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Sortværk · håndpoke</div>
+            </div>
+          </div>
+
+          <div style="margin-top:28px">
+            <div style="font:400 22px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Sort hjort, ryg</div>
+            <div style="margin-top:16px;display:flex;align-items:flex-end;gap:14px">
+              <span style="font:400 64px/.84 'Anton',sans-serif;letter-spacing:.01em;color:#B91C1C">4.800</span>
+              <span style="padding-bottom:9px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">kr.</span>
+            </div>
+            <div style="margin-top:16px;font:400 13px/1.5 'Instrument Sans',sans-serif;color:#8A8580">Tallet står på værket, aftalt med Nizar. Depositum 500 kr. fragår.</div>
+          </div>
+
+          <div style="margin-top:auto;padding-top:48px">
+            <div style="width:100%;height:280px;border:1px solid rgba(232,220,200,.2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px">
+              <div style="font:400 44px/.9 'Anton',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#E8DCC8">Gå ind</div>
+              <div style="width:1px;height:44px;background:rgba(232,220,200,.24)"></div>
+              <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Kalenderen åbner · book.dk</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding:64px 56px;display:flex;flex-direction:column">
+          <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">2 · book.dk, klædt på</div>
+
+          <div style="margin-top:22px;border:1px solid rgba(232,220,200,.16);background:#070707">
+            <div style="height:64px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(232,220,200,.12)">
+              <span style="font:400 17px/1 'Anton',sans-serif;letter-spacing:.18em;color:#E8DCC8">INK AND ART</span>
+              <span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Nizar · sortværk</span>
+            </div>
+
+            <div style="padding:26px 24px">
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <span style="font:400 26px/1 'Anton',sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#E8DCC8">September</span>
+                <span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">← →</span>
+              </div>
+
+              <div style="margin-top:20px;display:grid;grid-template-columns:repeat(7,1fr);gap:6px">
+                <div style="height:22px;display:flex;align-items:center;justify-content:center;font:400 10px/1 'Instrument Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#8A8580">M</div>
+                <div style="height:22px;display:flex;align-items:center;justify-content:center;font:400 10px/1 'Instrument Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#8A8580">T</div>
+                <div style="height:22px;display:flex;align-items:center;justify-content:center;font:400 10px/1 'Instrument Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#8A8580">O</div>
+                <div style="height:22px;display:flex;align-items:center;justify-content:center;font:400 10px/1 'Instrument Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#8A8580">T</div>
+                <div style="height:22px;display:flex;align-items:center;justify-content:center;font:400 10px/1 'Instrument Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#8A8580">F</div>
+                <div style="height:22px;display:flex;align-items:center;justify-content:center;font:400 10px/1 'Instrument Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#8A8580">L</div>
+                <div style="height:22px;display:flex;align-items:center;justify-content:center;font:400 10px/1 'Instrument Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#8A8580">S</div>
+
+                <div style="height:46px;border:1px solid rgba(232,220,200,.08);display:flex;align-items:center;justify-content:center;font:400 15px/1 'Instrument Sans',sans-serif;color:#8A8580">1</div>
+                <div style="height:46px;border:1px solid rgba(232,220,200,.08);display:flex;align-items:center;justify-content:center;font:400 15px/1 'Instrument Sans',sans-serif;color:#8A8580">2</div>
+                <div style="height:46px;border:1px solid rgba(232,220,200,.08);display:flex;align-items:center;justify-content:center;font:400 15px/1 'Instrument Sans',sans-serif;color:#8A8580">3</div>
+                <div style="height:46px;border:1px solid rgba(232,220,200,.18);display:flex;align-items:center;justify-content:center;font:400 15px/1 'Instrument Sans',sans-serif;color:#E8DCC8">4</div>
+                <div style="height:46px;border:1px solid rgba(232,220,200,.18);display:flex;align-items:center;justify-content:center;font:400 15px/1 'Instrument Sans',sans-serif;color:#E8DCC8">5</div>
+                <div style="height:46px;border:1px solid rgba(232,220,200,.18);display:flex;align-items:center;justify-content:center;font:400 15px/1 'Instrument Sans',sans-serif;color:#E8DCC8">6</div>
+                <div style="height:46px;border:1px solid rgba(232,220,200,.08);display:flex;align-items:center;justify-content:center;font:400 15px/1 'Instrument Sans',sans-serif;color:#8A8580">7</div>
+                <div style="height:46px;border:1px solid rgba(232,220,200,.18);display:flex;align-items:center;justify-content:center;font:400 15px/1 'Instrument Sans',sans-serif;color:#E8DCC8">8</div>
+                <div style="height:46px;border:1px solid rgba(232,220,200,.18);display:flex;align-items:center;justify-content:center;font:400 15px/1 'Instrument Sans',sans-serif;color:#E8DCC8">9</div>
+                <div style="height:46px;background:#B91C1C;display:flex;align-items:center;justify-content:center;font:400 15px/1 'Instrument Sans',sans-serif;color:#E8DCC8">10</div>
+                <div style="height:46px;border:1px solid rgba(232,220,200,.18);display:flex;align-items:center;justify-content:center;font:400 15px/1 'Instrument Sans',sans-serif;color:#E8DCC8">11</div>
+                <div style="height:46px;border:1px solid rgba(232,220,200,.18);display:flex;align-items:center;justify-content:center;font:400 15px/1 'Instrument Sans',sans-serif;color:#E8DCC8">12</div>
+                <div style="height:46px;border:1px solid rgba(232,220,200,.18);display:flex;align-items:center;justify-content:center;font:400 15px/1 'Instrument Sans',sans-serif;color:#E8DCC8">13</div>
+                <div style="height:46px;border:1px solid rgba(232,220,200,.08);display:flex;align-items:center;justify-content:center;font:400 15px/1 'Instrument Sans',sans-serif;color:#8A8580">14</div>
+              </div>
+
+              <div style="margin-top:26px;padding-top:20px;border-top:1px solid rgba(232,220,200,.12)">
+                <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Torsdag 10. september</div>
+                <div style="margin-top:14px;display:flex;gap:10px">
+                  <div style="flex:1;height:52px;border:1px solid rgba(232,220,200,.18);display:flex;align-items:center;justify-content:center;font:400 16px/1 'Instrument Sans',sans-serif;color:#E8DCC8">11:00</div>
+                  <div style="flex:1;height:52px;border:1px solid rgba(232,220,200,.18);display:flex;align-items:center;justify-content:center;font:400 16px/1 'Instrument Sans',sans-serif;color:#E8DCC8">14:00</div>
+                  <div style="flex:1;height:52px;border:1px solid rgba(232,220,200,.06);display:flex;align-items:center;justify-content:center;font:400 16px/1 'Instrument Sans',sans-serif;color:#8A8580;text-decoration:line-through">16:30</div>
+                </div>
+                <div style="margin-top:18px;width:100%;height:56px;background:#E8DCC8;display:flex;align-items:center;justify-content:center;font:400 17px/1 'Anton',sans-serif;letter-spacing:.16em;color:#070707">BEKRÆFT TID</div>
+                <div style="margin-top:14px;font:400 13px/1.5 'Instrument Sans',sans-serif;color:#8A8580">Depositum 500 kr. betales i shoppen. Beskeder samles i booking@.</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:26px;font:400 13px/1.6 'Instrument Sans',sans-serif;color:#8A8580;max-width:460px">Book.dk kan farves på logo, farve og type — ikke på layout. Derfor er kalenderen ikke tegnet om; den er klædt i nat, hud og blod, så hoppet ikke føles som at forlade huset.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= MOBIL ================= -->
+    <div data-frame="M" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">M1–M3 · mobil 390 — Natten, Døren, Huset</div>
+      <div style="display:flex;gap:32px;align-items:flex-start">
+
+        <div style="width:390px;background:#070707;border:1px solid rgba(232,220,200,.14)">
+          <div style="height:56px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(232,220,200,.12)">
+            <span style="font:400 16px/1 'Anton',sans-serif;letter-spacing:.18em;color:#E8DCC8">INK AND ART</span>
+            <span style="display:flex;flex-direction:column;gap:4px"><span style="display:block;width:20px;height:1px;background:#E8DCC8"></span><span style="display:block;width:20px;height:1px;background:#E8DCC8"></span></span>
+          </div>
+          <div style="position:relative;width:388px;height:548px;overflow:hidden">
+            <image-slot id="H-02" shape="rect" fit="cover" placeholder="H-02 · hjørnet · 9:16" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
+            <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(7,7,7,.55) 0%,rgba(7,7,7,.15) 34%,rgba(7,7,7,.95) 100%)"></div>
+            <div style="position:absolute;left:20px;right:20px;bottom:24px;pointer-events:none">
+              <div style="height:3px;background:#C8FF3D;margin-bottom:16px"></div>
+              <div style="font:400 58px/.84 'Anton',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#E8DCC8">Fredag<br>12 sept</div>
+              <div style="margin-top:14px;font:400 13px/1.5 'Instrument Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#E8DCC8">Kraftværk · Bjørk · Sonja</div>
+              <div style="margin-top:8px;font:400 11px/1.4 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">22–04 · nr. 13 kld</div>
+            </div>
+          </div>
+          <div style="padding:22px 20px 26px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="display:block;width:8px;height:8px;background:#B91C1C"></span>
+              <span style="font:400 18px/1 'Anton',sans-serif;letter-spacing:.14em;color:#E8DCC8">BLACKBOOK</span>
+            </div>
+            <div style="margin-top:16px;height:52px;border-bottom:1px solid rgba(232,220,200,.28);display:flex;align-items:center;font:400 16px/1 'Instrument Sans',sans-serif;color:#8A8580">Telefonnummer</div>
+            <div style="margin-top:16px;width:100%;height:52px;background:#E8DCC8;display:flex;align-items:center;justify-content:center;font:400 16px/1 'Anton',sans-serif;letter-spacing:.16em;color:#070707">SKRIV DIG PÅ</div>
+          </div>
+        </div>
+
+        <div style="width:390px;background:#070707;border:1px solid rgba(232,220,200,.14)">
+          <div style="height:56px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(232,220,200,.12)">
+            <span style="font:400 16px/1 'Anton',sans-serif;letter-spacing:.18em;color:#E8DCC8">INK AND ART</span>
+            <span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Luk</span>
+          </div>
+          <div style="padding:44px 20px 40px;display:flex;flex-direction:column;min-height:460px">
+            <div style="display:flex;align-items:center;gap:11px">
+              <span style="display:block;width:9px;height:9px;background:#B91C1C"></span>
+              <span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Døren</span>
+            </div>
+            <div style="margin-top:20px;font:400 62px/.86 'Anton',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#E8DCC8">Black<br>book</div>
+            <div style="margin-top:22px;font:400 17px/1.6 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.8;text-wrap:pretty">Ét nummer. Du får natten 48 timer før alle andre.</div>
+            <div style="margin-top:40px;height:56px;border-bottom:1px solid rgba(232,220,200,.3);display:flex;align-items:center;font:400 18px/1 'Instrument Sans',sans-serif;color:#8A8580">+45</div>
+            <div style="margin-top:22px;width:100%;height:56px;background:#E8DCC8;display:flex;align-items:center;justify-content:center;font:400 17px/1 'Anton',sans-serif;letter-spacing:.16em;color:#070707">IND</div>
+            <div style="margin-top:auto;padding-top:36px;font:400 12px/1.6 'Instrument Sans',sans-serif;color:#8A8580">Vi sender kun natten. Afmeld med STOP.</div>
+          </div>
+        </div>
+
+        <div style="width:390px;background:#070707;border:1px solid rgba(232,220,200,.14)">
+          <div style="height:56px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(232,220,200,.12)">
+            <span style="font:400 16px/1 'Anton',sans-serif;letter-spacing:.18em;color:#E8DCC8">INK AND ART</span>
+            <span style="display:flex;flex-direction:column;gap:4px"><span style="display:block;width:20px;height:1px;background:#E8DCC8"></span><span style="display:block;width:20px;height:1px;background:#E8DCC8"></span></span>
+          </div>
+          <div style="padding:22px 20px 30px">
+            <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Værket i dag</div>
+            <div style="position:relative;width:350px;height:437px;margin-top:12px;border:1px solid rgba(232,220,200,.12)">
+              <image-slot id="V-01c" shape="rect" fit="cover" placeholder="V-01 · værk · 4:5" style="width:100%;height:100%"></image-slot>
+            </div>
+            <div style="margin-top:14px;font:400 26px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Sort hjort</div>
+            <div style="margin-top:8px;font:400 15px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.72">Nizar Haddad</div>
+            <div style="margin-top:3px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">2026 · unik · arkiv 0114</div>
+
+            <div style="margin-top:30px;padding-top:22px;border-top:1px solid rgba(232,220,200,.12);font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">I huset</div>
+            <div style="margin-top:14px;display:flex;flex-direction:column">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid rgba(232,220,200,.1)">
+                <span style="font:400 22px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Nizar Haddad</span>
+                <span style="font:400 10px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580;flex:none">Fast</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid rgba(232,220,200,.1)">
+                <span style="font:400 22px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Emma Ravn</span>
+                <span style="font:400 10px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580;flex:none">Fast</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid rgba(232,220,200,.1)">
+                <span style="font:400 22px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Kaya Lind</span>
+                <span style="font:400 10px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580;flex:none">Til 14/9</span>
+              </div>
+            </div>
+
+            <div style="margin-top:26px;border:1px solid rgba(232,220,200,.14);border-left:3px solid rgba(232,220,200,.4);padding:20px">
+              <div style="font:400 34px/.92 'Anton',sans-serif;letter-spacing:.02em;text-transform:uppercase;color:#E8DCC8">Module 07</div>
+              <div style="margin-top:10px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Fredag 12/9 · 22–04</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= KOMPONENTARK ================= -->
+    <div data-frame="K" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">K · Komponentark — seks dele, hele systemet</div>
+      <div style="width:1440px;box-sizing:border-box;background:#070707;border:1px solid rgba(232,220,200,.14);padding:56px;display:grid;grid-template-columns:repeat(3,1fr);gap:48px 40px">
+
+        <div>
+          <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Plade — værket på væggen</div>
+          <div style="position:relative;width:100%;height:400px;margin-top:14px;border:1px solid rgba(232,220,200,.12)">
+            <image-slot id="V-08" shape="rect" fit="cover" placeholder="V-08 · værk · 4:5" style="width:100%;height:100%"></image-slot>
+          </div>
+          <div style="margin-top:14px;font:400 22px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Titel</div>
+          <div style="margin-top:7px;font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.72">Artist</div>
+          <div style="margin-top:3px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Årstal</div>
+        </div>
+
+        <div>
+          <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Plakat — natten</div>
+          <div style="position:relative;width:100%;height:526px;margin-top:14px;border:1px solid rgba(232,220,200,.18);overflow:hidden">
+            <image-slot id="H-03" shape="rect" fit="cover" placeholder="H-03 · hjørnet · 3:4" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
+            <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(7,7,7,.6) 0%,rgba(7,7,7,.15) 40%,rgba(7,7,7,.94) 100%)"></div>
+            <div style="position:absolute;left:22px;right:22px;bottom:22px;pointer-events:none">
+              <div style="height:3px;background:#C8FF3D;margin-bottom:14px"></div>
+              <div style="font:400 54px/.84 'Anton',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#E8DCC8">Dato</div>
+              <div style="margin-top:12px;font:400 12px/1.4 'Instrument Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#E8DCC8">Navne</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Kort — artist og periode</div>
+          <div style="position:relative;width:100%;height:400px;margin-top:14px;border:1px solid rgba(232,220,200,.12)">
+            <image-slot id="S-08" shape="rect" fit="cover" placeholder="S-08 · stolen · 4:5" style="width:100%;height:100%"></image-slot>
+          </div>
+          <div style="margin-top:14px;font:400 30px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Navn</div>
+          <div style="margin-top:9px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">I huset til dato</div>
+          <div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(232,220,200,.12);font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#E8DCC8">BOOK TID →</div>
+        </div>
+
+        <div>
+          <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Hylde — editionen</div>
+          <div style="position:relative;width:100%;height:400px;margin-top:14px;border:1px solid rgba(232,220,200,.12)">
+            <image-slot id="P-04" shape="rect" fit="cover" placeholder="P-04 · vare · 4:5" style="width:100%;height:100%"></image-slot>
+          </div>
+          <div style="margin-top:14px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+            <div>
+              <div style="font:400 22px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Titel · vare</div>
+              <div style="margin-top:7px;font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.72">Artist · år</div>
+              <div style="margin-top:3px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Edition 50</div>
+            </div>
+            <div style="font:400 30px/1 'Anton',sans-serif;letter-spacing:.02em;color:#B91C1C;flex:none">349</div>
+          </div>
+        </div>
+
+        <div>
+          <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Skilt — prisen</div>
+          <div style="margin-top:14px;border:1px solid rgba(232,220,200,.14);padding:34px 30px">
+            <div style="font:400 22px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Sort hjort, ryg</div>
+            <div style="margin-top:7px;font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.72">Nizar Haddad · 2026</div>
+            <div style="margin-top:18px;display:flex;align-items:flex-end;gap:14px">
+              <span style="font:400 72px/.84 'Anton',sans-serif;letter-spacing:.01em;color:#B91C1C">4.800</span>
+              <span style="padding-bottom:10px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">kr.</span>
+            </div>
+            <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(232,220,200,.12);font:400 13px/1.5 'Instrument Sans',sans-serif;color:#8A8580">Ét tal. Ikke «fra», ikke i timen. Depositum 500 kr. fragår.</div>
+          </div>
+          <div style="margin-top:24px;border:1px solid rgba(232,220,200,.14);padding:26px 30px">
+            <div style="display:flex;align-items:center;gap:11px">
+              <span style="display:block;width:8px;height:8px;background:#B91C1C"></span>
+              <span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Live</span>
+            </div>
+            <div style="margin-top:14px;font:400 36px/.92 'Anton',sans-serif;letter-spacing:.02em;text-transform:uppercase;color:#E8DCC8">Åbent nu</div>
+          </div>
+        </div>
+
+        <div>
+          <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Dør — Blackbook</div>
+          <div style="margin-top:14px;border:1px solid rgba(232,220,200,.16);padding:30px">
+            <div style="display:flex;align-items:center;gap:11px">
+              <span style="display:block;width:8px;height:8px;background:#B91C1C"></span>
+              <span style="font:400 22px/1 'Anton',sans-serif;letter-spacing:.14em;color:#E8DCC8">BLACKBOOK</span>
+            </div>
+            <div style="margin-top:20px;display:flex;align-items:flex-end;gap:20px">
+              <div style="flex:1;padding-bottom:11px;border-bottom:1px solid rgba(232,220,200,.28);font:400 16px/1 'Instrument Sans',sans-serif;color:#8A8580">Telefonnummer</div>
+              <div style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#E8DCC8;flex:none">IND →</div>
+            </div>
+            <div style="margin-top:16px;font:400 13px/1.5 'Instrument Sans',sans-serif;color:#8A8580">Ét felt. Én linje. Ikke mere.</div>
+          </div>
+          <div style="margin-top:24px;border:1px solid rgba(232,220,200,.14);padding:26px 30px">
+            <div style="font:400 30px/.95 'Anton',sans-serif;letter-spacing:.02em;text-transform:uppercase;color:#8A8580">Ingen gæst<br>i stolen</div>
+            <div style="margin-top:14px;font:400 13px/1.5 'Instrument Sans',sans-serif;color:#8A8580">Tom-tilstand. Samme ramme, beton i stedet for hud.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= PLAKAT I TRE SNIT ================= -->
+    <div data-frame="P" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">P · Samme nat, tre snit — dør A3, feed 4:5, story 9:16</div>
+      <div style="width:1440px;box-sizing:border-box;background:#070707;border:1px solid rgba(232,220,200,.14);padding:56px;display:flex;gap:48px;align-items:flex-start">
+
+        <div>
+          <div style="position:relative;width:420px;height:594px;border:1px solid rgba(232,220,200,.18);overflow:hidden">
+            <image-slot id="H-04" shape="rect" fit="cover" placeholder="H-04 · hjørnet · 3:4" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
+            <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(7,7,7,.6) 0%,rgba(7,7,7,.16) 40%,rgba(7,7,7,.94) 100%)"></div>
+            <div style="position:absolute;left:28px;right:28px;top:26px;pointer-events:none;display:flex;justify-content:space-between">
+              <span style="font:400 16px/1 'Anton',sans-serif;letter-spacing:.2em;color:#E8DCC8">INK AND ART</span>
+              <span style="font:400 10px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#E8DCC8;opacity:.7">Nr. 07</span>
+            </div>
+            <div style="position:absolute;left:28px;right:28px;bottom:26px;pointer-events:none">
+              <div style="height:3px;background:#C8FF3D;margin-bottom:16px"></div>
+              <div style="font:400 72px/.82 'Anton',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#E8DCC8">Fredag<br>12 sept</div>
+              <div style="margin-top:16px;font:400 12px/1.5 'Instrument Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#E8DCC8">Kraftværk · Bjørk Nyholm · Sonja</div>
+              <div style="margin-top:8px;font:400 10px/1.4 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">22–04 · Larsbjørnsstræde 13 kld</div>
+            </div>
+          </div>
+          <div style="margin-top:12px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Døren · A3 · 1:1,41</div>
+        </div>
+
+        <div>
+          <div style="position:relative;width:420px;height:525px;border:1px solid rgba(232,220,200,.18);overflow:hidden">
+            <image-slot id="H-04b" shape="rect" fit="cover" placeholder="H-04 · beskæring 4:5" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
+            <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(7,7,7,.58) 0%,rgba(7,7,7,.16) 40%,rgba(7,7,7,.94) 100%)"></div>
+            <div style="position:absolute;left:26px;right:26px;top:24px;pointer-events:none">
+              <span style="font:400 15px/1 'Anton',sans-serif;letter-spacing:.2em;color:#E8DCC8">INK AND ART</span>
+            </div>
+            <div style="position:absolute;left:26px;right:26px;bottom:24px;pointer-events:none">
+              <div style="height:3px;background:#C8FF3D;margin-bottom:14px"></div>
+              <div style="font:400 64px/.84 'Anton',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#E8DCC8">Fredag<br>12 sept</div>
+              <div style="margin-top:14px;font:400 12px/1.5 'Instrument Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#E8DCC8">Kraftværk · Bjørk · Sonja</div>
+            </div>
+          </div>
+          <div style="margin-top:12px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Feed · 4:5</div>
+        </div>
+
+        <div>
+          <div style="position:relative;width:338px;height:600px;border:1px solid rgba(232,220,200,.18);overflow:hidden">
+            <image-slot id="H-04c" shape="rect" fit="cover" placeholder="H-04 · beskæring 9:16" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
+            <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(7,7,7,.55) 0%,rgba(7,7,7,.14) 36%,rgba(7,7,7,.95) 100%)"></div>
+            <div style="position:absolute;left:22px;right:22px;top:22px;pointer-events:none">
+              <span style="font:400 14px/1 'Anton',sans-serif;letter-spacing:.2em;color:#E8DCC8">INK AND ART</span>
+            </div>
+            <div style="position:absolute;left:22px;right:22px;bottom:64px;pointer-events:none">
+              <div style="height:3px;background:#C8FF3D;margin-bottom:14px"></div>
+              <div style="font:400 56px/.84 'Anton',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#E8DCC8">Fredag<br>12 sept</div>
+              <div style="margin-top:14px;font:400 11px/1.5 'Instrument Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#E8DCC8">Kraftværk · Bjørk · Sonja</div>
+              <div style="margin-top:8px;font:400 10px/1.4 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">22–04 · nr. 13 kld</div>
+            </div>
+          </div>
+          <div style="margin-top:12px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Story · 9:16</div>
+        </div>
+
+        <div style="flex:1;padding-top:8px">
+          <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Sådan sættes den op fra en telefon</div>
+          <div style="margin-top:18px;display:flex;flex-direction:column">
+            <div style="padding:14px 0;border-bottom:1px solid rgba(232,220,200,.1);font:400 15px/1.5 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.8">1 · Foto fra hjørnet ind</div>
+            <div style="padding:14px 0;border-bottom:1px solid rgba(232,220,200,.1);font:400 15px/1.5 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.8">2 · Dato skrives</div>
+            <div style="padding:14px 0;border-bottom:1px solid rgba(232,220,200,.1);font:400 15px/1.5 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.8">3 · Navne skrives</div>
+            <div style="padding:14px 0;border-bottom:1px solid rgba(232,220,200,.1);font:400 15px/1.5 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.8">4 · Nummer tælles op</div>
+          </div>
+          <div style="margin-top:22px;font:400 14px/1.6 'Instrument Sans',sans-serif;color:#8A8580;text-wrap:pretty">Fire felter, tre snit, ingen designer. Type, strobe-streg og placering er låst i skabelonen.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= GAVEKORT ================= -->
+    <div data-frame="GK" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">GK · Gavekortet — fysisk kort 85×54 mm og digital tvilling</div>
+      <div style="width:1440px;box-sizing:border-box;background:#070707;border:1px solid rgba(232,220,200,.14);padding:56px;display:flex;gap:56px;align-items:flex-start">
+
+        <div>
+          <div style="width:425px;height:270px;border:1px solid rgba(232,220,200,.2);padding:28px;display:flex;flex-direction:column;justify-content:space-between">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between">
+              <span style="font:400 18px/1 'Anton',sans-serif;letter-spacing:.2em;color:#E8DCC8">INK AND ART</span>
+              <span style="font:400 10px/1.4 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580;text-align:right">Larsbjørnsstræde 13<br>kld · 1454 Kbh K</span>
+            </div>
+            <div>
+              <div style="font:400 60px/.84 'Anton',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#E8DCC8">Gavekort</div>
+              <div style="margin-top:14px;display:flex;align-items:flex-end;justify-content:space-between">
+                <span style="font:400 34px/1 'Anton',sans-serif;letter-spacing:.02em;color:#B91C1C">1.000</span>
+                <span style="font:400 10px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Nr. 0042 · gyldigt 3 år</span>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:12px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Forside · 85×54 mm, tryk på nat</div>
+
+          <div style="margin-top:32px;width:425px;height:270px;border:1px solid rgba(232,220,200,.12);padding:28px;display:flex;flex-direction:column;justify-content:space-between">
+            <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Bagside</div>
+            <div>
+              <div style="font:400 15px/1.6 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.8;max-width:320px">Indløses på nr. 13 eller i shoppen. Kan bruges på tid, print og merch. Ikke på depositum.</div>
+              <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(232,220,200,.12);display:flex;align-items:center;justify-content:space-between">
+                <span style="font:400 13px/1 'Instrument Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#8A8580">inkandart.dk</span>
+                <span style="font:400 13px/1 'Instrument Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#8A8580">Kode: IA-0042-XK</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="width:400px">
+          <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Digital tvilling · hylden</div>
+          <div style="margin-top:14px;width:400px;height:500px;border:1px solid rgba(232,220,200,.12);background:#070707;display:flex;align-items:center;justify-content:center;padding:32px">
+            <div style="width:100%;border:1px solid rgba(232,220,200,.24);padding:22px;display:flex;flex-direction:column;gap:36px">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between">
+                <span style="font:400 14px/1 'Anton',sans-serif;letter-spacing:.2em;color:#E8DCC8">INK AND ART</span>
+                <span style="font:400 9px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Nr. 0042</span>
+              </div>
+              <div>
+                <div style="font:400 40px/.86 'Anton',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#E8DCC8">Gavekort</div>
+                <div style="margin-top:12px;font:400 24px/1 'Anton',sans-serif;letter-spacing:.02em;color:#B91C1C">1.000</div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:14px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px">
+            <div>
+              <div style="font:400 22px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Gavekort</div>
+              <div style="margin-top:7px;font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.72">Ink and Art · 2026</div>
+              <div style="margin-top:3px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Sendes på mail eller hentes i huset</div>
+            </div>
+            <div style="font:400 30px/1 'Anton',sans-serif;letter-spacing:.02em;color:#B91C1C;flex:none">1.000</div>
+          </div>
+        </div>
+
+        <div style="flex:1;padding-top:26px">
+          <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Samme grammatik</div>
+          <div style="margin-top:18px;font:400 16px/1.65 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.78;text-wrap:pretty">Kortet er en Plade uden foto: ramme, hud-type, pris i blod, nummer i beton. Den digitale tvilling er samme kort sat ind i Hylden — så gavekortet ikke ser ud som en Shopify-standardvare.</div>
+          <div style="margin-top:26px;padding-top:20px;border-top:1px solid rgba(232,220,200,.12);font:400 14px/1.6 'Instrument Sans',sans-serif;color:#8A8580">Beløb kan sættes til 500 · 1.000 · 2.000 · frit. Kun tallet skifter.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= TYPEPRØVE ================= -->
+    <div data-frame="T" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">T · Typeprøve — to stemmer på rigtig tekst</div>
+      <div style="width:1440px;box-sizing:border-box;background:#070707;border:1px solid rgba(232,220,200,.14);padding:56px;display:grid;grid-template-columns:1fr 1fr;gap:64px">
+
+        <div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid rgba(232,220,200,.14)">
+            <span style="font:400 26px/1 'Anton',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#E8DCC8">Poster</span>
+            <span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Anton · caps · plakat, rum, pris</span>
+          </div>
+          <div style="margin-top:30px;font:400 92px/.84 'Anton',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#E8DCC8">Natten</div>
+          <div style="margin-top:26px;font:400 56px/.9 'Anton',sans-serif;letter-spacing:.02em;text-transform:uppercase;color:#E8DCC8">Fredag 12 sept</div>
+          <div style="margin-top:26px;font:400 34px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Sort hjort</div>
+          <div style="margin-top:26px;display:flex;align-items:flex-end;gap:16px">
+            <span style="font:400 56px/.86 'Anton',sans-serif;letter-spacing:.01em;color:#B91C1C">599</span>
+            <span style="padding-bottom:8px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Pris altid i blod, altid stort</span>
+          </div>
+          <div style="margin-top:30px;padding-top:20px;border-top:1px solid rgba(232,220,200,.12);font:400 15px/1 'Anton',sans-serif;letter-spacing:.12em;color:#E8DCC8">NAV · 15/.12EM · BOOK TID →</div>
+          <div style="margin-top:24px;font:400 14px/1.6 'Instrument Sans',sans-serif;color:#8A8580;text-wrap:pretty">Poster går aldrig under 15 px og aldrig ind i brødtekst. Fallback er Anton; Druk eller Tungsten kan skiftes ind uden at layoutet flytter sig, hvis licensen købes.</div>
+        </div>
+
+        <div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid rgba(232,220,200,.14)">
+            <span style="font:400 26px/1 'Anton',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#E8DCC8">Chair</span>
+            <span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Instrument Sans · wall-label, brød</span>
+          </div>
+          <div style="margin-top:30px;font:400 21px/1.6 'Instrument Sans',sans-serif;color:#E8DCC8;max-width:520px;text-wrap:pretty">Ned ad trappen, til venstre. Ring på hvis døren er lukket — vi er dernede.</div>
+          <div style="margin-top:26px;font:400 17px/1.65 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.8;max-width:520px;text-wrap:pretty">Motivet er tatoveret i huset og ligger i værkarkivet som «Sort hjort, Nizar Haddad, 2026». Trykket er editionen af det værk — samme label på væggen og på varen. Aldrig samme motiv to gange.</div>
+          <div style="margin-top:26px;font:400 16px/1.6 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.74;max-width:520px">Minimum for brødtekst: 16 px. Aldrig caps i brød.</div>
+          <div style="margin-top:26px;font:400 14px/1.5 'Instrument Sans',sans-serif;color:#8A8580;max-width:520px">Small print og tid står i beton — aldrig i hud, aldrig i blod.</div>
+          <div style="margin-top:26px;font:400 11px/1.5 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Label · 11/.18em · i huset til 14/9 · edition 50 · arkiv 0114</div>
+          <div style="margin-top:34px;padding-top:20px;border-top:1px solid rgba(232,220,200,.12);display:flex;gap:16px">
+            <div style="flex:1;padding:16px;border:1px solid rgba(232,220,200,.12)"><span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Hud</span><div style="margin-top:10px;height:36px;background:#E8DCC8"></div></div>
+            <div style="flex:1;padding:16px;border:1px solid rgba(232,220,200,.12)"><span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Blod</span><div style="margin-top:10px;height:36px;background:#B91C1C"></div></div>
+            <div style="flex:1;padding:16px;border:1px solid rgba(232,220,200,.12)"><span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Strobe</span><div style="margin-top:10px;height:36px;background:#C8FF3D"></div></div>
+            <div style="flex:1;padding:16px;border:1px solid rgba(232,220,200,.12)"><span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Beton</span><div style="margin-top:10px;height:36px;background:#8A8580"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= ANTI-ARK ================= -->
+    <div data-frame="A" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">A · Anti-ark — fire ting vi ikke er</div>
+      <div style="width:1440px;box-sizing:border-box;background:#070707;border:1px solid rgba(232,220,200,.14);padding:56px;display:grid;grid-template-columns:repeat(4,1fr);gap:32px">
+
+        <div>
+          <div style="position:relative;width:100%;box-sizing:border-box;height:240px;border:1px solid rgba(232,220,200,.12);background:#fbfbf9;padding:16px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+              <span style="font:700 13px/1.2 'Instrument Sans',sans-serif;color:#1a1a1a">TATTOO DANMARK</span>
+              <span style="font:400 8px/1.2 'Instrument Sans',sans-serif;letter-spacing:.06em;color:#8b8b8b">STILARTER · ARTISTER · PRISER · TILBUD</span>
+            </div>
+            <div style="display:flex;gap:10px">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px"><span style="display:block;width:42px;height:42px;border-radius:50%;background:#dedbd6"></span><span style="height:5px;width:70%;background:#e4e2de"></span><span style="height:5px;width:45%;background:#eceae6"></span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px"><span style="display:block;width:42px;height:42px;border-radius:50%;background:#dedbd6"></span><span style="height:5px;width:70%;background:#e4e2de"></span><span style="height:5px;width:45%;background:#eceae6"></span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px"><span style="display:block;width:42px;height:42px;border-radius:50%;background:#dedbd6"></span><span style="height:5px;width:70%;background:#e4e2de"></span><span style="height:5px;width:45%;background:#eceae6"></span></div>
+            </div>
+            <div>
+              <div style="font:400 9px/1.4 'Instrument Sans',sans-serif;color:#6f6f6f">Danmarks bedste artister · bare rolig, vi er en familie</div>
+              <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
+                <span style="font:700 15px/1 'Instrument Sans',sans-serif;color:#1a1a1a">FRA 2.500 KR.</span>
+                <span style="flex:1;height:32px;border-radius:16px;background:linear-gradient(90deg,#7b5cff,#00c2ff);display:flex;align-items:center;justify-content:center;font:600 11px/1 'Instrument Sans',sans-serif;color:#fff">BOOK NU</span>
+              </div>
+            </div>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center"><span style="font:400 150px/1 'Anton',sans-serif;color:#B91C1C;opacity:.9">×</span></div>
+          </div>
+          <div style="margin-top:14px;font:400 20px/1 'Anton',sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#E8DCC8">Kæden</div>
+          <div style="margin-top:8px;font:400 14px/1.5 'Instrument Sans',sans-serif;color:#8A8580">Generisk udført perfekt. Headshots uden sted, alle stilarter til alle, fra-priser, tryghedscopy. Nul billeder af rummet — derfor kunne det ligge i enhver by i Europa.</div>
+        </div>
+
+        <div>
+          <div style="position:relative;width:100%;height:240px;border:1px solid rgba(232,220,200,.12);background:#0b0b0b;overflow:hidden;display:flex;align-items:center;justify-content:center">
+            <div style="display:flex;flex-wrap:wrap;gap:6px;width:200px;transform:rotate(-8deg)">
+              <div style="width:64px;height:48px;background:#3a3a3a"></div>
+              <div style="width:80px;height:64px;background:#514a3f"></div>
+              <div style="width:52px;height:74px;background:#2f2f2f"></div>
+              <div style="width:92px;height:40px;background:#6b5a3e"></div>
+              <div style="width:44px;height:52px;background:#464646"></div>
+              <div style="width:74px;height:58px;background:#3c3730"></div>
+            </div>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center"><span style="font:400 150px/1 'Anton',sans-serif;color:#B91C1C;opacity:.9">×</span></div>
+          </div>
+          <div style="margin-top:14px;font:400 20px/1 'Anton',sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#E8DCC8">Emerge-collage</div>
+          <div style="margin-top:8px;font:400 14px/1.5 'Instrument Sans',sans-serif;color:#8A8580">Revet papir, lag på lag, guld. Kræver en designer hver uge. Værket forsvinder i pynten.</div>
+        </div>
+
+        <div>
+          <div style="position:relative;width:100%;height:240px;border:1px solid rgba(232,220,200,.12);background:#000;overflow:hidden;display:flex;align-items:center;justify-content:center">
+            <div style="text-align:center">
+              <div style="font:400 46px/.9 'Anton',sans-serif;letter-spacing:.3em;color:#fff">TRESOR</div>
+              <div style="margin-top:12px;font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.4em;text-transform:uppercase;color:#666">Berlin · beton · bunker</div>
+            </div>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center"><span style="font:400 150px/1 'Anton',sans-serif;color:#B91C1C;opacity:.9">×</span></div>
+          </div>
+          <div style="margin-top:14px;font:400 20px/1 'Anton',sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#E8DCC8">Berlin-cosplay</div>
+          <div style="margin-top:8px;font:400 14px/1.5 'Instrument Sans',sans-serif;color:#8A8580">Vi låner plakat-grammatikken. Ikke ruinen, ikke myten, ikke byen.</div>
+        </div>
+
+        <div>
+          <div style="position:relative;width:100%;height:240px;border:1px solid rgba(232,220,200,.12);background:radial-gradient(circle at 30% 30%,#2b2350,#0a0a14);overflow:hidden;display:flex;align-items:center;justify-content:center">
+            <div style="width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#b39bff,#4a2fd6 60%,#160f3a)"></div>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center"><span style="font:400 150px/1 'Anton',sans-serif;color:#B91C1C;opacity:.9">×</span></div>
+          </div>
+          <div style="margin-top:14px;font:400 20px/1 'Anton',sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#E8DCC8">AI-snask</div>
+          <div style="margin-top:8px;font:400 14px/1.5 'Instrument Sans',sans-serif;color:#8A8580">Lilla gradient, 3D-kugle, glød. Ingen hud, intet sted, ingen der har lavet noget.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= SHOOT-LISTE ================= -->
+    <div data-frame="F" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">F · Shoot-liste — hvad Sonja skyder, og hvor det lander</div>
+      <div style="width:1440px;box-sizing:border-box;background:#070707;border:1px solid rgba(232,220,200,.14);padding:56px;display:grid;grid-template-columns:repeat(2,1fr);gap:56px">
+
+        <div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;padding-bottom:14px;border-bottom:1px solid rgba(232,220,200,.14)">
+            <span style="font:400 30px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Værk · 12</span>
+            <span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">4:5 · rent lys · stål og handske</span>
+          </div>
+          <div style="margin-top:8px">
+            <div style="display:flex;justify-content:space-between;gap:20px;padding:11px 0;border-bottom:1px solid rgba(232,220,200,.08);font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.8"><span>V-01 · værket i dag</span><span style="color:#8A8580">S1, M3, S7</span></div>
+            <div style="display:flex;justify-content:space-between;gap:20px;padding:11px 0;border-bottom:1px solid rgba(232,220,200,.08);font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.8"><span>V-02 – V-07 · plade-væggen</span><span style="color:#8A8580">S3</span></div>
+            <div style="display:flex;justify-content:space-between;gap:20px;padding:11px 0;border-bottom:1px solid rgba(232,220,200,.08);font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.8"><span>V-08 · komponentark</span><span style="color:#8A8580">K</span></div>
+            <div style="display:flex;justify-content:space-between;gap:20px;padding:11px 0;border-bottom:1px solid rgba(232,220,200,.08);font:400 14px/1.4 'Instrument Sans',sans-serif;color:#8A8580"><span>V-09 – V-12 · reserve til væggen</span><span>—</span></div>
+          </div>
+
+          <div style="margin-top:44px;display:flex;align-items:baseline;justify-content:space-between;padding-bottom:14px;border-bottom:1px solid rgba(232,220,200,.14)">
+            <span style="font:400 30px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Stolen · 8</span>
+            <span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">4:5 · Nizar · klinisk skarpt</span>
+          </div>
+          <div style="margin-top:8px">
+            <div style="display:flex;justify-content:space-between;gap:20px;padding:11px 0;border-bottom:1px solid rgba(232,220,200,.08);font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.8"><span>S-01 – S-03 · portræt, lille snit</span><span style="color:#8A8580">S1</span></div>
+            <div style="display:flex;justify-content:space-between;gap:20px;padding:11px 0;border-bottom:1px solid rgba(232,220,200,.08);font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.8"><span>S-04 – S-06 · kort, fuldt snit</span><span style="color:#8A8580">S2</span></div>
+            <div style="display:flex;justify-content:space-between;gap:20px;padding:11px 0;border-bottom:1px solid rgba(232,220,200,.08);font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.8"><span>S-07 · booking, lille</span><span style="color:#8A8580">S8</span></div>
+            <div style="display:flex;justify-content:space-between;gap:20px;padding:11px 0;border-bottom:1px solid rgba(232,220,200,.08);font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.8"><span>S-08 · komponentark</span><span style="color:#8A8580">K</span></div>
+          </div>
+        </div>
+
+        <div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;padding-bottom:14px;border-bottom:1px solid rgba(232,220,200,.14)">
+            <span style="font:400 30px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Gade · 10</span>
+            <span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Dansk lys · fortov, kælder, skilt</span>
+          </div>
+          <div style="margin-top:8px">
+            <div style="display:flex;justify-content:space-between;gap:20px;padding:11px 0;border-bottom:1px solid rgba(232,220,200,.08);font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.8"><span>G-01 · facade nr. 13, 4:5</span><span style="color:#8A8580">S6</span></div>
+            <div style="display:flex;justify-content:space-between;gap:20px;padding:11px 0;border-bottom:1px solid rgba(232,220,200,.08);font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.8"><span>G-02 – G-04 · trappe, skilt, nat, 8:5</span><span style="color:#8A8580">S6</span></div>
+            <div style="display:flex;justify-content:space-between;gap:20px;padding:11px 0;border-bottom:1px solid rgba(232,220,200,.08);font:400 14px/1.4 'Instrument Sans',sans-serif;color:#8A8580"><span>G-05 – G-10 · reserve til Gaden</span><span>—</span></div>
+          </div>
+
+          <div style="margin-top:44px;display:flex;align-items:baseline;justify-content:space-between;padding-bottom:14px;border-bottom:1px solid rgba(232,220,200,.14)">
+            <span style="font:400 30px/1 'Anton',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#E8DCC8">Hjørne · 4</span>
+            <span style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A8580">Samme hjørne, samme kamera, hver uge</span>
+          </div>
+          <div style="margin-top:8px">
+            <div style="display:flex;justify-content:space-between;gap:20px;padding:11px 0;border-bottom:1px solid rgba(232,220,200,.08);font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.8"><span>H-01 · plakat 3:4</span><span style="color:#8A8580">S4</span></div>
+            <div style="display:flex;justify-content:space-between;gap:20px;padding:11px 0;border-bottom:1px solid rgba(232,220,200,.08);font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.8"><span>H-02 · mobil 9:16</span><span style="color:#8A8580">M1</span></div>
+            <div style="display:flex;justify-content:space-between;gap:20px;padding:11px 0;border-bottom:1px solid rgba(232,220,200,.08);font:400 14px/1.4 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.8"><span>H-03 – H-04 · komponentark, tre snit</span><span style="color:#8A8580">K, P</span></div>
+          </div>
+
+          <div style="margin-top:44px;border:1px solid #B91C1C;padding:24px">
+            <div style="font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8A8580">Mangler i shoot-listen</div>
+            <div style="margin-top:14px;font:400 15px/1.6 'Instrument Sans',sans-serif;color:#E8DCC8;opacity:.82;text-wrap:pretty">Fire produktfotos (P-01 – P-04): print, hoodie, t-shirt, detalje af tryk. Hylden kan ikke bygges uden dem, og Printful-mockups holder ikke i det her rum.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;natIAften&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Tom-tilstande&quot;},&quot;hyldeFyldt&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Tom-tilstande&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const nat = this.props.natIAften ?? true;
+    const hylde = this.props.hyldeFyldt ?? true;
+    return {
+      natIAften: nat,
+      ingenNat: !nat,
+      hyldeFyldt: hylde,
+      hyldeTom: !hylde
+    };
+  }
+}
+</script>
+</body>
+</html>
