@@ -7,8 +7,11 @@
 | Depositum-beløb | Nizar (· Ø) | Afventer |
 | Konsekvens-linje ved ubetalt depositum | Steven | Afventer |
 | Gavekort: gyldighed · brug på depositum ja/nej · beløbstrin | Steven | Afventer (design foreslår 500/1.000/2.000/frit) |
-| Artisternes navnetræk og håndværkslinjer | Personerne selv | Afventer — **fornavne indtil da** |
-| Emmas håndværk (piercing med/uden) | Emma | Afventer |
+| Artisternes navnetræk | Leveret 28/8 | **Nizar Saad** (ejer, tatovør) · **Emma Winding** (tatovør) · **Sonja Rebner** (store manager + SoMe) · **Simone Chimera** (CEO, event manager) |
+| Håndværkslinjer pr. artist (én linje hver) | Personerne selv | Afventer — teksterne i mockuppen er stadig forslag |
+| Gæsteartist — navn og periode | Nizar | Afventer — vises som «Gæst · navn følger» |
+| DJ-navne til nat-plakaten | Sonja · Simone | Afventer — vises som «Gæste-DJ» |
+| ~~Emmas håndværk~~ | Afklaret 28/8 | Crew-arket: **Tattovør** — piercing fjernet fra hendes kort |
 | Priser på værker og varer | **Nizar — altid** | Løbende |
 | Blackbook-løftet (varsel til listen) | Steven | Foreslået 24–48 t |
 | Blackbook-lagring (teknisk indstilling) | Grok indstiller · Haruki godkender | M1 |
