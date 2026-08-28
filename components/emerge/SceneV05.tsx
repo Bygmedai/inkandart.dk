@@ -426,6 +426,7 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
     <span style={{display:'flex',gap:'18px'}}>
       <a href={L("/blackbook")} style={{color:'rgba(232,224,213,.62)',borderBottom:'1px solid rgba(201,162,39,.35)'}}>Blackbook</a>
       <a href="https://www.instagram.com/ink.and.art.cph/" style={{color:'rgba(232,224,213,.62)',borderBottom:'1px solid rgba(232,224,213,.2)'}}>@ink.and.art.cph</a>
+      <span style={{color:'rgba(232,224,213,.38)'}}>{lang === "en" ? "Built by" : "Bygget af"} <a href="https://bygmedai.dk" rel="noopener" style={{color:'rgba(232,224,213,.38)',borderBottom:'1px solid rgba(232,224,213,.2)'}}>BygMedAI</a></span>
     </span>
   </footer>
 </section>    </div>
