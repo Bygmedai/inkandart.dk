@@ -269,23 +269,14 @@ html:has([data-house="rummet"]) .grain {
 .rum-segl--above { margin: 8px 0 16px; }
 .rum-segl--beside { margin: 8px 0 16px; }
 .rum-segl--masthead { margin: 8px 0 16px; }
+.rum-huset__maerke {
+  margin: 0 0 28px;
+}
+.rum-huset__maerke .rum-segl {
+  filter: drop-shadow(0 8px 18px rgba(7, 7, 7, 0.55));
+}
+
 @media (min-width: 1100px) {
-  .rum-huset__plade .rum-segl--above,
-  .rum-huset__plade .rum-segl--masthead {
-    position: absolute;
-    top: 28px;
-    left: var(--gutter);
-    z-index: 3;
-    margin: 0;
-    filter: drop-shadow(0 8px 18px rgba(7, 7, 7, 0.55));
-  }
-  .rum-huset__plade .rum-segl--beside {
-    position: absolute;
-    top: 28px;
-    left: var(--gutter);
-    z-index: 3;
-    margin: 0;
-  }
   .rum-huset__kicker {
     position: absolute;
     top: 28px;

@@ -34,7 +34,6 @@ export default function HusetPage() {
     <RummetShell door={false}>
       <main id="main" className="rum-huset">
         <section id="work" className="rum-huset__plade">
-          <Segl size={220} placement="above" />
           <p className="rum-label rum-huset__kicker">Nylavet</p>
           {featured ? (
             <Plade vaerk={featured} artist={featuredArtist} />
@@ -46,6 +45,9 @@ export default function HusetPage() {
         </section>
 
         <section className="rum-huset__side">
+          <div className="rum-huset__maerke">
+            <Segl size={220} placement="beside" />
+          </div>
           <p className="rum-label" id="artists">
             I stolen
           </p>

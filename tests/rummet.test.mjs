@@ -139,6 +139,7 @@ test("Rummet-nav bærer seglet som hjem-anker", () => {
   const nav = read("components/rummet/Nav.tsx");
   const css = read("components/rummet/rummet.css");
   assert.match(nav, /logo-segl\.svg/);
+  assert.match(nav, /pathname !== "\/"/);
   assert.match(nav, /className="rum-nav__mark"/);
   assert.match(nav, /href="\/"/);
   assert.match(nav, /Ink & Art/);
@@ -365,6 +366,11 @@ test("M2R Huset: segl + kort, Natten/Gaden overlay, ingen frit", () => {
   const gave = read("components/rummet/GavekortKoeb.tsx");
   assert.match(huset, /from "@\/components\/rummet\/Segl"/);
   assert.match(huset, /<Segl /);
+  assert.match(huset, /rum-huset__maerke/);
+  const pladeBlok = huset.slice(huset.indexOf("rum-huset__plade"), huset.indexOf("rum-huset__side"));
+  assert.doesNotMatch(pladeBlok, /<Segl /);
+  const nav = read("components/rummet/Nav.tsx");
+  assert.match(nav, /pathname !== "\/"/);
   assert.match(huset, /rum-huset__chairs/);
   assert.match(huset, /className="rum-kort rum-chair"/);
   assert.match(natten, /rum-room__on/);

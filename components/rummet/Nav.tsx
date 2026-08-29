@@ -49,10 +49,12 @@ export function Nav() {
     <>
       <header className="rum-nav">
         <Link href="/" className="rum-nav__mark">
-          <span className="rum-nav__segl" aria-hidden="true">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brand/logo-segl.svg" alt="" width={376} height={376} />
-          </span>
+          {pathname !== "/" ? (
+            <span className="rum-nav__segl" aria-hidden="true">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/brand/logo-segl.svg" alt="" width={376} height={376} />
+            </span>
+          ) : null}
           Ink & Art
         </Link>
         <nav className="rum-nav__rooms" aria-label="Rum">
