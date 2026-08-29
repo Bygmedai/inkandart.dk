@@ -73,6 +73,7 @@ html:has([data-house="rummet"]) .grain {
   font-size: 16px;
   line-height: 1.5;
   text-transform: none;
+  max-width: 46ch;
 }
 
 /* ── Nav ── */
@@ -107,8 +108,8 @@ html:has([data-house="rummet"]) .grain {
   gap: 10px;
 }
 .rum-nav__segl {
-  width: 28px;
-  height: 28px;
+  width: 44px;
+  height: 44px;
   flex: none;
   display: block;
 }
@@ -118,7 +119,7 @@ html:has([data-house="rummet"]) .grain {
   display: block;
 }
 @media (min-width: 900px) {
-  .rum-nav__mark { font-size: 21px; }
+  .rum-nav__mark { font-size: 26px; }
 }
 
 .rum-nav__rooms {
@@ -225,19 +226,89 @@ html:has([data-house="rummet"]) .grain {
 }
 @media (min-width: 1100px) {
   .rum-huset {
-    grid-template-columns: minmax(280px, 560px) 1fr;
-    gap: 72px;
-    padding-top: 36px;
-    padding-bottom: 68px;
+    grid-template-columns: minmax(280px, 46vw) 1fr;
+    gap: 40px 48px;
+    padding: 0 var(--gutter) 68px 0;
     align-items: start;
   }
 }
 
-.rum-huset__plade { min-width: 0; }
+.rum-huset__plade { min-width: 0; position: relative; }
 .rum-huset__side {
   display: flex;
   flex-direction: column;
   min-width: 0;
+}
+@media (min-width: 1100px) {
+  .rum-huset__side { padding-top: 28px; }
+}
+
+.rum-huset__chairs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px 16px;
+  margin-top: 12px;
+}
+.rum-huset__chairs .rum-kort__foto,
+.rum-huset__chairs .rum-chair__foto {
+  min-width: 220px;
+}
+
+/* M2 masthead segl — graphic, hud on nat, not a corner icon */
+.rum-segl {
+  display: block;
+  width: min(var(--rum-segl-size, 220px), 72vw);
+  line-height: 0;
+}
+.rum-segl img {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* SVG is white disc + red mark — reads on nat; no invert. */
+}
+.rum-segl--above { margin: 8px 0 16px; }
+.rum-segl--beside { margin: 8px 0 16px; }
+.rum-segl--masthead { margin: 8px 0 16px; }
+@media (min-width: 1100px) {
+  .rum-huset__plade .rum-segl--above,
+  .rum-huset__plade .rum-segl--masthead {
+    position: absolute;
+    top: 28px;
+    left: var(--gutter);
+    z-index: 3;
+    margin: 0;
+    filter: drop-shadow(0 8px 18px rgba(7, 7, 7, 0.55));
+  }
+  .rum-huset__plade .rum-segl--beside {
+    position: absolute;
+    top: 28px;
+    left: var(--gutter);
+    z-index: 3;
+    margin: 0;
+  }
+  .rum-huset__kicker {
+    position: absolute;
+    top: 28px;
+    right: 16px;
+    z-index: 3;
+    margin: 0;
+    color: var(--hud);
+  }
+  .rum-huset__plade .rum-plade__frame {
+    border: none;
+    max-height: none;
+    min-height: max(62svh, calc(100svh - 88px));
+    width: 100%;
+    aspect-ratio: auto;
+    background: var(--nat);
+  }
+  .rum-huset__plade .rum-plade__frame img {
+    min-height: max(62svh, calc(100svh - 88px));
+    object-fit: cover;
+  }
+  .rum-huset__plade .rum-plade figcaption {
+    padding: 16px var(--gutter) 0;
+  }
 }
 
 .rum-plade { margin: 0; }
@@ -285,25 +356,20 @@ html:has([data-house="rummet"]) .grain {
 }
 
 .rum-chair {
-  display: grid;
-  grid-template-columns: 72px 1fr;
-  gap: 16px;
-  padding: 16px 0;
-  border-bottom: 1px solid rgba(232, 220, 200, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  border-bottom: none;
   text-decoration: none;
   color: inherit;
   min-height: 44px;
-}
-@media (min-width: 900px) {
-  .rum-chair {
-    grid-template-columns: 104px 1fr;
-    gap: 22px;
-    padding: 22px 0;
-  }
+  min-width: 0;
 }
 .rum-chair__foto {
   position: relative;
   width: 100%;
+  min-width: 220px;
   aspect-ratio: 4 / 5;
   border: 1px solid var(--rum-line);
   overflow: hidden;
@@ -483,7 +549,12 @@ html:has([data-house="rummet"]) .grain {
 
 .rum-room {
   padding: 36px var(--gutter) 72px;
-  max-width: 1100px;
+  max-width: min(100%, 1680px);
+  width: 100%;
+  box-sizing: border-box;
+}
+.rum-room:has(.rum-room__slot) {
+  padding-top: 0;
 }
 .rum-room__title {
   margin: 12px 0 0;
@@ -491,16 +562,37 @@ html:has([data-house="rummet"]) .grain {
 }
 .rum-room__slot {
   position: relative;
-  margin-top: 28px;
-  border: 1px solid var(--rum-line);
-  max-width: 560px;
-  aspect-ratio: 4 / 5;
+  margin: 0 calc(var(--gutter) * -1);
+  min-height: 62svh;
   overflow: hidden;
 }
+.rum-room__slot .rum-demo { z-index: 4; }
 .rum-room__slot img {
   width: 100%;
   height: 100%;
+  min-height: 62svh;
   object-fit: cover;
+  display: block;
+}
+.rum-room__on {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 36px var(--gutter) 28px;
+  background: linear-gradient(
+    to top,
+    rgba(7, 7, 7, 0.88) 0%,
+    rgba(7, 7, 7, 0.28) 48%,
+    rgba(7, 7, 7, 0) 72%
+  );
+  pointer-events: none;
+}
+.rum-room__on .rum-room__title {
+  margin: 0;
+  color: var(--hud);
+  pointer-events: auto;
 }
 .rum-room__note {
   margin: 24px 0 0;
@@ -591,6 +683,11 @@ html:has([data-house="rummet"]) .grain {
     gap: 40px 48px;
   }
 }
+@media (min-width: 1200px) {
+  .rum-stolen__grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
 
 .rum-kort {
   display: flex;
@@ -630,7 +727,9 @@ html:has([data-house="rummet"]) .grain {
 
 .rum-maerket__hylden {
   margin-top: 36px;
-  max-width: 1100px;
+}
+.rum-maerket__hylden .rum-empty {
+  max-width: 46ch;
 }
 .rum-maerket__vaeg {
   margin-top: 48px;
@@ -688,17 +787,18 @@ html:has([data-house="rummet"]) .grain {
 .rum-vaeg {
   margin-top: 20px;
   display: grid;
-  gap: 36px;
+  gap: 24px 16px;
+  grid-template-columns: 1fr 1fr;
 }
 @media (min-width: 700px) {
   .rum-vaeg {
-    grid-template-columns: 1fr 1fr;
-    gap: 40px 32px;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px 24px;
   }
 }
-@media (min-width: 1100px) {
+@media (min-width: 1200px) {
   .rum-vaeg {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 }
 .rum-vaeg__item { min-width: 0; }

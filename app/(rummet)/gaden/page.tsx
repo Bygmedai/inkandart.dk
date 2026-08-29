@@ -11,13 +11,14 @@ export const metadata: Metadata = {
 export default function GadenPage() {
   return (
     <RummetShell>
-      <main id="main" className="rum-room">
-        <p className="rum-label">Rummet</p>
-        <h1 className="rum-room__title rum-poster">Gaden</h1>
+      <main id="main" className="rum-room rum-gaden">
         <div className="rum-room__slot">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/slots/G-01.jpg" alt="G-01, Larsbjørnsstræde 13" />
           <span className="rum-demo">DEMO G-01</span>
+          <div className="rum-room__on">
+            <h1 className="rum-room__title rum-poster">Gaden</h1>
+          </div>
         </div>
         <p className="rum-room__note rum-body-copy">
           Larsbjørnsstræde 13, 1454 København K.

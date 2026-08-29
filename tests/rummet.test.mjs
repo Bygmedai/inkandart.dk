@@ -141,10 +141,17 @@ test("Rummet-nav bærer seglet som hjem-anker", () => {
   assert.match(nav, /logo-segl\.svg/);
   assert.match(nav, /className="rum-nav__mark"/);
   assert.match(nav, /href="\/"/);
+  assert.match(nav, /Ink & Art/);
+  assert.doesNotMatch(nav, /Ink and Art/);
   const i = css.indexOf(".rum-nav__mark {");
   assert.notEqual(i, -1, "rum-nav__mark-reglen mangler");
   const krop = css.slice(i, css.indexOf("}", i));
   assert.match(krop, /min-height:\s*44px/);
+  const s = css.indexOf(".rum-nav__segl {");
+  assert.notEqual(s, -1, "rum-nav__segl-reglen mangler");
+  const segl = css.slice(s, css.indexOf("}", s));
+  assert.match(segl, /width:\s*44px/);
+  assert.match(segl, /height:\s*44px/);
 });
 
 test("Book.dk er et klædt hop, ikke et embed", () => {
@@ -250,7 +257,7 @@ test("M2 opfinder ikke walk-in 900, «fra»-priser eller dummy-navne", () => {
   assert.match(gave, /500/);
   assert.match(gave, /1000/);
   assert.match(gave, /2000/);
-  assert.match(gave, /frit/);
+  assert.doesNotMatch(gave, /frit/);
   assert.match(gave, /new Set\(\[500, 1000, 2000\]\)/);
   assert.doesNotMatch(gave, /1500|3000|4000/);
 });
@@ -299,4 +306,71 @@ test("M2 edition_ref er handle, ikke GID — dokumenteret", () => {
   assert.match(ind, /edition_ref = Shopify product handle/);
   assert.match(ind, /SHOPIFY_STOREFRONT_TOKEN/);
   assert.match(ind, /NEXT_PUBLIC_SHOPIFY_DOMAIN/);
+});
+
+test("M2R navn-familie: kort / langt / legal", () => {
+  const nav = read("components/rummet/Nav.tsx");
+  const footer = read("components/rummet/Footer.tsx");
+  const segl = read("components/rummet/Segl.tsx");
+  const layout = read("app/layout.tsx");
+  assert.match(nav, /Ink & Art/);
+  assert.doesNotMatch(nav, /Ink and Art/);
+  assert.match(footer, /Ink and Art Cph ApS/);
+  assert.doesNotMatch(footer, /Ink and Art Cph ·/);
+  assert.match(segl, /alt="Ink & Art Copenhagen"/);
+  assert.match(segl, /size = 220/);
+  assert.match(segl, /placement/);
+  const og = layout.slice(layout.indexOf("openGraph"), layout.indexOf("viewport"));
+  assert.match(og, /Ink & Art Copenhagen/);
+});
+
+test("M2R globals void matcher nat", () => {
+  const g = read("app/globals.css");
+  const i = g.indexOf(":root {");
+  const krop = g.slice(i, g.indexOf("}", i));
+  assert.match(krop, /--void:\s*#070707/);
+  assert.doesNotMatch(krop, /--void:\s*#0a0a0a/);
+});
+
+test("M2R rum-flader: 1680, ingen 560 på slot, væg 4, stolen 3", () => {
+  const css = read("components/rummet/rummet.css");
+  const i = css.indexOf(".rum-room {");
+  assert.notEqual(i, -1, ".rum-room mangler");
+  const room = css.slice(i, css.indexOf("}", i));
+  assert.match(room, /max-width:\s*min\(100%,\s*1680px\)/);
+  assert.doesNotMatch(room, /1100px/);
+
+  const s = css.indexOf(".rum-room__slot {");
+  assert.notEqual(s, -1, ".rum-room__slot mangler");
+  const slot = css.slice(s, css.indexOf("}", s));
+  assert.doesNotMatch(slot, /560px/);
+  assert.match(slot, /min-height:\s*62svh/);
+
+  const plade = css.indexOf(".rum-produkt__plade {");
+  const pladek = css.slice(plade, css.indexOf("}", plade));
+  assert.match(pladek, /max-width:\s*560px/);
+
+  assert.match(css, /@media \(min-width: 1200px\) \{\s*\.rum-vaeg \{[^}]*grid-template-columns:\s*1fr 1fr 1fr 1fr/s);
+  assert.match(css, /@media \(min-width: 1200px\) \{\s*\.rum-stolen__grid \{[^}]*grid-template-columns:\s*1fr 1fr 1fr/s);
+
+  const hy = css.indexOf(".rum-maerket__hylden {");
+  const hyk = css.slice(hy, css.indexOf("}", hy));
+  assert.doesNotMatch(hyk, /1100px/);
+});
+
+test("M2R Huset: segl + kort, Natten/Gaden overlay, ingen frit", () => {
+  const huset = read("app/(rummet)/page.tsx");
+  const natten = read("app/(rummet)/natten/page.tsx");
+  const gaden = read("app/(rummet)/gaden/page.tsx");
+  const gave = read("components/rummet/GavekortKoeb.tsx");
+  assert.match(huset, /from "@\/components\/rummet\/Segl"/);
+  assert.match(huset, /<Segl /);
+  assert.match(huset, /rum-huset__chairs/);
+  assert.match(huset, /className="rum-kort rum-chair"/);
+  assert.match(natten, /rum-room__on/);
+  assert.match(natten, /Ingen nat i aften/);
+  assert.match(gaden, /rum-room__on/);
+  assert.match(gaden, /\[TAL BEKRÆFTES\]/);
+  assert.doesNotMatch(gave, /frit/);
+  assert.doesNotMatch(gave, /GIFT_CARD_PRODUCT_URL/);
 });

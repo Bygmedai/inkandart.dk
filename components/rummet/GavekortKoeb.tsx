@@ -1,11 +1,10 @@
 import {
   GIFT_CARDS,
-  GIFT_CARD_PRODUCT_URL,
   giftCartUrl,
   kr,
 } from "@/lib/commerce";
 
-/** Mærket U5 — only 500 / 1.000 / 2.000 from the live variants, plus frit. */
+/** Mærket U5 — only 500 / 1.000 / 2.000 from the live variants. */
 const SHOWN = new Set([500, 1000, 2000]);
 
 export function GavekortKoeb() {
@@ -24,15 +23,6 @@ export function GavekortKoeb() {
           </a>
         </li>
       ))}
-      <li>
-        <a
-          className="rum-book rum-gave__n"
-          href={GIFT_CARD_PRODUCT_URL}
-          rel="noopener noreferrer"
-        >
-          frit
-        </a>
-      </li>
     </ul>
   );
 }

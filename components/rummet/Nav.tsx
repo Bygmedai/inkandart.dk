@@ -53,7 +53,7 @@ export function Nav() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/brand/logo-segl.svg" alt="" width={376} height={376} />
           </span>
-          Ink and Art
+          Ink & Art
         </Link>
         <nav className="rum-nav__rooms" aria-label="Rum">
           {ROOMS.map((r) => (

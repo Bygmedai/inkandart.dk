@@ -4,6 +4,7 @@ import { RummetShell } from "@/components/rummet/Shell";
 import { Plade } from "@/components/rummet/Plade";
 import { Door } from "@/components/rummet/Door";
 import { BookDoor } from "@/components/rummet/BookDoor";
+import { Segl } from "@/components/rummet/Segl";
 import {
   loadHouse,
   artistById,
@@ -33,13 +34,12 @@ export default function HusetPage() {
     <RummetShell door={false}>
       <main id="main" className="rum-huset">
         <section id="work" className="rum-huset__plade">
-          <p className="rum-label">Nylavet</p>
+          <Segl size={220} placement="above" />
+          <p className="rum-label rum-huset__kicker">Nylavet</p>
           {featured ? (
-            <div style={{ marginTop: 16 }}>
-              <Plade vaerk={featured} artist={featuredArtist} />
-            </div>
+            <Plade vaerk={featured} artist={featuredArtist} />
           ) : (
-            <div className="rum-empty" style={{ marginTop: 16 }}>
+            <div className="rum-empty">
               <p className="rum-empty__title rum-poster">Ingen værk i dag</p>
             </div>
           )}
@@ -50,54 +50,56 @@ export default function HusetPage() {
             I stolen
           </p>
 
-          {chairs.map((a) => (
-            <article
-              key={a.id}
-              id={a.id === "nizar" ? "artist-nizar" : undefined}
-              className="rum-chair"
-            >
-              <div className="rum-chair__foto">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={a.foto} alt={a.fornavn} />
-                <span className="rum-demo">DEMO {slotId(a.foto)}</span>
-              </div>
-              <div>
-                <h2 className="rum-chair__navn rum-poster">{a.fornavn}</h2>
-                {a.haandvaerk ? <p className="rum-chair__craft">{a.haandvaerk}</p> : null}
-                <p className="rum-label rum-chair__meta">Fast</p>
-              </div>
-            </article>
-          ))}
+          <div className="rum-huset__chairs">
+            {chairs.map((a) => (
+              <article
+                key={a.id}
+                id={a.id === "nizar" ? "artist-nizar" : undefined}
+                className="rum-kort rum-chair"
+              >
+                <div className="rum-kort__foto">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={a.foto} alt={a.fornavn} />
+                  <span className="rum-demo">DEMO {slotId(a.foto)}</span>
+                </div>
+                <div className="rum-kort__body">
+                  <h2 className="rum-chair__navn rum-poster">{a.fornavn}</h2>
+                  {a.haandvaerk ? <p className="rum-chair__craft">{a.haandvaerk}</p> : null}
+                  <p className="rum-label rum-chair__meta">Fast</p>
+                </div>
+              </article>
+            ))}
 
-          {guest.kind === "empty" ? (
-            <div className="rum-empty" style={{ marginTop: 16 }}>
-              <p className="rum-empty__title rum-poster">Ingen gæst i stolen</p>
-            </div>
-          ) : (
-            <article className="rum-chair">
-              <div className="rum-chair__foto">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={guest.artist.foto}
-                  alt={guest.kind === "named" ? guest.artist.fornavn : "Gæst"}
-                />
-                <span className="rum-demo">DEMO {slotId(guest.artist.foto)}</span>
+            {guest.kind === "empty" ? (
+              <div className="rum-empty">
+                <p className="rum-empty__title rum-poster">Ingen gæst i stolen</p>
               </div>
-              <div>
-                <h2 className="rum-chair__navn rum-poster">
-                  {guest.kind === "named" ? guest.artist.fornavn : "Gæst · navn følger"}
-                </h2>
-                {guest.kind === "named" && guest.artist.haandvaerk ? (
-                  <p className="rum-chair__craft">{guest.artist.haandvaerk}</p>
-                ) : null}
-                <p className="rum-label rum-chair__meta">
-                  {guest.kind === "named" && guest.artist.periode_til
-                    ? `I huset til ${guest.artist.periode_til}`
-                    : "Gæst"}
-                </p>
-              </div>
-            </article>
-          )}
+            ) : (
+              <article className="rum-kort rum-chair">
+                <div className="rum-kort__foto">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={guest.artist.foto}
+                    alt={guest.kind === "named" ? guest.artist.fornavn : "Gæst"}
+                  />
+                  <span className="rum-demo">DEMO {slotId(guest.artist.foto)}</span>
+                </div>
+                <div className="rum-kort__body">
+                  <h2 className="rum-chair__navn rum-poster">
+                    {guest.kind === "named" ? guest.artist.fornavn : "Gæst · navn følger"}
+                  </h2>
+                  {guest.kind === "named" && guest.artist.haandvaerk ? (
+                    <p className="rum-chair__craft">{guest.artist.haandvaerk}</p>
+                  ) : null}
+                  <p className="rum-label rum-chair__meta">
+                    {guest.kind === "named" && guest.artist.periode_til
+                      ? `I huset til ${guest.artist.periode_til}`
+                      : "Gæst"}
+                  </p>
+                </div>
+              </article>
+            )}
+          </div>
 
           <p className="rum-fact">
             Walk-in når der er en fri stol — ellers book. Larsbjørnsstræde 13, kælderen.
