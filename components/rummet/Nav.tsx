@@ -45,10 +45,17 @@ function Blackbook({
 
 export function Nav() {
   const pathname = usePathname();
+  const onHuset = pathname === "/";
   return (
     <>
       <header className="rum-nav">
         <Link href="/" className="rum-nav__mark">
+          {onHuset ? null : (
+            <span className="rum-nav__segl" aria-hidden="true">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/brand/logo-segl.svg" alt="" width={44} height={44} />
+            </span>
+          )}
           Ink & Art
         </Link>
         <nav className="rum-nav__rooms" aria-label="Rum">

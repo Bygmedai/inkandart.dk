@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/booking" },
 };
 
+const BOOKING_BILLEDTEKST = "Studie, dagslys, stol.";
+
 export default function BookingPage() {
   return (
     <RummetShell tone="salg">
@@ -29,7 +31,8 @@ export default function BookingPage() {
         </div>
         <div className="rum-booking__plade">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/slots/H-01.jpg" alt="" />
+          <img src="/slots/H-01.jpg" alt={BOOKING_BILLEDTEKST} />
+          <p className="rum-billedtekst">{BOOKING_BILLEDTEKST}</p>
         </div>
       </main>
     </RummetShell>

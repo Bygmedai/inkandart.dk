@@ -14,6 +14,7 @@ export type Artist = {
   periode: "fast" | "gaest" | string;
   periode_til?: string;
   foto: string;
+  billedtekst: string;
   aktiv: boolean;
   stol: boolean;
 };
@@ -25,6 +26,7 @@ export type Vaerk = {
   aar: string;
   arkivnr: string;
   foto: string;
+  billedtekst: string;
   maa_vises: boolean;
   demo: boolean;
   i_dag: boolean;
@@ -37,12 +39,14 @@ export type Nat = {
   navne: string[];
   tidsrum: string;
   plakatfoto: string;
+  billedtekst: string;
   aktiv: boolean;
 };
 
 export type GadenInfo = {
   aabent: string;
   walk_in: string;
+  billedtekst: string;
 };
 
 export type House = {
@@ -88,6 +92,7 @@ function normalizeArtist(a: Artist): Artist {
     periode: str(a.periode) || "fast",
     periode_til: str(a.periode_til) || undefined,
     foto: str(a.foto),
+    billedtekst: str(a.billedtekst),
     aktiv: bool(a.aktiv),
     stol: bool(a.stol),
   };
@@ -101,6 +106,7 @@ function normalizeVaerk(v: Vaerk): Vaerk {
     aar: str(v.aar),
     arkivnr: str(v.arkivnr),
     foto: str(v.foto),
+    billedtekst: str(v.billedtekst),
     maa_vises: bool(v.maa_vises),
     demo: bool(v.demo),
     i_dag: bool(v.i_dag),
@@ -116,6 +122,7 @@ function normalizeNat(n: Nat): Nat {
     navne,
     tidsrum: str(n.tidsrum),
     plakatfoto: str(n.plakatfoto),
+    billedtekst: str(n.billedtekst),
     aktiv: bool(n.aktiv),
   };
 }
@@ -125,6 +132,7 @@ export function loadGaden(): GadenInfo {
   return {
     aabent: str(data.aabent),
     walk_in: str(data.walk_in),
+    billedtekst: str(data.billedtekst),
   };
 }
 
@@ -173,8 +181,9 @@ export function shelfEmpty(vaerker: Vaerk[]): boolean {
   return !vaerker.some((v) => v.maa_vises && v.edition_ref);
 }
 
-/** Alt/label for a plate. Untitled DEMO uses slot id — never a fake title. */
+/** Alt/label for a plate. Billedtekst first — never a fake title. */
 export function vaerkLabel(vaerk: Vaerk, artist?: Artist): string {
+  if (vaerk.billedtekst) return vaerk.billedtekst;
   const who = artist?.fornavn || vaerk.artist;
   const bits = [vaerk.titel || vaerk.id, who, vaerk.aar].filter(Boolean);
   return bits.join(", ");

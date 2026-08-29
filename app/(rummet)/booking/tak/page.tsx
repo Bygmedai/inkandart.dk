@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/booking/tak" },
 };
 
+const BOOKING_BILLEDTEKST = "Studie, dagslys, stol.";
+
 function oneParam(v: string | string[] | undefined): string {
   if (Array.isArray(v)) return (v[0] || "").trim();
   return (v || "").trim();
@@ -16,7 +18,8 @@ function Plade() {
   return (
     <div className="rum-booking__plade">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/slots/H-01.jpg" alt="" />
+      <img src="/slots/H-01.jpg" alt={BOOKING_BILLEDTEKST} />
+      <p className="rum-billedtekst">{BOOKING_BILLEDTEKST}</p>
     </div>
   );
 }

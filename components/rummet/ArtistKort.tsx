@@ -34,6 +34,9 @@ export function ArtistKort({
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={artist.foto} alt={alt} />
       </div>
+      {artist.billedtekst ? (
+        <p className="rum-billedtekst">{artist.billedtekst}</p>
+      ) : null}
       <div className="rum-kort__body">
         <h2 className="rum-chair__navn rum-poster">{name}</h2>
         {craft ? <p className="rum-chair__craft">{craft}</p> : null}

@@ -36,7 +36,7 @@ test("content-filerne parse'r og tom-tilstandene følger data", async () => {
   assert.ok(featured, "der skal være et værk i dag");
   const artist = artistById(house.artists, featured.artist);
   const label = vaerkLabel(featured, artist);
-  assert.match(label, /V-06/);
+  assert.match(label, /håndled/);
   assert.doesNotMatch(label, /Sort hjort|masterpiece/i);
 
   // Empty-state functions with explicit data (negativ + positiv).
@@ -135,11 +135,12 @@ test("Emerge-scatter rammer ikke Rummet", () => {
   assert.doesNotMatch(css, /body:not\(:has\(\.emerge-v05\)\)::after/);
 });
 
-test("Rummet-nav er wordmark som hjem-anker, segl kun på Huset", () => {
+test("Rummet-nav har segl på undersider, stort segl kun på Huset", () => {
   const nav = read("components/rummet/Nav.tsx");
   const css = read("components/rummet/rummet.css");
   const huset = read("app/(rummet)/page.tsx");
-  assert.doesNotMatch(nav, /logo-segl\.svg/);
+  assert.match(nav, /logo-segl\.svg/);
+  assert.match(nav, /onHuset/);
   assert.match(nav, /className="rum-nav__mark"/);
   assert.match(nav, /href="\/"/);
   assert.match(nav, /Ink & Art/);
@@ -554,4 +555,25 @@ test("F16 dock 12px, DEMO 11px, ingen TAL i layout-kommentar", () => {
   const demok = css.slice(demo, css.indexOf("}", demo));
   assert.match(demok, /font-size:\s*11px/);
   assert.doesNotMatch(layout, /TAL BEKRÆFTES/);
+});
+
+test("Blackbook tager email, ikke telefon", () => {
+  const door = read("components/rummet/Door.tsx");
+  assert.match(door, /type="email"/);
+  assert.match(door, /name="email"/);
+  assert.match(door, /Email/);
+  assert.doesNotMatch(door, /Telefonnummer/);
+  assert.doesNotMatch(door, /type="tel"/);
+  assert.match(door, /Vi sender kun natten/);
+  assert.doesNotMatch(door, /Afmeld med STOP/);
+});
+
+test("Plader viser billedtekst, ikke DEMO-chip", () => {
+  const plade = read("components/rummet/Plade.tsx");
+  const yaml = read("content/vaerker.yml");
+  assert.doesNotMatch(plade, /rum-demo/);
+  assert.match(plade, /billedtekst/);
+  assert.doesNotMatch(yaml, /demo:\s*true/);
+  assert.match(yaml, /billedtekst:/);
+  assert.match(yaml, /håndled/);
 });

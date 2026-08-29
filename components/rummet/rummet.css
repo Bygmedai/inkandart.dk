@@ -500,7 +500,7 @@ html:has([data-house="rummet"]) .grain {
   color: var(--beton);
   margin-bottom: 6px;
 }
-.rum-door__field input[type="tel"] {
+.rum-door__field input[type="email"] {
   width: 100%;
   min-height: 44px;
   background: transparent;
@@ -932,3 +932,17 @@ html:has([data-house="rummet"]) .grain {
 [data-tone="salg"] .rum-booking {
   color: var(--nat);
 }
+
+.rum-billedtekst {
+  margin: 12px 0 0;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: inherit;
+  max-width: 46ch;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.rum-plade .rum-billedtekst { margin-top: 12px; }
+.rum-booking__plade .rum-billedtekst { margin-top: 10px; }
+[data-tone="salg"] .rum-billedtekst { color: var(--nat); }
