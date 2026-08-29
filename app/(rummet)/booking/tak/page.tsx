@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/booking/tak" },
 };
 
-const BOOKING_BILLEDTEKST = "Studie, dagslys, stol.";
+const BOOKING_BILLEDTEKST = "Stolen under lampen, aften, ryddet station.";
 
 function oneParam(v: string | string[] | undefined): string {
   if (Array.isArray(v)) return (v[0] || "").trim();

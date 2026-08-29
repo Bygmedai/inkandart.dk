@@ -238,6 +238,19 @@ html:has([data-house="rummet"]) .grain {
   }
 }
 
+.rum-huset__title {
+  grid-column: 1 / -1;
+  font-size: 22px;
+  margin: 0;
+  padding: 16px 0 0;
+  color: var(--hud);
+}
+@media (min-width: 1100px) {
+  .rum-huset__title {
+    font-size: 28px;
+  }
+}
+
 .rum-huset__plade { min-width: 0; position: relative; }
 .rum-huset__side {
   display: flex;
@@ -457,6 +470,12 @@ html:has([data-house="rummet"]) .grain {
   border-bottom: 1px solid rgba(232, 220, 200, 0.28);
 }
 
+.rum-tel {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
 /* ── Door ── */
 
 .rum-door {
@@ -573,6 +592,11 @@ html:has([data-house="rummet"]) .grain {
   height: 100%;
   object-fit: cover;
   display: block;
+}
+@media (max-width: 899px) {
+  .rum-room__slot {
+    aspect-ratio: 4 / 5;
+  }
 }
 .rum-room__note {
   margin: 24px 0 0;
@@ -899,6 +923,10 @@ html:has([data-house="rummet"]) .grain {
   color: var(--hud);
 }
 
+[data-tone="salg"] .rum-label {
+  color: #5f5a54;
+}
+
 /* ── Booking: salgsflade, handling først, ét rum-billede ── */
 
 .rum-booking {
@@ -919,6 +947,11 @@ html:has([data-house="rummet"]) .grain {
   object-fit: cover;
   display: block;
   border: 1px solid var(--rum-line);
+}
+.rum-booking__go {
+  font-size: 20px;
+  width: 100%;
+  justify-content: center;
 }
 .rum-booking__pris {
   color: var(--blod);

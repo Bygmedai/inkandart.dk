@@ -566,6 +566,7 @@ test("Blackbook tager email, ikke telefon", () => {
   assert.doesNotMatch(door, /type="tel"/);
   assert.match(door, /Vi sender kun natten/);
   assert.doesNotMatch(door, /Afmeld med STOP/);
+  assert.match(door, /Afmeld nederst i mailen/);
 });
 
 test("Plader viser billedtekst, ikke DEMO-chip", () => {
@@ -589,4 +590,52 @@ test("alle Rummets flader står i sitemap", () => {
     const m = rute === "/" ? /inkandart\.dk\/"/ : new RegExp(`inkandart\\.dk${rute}"`);
     assert.match(sm, m, `${rute} mangler i sitemap`);
   }
+});
+
+test("S573 booking h1 Booking", () => {
+  const booking = read("app/(rummet)/booking/page.tsx");
+  assert.match(booking, /<h1/);
+  assert.match(booking, /rum-room__title/);
+  assert.match(booking, /Booking/);
+});
+
+test("S573 Huset h1", () => {
+  const huset = read("app/(rummet)/page.tsx");
+  assert.match(huset, /rum-huset__title/);
+  assert.match(huset, />Huset</);
+});
+
+test("S573 salg-label, slot 4/5, rum-tel, booking go", () => {
+  const css = read("components/rummet/rummet.css");
+  assert.match(css, /\[data-tone="salg"\] \.rum-label/);
+  assert.match(css, /#5f5a54/);
+  assert.match(css, /@media \(max-width:\s*899px\) \{[\s\S]*?\.rum-room__slot \{[\s\S]*?4\s*\/\s*5/);
+  const tel = css.indexOf(".rum-tel {");
+  assert.notEqual(tel, -1, "rum-tel mangler");
+  const telk = css.slice(tel, css.indexOf("}", tel));
+  assert.match(telk, /min-height:\s*44px/);
+  assert.match(css, /\.rum-booking__go/);
+});
+
+test("S573 Gavekort label", () => {
+  const gave = read("components/rummet/GavekortKoeb.tsx");
+  assert.match(gave, /className="rum-label"/);
+  assert.match(gave, /Gavekort/);
+});
+
+test("S573 Door afmelding", () => {
+  const door = read("components/rummet/Door.tsx");
+  assert.match(door, /Afmeld nederst i mailen/);
+});
+
+test("S573 Gaden walk-in + tel", () => {
+  const gaden = read("app/(rummet)/gaden/page.tsx");
+  assert.match(gaden, /Walk-in når der er en fri stol/);
+  assert.match(gaden, /tel:\+4555248608/);
+  assert.match(gaden, /rum-tel/);
+});
+
+test("S573 Stolen walk-in", () => {
+  const stolen = read("app/(rummet)/stolen/page.tsx");
+  assert.match(stolen, /Walk-in når der er en fri stol/);
 });

@@ -23,7 +23,7 @@ export default function GadenPage() {
           Larsbjørnsstræde 13 kld, 1454 København K.
         </p>
         <p className="rum-room__note rum-body-copy">
-          <a href="tel:+4555248608">Ring på — 55 24 86 08</a>
+          <a className="rum-tel" href="tel:+4555248608">Ring på — 55 24 86 08</a>
         </p>
         {gaden.aabent ? (
           <p className="rum-room__note rum-body-copy">Åbent: {gaden.aabent}</p>
@@ -33,7 +33,7 @@ export default function GadenPage() {
         ) : null}
         <p className="rum-room__note rum-body-copy">Depositum fra 100 kr</p>
         <p className="rum-room__note rum-body-copy">
-          Tatovering og piercing. Ring på.
+          Tatovering og piercing. Walk-in når der er en fri stol.
         </p>
         <p style={{ marginTop: 24, display: "flex", gap: 24, flexWrap: "wrap" }}>
           <a href="/booking" className="rum-book">

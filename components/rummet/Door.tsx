@@ -43,7 +43,7 @@ export function Door({ variant = "page" }: { variant?: "page" | "inline" }) {
         <span className="rum-dot" aria-hidden="true" />
         <span className="rum-door__name">Blackbook</span>
       </div>
-      <p className="rum-door__line">Vi sender kun natten.</p>
+      <p className="rum-door__line">Vi sender kun natten. Afmeld nederst i mailen.</p>
       <div className="rum-door__hp" aria-hidden="true">
         <label>
           Company

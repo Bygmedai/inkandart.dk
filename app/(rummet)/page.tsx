@@ -32,6 +32,7 @@ export default function HusetPage() {
   return (
     <RummetShell door={false}>
       <main id="main" className="rum-huset">
+        <h1 className="rum-huset__title rum-poster">Huset</h1>
         <section id="work" className="rum-huset__plade">
           <p className="rum-label rum-huset__kicker">Nylavet</p>
           {featured ? (
