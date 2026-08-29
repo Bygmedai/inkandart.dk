@@ -213,7 +213,7 @@ html:has([data-house="rummet"]) .grain {
   align-items: center;
   justify-content: center;
   font-family: var(--font-poster), sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--beton);
@@ -782,9 +782,6 @@ html:has([data-house="rummet"]) .grain {
   }
 }
 .rum-vaeg__item { min-width: 0; }
-.rum-skilt {
-  margin: 10px 0 0;
-}
 
 .rum-produkt__plade {
   margin-top: 28px;
@@ -828,12 +825,6 @@ html:has([data-house="rummet"]) .grain {
 
 [data-tone="salg"] .rum-empty__title {
   color: var(--nat);
-}
-
-[data-tone="salg"] .rum-skilt {
-  color: var(--blod);
-  font-size: 20px;
-  letter-spacing: 0.08em;
 }
 
 [data-tone="salg"] .rum-filter a {
@@ -906,4 +897,38 @@ html:has([data-house="rummet"]) .grain {
 [data-tone="salg"] .rum-dock {
   background: var(--nat);
   color: var(--hud);
+}
+
+/* ── Booking: salgsflade, handling først, ét rum-billede ── */
+
+.rum-booking {
+  display: grid;
+  gap: 28px 40px;
+}
+@media (min-width: 800px) {
+  .rum-booking {
+    grid-template-columns: minmax(16rem, 1fr) minmax(14rem, 1fr);
+    align-items: start;
+  }
+}
+.rum-booking__koeb { min-width: 0; }
+.rum-booking__plade { min-width: 0; }
+.rum-booking__plade img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  display: block;
+  border: 1px solid var(--rum-line);
+}
+.rum-booking__pris {
+  color: var(--blod);
+  font-size: 20px;
+  letter-spacing: 0.02em;
+}
+[data-tone="salg"] .rum-booking__pris {
+  color: var(--blod);
+  font-size: 20px;
+}
+[data-tone="salg"] .rum-booking {
+  color: var(--nat);
 }

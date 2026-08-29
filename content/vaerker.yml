@@ -10,7 +10,7 @@
   foto: /slots/V-01.jpg
   maa_vises: true
   demo: true
-  i_dag: true
+  i_dag: false
   edition_ref: ""
 
 - id: V-02
@@ -65,7 +65,7 @@
   foto: /slots/V-06.jpg
   maa_vises: true
   demo: true
-  i_dag: false
+  i_dag: true
   edition_ref: ""
 
 - id: V-07

@@ -5,7 +5,6 @@ import "./globals.css";
 
 /**
  * Titel og beskrivelse svarer på «hvad er det her?».
- * Walk-in-prisen er [TAL BEKRÆFTES] indtil Nizar sætter tallet.
  *
  * Fonte bor i rutegrupperne: Rummet (Anton + Instrument Sans) og
  * Emerge (Cormorant + Space Grotesk). Roden laster ingen — Rummet

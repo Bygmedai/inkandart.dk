@@ -11,21 +11,26 @@ export const metadata: Metadata = {
 
 export default function BookingPage() {
   return (
-    <RummetShell>
-      <main id="main" className="rum-room">
-        <h1 className="rum-room__title rum-poster">Booking</h1>
-        <p style={{ marginTop: 28 }}>
-          <a
-            className="rum-book rum-book--row"
-            href={cartUrl("53492757627208")}
-            rel="noopener noreferrer"
-          >
-            Depositum 100 kr — fragår i prisen
-          </a>
-        </p>
-        <p style={{ marginTop: 24 }}>
-          <BookDoor label="Videre til booking" />
-        </p>
+    <RummetShell tone="salg">
+      <main id="main" className="rum-room rum-booking">
+        <div className="rum-booking__koeb">
+          <p>
+            <a
+              className="rum-book rum-book--row rum-booking__pris"
+              href={cartUrl("53492757627208")}
+              rel="noopener noreferrer"
+            >
+              Depositum 100 kr — fragår i prisen
+            </a>
+          </p>
+          <p style={{ marginTop: 24 }}>
+            <BookDoor label="Videre til booking" />
+          </p>
+        </div>
+        <div className="rum-booking__plade">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/slots/H-01.jpg" alt="" />
+        </div>
       </main>
     </RummetShell>
   );

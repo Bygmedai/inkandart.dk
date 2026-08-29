@@ -12,6 +12,15 @@ function oneParam(v: string | string[] | undefined): string {
   return (v || "").trim();
 }
 
+function Plade() {
+  return (
+    <div className="rum-booking__plade">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/slots/H-01.jpg" alt="" />
+    </div>
+  );
+}
+
 export default async function BookingTakPage({
   searchParams,
 }: {
@@ -22,9 +31,12 @@ export default async function BookingTakPage({
 
   if (betalt) {
     return (
-      <RummetShell>
-        <main id="main" className="rum-room">
-          <p className="rum-body-copy rum-room__note">Depositum er betalt.</p>
+      <RummetShell tone="salg">
+        <main id="main" className="rum-room rum-booking">
+          <div className="rum-booking__koeb">
+            <p className="rum-body-copy rum-room__note">Depositum er betalt.</p>
+          </div>
+          <Plade />
         </main>
       </RummetShell>
     );
@@ -32,20 +44,23 @@ export default async function BookingTakPage({
 
   // [AFVENTER STEVEN] konsekvens ved ubetalt
   return (
-    <RummetShell>
-      <main id="main" className="rum-room">
-        <h1 className="rum-room__title rum-poster">
-          Din tid er sat. Betal depositum nu
-        </h1>
-        <p style={{ marginTop: 24 }}>
-          <a
-            className="rum-book rum-book--row"
-            href={cartUrl("53492757627208")}
-            rel="noopener noreferrer"
-          >
-            Depositum 100 kr — fragår i prisen
-          </a>
-        </p>
+    <RummetShell tone="salg">
+      <main id="main" className="rum-room rum-booking">
+        <div className="rum-booking__koeb">
+          <h1 className="rum-room__title rum-poster">
+            Din tid er sat. Betal depositum nu
+          </h1>
+          <p style={{ marginTop: 24 }}>
+            <a
+              className="rum-book rum-book--row rum-booking__pris"
+              href={cartUrl("53492757627208")}
+              rel="noopener noreferrer"
+            >
+              Depositum 100 kr — fragår i prisen
+            </a>
+          </p>
+        </div>
+        <Plade />
       </main>
     </RummetShell>
   );

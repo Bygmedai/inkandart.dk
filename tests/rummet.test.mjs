@@ -36,7 +36,7 @@ test("content-filerne parse'r og tom-tilstandene følger data", async () => {
   assert.ok(featured, "der skal være et værk i dag");
   const artist = artistById(house.artists, featured.artist);
   const label = vaerkLabel(featured, artist);
-  assert.match(label, /V-01/);
+  assert.match(label, /V-06/);
   assert.doesNotMatch(label, /Sort hjort|masterpiece/i);
 
   // Empty-state functions with explicit data (negativ + positiv).
@@ -513,4 +513,45 @@ test("ArtistKort og Huset går via /booking; række ≥ 44px", () => {
   assert.notEqual(i, -1, "rum-book--row mangler");
   const krop = css.slice(i, css.indexOf("}", i));
   assert.match(krop, /min-height:\s*44px/);
+});
+test("F14 booking er salgsflade på hud med handling først", () => {
+  const booking = read("app/(rummet)/booking/page.tsx");
+  const tak = read("app/(rummet)/booking/tak/page.tsx");
+  const css = read("components/rummet/rummet.css");
+  assert.match(booking, /tone="salg"/);
+  assert.match(tak, /tone="salg"/);
+  assert.match(booking, /rum-booking__pris/);
+  assert.match(booking, /H-01\.jpg/);
+  assert.match(tak, /H-01\.jpg/);
+  assert.match(booking, /Depositum 100 kr — fragår i prisen/);
+  assert.match(booking, /Videre til booking/);
+  const koeb = booking.indexOf("rum-booking__koeb");
+  const plade = booking.indexOf("rum-booking__plade");
+  assert.ok(koeb !== -1 && plade !== -1 && koeb < plade, "handling før billede");
+  assert.match(css, /\.rum-booking__pris/);
+  assert.match(css, /font-size:\s*20px/);
+  assert.doesNotMatch(css, /\.rum-skilt/);
+});
+
+test("F15 lyst værk på Huset, S-04 på Stolen", () => {
+  const vaerker = read("content/vaerker.yml");
+  const artists = read("content/artists.yml");
+  const v01 = vaerker.slice(vaerker.indexOf("- id: V-01"), vaerker.indexOf("- id: V-02"));
+  const v06 = vaerker.slice(vaerker.indexOf("- id: V-06"), vaerker.indexOf("- id: V-07"));
+  assert.match(v06, /i_dag:\s*true/);
+  assert.match(v01, /i_dag:\s*false/);
+  const nizar = artists.slice(artists.indexOf("- id: nizar"), artists.indexOf("- id: emma"));
+  assert.match(nizar, /S-04\.jpg/);
+});
+
+test("F16 dock 12px, DEMO 11px, ingen TAL i layout-kommentar", () => {
+  const css = read("components/rummet/rummet.css");
+  const layout = read("app/layout.tsx");
+  const dock = css.indexOf(".rum-dock a {");
+  const dockk = css.slice(dock, css.indexOf("}", dock));
+  assert.match(dockk, /font-size:\s*12px/);
+  const demo = css.indexOf(".rum-demo {");
+  const demok = css.slice(demo, css.indexOf("}", demo));
+  assert.match(demok, /font-size:\s*11px/);
+  assert.doesNotMatch(layout, /TAL BEKRÆFTES/);
 });
