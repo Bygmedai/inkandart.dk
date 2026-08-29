@@ -18,6 +18,14 @@ test("/shop er en rigtig rute med canonical og plads i sitemap", () => {
   assert.match(sitemap, /inkandart\.dk\/shop/);
 });
 
+test("REGRESSION: /en/shop har egen linje i sitemap.xml, ikke kun /shop", () => {
+  // /en/shop er en rigtig, indekserbar side (canonical: /en/shop, ingen
+  // robots-noindex) — men stod ikke i app/sitemap.ts. Testen ovenfor
+  // matcher kun understrengen "inkandart.dk/shop", som IKKE findes i
+  // ".../en/shop" (der ligger "/en" imellem), så den fangede ikke hullet.
+  assert.match(sitemap, /inkandart\.dk\/en\/shop"/);
+});
+
 test("prints uden live-variant får ALDRIG en købshandling (rails §4)", () => {
   // Købslinket er gated bag `p.live && p.variantId` — en draft kan ikke
   // rendere en knap der ikke kan købe.
@@ -112,4 +120,33 @@ test("tilbage-linket er dækket af tap-reglen på ALLE undersider", () => {
       );
     }
   }
+});
+
+test("de tre prints er levende med variantId — ikke ACTIVE-og-håbe", () => {
+  // 2026-08-24: priserne blev bekræftet (250/250/1.200) og varerne publiceret.
+  // Dagens lektie står i commerce.ts: DRAFT → ACTIVE var IKKE nok. Varerne
+  // manglede Webshop-kanalen og svarede stadig 410. Testen holder derfor fast
+  // i det målbare — et variantId pr. print — ikke i en status i Shopify.
+  const start = commerce.indexOf("export const SHOP_PRINTS");
+  assert.ok(start > 0, "SHOP_PRINTS-listen findes");
+  const blok = commerce.slice(start, commerce.indexOf("\n];", start));
+  const ider = [...blok.matchAll(/variantId: "(\d{14})"/g)].map((m) => m[1]);
+  assert.equal(ider.length, 3, "alle tre prints har et variantId");
+  assert.equal(new Set(ider).size, 3, "tre FORSKELLIGE variantId'er");
+  assert.equal([...blok.matchAll(/live: true/g)].length, 3, "alle tre er live");
+  assert.doesNotMatch(blok, /live: false/, "ingen halvåben hylde tilbage");
+});
+
+test("REGRESSION: den danske væg-blok læser fra ordbogen, ikke fra markup", () => {
+  // Sprogtjek S570: rubrikken var flyttet til `c.wallTitle`, mens etiket,
+  // intro, «Snart» og noten blev stående hårdkodet i app/shop/page.tsx. Da
+  // varerne gik live sagde /en/shop «On the wall.» og /shop stod stadig med
+  // «De hænger her, når de er klar». Drift ét ord ad gangen er stadig drift.
+  const vaeg = page.slice(page.indexOf("gade__prints") - 900);
+  for (const noegle of ["c.wallLabel", "c.wallTitle", "c.wallIntro", "c.soon", "c.note", "c.noteLink"]) {
+    assert.ok(vaeg.includes(noegle), `væg-blokken bruger ${noegle}`);
+  }
+  // Negativ kontrol: den gamle hårdkodede sætning må ikke være i filen.
+  assert.doesNotMatch(page, /De hænger her, når de er klar/);
+  assert.doesNotMatch(page, /<span className="gade__print-snart">Snart</);
 });

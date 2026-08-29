@@ -99,11 +99,20 @@ export const RESERVATIONS: Reservation[] = [
  * ind i hub'en). RÅB: append-only-blok; Vilde ejer filen, Grok fylder
  * variantId'er via P3 når Shopify-varerne er publiceret.
  *
- * ALLE tre er drafts i Shopify i dag og priserne afventer Stevens
- * bekræftelse — derfor `live: false` og INGEN variantId. Kataloget viser dem
- * som «snart på væggen» uden købshandling (rails §4: tom hylde skal se tom
- * ud, og en død knap er værre end ingen). Når P3 publicerer og prisgaten er
- * åbnet: sæt live: true + variantId (verificér 302/fulgt-200 mod 410 først).
+ * LEVENDE siden 2026-08-24. Steven bekraeftede priserne (250/250/1.200).
+ *
+ * TO trin var noedvendige, ikke ét: status DRAFT → ACTIVE gjorde dem STADIG
+ * ikke koebbare (410). De manglede Webshop-kanalen. Forskellen blev fundet
+ * ved at sammenligne med en vare der VIRKEDE — piercing-depositummet laa paa
+ * Webshop + Inkandart Headless, prints laa paa Headless + Inkandart Headless.
+ * Havde jeg stolet paa at ACTIVE var nok, havde jeg wiret tre doede knapper
+ * ind paa siden.
+ *
+ * Maalt efter publicering, husets protokol med negativ kontrol:
+ *   cart/53342061822280:1 → 302 (fulgt 200)   Dolk ·        250,-
+ *   cart/53342061855048:1 → 302 (fulgt 200)   Ouroboros ·   250,-
+ *   cart/53342061887816:1 → 302 (fulgt 200)   Signetring · 1.200,-
+ *   cart/99999999999999:1 → 410               negativ kontrol
  */
 export type ShopPrint = {
   navn: string;
@@ -122,21 +131,24 @@ export const SHOP_PRINTS: ShopPrint[] = [
     navn: "Dolk",
     kr: 250,
     handle: "dolk",
-    live: false,
+    live: true,
+    variantId: "53342061822280",
     linje: "Et af husets motiver, trykt i hånden på tykt papir.",
   },
   {
     navn: "Ouroboros",
     kr: 250,
     handle: "ouroboros",
-    live: false,
+    live: true,
+    variantId: "53342061855048",
     linje: "Slangen der bider sig selv i halen. Lille oplag.",
   },
   {
     navn: "Signetring",
     kr: 1200,
     handle: "signetring",
-    live: false,
+    live: true,
+    variantId: "53342061887816",
     linje: "Støbt i sterlingsølv efter en af husets tegninger.",
   },
 ];
