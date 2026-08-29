@@ -108,7 +108,6 @@ export default async function MaerketPage({
               return (
                 <article key={v.id} className="rum-vaeg__item">
                   <Plade vaerk={v} artist={artist} />
-                  <p className="rum-label rum-skilt">[TAL BEKRÆFTES]</p>
                 </article>
               );
             })}

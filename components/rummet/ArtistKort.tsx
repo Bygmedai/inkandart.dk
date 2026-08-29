@@ -1,10 +1,4 @@
 import type { Artist } from "@/lib/content";
-import { BookDoor } from "./BookDoor";
-
-function slotId(src: string): string {
-  const name = src.split("/").pop() || src;
-  return name.replace(/\.[a-z0-9]+$/i, "");
-}
 
 function daNum(n: number): string {
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -39,7 +33,6 @@ export function ArtistKort({
       <div className="rum-kort__foto">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={artist.foto} alt={alt} />
-        <span className="rum-demo">DEMO {slotId(artist.foto)}</span>
       </div>
       <div className="rum-kort__body">
         <h2 className="rum-chair__navn rum-poster">{name}</h2>
@@ -54,7 +47,9 @@ export function ArtistKort({
             </a>
           </p>
         ) : null}
-        <BookDoor className="rum-book rum-book--row" />
+        <a href="/booking" className="rum-book rum-book--row">
+          Book tid
+        </a>
       </div>
     </article>
   );

@@ -3,7 +3,6 @@ import Link from "next/link";
 import { RummetShell } from "@/components/rummet/Shell";
 import { Plade } from "@/components/rummet/Plade";
 import { Door } from "@/components/rummet/Door";
-import { BookDoor } from "@/components/rummet/BookDoor";
 import { Segl } from "@/components/rummet/Segl";
 import {
   loadHouse,
@@ -62,7 +61,6 @@ export default function HusetPage() {
                 <div className="rum-kort__foto">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={a.foto} alt={a.fornavn} />
-                  <span className="rum-demo">DEMO {slotId(a.foto)}</span>
                 </div>
                 <div className="rum-kort__body">
                   <h2 className="rum-chair__navn rum-poster">{a.fornavn}</h2>
@@ -84,7 +82,6 @@ export default function HusetPage() {
                     src={guest.artist.foto}
                     alt={guest.kind === "named" ? guest.artist.fornavn : "Gæst"}
                   />
-                  <span className="rum-demo">DEMO {slotId(guest.artist.foto)}</span>
                 </div>
                 <div className="rum-kort__body">
                   <h2 className="rum-chair__navn rum-poster">
@@ -108,7 +105,9 @@ export default function HusetPage() {
           </p>
 
           <div style={{ marginTop: 20 }}>
-            <BookDoor id="booking" />
+            <a id="booking" href="/booking" className="rum-book">
+              Book tid
+            </a>
           </div>
 
           <div className="rum-nat">
@@ -149,9 +148,4 @@ export default function HusetPage() {
       </main>
     </RummetShell>
   );
-}
-
-function slotId(src: string): string {
-  const name = src.split("/").pop() || src;
-  return name.replace(/\.[a-z0-9]+$/i, "");
 }

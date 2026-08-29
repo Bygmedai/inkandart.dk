@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync, existsSync, readdirSync } from "node:fs";
+import { readFileSync, existsSync, readdirSync, statSync } from "node:fs";
 import { test } from "node:test";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -105,7 +105,7 @@ test("Rummet-tokens og fonte er self-hostet", () => {
 });
 
 test("rum-ruter og slots findes", () => {
-  for (const p of ["app/(rummet)/stolen/page.tsx", "app/(rummet)/maerket/page.tsx", "app/(rummet)/natten/page.tsx", "app/(rummet)/gaden/page.tsx"]) {
+  for (const p of ["app/(rummet)/stolen/page.tsx", "app/(rummet)/maerket/page.tsx", "app/(rummet)/natten/page.tsx", "app/(rummet)/gaden/page.tsx", "app/(rummet)/booking/page.tsx", "app/(rummet)/booking/tak/page.tsx"]) {
     assert.ok(existsSync(join(root, p)), `${p} mangler`);
   }
   const slots = readdirSync(join(root, "public/slots")).filter((n) => n.endsWith(".jpg"));
@@ -286,10 +286,15 @@ test("M2 Book tid på Stolen er stadig et klædt hop, række ≥ 44px", () => {
   const stolen = read("app/(rummet)/stolen/page.tsx");
   const kort = read("components/rummet/ArtistKort.tsx");
   const door = read("components/rummet/BookDoor.tsx");
+  const huset = read("app/(rummet)/page.tsx");
+  const booking = read("app/(rummet)/booking/page.tsx");
   const css = read("components/rummet/rummet.css");
-  assert.match(kort, /BookDoor/);
+  assert.match(kort, /href="\/booking"/);
   assert.match(kort, /rum-book--row/);
+  assert.match(kort, /Book tid/);
+  assert.match(huset, /href="\/booking"/);
   assert.match(door, /https:\/\/inkart\.book\.dk\//);
+  assert.match(booking, /Videre til booking/);
   assert.doesNotMatch(stolen, /s8|depositum/i);
   const i = css.indexOf(".rum-book--row {");
   assert.notEqual(i, -1, "rum-book--row mangler");
@@ -376,7 +381,7 @@ test("M2R Huset: segl + kort, Natten/Gaden overlay, ingen frit", () => {
   assert.doesNotMatch(natten, /rum-room__on/);
   assert.match(natten, /Ingen nat i aften/);
   assert.doesNotMatch(gaden, /rum-room__on/);
-  assert.match(gaden, /\[TAL BEKRÆFTES\]/);
+  assert.doesNotMatch(gaden, /\[TAL BEKRÆFTES\]/);
   assert.doesNotMatch(gave, /frit/);
   assert.doesNotMatch(gave, /GIFT_CARD_PRODUCT_URL/);
 });
@@ -389,7 +394,7 @@ test("M2R runde 2: Gaden tal + footer CVR/telefon", () => {
   assert.match(gaden, /Larsbjørnsstræde 13 kld, 1454 København K/);
   assert.match(gaden, /tel:\+4555248608/);
   assert.match(gaden, /Depositum fra 100 kr/);
-  assert.match(gaden, /\[TAL BEKRÆFTES\]/);
+  assert.doesNotMatch(gaden, /\[TAL BEKRÆFTES\]/);
 });
 
 test("M2R runde 2: Mærket salgsflade på hud", () => {
@@ -417,4 +422,95 @@ test("M2R runde 2: Huset mobil 58svh, slot uden px-cap", () => {
   const s = css.indexOf(".rum-room__slot {");
   const slot = css.slice(s, css.indexOf("}", s));
   assert.doesNotMatch(slot, /max-height/);
+});
+
+test("M3 Gaden: ingen [TAL BEKRÆFTES], Ring på, tomme timer udelades", async () => {
+  const gaden = read("app/(rummet)/gaden/page.tsx");
+  const yml = read("content/gaden.yml");
+  const { loadGaden } = await import("../lib/content.ts");
+  const info = loadGaden();
+  assert.doesNotMatch(gaden, /\[TAL BEKRÆFTES\]/);
+  assert.match(gaden, /Ring på/);
+  assert.match(gaden, /tel:\+4555248608/);
+  assert.match(yml, /aabent:\s*""/);
+  assert.match(yml, /walk_in:\s*""/);
+  assert.equal(info.aabent, "");
+  assert.equal(info.walk_in, "");
+  assert.doesNotMatch(gaden, /DEMO G-01/);
+  assert.match(gaden, /gaden\.aabent \?/);
+  assert.match(gaden, /gaden\.walk_in \?/);
+});
+
+test("M3 Natten: plakatfoto fra YAML, tom-tilstand uændret, ingen DEMO H-02", () => {
+  const natten = read("app/(rummet)/natten/page.tsx");
+  assert.match(natten, /nat\.plakatfoto/);
+  assert.match(natten, /Ingen nat i aften/);
+  assert.match(natten, /Næste nat står i Blackbook/);
+  assert.doesNotMatch(natten, /DEMO H-02/);
+  assert.doesNotMatch(natten, /rum-demo/);
+});
+
+test("M4 /booking: depositum-sætning, variant, Videre til booking", () => {
+  const booking = read("app/(rummet)/booking/page.tsx");
+  assert.match(booking, /Depositum 100 kr — fragår i prisen/);
+  assert.match(booking, /53492757627208|cartUrl\(/);
+  assert.match(booking, /Videre til booking/);
+  assert.match(booking, /BookDoor/);
+  const door = read("components/rummet/BookDoor.tsx");
+  assert.match(door, /label = "Book tid"/);
+  assert.match(door, /https:\/\/inkart\.book\.dk\//);
+});
+
+test("M4 /booking/tak: ubetalt copy, betalt-gren, ingen konsekvens-kundetekst", () => {
+  const tak = read("app/(rummet)/booking/tak/page.tsx");
+  assert.match(tak, /Din tid er sat\. Betal depositum nu/);
+  assert.match(tak, /params\.betalt/);
+  assert.match(tak, /Depositum er betalt/);
+  assert.match(tak, /\[AFVENTER STEVEN\] konsekvens ved ubetalt/);
+  assert.match(tak, /\/\/ \[AFVENTER STEVEN\] konsekvens ved ubetalt/);
+});
+
+test("U7 Decap GitHub OAuth-config", () => {
+  const cfg = read("public/admin/config.yml");
+  const html = read("public/admin/index.html");
+  assert.match(cfg, /name:\s*github/);
+  assert.match(cfg, /base_url:\s*https:\/\/oauth\.bygmedai\.dk/);
+  assert.match(cfg, /repo:\s*Bygmedai\/inkandart\.dk/);
+  assert.match(cfg, /branch:\s*main/);
+  assert.match(cfg, /publish_mode:\s*simple/);
+  assert.doesNotMatch(cfg, /git-gateway/);
+  assert.doesNotMatch(cfg, /local_backend/);
+  assert.match(html, /\.\/decap-cms\.js/);
+  assert.doesNotMatch(html, /unpkg/);
+  assert.ok(existsSync(join(root, "public/admin/decap-cms.js")), "decap-cms.js mangler");
+});
+
+test("ingen [TAL BEKRÆFTES] under app/(rummet) kundeflader", () => {
+  const dir = join(root, "app/(rummet)");
+  const hits = [];
+  const walk = (d) => {
+    for (const name of readdirSync(d)) {
+      const p = join(d, name);
+      if (statSync(p).isDirectory()) walk(p);
+      else if (/\.(tsx|ts|jsx|js)$/.test(name)) {
+        const src = readFileSync(p, "utf8");
+        if (/\[TAL BEKRÆFTES\]/.test(src)) hits.push(p.slice(root.length + 1));
+      }
+    }
+  };
+  walk(dir);
+  assert.deepEqual(hits, []);
+});
+
+test("ArtistKort og Huset går via /booking; række ≥ 44px", () => {
+  const kort = read("components/rummet/ArtistKort.tsx");
+  const huset = read("app/(rummet)/page.tsx");
+  const css = read("components/rummet/rummet.css");
+  assert.match(kort, /href="\/booking"/);
+  assert.match(huset, /href="\/booking"/);
+  assert.doesNotMatch(kort, /BookDoor/);
+  const i = css.indexOf(".rum-book--row {");
+  assert.notEqual(i, -1, "rum-book--row mangler");
+  const krop = css.slice(i, css.indexOf("}", i));
+  assert.match(krop, /min-height:\s*44px/);
 });

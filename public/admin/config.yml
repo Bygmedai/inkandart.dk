@@ -1,10 +1,10 @@
-# Decap CMS — Rummet content. OAuth (decap-oauth-worker) is not wired in M1;
-# the path is real so Sonja can open /admin once the worker is pointed here.
-local_backend: true
+# Decap CMS — Rummet content. GitHub backend via oauth.bygmedai.dk.
 backend:
-  name: git-gateway
+  name: github
+  repo: Bygmedai/inkandart.dk
   branch: main
-  squash_merges: true
+  base_url: https://oauth.bygmedai.dk
+publish_mode: simple
 
 media_folder: public/slots
 public_folder: /slots

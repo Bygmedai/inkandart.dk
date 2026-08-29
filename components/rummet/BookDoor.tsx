@@ -2,9 +2,11 @@
 export function BookDoor({
   id,
   className = "rum-book",
+  label = "Book tid",
 }: {
   id?: string;
   className?: string;
+  label?: string;
 }) {
   return (
     <a
@@ -13,7 +15,7 @@ export function BookDoor({
       href="https://inkart.book.dk/"
       rel="noopener noreferrer"
     >
-      Book tid
+      {label}
     </a>
   );
 }

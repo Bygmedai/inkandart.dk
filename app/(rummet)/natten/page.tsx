@@ -10,24 +10,24 @@ export const metadata: Metadata = {
 
 export default function NattenPage() {
   const nat = activeNat(loadHouse().nats);
+  const foto = nat ? nat.plakatfoto || "/slots/H-02.jpg" : "/slots/H-02.jpg";
   return (
     <RummetShell>
       <main id="main" className="rum-room rum-natten">
         <h1 className="rum-room__title rum-poster">Natten</h1>
         <div className="rum-room__slot">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/slots/H-02.jpg" alt="H-02, natten" />
-          <span className="rum-demo">DEMO H-02</span>
+          <img src={foto} alt={nat ? "Natten" : "H-02, natten"} />
         </div>
         {nat ? (
           <div className="rum-nat__card rum-nat__card--live" style={{ marginTop: 28 }}>
-            <p className="rum-nat__title rum-poster">{nat.nr || nat.dato || "Nat"}</p>
-            <p className="rum-label rum-nat__meta">
-              {[nat.dato, nat.tidsrum].filter(Boolean).join(" · ")}
-            </p>
+            {nat.dato ? <p className="rum-nat__title rum-poster">{nat.dato}</p> : null}
             <p className="rum-chair__craft" style={{ marginTop: 10 }}>
               {nat.navne.length ? nat.navne.join(" · ") : "Gæste-DJ"}
             </p>
+            {nat.tidsrum ? (
+              <p className="rum-label rum-nat__meta">{nat.tidsrum}</p>
+            ) : null}
           </div>
         ) : (
           <div className="rum-empty" style={{ marginTop: 28 }}>

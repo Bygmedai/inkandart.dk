@@ -40,6 +40,11 @@ export type Nat = {
   aktiv: boolean;
 };
 
+export type GadenInfo = {
+  aabent: string;
+  walk_in: string;
+};
+
 export type House = {
   artists: Artist[];
   vaerker: Vaerk[];
@@ -112,6 +117,14 @@ function normalizeNat(n: Nat): Nat {
     tidsrum: str(n.tidsrum),
     plakatfoto: str(n.plakatfoto),
     aktiv: bool(n.aktiv),
+  };
+}
+
+export function loadGaden(): GadenInfo {
+  const data = readYaml<Partial<GadenInfo>>("gaden.yml");
+  return {
+    aabent: str(data.aabent),
+    walk_in: str(data.walk_in),
   };
 }
 
