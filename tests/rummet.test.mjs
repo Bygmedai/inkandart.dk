@@ -135,24 +135,21 @@ test("Emerge-scatter rammer ikke Rummet", () => {
   assert.doesNotMatch(css, /body:not\(:has\(\.emerge-v05\)\)::after/);
 });
 
-test("Rummet-nav bærer seglet som hjem-anker", () => {
+test("Rummet-nav er wordmark som hjem-anker, segl kun på Huset", () => {
   const nav = read("components/rummet/Nav.tsx");
   const css = read("components/rummet/rummet.css");
-  assert.match(nav, /logo-segl\.svg/);
-  assert.match(nav, /pathname !== "\/"/);
+  const huset = read("app/(rummet)/page.tsx");
+  assert.doesNotMatch(nav, /logo-segl\.svg/);
   assert.match(nav, /className="rum-nav__mark"/);
   assert.match(nav, /href="\/"/);
   assert.match(nav, /Ink & Art/);
   assert.doesNotMatch(nav, /Ink and Art/);
+  assert.match(huset, /rum-huset__maerke/);
+  assert.match(huset, /<Segl /);
   const i = css.indexOf(".rum-nav__mark {");
   assert.notEqual(i, -1, "rum-nav__mark-reglen mangler");
   const krop = css.slice(i, css.indexOf("}", i));
   assert.match(krop, /min-height:\s*44px/);
-  const s = css.indexOf(".rum-nav__segl {");
-  assert.notEqual(s, -1, "rum-nav__segl-reglen mangler");
-  const segl = css.slice(s, css.indexOf("}", s));
-  assert.match(segl, /width:\s*44px/);
-  assert.match(segl, /height:\s*44px/);
 });
 
 test("Book.dk er et klædt hop, ikke et embed", () => {
@@ -345,7 +342,9 @@ test("M2R rum-flader: 1680, ingen 560 på slot, væg 4, stolen 3", () => {
   assert.notEqual(s, -1, ".rum-room__slot mangler");
   const slot = css.slice(s, css.indexOf("}", s));
   assert.doesNotMatch(slot, /560px/);
-  assert.match(slot, /min-height:\s*62svh/);
+  assert.doesNotMatch(slot, /62svh/);
+  assert.match(slot, /max-height:\s*42svh/);
+  assert.match(slot, /720px/);
 
   const plade = css.indexOf(".rum-produkt__plade {");
   const pladek = css.slice(plade, css.indexOf("}", plade));
@@ -370,12 +369,11 @@ test("M2R Huset: segl + kort, Natten/Gaden overlay, ingen frit", () => {
   const pladeBlok = huset.slice(huset.indexOf("rum-huset__plade"), huset.indexOf("rum-huset__side"));
   assert.doesNotMatch(pladeBlok, /<Segl /);
   const nav = read("components/rummet/Nav.tsx");
-  assert.match(nav, /pathname !== "\/"/);
   assert.match(huset, /rum-huset__chairs/);
   assert.match(huset, /className="rum-kort rum-chair"/);
-  assert.match(natten, /rum-room__on/);
+  assert.doesNotMatch(natten, /rum-room__on/);
   assert.match(natten, /Ingen nat i aften/);
-  assert.match(gaden, /rum-room__on/);
+  assert.doesNotMatch(gaden, /rum-room__on/);
   assert.match(gaden, /\[TAL BEKRÆFTES\]/);
   assert.doesNotMatch(gave, /frit/);
   assert.doesNotMatch(gave, /GIFT_CARD_PRODUCT_URL/);

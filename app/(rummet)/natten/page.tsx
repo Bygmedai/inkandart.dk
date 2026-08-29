@@ -13,13 +13,11 @@ export default function NattenPage() {
   return (
     <RummetShell>
       <main id="main" className="rum-room rum-natten">
+        <h1 className="rum-room__title rum-poster">Natten</h1>
         <div className="rum-room__slot">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/slots/H-02.jpg" alt="H-02, natten" />
           <span className="rum-demo">DEMO H-02</span>
-          <div className="rum-room__on">
-            <h1 className="rum-room__title rum-poster">Natten</h1>
-          </div>
         </div>
         {nat ? (
           <div className="rum-nat__card rum-nat__card--live" style={{ marginTop: 28 }}>
