@@ -52,6 +52,11 @@ html:has([data-house="rummet"]) .grain {
   display: none;
 }
 
+.rum-main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
 .rum-poster {
   font-family: var(--font-poster), "Anton", sans-serif;
   font-weight: 400;
@@ -274,6 +279,13 @@ html:has([data-house="rummet"]) .grain {
 }
 .rum-huset__maerke .rum-segl {
   filter: drop-shadow(0 8px 18px rgba(7, 7, 7, 0.55));
+}
+
+@media (max-width: 1099px) {
+  .rum-huset__plade .rum-plade__frame,
+  .rum-huset__plade .rum-plade__frame img {
+    min-height: 58svh;
+  }
 }
 
 @media (min-width: 1100px) {
@@ -551,9 +563,9 @@ html:has([data-house="rummet"]) .grain {
 .rum-room__slot {
   position: relative;
   margin-top: 28px;
-  max-width: min(100%, 720px);
-  max-height: 42svh;
-  aspect-ratio: 8 / 5;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
 }
 .rum-room__slot img {
@@ -792,4 +804,106 @@ html:has([data-house="rummet"]) .grain {
   cursor: pointer;
   color: var(--hud);
   padding: 0;
+}
+
+/* ── Mærket: salgsflade på hud, ramme (nav/footer) bliver på nat ── */
+
+[data-tone="salg"] .rum-main {
+  background: var(--hud);
+  color: var(--nat);
+  --rum-line: rgba(7, 7, 7, 0.18);
+  --text: var(--nat);
+}
+
+[data-tone="salg"] .rum-maerket,
+[data-tone="salg"] .rum-produkt {
+  color: var(--nat);
+  width: 100%;
+  max-width: min(100%, 1680px);
+}
+
+[data-tone="salg"] .rum-poster {
+  color: var(--nat);
+}
+
+[data-tone="salg"] .rum-empty__title {
+  color: var(--nat);
+}
+
+[data-tone="salg"] .rum-skilt {
+  color: var(--blod);
+  font-size: 20px;
+  letter-spacing: 0.08em;
+}
+
+[data-tone="salg"] .rum-filter a {
+  color: var(--nat);
+}
+
+[data-tone="salg"] .rum-filter a[aria-current="page"],
+[data-tone="salg"] .rum-filter a:hover {
+  color: var(--blod);
+}
+
+[data-tone="salg"] .rum-book {
+  color: var(--nat);
+  border-bottom-color: rgba(7, 7, 7, 0.28);
+}
+
+[data-tone="salg"] .rum-gave__n {
+  color: var(--nat);
+}
+
+[data-tone="salg"] .rum-plade__frame,
+[data-tone="salg"] .rum-kort__foto {
+  border-color: rgba(7, 7, 7, 0.22);
+  background: var(--hud);
+}
+
+[data-tone="salg"] .rum-demo {
+  color: var(--nat);
+  background: rgba(232, 220, 200, 0.88);
+}
+
+[data-tone="salg"] .rum-plade__titel,
+[data-tone="salg"] .rum-plade__artist,
+[data-tone="salg"] .rum-plade__meta {
+  color: var(--nat);
+}
+
+[data-tone="salg"] .rum-produkt__koeb button {
+  color: var(--blod);
+  border-bottom-color: rgba(185, 28, 28, 0.45);
+  font-size: 20px;
+}
+
+[data-tone="salg"] .rum-main :focus-visible {
+  outline-color: var(--nat);
+}
+
+[data-tone="salg"] .rum-maerket__hylden,
+[data-tone="salg"] .rum-maerket__vaeg {
+  width: 100%;
+}
+
+[data-tone="salg"] .rum-hylden {
+  width: 100%;
+}
+
+[data-tone="salg"] .rum-vaeg {
+  width: 100%;
+}
+
+[data-tone="salg"] .rum-empty,
+[data-tone="salg"] .rum-body-copy,
+[data-tone="salg"] .rum-kort__navn,
+[data-tone="salg"] .rum-kort__arkiv a {
+  color: var(--nat);
+}
+
+[data-tone="salg"] .rum-nav,
+[data-tone="salg"] .rum-footer,
+[data-tone="salg"] .rum-dock {
+  background: var(--nat);
+  color: var(--hud);
 }

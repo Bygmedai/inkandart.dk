@@ -56,7 +56,7 @@ export default async function MaerketPage({
   const hyldenTom = yamlEmpty || hylden.length === 0;
 
   return (
-    <RummetShell>
+    <RummetShell tone="salg">
       <main id="main" className="rum-room rum-maerket">
         <h1 className="rum-room__title rum-poster">Mærket</h1>
 

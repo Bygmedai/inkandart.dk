@@ -21,7 +21,7 @@ export function ProduktFlade({
 }) {
   const buy = product ? priceLabel(product) : "";
   return (
-    <RummetShell>
+    <RummetShell tone="salg">
       <main id="main" className="rum-room rum-produkt">
         <p className="rum-label">Mærket</p>
         <h1 className="rum-room__title rum-poster">{vaerk.titel || vaerk.id}</h1>

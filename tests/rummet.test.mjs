@@ -343,8 +343,10 @@ test("M2R rum-flader: 1680, ingen 560 på slot, væg 4, stolen 3", () => {
   const slot = css.slice(s, css.indexOf("}", s));
   assert.doesNotMatch(slot, /560px/);
   assert.doesNotMatch(slot, /62svh/);
-  assert.match(slot, /max-height:\s*42svh/);
-  assert.match(slot, /720px/);
+  assert.doesNotMatch(slot, /42svh/);
+  assert.doesNotMatch(slot, /720px/);
+  assert.match(slot, /aspect-ratio:\s*16\s*\/\s*9/);
+  assert.match(slot, /width:\s*100%/);
 
   const plade = css.indexOf(".rum-produkt__plade {");
   const pladek = css.slice(plade, css.indexOf("}", plade));
@@ -377,4 +379,42 @@ test("M2R Huset: segl + kort, Natten/Gaden overlay, ingen frit", () => {
   assert.match(gaden, /\[TAL BEKRÆFTES\]/);
   assert.doesNotMatch(gave, /frit/);
   assert.doesNotMatch(gave, /GIFT_CARD_PRODUCT_URL/);
+});
+test("M2R runde 2: Gaden tal + footer CVR/telefon", () => {
+  const footer = read("components/rummet/Footer.tsx");
+  const gaden = read("app/(rummet)/gaden/page.tsx");
+  assert.match(footer, /CVR 44226413/);
+  assert.match(footer, /tel:\+4555248608/);
+  assert.match(footer, /55 24 86 08/);
+  assert.match(gaden, /Larsbjørnsstræde 13 kld, 1454 København K/);
+  assert.match(gaden, /tel:\+4555248608/);
+  assert.match(gaden, /Depositum fra 100 kr/);
+  assert.match(gaden, /\[TAL BEKRÆFTES\]/);
+});
+
+test("M2R runde 2: Mærket salgsflade på hud", () => {
+  const shell = read("components/rummet/Shell.tsx");
+  const maerket = read("app/(rummet)/maerket/page.tsx");
+  const produkt = read("components/rummet/ProduktFlade.tsx");
+  const css = read("components/rummet/rummet.css");
+  const nav = read("components/rummet/Nav.tsx");
+  assert.match(shell, /tone = "nat"/);
+  assert.match(shell, /data-tone=\{tone\}/);
+  assert.match(maerket, /tone="salg"/);
+  assert.match(produkt, /tone="salg"/);
+  assert.match(css, /\[data-tone="salg"\] \.rum-main/);
+  assert.match(css, /background:\s*var\(--hud\)/);
+  assert.doesNotMatch(css, /#d9cbb4/);
+  const vaeg = css.slice(css.indexOf(".rum-vaeg {"), css.indexOf("}", css.indexOf(".rum-vaeg {")));
+  assert.match(vaeg, /grid-template-columns:\s*1fr 1fr/);
+  assert.doesNotMatch(nav, /Segl/);
+  assert.match(nav, /Ink & Art/);
+});
+
+test("M2R runde 2: Huset mobil 58svh, slot uden px-cap", () => {
+  const css = read("components/rummet/rummet.css");
+  assert.match(css, /min-height:\s*58svh/);
+  const s = css.indexOf(".rum-room__slot {");
+  const slot = css.slice(s, css.indexOf("}", s));
+  assert.doesNotMatch(slot, /max-height/);
 });

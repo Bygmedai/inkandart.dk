@@ -4,7 +4,7 @@ import { BookDoor } from "@/components/rummet/BookDoor";
 
 export const metadata: Metadata = {
   title: "Gaden · Ink & Art",
-  description: "Larsbjørnsstræde 13, København K. Tatovering og piercing.",
+  description: "Larsbjørnsstræde 13 kld, København K. Tatovering og piercing.",
   alternates: { canonical: "/gaden" },
 };
 
@@ -19,11 +19,14 @@ export default function GadenPage() {
           <span className="rum-demo">DEMO G-01</span>
         </div>
         <p className="rum-room__note rum-body-copy">
-          Larsbjørnsstræde 13, 1454 København K.
+          Larsbjørnsstræde 13 kld, 1454 København K.
+        </p>
+        <p className="rum-room__note rum-body-copy">
+          <a href="tel:+4555248608">55 24 86 08</a>
         </p>
         <p className="rum-room__note rum-body-copy">Åbent: [TAL BEKRÆFTES]</p>
         <p className="rum-room__note rum-body-copy">Walk-in: [TAL BEKRÆFTES]</p>
-        <p className="rum-room__note rum-body-copy">Depositum: [TAL BEKRÆFTES]</p>
+        <p className="rum-room__note rum-body-copy">Depositum fra 100 kr</p>
         <p className="rum-room__note rum-body-copy">
           Tatovering og piercing. Ring på.
         </p>

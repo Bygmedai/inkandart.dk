@@ -7,12 +7,14 @@ import "./rummet.css";
 export function RummetShell({
   children,
   door = true,
+  tone = "nat",
 }: {
   children: React.ReactNode;
   door?: boolean;
+  tone?: "nat" | "salg";
 }) {
   return (
-    <div data-house="rummet" data-rummet="">
+    <div data-house="rummet" data-rummet="" data-tone={tone}>
       <SkipLink lang="da" />
       <Nav />
       <div className="rum-main">{children}</div>
