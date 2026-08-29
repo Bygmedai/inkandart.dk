@@ -75,14 +75,16 @@ test("småteksten i gaden holder AA-kontrast — opacity må ikke skride ned ige
   }
 });
 
-test("/shop er ikke forældreløs — der går en dør ind fra huset", () => {
-  // Rummet M1: forsiden er Huset. Kataloget hedder Mærket; Gaden bærer
-  // stadig døren til /shop indtil M2 bygger væggen. En side uden en dør
-  // er ikke en side, den er en URL.
+test("salgsdøren er ikke forældreløs — der går en dør ind fra huset", () => {
+  // Rummet M1 skrev: «Gaden bærer stadig døren til /shop indtil M2 bygger
+  // væggen.» M2 HAR bygget væggen — Mærket findes med hylde, produktside og
+  // kurv. Betingelsen i den gamle påstand er dermed indfriet, og døren flyttes
+  // (S573). Den må ikke pege på /shop igen: Emerge-fladen annoncerer walk-in
+  // med pris, og K7 siger at det tal kun findes fysisk i og uden for butikken.
   const nav = readFileSync(join(root, "components/rummet/Nav.tsx"), "utf8");
   const gaden = readFileSync(join(root, "app/(rummet)/gaden/page.tsx"), "utf8");
   assert.match(nav, /href: "\/maerket"/, "Huset skal have en dør til Mærket");
-  assert.match(gaden, /href="\/shop"/, "Gaden skal stadig åbne /shop indtil M2");
+  assert.match(gaden, /href="\/maerket"/, "Gaden skal åbne Mærket");
 });
 
 test("tilbage-linket er dækket af tap-reglen på ALLE undersider", () => {

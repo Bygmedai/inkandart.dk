@@ -39,8 +39,8 @@ export default function GadenPage() {
           <a href="/booking" className="rum-book">
             Book tid
           </a>
-          <a href="/shop" className="rum-book">
-            Shop
+          <a href="/maerket" className="rum-book">
+            Mærket
           </a>
           <a href="/gavekort" className="rum-book">
             Gavekort
