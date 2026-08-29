@@ -129,14 +129,16 @@ export default function ShopPage() {
           <KerbReservation />
         </section>
 
-        {/* ── Prints-væggen: ærligt «snart» indtil P3 + prisgate ─────── */}
-        <section className="gade__afsnit" aria-label="Prints og objekter">
-          <p className="gade__afsnit-label">Væggen</p>
-          <h2 className="gade__afsnit-rubrik">Snart på væggen.</h2>
-          <p className="mt-3 max-w-[54ch] text-[var(--text-soft)]">
-            Husets motiver som prints og objekter — trykt og støbt i små oplag.
-            De hænger her, når de er klar. Blackbook ser dem først.
-          </p>
+        {/* ── Prints-væggen ────────────────────────────────────────────
+             Hele blokken læser fra ordbogen. Den gjorde den ikke før: rubrikken
+             blev flyttet til `c.wallTitle`, mens etiket, intro, «snart» og noten
+             blev stående hårdkodet — så da varerne gik live, sagde den engelske
+             side «On the wall» og den danske stadig «De hænger her, når de er
+             klar». To sprog må ikke kunne drifte fra hinanden ét ord ad gangen. */}
+        <section className="gade__afsnit" aria-label={c.wallLabel}>
+          <p className="gade__afsnit-label">{c.wallLabel}</p>
+          <h2 className="gade__afsnit-rubrik">{c.wallTitle}</h2>
+          <p className="mt-3 max-w-[54ch] text-[var(--text-soft)]">{c.wallIntro}</p>
           <ul className="gade__prints" role="list">
             {SHOP_PRINTS.map((p, i) => (
               <li
@@ -150,19 +152,18 @@ export default function ShopPage() {
                   <a
                     className="gade__print-koeb"
                     href={cartUrl(p.variantId)}
-                    aria-label={`Køb ${p.navn}, ${kr(p.kr)} kroner`}
+                    aria-label={c.buyAria(p.navn, kr(p.kr))}
                   >
                     {kr(p.kr)},- →
                   </a>
                 ) : (
-                  <span className="gade__print-snart">Snart</span>
+                  <span className="gade__print-snart">{c.soon}</span>
                 )}
               </li>
             ))}
           </ul>
           <p className="gade__note">
-            Vil du have besked når væggen fyldes?{" "}
-            <a href="/blackbook">Skriv dig i Blackbook →</a>
+            {c.note} <a href="/blackbook">{c.noteLink}</a>
           </p>
         </section>
       </div>
