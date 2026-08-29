@@ -9,7 +9,6 @@ export function Plade({
   artist?: Artist;
 }) {
   const label = vaerkLabel(vaerk, artist);
-  const caption = vaerk.billedtekst;
   return (
     <figure className="rum-plade">
       <div className="rum-plade__frame">
@@ -18,7 +17,6 @@ export function Plade({
       </div>
       <figcaption>
         {vaerk.titel ? <p className="rum-plade__titel rum-poster">{vaerk.titel}</p> : null}
-        {caption ? <p className="rum-billedtekst">{caption}</p> : null}
         {vaerk.titel && artist?.fornavn ? (
           <p className="rum-plade__artist">{artist.fornavn}</p>
         ) : null}

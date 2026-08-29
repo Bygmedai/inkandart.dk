@@ -569,14 +569,45 @@ test("Blackbook tager email, ikke telefon", () => {
   assert.match(door, /Afmeld nederst i mailen/);
 });
 
-test("Plader viser billedtekst, ikke DEMO-chip", () => {
+test("Plader viser ikke DEMO-chip og ingen rum-billedtekst", () => {
   const plade = read("components/rummet/Plade.tsx");
   const yaml = read("content/vaerker.yml");
   assert.doesNotMatch(plade, /rum-demo/);
-  assert.match(plade, /billedtekst/);
+  assert.doesNotMatch(plade, /rum-billedtekst/);
   assert.doesNotMatch(yaml, /demo:\s*true/);
   assert.match(yaml, /billedtekst:/);
   assert.match(yaml, /håndled/);
+});
+
+test("ingen synlig billedtekst under fotos (Stolen/Huset/Gaden/booking/Natten)", () => {
+  const kort = read("components/rummet/ArtistKort.tsx");
+  const huset = read("app/(rummet)/page.tsx");
+  const stolen = read("app/(rummet)/stolen/page.tsx");
+  const gaden = read("app/(rummet)/gaden/page.tsx");
+  const booking = read("app/(rummet)/booking/page.tsx");
+  const tak = read("app/(rummet)/booking/tak/page.tsx");
+  const natten = read("app/(rummet)/natten/page.tsx");
+  const plade = read("components/rummet/Plade.tsx");
+
+  for (const [name, src] of [
+    ["ArtistKort", kort],
+    ["Huset", huset],
+    ["Stolen", stolen],
+    ["Gaden", gaden],
+    ["Booking", booking],
+    ["Tak", tak],
+    ["Natten", natten],
+    ["Plade", plade],
+  ]) {
+    assert.doesNotMatch(src, /rum-billedtekst/, `${name} renderer rum-billedtekst`);
+    assert.doesNotMatch(src, /rum-demo/, `${name} har DEMO-chip`);
+  }
+
+  const artistJsx = kort + huset + stolen;
+  assert.doesNotMatch(artistJsx, /Station ovenfra/);
+  assert.doesNotMatch(artistJsx, /Handskede hænder/);
+  assert.doesNotMatch(artistJsx, /Tom stol, station/);
+  assert.doesNotMatch(booking + tak, /Stolen under lampen/);
 });
 
 /**

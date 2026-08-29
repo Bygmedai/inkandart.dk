@@ -13,16 +13,14 @@ export default function NattenPage() {
   const nat = activeNat(house.nats);
   const poster = house.nats[0];
   const foto = nat ? nat.plakatfoto || "/slots/H-02.jpg" : poster?.plakatfoto || "/slots/H-02.jpg";
-  const billedtekst = nat?.billedtekst || poster?.billedtekst || "";
   return (
     <RummetShell>
       <main id="main" className="rum-room rum-natten">
         <h1 className="rum-room__title rum-poster">Natten</h1>
         <div className="rum-room__slot">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={foto} alt={nat ? "Natten" : billedtekst || "H-02, natten"} />
+          <img src={foto} alt="Natten" />
         </div>
-        {billedtekst ? <p className="rum-billedtekst">{billedtekst}</p> : null}
         {nat ? (
           <div className="rum-nat__card rum-nat__card--live" style={{ marginTop: 28 }}>
             {nat.dato ? <p className="rum-nat__title rum-poster">{nat.dato}</p> : null}

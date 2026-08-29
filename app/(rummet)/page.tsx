@@ -63,7 +63,6 @@ export default function HusetPage() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={a.foto} alt={a.fornavn} />
                 </div>
-                {a.billedtekst ? <p className="rum-billedtekst">{a.billedtekst}</p> : null}
                 <div className="rum-kort__body">
                   <h2 className="rum-chair__navn rum-poster">{a.fornavn}</h2>
                   {a.haandvaerk ? <p className="rum-chair__craft">{a.haandvaerk}</p> : null}
@@ -85,9 +84,6 @@ export default function HusetPage() {
                     alt={guest.kind === "named" ? guest.artist.fornavn : "Gæst"}
                   />
                 </div>
-                {guest.artist.billedtekst ? (
-                  <p className="rum-billedtekst">{guest.artist.billedtekst}</p>
-                ) : null}
                 <div className="rum-kort__body">
                   <h2 className="rum-chair__navn rum-poster">
                     {guest.kind === "named" ? guest.artist.fornavn : "Gæst · navn følger"}
