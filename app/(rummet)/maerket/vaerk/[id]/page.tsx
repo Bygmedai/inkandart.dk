@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ProduktFlade } from "@/components/rummet/ProduktFlade";
+import { VaerkFlade } from "@/components/rummet/VaerkFlade";
 import {
   artistById,
   loadHouse,
@@ -43,5 +43,5 @@ export default async function VaerkProduktPage({
   if (!vaerk?.edition_ref) notFound();
   const artist = artistById(house.artists, vaerk.artist);
   const product = await productByHandle(vaerk.edition_ref);
-  return <ProduktFlade vaerk={vaerk} artist={artist} product={product} />;
+  return <VaerkFlade vaerk={vaerk} artist={artist} product={product} />;
 }

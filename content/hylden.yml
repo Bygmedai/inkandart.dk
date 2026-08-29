@@ -1,0 +1,27 @@
+# Hylden — husets varer. Uafhængig af vaerker.yml.
+#
+# Et værk er et fotografi af en tatovering. En vare er noget man kan købe.
+# De to skal ikke være det samme: en næsering har ikke brug for et værk,
+# den har brug for at kunne købes. Editions — print af en rigtig tatovering
+# med arkivnummer — bliver deres egen hylde senere.
+#
+# handle = produktets handle i Shopify. Findes varen ikke dér, vises den ikke.
+# Fra uge 36 læses hylden direkte fra Shopifys kollektioner, og denne fil udgår.
+
+- handle: dolk
+  titel: Dolk
+  foto: /emerge/shop/dolk.png
+  linje: Håndtrykt på tykt papir. Et af husets flash-motiver.
+  gruppe: Prints
+
+- handle: ouroboros
+  titel: Ouroboros
+  foto: /emerge/shop/ouroboros.png
+  linje: Slangen der bider sig selv i halen. Lille oplag, håndtrykt.
+  gruppe: Prints
+
+- handle: signetring
+  titel: Signetring
+  foto: /emerge/shop/signetring.png
+  linje: Støbt i sterlingsølv efter en af husets tegninger.
+  gruppe: Smykker
