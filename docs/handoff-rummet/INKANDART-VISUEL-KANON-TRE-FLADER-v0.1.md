@@ -1,5 +1,5 @@
 # Husets visuelle kanon — tre flader, ét system
-**29. august 2026 · Haruki. Til Stevens ratifikation.**
+**v0.2 · 29. august 2026 · Haruki. Ratificeret af Steven 29/8 (inkl. interim-reglen i K5).**
 **Stevens kendelse 29/8:** *«Webshop og app skal bygges helt om. Det nye design trumfer det gamle. Sørg for at vi får den rette visuelle stil på tværs, uden at de tre skal ligne hinanden 1:1.»*
 
 Dette dokument afløser `inkandart-webshop/DESIGN-GUIDE.md` og `INKANDART-DESIGN-MANUAL-AND-SPEC.md` som farve- og formkilde. De gamle guider **pensioneres, ikke opdateres** — de bar Emerge-designet, og Emerge er død. Rummet er husets sprog nu, på alle tre flader.
@@ -25,7 +25,7 @@ Derfor kommer de tre flader til at se forskellige ud uden at være tre brands: d
 | K2 | **Typen.** Anton til plakat og overskrift, Instrument Sans til brød og UI. Ingen tredje familie. Brød aldrig i caps, brød aldrig under 16 px, labels aldrig under 12 px. |
 | K3 | **Radius 0.** Overalt. Runde former findes kun i anti-arkets parodier. |
 | K4 | **Seglet er ét mærke, én fil** (`logo-segl.svg`). Størrelse og placering er fladens valg; formen og farven er ikke. Præcis ét prominent segl pr. skærm — aldrig to i samme hjørne. |
-| K5 | **Billedloven.** Kun husets egne billeder. Alt ikke-endeligt mærkes `DEMO`. Mindst ét lyst billede pr. sektion — det er målt, at det er dét, der løfter en flade. Alt-tekst = værk-labelen (titel · navn · år). |
+| K5 | **Billedloven.** Husets egne billeder er målet og standarden. **Interim-regel (godkendt af Steven 29/8-2026):** indtil husets eget shoot er inde, må **Grok-genererede billeder gå live** — på disse vilkår: *(a)* stemnings- og rum-billeder (gaden, natten, interiør, hænder i arbejde) må stå umærkede; *(b)* værk-plader uden et ægte værk beholder den diskrete `DEMO`-chip — et genereret motiv må aldrig krediteres som en navngiven artists værk; *(c)* **ingen genererede ansigter koblet til ægte navne** — artist-slots bruger arbejdsbilleder (hænder, station, ryg) indtil ægte portrætter findes; *(d)* interim-billeder udskiftes 1:1 på slot-filnavn når shootet lander, og reglen udløber dér. Mindst ét lyst billede pr. sektion — det er målt, at det er dét, der løfter en flade. Alt-tekst = værk-labelen. |
 | K6 | **Sproget.** Ordlisten i `DANSK-TATTOO-SPROG v0.3`. Dansk, kort, fagsprog, ingen superlativer, ingen bureau-lugt. Tom-tilstande er ærlige og ordret som ratificeret. |
 | K7 | **Ét tal.** Aldrig «fra», aldrig timepris, aldrig «skriv for pris». Mangler tallet, står `[TAL BEKRÆFTES]` — også i app og webshop. |
 | K8 | **Blackbook-døren findes på alle flader** og forsvinder aldrig — heller ikke i kurven. Én linje: «Vi sender kun natten. Afmeld med STOP.» |
