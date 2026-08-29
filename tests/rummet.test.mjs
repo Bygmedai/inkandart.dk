@@ -577,3 +577,16 @@ test("Plader viser billedtekst, ikke DEMO-chip", () => {
   assert.match(yaml, /billedtekst:/);
   assert.match(yaml, /håndled/);
 });
+
+/**
+ * S573: /booking er husets pengeside — den var ikke i sitemap.
+ * En side Google ikke får at vide om, findes kun for dem der allerede
+ * kender den. Alle seks Rummet-flader skal stå der.
+ */
+test("alle Rummets flader står i sitemap", () => {
+  const sm = readFileSync(join(root, "app/sitemap.ts"), "utf8");
+  for (const rute of ["/", "/stolen", "/maerket", "/natten", "/gaden", "/booking"]) {
+    const m = rute === "/" ? /inkandart\.dk\/"/ : new RegExp(`inkandart\\.dk${rute}"`);
+    assert.match(sm, m, `${rute} mangler i sitemap`);
+  }
+});

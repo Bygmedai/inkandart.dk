@@ -5,6 +5,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: "https://inkandart.dk/", lastModified: new Date() },
     { url: "https://inkandart.dk/stolen", lastModified: new Date() },
     { url: "https://inkandart.dk/maerket", lastModified: new Date() },
+    { url: "https://inkandart.dk/booking", lastModified: new Date() },
     { url: "https://inkandart.dk/natten", lastModified: new Date() },
     { url: "https://inkandart.dk/gaden", lastModified: new Date() },
     { url: "https://inkandart.dk/en", lastModified: new Date() },
