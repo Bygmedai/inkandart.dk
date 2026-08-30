@@ -1,7 +1,13 @@
 import type { MetadataRoute } from "next";
+import { loadHouse, profiledArtists } from "@/lib/content";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const artistPages = profiledArtists(loadHouse().artists).map((a) => ({
+    url: `https://inkandart.dk/stolen/${a.id}`,
+    lastModified: new Date(),
+  }));
   return [
+    ...artistPages,
     { url: "https://inkandart.dk/", lastModified: new Date() },
     { url: "https://inkandart.dk/stolen", lastModified: new Date() },
     { url: "https://inkandart.dk/maerket", lastModified: new Date() },
@@ -18,7 +24,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: "https://inkandart.dk/en/walk-in", lastModified: new Date() },
     { url: "https://inkandart.dk/shop", lastModified: new Date() },
     { url: "https://inkandart.dk/flash", lastModified: new Date() },
-    { url: "https://inkandart.dk/blackbook", lastModified: new Date() },
     { url: "https://inkandart.dk/privatlivspolitik", lastModified: new Date() },
     { url: "https://inkandart.dk/betingelser", lastModified: new Date() },
   ];

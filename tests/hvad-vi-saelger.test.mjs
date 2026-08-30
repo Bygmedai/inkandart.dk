@@ -5,7 +5,14 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const scene = readFileSync(join(root, "app/(rummet)/page.tsx"), "utf8");
+// Forsidens ord bor i content/huset.yml (S573: hardcoding ud af markup).
+// Vidnet måler stadig det brugeren ser — kilden er bare flyttet, så YAML'en
+// læses med som en del af scenen. En titel der ryger ud af huset.yml uden
+// erstatning gør stadig vidnet rødt.
+const scene =
+  readFileSync(join(root, "app/(rummet)/page.tsx"), "utf8") +
+  "\n" +
+  readFileSync(join(root, "content/huset.yml"), "utf8");
 const layout = readFileSync(join(root, "app/layout.tsx"), "utf8");
 
 /**

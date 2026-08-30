@@ -1,30 +1,38 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { RummetShell } from "@/components/rummet/Shell";
-import { Plade } from "@/components/rummet/Plade";
+import { ArtistKort } from "@/components/rummet/ArtistKort";
 import { Door } from "@/components/rummet/Door";
 import { Segl } from "@/components/rummet/Segl";
 import {
   loadHouse,
-  artistById,
+  loadHusetForside,
+  loadKontakt,
   chairArtists,
   guestState,
   activeNat,
-  featuredVaerk,
+  visibleCountForArtist,
 } from "@/lib/content";
 import { alternates } from "@/lib/i18n";
 
+const _fold = loadHusetForside();
+const _kontakt = loadKontakt();
+
 export const metadata: Metadata = {
   alternates: alternates("/"),
-  title: "Ink & Art Copenhagen — tatovering & piercing i Pisserenden",
-  description:
-    "Tatovering og piercing i Pisserenden. Larsbjørnsstræde 13, København K.",
+  title: `Ink & Art Copenhagen — ${_fold.titel.toLowerCase()}`,
+  description: `${_fold.titel}. ${_kontakt.adresse.split(",")[0]}, ${_kontakt.by}.`,
 };
 
+/**
+ * Forsiden. Ordene og heroen bor i content/huset.yml, kontakten i
+ * content/kontakt.yml, artisterne i artists.yml. Denne fil er kun layout —
+ * står der et tal eller et navn herinde, er det en fejl.
+ */
 export default function HusetPage() {
   const house = loadHouse();
-  const featured = featuredVaerk(house.vaerker);
-  const featuredArtist = featured ? artistById(house.artists, featured.artist) : undefined;
+  const fold = loadHusetForside();
+  const kontakt = loadKontakt();
   const chairs = chairArtists(house.artists);
   const guest = guestState(house.artists);
   const nat = activeNat(house.nats);
@@ -34,57 +42,40 @@ export default function HusetPage() {
       <main id="main" className="rum-huset">
         <header className="rum-huset__intro">
           <p className="rum-label">Huset</p>
-          <h1 className="rum-huset__title rum-poster">
-            Tatovering og piercing i Pisserenden
-          </h1>
-          <p className="rum-huset__lede rum-body-copy">
-            Larsbjørnsstræde 13, kælderen. Walk-in når der er en fri stol — ellers book.
-          </p>
+          <h1 className="rum-huset__title rum-poster">{fold.titel}</h1>
+          <p className="rum-huset__lede rum-body-copy">{fold.lede}</p>
           <div className="rum-huset__cta">
             <a id="booking" href="/booking" className="rum-book">
-              Book tid
+              {fold.cta_book}
             </a>
-            <a className="rum-tel" href="tel:+4555248608">
-              Ring på — 55 24 86 08
+            <a className="rum-tel" href={`tel:${kontakt.telefon_e164}`}>
+              Ring på — {kontakt.telefon_vist}
             </a>
           </div>
         </header>
-        <section id="work" className="rum-huset__plade">
-          <p className="rum-label rum-huset__kicker">Nylavet</p>
-          {featured ? (
-            <Plade vaerk={featured} artist={featuredArtist} />
-          ) : (
-            <div className="rum-empty">
-              <p className="rum-empty__title rum-poster">Ingen værk i dag</p>
-            </div>
-          )}
+
+        <section id="work" className="rum-huset__hero">
+          {fold.kicker ? (
+            <p className="rum-label rum-huset__kicker">{fold.kicker}</p>
+          ) : null}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={fold.hero_foto} alt={fold.hero_billedtekst} />
+          <Segl size={180} placement="above" className="rum-huset__segl" />
         </section>
 
         <section className="rum-huset__side">
-          <div className="rum-huset__maerke">
-            <Segl size={220} placement="beside" />
-          </div>
           <p className="rum-label" id="artists">
             I stolen
           </p>
 
           <div className="rum-huset__chairs">
             {chairs.map((a) => (
-              <article
+              <ArtistKort
                 key={a.id}
-                id={a.id === "nizar" ? "artist-nizar" : undefined}
-                className="rum-kort rum-chair"
-              >
-                <div className="rum-kort__foto">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={a.foto} alt={a.fornavn} />
-                </div>
-                <div className="rum-kort__body">
-                  <h2 className="rum-chair__navn rum-poster">{a.fornavn}</h2>
-                  {a.haandvaerk ? <p className="rum-chair__craft">{a.haandvaerk}</p> : null}
-                  <p className="rum-label rum-chair__meta">Fast</p>
-                </div>
-              </article>
+                artist={a}
+                workCount={visibleCountForArtist(house.vaerker, a.id)}
+                compact
+              />
             ))}
 
             {guest.kind === "empty" ? (
@@ -92,34 +83,18 @@ export default function HusetPage() {
                 <p className="rum-empty__title rum-poster">Ingen gæst i stolen</p>
               </div>
             ) : (
-              <article className="rum-kort rum-chair">
-                <div className="rum-kort__foto">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={guest.artist.foto}
-                    alt={guest.kind === "named" ? guest.artist.fornavn : "Gæst"}
-                  />
-                </div>
-                <div className="rum-kort__body">
-                  <h2 className="rum-chair__navn rum-poster">
-                    {guest.kind === "named" ? guest.artist.fornavn : "Gæst · navn følger"}
-                  </h2>
-                  {guest.kind === "named" && guest.artist.haandvaerk ? (
-                    <p className="rum-chair__craft">{guest.artist.haandvaerk}</p>
-                  ) : null}
-                  <p className="rum-label rum-chair__meta">
-                    {guest.kind === "named" && guest.artist.periode_til
-                      ? `I huset til ${guest.artist.periode_til}`
-                      : "Gæst"}
-                  </p>
-                </div>
-              </article>
+              <ArtistKort
+                artist={guest.artist}
+                workCount={visibleCountForArtist(house.vaerker, guest.artist.id)}
+                guestKind={guest.kind}
+                compact
+              />
             )}
           </div>
 
           <div style={{ marginTop: 20 }}>
             <a href="/booking" className="rum-book">
-              Book tid
+              {fold.cta_book}
             </a>
           </div>
 

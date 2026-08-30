@@ -1,0 +1,10 @@
+# Husets stamdata. Ét sted — footer, forside og booking læser herfra.
+# Retter du telefonnummeret her, er det rettet alle steder.
+
+navn: Ink and Art Cph ApS
+cvr: "44226413"
+adresse: Larsbjørnsstræde 13, kælderen
+by: København K
+telefon_vist: 55 24 86 08
+telefon_e164: "+4555248608"
+email: booking@inkandart.dk
