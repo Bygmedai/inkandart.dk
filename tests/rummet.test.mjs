@@ -299,12 +299,12 @@ test("M2 opfinder ikke walk-in 900, «fra»-priser eller dummy-navne", () => {
   }
   assert.doesNotMatch(src, /Artistkortet kommer i næste rum/);
   const gave = read("components/rummet/GavekortKoeb.tsx");
-  assert.match(gave, /500/);
-  assert.match(gave, /1000/);
-  assert.match(gave, /2000/);
+  // S574 (Steven): ét gavekort, samme beløb, samme navn på alle indgange.
+  // Ingen udsnitsfiltre — kilden er GIFT_CARDS alene, ingen beløb i markup.
+  assert.match(gave, /const cards = GIFT_CARDS;/);
+  assert.doesNotMatch(gave, /new Set\(/);
+  assert.doesNotMatch(gave, /\b(100|250|500|1000|1500|2000|3000|4000)\b/);
   assert.doesNotMatch(gave, /frit/);
-  assert.match(gave, /new Set\(\[500, 1000, 2000\]\)/);
-  assert.doesNotMatch(gave, /1500|3000|4000/);
 });
 
 test("M2 Storefront kaster ikke uden env", async () => {
