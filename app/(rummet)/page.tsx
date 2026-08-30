@@ -32,6 +32,23 @@ export default function HusetPage() {
   return (
     <RummetShell door={false}>
       <main id="main" className="rum-huset">
+        <header className="rum-huset__intro">
+          <p className="rum-label">Huset</p>
+          <h1 className="rum-huset__title rum-poster">
+            Tatovering og piercing i Pisserenden
+          </h1>
+          <p className="rum-huset__lede rum-body-copy">
+            Larsbjørnsstræde 13, kælderen. Walk-in når der er en fri stol — ellers book.
+          </p>
+          <div className="rum-huset__cta">
+            <a id="booking" href="/booking" className="rum-book">
+              Book tid
+            </a>
+            <a className="rum-tel" href="tel:+4555248608">
+              Ring på — 55 24 86 08
+            </a>
+          </div>
+        </header>
         <section id="work" className="rum-huset__plade">
           <p className="rum-label rum-huset__kicker">Nylavet</p>
           {featured ? (
@@ -62,7 +79,6 @@ export default function HusetPage() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={a.foto} alt={a.fornavn} />
                 </div>
-                {a.billedtekst ? <p className="rum-billedtekst">{a.billedtekst}</p> : null}
                 <div className="rum-kort__body">
                   <h2 className="rum-chair__navn rum-poster">{a.fornavn}</h2>
                   {a.haandvaerk ? <p className="rum-chair__craft">{a.haandvaerk}</p> : null}
@@ -84,9 +100,6 @@ export default function HusetPage() {
                     alt={guest.kind === "named" ? guest.artist.fornavn : "Gæst"}
                   />
                 </div>
-                {guest.artist.billedtekst ? (
-                  <p className="rum-billedtekst">{guest.artist.billedtekst}</p>
-                ) : null}
                 <div className="rum-kort__body">
                   <h2 className="rum-chair__navn rum-poster">
                     {guest.kind === "named" ? guest.artist.fornavn : "Gæst · navn følger"}
@@ -104,12 +117,8 @@ export default function HusetPage() {
             )}
           </div>
 
-          <p className="rum-fact">
-            Walk-in når der er en fri stol — ellers book. Larsbjørnsstræde 13, kælderen.
-          </p>
-
           <div style={{ marginTop: 20 }}>
-            <a id="booking" href="/booking" className="rum-book">
+            <a href="/booking" className="rum-book">
               Book tid
             </a>
           </div>

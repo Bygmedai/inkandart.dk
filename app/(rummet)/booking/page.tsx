@@ -9,14 +9,19 @@ export const metadata: Metadata = {
   alternates: { canonical: "/booking" },
 };
 
-const BOOKING_BILLEDTEKST = "Studie, dagslys, stol.";
-
 export default function BookingPage() {
   return (
     <RummetShell tone="salg">
       <main id="main" className="rum-room rum-booking">
         <div className="rum-booking__koeb">
-          <p>
+          <h1 className="rum-room__title rum-poster">Booking</h1>
+          <p style={{ marginTop: 24 }}>
+            <BookDoor
+              label="Videre til booking"
+              className="rum-book rum-book--row rum-booking__go"
+            />
+          </p>
+          <p style={{ marginTop: 24 }}>
             <a
               className="rum-book rum-book--row rum-booking__pris"
               href={cartUrl("53492757627208")}
@@ -25,14 +30,10 @@ export default function BookingPage() {
               Depositum 100 kr — fragår i prisen
             </a>
           </p>
-          <p style={{ marginTop: 24 }}>
-            <BookDoor label="Videre til booking" />
-          </p>
         </div>
         <div className="rum-booking__plade">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/slots/H-01.jpg" alt={BOOKING_BILLEDTEKST} />
-          <p className="rum-billedtekst">{BOOKING_BILLEDTEKST}</p>
+          <img src="/slots/H-04.jpg" alt="Booking" />
         </div>
       </main>
     </RummetShell>

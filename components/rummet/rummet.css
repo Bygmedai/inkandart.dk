@@ -238,6 +238,34 @@ html:has([data-house="rummet"]) .grain {
   }
 }
 
+.rum-huset__intro {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 36rem;
+  padding: 4px 0 0;
+}
+.rum-huset__title {
+  font-size: 28px;
+  margin: 0;
+  color: var(--hud);
+}
+.rum-huset__lede {
+  margin: 0;
+}
+.rum-huset__cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 28px;
+  margin-top: 4px;
+}
+@media (min-width: 1100px) {
+  .rum-huset__title { font-size: 40px; }
+  .rum-huset__intro { padding-top: 28px; }
+}
+
 .rum-huset__plade { min-width: 0; position: relative; }
 .rum-huset__side {
   display: flex;
@@ -457,6 +485,12 @@ html:has([data-house="rummet"]) .grain {
   border-bottom: 1px solid rgba(232, 220, 200, 0.28);
 }
 
+.rum-tel {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
 /* ── Door ── */
 
 .rum-door {
@@ -574,9 +608,21 @@ html:has([data-house="rummet"]) .grain {
   object-fit: cover;
   display: block;
 }
+@media (max-width: 899px) {
+  .rum-room__slot {
+    aspect-ratio: 4 / 5;
+  }
+}
 .rum-room__note {
   margin: 24px 0 0;
   max-width: 46ch;
+}
+
+.rum-natten__out {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 28px;
+  margin-top: 24px;
 }
 
 .rum-legal {
@@ -687,6 +733,17 @@ html:has([data-house="rummet"]) .grain {
   height: 100%;
   object-fit: cover;
 }
+/* På telefonen fyldte portrættet skærmen alene: navnet stod nederst og
+   "Book tid" lå under folden. Man kunne se tatovøren, men ikke bestille
+   en tid hos ham. Loftet klipper portrættet — object-fit: cover holder
+   ansigtet — så knappen kommer op i syne. Fuld højde igen fra 700px,
+   hvor kortene alligevel står ved siden af hinanden. */
+@media (max-width: 699px) {
+  .rum-stolen__grid .rum-kort__foto {
+    max-height: 42svh;
+  }
+}
+
 .rum-kort__body {
   padding-top: 16px;
 }
@@ -906,6 +963,10 @@ html:has([data-house="rummet"]) .grain {
   color: var(--hud);
 }
 
+[data-tone="salg"] .rum-label {
+  color: #5f5a54;
+}
+
 /* ── Booking: salgsflade, handling først, ét rum-billede ── */
 
 .rum-booking {
@@ -926,6 +987,17 @@ html:has([data-house="rummet"]) .grain {
   object-fit: cover;
   display: block;
   border: 1px solid var(--rum-line);
+}
+@media (max-width: 899px) {
+  .rum-booking__plade img {
+    max-height: 240px;
+    aspect-ratio: auto;
+  }
+}
+.rum-booking__go {
+  font-size: 20px;
+  width: 100%;
+  justify-content: center;
 }
 .rum-booking__pris {
   color: var(--blod);

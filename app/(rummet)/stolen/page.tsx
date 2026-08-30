@@ -45,6 +45,9 @@ export default function StolenPage() {
             />
           )}
         </div>
+        <p className="rum-fact">
+          Walk-in når der er en fri stol — ellers book.
+        </p>
       </main>
     </RummetShell>
   );
