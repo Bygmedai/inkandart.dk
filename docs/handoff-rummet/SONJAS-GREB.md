@@ -2,7 +2,7 @@
 
 Én side. Få ord.
 
-M1: indholdet bor i tre filer i repoet. Decap `/admin` er sat op mod dem, men OAuth er ikke koblet endnu — indtil da redigeres filerne (eller en PR). Når worker'en peger her, er det samme felter i browseren.
+Indholdet bor i git-filer i repoet. Decap `/admin` loader CMS'en (self-hostet script) og peger på GitHub-backend via `https://oauth.bygmedai.dk`. OAuth er peget — Sonjas konto er Harukis job; vi har kun gjort config + `/admin` loader.
 
 ## De tre opgaver
 
@@ -12,10 +12,12 @@ M1: indholdet bor i tre filer i repoet. Decap `/admin` er sat op mod dem, men OA
 
 **Værk i arkivet**  
 `content/vaerker.yml`. Nyt punkt: `id` (slot, fx `V-09`), `artist` (`nizar` / `emma` / `gaest`), `foto`, `maa_vises: true`. Titel tom indtil den er rigtig — skriv aldrig en påhit-titel. `i_dag: true` på præcis ét værk = pladen på Huset.  
-Hylden: først når `edition_ref` er sat. Ellers: «Vi laver ikke varer uden værk.»
+`maa_vises: false` — værket er væk fra Væggen og Hylden.  
+Filter på Mærket: `/maerket?artist=nizar` (samme id som i YAML).  
+Hylden: `edition_ref` er Shopify **product handle** (fx `sort-hjort-hoodie` fra admin-URL), ikke GID. Tom = «Vi laver ikke varer uden værk.»
 
 **I stolen**  
-`content/artists.yml`. Nizar og Emma har `stol: true`. Gæsten er rækken med `periode: gaest`. Tomt `fornavn` + `aktiv: true` = «Gæst · navn følger». `aktiv: false` = «Ingen gæst i stolen». Sonja og Simone røres ikke her — de sidder ikke i stolen.
+`content/artists.yml`. Nizar og Emma har `stol: true`. Gæsten er rækken med `periode: gaest`. Tomt `fornavn` + `aktiv: true` = «Gæst · navn følger». `aktiv: false` = «Ingen gæst i stolen». Navngiven gæst: `periode_til` → «I huset til …». Sonja og Simone røres ikke her — de sidder ikke i stolen.
 
 ## Døren
 
@@ -23,8 +25,8 @@ Blackbook er telefonnummer → Ind. Numrene lander som Shopify-kunde med tag `bl
 
 ## Foto
 
-Slot-id = filnavn. Læg billedet i `public/slots/V-01.jpg` (samme navn). Ingen beskæring i koden. DEMO-mærket slukkes ved `demo: false` når det er husets eget foto.
+Slot-id = filnavn. Læg billedet i `public/slots/V-01.jpg` (samme navn). Ingen beskæring i koden. DEMO-mærket slukkes ved `demo: false` når det er husets eget foto. V-slots beholder DEMO indtil husets foto. G/H-atmosfære og S-slots (hænder/arbejde) har ikke DEMO-chip.
 
 ## Ikke her
 
-Priser, åbningstider, depositum, CVR: `[TAL BEKRÆFTES]` indtil Steven/Nizar. Booking: knappen går til inkart.book.dk. Skriv til booking@ — intet andet.
+Åbningstider: `content/gaden.yml` — tom = linjen vises ikke. Opdigt aldrig tider. Stolen og Huset «Book tid» går til `/booking`. «Videre til booking» er hoppet til inkart.book.dk. Depositum 100 kr via Shopify. Skriv til booking@ — intet andet.

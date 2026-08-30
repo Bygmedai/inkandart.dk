@@ -14,8 +14,12 @@ export type Artist = {
   periode: "fast" | "gaest" | string;
   periode_til?: string;
   foto: string;
+  billedtekst: string;
   aktiv: boolean;
   stol: boolean;
+  /** Kan gaesten booke tid hos denne artist? Tom/false = walk-in indtil
+   *  kalenderen er sat op. Vi tilbyder ikke en tid huset ikke kan give. */
+  booking: boolean;
 };
 
 export type Vaerk = {
@@ -25,6 +29,7 @@ export type Vaerk = {
   aar: string;
   arkivnr: string;
   foto: string;
+  billedtekst: string;
   maa_vises: boolean;
   demo: boolean;
   i_dag: boolean;
@@ -37,7 +42,14 @@ export type Nat = {
   navne: string[];
   tidsrum: string;
   plakatfoto: string;
+  billedtekst: string;
   aktiv: boolean;
+};
+
+export type GadenInfo = {
+  aabent: string;
+  walk_in: string;
+  billedtekst: string;
 };
 
 export type House = {
@@ -57,6 +69,39 @@ function readYaml<T>(name: string): T {
 
 function asList<T>(data: T | T[]): T[] {
   return Array.isArray(data) ? data : [data];
+}
+
+/**
+ * Hylden — husets varer. Bevidst adskilt fra vaerker.yml (S573).
+ *
+ * Et vaerk er et fotografi af en tatovering; en vare er noget man kan koebe.
+ * Da hylden hang paa `edition_ref` i vaerker.yml, kunne der ikke findes en
+ * vare uden at nogen foerst havde fotograferet en tatovering — og saa kan
+ * huset ikke saelge en naesering. Kilden bliver Shopifys kollektioner i uge 36;
+ * denne fil er broen derhen.
+ */
+export type Vare = {
+  handle: string;
+  titel: string;
+  foto: string;
+  linje: string;
+  gruppe: string;
+};
+
+function normalizeVare(v: Vare): Vare {
+  return {
+    handle: str(v.handle),
+    titel: str(v.titel),
+    foto: str(v.foto),
+    linje: str(v.linje),
+    gruppe: str(v.gruppe),
+  };
+}
+
+export function loadHylden(): Vare[] {
+  return asList(readYaml<Vare | Vare[]>("hylden.yml"))
+    .map(normalizeVare)
+    .filter((v) => v.handle && v.foto);
 }
 
 export function loadHouse(): House {
@@ -83,8 +128,10 @@ function normalizeArtist(a: Artist): Artist {
     periode: str(a.periode) || "fast",
     periode_til: str(a.periode_til) || undefined,
     foto: str(a.foto),
+    billedtekst: str(a.billedtekst),
     aktiv: bool(a.aktiv),
     stol: bool(a.stol),
+    booking: a.booking === undefined ? true : bool(a.booking),
   };
 }
 
@@ -96,6 +143,7 @@ function normalizeVaerk(v: Vaerk): Vaerk {
     aar: str(v.aar),
     arkivnr: str(v.arkivnr),
     foto: str(v.foto),
+    billedtekst: str(v.billedtekst),
     maa_vises: bool(v.maa_vises),
     demo: bool(v.demo),
     i_dag: bool(v.i_dag),
@@ -111,7 +159,17 @@ function normalizeNat(n: Nat): Nat {
     navne,
     tidsrum: str(n.tidsrum),
     plakatfoto: str(n.plakatfoto),
+    billedtekst: str(n.billedtekst),
     aktiv: bool(n.aktiv),
+  };
+}
+
+export function loadGaden(): GadenInfo {
+  const data = readYaml<Partial<GadenInfo>>("gaden.yml");
+  return {
+    aabent: str(data.aabent),
+    walk_in: str(data.walk_in),
+    billedtekst: str(data.billedtekst),
   };
 }
 
@@ -160,9 +218,46 @@ export function shelfEmpty(vaerker: Vaerk[]): boolean {
   return !vaerker.some((v) => v.maa_vises && v.edition_ref);
 }
 
-/** Alt/label for a plate. Untitled DEMO uses slot id — never a fake title. */
+/** Alt/label for a plate. Billedtekst first — never a fake title. */
 export function vaerkLabel(vaerk: Vaerk, artist?: Artist): string {
+  if (vaerk.billedtekst) return vaerk.billedtekst;
   const who = artist?.fornavn || vaerk.artist;
   const bits = [vaerk.titel || vaerk.id, who, vaerk.aar].filter(Boolean);
   return bits.join(", ");
+}
+
+/** Visible works for one artist id. Copy stays in the page. */
+export function visibleVaerkerForArtist(vaerker: Vaerk[], artistId: string): Vaerk[] {
+  const id = artistId.trim();
+  if (!id) return [];
+  return visibleVaerker(vaerker).filter((v) => v.artist === id);
+}
+
+export function visibleCountForArtist(vaerker: Vaerk[], artistId: string): number {
+  return visibleVaerkerForArtist(vaerker, artistId).length;
+}
+
+/** Væggen filter. Empty/missing id → all visible works. */
+export function filterVisibleByArtist(vaerker: Vaerk[], artistId?: string | null): Vaerk[] {
+  const id = (artistId || "").trim();
+  if (!id) return visibleVaerker(vaerker);
+  return visibleVaerkerForArtist(vaerker, id);
+}
+
+/** Hylden candidates — YAML side. Storefront matching happens elsewhere. */
+export function shelfVaerker(vaerker: Vaerk[]): Vaerk[] {
+  return visibleVaerker(vaerker).filter((v) => Boolean(v.edition_ref));
+}
+
+/** Product page lookup: edition_ref is the Shopify product handle. */
+export function vaerkByEditionHandle(vaerker: Vaerk[], handle: string): Vaerk | undefined {
+  const h = handle.trim();
+  if (!h) return undefined;
+  return visibleVaerker(vaerker).find((v) => v.edition_ref === h);
+}
+
+export function vaerkById(vaerker: Vaerk[], id: string): Vaerk | undefined {
+  const key = id.trim();
+  if (!key) return undefined;
+  return visibleVaerker(vaerker).find((v) => v.id === key);
 }

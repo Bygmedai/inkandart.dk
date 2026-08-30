@@ -1,13 +1,21 @@
 /** Clothed hop to Book.dk — we dress the door, we do not rebuild the engine. */
-export function BookDoor({ id }: { id?: string }) {
+export function BookDoor({
+  id,
+  className = "rum-book",
+  label = "Book tid",
+}: {
+  id?: string;
+  className?: string;
+  label?: string;
+}) {
   return (
     <a
       id={id}
-      className="rum-book"
+      className={className}
       href="https://inkart.book.dk/"
       rel="noopener noreferrer"
     >
-      Book tid
+      {label}
     </a>
   );
 }

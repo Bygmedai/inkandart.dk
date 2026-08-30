@@ -4,19 +4,33 @@
 
 - id: nizar
   fornavn: Nizar Saad
-  haandvaerk: Tattovør
+  haandvaerk: Tatovør
   periode: fast
-  foto: /slots/S-01.jpg
+  foto: /slots/S-04.jpg
+  billedtekst: Nizar Saad foran husets skilt.
   aktiv: true
   stol: true
 
 - id: emma
   fornavn: Emma Winding
-  haandvaerk: Tattovør
+  haandvaerk: Tatovør · farvet flash og traditionelt
   periode: fast
   foto: /slots/S-02.jpg
+  billedtekst: Emma Winding i huset.
   aktiv: true
   stol: true
+
+- id: anna
+  fornavn: Anna Ogłuszka
+  haandvaerk: Piercer
+  periode: fast
+  foto: /slots/S-07.jpg
+  billedtekst: Piercinger af Anna. Øre, flere huller.
+  aktiv: true
+  stol: true
+  # Kalenderen i Book.dk er ikke sat op endnu. Indtil den er, tager hun
+  # walk-in — og kortet siger walk-in i stedet for at tilbyde en tid.
+  booking: false
 
 - id: gaest
   fornavn: ""
@@ -24,6 +38,7 @@
   periode: gaest
   periode_til: ""
   foto: /slots/S-03.jpg
+  billedtekst: Tom stol, station.
   aktiv: true
   stol: true
 
@@ -32,6 +47,7 @@
   haandvaerk: Store manager + SoMe
   periode: fast
   foto: /slots/S-05.jpg
+  billedtekst: ""
   aktiv: true
   stol: false
 
@@ -40,5 +56,6 @@
   haandvaerk: CEO, event manager
   periode: fast
   foto: /slots/S-06.jpg
+  billedtekst: ""
   aktiv: true
   stol: false

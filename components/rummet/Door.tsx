@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 /**
- * Blackbook-døren. Ét tel-felt. Aldrig væk.
+ * Blackbook-døren. Ét email-felt. Aldrig væk.
  * POST /api/subscribe — Shopify customer + tag `blackbook`.
  * Success copy is the existing line from the house, not a new invention.
  */
@@ -18,7 +18,7 @@ export function Door({ variant = "page" }: { variant?: "page" | "inline" }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          phone: String(data.get("phone") || ""),
+          email: String(data.get("email") || ""),
           company: String(data.get("company") || ""),
           source: "blackbook",
         }),
@@ -43,7 +43,7 @@ export function Door({ variant = "page" }: { variant?: "page" | "inline" }) {
         <span className="rum-dot" aria-hidden="true" />
         <span className="rum-door__name">Blackbook</span>
       </div>
-      <p className="rum-door__line">Vi sender kun natten. Afmeld med STOP.</p>
+      <p className="rum-door__line">Vi sender kun natten. Afmeld nederst i mailen.</p>
       <div className="rum-door__hp" aria-hidden="true">
         <label>
           Company
@@ -52,16 +52,16 @@ export function Door({ variant = "page" }: { variant?: "page" | "inline" }) {
       </div>
       <div className="rum-door__row">
         <div className="rum-door__field">
-          <label htmlFor={variant === "inline" ? "blackbook-phone-inline" : "blackbook-phone"}>
-            Telefonnummer
+          <label htmlFor={variant === "inline" ? "blackbook-email-inline" : "blackbook-email"}>
+            Email
           </label>
           <input
-            id={variant === "inline" ? "blackbook-phone-inline" : "blackbook-phone"}
-            type="tel"
-            name="phone"
+            id={variant === "inline" ? "blackbook-email-inline" : "blackbook-email"}
+            type="email"
+            name="email"
             required
-            autoComplete="tel"
-            inputMode="tel"
+            autoComplete="email"
+            inputMode="email"
           />
         </div>
         <button type="submit" className="rum-door__go" disabled={status === "busy"}>

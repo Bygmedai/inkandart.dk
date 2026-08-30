@@ -13,7 +13,7 @@ export default function BetingelserPage() {
         <p className="rum-label">Huset</p>
         <h1 className="rum-poster">Betingelser</h1>
         <p className="rum-body-copy">
-          Teksten afventer. [TAL BEKRÆFTES]
+          Teksten afventer.
         </p>
       </main>
     </RummetShell>

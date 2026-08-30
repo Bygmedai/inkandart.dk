@@ -11,5 +11,6 @@
 | [security-deps-v0.1.md](security-deps-v0.1.md) | High-severity classification |
 | [emerge-v0.1.md](emerge-v0.1.md) | Short build note |
 | [handoff-rummet/M1-INDSTILLINGER.md](handoff-rummet/M1-INDSTILLINGER.md) | Rummet M1 settings (Decap, Blackbook, Book.dk) |
+| [handoff-rummet/M2-INDSTILLINGER.md](handoff-rummet/M2-INDSTILLINGER.md) | Rummet M2 (Stolen, Mærket, Storefront handle) |
 
 Historical 11ty reviews under `qa-ux-review*.md` and `dispatches/` describe the old site. Emerge-docs are archived in place — not deleted.
