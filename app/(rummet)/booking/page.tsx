@@ -33,7 +33,7 @@ export default function BookingPage() {
         </div>
         <div className="rum-booking__plade">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/slots/H-01.jpg" alt="Booking" />
+          <img src="/slots/H-04.jpg" alt="Booking" />
         </div>
       </main>
     </RummetShell>
