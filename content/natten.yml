@@ -8,3 +8,16 @@ intro: >-
   til natten. Næste dato annonceres her og i Blackbook.
 tom_titel: Ingen nat i aften
 tom_linje: Skriv dig op i Blackbook — så får du besked når den næste kommer.
+
+# Nattespot — den holdte plads. Villy, S574 (Stevens kald 30/8 «Sælg natten»).
+# [ORD-TJEK Steven 30/8] — udkast. Natten er husets stemme, ikke min. Ret frit.
+# Beløbet står IKKE her: det kommer fra NATTESPOT i lib/commerce.ts, så
+# siden og Shopify aldrig kan sige to forskellige tal.
+spot_titel: Nattespot
+spot_linje: >-
+  Torsdag, fredag og lørdag har vi åbent efter kl. 22, når resten af byen
+  har lukket. Hold en plads i stolen — begrænset antal pr. nat.
+spot_vilkaar: >-
+  Depositummet trækkes fra prisen. Resten aftaler vi i studiet, når vi
+  har set motivet sammen.
+spot_koeb: Hold en plads

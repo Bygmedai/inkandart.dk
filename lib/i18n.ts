@@ -185,6 +185,14 @@ const da = {
     noGuest: "Ingen gæsteartist annonceret lige nu",
     guestPending: "Gæst · navn følger",
     walkInLine: "Walk-in når der er en fri stol — ellers book.",
+    /**
+     * Nattespot (Villy, S574). Skaermlaeser-saetningen for koebsknappen.
+     * Laa foerst haardkodet paa dansk i NattenFlade — og fulgte derfor med
+     * ud paa /en, hvor en engelsk kunde fik «300 kroner i depositum» laest
+     * op. Knappen ER etiketten for den der ikke kan se den. Maalt 30/8.
+     */
+    spotAria: (handling: string, pris: string) =>
+      `${handling} — ${pris} kroner i depositum`,
     comeBy: (adresse: string) => `Kom forbi ${adresse} og se arbejdet i virkeligheden.`,
     bioIsDanish: "Artistens egne ord, på dansk.",
     giftCard: "Gavekort",
@@ -399,6 +407,8 @@ const en: Copy = {
     noGuest: "No guest artist announced right now",
     guestPending: "Guest · name to follow",
     walkInLine: "Walk-in when a chair is free — otherwise book.",
+    spotAria: (handling: string, pris: string) =>
+      `${handling} — ${pris} DKK deposit`,
     comeBy: (adresse: string) => `Come by ${adresse} and see the work for real.`,
     bioIsDanish: "The artist's own words, in Danish.",
     /** Gavekortet hedder Gavekort i huset — men på engelsk skal en
