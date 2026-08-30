@@ -195,17 +195,38 @@ test("M2 artist-filter er shareable via ?artist=", async () => {
   );
 });
 
-test("M2 Hylden er tom uden edition_ref og siger den rigtige sætning", () => {
+test("S573: Hylden læser hylden.yml, ikke værkerne", () => {
+  // M2 bandt hylden til `edition_ref` i vaerker.yml. Det betød at der ikke
+  // kunne findes en vare uden at nogen først havde fotograferet en tatovering
+  // — og så kan huset ikke sælge en næsering. Hylden har nu sin egen kilde.
   const maerket = read("app/(rummet)/maerket/page.tsx");
-  const yml = read("content/vaerker.yml");
-  assert.match(maerket, /Vi laver ikke varer uden værk\./);
+  assert.match(maerket, /loadHylden/);
+  assert.doesNotMatch(maerket, /shelfVaerker|shelfEmpty/);
   assert.match(maerket, /Hylden/);
   assert.match(maerket, /Væggen/);
-  assert.doesNotMatch(yml, /edition_ref:\s*"[^"]+"/);
-  assert.doesNotMatch(yml, /edition_ref:\s*[A-Za-z0-9]/);
   assert.doesNotMatch(maerket, /Artistkortet kommer i næste rum/);
   assert.doesNotMatch(maerket, /Væggen bygges i næste rum/);
   assert.doesNotMatch(maerket, /href="\/shop"/);
+});
+
+test("S573: hver vare på hylden har handle, foto og en linje", () => {
+  const yml = read("content/hylden.yml");
+  const handles = [...yml.matchAll(/^- handle:\s*(\S+)/gm)].map((m) => m[1]);
+  const fotos = [...yml.matchAll(/^\s+foto:\s*(\S+)/gm)].map((m) => m[1]);
+  const titler = [...yml.matchAll(/^\s+titel:\s*(.+)$/gm)].map((m) => m[1].trim());
+  assert.ok(handles.length >= 1, "hylden må ikke være tom uden grund");
+  assert.equal(fotos.length, handles.length, "hver vare skal have et foto");
+  assert.equal(titler.length, handles.length, "hver vare skal have en titel");
+  // Varen skal vises som vare, ikke som hud.
+  for (const f of fotos) assert.doesNotMatch(f, /^\/slots\//, `${f} er et værk-slot, ikke et produktbillede`);
+});
+
+test("S573: produktsiden viser varen, ikke et værk", () => {
+  const flade = read("components/rummet/ProduktFlade.tsx");
+  assert.match(flade, /Læg i kurv/);
+  assert.doesNotMatch(flade, /Plade/);
+  // Prisen skal stå på knappen — en knap uden tal er et spørgsmål, ikke et tilbud.
+  assert.match(flade, /\{buy\}/);
 });
 
 test("M2 kurv-indikator vises kun med indhold — ingen 0-badge", () => {
@@ -283,6 +304,15 @@ test("M2 Storefront kaster ikke uden env", async () => {
     if (prevD !== undefined) process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN = prevD;
     else delete process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN;
   }
+});
+
+test("M2 Hylden står to i bredden også på telefonen", () => {
+  const css = read("components/rummet/rummet.css");
+  const blok = css.match(/\.rum-hylden \{[^}]*\}/);
+  assert.ok(blok, "hylden skal have sin egen regel");
+  assert.match(blok[0], /grid-template-columns:\s*1fr 1fr/, "to kolonner uden for media query — altså også på mobil");
+  const mobil = css.match(/@media \(max-width[^)]*\)\s*\{[^@]*\.rum-hylden\s*\{[^}]*grid-template-columns:\s*1fr\s*;/);
+  assert.equal(mobil, null, "ingen regel må sætte hylden tilbage til én i bredden");
 });
 
 test("M2 Hylden tømmes ikke tavst af en manglende domæne-env", async () => {

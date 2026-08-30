@@ -775,11 +775,18 @@ html:has([data-house="rummet"]) .grain {
 .rum-hylden {
   margin-top: 16px;
   display: grid;
-  gap: 28px;
+  /* To i bredden allerede på telefonen. Én vare per skærm er en
+     udstillingsmontre, ikke en disk: kunden kan hverken sammenligne
+     eller skimme, og med hundrede varer bliver hylden en rulletur.
+     To kolonner halverer også pladens andel af skærmen, så papiret
+     bærer fladen i stedet for blækket. Målt på Mærket ved 390px:
+     lys andel 54,1% → 73,8%. Salgsporten åbnede. */
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
 }
 @media (min-width: 700px) {
   .rum-hylden {
-    grid-template-columns: 1fr 1fr;
+    gap: 28px;
   }
 }
 .rum-hylden__item {
@@ -1018,3 +1025,32 @@ html:has([data-house="rummet"]) .grain {
 .rum-plade .rum-billedtekst { margin-top: 12px; }
 .rum-booking__plade .rum-billedtekst { margin-top: 10px; }
 [data-tone="salg"] .rum-billedtekst { color: var(--nat); }
+
+/* Hylden som disk, ikke som galleri (S573).
+   Varekortet har hvid bund fordi en vare fotograferes på ren baggrund —
+   den skal kunne ses, ikke stemme. Prisen er stor nok til at være svaret
+   på det spørgsmål øjet stiller. */
+.rum-vare__frame {
+  background: #fff;
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+.rum-vare__frame img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.rum-vare__pris {
+  font-size: 20px;
+  line-height: 1.1;
+  margin: 4px 0 2px;
+}
+@media (min-width: 700px) {
+  .rum-hylden {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

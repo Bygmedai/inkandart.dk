@@ -71,6 +71,39 @@ function asList<T>(data: T | T[]): T[] {
   return Array.isArray(data) ? data : [data];
 }
 
+/**
+ * Hylden — husets varer. Bevidst adskilt fra vaerker.yml (S573).
+ *
+ * Et vaerk er et fotografi af en tatovering; en vare er noget man kan koebe.
+ * Da hylden hang paa `edition_ref` i vaerker.yml, kunne der ikke findes en
+ * vare uden at nogen foerst havde fotograferet en tatovering — og saa kan
+ * huset ikke saelge en naesering. Kilden bliver Shopifys kollektioner i uge 36;
+ * denne fil er broen derhen.
+ */
+export type Vare = {
+  handle: string;
+  titel: string;
+  foto: string;
+  linje: string;
+  gruppe: string;
+};
+
+function normalizeVare(v: Vare): Vare {
+  return {
+    handle: str(v.handle),
+    titel: str(v.titel),
+    foto: str(v.foto),
+    linje: str(v.linje),
+    gruppe: str(v.gruppe),
+  };
+}
+
+export function loadHylden(): Vare[] {
+  return asList(readYaml<Vare | Vare[]>("hylden.yml"))
+    .map(normalizeVare)
+    .filter((v) => v.handle && v.foto);
+}
+
 export function loadHouse(): House {
   return {
     artists: asList(readYaml<Artist | Artist[]>("artists.yml")).map(normalizeArtist),

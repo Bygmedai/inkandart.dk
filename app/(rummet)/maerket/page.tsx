@@ -2,15 +2,14 @@ import type { Metadata } from "next";
 import { RummetShell } from "@/components/rummet/Shell";
 import { Plade } from "@/components/rummet/Plade";
 import { GavekortKoeb } from "@/components/rummet/GavekortKoeb";
+import { VareKort } from "@/components/rummet/VareKort";
 import {
   artistById,
   chairArtists,
   filterVisibleByArtist,
   loadHouse,
-  shelfEmpty,
-  shelfVaerker,
+  loadHylden,
   type Artist,
-  type Vaerk,
 } from "@/lib/content";
 import { productsByHandles } from "@/lib/storefront";
 
@@ -42,18 +41,14 @@ export default async function MaerketPage({
   const house = loadHouse();
   const wall = filterVisibleByArtist(house.vaerker, artistId);
   const chips = filterChips(house.artists, artistId);
-  const yamlEmpty = shelfEmpty(house.vaerker);
-  const listed = shelfVaerker(house.vaerker);
-  const sf = await productsByHandles(listed.map((v) => v.edition_ref));
-  const hylden: { vaerk: Vaerk; artist?: Artist }[] = [];
-  if (sf.ok) {
-    for (const v of listed) {
-      const p = sf.products.find((x) => x.handle === v.edition_ref);
-      if (!p) continue;
-      hylden.push({ vaerk: v, artist: artistById(house.artists, v.artist) });
-    }
-  }
-  const hyldenTom = yamlEmpty || hylden.length === 0;
+  // Hylden læser sin egen fil, ikke værkerne. Et værk er et fotografi;
+  // en vare er noget man kan købe. Se lib/content.ts → loadHylden.
+  const varer = loadHylden();
+  const sf = await productsByHandles(varer.map((v) => v.handle));
+  const hylden = varer
+    .map((vare) => ({ vare, product: sf.products.find((p) => p.handle === vare.handle) }))
+    .filter((x) => Boolean(x.product?.variantGid));
+  const hyldenTom = hylden.length === 0;
 
   return (
     <RummetShell tone="salg">
@@ -66,17 +61,13 @@ export default async function MaerketPage({
           </h2>
           {hyldenTom ? (
             <div className="rum-empty" style={{ marginTop: 16 }}>
-              <p className="rum-empty__title rum-poster">Vi laver ikke varer uden værk.</p>
+              <p className="rum-empty__title rum-poster">Hylden fyldes op.</p>
             </div>
           ) : (
             <div className="rum-hylden">
-              {hylden.map(({ vaerk, artist }) => (
-                <a
-                  key={vaerk.id}
-                  className="rum-hylden__item"
-                  href={`/maerket/${vaerk.edition_ref}`}
-                >
-                  <Plade vaerk={vaerk} artist={artist} />
+              {hylden.map(({ vare, product }) => (
+                <a key={vare.handle} className="rum-hylden__item" href={`/maerket/${vare.handle}`}>
+                  <VareKort vare={vare} product={product} />
                 </a>
               ))}
             </div>
