@@ -11,6 +11,13 @@ Den skal merges nedefra og op, i denne orden:
    Skal ind først. Den er grunden til at `check` overhovedet kører på de
    stablede PR'er. Indtil den er inde, kan Porten ikke se sin evidens på
    #205 og #202, og dømmer fail-closed.
+
+   **Den skal merges i hånden af Steven.** Porten står rød på #211 og har
+   ret: PR'en rører `.github/workflows/ci.yml`, som er en låst sti, og
+   låste stier kræver et menneskes merge uanset hvem der har skrevet
+   koden. Det er ikke en fejl at rette — det er porten der virker. `check`
+   er grøn på #211, hvilket i sig selv er beviset for at rettelsen
+   virker: før den kørte jobbet slet ikke på PR'er mod `rummet-m2`.
 2. **#205** `haruki/hylden-som-disk` → `rummet-m2`
    Uden den sælger Mærket kun gavekort.
 3. **#202** `rummet-m2` → `rummet-m1`
