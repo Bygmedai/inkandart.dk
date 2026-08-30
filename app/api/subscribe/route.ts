@@ -291,20 +291,58 @@ export async function OPTIONS(req: Request): Promise<Response> {
   return withCors(new Response(null, { status: 204 }), req.headers.get("origin"));
 }
 
+/**
+ * Uden JavaScript submitter Blackbook-døren som en almindelig formular
+ * (S574, Vildes fund: den havde hverken method eller action, så en
+ * no-JS-browser sendte mailen som GET — ind i adresselinjen, historikken
+ * og serverloggen, uden at tilmelde nogen).
+ *
+ * Derfor tager endpointet nu BÅDE JSON og form-encoded. En formular-POST
+ * svarer 303 tilbage til siden med et resultat i URL'en — aldrig med
+ * mailen i den. JS-vejen er uændret og opfører sig som før.
+ */
 export async function POST(req: Request): Promise<Response> {
-  return withCors(await handlePost(req), req.headers.get("origin"));
+  const type = req.headers.get("content-type") || "";
+  const erFormular = type.includes("application/x-www-form-urlencoded");
+  const res = await handlePost(req, erFormular);
+  return withCors(res, req.headers.get("origin"));
 }
 
-async function handlePost(req: Request): Promise<Response> {
+/** Svar til en formular-POST: 303 tilbage til siden, resultat i URL'en. */
+function seeOther(retur: string, resultat: string): Response {
+  const url = new URL(retur);
+  url.searchParams.set("blackbook", resultat);
+  url.hash = "doer";
+  return new Response(null, {
+    status: 303,
+    headers: { Location: url.toString(), "Cache-Control": "no-store" },
+  });
+}
+
+async function handlePost(req: Request, erFormular = false): Promise<Response> {
+  // Formularen sender tilbage dertil hvor den står — men kun til os selv.
+  const referer = req.headers.get("referer") || "";
+  let retur = new URL("/", req.url).toString();
+  try {
+    const r = new URL(referer);
+    if (r.origin === new URL(req.url).origin) retur = r.toString();
+  } catch {
+    /* ingen brugbar referer — forsiden er en ærlig landing */
+  }
+  const svar = (obj: SvarKrop, status: number): Response =>
+    erFormular
+      ? seeOther(retur, obj.ok ? "ok" : "fejl")
+      : json(obj, status);
+
   // Body-loft foer parsing: et uendeligt payload skal ikke naa JSON.parse.
   let raw: string;
   try {
     raw = await req.text();
   } catch {
-    return json({ ok: false, error: "bad_request" }, 400);
+    return svar({ ok: false, error: "bad_request" }, 400);
   }
   if (raw.length > MAX_BODY_BYTES) {
-    return json({ ok: false, error: "too_large" }, 413);
+    return svar({ ok: false, error: "too_large" }, 413);
   }
 
   let body: {
@@ -314,13 +352,26 @@ async function handlePost(req: Request): Promise<Response> {
     source?: unknown;
     prefs?: unknown;
   };
-  try {
-    body = JSON.parse(raw);
-  } catch {
-    return json({ ok: false, error: "bad_request" }, 400);
+  if (erFormular) {
+    // No-JS-vejen: browseren sender form-encoded, ikke JSON. Læses med
+    // URLSearchParams; prefs kan gentages (prefs=events&prefs=drops).
+    const f = new URLSearchParams(raw);
+    body = {
+      email: f.get("email") ?? undefined,
+      phone: f.get("phone") ?? undefined,
+      company: f.get("company") ?? undefined,
+      source: f.get("source") ?? undefined,
+      prefs: f.getAll("prefs"),
+    };
+  } else {
+    try {
+      body = JSON.parse(raw);
+    } catch {
+      return svar({ ok: false, error: "bad_request" }, 400);
+    }
   }
   if (!body || typeof body !== "object" || Array.isArray(body)) {
-    return json({ ok: false, error: "bad_request" }, 400);
+    return svar({ ok: false, error: "bad_request" }, 400);
   }
 
   const email = String(body?.email || "").trim().toLowerCase();
@@ -333,22 +384,22 @@ async function handlePost(req: Request): Promise<Response> {
   const hasEmail = Boolean(email && email.length <= 200 && EMAIL_RE.test(email));
   const hasPhone = Boolean(phone);
 
-  if (honeypot) return json({ ok: true });
+  if (honeypot) return svar({ ok: true }, 200);
 
   if (!hasEmail && !hasPhone) {
-    if (phoneRaw) return json({ ok: false, error: "invalid_phone" }, 422);
-    return json({ ok: false, error: "invalid_email" }, 422);
+    if (phoneRaw) return svar({ ok: false, error: "invalid_phone" }, 422);
+    return svar({ ok: false, error: "invalid_email" }, 422);
   }
 
   const { staticToken, clientId, clientSecret } = creds();
   if (!staticToken && (!clientId || !clientSecret)) {
     console.error("subscribe: no Shopify credentials set (need SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET)");
-    return json({ ok: false, error: "unconfigured" }, 500);
+    return svar({ ok: false, error: "unconfigured" }, 500);
   }
   const store = env("SHOPIFY_STORE", "Shopify_store") || DEFAULT_STORE;
 
   const token = await getAccessToken(store);
-  if (!token) return json({ ok: false, error: "unconfigured" }, 500);
+  if (!token) return svar({ ok: false, error: "unconfigured" }, 500);
 
   try {
     const created = op(
@@ -376,17 +427,17 @@ async function handlePost(req: Request): Promise<Response> {
 
     if (!errs.length) {
       customerId(created, "customerCreate"); // succes uden id er ikke en succes
-      return json({ ok: true });
+      return svar({ ok: true }, 200);
     }
 
     // Der ER fejl. Om det betyder «findes allerede» afgoeres IKKE ved at
     // laese fejlteksten — `customerCreate.userErrors` er af typen UserError,
     // som slet ikke har et `code`-felt (verificeret mod skemaet S568). Vi
     // spoerger butikken i stedet: findes kunden med praecis denne email?
-    return await resolveExisting(store, token, hasEmail ? email : "", errs, hasPhone ? phone : null);
+    return await resolveExisting(store, token, hasEmail ? email : "", errs, hasPhone ? phone : null, svar);
   } catch (err) {
     console.error("subscribe: upstream failed", err instanceof Error ? err.message : err);
-    return json({ ok: false, error: "upstream" }, 502);
+    return svar({ ok: false, error: "upstream" }, 502);
   }
 }
 
@@ -401,12 +452,22 @@ async function handlePost(req: Request): Promise<Response> {
  * SOEGNING. Uden den kunne vi saette en HELT ANDEN persons marketing-consent
  * paa et delvist traef. (Sirius, S568.)
  */
+/**
+ * `svar` gives med ind i stedet for at bygge svaret her: den ved om
+ * kaldet kom fra en formular (303 tilbage til siden) eller fra JSON
+ * (et objekt). Uden den ville no-JS-vejen fejle netop her, hvor en
+ * allerede-tilmeldt kunde havner — den mest almindelige udgang.
+ */
+type SvarKrop = { ok: boolean; error?: string; already?: boolean; subscribed?: boolean };
+type Svar = (obj: SvarKrop, status: number) => Response;
+
 async function resolveExisting(
   store: string,
   token: string,
   email: string,
   createErrors: Array<{ message?: string }>,
   phone: string | null = null,
+  svar: Svar = (obj, status) => json(obj, status),
 ): Promise<Response> {
   if (!email && phone) {
     const foundPhone = op(await shopGraphql(store, token, FIND_CUSTOMER, { q: phoneQuery(phone) }), "customers");
@@ -419,10 +480,10 @@ async function resolveExisting(
       const raw = n?.defaultPhoneNumber?.phoneNumber || "";
       return normalizePhone(raw) === phone || raw.replace(/\s/g, "") === phone;
     });
-    if (exactPhone.length === 1) return json({ ok: true, already: true });
+    if (exactPhone.length === 1) return svar({ ok: true, already: true }, 200);
     if (exactPhone.length > 1) throw new Error("shopify_ambiguous_customer");
     console.error("subscribe: userErrors", JSON.stringify(createErrors));
-    return json({ ok: false, error: "rejected" }, 422);
+    return svar({ ok: false, error: "rejected" }, 422);
   }
 
   const found = op(await shopGraphql(store, token, FIND_CUSTOMER, { q: emailQuery(email) }), "customers");
@@ -436,7 +497,7 @@ async function resolveExisting(
   if (exact.length === 0) {
     // Ingen kunde med den email — saa var oprettelsesfejlen aegte.
     console.error("subscribe: userErrors", JSON.stringify(createErrors));
-    return json({ ok: false, error: "rejected" }, 422);
+    return svar({ ok: false, error: "rejected" }, 422);
   }
   if (exact.length > 1) {
     throw new Error("shopify_ambiguous_customer");
@@ -444,7 +505,7 @@ async function resolveExisting(
 
   const node = exact[0]!;
   if (node.defaultEmailAddress?.marketingState === "SUBSCRIBED") {
-    return json({ ok: true, already: true, subscribed: true });
+    return svar({ ok: true, already: true, subscribed: true }, 200);
   }
 
   const updated = op(
@@ -459,8 +520,8 @@ async function resolveExisting(
   const uerrs = userErrors(updated, "customerEmailMarketingConsentUpdate");
   if (uerrs.length) {
     console.error("subscribe: consent update failed", JSON.stringify(uerrs));
-    return json({ ok: false, error: "rejected" }, 422);
+    return svar({ ok: false, error: "rejected" }, 422);
   }
   customerId(updated, "customerEmailMarketingConsentUpdate"); // ellers ved vi ikke at den skrev
-  return json({ ok: true, already: true, subscribed: true });
+  return svar({ ok: true, already: true, subscribed: true }, 200);
 }

@@ -1,5 +1,11 @@
 import assert from "node:assert/strict";
 import { test, beforeEach } from "node:test";
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+const read = (f) => readFileSync(join(root, f), "utf8");
 
 process.env.SHOPIFY_ADMIN_TOKEN = "test-token";
 process.env.SHOPIFY_STORE = "test.myshopify.com";
@@ -235,4 +241,60 @@ test("S574 OPTIONS: preflight fra tilladt origin svarer 204 med metoder", async 
   }));
   assert.equal(r.status, 204);
   assert.match(r.headers.get("Access-Control-Allow-Methods"), /POST/);
+});
+
+/* ── S574 (Vildes fund): døren skal virke uden JavaScript, og en mail må
+   ALDRIG ende i en URL. Formular-POST → 303 tilbage med et resultat. */
+
+const formPost = (body, headers = {}) =>
+  POST(new Request("https://inkandart.dk/api/subscribe", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded", ...headers },
+    body: new URLSearchParams(body).toString(),
+  }));
+
+test("S574 no-JS: formular-POST svarer 303 tilbage til siden, aldrig med mailen", async () => {
+  mockShopify(() => res(200, { data: { customerCreate: { customer: { id: "gid://1" }, userErrors: [] } } }));
+  const r = await formPost({ email: "a@b.dk", source: "blackbook" }, { Referer: "https://inkandart.dk/gaden" });
+  assert.equal(r.status, 303, "en formular skal have en redirect, ikke JSON");
+  const loc = new URL(r.headers.get("Location"));
+  assert.equal(loc.origin + loc.pathname, "https://inkandart.dk/gaden");
+  assert.equal(loc.searchParams.get("blackbook"), "ok");
+  assert.equal(loc.hash, "#doer", "brugeren skal lande ved døren, ikke i toppen");
+  // Kernen i fundet: mailen må ikke være i URL'en nogen steder.
+  assert.ok(!r.headers.get("Location").includes("a@b.dk"));
+  assert.ok(!r.headers.get("Location").includes("%40"));
+});
+
+test("S574 no-JS: en fejl bliver til blackbook=fejl, ikke en rå 422", async () => {
+  mockShopify(() => res(200, {}));
+  const r = await formPost({ email: "ikke-en-mail" });
+  assert.equal(r.status, 303);
+  assert.equal(new URL(r.headers.get("Location")).searchParams.get("blackbook"), "fejl");
+});
+
+test("S574 no-JS: en fremmed referer bruges ALDRIG som redirect-mål", async () => {
+  // Ellers var endpointet en åben redirect: ?referer=ond.example → 303 derhen.
+  mockShopify(() => res(200, { data: { customerCreate: { customer: { id: "gid://1" }, userErrors: [] } } }));
+  const r = await formPost({ email: "a@b.dk" }, { Referer: "https://ond.example/fælde" });
+  const loc = new URL(r.headers.get("Location"));
+  assert.equal(loc.origin, "https://inkandart.dk", "vi sender kun tilbage til os selv");
+  assert.equal(loc.pathname, "/");
+});
+
+test("S574 JSON-vejen er uændret — appen og proxyen må ikke knække", async () => {
+  mockShopify(() => res(200, { data: { customerCreate: { customer: { id: "gid://1" }, userErrors: [] } } }));
+  const r = await post({ email: "a@b.dk", source: "app" });
+  assert.equal(r.status, 200, "JSON-kald svarer stadig med JSON, ikke en redirect");
+  assert.deepEqual(await r.json(), { ok: true });
+});
+
+test("S574 døren er en rigtig formular, ikke kun en JS-handler", () => {
+  const door = read("components/rummet/Door.tsx");
+  assert.match(door, /method="post"/, "uden method submitter browseren som GET — med mailen i URL'en");
+  assert.match(door, /action="\/api\/subscribe"/);
+  assert.match(door, /name="source"/, "kilden skal med når JS ikke fylder den i");
+  // Honeypot og mailfelt skal stadig bære de navne API'et læser.
+  assert.match(door, /name="company"/);
+  assert.match(door, /name="email"/);
 });
