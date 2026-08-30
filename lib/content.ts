@@ -499,13 +499,22 @@ export type NattenCopy = {
   tom_linje: string;
 };
 
-export function loadNattenCopy(): NattenCopy {
-  const d = readYaml<Partial<NattenCopy>>("natten.yml");
+function readNattenCopy(fil: string, tomTitelFallback: string): NattenCopy {
+  const d = readYaml<Partial<NattenCopy>>(fil);
   return {
     intro: str(d.intro),
-    tom_titel: str(d.tom_titel) || "Ingen nat i aften",
+    tom_titel: str(d.tom_titel) || tomTitelFallback,
     tom_linje: str(d.tom_linje),
   };
+}
+
+export function loadNattenCopy(): NattenCopy {
+  return readNattenCopy("natten.yml", "Ingen nat i aften");
+}
+
+/** Natten på engelsk. Rummets navn oversættes ikke — kun sætningerne. */
+export function loadNattenCopyEn(): NattenCopy {
+  return readNattenCopy("natten.en.yml", "No night tonight");
 }
 
 export function periodeLabel(a: Artist): string {

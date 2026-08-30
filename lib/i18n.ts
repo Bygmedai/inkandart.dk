@@ -46,6 +46,8 @@ export const EN_ROUTES: ReadonlySet<string> = new Set([
   "/stolen",
   "/gaden",
   "/aftercare",
+  "/natten",
+  "/maerket",
 ]);
 
 /**
@@ -177,6 +179,19 @@ const da = {
     comeBy: (adresse: string) => `Kom forbi ${adresse} og se arbejdet i virkeligheden.`,
     bioIsDanish: "Artistens egne ord, på dansk.",
     giftCard: "Gavekort",
+    /* Mærket. Hylden og Væggen er husets egennavne som rummene —
+       sætningerne omkring dem er ikke. */
+    shelfLabel: "Hylden",
+    shelfEmpty: "Hylden fyldes op.",
+    wallLabel: "Væggen",
+    artistFilter: "Artist",
+    noWorksFrom: (navn: string) => `Ingen værker fra ${navn} på væggen endnu.`,
+    meetIn: (navn: string) => `Mød ${navn} i Stolen`,
+    orSee: " — eller ",
+    wholeWall: "se hele væggen",
+    /* Natten. Uden navne på plakaten står der en gæste-DJ, ikke et navn
+       vi ikke har fået. */
+    guestDj: "Gæste-DJ",
   },
 
   shop: {
@@ -372,6 +387,15 @@ const en: Copy = {
     /** Gavekortet hedder Gavekort i huset — men på engelsk skal en
         turist kunne se HVAD døren er. */
     giftCard: "Gift card",
+    shelfLabel: "Hylden",
+    shelfEmpty: "The shelf is being filled.",
+    wallLabel: "Væggen",
+    artistFilter: "Artist",
+    noWorksFrom: (navn: string) => `No work from ${navn} on the wall yet.`,
+    meetIn: (navn: string) => `Meet ${navn} in Stolen`,
+    orSee: " — or ",
+    wholeWall: "see the whole wall",
+    guestDj: "Guest DJ",
   },
 
   shop: {

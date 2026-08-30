@@ -224,6 +224,14 @@ collections:
           - { label: Tom-tilstandens titel, name: tom_titel, widget: string, default: "Ingen nat i aften" }
           - { label: Tom-tilstandens linje, name: tom_linje, widget: string, required: false }
 
+      - label: Natten (English)
+        name: natten_side_en
+        file: content/natten.en.yml
+        fields:
+          - { label: Intro, name: intro, widget: text, hint: "Hvad Natten ER, for en der aldrig har hørt om den." }
+          - { label: Tom-tilstandens titel, name: tom_titel, widget: string, default: "Ingen nat i aften" }
+          - { label: Tom-tilstandens linje, name: tom_linje, widget: string, required: false }
+
   - name: betingelser
     label: Betingelser
     files:

@@ -7,8 +7,8 @@ import { alternates } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Mærket · Ink & Art",
-  description: "Væggen og hylden. Ink & Art, Larsbjørnsstræde 13.",
-  alternates: { ...alternates("/maerket"), canonical: "/maerket" },
+  description: "The wall and the shelf. Ink & Art, Larsbjørnsstræde 13, Copenhagen.",
+  alternates: { ...alternates("/maerket"), canonical: "/en/maerket" },
 };
 
 function oneParam(v: string | string[] | undefined): string {
@@ -16,19 +16,20 @@ function oneParam(v: string | string[] | undefined): string {
   return (v || "").trim();
 }
 
-export default async function MaerketPage({
+/** Mærket in English — the room name and its two halves keep their names. */
+export default async function MaerketPageEn({
   searchParams,
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const params = await searchParams;
   return (
-    <RummetShell tone="salg">
+    <RummetShell lang="en" tone="salg">
       <MaerketFlade
         house={loadHouse()}
         hylden={await hentHylden()}
         artistId={oneParam(params.artist)}
-        lang="da"
+        lang="en"
       />
     </RummetShell>
   );

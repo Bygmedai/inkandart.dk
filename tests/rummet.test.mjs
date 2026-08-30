@@ -204,9 +204,10 @@ test("M2 cross-link tæller synlige værker fra YAML og udelader N=0", async () 
 
 test("M2 artist-filter er shareable via ?artist=", async () => {
   const maerket = read("app/(rummet)/maerket/page.tsx");
+  const flade = read("components/rummet/MaerketFlade.tsx");
   assert.match(maerket, /searchParams/);
-  assert.match(maerket, /maerket\?artist=/);
-  assert.match(maerket, /filterVisibleByArtist/);
+  assert.match(flade, /\?artist=\$\{a\.id\}/);
+  assert.match(flade, /filterVisibleByArtist/);
 
   const { loadHouse, filterVisibleByArtist } = await import("../lib/content.ts");
   const house = loadHouse();
@@ -226,9 +227,10 @@ test("S573: Hylden læser hylden.yml, ikke værkerne", () => {
   // M2 bandt hylden til `edition_ref` i vaerker.yml. Det betød at der ikke
   // kunne findes en vare uden at nogen først havde fotograferet en tatovering
   // — og så kan huset ikke sælge en næsering. Hylden har nu sin egen kilde.
-  const maerket = read("app/(rummet)/maerket/page.tsx");
-  assert.match(maerket, /loadHylden/);
-  assert.doesNotMatch(maerket, /shelfVaerker|shelfEmpty/);
+  const maerket = read("components/rummet/MaerketFlade.tsx");
+  // S574: kilden til hylden bor i lib/hylden-data.ts, ét sted for begge sprog.
+  assert.match(read("lib/hylden-data.ts"), /loadHylden/);
+  assert.doesNotMatch(maerket, /shelfVaerker/);
   assert.match(maerket, /Hylden/);
   assert.match(maerket, /Væggen/);
   assert.doesNotMatch(maerket, /Artistkortet kommer i næste rum/);
@@ -277,7 +279,8 @@ test("M2 Døren sidder på Stolen, Mærket og produkt/gave-flader", () => {
     assert.doesNotMatch(src, /door=\{false\}/);
   }
   assert.match(shell, /\{door \? <Door lang=\{lang\} \/> : null\}/);
-  assert.match(maerket, /GavekortKoeb/);
+  // Gavekort-døren bor i fladen (én komponent, to sprog).
+  assert.match(read("components/rummet/MaerketFlade.tsx"), /GavekortKoeb/);
   assert.match(gave, /GIFT_CARDS/);
   assert.match(produkt, /Fri fragt fra 499/);
 });
@@ -286,6 +289,7 @@ test("M2 opfinder ikke walk-in 900, «fra»-priser eller dummy-navne", () => {
   const src = [
     read("app/(rummet)/stolen/page.tsx"),
     read("app/(rummet)/maerket/page.tsx"),
+    read("components/rummet/MaerketFlade.tsx"),
     read("components/rummet/ArtistKort.tsx"),
     read("components/rummet/GavekortKoeb.tsx"),
     read("components/rummet/ProduktFlade.tsx"),
@@ -476,7 +480,7 @@ test("M2R rum-flader: 1680, ingen 560 på slot, væg 4, stolen 3", () => {
 
 test("M2R Huset: segl + kort, Natten/Gaden overlay, ingen frit", () => {
   const huset = read("app/(rummet)/page.tsx");
-  const natten = read("app/(rummet)/natten/page.tsx");
+  const natten = read("components/rummet/NattenFlade.tsx");
   const gaden = read("app/(rummet)/gaden/page.tsx");
   const gave = read("components/rummet/GavekortKoeb.tsx");
   assert.match(huset, /from "@\/components\/rummet\/Segl"/);
@@ -572,7 +576,7 @@ test("M3 Gaden: ingen [TAL BEKRÆFTES], Ring på, tomme timer udelades", async (
 });
 
 test("M3 Natten: plakatfoto fra YAML, tom-tilstand uændret, ingen DEMO H-02", () => {
-  const natten = read("app/(rummet)/natten/page.tsx");
+  const natten = read("components/rummet/NattenFlade.tsx");
   assert.match(natten, /nat\.plakatfoto/);
   // Tom-tilstandens ord bor i natten.yml (S574) — og siden forklarer konceptet.
   assert.match(natten, /copy\.tom_titel/);
@@ -742,7 +746,7 @@ test("ingen synlig billedtekst under fotos (Stolen/Huset/Gaden/booking/Natten)",
   const gaden = read("app/(rummet)/gaden/page.tsx");
   const booking = read("app/(rummet)/booking/page.tsx");
   const tak = read("app/(rummet)/booking/tak/page.tsx");
-  const natten = read("app/(rummet)/natten/page.tsx");
+  const natten = read("components/rummet/NattenFlade.tsx");
   const plade = read("components/rummet/Plade.tsx");
 
   for (const [name, src] of [
@@ -871,13 +875,17 @@ test("G1 Huset intro i første fold", () => {
 });
 
 test("G2 Natten har vej ud", () => {
-  const natten = read("app/(rummet)/natten/page.tsx");
+  const natten = read("components/rummet/NattenFlade.tsx");
   const css = read("components/rummet/rummet.css");
   assert.match(natten, /from "@\/components\/rummet\/Door"/);
   assert.match(natten, /<Door variant="inline"/);
-  assert.match(natten, /href="\/booking"/);
-  assert.match(natten, /href="\/gaden"/);
-  assert.match(natten, /door=\{false\}/);
+  assert.match(natten, /localePath\(lang, "\/booking"\)/);
+  assert.match(natten, /localePath\(lang, "\/gaden"\)/);
+  // Natten har ingen Blackbook-dør i skallen — den står inline på siden,
+  // så den ikke optræder to gange. Skallen slår den fra på begge sprog.
+  for (const f of ["app/(rummet)/natten/page.tsx", "app/(rummet)/en/natten/page.tsx"]) {
+    assert.match(read(f), /door=\{false\}/, `${f} skal slå skallens dør fra`);
+  }
   assert.match(natten, /copy\.tom_titel/);
   assert.match(natten, /copy\.tom_linje/);
   assert.match(natten, /rum-natten__out/);
@@ -966,9 +974,10 @@ test("S573 QA: Væggens chips fører aldrig ind i et tomt rum", async () => {
     );
   }
   // Og rammer nogen alligevel et tomt filter via URL, står der en forklaring.
-  const maerket = read("app/(rummet)/maerket/page.tsx");
+  const maerket = read("components/rummet/MaerketFlade.tsx");
   assert.match(maerket, /wall\.length === 0 && filteredArtist/);
-  assert.match(maerket, /på væggen endnu/);
+  assert.match(maerket, /c\.noWorksFrom/);
+  assert.match(read("lib/i18n.ts"), /på væggen endnu/);
 });
 
 test("S573 QA: footerens handlinger kan rammes med en tommelfinger", () => {
@@ -1026,6 +1035,7 @@ test("S574: Decap kender hver content-fil koden læser", () => {
     "content/aftercare.yml",
     "content/aftercare.en.yml",
     "content/piercing.en.yml",
+    "content/natten.en.yml",
   ]) {
     assert.ok(cms.includes(fil), `${fil} mangler i Decap — Sonja kan ikke redigere den`);
   }
@@ -1065,8 +1075,10 @@ test("S574: booking er en trappe med kontekst, ikke to konkurrerende links", asy
 });
 
 test("S574: Natten forklarer sig — og viser kun plakat når der ER en nat", () => {
-  const side = read("app/(rummet)/natten/page.tsx");
-  assert.match(side, /loadNattenCopy/, "sidens ord bor i natten.yml");
+  const side = read("components/rummet/NattenFlade.tsx");
+  assert.match(read("app/(rummet)/natten/page.tsx"), /loadNattenCopy\(\)/, "sidens ord bor i natten.yml");
+  assert.match(read("app/(rummet)/en/natten/page.tsx"), /loadNattenCopyEn\(\)/);
+  assert.match(side, /copy\.intro/);
   assert.match(side, /rum-natten__intro/, "intro-linjen skal stå under titlen");
   // Fotoet må kun stå inde i nat-grenen — tom-tilstanden er tekst og dør.
   const tomBlok = side.slice(side.indexOf('className="rum-empty"'), side.indexOf("</main>"));
@@ -1313,5 +1325,54 @@ test("S574 Gaden og Aftercare: data-drevne og tosprogede", async () => {
   assert.match(read("app/(rummet)/en/aftercare/page.tsx"), /loadAftercareEn/);
   for (const r of ["/gaden", "/aftercare"]) {
     assert.ok(read("lib/i18n.ts").includes(`"${r}",`), `${r} mangler i EN_ROUTES`);
+  }
+});
+
+test("S574 Natten og Mærket på engelsk — husets navne står, sætningerne skifter", async () => {
+  const { loadNattenCopy, loadNattenCopyEn } = await import("../lib/content.ts");
+
+  // Egennavnene: rummene og deres to halvdele hedder det samme på begge
+  // sprog. Det er husets ord, ikke etiketter.
+  for (const f of [
+    "components/rummet/NattenFlade.tsx",
+    "components/rummet/MaerketFlade.tsx",
+  ]) {
+    const src = read(f);
+    assert.doesNotMatch(src, /The Night|The Mark|The Shelf|The Wall/, `${f}: rummene oversættes ikke`);
+  }
+  const i18n = read("lib/i18n.ts");
+  assert.match(i18n, /shelfLabel: "Hylden"/);
+  assert.match(i18n, /wallLabel: "Væggen"/);
+
+  // Men sætningerne omkring dem skifter sprog.
+  assert.match(i18n, /shelfEmpty: "The shelf is being filled\."/);
+  assert.match(i18n, /No work from \$\{navn\} on the wall yet/);
+  assert.match(i18n, /guestDj: "Guest DJ"/);
+
+  // Natten forklarer sig på begge sprog, og lover ikke en dato vi ikke har.
+  const da = loadNattenCopy();
+  const en = loadNattenCopyEn();
+  assert.match(da.intro, /kælderen/);
+  assert.match(en.intro, /basement/);
+  assert.ok(da.tom_titel && en.tom_titel, "tom-tilstanden har ord på begge sprog");
+  assert.doesNotMatch(en.intro, /\d{1,2}[./]\d{1,2}/, "ingen opdigtet dato");
+
+  // Én flade, to sprog: begge sider bruger samme komponent.
+  for (const [side, flade] of [
+    ["app/(rummet)/en/natten/page.tsx", "NattenFlade"],
+    ["app/(rummet)/en/maerket/page.tsx", "MaerketFlade"],
+    ["app/(rummet)/natten/page.tsx", "NattenFlade"],
+    ["app/(rummet)/maerket/page.tsx", "MaerketFlade"],
+  ]) {
+    assert.match(read(side), new RegExp(flade), `${side} skal bruge ${flade}`);
+  }
+  assert.match(read("app/(rummet)/en/maerket/page.tsx"), /<RummetShell lang="en"/);
+
+  // Hylden hentes ét sted — ellers kan de to sprog vise hver sin hylde.
+  const hd = read("lib/hylden-data.ts");
+  assert.match(hd, /productsInCollection\("hylden"\)/);
+  assert.match(hd, /variantGid/, "fallbacken må ikke bære en død knap");
+  for (const side of ["app/(rummet)/maerket/page.tsx", "app/(rummet)/en/maerket/page.tsx"]) {
+    assert.match(read(side), /hentHylden\(\)/);
   }
 });

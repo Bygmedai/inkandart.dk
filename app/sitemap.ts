@@ -34,6 +34,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: "https://inkandart.dk/en/stolen", lastModified: new Date() },
     { url: "https://inkandart.dk/en/gaden", lastModified: new Date() },
     { url: "https://inkandart.dk/en/aftercare", lastModified: new Date() },
+    { url: "https://inkandart.dk/en/natten", lastModified: new Date() },
+    { url: "https://inkandart.dk/en/maerket", lastModified: new Date() },
     ...profiledArtists(loadHouse().artists).map((a) => ({
       url: `https://inkandart.dk/en/stolen/${a.id}`,
       lastModified: new Date(),
