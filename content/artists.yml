@@ -20,6 +20,15 @@
   aktiv: true
   stol: true
 
+- id: anna
+  fornavn: Anna Ogłuszka
+  haandvaerk: Piercer
+  periode: fast
+  foto: /slots/S-07.jpg
+  billedtekst: Piercinger af Anna. Øre, flere huller.
+  aktiv: true
+  stol: true
+
 - id: gaest
   fornavn: ""
   haandvaerk: ""

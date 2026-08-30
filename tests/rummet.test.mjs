@@ -29,7 +29,9 @@ test("content-filerne parse'r og tom-tilstandene følger data", async () => {
 
   const chairs = chairArtists(house.artists);
   const names = chairs.map((a) => a.fornavn);
-  assert.deepEqual(names, ["Nizar Saad", "Emma Winding"]);
+  // S573: Anna Ogłuszka er husets piercer fra 31/8. En piercer sidder i
+  // stolen paa linje med tatovoererne — det er samme rum og samme booking.
+  assert.deepEqual(names, ["Nizar Saad", "Emma Winding", "Anna Ogłuszka"]);
   assert.ok(!names.includes("Sonja Rebner"), "Sonja sidder ikke i stolen");
 
   const featured = featuredVaerk(house.vaerker);
@@ -727,4 +729,24 @@ test("G3 booking-foto max-height 240px under 899px", () => {
     css,
     /@media \(max-width:\s*899px\) \{[\s\S]*?\.rum-booking__plade img \{[\s\S]*?max-height:\s*240px/,
   );
+});
+
+/**
+ * S573: en ny artist maa ikke faa opdigtet indhold med paa vejen ind.
+ * Annas bio og vagtskema er ikke bekraeftet endnu, og tomme felter
+ * udelades — de fyldes ikke med noget der lyder rigtigt.
+ */
+test("Anna er paa uden opdigtet bio eller vagtskema", async () => {
+  const { loadHouse, chairArtists } = await import("../lib/content.ts");
+  const anna = chairArtists(loadHouse().artists).find((a) => a.id === "anna");
+  assert.ok(anna, "Anna skal sidde i stolen");
+  assert.equal(anna.fornavn, "Anna Ogłuszka");
+  assert.equal(anna.haandvaerk, "Piercer");
+  assert.ok(!anna.periode_til, "ingen slutdato — hun er fast");
+  // Kun de linjer der kan naa en kunde — YAML-kommentarer er byggeplads.
+  const data = readFileSync(join(root, "content/artists.yml"), "utf8")
+    .split("\n")
+    .filter((l) => !l.trim().startsWith("#"))
+    .join("\n");
+  assert.doesNotMatch(data, /\[AFVENTER\]|\[TAL BEKRÆFTES\]/, "byggepladsens sprog gaar aldrig live");
 });
