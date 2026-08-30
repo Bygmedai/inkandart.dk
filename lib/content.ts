@@ -376,6 +376,26 @@ export function loadBookingCopy(): BookingCopy {
   };
 }
 
+/**
+ * Bookingsiden på engelsk (S574). Samme felter, egen stemme — og samme
+ * tal: depositummet er ét beløb i Shopify, uanset hvilket sprog kunden
+ * læser på. Ændrer nogen det ene sted, skal det andet med.
+ */
+export function loadBookingCopyEn(): BookingCopy {
+  const d = readYaml<Partial<BookingCopy>>("booking.en.yml");
+  return {
+    lede: str(d.lede),
+    konsultation: str(d.konsultation),
+    depositum_label: str(d.depositum_label),
+    door_label: str(d.door_label) || "On to booking",
+    note: str(d.note),
+    foto: str(d.foto),
+    billedtekst: str(d.billedtekst),
+    tak_titel: str(d.tak_titel),
+    tak_betalt: str(d.tak_betalt),
+  };
+}
+
 /** Nattens sideord — konceptet, ikke enkeltnætterne (de bor i nat.yml). */
 export type NattenCopy = {
   intro: string;

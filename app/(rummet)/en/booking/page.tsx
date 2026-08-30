@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import { RummetShell } from "@/components/rummet/Shell";
 import { BookDoor } from "@/components/rummet/BookDoor";
 import { cartUrl, RESERVATIONS } from "@/lib/commerce";
-import { artistById, loadBookingCopy, loadHouse } from "@/lib/content";
+import { artistById, loadBookingCopyEn, loadHouse, loadKontakt } from "@/lib/content";
 import { alternates } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Booking · Ink & Art",
-  description: "Book tid. Ink & Art, Larsbjørnsstræde 13.",
-  alternates: { ...alternates("/booking"), canonical: "/booking" },
+  description: "Book a time at Ink & Art, Larsbjørnsstræde 13, Copenhagen.",
+  alternates: { ...alternates("/booking"), canonical: "/en/booking" },
 };
 
 function oneParam(v: string | string[] | undefined): string {
@@ -17,34 +17,34 @@ function oneParam(v: string | string[] | undefined): string {
 }
 
 /**
- * Bookingsiden er en trappe med to trin, ikke to konkurrerende links:
- * depositum først (det holder tiden og fragår i prisen), dernæst hoppet
- * til Book.dk. Ordene bor i content/booking.yml.
+ * The booking page in English — the money path (Sirius #5: «start with
+ * the road that earns»). Same ladder as the Danish page: deposit first,
+ * then the hop to Book.dk. The words live in content/booking.en.yml.
  *
- * Kommer kunden fra en artists side (?artist=emma), siger siden det —
- * konteksten må ikke forsvinde i klikket. Book.dk kan ikke deep-linke
- * til en medarbejder, så vi lover ikke et forvalg vi ikke kan holde;
- * kunden vælger selv artisten i kalenderen.
+ * Book.dk itself is a Danish surface. We say so plainly instead of
+ * letting an English customer discover it mid-click — an honest line
+ * costs less than a broken expectation at the counter.
  */
-export default async function BookingPage({
+export default async function BookingPageEn({
   searchParams,
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const params = await searchParams;
-  const copy = loadBookingCopy();
+  const copy = loadBookingCopyEn();
   const house = loadHouse();
+  const kontakt = loadKontakt();
   const artist = artistById(house.artists, oneParam(params.artist));
   const depositum = RESERVATIONS.find((r) => r.id === "plads");
 
   return (
-    <RummetShell tone="salg">
-      <main id="main" className="rum-room rum-booking">
+    <RummetShell lang="en" tone="salg">
+      <main id="main" lang="en" className="rum-room rum-booking">
         <div className="rum-booking__koeb">
           <h1 className="rum-room__title rum-poster">Booking</h1>
           {artist && artist.fornavn ? (
             <p className="rum-label rum-booking__hos">
-              Hos {artist.fornavn}
+              With {artist.fornavn}
               {artist.haandvaerk ? ` · ${artist.haandvaerk}` : ""}
             </p>
           ) : null}
@@ -76,6 +76,14 @@ export default async function BookingPage({
           {copy.note ? (
             <p className="rum-body-copy rum-booking__note">{copy.note}</p>
           ) : null}
+          <p className="rum-body-copy rum-booking__note">
+            Our booking calendar is in Danish. If that is easier over the
+            phone, call{" "}
+            <a className="rum-tel" href={`tel:${kontakt.telefon_e164}`}>
+              {kontakt.telefon_vist}
+            </a>{" "}
+            — we speak English in the shop.
+          </p>
         </div>
         <div className="rum-booking__plade">
           {/* eslint-disable-next-line @next/next/no-img-element */}

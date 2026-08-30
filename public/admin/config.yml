@@ -145,6 +145,20 @@ collections:
           - { label: Foto, name: foto, widget: image }
           - { label: Billedtekst, name: billedtekst, widget: string }
 
+      - label: Booking (English)
+        name: booking_en
+        file: content/booking.en.yml
+        fields:
+          - { label: Lede, name: lede, widget: text }
+          - { label: Konsultation, name: konsultation, widget: text, required: false }
+          - { label: Depositum-knappens tekst, name: depositum_label, widget: string, hint: "Beløbet skal matche Shopify-produktet OG den danske side." }
+          - { label: Book.dk-knappens tekst, name: door_label, widget: string, default: "On to booking" }
+          - { label: Note, name: note, widget: text, required: false }
+          - { label: Tak-sidens titel, name: tak_titel, widget: string }
+          - { label: Tak-sidens betalt-tekst, name: tak_betalt, widget: text }
+          - { label: Foto, name: foto, widget: image }
+          - { label: Billedtekst, name: billedtekst, widget: string }
+
   - name: natten_side
     label: Nattens side
     files:

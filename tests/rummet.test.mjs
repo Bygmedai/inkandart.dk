@@ -999,6 +999,7 @@ test("S574: Decap kender hver content-fil koden læser", () => {
     "content/betingelser.en.yml",
     "content/privatliv.yml",
     "content/privatliv.en.yml",
+    "content/booking.en.yml",
   ]) {
     assert.ok(cms.includes(fil), `${fil} mangler i Decap — Sonja kan ikke redigere den`);
   }
@@ -1170,4 +1171,36 @@ test("S574 skallen taler sidens sprog — ingen dansk skal om engelsk indhold", 
   assert.match(dor, /if \(!findes\) return null/);
   assert.doesNotMatch(dor, /href="\/en"/, "sprogdøren må ikke smide alle på forsiden");
   assert.match(read("components/rummet/Footer.tsx"), /<LangDoor lang=\{lang\}/);
+});
+
+test("S574 EN-booking: pengerejsen findes på engelsk med samme tal", async () => {
+  const { loadBookingCopy, loadBookingCopyEn } = await import("../lib/content.ts");
+  const da = loadBookingCopy();
+  const en = loadBookingCopyEn();
+
+  // Samme depositum-beløb på begge sprog: ét Shopify-produkt, ét tal.
+  const tal = (s) => (s.match(/\d+/g) || []).join(",");
+  assert.equal(tal(da.depositum_label), tal(en.depositum_label), "depositum må ikke drifte mellem sprog");
+  assert.match(en.lede, /48 hours/, "ombookningsfristen skal stå på engelsk");
+  assert.match(en.konsultation, /free/, "konsultationen er gratis — også på engelsk");
+  assert.ok(en.tak_titel && en.tak_betalt, "tak-siden har ord på engelsk");
+  // Tak-siden må heller ikke på engelsk påstå at systemet har set betalingen.
+  assert.doesNotMatch(en.tak_betalt, /deposit is paid|has been paid/i);
+  assert.match(en.tak_betalt, /Shopify/, "kvitteringen er beviset, ikke URL'en");
+
+  const side = read("app/(rummet)/en/booking/page.tsx");
+  assert.match(side, /loadBookingCopyEn/);
+  assert.match(side, /<RummetShell lang="en"/);
+  assert.match(side, /RESERVATIONS\.find/, "variant-id kommer fra handelslaget");
+  assert.doesNotMatch(side, /\d{14}/, "ingen hardcodet variant på fladen");
+  assert.match(side, /canonical: "\/en\/booking"/);
+  // Book.dk er dansk. Det siger vi, i stedet for at lade kunden opdage det.
+  assert.match(side, /booking calendar is in Danish/);
+  assert.match(side, /kontakt\.telefon_e164/, "telefonen kommer fra kontakt.yml");
+
+  // Ruten skal stå i EN_ROUTES, ellers 308'er footeren og navet til dansk.
+  assert.match(read("lib/i18n.ts"), /"\/booking",/);
+  assert.match(read("app/sitemap.ts"), /inkandart\.dk\/en\/booking"/);
+  // Og den danske side skal pege tilbage — hreflang er et par, ikke en pil.
+  assert.match(read("app/(rummet)/booking/page.tsx"), /\.\.\.alternates\("\/booking"\)/);
 });

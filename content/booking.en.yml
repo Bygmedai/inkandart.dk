@@ -1,0 +1,23 @@
+# Booking page, English. Same facts as content/booking.yml, own voice.
+# The deposit amount must match the Shopify product — change one, change both.
+
+lede: >-
+  A deposit from 100 kr is paid when you book, and comes off the price.
+  Rebook at least 48 hours ahead and the deposit follows you to the new
+  time.
+depositum_label: Deposit 100 kr — comes off the price
+door_label: On to booking
+konsultation: >-
+  Big pieces start with a free, no-obligation consultation. Call, or come
+  by and talk it over at the counter — we draw our way to it together
+  before you book.
+note: >-
+  Questions about the piece or the price? Call — or come by and ask at the
+  counter.
+tak_titel: Your time is set. Pay the deposit now
+tak_betalt: >-
+  Thank you. Your receipt comes from Shopify by mail — keep it, and show
+  it at the counter if anything is unclear. The deposit comes off the
+  price.
+foto: /slots/H-04.jpg
+billedtekst: The reception with the house mark.

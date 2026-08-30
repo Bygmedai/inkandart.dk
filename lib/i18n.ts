@@ -42,6 +42,7 @@ export const EN_ROUTES: ReadonlySet<string> = new Set([
   "/betingelser",
   "/faq",
   "/privatlivspolitik",
+  "/booking",
 ]);
 
 /** `/walk-in` på dansk, `/en/walk-in` på engelsk — hvis ruten findes. */
