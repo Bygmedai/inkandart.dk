@@ -18,6 +18,20 @@ export type Artist = {
   /** Artistens egen præsentation, med egne ord. Tom = linjen udelades.
    *  Vi skriver ALDRIG en bio for et menneske der ikke har skrevet den. */
   bio: string;
+  /**
+   * Artistens fag på engelsk. Tomt = den danske linje bruges.
+   *
+   * Håndværkslinjen ER en etiket og må gerne oversættes — men kun af et
+   * menneske, i Decap. Vi maskinoversætter ikke en artists fag.
+   */
+  haandvaerk_en: string;
+  /**
+   * Artistens EGEN engelske præsentation. Tom = vi viser den danske og
+   * mærker den lang="da". Samme regel som bio'en: vi skriver den ikke
+   * for dem, og vi oversætter dem ikke — det ville være at lægge ord i
+   * munden på et menneske (S574).
+   */
+  bio_en: string;
   /** Instagram-handle uden @. Tom = linjen udelades. */
   instagram: string;
   aktiv: boolean;
@@ -135,6 +149,8 @@ function normalizeArtist(a: Artist): Artist {
     foto: str(a.foto),
     billedtekst: str(a.billedtekst),
     bio: str(a.bio),
+    haandvaerk_en: str(a.haandvaerk_en),
+    bio_en: str(a.bio_en),
     instagram: str(a.instagram),
     aktiv: bool(a.aktiv),
     stol: bool(a.stol),
@@ -236,6 +252,24 @@ export function loadBetingelserEn(): Betingelser {
   return readBetingelser("betingelser.en.yml");
 }
 
+/**
+ * Privatlivspolitikken (S574, godkendt af Steven 30/8). Samme form som
+ * betingelserne — titel, lede, sektioner — så Sonja redigerer de to
+ * juridiske sider på samme måde, og de to sprog ikke kan drifte fra
+ * hinanden ét afsnit ad gangen.
+ *
+ * Databehandlerne i teksten er de virkelige: Book.dk, Shopify,
+ * Simply.com (mail) og Vercel. Tilføjer huset en ny, skal den skrives
+ * ind i BEGGE filer — ellers lyver siden.
+ */
+export function loadPrivatliv(): Betingelser {
+  return readBetingelser("privatliv.yml");
+}
+
+export function loadPrivatlivEn(): Betingelser {
+  return readBetingelser("privatliv.en.yml");
+}
+
 
 /** Den engelske forside — egen stemme, samme felter plus EN-mikrocopy. */
 export type HusetForsideEn = HusetForside & {
@@ -330,6 +364,12 @@ export function loadPiercing(): PiercingCopy {
   return { titel: str(d.titel), tekst: str(d.tekst), priser: str(d.priser) };
 }
 
+/** Samme tekst på engelsk — og samme prisløfte: efter aftale. */
+export function loadPiercingEn(): PiercingCopy {
+  const d = readYaml<Partial<PiercingCopy>>("piercing.en.yml");
+  return { titel: str(d.titel), tekst: str(d.tekst), priser: str(d.priser) };
+}
+
 /** Bookingsidens ord. */
 export type BookingCopy = {
   lede: string;
@@ -350,6 +390,26 @@ export function loadBookingCopy(): BookingCopy {
     konsultation: str(d.konsultation),
     depositum_label: str(d.depositum_label),
     door_label: str(d.door_label) || "Videre til booking",
+    note: str(d.note),
+    foto: str(d.foto),
+    billedtekst: str(d.billedtekst),
+    tak_titel: str(d.tak_titel),
+    tak_betalt: str(d.tak_betalt),
+  };
+}
+
+/**
+ * Bookingsiden på engelsk (S574). Samme felter, egen stemme — og samme
+ * tal: depositummet er ét beløb i Shopify, uanset hvilket sprog kunden
+ * læser på. Ændrer nogen det ene sted, skal det andet med.
+ */
+export function loadBookingCopyEn(): BookingCopy {
+  const d = readYaml<Partial<BookingCopy>>("booking.en.yml");
+  return {
+    lede: str(d.lede),
+    konsultation: str(d.konsultation),
+    depositum_label: str(d.depositum_label),
+    door_label: str(d.door_label) || "On to booking",
     note: str(d.note),
     foto: str(d.foto),
     billedtekst: str(d.billedtekst),

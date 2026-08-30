@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function FaqPageEn() {
   const f = loadFaqEn();
   return (
-    <RummetShell>
+    <RummetShell lang="en">
       <main id="main" lang="en" className="rum-legal">
         <p className="rum-label">The house</p>
         <h1 className="rum-poster">{f.titel}</h1>

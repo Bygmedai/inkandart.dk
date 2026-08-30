@@ -1,34 +1,42 @@
 import type { Metadata } from "next";
-import { site } from "@/lib/site";
 import { RummetShell } from "@/components/rummet/Shell";
+import { loadPrivatliv } from "@/lib/content";
+import { alternates } from "@/lib/i18n";
+
+const _p = loadPrivatliv();
 
 export const metadata: Metadata = {
-  alternates: { canonical: "/privatlivspolitik" },
-  title: "Privatlivspolitik · Ink & Art",
+  title: `${_p.titel} · Ink & Art`,
+  description: _p.lede,
+  alternates: {
+    ...alternates("/privatlivspolitik"),
+    canonical: "/privatlivspolitik",
+  },
 };
 
+/**
+ * Privatlivspolitik v2 — godkendt af Steven 30/8 2026.
+ *
+ * Den gamle side var tre afsnit hårdkodet i markup og opfyldte ikke
+ * oplysningspligten: ingen dataansvarlig, ingen databehandlere, ingen
+ * opbevaringstid, ingen rettigheder, ingen klagevej (Sirius P0-4).
+ * Nu bor ordene i content/privatliv.yml — én kilde, to sprog, og Sonja
+ * kan rette dem uden GitHub.
+ */
 export default function PrivacyPage() {
+  const p = loadPrivatliv();
   return (
     <RummetShell>
       <main id="main" className="rum-legal">
-        <h1 className="rum-poster">Privatlivspolitik</h1>
-        <div className="rum-body-copy" style={{ marginTop: 24 }}>
-          <p>
-            Ink &amp; Art Copenhagen, {site.address.street}, {site.address.postalCode}{" "}
-            {site.address.city}. Vi indsamler kun det du selv giver os — navn, kontakt og
-            det du skriver om din idé.
-          </p>
-          <p style={{ marginTop: 16 }}>
-            Booking sker via vores bookingsystem. Nyhedsbreve og formularer bruges til at
-            svare dig, ikke til at sælge dine data. Du kan bede om sletning når som helst.
-          </p>
-          <p style={{ marginTop: 16 }}>
-            Vi måler besøg med Vercel Web Analytics. Det er cookieløst: der sættes ingen
-            cookies, der bruges ingen fingerprinting, og din IP-adresse gemmes ikke. Vi ser
-            kun hvilke sider der bliver besøgt, og hvor besøget kom fra — aldrig hvem du er.
-          </p>
-          <p style={{ marginTop: 16 }}>Sidst opdateret 2026-08-21.</p>
-        </div>
+        <p className="rum-label">Huset</p>
+        <h1 className="rum-poster">{p.titel}</h1>
+        <p className="rum-body-copy rum-legal__lede">{p.lede}</p>
+        {p.sektioner.map((s) => (
+          <section key={s.overskrift} className="rum-legal__afsnit">
+            <h2 className="rum-poster">{s.overskrift}</h2>
+            <p className="rum-body-copy">{s.tekst}</p>
+          </section>
+        ))}
       </main>
     </RummetShell>
   );

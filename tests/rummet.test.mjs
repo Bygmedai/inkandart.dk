@@ -167,7 +167,11 @@ test("Rummet-nav har segl på undersider, stort segl kun på Huset", () => {
   assert.match(nav, /logo-segl\.svg/);
   assert.match(nav, /onHuset/);
   assert.match(nav, /className="rum-nav__mark"/);
-  assert.match(nav, /href="\/"/);
+  // S574: mærket peger på husets forside i sidens sprog — localePath("/")
+  // giver "/" på dansk og "/en" på engelsk. En hardcodet href="/" ville
+  // sende en engelsk læser tilbage til dansk i logo-klikket.
+  assert.match(nav, /href=\{home\}/);
+  assert.match(nav, /const home = localePath\(lang, "\/"\)/);
   assert.match(nav, /Ink & Art/);
   assert.doesNotMatch(nav, /Ink and Art/);
   assert.match(huset, /rum-huset__segl/);
@@ -272,7 +276,7 @@ test("M2 Døren sidder på Stolen, Mærket og produkt/gave-flader", () => {
     assert.match(src, /RummetShell/);
     assert.doesNotMatch(src, /door=\{false\}/);
   }
-  assert.match(shell, /\{door \? <Door \/> : null\}/);
+  assert.match(shell, /\{door \? <Door lang=\{lang\} \/> : null\}/);
   assert.match(maerket, /GavekortKoeb/);
   assert.match(gave, /GIFT_CARDS/);
   assert.match(produkt, /Fri fragt fra 499/);
@@ -389,7 +393,12 @@ test("M2 Book tid på Stolen er stadig et klædt hop, række ≥ 44px", () => {
   const css = read("components/rummet/rummet.css");
   assert.match(kort, /\/booking\?artist=\$\{artist\.id\}/, "kortets dør bærer artistens id med");
   assert.match(kort, /rum-book--row/);
-  assert.match(kort, /Book tid/);
+  // S574: knappens ord bor i i18n (kortet tales nu på begge sprog) —
+  // løftet måles i kilden, og på begge sprog.
+  assert.match(kort, /c\.bookTid/);
+  const i18n = read("lib/i18n.ts");
+  assert.match(i18n, /bookTid: "Book tid"/);
+  assert.match(i18n, /bookTid: "Book a time"/);
   assert.match(huset, /href="\/booking"/);
   assert.match(door, /https:\/\/inkart\.book\.dk\//);
   assert.match(read("content/booking.yml"), /Videre til booking/);
@@ -695,14 +704,18 @@ test("F16 dock 12px, DEMO 11px, ingen TAL i layout-kommentar", () => {
 
 test("Blackbook tager email, ikke telefon", () => {
   const door = read("components/rummet/Door.tsx");
+  const i18n = read("lib/i18n.ts");
   assert.match(door, /type="email"/);
   assert.match(door, /name="email"/);
-  assert.match(door, /Email/);
   assert.doesNotMatch(door, /Telefonnummer/);
   assert.doesNotMatch(door, /type="tel"/);
-  assert.match(door, /Vi sender kun natten/);
-  assert.doesNotMatch(door, /Afmeld med STOP/);
-  assert.match(door, /Afmeld nederst i mailen/);
+  // S574: dørens ord bor i lib/i18n.ts, så den kan tale begge sprog.
+  // Løftet måles dér — ikke i markup, hvor det ikke længere står.
+  assert.match(door, /c\.blackbookLine/);
+  assert.match(i18n, /Vi sender kun natten/);
+  assert.doesNotMatch(i18n, /Afmeld med STOP/);
+  assert.match(i18n, /Afmeld nederst i mailen/);
+  assert.match(i18n, /Unsubscribe at the bottom of the mail/, "samme løfte på engelsk");
 });
 
 test("Plader viser ikke DEMO-chip og ingen rum-billedtekst", () => {
@@ -795,8 +808,13 @@ test("S573 Gavekort label", () => {
 });
 
 test("S573 Door afmelding", () => {
-  const door = read("components/rummet/Door.tsx");
-  assert.match(door, /Afmeld nederst i mailen/);
+  // Løftet flyttede til i18n i S574 (døren taler nu begge sprog), men det
+  // står stadig — på begge sprog. Et afmeldings-løfte må aldrig forsvinde
+  // i en refaktorering.
+  const i18n = read("lib/i18n.ts");
+  assert.match(i18n, /Afmeld nederst i mailen/);
+  assert.match(i18n, /Unsubscribe at the bottom of the mail/);
+  assert.match(read("components/rummet/Door.tsx"), /c\.blackbookLine/);
 });
 
 test("S573 Gaden walk-in + tel", () => {
@@ -898,13 +916,18 @@ test("en artist uden booking faar walk-in, ikke en tid vi ikke kan give", async 
   }
   const kort = readFileSync(join(root, "components/rummet/ArtistKort.tsx"), "utf8");
   assert.match(kort, /artist\.booking \?/, "kortet skal forgrene paa booking");
-  assert.match(kort, /Walk-in — kom forbi/);
+  assert.match(kort, /c\.walkIn/);
+  const i18nSrc = readFileSync(join(root, "lib/i18n.ts"), "utf8");
+  assert.match(i18nSrc, /walkIn: "Walk-in — kom forbi"/);
+  assert.match(i18nSrc, /walkIn: "Walk-in — come by"/);
 });
 
 test("S573 QA: artisterne er døre, ikke plakater", async () => {
   const kort = read("components/rummet/ArtistKort.tsx");
   // Foto og navn linker til artistens egen side.
-  assert.match(kort, /href = pending \? null : `\/stolen\/\$\{artist\.id\}`/);
+  // S574: stien går gennem localePath, så et engelsk kort peger på
+  // /en/stolen/<id> i stedet for at smide turisten på den danske side.
+  assert.match(kort, /localePath\(lang, `\/stolen\/\$\{artist\.id\}`\)/);
   assert.match(kort, /rum-kort__link/);
   // Perioden kommer fra data — aldrig et hardcodet «Fast».
   assert.match(kort, /periodeLabel\(artist\)/);
@@ -984,6 +1007,9 @@ test("S574: Decap kender hver content-fil koden læser", () => {
     "content/huset.en.yml",
     "content/betingelser.yml",
     "content/betingelser.en.yml",
+    "content/privatliv.yml",
+    "content/privatliv.en.yml",
+    "content/booking.en.yml",
   ]) {
     assert.ok(cms.includes(fil), `${fil} mangler i Decap — Sonja kan ikke redigere den`);
   }
@@ -1066,5 +1092,172 @@ test("S574 hullerne: tider i folden, FAQ på begge sprog, piercing-tekst, konsul
   assert.equal(loadKontakt().instagram, "ink.and.art.cph", "H2: husets handle");
   const footer = read("components/rummet/Footer.tsx");
   assert.match(footer, /instagram\.com/);
-  assert.match(footer, /href="\/faq"/);
+  // S574: footer-links går gennem localePath, så en engelsk side linker
+  // til /en/faq når den findes — og til dansk når den ikke gør.
+  assert.match(footer, /localePath\(lang, "\/faq"\)/);
+  assert.match(footer, /localePath\(lang, "\/betingelser"\)/);
+  assert.match(footer, /localePath\(lang, "\/privatlivspolitik"\)/);
+});
+
+test("S574 privatliv v2: oplysningspligten er dækket, DA og EN følges ad", async () => {
+  const { loadPrivatliv, loadPrivatlivEn } = await import("../lib/content.ts");
+  const da = loadPrivatliv();
+  const en = loadPrivatlivEn();
+
+  // Sirius P0-4: den gamle side var tre afsnit uden dataansvarlig,
+  // databehandlere, opbevaringstid, rettigheder eller klagevej. Testen
+  // måler at hvert krav i oplysningspligten HAR et afsnit — ikke at det
+  // er formuleret på en bestemt måde (Sonja må gerne omskrive).
+  const alt = (b) => b.sektioner.map((s) => `${s.overskrift} ${s.tekst}`).join("\n");
+  const daT = alt(da);
+  const enT = alt(en);
+
+  assert.match(daT, /44226413/, "dataansvarlig med CVR");
+  assert.match(daT, /Book\.dk/);
+  assert.match(daT, /Shopify/);
+  assert.match(daT, /Simply/, "mailudbyderen er en databehandler (Steven 30/8)");
+  assert.match(daT, /Vercel/);
+  assert.match(daT, /5 år/, "opbevaringstid for bogføring");
+  assert.match(daT, /så længe du er kunde/i, "opbevaring af bookinger (Stevens ord)");
+  assert.match(daT, /Datatilsynet/, "klagevej");
+  assert.match(daT, /indsigt/, "rettigheder");
+  assert.match(daT, /samtykke/, "grundlag for Blackbook");
+
+  // Samme substans på engelsk — og lige mange afsnit, så de ikke kan
+  // drifte fra hinanden ét afsnit ad gangen.
+  assert.equal(da.sektioner.length, en.sektioner.length, "DA og EN har lige mange afsnit");
+  for (const ord of ["44226413", "Book.dk", "Shopify", "Simply", "Vercel", "Datatilsynet"]) {
+    assert.ok(enT.includes(ord), `EN mangler ${ord}`);
+  }
+  assert.match(enT, /5 years/);
+
+  // Ordene bor i YAML — ikke i markup. Og begge sider findes.
+  const side = read("app/(rummet)/privatlivspolitik/page.tsx");
+  const sideEn = read("app/(rummet)/en/privatlivspolitik/page.tsx");
+  assert.match(side, /loadPrivatliv\(\)/);
+  assert.match(sideEn, /loadPrivatlivEn\(\)/);
+  assert.match(sideEn, /lang="en"/);
+  assert.doesNotMatch(side, /Vercel Web Analytics/, "teksten må ikke stå i markup igen");
+  assert.match(side, /canonical: "\/privatlivspolitik"/);
+  assert.match(sideEn, /canonical: "\/en\/privatlivspolitik"/);
+
+  // hreflang-parret kræver at ruten står i EN_ROUTES, ellers 308'er den til dansk.
+  assert.match(read("lib/i18n.ts"), /"\/privatlivspolitik"/);
+  const sitemap = read("app/sitemap.ts");
+  assert.match(sitemap, /inkandart\.dk\/privatlivspolitik"/);
+  assert.match(sitemap, /inkandart\.dk\/en\/privatlivspolitik"/);
+});
+
+test("S574 skallen taler sidens sprog — ingen dansk skal om engelsk indhold", async () => {
+  // Sirius' fund #5: /en havde dansk footer og danske lovlinks midt i
+  // købsrejsen. Skallen tager nu et lang-flag hele vejen igennem.
+  const shell = read("components/rummet/Shell.tsx");
+  assert.match(shell, /lang = DEFAULT_LOCALE/, "skallen har et sprog, med dansk som standard");
+  for (const del of [/<SkipLink lang=\{lang\}/, /<Nav lang=\{lang\}/, /<Footer lang=\{lang\}/]) {
+    assert.match(shell, del, "sproget skal nå hele vejen ud i skallen");
+  }
+
+  // Hver engelsk side SKAL bede om den engelske skal. Glemmer en ny side
+  // det, står den med dansk footer — præcis fejlen vi lukker her.
+  const enSider = [
+    "app/(rummet)/en/page.tsx",
+    "app/(rummet)/en/betingelser/page.tsx",
+    "app/(rummet)/en/faq/page.tsx",
+    "app/(rummet)/en/privatlivspolitik/page.tsx",
+  ];
+  for (const f of enSider) {
+    assert.match(read(f), /<RummetShell lang="en"/, `${f} mangler den engelske skal`);
+  }
+
+  // Rumnavnene er egennavne og oversættes ikke — hverken i nav eller dock.
+  const i18n = read("lib/i18n.ts");
+  for (const forbudt of ["The Chair", "The Mark", "The Night", "The Street"]) {
+    assert.ok(!i18n.includes(forbudt), `${forbudt}: husets rum har ét navn`);
+  }
+
+  // Sprogdøren: peger på samme side, og vises kun når den anden findes.
+  const dor = read("components/rummet/LangDoor.tsx");
+  assert.match(dor, /enExists\(bare\)/, "en dør der lyver er værre end ingen dør");
+  assert.match(read("lib/i18n.ts"), /export function enExists/);
+  assert.match(dor, /return null/, "ingen dør frem for en dør der lander på dansk");
+  assert.doesNotMatch(dor, /href="\/en"/, "sprogdøren må ikke smide alle på forsiden");
+  assert.match(read("components/rummet/Footer.tsx"), /<LangDoor lang=\{lang\}/);
+});
+
+test("S574 EN-booking: pengerejsen findes på engelsk med samme tal", async () => {
+  const { loadBookingCopy, loadBookingCopyEn } = await import("../lib/content.ts");
+  const da = loadBookingCopy();
+  const en = loadBookingCopyEn();
+
+  // Samme depositum-beløb på begge sprog: ét Shopify-produkt, ét tal.
+  const tal = (s) => (s.match(/\d+/g) || []).join(",");
+  assert.equal(tal(da.depositum_label), tal(en.depositum_label), "depositum må ikke drifte mellem sprog");
+  assert.match(en.lede, /48 hours/, "ombookningsfristen skal stå på engelsk");
+  assert.match(en.konsultation, /free/, "konsultationen er gratis — også på engelsk");
+  assert.ok(en.tak_titel && en.tak_betalt, "tak-siden har ord på engelsk");
+  // Tak-siden må heller ikke på engelsk påstå at systemet har set betalingen.
+  assert.doesNotMatch(en.tak_betalt, /deposit is paid|has been paid/i);
+  assert.match(en.tak_betalt, /Shopify/, "kvitteringen er beviset, ikke URL'en");
+
+  const side = read("app/(rummet)/en/booking/page.tsx");
+  assert.match(side, /loadBookingCopyEn/);
+  assert.match(side, /<RummetShell lang="en"/);
+  assert.match(side, /RESERVATIONS\.find/, "variant-id kommer fra handelslaget");
+  assert.doesNotMatch(side, /\d{14}/, "ingen hardcodet variant på fladen");
+  assert.match(side, /canonical: "\/en\/booking"/);
+  // Book.dk er dansk. Det siger vi, i stedet for at lade kunden opdage det.
+  assert.match(side, /booking calendar is in Danish/);
+  assert.match(side, /kontakt\.telefon_e164/, "telefonen kommer fra kontakt.yml");
+
+  // Ruten skal stå i EN_ROUTES, ellers 308'er footeren og navet til dansk.
+  assert.match(read("lib/i18n.ts"), /"\/booking",/);
+  assert.match(read("app/sitemap.ts"), /inkandart\.dk\/en\/booking"/);
+  // Og den danske side skal pege tilbage — hreflang er et par, ikke en pil.
+  assert.match(read("app/(rummet)/booking/page.tsx"), /\.\.\.alternates\("\/booking"\)/);
+});
+
+test("S574 EN-Stolen: artistsider på engelsk — men ingen oversat bio", async () => {
+  const { loadHouse, profiledArtists } = await import("../lib/content.ts");
+  const side = read("app/(rummet)/en/stolen/[id]/page.tsx");
+  const liste = read("app/(rummet)/en/stolen/page.tsx");
+
+  // Kernereglen: en bio er et menneskes egne ord. Har artisten ikke selv
+  // skrevet en engelsk, viser vi den danske MÆRKET som dansk — vi lægger
+  // aldrig maskinengelsk i munden på dem.
+  assert.match(side, /artist\.bio_en/);
+  assert.match(side, /lang="da"/, "den danske bio skal mærkes som dansk");
+  assert.match(side, /c\.bioIsDanish/, "og siges højt, ikke skjules");
+
+  // Faget må gerne oversættes — men kun af et menneske i Decap.
+  assert.match(side, /artist\.haandvaerk_en \|\| artist\.haandvaerk/);
+  assert.match(read("public/admin/config.yml"), /name: haandvaerk_en/);
+  assert.match(read("public/admin/config.yml"), /name: bio_en/);
+
+  // Ingen af artisterne har (endnu) en engelsk bio — så ingen må se ud
+  // som om de har. Falder det om senere, er det fordi nogen har skrevet
+  // en, og så skal denne linje opdateres bevidst.
+  const artister = profiledArtists(loadHouse().artists);
+  assert.ok(artister.length >= 3);
+  for (const a of artister) {
+    assert.equal(typeof a.bio_en, "string", `${a.id}: bio_en skal findes som felt`);
+  }
+
+  // Siderne findes for hver artist, og hreflang-parret peger begge veje.
+  assert.match(side, /generateStaticParams/);
+  assert.match(side, /profiledArtists/);
+  assert.match(side, /canonical: `\/en\/stolen\/\$\{artist\.id\}`/);
+  assert.match(read("app/(rummet)/stolen/[id]/page.tsx"), /alternates\(`\/stolen\/\$\{artist\.id\}`\)/);
+  assert.match(liste, /<RummetShell lang="en"/);
+  assert.match(liste, /Stolen<\/h1>/, "rummets navn oversættes ikke");
+
+  // Piercing-teksten findes på engelsk med samme prisløfte.
+  const { loadPiercing, loadPiercingEn } = await import("../lib/content.ts");
+  assert.match(loadPiercingEn().tekst, /celebration|freedom|marker/i);
+  assert.match(loadPiercingEn().priser, /by agreement/i);
+  assert.match(loadPiercing().priser, /efter aftale/i);
+  assert.doesNotMatch(loadPiercingEn().priser, /\d{2,}/, "ingen pris vi ikke har sat");
+
+  // Rute-familien: /stolen/<id> findes på engelsk, så links ikke falder til dansk.
+  assert.match(read("lib/i18n.ts"), /EN_ROUTE_PREFIXES/);
+  assert.match(read("lib/i18n.ts"), /"\/stolen\/"/);
 });

@@ -1,5 +1,6 @@
 import type { Artist } from "@/lib/content";
 import { periodeLabel } from "@/lib/content";
+import { DEFAULT_LOCALE, localePath, t, type Locale } from "@/lib/i18n";
 
 function daNum(n: number): string {
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -14,24 +15,33 @@ function daNum(n: number): string {
  * Alt indhold kommer fra artists.yml via Artist-typen. Ingen etiket
  * er hardcodet her: perioden kommer fra periodeLabel(), navnet fra
  * data, og en gæst uden navn får ingen død dør.
+ *
+ * S574: kortet kan tales på engelsk. Fagets navn kommer fra
+ * haandvaerk_en når artisten har givet os et — ellers står den danske,
+ * for vi oversætter ikke et menneskes fag på egen hånd.
  */
 export function ArtistKort({
   artist,
   workCount,
   guestKind,
   compact = false,
+  lang = DEFAULT_LOCALE,
 }: {
   artist: Artist;
   workCount: number;
   guestKind?: "named" | "pending";
   compact?: boolean;
+  lang?: Locale;
 }) {
+  const c = t(lang).rummet;
   const pending = guestKind === "pending";
-  const name = pending ? "Gæst · navn følger" : artist.fornavn;
+  const name = pending ? c.guestPending : artist.fornavn;
   const alt = artist.billedtekst || (pending ? "Gæst" : artist.fornavn);
-  const craft = pending ? "" : artist.haandvaerk;
+  const craft = pending
+    ? ""
+    : (lang === "en" && artist.haandvaerk_en) || artist.haandvaerk;
   const periode = pending ? "" : periodeLabel(artist);
-  const href = pending ? null : `/stolen/${artist.id}`;
+  const href = pending ? null : localePath(lang, `/stolen/${artist.id}`);
 
   const foto = (
     <div className="rum-kort__foto">
@@ -58,20 +68,27 @@ export function ArtistKort({
         {!compact && workCount > 0 ? (
           <p className="rum-kort__arkiv">
             <a href={`/maerket?artist=${artist.id}`}>
-              {workCount === 1
-                ? `Se ${daNum(workCount)} arbejde på Væggen`
-                : `Se ${daNum(workCount)} arbejder på Væggen`}
+              {lang === "en"
+                ? workCount === 1
+                  ? `See ${daNum(workCount)} piece on the Wall`
+                  : `See ${daNum(workCount)} pieces on the Wall`
+                : workCount === 1
+                  ? `Se ${daNum(workCount)} arbejde på Væggen`
+                  : `Se ${daNum(workCount)} arbejder på Væggen`}
             </a>
           </p>
         ) : null}
         {!compact && !pending ? (
           artist.booking ? (
-            <a href={`/booking?artist=${artist.id}`} className="rum-book rum-book--row">
-              Book tid
+            <a
+              href={localePath(lang, `/booking?artist=${artist.id}`)}
+              className="rum-book rum-book--row"
+            >
+              {c.bookTid}
             </a>
           ) : (
-            <a href="/gaden" className="rum-book rum-book--row">
-              Walk-in — kom forbi
+            <a href={localePath(lang, "/gaden")} className="rum-book rum-book--row">
+              {c.walkIn}
             </a>
           )
         ) : null}
