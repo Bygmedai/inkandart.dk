@@ -578,13 +578,29 @@ test("M4 /booking: depositum-sætning, variant, Videre til booking", () => {
   assert.match(door, /https:\/\/inkart\.book\.dk\//);
 });
 
-test("M4 /booking/tak: ubetalt copy, betalt-gren, ingen konsekvens-kundetekst", () => {
+test("M4 /booking/tak: data-drevet, ærlig betalt-gren, ingen konsekvens-kundetekst", () => {
   const tak = read("app/(rummet)/booking/tak/page.tsx");
-  assert.match(tak, /Din tid er sat\. Betal depositum nu/);
+  const yml = read("content/booking.yml");
+  // Ordene bor i booking.yml, ikke i markup.
+  assert.match(tak, /loadBookingCopy\(/);
+  assert.match(tak, /copy\.tak_titel/);
+  assert.match(tak, /copy\.tak_betalt/);
+  assert.match(yml, /tak_titel:/);
+  assert.match(yml, /tak_betalt:/);
+  // Sirius P0-1 (30/8): ?betalt=1 er en URL-parameter, ikke et betalingsbevis.
+  // Siden må aldrig påstå "Depositum er betalt" — kvitteringen er Shopifys.
+  assert.doesNotMatch(tak, /Depositum er betalt/);
+  assert.match(yml, /Kvitteringen kommer fra Shopify/);
+  assert.doesNotMatch(read("content/booking.yml").match(/tak_betalt:[^]*?(?=\n\w|$)/)[0], /er betalt/);
+  // Variant-id'et kommer fra RESERVATIONS — ikke hardcodet i siden.
+  assert.match(tak, /RESERVATIONS\.find/);
+  assert.doesNotMatch(tak, /53492757627208/);
   assert.match(tak, /params\.betalt/);
-  assert.match(tak, /Depositum er betalt/);
-  assert.match(tak, /\[AFVENTER STEVEN\] konsekvens ved ubetalt/);
   assert.match(tak, /\/\/ \[AFVENTER STEVEN\] konsekvens ved ubetalt/);
+  // Decap kan redigere de nye felter.
+  const cfg = read("public/admin/config.yml");
+  assert.match(cfg, /name: tak_titel/);
+  assert.match(cfg, /name: tak_betalt/);
 });
 
 test("U7 Decap GitHub OAuth-config", () => {
@@ -642,7 +658,8 @@ test("F14 booking er salgsflade på hud med handling først", () => {
   // faktisk ankommer til — i stedet for et moerkt studiebillede. Maalt: lys
   // paa folden 54,5 % -> 68,6 % ved 1440.
   assert.match(read("content/booking.yml"), /H-04\.jpg/);
-  assert.match(tak, /H-04\.jpg/);
+  // S574: tak-sidens billede kommer fra booking.yml (copy.foto), ikke markup.
+  assert.match(tak, /copy\.foto/);
   assert.match(read("content/booking.yml"), /Depositum 100 kr — fragår i prisen/);
   assert.match(booking, /copy\.door_label/);
   const koeb = booking.indexOf("rum-booking__koeb");

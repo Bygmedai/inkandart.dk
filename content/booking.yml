@@ -14,5 +14,11 @@ konsultation: >-
 note: >-
   Spørgsmål om motiv eller pris? Ring på — eller kom forbi og tag
   snakken ved disken.
+# Tak-siden. tak_betalt må ALDRIG påstå at systemet har set en betaling —
+# kvitteringen kommer fra Shopify, ikke fra en URL-parameter.
+tak_titel: Din tid er sat. Betal depositum nu
+tak_betalt: >-
+  Tak. Kvitteringen kommer fra Shopify på mail — gem den, og vis den
+  ved disken hvis du er i tvivl. Depositummet fragår i prisen.
 foto: /slots/H-04.jpg
 billedtekst: Receptionen med husets mærke.

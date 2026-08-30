@@ -140,6 +140,8 @@ collections:
           - { label: Depositum-knappens tekst, name: depositum_label, widget: string, hint: "Beløbet skal matche Shopify-produktet." }
           - { label: Book.dk-knappens tekst, name: door_label, widget: string, default: "Videre til booking" }
           - { label: Note, name: note, widget: text, required: false }
+          - { label: Tak-sidens titel, name: tak_titel, widget: string }
+          - { label: Tak-sidens betalt-tekst, name: tak_betalt, widget: text, hint: "Må aldrig påstå at betalingen er set af systemet — kvitteringen kommer fra Shopify." }
           - { label: Foto, name: foto, widget: image }
           - { label: Billedtekst, name: billedtekst, widget: string }
 

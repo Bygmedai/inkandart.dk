@@ -339,6 +339,8 @@ export type BookingCopy = {
   note: string;
   foto: string;
   billedtekst: string;
+  tak_titel: string;
+  tak_betalt: string;
 };
 
 export function loadBookingCopy(): BookingCopy {
@@ -351,6 +353,8 @@ export function loadBookingCopy(): BookingCopy {
     note: str(d.note),
     foto: str(d.foto),
     billedtekst: str(d.billedtekst),
+    tak_titel: str(d.tak_titel),
+    tak_betalt: str(d.tak_betalt),
   };
 }
 
