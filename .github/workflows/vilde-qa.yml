@@ -47,13 +47,25 @@ jobs:
           npm i --no-save playwright@1.62.1
           npx playwright install --with-deps chromium
 
-      - run: npm run build
+      # Storefront-tokenet skal med til BÅDE build og runtime: varesiden
+      # præ-renderes (generateStaticParams over hylden), og købsformen gates
+      # bag et svar fra Shopify. Uden tokenet renderer knappen ikke, og
+      # vagtens egen selvkontrol rapporterer et hul i dækningen frem for et
+      # bestået trykmål. Tokenet er husets offentlige read-only Storefront-
+      # nøgle — samme nøgle som allerede ligger i klientkode
+      # (UDRULNING-31-08.md). Admin-token og client secret er ikke rørt.
+      - name: Byg
+        env:
+          SHOPIFY_STOREFRONT_TOKEN: ${{ secrets.SHOPIFY_STOREFRONT_TOKEN }}
+        run: npm run build
 
       # nohup + omdirigeret output, ikke et bart `&`: et trins skal lukker
       # når trinnet er færdigt, og en baggrundsproces der stadig hænger på
       # dens stdout kan ryge med. Loggen gemmes så et fejlet opstart kan
       # læses i stedet for gættes.
       - name: Start sitet
+        env:
+          SHOPIFY_STOREFRONT_TOKEN: ${{ secrets.SHOPIFY_STOREFRONT_TOKEN }}
         run: |
           nohup npx next start -p 3299 > server.log 2>&1 &
           # Vent på at serveren svarer — aldrig et fast sleep, det er et gæt.
