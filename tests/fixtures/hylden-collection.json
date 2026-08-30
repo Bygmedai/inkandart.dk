@@ -1,0 +1,124 @@
+{
+  "collection": {
+    "handle": "hylden",
+    "products": {
+      "nodes": [
+        {
+          "handle": "dolk",
+          "title": "Dolk",
+          "productType": "Prints",
+          "availableForSale": true,
+          "featuredImage": {
+            "url": "https://cdn.shopify.com/s/files/1/dolk.png",
+            "altText": "Dolk print"
+          },
+          "variants": {
+            "nodes": [
+              {
+                "id": "gid://shopify/ProductVariant/53342061822280",
+                "availableForSale": true,
+                "price": { "amount": "450.0", "currencyCode": "DKK" }
+              }
+            ]
+          }
+        },
+        {
+          "handle": "ouroboros",
+          "title": "Ouroboros",
+          "productType": "Prints",
+          "availableForSale": true,
+          "featuredImage": {
+            "url": "https://cdn.shopify.com/s/files/1/ouroboros.png",
+            "altText": "Ouroboros print"
+          },
+          "variants": {
+            "nodes": [
+              {
+                "id": "gid://shopify/ProductVariant/53342061855048",
+                "availableForSale": true,
+                "price": { "amount": "450.0", "currencyCode": "DKK" }
+              }
+            ]
+          }
+        },
+        {
+          "handle": "signetring",
+          "title": "Signetring",
+          "productType": "Smykker",
+          "availableForSale": true,
+          "featuredImage": {
+            "url": "https://cdn.shopify.com/s/files/1/signetring.png",
+            "altText": "Signetring"
+          },
+          "variants": {
+            "nodes": [
+              {
+                "id": "gid://shopify/ProductVariant/53342061887816",
+                "availableForSale": true,
+                "price": { "amount": "1200.0", "currencyCode": "DKK" }
+              }
+            ]
+          }
+        },
+        {
+          "handle": "udsolgt-plakat",
+          "title": "Udsolgt plakat",
+          "productType": "Prints",
+          "availableForSale": false,
+          "featuredImage": {
+            "url": "https://cdn.shopify.com/s/files/1/udsolgt.png",
+            "altText": "Udsolgt"
+          },
+          "variants": {
+            "nodes": [
+              {
+                "id": "gid://shopify/ProductVariant/1",
+                "availableForSale": false,
+                "price": { "amount": "100.0", "currencyCode": "DKK" }
+              }
+            ]
+          }
+        },
+        {
+          "handle": "naesering",
+          "title": "Næsering",
+          "productType": "Smykker",
+          "availableForSale": true,
+          "featuredImage": null,
+          "images": { "nodes": [] },
+          "variants": {
+            "nodes": [
+              {
+                "id": "gid://shopify/ProductVariant/53342061900000",
+                "availableForSale": true,
+                "price": { "amount": "350.0", "currencyCode": "DKK" }
+              }
+            ]
+          }
+        },
+        {
+          "handle": "kun-udsolgte-varianter",
+          "title": "Ingen levende variant",
+          "productType": "Prints",
+          "availableForSale": true,
+          "featuredImage": {
+            "url": "https://cdn.shopify.com/s/files/1/dead.png",
+            "altText": ""
+          },
+          "variants": {
+            "nodes": [
+              {
+                "id": "gid://shopify/ProductVariant/2",
+                "availableForSale": false,
+                "price": { "amount": "10.0", "currencyCode": "DKK" }
+              }
+            ]
+          }
+        },
+        null,
+        { "title": "ingen handle" },
+        "ikke-et-objekt"
+      ]
+    }
+  }
+}

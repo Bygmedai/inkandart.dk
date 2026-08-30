@@ -35,6 +35,8 @@ test("vercel CSP matches lib/csp.ts and describes runtime", async () => {
   assert.doesNotMatch(header, /blob:/);
   assert.doesNotMatch(header, /vercel-insights/);
   assert.match(header, /object-src 'none'/);
+  assert.match(header, /img-src [^;]*https:\/\/cdn\.shopify\.com/);
+  assert.match(cspMod, /https:\/\/cdn\.shopify\.com/);
 
   const scriptSrc = header.match(/script-src ([^;]+)/)[1].trim().split(/\s+/);
   for (const token of scriptSrc) {

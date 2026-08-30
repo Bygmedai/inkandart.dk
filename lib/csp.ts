@@ -3,7 +3,7 @@ export const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline'",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: https://avatars.githubusercontent.com",
+  "img-src 'self' data: https://avatars.githubusercontent.com https://cdn.shopify.com",
   "font-src 'self'",
   "connect-src 'self' https://oauth.bygmedai.dk https://api.github.com https://github.com",
   "object-src 'none'",
