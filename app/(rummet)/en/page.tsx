@@ -36,7 +36,7 @@ export default function HomePageEn() {
   const guest = guestState(house.artists);
 
   return (
-    <RummetShell door={false}>
+    <RummetShell lang="en" door={false}>
       <main id="main" lang="en" className="rum-huset">
         <header className="rum-huset__intro">
           <p className="rum-label">The house</p>

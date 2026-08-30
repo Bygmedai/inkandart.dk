@@ -610,6 +610,19 @@ html:has([data-house="rummet"]) .grain {
 }
 .rum-footer a:hover { color: var(--hud); }
 
+/* Sprogdøren: samme trykmål som resten af footeren, men markeret — det
+   er en handling der skifter hele fladen, ikke endnu et lovlink.
+   Farven er husets hud, ikke Emerges guld: Rummet kender ikke --gold. */
+.rum-footer .rum-lang {
+  color: var(--hud);
+  padding: 0 10px;
+  border: 1px solid var(--rum-line);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+.rum-footer .rum-lang:hover { border-color: var(--hud); }
+
 /* ── Room stubs ── */
 
 .rum-room {

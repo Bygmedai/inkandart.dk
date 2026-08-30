@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default function TermsPageEn() {
   const b = loadBetingelserEn();
   return (
-    <RummetShell>
+    <RummetShell lang="en">
       <main id="main" lang="en" className="rum-legal">
         <p className="rum-label">The house</p>
         <h1 className="rum-poster">{b.titel}</h1>

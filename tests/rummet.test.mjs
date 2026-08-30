@@ -167,7 +167,11 @@ test("Rummet-nav har segl på undersider, stort segl kun på Huset", () => {
   assert.match(nav, /logo-segl\.svg/);
   assert.match(nav, /onHuset/);
   assert.match(nav, /className="rum-nav__mark"/);
-  assert.match(nav, /href="\/"/);
+  // S574: mærket peger på husets forside i sidens sprog — localePath("/")
+  // giver "/" på dansk og "/en" på engelsk. En hardcodet href="/" ville
+  // sende en engelsk læser tilbage til dansk i logo-klikket.
+  assert.match(nav, /href=\{home\}/);
+  assert.match(nav, /const home = localePath\(lang, "\/"\)/);
   assert.match(nav, /Ink & Art/);
   assert.doesNotMatch(nav, /Ink and Art/);
   assert.match(huset, /rum-huset__segl/);
@@ -272,7 +276,7 @@ test("M2 Døren sidder på Stolen, Mærket og produkt/gave-flader", () => {
     assert.match(src, /RummetShell/);
     assert.doesNotMatch(src, /door=\{false\}/);
   }
-  assert.match(shell, /\{door \? <Door \/> : null\}/);
+  assert.match(shell, /\{door \? <Door lang=\{lang\} \/> : null\}/);
   assert.match(maerket, /GavekortKoeb/);
   assert.match(gave, /GIFT_CARDS/);
   assert.match(produkt, /Fri fragt fra 499/);
@@ -695,14 +699,18 @@ test("F16 dock 12px, DEMO 11px, ingen TAL i layout-kommentar", () => {
 
 test("Blackbook tager email, ikke telefon", () => {
   const door = read("components/rummet/Door.tsx");
+  const i18n = read("lib/i18n.ts");
   assert.match(door, /type="email"/);
   assert.match(door, /name="email"/);
-  assert.match(door, /Email/);
   assert.doesNotMatch(door, /Telefonnummer/);
   assert.doesNotMatch(door, /type="tel"/);
-  assert.match(door, /Vi sender kun natten/);
-  assert.doesNotMatch(door, /Afmeld med STOP/);
-  assert.match(door, /Afmeld nederst i mailen/);
+  // S574: dørens ord bor i lib/i18n.ts, så den kan tale begge sprog.
+  // Løftet måles dér — ikke i markup, hvor det ikke længere står.
+  assert.match(door, /c\.blackbookLine/);
+  assert.match(i18n, /Vi sender kun natten/);
+  assert.doesNotMatch(i18n, /Afmeld med STOP/);
+  assert.match(i18n, /Afmeld nederst i mailen/);
+  assert.match(i18n, /Unsubscribe at the bottom of the mail/, "samme løfte på engelsk");
 });
 
 test("Plader viser ikke DEMO-chip og ingen rum-billedtekst", () => {
@@ -795,8 +803,13 @@ test("S573 Gavekort label", () => {
 });
 
 test("S573 Door afmelding", () => {
-  const door = read("components/rummet/Door.tsx");
-  assert.match(door, /Afmeld nederst i mailen/);
+  // Løftet flyttede til i18n i S574 (døren taler nu begge sprog), men det
+  // står stadig — på begge sprog. Et afmeldings-løfte må aldrig forsvinde
+  // i en refaktorering.
+  const i18n = read("lib/i18n.ts");
+  assert.match(i18n, /Afmeld nederst i mailen/);
+  assert.match(i18n, /Unsubscribe at the bottom of the mail/);
+  assert.match(read("components/rummet/Door.tsx"), /c\.blackbookLine/);
 });
 
 test("S573 Gaden walk-in + tel", () => {
@@ -1068,7 +1081,11 @@ test("S574 hullerne: tider i folden, FAQ på begge sprog, piercing-tekst, konsul
   assert.equal(loadKontakt().instagram, "ink.and.art.cph", "H2: husets handle");
   const footer = read("components/rummet/Footer.tsx");
   assert.match(footer, /instagram\.com/);
-  assert.match(footer, /href="\/faq"/);
+  // S574: footer-links går gennem localePath, så en engelsk side linker
+  // til /en/faq når den findes — og til dansk når den ikke gør.
+  assert.match(footer, /localePath\(lang, "\/faq"\)/);
+  assert.match(footer, /localePath\(lang, "\/betingelser"\)/);
+  assert.match(footer, /localePath\(lang, "\/privatlivspolitik"\)/);
 });
 
 test("S574 privatliv v2: oplysningspligten er dækket, DA og EN følges ad", async () => {
@@ -1118,4 +1135,39 @@ test("S574 privatliv v2: oplysningspligten er dækket, DA og EN følges ad", asy
   const sitemap = read("app/sitemap.ts");
   assert.match(sitemap, /inkandart\.dk\/privatlivspolitik"/);
   assert.match(sitemap, /inkandart\.dk\/en\/privatlivspolitik"/);
+});
+
+test("S574 skallen taler sidens sprog — ingen dansk skal om engelsk indhold", async () => {
+  // Sirius' fund #5: /en havde dansk footer og danske lovlinks midt i
+  // købsrejsen. Skallen tager nu et lang-flag hele vejen igennem.
+  const shell = read("components/rummet/Shell.tsx");
+  assert.match(shell, /lang = DEFAULT_LOCALE/, "skallen har et sprog, med dansk som standard");
+  for (const del of [/<SkipLink lang=\{lang\}/, /<Nav lang=\{lang\}/, /<Footer lang=\{lang\}/]) {
+    assert.match(shell, del, "sproget skal nå hele vejen ud i skallen");
+  }
+
+  // Hver engelsk side SKAL bede om den engelske skal. Glemmer en ny side
+  // det, står den med dansk footer — præcis fejlen vi lukker her.
+  const enSider = [
+    "app/(rummet)/en/page.tsx",
+    "app/(rummet)/en/betingelser/page.tsx",
+    "app/(rummet)/en/faq/page.tsx",
+    "app/(rummet)/en/privatlivspolitik/page.tsx",
+  ];
+  for (const f of enSider) {
+    assert.match(read(f), /<RummetShell lang="en"/, `${f} mangler den engelske skal`);
+  }
+
+  // Rumnavnene er egennavne og oversættes ikke — hverken i nav eller dock.
+  const i18n = read("lib/i18n.ts");
+  for (const forbudt of ["The Chair", "The Mark", "The Night", "The Street"]) {
+    assert.ok(!i18n.includes(forbudt), `${forbudt}: husets rum har ét navn`);
+  }
+
+  // Sprogdøren: peger på samme side, og vises kun når den anden findes.
+  const dor = read("components/rummet/LangDoor.tsx");
+  assert.match(dor, /EN_ROUTES\.has/, "en dør der lyver er værre end ingen dør");
+  assert.match(dor, /if \(!findes\) return null/);
+  assert.doesNotMatch(dor, /href="\/en"/, "sprogdøren må ikke smide alle på forsiden");
+  assert.match(read("components/rummet/Footer.tsx"), /<LangDoor lang=\{lang\}/);
 });

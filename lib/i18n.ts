@@ -117,6 +117,29 @@ const da = {
   skipToContent: "Gå til indhold",
   backTo: "←",
 
+  /**
+   * Rummets skal — nav, footer og Blackbook-døren (S574).
+   *
+   * Sirius' fund #5: den engelske oplevelse havde dansk skal. En turist
+   * på /en mødte «Betingelser · Privatliv» i footeren og blev sendt til
+   * de danske sider. Skallen taler nu det sprog siden er skrevet i.
+   *
+   * Rumnavnene — Stolen, Mærket, Natten, Gaden — oversættes ALDRIG.
+   * De er husets egennavne, ikke etiketter (kanon siden S568).
+   */
+  rummet: {
+    roomsLabel: "Rum",
+    blackbookLine: "Vi sender kun natten. Afmeld nederst i mailen.",
+    blackbookEmail: "Email",
+    blackbookGo: "Tilmeld",
+    blackbookBusy: "…",
+    blackbookOk: "Du er i bogen.",
+    blackbookFejl: "Noget gik galt — prøv igen.",
+    terms: "Betingelser",
+    privacy: "Privatliv",
+    faq: "FAQ",
+  },
+
   shop: {
     metaTitle: "Gaden sælger · Ink & Art",
     metaDescription:
@@ -283,6 +306,20 @@ const en: Copy = {
   otherLangName: "Dansk",
   skipToContent: "Skip to content",
   backTo: "←",
+
+  /** The room names stay Danish — they are the house's proper nouns. */
+  rummet: {
+    roomsLabel: "Rooms",
+    blackbookLine: "We only send the night. Unsubscribe at the bottom of the mail.",
+    blackbookEmail: "Email",
+    blackbookGo: "Sign up",
+    blackbookBusy: "…",
+    blackbookOk: "You're in the book.",
+    blackbookFejl: "Something went wrong — try again.",
+    terms: "Terms",
+    privacy: "Privacy",
+    faq: "FAQ",
+  },
 
   shop: {
     metaTitle: "The street sells · Ink & Art",

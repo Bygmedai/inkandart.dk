@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { DEFAULT_LOCALE, localePath, t, type Locale } from "@/lib/i18n";
 import { CartIndicator } from "./CartIndicator";
 
 const ROOMS = [
@@ -11,6 +12,11 @@ const ROOMS = [
   { href: "/gaden", label: "Gaden" },
 ] as const;
 
+/**
+ * S574: rumnavnene er husets egennavne og oversættes ikke — men stierne
+ * gør. `localePath` peger på /en/… når ruten findes dér, og bliver på
+ * dansk når den ikke gør, så en engelsk kunde aldrig rammer en 410.
+ */
 function current(pathname: string | null, href: string) {
   if (!pathname) return false;
   if (href === "/") return pathname === "/";
@@ -21,15 +27,17 @@ function Blackbook({
   word = false,
   dock = false,
   mobile = false,
+  lang = DEFAULT_LOCALE,
 }: {
   word?: boolean;
   dock?: boolean;
   mobile?: boolean;
+  lang?: Locale;
 }) {
   return (
     <span className={dock ? "rum-dock__cluster" : "rum-nav__cluster"}>
       <a
-        href="/#doer"
+        href={`${localePath(lang, "/")}#doer`}
         className={dock ? "rum-dock__book" : "rum-nav__book"}
         aria-label={word ? undefined : "Blackbook"}
         data-mobile-book={mobile ? "" : undefined}
@@ -43,13 +51,15 @@ function Blackbook({
   );
 }
 
-export function Nav() {
+export function Nav({ lang = DEFAULT_LOCALE }: { lang?: Locale }) {
   const pathname = usePathname();
-  const onHuset = pathname === "/";
+  const c = t(lang).rummet;
+  const home = localePath(lang, "/");
+  const onHuset = pathname === home;
   return (
     <>
       <header className="rum-nav">
-        <Link href="/" className="rum-nav__mark">
+        <Link href={home} className="rum-nav__mark">
           {onHuset ? null : (
             <span className="rum-nav__segl" aria-hidden="true">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -58,11 +68,11 @@ export function Nav() {
           )}
           Ink & Art
         </Link>
-        <nav className="rum-nav__rooms" aria-label="Rum">
+        <nav className="rum-nav__rooms" aria-label={c.roomsLabel}>
           {ROOMS.map((r) => (
             <Link
               key={r.href}
-              href={r.href}
+              href={localePath(lang, r.href)}
               className="rum-nav__room"
               aria-current={current(pathname, r.href) ? "page" : undefined}
             >
@@ -70,21 +80,21 @@ export function Nav() {
             </Link>
           ))}
           <span className="rum-nav__split" aria-hidden="true" />
-          <Blackbook word />
+          <Blackbook word lang={lang} />
         </nav>
-        <Blackbook mobile />
+        <Blackbook mobile lang={lang} />
       </header>
-      <nav className="rum-dock" aria-label="Rum">
+      <nav className="rum-dock" aria-label={c.roomsLabel}>
         {ROOMS.map((r) => (
           <Link
             key={r.href}
-            href={r.href}
+            href={localePath(lang, r.href)}
             aria-current={current(pathname, r.href) ? "page" : undefined}
           >
             {r.label}
           </Link>
         ))}
-        <Blackbook dock />
+        <Blackbook dock lang={lang} />
       </nav>
     </>
   );

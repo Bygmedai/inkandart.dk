@@ -1,14 +1,25 @@
 "use client";
 
 import { useState } from "react";
+import { DEFAULT_LOCALE, t, type Locale } from "@/lib/i18n";
 
 /**
  * Blackbook-døren. Ét email-felt. Aldrig væk.
  * POST /api/subscribe — Shopify customer + tag `blackbook`.
  * Success copy is the existing line from the house, not a new invention.
+ *
+ * S574: døren taler sidens sprog. Den engelske udgave er husets egen
+ * stemme på engelsk — ikke en maskinoversættelse af den danske linje.
  */
-export function Door({ variant = "page" }: { variant?: "page" | "inline" }) {
+export function Door({
+  variant = "page",
+  lang = DEFAULT_LOCALE,
+}: {
+  variant?: "page" | "inline";
+  lang?: Locale;
+}) {
   const [status, setStatus] = useState<"idle" | "busy" | "ok" | "fejl">("idle");
+  const c = t(lang).rummet;
 
   async function send(form: HTMLFormElement) {
     const data = new FormData(form);
@@ -43,7 +54,7 @@ export function Door({ variant = "page" }: { variant?: "page" | "inline" }) {
         <span className="rum-dot" aria-hidden="true" />
         <span className="rum-door__name">Blackbook</span>
       </div>
-      <p className="rum-door__line">Vi sender kun natten. Afmeld nederst i mailen.</p>
+      <p className="rum-door__line">{c.blackbookLine}</p>
       <div className="rum-door__hp" aria-hidden="true">
         <label>
           Company
@@ -53,7 +64,7 @@ export function Door({ variant = "page" }: { variant?: "page" | "inline" }) {
       <div className="rum-door__row">
         <div className="rum-door__field">
           <label htmlFor={variant === "inline" ? "blackbook-email-inline" : "blackbook-email"}>
-            Email
+            {c.blackbookEmail}
           </label>
           <input
             id={variant === "inline" ? "blackbook-email-inline" : "blackbook-email"}
@@ -65,11 +76,11 @@ export function Door({ variant = "page" }: { variant?: "page" | "inline" }) {
           />
         </div>
         <button type="submit" className="rum-door__go" disabled={status === "busy"}>
-          {status === "busy" ? "…" : "Tilmeld"}
+          {status === "busy" ? c.blackbookBusy : c.blackbookGo}
         </button>
       </div>
       <p className="rum-door__status" role="status">
-        {status === "ok" ? "Du er i bogen." : status === "fejl" ? "Noget gik galt — prøv igen." : ""}
+        {status === "ok" ? c.blackbookOk : status === "fejl" ? c.blackbookFejl : ""}
       </p>
     </form>
   );
