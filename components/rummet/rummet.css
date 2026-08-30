@@ -741,6 +741,18 @@ html:has([data-house="rummet"]) .grain {
   margin-top: 18px;
   max-width: 52ch;
 }
+.rum-artist__insta {
+  margin-top: 10px;
+}
+.rum-artist__insta a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--beton);
+}
+.rum-artist__insta a:hover {
+  color: var(--hud);
+}
 
 .rum-natten__intro {
   margin-top: 14px;

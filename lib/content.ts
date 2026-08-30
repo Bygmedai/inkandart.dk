@@ -18,6 +18,8 @@ export type Artist = {
   /** Artistens egen præsentation, med egne ord. Tom = linjen udelades.
    *  Vi skriver ALDRIG en bio for et menneske der ikke har skrevet den. */
   bio: string;
+  /** Instagram-handle uden @. Tom = linjen udelades. */
+  instagram: string;
   aktiv: boolean;
   stol: boolean;
   /** Kan gaesten booke tid hos denne artist? Tom/false = walk-in indtil
@@ -133,6 +135,7 @@ function normalizeArtist(a: Artist): Artist {
     foto: str(a.foto),
     billedtekst: str(a.billedtekst),
     bio: str(a.bio),
+    instagram: str(a.instagram),
     aktiv: bool(a.aktiv),
     stol: bool(a.stol),
     booking: a.booking === undefined ? true : bool(a.booking),
