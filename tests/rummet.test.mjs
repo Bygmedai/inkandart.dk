@@ -405,7 +405,7 @@ test("M2 Book tid på Stolen er stadig et klædt hop, række ≥ 44px", () => {
   assert.match(i18n, /bookTid: "Book a time"/);
   assert.match(huset, /href="\/booking"/);
   assert.match(door, /https:\/\/inkart\.book\.dk\//);
-  assert.match(read("content/booking.yml"), /Videre til booking/);
+  assert.match(read("content/booking.yml"), /door_label: Book din tid/);
   assert.doesNotMatch(stolen, /s8|depositum/i);
   const i = css.indexOf(".rum-book--row {");
   assert.notEqual(i, -1, "rum-book--row mangler");
@@ -591,7 +591,9 @@ test("M4 /booking: depositum-sætning, variant, Videre til booking", () => {
   const bookingYml = read("content/booking.yml");
   assert.match(bookingYml, /Depositum 100 kr — fragår i prisen/);
   assert.match(booking, /cartUrl\(/);
-  assert.match(bookingYml, /Videre til booking/);
+  // S574: trappen er vendt — booking er trin 1 og døren hedder det den gør.
+  assert.match(bookingYml, /door_label: Book din tid/);
+  assert.match(read("content/booking.en.yml"), /door_label: Book your time/);
   assert.match(booking, /BookDoor/);
   const door = read("components/rummet/BookDoor.tsx");
   assert.match(door, /label = "Book tid"/);
@@ -612,7 +614,9 @@ test("M4 /booking/tak: data-drevet, ærlig betalt-gren, ingen konsekvens-kundete
   // Kun det der RENDERES må måles — filens kommentar fortæller med vilje
   // hvad der blev fjernet og hvorfor.
   assert.doesNotMatch(tak.slice(tak.indexOf("export default")), /Depositum er betalt/);
-  assert.match(yml, /Kvitteringen kommer fra Shopify/);
+  // Tak-siden lover ikke længere en betaling — den siger at tiden er booket.
+  assert.match(yml, /tak_titel: Din tid er booket/);
+  assert.match(yml, /bekræftelsesmail|Bekræftelsen kommer på mail/i);
   assert.doesNotMatch(read("content/booking.yml").match(/tak_betalt:[^]*?(?=\n\w|$)/)[0], /er betalt/);
   // Variant-id'et kommer fra RESERVATIONS — ikke hardcodet i siden.
   assert.match(tak, /RESERVATIONS\.find/);
@@ -625,7 +629,7 @@ test("M4 /booking/tak: data-drevet, ærlig betalt-gren, ingen konsekvens-kundete
   const cfg = read("public/admin/config.yml");
   assert.match(cfg, /name: tak_titel/);
   assert.match(cfg, /name: tak_betalt/);
-  assert.match(cfg, /name: ordrenummer_trin/);
+  assert.match(cfg, /name: depositum_trin/);
   assert.match(cfg, /name: svar_betalt/);
 });
 
@@ -1231,11 +1235,20 @@ test("S574 EN-booking: pengerejsen findes på engelsk med samme tal", async () =
   const tal = (s) => (s.match(/\d+/g) || []).join(",");
   assert.equal(tal(da.depositum_label), tal(en.depositum_label), "depositum må ikke drifte mellem sprog");
   assert.match(en.lede, /48 hours/, "ombookningsfristen skal stå på engelsk");
+  // S574: booking er gratis og først. Løftet må ikke sige det modsatte.
+  assert.match(en.lede, /costs nothing/i);
+  assert.match(da.lede, /koster ikke noget/i);
+  assert.match(en.depositum_trin, /same email address/i, "mailen er den fælles nøgle");
+  assert.match(da.depositum_trin, /samme mailadresse/i);
   assert.match(en.konsultation, /free/, "konsultationen er gratis — også på engelsk");
   assert.ok(en.tak_titel && en.tak_betalt, "tak-siden har ord på engelsk");
   // Tak-siden må heller ikke på engelsk påstå at systemet har set betalingen.
+  // S574: tak-siden kommer nu EFTER bookingen, ikke efter betalingen.
+  // Den må hverken påstå en betaling eller love en kvittering vi ikke sender.
   assert.doesNotMatch(en.tak_betalt, /deposit is paid|has been paid/i);
-  assert.match(en.tak_betalt, /Shopify/, "kvitteringen er beviset, ikke URL'en");
+  assert.doesNotMatch(da.tak_betalt, /er betalt/i);
+  assert.match(en.tak_betalt, /same email address/i, "mailen er den fælles nøgle");
+  assert.match(da.tak_betalt, /samme\s+mailadresse/i);
 
   const side = read("app/(rummet)/en/booking/page.tsx");
   assert.match(side, /loadBookingCopyEn/);
@@ -1426,4 +1439,42 @@ test("S574 copy-audit: ingen mytologi hvor der skal stå en oplysning", () => {
   assert.match(en, /lang="en"/);
   assert.doesNotMatch(en, /href=\{`\/stolen\/\$\{a\.id\}`\}/, "kortene skal pege på /en/stolen");
   assert.match(en, /href="\/en\/booking"/);
+});
+
+test("S574 book først, betal efter — tragten spærrer ikke længere", async () => {
+  const { loadBookingCopy, loadBookingCopyEn } = await import("../lib/content.ts");
+  const da = loadBookingCopy();
+  const en = loadBookingCopyEn();
+
+  // Kendelsen (Steven 30/8): booking er gratis og ét flow. Depositummet
+  // spærrede før ALLE kunder for at beskytte mod udeblivelser på de få
+  // lange sessioner.
+  assert.match(da.lede, /koster ikke noget/i);
+  assert.match(da.lede, /binder dig ikke/i);
+  assert.doesNotMatch(da.lede, /betales ved booking/i, "det gamle løfte er ude");
+
+  // Rækkefølgen i trappen: BookDoor før depositum-linket. Måles på
+  // positionen i markup, ikke på en streng der kan flytte sig.
+  for (const f of ["app/(rummet)/booking/page.tsx", "app/(rummet)/en/booking/page.tsx"]) {
+    const side = read(f);
+    const trin = side.slice(side.indexOf("rum-booking__trin"), side.indexOf("</ol>"));
+    const dør = trin.indexOf("<BookDoor");
+    const pris = trin.indexOf("rum-booking__pris");
+    assert.ok(dør !== -1 && pris !== -1, `${f}: begge trin skal findes`);
+    assert.ok(dør < pris, `${f}: booking skal være trin 1, depositum trin 2`);
+  }
+
+  // Ingen transskription: kunden må ikke bedes skrive et ordrenummer
+  // ind i et andet system. Mailadressen er den fælles nøgle.
+  for (const c of [da, en]) {
+    const alt = Object.values(c).join(" ");
+    assert.doesNotMatch(alt, /ordrenummer.{0,40}kommentarfelt|order number.{0,40}comment field/i);
+  }
+  assert.match(da.depositum_trin, /samme mailadresse/i);
+  assert.match(en.depositum_trin, /same email address/i);
+
+  // Opslaget overlever — det er Sonjas værktøj ved disken, ikke en port.
+  for (const f of ["app/(rummet)/booking/tak/page.tsx", "app/(rummet)/en/booking/tak/page.tsx"]) {
+    assert.match(read(f), /verificerDepositum/, `${f}: opslaget skal bestå`);
+  }
 });

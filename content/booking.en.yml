@@ -2,11 +2,11 @@
 # The deposit amount must match the Shopify product — change one, change both.
 
 lede: >-
-  A deposit from 100 kr is paid when you book, and comes off the price.
-  Rebook at least 48 hours ahead and the deposit follows you to the new
-  time.
+  Book your time — it costs nothing and commits you to nothing. If you
+  are sitting for a full day, a 100 kr deposit confirms the time; it
+  comes off the price. Rebook at least 48 hours ahead.
+door_label: Book your time
 depositum_label: Deposit 100 kr — comes off the price
-door_label: On to booking
 konsultation: >-
   Big pieces start with a free, no-obligation consultation. Call, or come
   by and talk it over at the counter — we draw our way to it together
@@ -14,14 +14,15 @@ konsultation: >-
 note: >-
   Questions about the piece or the price? Call — or come by and ask at the
   counter.
-ordrenummer_trin: >-
-  Write your order number from the receipt in the comment field when you
-  book — that way we can see your payment next to your time.
-tak_titel: Your time is set. Pay the deposit now
+depositum_trin: >-
+  Booking a full-day session? Then you confirm it with a deposit. Use the
+  same email address as in the booking — that is how we find the two
+  together. The link is in your confirmation mail, or pay here now.
+tak_titel: Your time is booked
 tak_betalt: >-
-  Thank you. Your receipt comes from Shopify by mail — keep it, and show
-  it at the counter if anything is unclear. The deposit comes off the
-  price.
+  The confirmation comes by mail from the booking system. If you are
+  sitting for a full day, the deposit link is in that same mail — pay
+  with the same email address, so the two belong together.
 tjek_titel: Check your deposit
 tjek_hjaelp: >-
   Enter the order number from your receipt and we'll look up the payment.

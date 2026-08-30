@@ -1,11 +1,16 @@
 # Bookingsiden. Sonja retter her — ikke i koden.
 # depositum_label: knappens tekst. Beløbet skal matche Shopify-produktet.
 
+# S574 (Steven, 30/8): booking er GRATIS og ét flow. Depositummet er
+# flyttet BAG bookingen, fordi det før spærrede alle kunder for at
+# beskytte mod udeblivelser på de få lange sessioner. Rækkefølgen her
+# er derfor: book din tid → betal depositum hvis sessionen er lang.
 lede: >-
-  Depositum fra 100 kr betales ved booking og fragår i prisen.
-  Ombook senest 48 timer før, så følger depositummet med.
+  Book din tid — det koster ikke noget, og du binder dig ikke.
+  Skal du sidde en hel dag, bekræfter et depositum på 100 kr tiden;
+  det fragår i prisen. Ombook senest 48 timer før.
+door_label: Book din tid
 depositum_label: Depositum 100 kr — fragår i prisen
-door_label: Videre til booking
 # [ORD-TJEK Steven] H3 30/8: konsultationen er en kapacitet huset har.
 konsultation: >-
   Store motiver starter med en gratis og uforpligtende konsultation.
@@ -14,19 +19,21 @@ konsultation: >-
 note: >-
   Spørgsmål om motiv eller pris? Ring på — eller kom forbi og tag
   snakken ved disken.
-# Trin 3: ordrenummeret er den reference begge systemer kan bære. Book.dk
-# har ingen API (målt 30/8), så kunden bærer den selv — og så kan huset
-# slå betalingen op bagefter.
-ordrenummer_trin: >-
-  Skriv dit ordrenummer fra kvitteringen i kommentarfeltet når du
-  booker — så kan vi se din betaling ved siden af din tid.
+# Trin 2 er kun for de lange sessioner. Kunden skal IKKE skrive et
+# ordrenummer nogen steder: mailadressen står allerede i både Book.dk
+# og Shopify, og det er den vi afstemmer på.
+depositum_trin: >-
+  Book en heldags-session? Så bekræfter du tiden med et depositum.
+  Brug samme mailadresse som i bookingen — så finder vi de to ting
+  sammen. Du får linket i din bekræftelsesmail, eller betal her nu.
 
 # Tak-siden. tak_betalt må ALDRIG påstå at systemet har set en betaling
 # uden faktisk at have spurgt Shopify.
-tak_titel: Din tid er sat. Betal depositum nu
+tak_titel: Din tid er booket
 tak_betalt: >-
-  Tak. Kvitteringen kommer fra Shopify på mail — gem den, og vis den
-  ved disken hvis du er i tvivl. Depositummet fragår i prisen.
+  Bekræftelsen kommer på mail fra bookingsystemet. Skal du sidde en hel
+  dag, ligger depositum-linket i samme mail — betal med samme
+  mailadresse, så hører de to ting sammen.
 tjek_titel: Tjek dit depositum
 tjek_hjaelp: >-
   Skriv ordrenummeret fra din kvittering, så slår vi betalingen op.

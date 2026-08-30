@@ -60,6 +60,7 @@ export default async function BookingTakPage({
       <main id="main" lang="en" className="rum-room rum-booking">
         <div className="rum-booking__koeb">
           <h1 className="rum-room__title rum-poster">{copy.tak_titel}</h1>
+          <p className="rum-body-copy rum-booking__note">{copy.tak_betalt}</p>
           {depositum ? (
             <p style={{ marginTop: 24 }}>
               <a
@@ -71,7 +72,6 @@ export default async function BookingTakPage({
               </a>
             </p>
           ) : null}
-          <p className="rum-body-copy rum-booking__note">{copy.tak_betalt}</p>
           <DepositumTjek
             copy={copy}
             status={status}

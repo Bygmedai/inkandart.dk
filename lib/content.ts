@@ -455,8 +455,8 @@ export type BookingCopy = {
   billedtekst: string;
   tak_titel: string;
   tak_betalt: string;
-  /** Trin 3: ordrenummeret kunden bærer med ind i Book.dk. */
-  ordrenummer_trin: string;
+  /** Trin 2: depositummet, kun for de lange sessioner. */
+  depositum_trin: string;
   /** Opslags-formen på tak-siden — og dens fem mulige svar. */
   tjek_titel: string;
   tjek_hjaelp: string;
@@ -480,7 +480,7 @@ export function loadBookingCopy(): BookingCopy {
     billedtekst: str(d.billedtekst),
     tak_titel: str(d.tak_titel),
     tak_betalt: str(d.tak_betalt),
-    ordrenummer_trin: str(d.ordrenummer_trin),
+    depositum_trin: str(d.depositum_trin),
     tjek_titel: str(d.tjek_titel),
     tjek_hjaelp: str(d.tjek_hjaelp),
     tjek_knap: str(d.tjek_knap),
@@ -509,7 +509,7 @@ export function loadBookingCopyEn(): BookingCopy {
     billedtekst: str(d.billedtekst),
     tak_titel: str(d.tak_titel),
     tak_betalt: str(d.tak_betalt),
-    ordrenummer_trin: str(d.ordrenummer_trin),
+    depositum_trin: str(d.depositum_trin),
     tjek_titel: str(d.tjek_titel),
     tjek_hjaelp: str(d.tjek_hjaelp),
     tjek_knap: str(d.tjek_knap),
