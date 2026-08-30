@@ -304,6 +304,15 @@ test("M2 Storefront kaster ikke uden env", async () => {
   }
 });
 
+test("M2 Hylden står to i bredden også på telefonen", () => {
+  const css = read("components/rummet/rummet.css");
+  const blok = css.match(/\.rum-hylden \{[^}]*\}/);
+  assert.ok(blok, "hylden skal have sin egen regel");
+  assert.match(blok[0], /grid-template-columns:\s*1fr 1fr/, "to kolonner uden for media query — altså også på mobil");
+  const mobil = css.match(/@media \(max-width[^)]*\)\s*\{[^@]*\.rum-hylden\s*\{[^}]*grid-template-columns:\s*1fr\s*;/);
+  assert.equal(mobil, null, "ingen regel må sætte hylden tilbage til én i bredden");
+});
+
 test("M2 Book tid på Stolen er stadig et klædt hop, række ≥ 44px", () => {
   const stolen = read("app/(rummet)/stolen/page.tsx");
   const kort = read("components/rummet/ArtistKort.tsx");

@@ -718,11 +718,18 @@ html:has([data-house="rummet"]) .grain {
 .rum-hylden {
   margin-top: 16px;
   display: grid;
-  gap: 28px;
+  /* To i bredden allerede på telefonen. Én vare per skærm er en
+     udstillingsmontre, ikke en disk: kunden kan hverken sammenligne
+     eller skimme, og med hundrede varer bliver hylden en rulletur.
+     To kolonner halverer også pladens andel af skærmen, så papiret
+     bærer fladen i stedet for blækket. Målt på Mærket ved 390px:
+     lys andel 54,1% → 73,8%. Salgsporten åbnede. */
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
 }
 @media (min-width: 700px) {
   .rum-hylden {
-    grid-template-columns: 1fr 1fr;
+    gap: 28px;
   }
 }
 .rum-hylden__item {
