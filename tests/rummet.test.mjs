@@ -750,3 +750,21 @@ test("Anna er paa uden opdigtet bio eller vagtskema", async () => {
     .join("\n");
   assert.doesNotMatch(data, /\[AFVENTER\]|\[TAL BEKRÆFTES\]/, "byggepladsens sprog gaar aldrig live");
 });
+
+/**
+ * S573: en artist uden kalender maa ikke tilbyde en tid.
+ * Anna starter 31/8 og er walk-in indtil hun er sat op i Book.dk.
+ * Kortet skal sige walk-in — ikke «Book tid» til en doer der ikke aabner.
+ */
+test("en artist uden booking faar walk-in, ikke en tid vi ikke kan give", async () => {
+  const { loadHouse, chairArtists } = await import("../lib/content.ts");
+  const chairs = chairArtists(loadHouse().artists);
+  const anna = chairs.find((a) => a.id === "anna");
+  assert.equal(anna.booking, false, "Anna er walk-in indtil kalenderen staar");
+  for (const a of chairs) {
+    if (a.id !== "anna") assert.equal(a.booking, true, `${a.id} skal kunne bookes`);
+  }
+  const kort = readFileSync(join(root, "components/rummet/ArtistKort.tsx"), "utf8");
+  assert.match(kort, /artist\.booking \?/, "kortet skal forgrene paa booking");
+  assert.match(kort, /Walk-in — kom forbi/);
+});

@@ -28,6 +28,9 @@
   billedtekst: Piercinger af Anna. Øre, flere huller.
   aktiv: true
   stol: true
+  # Kalenderen i Book.dk er ikke sat op endnu. Indtil den er, tager hun
+  # walk-in — og kortet siger walk-in i stedet for at tilbyde en tid.
+  booking: false
 
 - id: gaest
   fornavn: ""

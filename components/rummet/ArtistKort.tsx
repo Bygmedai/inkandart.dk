@@ -47,9 +47,15 @@ export function ArtistKort({
             </a>
           </p>
         ) : null}
-        <a href="/booking" className="rum-book rum-book--row">
-          Book tid
-        </a>
+        {artist.booking ? (
+          <a href="/booking" className="rum-book rum-book--row">
+            Book tid
+          </a>
+        ) : (
+          <a href="/gaden" className="rum-book rum-book--row">
+            Walk-in — kom forbi
+          </a>
+        )}
       </div>
     </article>
   );
