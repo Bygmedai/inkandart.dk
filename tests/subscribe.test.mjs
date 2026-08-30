@@ -196,3 +196,43 @@ test("REGRESSION: telefon-dublet slår op på defaultPhoneNumber, ikke 422", asy
   assert.match(q, /phone:/);
   assert.match(q, /defaultPhoneNumber/);
 });
+
+/* ── S574: én consent-dør. App'en (og webshop-proxyen) poster hertil med
+   prefs; interesse-tags er whitelistede nøgler, aldrig rå tags fra klienten.
+   CORS er en lukket liste — vilkårlige origins får ingen CORS-headers. */
+
+test("S574 prefs: whitelistede interesser bliver tags, ukendte ignoreres", async () => {
+  mockShopify(() => res(200, { data: { customerCreate: { customer: { id: "gid://1" }, userErrors: [] } } }));
+  const r = await post({ email: "a@b.dk", source: "app", prefs: ["events", "merch", "hacker-tag", 42] });
+  assert.equal(r.status, 200);
+  const input = calls[0].body.variables.input;
+  assert.ok(input.tags.includes("blackbook"));
+  assert.ok(input.tags.includes("app-signup"));
+  assert.ok(input.tags.includes("blackbook-events"));
+  assert.ok(input.tags.includes("blackbook-merch"));
+  assert.ok(!input.tags.includes("blackbook-drops"));
+  assert.ok(!JSON.stringify(input.tags).includes("hacker"));
+});
+
+test("S574 CORS: app.inkandart.dk får headers, fremmed origin får ingen", async () => {
+  mockShopify(() => res(200, { data: { customerCreate: { customer: { id: "gid://1" }, userErrors: [] } } }));
+  const withOrigin = (origin) =>
+    POST(new Request("https://inkandart.dk/api/subscribe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Origin: origin },
+      body: JSON.stringify({ email: "a@b.dk", source: "app" }),
+    }));
+  const ok = await withOrigin("https://app.inkandart.dk");
+  assert.equal(ok.headers.get("Access-Control-Allow-Origin"), "https://app.inkandart.dk");
+  const evil = await withOrigin("https://ond.example");
+  assert.equal(evil.headers.get("Access-Control-Allow-Origin"), null);
+});
+
+test("S574 OPTIONS: preflight fra tilladt origin svarer 204 med metoder", async () => {
+  const { OPTIONS } = await import("../app/api/subscribe/route.ts");
+  const r = await OPTIONS(new Request("https://inkandart.dk/api/subscribe", {
+    method: "OPTIONS", headers: { Origin: "https://shop.inkandart.dk" },
+  }));
+  assert.equal(r.status, 204);
+  assert.match(r.headers.get("Access-Control-Allow-Methods"), /POST/);
+});
