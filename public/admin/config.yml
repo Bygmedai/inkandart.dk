@@ -184,6 +184,35 @@ collections:
               - { label: Overskrift, name: overskrift, widget: string }
               - { label: Tekst, name: tekst, widget: text }
 
+  - name: privatliv
+    label: Privatlivspolitik
+    files:
+      - label: Privatlivspolitik (dansk)
+        name: privatliv_da
+        file: content/privatliv.yml
+        fields:
+          - { label: Titel, name: titel, widget: string }
+          - { label: Lede, name: lede, widget: text }
+          - label: Sektioner
+            name: sektioner
+            widget: list
+            hint: "Retter du én databehandler her, så ret den også i den engelske. De to sprog må ikke drifte fra hinanden."
+            fields:
+              - { label: Overskrift, name: overskrift, widget: string }
+              - { label: Tekst, name: tekst, widget: text }
+      - label: Privacy policy (English)
+        name: privatliv_en
+        file: content/privatliv.en.yml
+        fields:
+          - { label: Titel, name: titel, widget: string }
+          - { label: Lede, name: lede, widget: text }
+          - label: Sektioner
+            name: sektioner
+            widget: list
+            fields:
+              - { label: Overskrift, name: overskrift, widget: string }
+              - { label: Tekst, name: tekst, widget: text }
+
   - name: faq
     label: FAQ
     files:

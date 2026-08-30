@@ -236,6 +236,24 @@ export function loadBetingelserEn(): Betingelser {
   return readBetingelser("betingelser.en.yml");
 }
 
+/**
+ * Privatlivspolitikken (S574, godkendt af Steven 30/8). Samme form som
+ * betingelserne — titel, lede, sektioner — så Sonja redigerer de to
+ * juridiske sider på samme måde, og de to sprog ikke kan drifte fra
+ * hinanden ét afsnit ad gangen.
+ *
+ * Databehandlerne i teksten er de virkelige: Book.dk, Shopify,
+ * Simply.com (mail) og Vercel. Tilføjer huset en ny, skal den skrives
+ * ind i BEGGE filer — ellers lyver siden.
+ */
+export function loadPrivatliv(): Betingelser {
+  return readBetingelser("privatliv.yml");
+}
+
+export function loadPrivatlivEn(): Betingelser {
+  return readBetingelser("privatliv.en.yml");
+}
+
 
 /** Den engelske forside — egen stemme, samme felter plus EN-mikrocopy. */
 export type HusetForsideEn = HusetForside & {

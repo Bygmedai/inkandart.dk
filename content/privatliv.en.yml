@@ -1,0 +1,78 @@
+# Privacy policy — English. Same substance as content/privatliv.yml, own voice.
+# Approved by Steven 30/8 2026. Change one, change the other: two languages must
+# never drift apart one sentence at a time.
+
+titel: Privacy policy
+lede: >-
+  What we keep about you, why, for how long — and what you can ask us for.
+
+sektioner:
+  - overskrift: Who we are
+    tekst: >-
+      Ink and Art Cph ApS, company reg. no. (CVR) 44226413, Larsbjørnsstræde
+      13 (basement), 1454 Copenhagen K, is responsible for the information
+      you give us. Questions? Call +45 55 24 86 08 or write to
+      booking@inkandart.dk.
+
+  - overskrift: When you book an appointment
+    tekst: >-
+      We process your name, email, phone number and whatever you tell us
+      about your idea — to hold your slot, remind you of it (SMS and email)
+      and prepare the work. The legal basis is our agreement with you.
+
+  - overskrift: When you pay a deposit or buy from the shop
+    tekst: >-
+      Shopify processes your payment and order details. We never see your
+      card number. The legal basis is our agreement with you and Danish
+      bookkeeping law.
+
+  - overskrift: When you join Blackbook
+    tekst: >-
+      We process your email to tell you about nights, drops and events. The
+      legal basis is your consent — withdraw it any time via the
+      unsubscribe link at the bottom of every mail.
+
+  - overskrift: When you get tattooed or pierced
+    tekst: >-
+      We note what is needed to do the work safely — placement, motif or
+      jewellery, and anything you tell us we should take into account. If
+      you are under 18 and getting a piercing, we keep your parent's
+      consent.
+
+  - overskrift: When you visit the site
+    tekst: >-
+      We measure traffic with Vercel Web Analytics. It is cookieless: no
+      cookies are set, no fingerprinting is used, and your IP address is
+      not stored. We see which pages are visited — never who you are.
+
+  - overskrift: Who we share with
+    tekst: >-
+      We never sell your information. We use data processors to run the
+      business: Book.dk (booking system and SMS reminders), Shopify
+      (payments, orders and mailing list), Simply.com (our mail) and Vercel
+      (hosting and cookieless analytics). They only process under our
+      instructions.
+
+  - overskrift: How long we keep it
+    tekst: >-
+      Accounting records — orders and payments — are kept for 5 years after
+      the end of the financial year, as Danish law requires. Booking details
+      are kept while you are a customer with us. Blackbook signups are kept
+      until you unsubscribe. Photos of your finished work are only used with
+      your consent, and you can withdraw it.
+
+  - overskrift: Your rights
+    tekst: >-
+      You can ask what we hold about you, have inaccurate information
+      corrected, have deleted what we are not required to keep, and object
+      to processing. Write to booking@inkandart.dk — we reply as soon as we
+      can, and within a month at the latest.
+
+  - overskrift: Complaints
+    tekst: >-
+      If you are unhappy with how we handle your information, we would like
+      to hear it first — but you can always complain to the Danish Data
+      Protection Agency (Datatilsynet), www.datatilsynet.dk.
+
+  - overskrift: Last updated
+    tekst: 30 August 2026.

@@ -1,34 +1,26 @@
 import type { Metadata } from "next";
 import { RummetShell } from "@/components/rummet/Shell";
-import { loadPrivatliv } from "@/lib/content";
+import { loadPrivatlivEn } from "@/lib/content";
 import { alternates } from "@/lib/i18n";
 
-const _p = loadPrivatliv();
+const _p = loadPrivatlivEn();
 
 export const metadata: Metadata = {
   title: `${_p.titel} · Ink & Art`,
   description: _p.lede,
   alternates: {
     ...alternates("/privatlivspolitik"),
-    canonical: "/privatlivspolitik",
+    canonical: "/en/privatlivspolitik",
   },
 };
 
-/**
- * Privatlivspolitik v2 — godkendt af Steven 30/8 2026.
- *
- * Den gamle side var tre afsnit hårdkodet i markup og opfyldte ikke
- * oplysningspligten: ingen dataansvarlig, ingen databehandlere, ingen
- * opbevaringstid, ingen rettigheder, ingen klagevej (Sirius P0-4).
- * Nu bor ordene i content/privatliv.yml — én kilde, to sprog, og Sonja
- * kan rette dem uden GitHub.
- */
-export default function PrivacyPage() {
-  const p = loadPrivatliv();
+/** English privacy policy — same substance as the Danish canon, own voice. */
+export default function PrivacyPageEn() {
+  const p = loadPrivatlivEn();
   return (
     <RummetShell>
-      <main id="main" className="rum-legal">
-        <p className="rum-label">Huset</p>
+      <main id="main" lang="en" className="rum-legal">
+        <p className="rum-label">The house</p>
         <h1 className="rum-poster">{p.titel}</h1>
         <p className="rum-body-copy rum-legal__lede">{p.lede}</p>
         {p.sektioner.map((s) => (

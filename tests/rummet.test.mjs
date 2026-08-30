@@ -984,6 +984,8 @@ test("S574: Decap kender hver content-fil koden læser", () => {
     "content/huset.en.yml",
     "content/betingelser.yml",
     "content/betingelser.en.yml",
+    "content/privatliv.yml",
+    "content/privatliv.en.yml",
   ]) {
     assert.ok(cms.includes(fil), `${fil} mangler i Decap — Sonja kan ikke redigere den`);
   }
@@ -1067,4 +1069,53 @@ test("S574 hullerne: tider i folden, FAQ på begge sprog, piercing-tekst, konsul
   const footer = read("components/rummet/Footer.tsx");
   assert.match(footer, /instagram\.com/);
   assert.match(footer, /href="\/faq"/);
+});
+
+test("S574 privatliv v2: oplysningspligten er dækket, DA og EN følges ad", async () => {
+  const { loadPrivatliv, loadPrivatlivEn } = await import("../lib/content.ts");
+  const da = loadPrivatliv();
+  const en = loadPrivatlivEn();
+
+  // Sirius P0-4: den gamle side var tre afsnit uden dataansvarlig,
+  // databehandlere, opbevaringstid, rettigheder eller klagevej. Testen
+  // måler at hvert krav i oplysningspligten HAR et afsnit — ikke at det
+  // er formuleret på en bestemt måde (Sonja må gerne omskrive).
+  const alt = (b) => b.sektioner.map((s) => `${s.overskrift} ${s.tekst}`).join("\n");
+  const daT = alt(da);
+  const enT = alt(en);
+
+  assert.match(daT, /44226413/, "dataansvarlig med CVR");
+  assert.match(daT, /Book\.dk/);
+  assert.match(daT, /Shopify/);
+  assert.match(daT, /Simply/, "mailudbyderen er en databehandler (Steven 30/8)");
+  assert.match(daT, /Vercel/);
+  assert.match(daT, /5 år/, "opbevaringstid for bogføring");
+  assert.match(daT, /så længe du er kunde/i, "opbevaring af bookinger (Stevens ord)");
+  assert.match(daT, /Datatilsynet/, "klagevej");
+  assert.match(daT, /indsigt/, "rettigheder");
+  assert.match(daT, /samtykke/, "grundlag for Blackbook");
+
+  // Samme substans på engelsk — og lige mange afsnit, så de ikke kan
+  // drifte fra hinanden ét afsnit ad gangen.
+  assert.equal(da.sektioner.length, en.sektioner.length, "DA og EN har lige mange afsnit");
+  for (const ord of ["44226413", "Book.dk", "Shopify", "Simply", "Vercel", "Datatilsynet"]) {
+    assert.ok(enT.includes(ord), `EN mangler ${ord}`);
+  }
+  assert.match(enT, /5 years/);
+
+  // Ordene bor i YAML — ikke i markup. Og begge sider findes.
+  const side = read("app/(rummet)/privatlivspolitik/page.tsx");
+  const sideEn = read("app/(rummet)/en/privatlivspolitik/page.tsx");
+  assert.match(side, /loadPrivatliv\(\)/);
+  assert.match(sideEn, /loadPrivatlivEn\(\)/);
+  assert.match(sideEn, /lang="en"/);
+  assert.doesNotMatch(side, /Vercel Web Analytics/, "teksten må ikke stå i markup igen");
+  assert.match(side, /canonical: "\/privatlivspolitik"/);
+  assert.match(sideEn, /canonical: "\/en\/privatlivspolitik"/);
+
+  // hreflang-parret kræver at ruten står i EN_ROUTES, ellers 308'er den til dansk.
+  assert.match(read("lib/i18n.ts"), /"\/privatlivspolitik"/);
+  const sitemap = read("app/sitemap.ts");
+  assert.match(sitemap, /inkandart\.dk\/privatlivspolitik"/);
+  assert.match(sitemap, /inkandart\.dk\/en\/privatlivspolitik"/);
 });

@@ -35,7 +35,14 @@ export const DEFAULT_LOCALE: Locale = "da";
  * Når en ejer porterer sin side, tilføjes stien her — og linkene følger
  * automatisk med.
  */
-export const EN_ROUTES: ReadonlySet<string> = new Set(["/", "/walk-in", "/shop", "/betingelser", "/faq"]);
+export const EN_ROUTES: ReadonlySet<string> = new Set([
+  "/",
+  "/walk-in",
+  "/shop",
+  "/betingelser",
+  "/faq",
+  "/privatlivspolitik",
+]);
 
 /** `/walk-in` på dansk, `/en/walk-in` på engelsk — hvis ruten findes. */
 export function localePath(lang: Locale, path: string): string {
