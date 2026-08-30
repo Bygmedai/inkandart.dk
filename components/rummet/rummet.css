@@ -646,6 +646,10 @@ html:has([data-house="rummet"]) .grain {
 .rum-legal {
   padding: 36px var(--gutter) 80px;
   max-width: 68ch;
+  /* K-tur F4 (30/8): kolonnen sad klistret til venstre kant med to
+     tredjedele sort tomrum ved siden af. Centreret læses den som en
+     side, ikke som en glemt spalte. */
+  margin-inline: auto;
 }
 .rum-legal h1 {
   margin: 12px 0 0;
