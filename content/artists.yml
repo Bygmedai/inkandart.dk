@@ -4,19 +4,19 @@
 
 - id: nizar
   fornavn: Nizar Saad
-  haandvaerk: Tattovør
+  haandvaerk: Tatovør
   periode: fast
   foto: /slots/S-04.jpg
-  billedtekst: Station ovenfra, bakke, ink caps, wrapped maskine.
+  billedtekst: Nizar Saad foran husets skilt.
   aktiv: true
   stol: true
 
 - id: emma
   fornavn: Emma Winding
-  haandvaerk: Tattovør
+  haandvaerk: Tatovør · farvet flash og traditionelt
   periode: fast
   foto: /slots/S-02.jpg
-  billedtekst: Handskede hænder, fin streg, underarm.
+  billedtekst: Emma Winding i huset.
   aktiv: true
   stol: true
 
