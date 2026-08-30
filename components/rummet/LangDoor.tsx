@@ -22,7 +22,21 @@ import { DEFAULT_LOCALE, enExists, localePath, t, type Locale } from "@/lib/i18n
  * hver eneste side: så kan den ikke drifte fra den rute brugeren faktisk
  * står på.
  */
-export function LangDoor({ lang = DEFAULT_LOCALE }: { lang?: Locale }) {
+export function LangDoor({
+  lang = DEFAULT_LOCALE,
+  variant = "footer",
+}: {
+  lang?: Locale;
+  /**
+   * `nav` er den korte udgave i toppen — «EN» / «DA». Den findes fordi
+   * footer-udgaven ikke virkede: den stod som sidste led efter telefon,
+   * betingelser, privatliv, FAQ, mail og Instagram, altså nederst på
+   * siden. En turist der lander på forsiden ruller aldrig derned for at
+   * lede efter engelsk (Stevens fund 30/8). En sprogdør der ikke kan
+   * ses, er ikke en dør.
+   */
+  variant?: "footer" | "nav";
+}) {
   const pathname = usePathname() || "/";
   const bare = pathname.startsWith("/en/")
     ? pathname.slice(3)
@@ -36,15 +50,17 @@ export function LangDoor({ lang = DEFAULT_LOCALE }: { lang?: Locale }) {
   // faktisk har bygget siden — enExists kender både ruter og familier.
   if (other !== DEFAULT_LOCALE && !enExists(bare)) return null;
 
+  const kort = other === "en" ? "EN" : "DA";
+
   return (
     <a
-      className="rum-lang"
+      className={variant === "nav" ? "rum-lang rum-lang--nav" : "rum-lang"}
       href={localePath(other, bare)}
       hrefLang={other}
       lang={other}
       aria-label={other === "en" ? "Read this page in English" : "Læs denne side på dansk"}
     >
-      {t(lang).otherLangName}
+      {variant === "nav" ? kort : t(lang).otherLangName}
     </a>
   );
 }

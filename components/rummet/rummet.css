@@ -705,6 +705,37 @@ html:has([data-house="rummet"]) .grain {
 }
 .rum-footer .rum-lang:hover { border-color: var(--hud); }
 
+/* Sprogdøren i navigationen — den korte «EN»/«DA».
+   Footer-udgaven blev aldrig set: den stod nederst på siden efter seks
+   andre links. Turisten skal kunne se den uden at rulle. Trykmål 44px
+   som husets øvrige handlinger. */
+.rum-lang--nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 8px;
+  color: var(--beton);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.rum-lang--nav:hover { color: var(--hud); }
+.rum-lang--nav:focus-visible {
+  outline: 2px solid var(--hud);
+  outline-offset: 2px;
+}
+
+/* To udgaver, samme 900px-grænse som resten af navigationen:
+   under 900 står døren direkte i headeren ved siden af Blackbook-prikken,
+   over 900 står den inde i rooms-rækken. Aldrig begge på én gang. */
+.rum-nav > .rum-lang--nav { display: inline-flex; }
+@media (min-width: 900px) {
+  .rum-nav > .rum-lang--nav { display: none; }
+}
+.rum-nav__rooms .rum-lang--nav { display: inline-flex; }
+
 /* ── Room stubs ── */
 
 .rum-room {
