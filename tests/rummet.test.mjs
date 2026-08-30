@@ -285,6 +285,38 @@ test("M2 Storefront kaster ikke uden env", async () => {
   }
 });
 
+test("M2 Hylden tømmes ikke tavst af en manglende domæne-env", async () => {
+  const prevT = process.env.SHOPIFY_STOREFRONT_TOKEN;
+  const prevD = process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN;
+  process.env.SHOPIFY_STOREFRONT_TOKEN = "prøve-token";
+  delete process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN;
+  try {
+    const { storefrontConfig } = await import("../lib/storefront.ts");
+    const cfg = storefrontConfig();
+    assert.equal(cfg.ok, true, "token alene skal være nok — domænet er husets, ikke en hemmelighed");
+    assert.equal(cfg.domain, "d1qp54-0w.myshopify.com");
+  } finally {
+    if (prevT !== undefined) process.env.SHOPIFY_STOREFRONT_TOKEN = prevT;
+    else delete process.env.SHOPIFY_STOREFRONT_TOKEN;
+    if (prevD !== undefined) process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN = prevD;
+    else delete process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN;
+  }
+});
+
+test("CI kører på integrationsgrenene, ellers kan Porten aldrig se 'check'", () => {
+  const ci = read(".github/workflows/ci.yml");
+  const porten = read(".github/workflows/porten.yml");
+  const kraevede = porten.match(/`([^`]*)`\.split\(','\)/);
+  assert.ok(kraevede, "Porten skal navngive sine påkrævede checks");
+  assert.match(kraevede[1], /\bcheck\b/, "Porten kræver jobbet 'check'");
+  const trigger = ci.match(/pull_request:[\s\S]*?branches:\s*\[([^\]]*)\]/);
+  assert.ok(trigger, "ci.yml skal have en pull_request-trigger");
+  for (const gren of ["main", "rummet-m1", "rummet-m2"]) {
+    assert.match(trigger[1], new RegExp(`\\b${gren}\\b`), `CI skal køre mod ${gren}`);
+  }
+  assert.match(ci, /jobs:\s*\n\s*check:/, "jobbet skal hedde 'check'");
+});
+
 test("M2 Book tid på Stolen er stadig et klædt hop, række ≥ 44px", () => {
   const stolen = read("app/(rummet)/stolen/page.tsx");
   const kort = read("components/rummet/ArtistKort.tsx");
