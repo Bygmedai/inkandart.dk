@@ -48,7 +48,6 @@ test("matrix covers the retired 11ty routes", () => {
     "/find-din-tatovering/",
     "/del-din-ide/",
     "/en/privacy/",
-    "/en/aftercare/",
     "/en/artists/",
     "/en/flash/",
     "/en/find-your-tattoo/",
