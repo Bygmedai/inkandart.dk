@@ -1,0 +1,49 @@
+# Aftercare, English. Same care advice as content/aftercare.yml, own voice.
+# These are instructions people follow on their own skin: the practical
+# detail must be exact — times, products, what to avoid. Nothing here may
+# say more than the Danish does.
+
+file: Look after it
+titel: Aftercare
+lead: >-
+  Your tattoo and your piercing need looking after for the first few
+  weeks — that is how the lines hold and the jewellery settles right.
+  This is what we say in the chair.
+tattoo_titel: Tattoo
+piercing_titel: Piercing
+tattoo:
+  - t: The first hours
+    d: >-
+      Leave the wrap on for 2–4 hours. Then wash gently with clean hands,
+      lukewarm water and fragrance-free soap. Pat dry with clean cloth.
+  - t: Day 1–14
+    d: >-
+      A thin layer of unscented ointment 2–3 times a day. Let it breathe —
+      do not wrap it up. Never pick scabs or flakes off.
+  - t: Avoid
+    d: >-
+      Sun, sunbeds, pools, sauna and sea for 2–3 weeks. Chlorine, salt and
+      bacteria can ruin the lines while it heals.
+  - t: Fine lines hold
+    d: >-
+      The calmer you heal, the sharper the fine lines stay in the long run.
+      Keep the skin moisturised, and don't scratch.
+piercing:
+  - t: Cleaning
+    d: >-
+      Rinse once or twice a day with sterile saline. Otherwise touch it as
+      little as possible — always with clean hands.
+  - t: The first weeks
+    d: >-
+      Don't change the jewellery too early, and don't turn it. Sleep with
+      no pressure on it, and keep hair, make-up and cream away.
+  - t: Patience
+    d: >-
+      Pools, sauna and sea wait until it has healed. It takes time —
+      cartilage and septum longest. That is normal.
+tvivl_label: In doubt?
+tvivl: >-
+  If you are unsure about anything — a scab, a redness, jewellery that
+  feels tight — write to us. We would rather answer one question too many
+  than have you worrying.
+skriv_cta: Write on WhatsApp

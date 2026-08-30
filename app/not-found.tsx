@@ -1,40 +1,50 @@
-import Link from "next/link";
-import { site } from "@/lib/site";
+import type { Metadata } from "next";
+import { RummetShell } from "@/components/rummet/Shell";
+import { loadKontakt } from "@/lib/content";
 
-/* Brandet 404 — den gamle version havde sin egen; Next's rå engelske default
-   er et blindt punkt for vildfaren trafik. Mørk, stille, og med de to veje
-   der betyder noget: ind i landskabet eller direkte til stolen. */
+export const metadata: Metadata = {
+  title: "Siden findes ikke · Ink & Art",
+  robots: { index: false, follow: true },
+};
+
+/**
+ * 404 — den eneste side hver eneste forkerte URL på hele sitet lander på.
+ *
+ * Den var en rest fra Emerge: guldfarver, egne inline-styles og linjen
+ * «Siden er væk. Mærket består.» over en dør der hed «Ind i landskabet».
+ * En kunde der er faret vild skal have en vej videre, ikke en sætning der
+ * lyder godt (copy-audit 30/8). Nu: husets skal, husets ord, tre døre der
+ * dækker det folk faktisk ledte efter — og telefonen, hvis siden de kom
+ * fra er væk for altid.
+ */
 export default function NotFound() {
+  const k = loadKontakt();
   return (
-    <main
-      id="main"
-      style={{
-        minHeight: "100svh",
-        display: "grid",
-        placeItems: "center",
-        background: "#0a0a0a",
-        color: "#e8e0d5",
-        textAlign: "center",
-        padding: "24px",
-      }}
-    >
-      <div>
-        <p aria-hidden="true" style={{ margin: 0, fontFamily: "var(--font-mono), monospace", fontSize: "11px", letterSpacing: ".4em", textTransform: "uppercase", color: "rgba(232,224,213,.4)" }}>404</p>
-        <h1 style={{ margin: "14px 0 0", fontFamily: "var(--font-display), serif", fontStyle: "italic", fontWeight: 500, fontSize: "clamp(30px,5vw,52px)", lineHeight: 1.15 }}>
-          Siden er væk. Mærket består.
-        </h1>
-        <div style={{ marginTop: "40px", display: "flex", gap: "28px", justifyContent: "center", flexWrap: "wrap", fontFamily: "var(--font-mono), monospace", fontSize: "11px", letterSpacing: ".3em", textTransform: "uppercase" }}>
-          <Link href="/" style={{ color: "#e8e0d5", borderBottom: "1px solid rgba(232,224,213,.3)", paddingBottom: "4px" }}>
-            Ind i landskabet
-          </Link>
-          <Link href="/gavekort" style={{ color: "#e8e0d5", borderBottom: "1px solid rgba(201,162,39,.35)", paddingBottom: "4px" }}>
-            Gavekort
-          </Link>
-          <a href={site.bookingUrl} style={{ color: "#c9a227", borderBottom: "1px solid rgba(201,162,39,.45)", paddingBottom: "4px" }}>
-            Booking →
+    <RummetShell door={false}>
+      <main id="main" className="rum-room rum-legal">
+        <p className="rum-label">404</p>
+        <h1 className="rum-poster">Siden findes ikke.</h1>
+        <p className="rum-body-copy rum-legal__lede">
+          Linket er måske gammelt, eller også har vi flyttet noget. Her er
+          vejene ind i huset.
+        </p>
+        <p style={{ marginTop: 32, display: "flex", gap: 24, flexWrap: "wrap" }}>
+          <a href="/" className="rum-book">
+            Forsiden
           </a>
-        </div>
-      </div>
-    </main>
+          <a href="/booking" className="rum-book">
+            Book tid
+          </a>
+          <a href="/gaden" className="rum-book">
+            Find os
+          </a>
+        </p>
+        <p className="rum-body-copy" style={{ marginTop: 28 }}>
+          <a className="rum-tel" href={`tel:${k.telefon_e164}`}>
+            Ring på — {k.telefon_vist}
+          </a>
+        </p>
+      </main>
+    </RummetShell>
   );
 }

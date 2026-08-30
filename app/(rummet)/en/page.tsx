@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { RummetShell } from "@/components/rummet/Shell";
+import { ArtistKort } from "@/components/rummet/ArtistKort";
 import { Segl } from "@/components/rummet/Segl";
 import { alternates } from "@/lib/i18n";
 import {
@@ -7,6 +8,7 @@ import {
   guestState,
   loadHouse,
   loadHusetForsideEn,
+  visibleCountForArtist,
   loadKontakt,
 } from "@/lib/content";
 
@@ -70,41 +72,26 @@ export default function HomePageEn() {
           </p>
           <div className="rum-huset__chairs">
             {chairs.map((a) => (
-              <article key={a.id} className="rum-kort">
-                <a
-                  href={`/stolen/${a.id}`}
-                  className="rum-kort__link"
-                  aria-label={`${a.fornavn} — profile`}
-                >
-                  <div className="rum-kort__foto">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={a.foto} alt={a.billedtekst || a.fornavn} />
-                  </div>
-                </a>
-                <div className="rum-kort__body">
-                  <h2 className="rum-chair__navn rum-poster">
-                    <a href={`/stolen/${a.id}`}>{a.fornavn}</a>
-                  </h2>
-                  {a.haandvaerk ? (
-                    <p className="rum-chair__craft">{a.haandvaerk}</p>
-                  ) : null}
-                </div>
-              </article>
+              <ArtistKort
+                key={a.id}
+                artist={a}
+                workCount={visibleCountForArtist(house.vaerker, a.id)}
+                compact
+                lang="en"
+              />
             ))}
             {guest.kind === "named" ? (
-              <article className="rum-kort">
-                <div className="rum-kort__foto">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={guest.artist.foto} alt={guest.artist.fornavn} />
-                </div>
-                <div className="rum-kort__body">
-                  <h2 className="rum-chair__navn rum-poster">{guest.artist.fornavn}</h2>
-                </div>
-              </article>
+              <ArtistKort
+                artist={guest.artist}
+                workCount={visibleCountForArtist(house.vaerker, guest.artist.id)}
+                guestKind="named"
+                compact
+                lang="en"
+              />
             ) : null}
           </div>
           <div style={{ marginTop: 20 }}>
-            <a href="/booking" className="rum-book">
+            <a href="/en/booking" className="rum-book">
               {fold.cta_book}
             </a>
           </div>

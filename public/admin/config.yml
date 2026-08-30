@@ -122,13 +122,65 @@ collections:
   - name: gaden
     label: Gaden
     files:
-      - label: Gaden
+      - label: Gaden (dansk)
         name: gaden
         file: content/gaden.yml
         fields:
+          - { label: Titel, name: titel, widget: string }
+          - { label: "Åbent — etiket", name: aabent_label, widget: string, required: false }
           - { label: Åbningstider, name: aabent, widget: string, required: false, hint: "Tom = linjen udelades. Opdigt aldrig tider." }
+          - { label: "Walk-in — etiket", name: walk_in_label, widget: string, required: false }
           - { label: Walk-in-tider, name: walk_in, widget: string, required: false, hint: "Tom = linjen udelades." }
+          - { label: Depositum-linje, name: depositum_linje, widget: string, required: false }
+          - { label: Fag-linje, name: fag_linje, widget: string, required: false }
+          - { label: Foto, name: foto, widget: image }
           - { label: Billedtekst, name: billedtekst, widget: string, required: false }
+      - label: The street (English)
+        name: gaden_en
+        file: content/gaden.en.yml
+        fields:
+          - { label: Titel, name: titel, widget: string, hint: "Rummets navn oversættes ikke." }
+          - { label: "Åbent — etiket", name: aabent_label, widget: string, required: false }
+          - { label: Åbningstider, name: aabent, widget: string, required: false }
+          - { label: "Walk-in — etiket", name: walk_in_label, widget: string, required: false }
+          - { label: Walk-in-tider, name: walk_in, widget: string, required: false }
+          - { label: Depositum-linje, name: depositum_linje, widget: string, required: false }
+          - { label: Fag-linje, name: fag_linje, widget: string, required: false }
+          - { label: Foto, name: foto, widget: image }
+          - { label: Billedtekst, name: billedtekst, widget: string, required: false }
+
+  - name: aftercare
+    label: Aftercare
+    files:
+      - label: Aftercare (dansk)
+        name: aftercare_da
+        file: content/aftercare.yml
+        fields: &aftercare_felter
+          - { label: Etiket, name: file, widget: string }
+          - { label: Titel, name: titel, widget: string }
+          - { label: Lead, name: lead, widget: text }
+          - { label: "Tatovering — overskrift", name: tattoo_titel, widget: string }
+          - { label: "Piercing — overskrift", name: piercing_titel, widget: string }
+          - label: Tatovering-trin
+            name: tattoo
+            widget: list
+            hint: "Numrene sættes af siden. Skriv et trin ind eller ud uden at rette rækkefølgen."
+            fields:
+              - { label: Overskrift, name: t, widget: string }
+              - { label: Tekst, name: d, widget: text }
+          - label: Piercing-trin
+            name: piercing
+            widget: list
+            fields:
+              - { label: Overskrift, name: t, widget: string }
+              - { label: Tekst, name: d, widget: text }
+          - { label: "I tvivl — etiket", name: tvivl_label, widget: string }
+          - { label: "I tvivl — tekst", name: tvivl, widget: text }
+          - { label: WhatsApp-knappens tekst, name: skriv_cta, widget: string }
+      - label: Aftercare (English)
+        name: aftercare_en
+        file: content/aftercare.en.yml
+        fields: *aftercare_felter
 
   - name: booking
     label: Booking-siden
@@ -167,6 +219,14 @@ collections:
       - label: Nattens side
         name: natten_side
         file: content/natten.yml
+        fields:
+          - { label: Intro, name: intro, widget: text, hint: "Hvad Natten ER, for en der aldrig har hørt om den." }
+          - { label: Tom-tilstandens titel, name: tom_titel, widget: string, default: "Ingen nat i aften" }
+          - { label: Tom-tilstandens linje, name: tom_linje, widget: string, required: false }
+
+      - label: Natten (English)
+        name: natten_side_en
+        file: content/natten.en.yml
         fields:
           - { label: Intro, name: intro, widget: text, hint: "Hvad Natten ER, for en der aldrig har hørt om den." }
           - { label: Tom-tilstandens titel, name: tom_titel, widget: string, default: "Ingen nat i aften" }

@@ -92,16 +92,19 @@ test("S574: productsInCollection uden env → ok:false, aldrig throw", async () 
 });
 
 test("S574: Mærket kalder kollektionen først og YAML-fallback ved !ok", () => {
-  const maerket = read("app/(rummet)/maerket/page.tsx");
+  // S574: hylde-hentningen bor i lib/hylden-data.ts — ét sted, to sprog.
+  const maerket = read("lib/hylden-data.ts");
   const handle = read("app/(rummet)/maerket/[handle]/page.tsx");
   const storefront = read("lib/storefront.ts");
   assert.match(maerket, /productsInCollection\("hylden"\)/);
   assert.match(maerket, /coll\.ok/);
   assert.match(maerket, /loadHylden/);
   assert.match(maerket, /productsByHandles/);
-  assert.match(maerket, /Hylden fyldes op/);
-  assert.match(maerket, /GavekortKoeb/);
-  assert.doesNotMatch(maerket, /lib\/hylden/);
+  // Tom-tilstand og gavekort-døren bor i fladen; hentningen her.
+  const flade = read("components/rummet/MaerketFlade.tsx");
+  assert.match(flade, /c\.shelfEmpty/);
+  assert.match(read("lib/i18n.ts"), /shelfEmpty: "Der er ingen varer på hylden lige nu\."/);
+  assert.match(flade, /GavekortKoeb/);
   assert.match(handle, /productByHandle/);
   assert.match(handle, /loadHylden/);
   assert.match(handle, /notFound/);

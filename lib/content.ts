@@ -66,8 +66,14 @@ export type Nat = {
 };
 
 export type GadenInfo = {
+  titel: string;
+  aabent_label: string;
   aabent: string;
+  walk_in_label: string;
   walk_in: string;
+  depositum_linje: string;
+  fag_linje: string;
+  foto: string;
   billedtekst: string;
 };
 
@@ -187,13 +193,32 @@ function normalizeNat(n: Nat): Nat {
   };
 }
 
-export function loadGaden(): GadenInfo {
-  const data = readYaml<Partial<GadenInfo>>("gaden.yml");
+function readGaden(fil: string): GadenInfo {
+  const data = readYaml<Partial<GadenInfo>>(fil);
   return {
+    titel: str(data.titel) || "Gaden",
+    aabent_label: str(data.aabent_label),
     aabent: str(data.aabent),
+    walk_in_label: str(data.walk_in_label),
     walk_in: str(data.walk_in),
+    depositum_linje: str(data.depositum_linje),
+    fag_linje: str(data.fag_linje),
+    foto: str(data.foto) || "/slots/G-02.jpg",
     billedtekst: str(data.billedtekst),
   };
+}
+
+export function loadGaden(): GadenInfo {
+  return readGaden("gaden.yml");
+}
+
+/**
+ * Gaden på engelsk — turistens beslutningsside (Sirius' minimumsliste:
+ * walk-in, lokation, åbningstider). Adresse og telefon kommer fra
+ * kontakt.yml på begge sprog: ét hus, ét nummer.
+ */
+export function loadGadenEn(): GadenInfo {
+  return readGaden("gaden.en.yml");
 }
 
 /**
@@ -356,6 +381,55 @@ export function loadFaqEn(): Faq {
   return readFaq("faq.en.yml");
 }
 
+/**
+ * Aftercare (S574). Teksten lå i lib/aftercare.ts — altså i kode, hvor
+ * hverken Sonja eller en artist kunne rette den, og kun på dansk.
+ * Plejeråd skal kunne rettes af dem der giver dem.
+ */
+export type AftercareTrin = { t: string; d: string };
+export type AftercareCopy = {
+  file: string;
+  titel: string;
+  lead: string;
+  tattoo_titel: string;
+  piercing_titel: string;
+  tattoo: AftercareTrin[];
+  piercing: AftercareTrin[];
+  tvivl_label: string;
+  tvivl: string;
+  skriv_cta: string;
+};
+
+function readAftercare(fil: string): AftercareCopy {
+  const d = readYaml<Partial<AftercareCopy>>(fil);
+  const trin = (x: unknown): AftercareTrin[] =>
+    Array.isArray(x)
+      ? x
+          .map((s) => ({ t: str((s as AftercareTrin)?.t), d: str((s as AftercareTrin)?.d) }))
+          .filter((s) => s.t && s.d)
+      : [];
+  return {
+    file: str(d.file),
+    titel: str(d.titel),
+    lead: str(d.lead),
+    tattoo_titel: str(d.tattoo_titel),
+    piercing_titel: str(d.piercing_titel),
+    tattoo: trin(d.tattoo),
+    piercing: trin(d.piercing),
+    tvivl_label: str(d.tvivl_label),
+    tvivl: str(d.tvivl),
+    skriv_cta: str(d.skriv_cta),
+  };
+}
+
+export function loadAftercare(): AftercareCopy {
+  return readAftercare("aftercare.yml");
+}
+
+export function loadAftercareEn(): AftercareCopy {
+  return readAftercare("aftercare.en.yml");
+}
+
 /** Piercing-teksten (H6) — husets standardtekst, Decap-redigerbar. */
 export type PiercingCopy = { titel: string; tekst: string; priser: string };
 
@@ -425,13 +499,22 @@ export type NattenCopy = {
   tom_linje: string;
 };
 
-export function loadNattenCopy(): NattenCopy {
-  const d = readYaml<Partial<NattenCopy>>("natten.yml");
+function readNattenCopy(fil: string, tomTitelFallback: string): NattenCopy {
+  const d = readYaml<Partial<NattenCopy>>(fil);
   return {
     intro: str(d.intro),
-    tom_titel: str(d.tom_titel) || "Ingen nat i aften",
+    tom_titel: str(d.tom_titel) || tomTitelFallback,
     tom_linje: str(d.tom_linje),
   };
+}
+
+export function loadNattenCopy(): NattenCopy {
+  return readNattenCopy("natten.yml", "Ingen nat i aften");
+}
+
+/** Natten på engelsk. Rummets navn oversættes ikke — kun sætningerne. */
+export function loadNattenCopyEn(): NattenCopy {
+  return readNattenCopy("natten.en.yml", "No night tonight");
 }
 
 export function periodeLabel(a: Artist): string {

@@ -13,7 +13,7 @@ import {
   activeNat,
   visibleCountForArtist,
 } from "@/lib/content";
-import { alternates } from "@/lib/i18n";
+import { alternates, t } from "@/lib/i18n";
 
 const _fold = loadHusetForside();
 const _kontakt = loadKontakt();
@@ -83,7 +83,7 @@ export default function HusetPage() {
 
             {guest.kind === "empty" ? (
               <div className="rum-empty">
-                <p className="rum-empty__title rum-poster">Ingen gæst i stolen</p>
+                <p className="rum-empty__title rum-poster">{t("da").rummet.noGuest}</p>
               </div>
             ) : (
               <ArtistKort
@@ -102,7 +102,7 @@ export default function HusetPage() {
           </div>
 
           <div className="rum-nat">
-            <p className="rum-label">I aften</p>
+            <p className="rum-label">{t("da").rummet.tonightLabel}</p>
             {nat ? (
               <div className="rum-nat__card rum-nat__card--live">
                 <p className="rum-nat__title rum-poster">{nat.nr || nat.dato || "Nat"}</p>
@@ -115,18 +115,20 @@ export default function HusetPage() {
                   </p>
                 ) : (
                   <p className="rum-chair__craft" style={{ marginTop: 10 }}>
-                    Gæste-DJ
+                    {t("da").rummet.guestDj}
                   </p>
                 )}
                 <Link href="/natten" className="rum-nat__go">
-                  Se plakaten
+                  {t("da").rummet.seePoster}
                 </Link>
               </div>
             ) : (
               <div className="rum-empty" style={{ marginTop: 16 }}>
-                <p className="rum-empty__title rum-poster">Ingen nat i aften</p>
+                <p className="rum-empty__title rum-poster">
+                  {t("da").rummet.noEvent}
+                </p>
                 <p className="rum-body-copy" style={{ marginTop: 12, color: "var(--beton)" }}>
-                  Næste nat står i Blackbook.
+                  {t("da").rummet.noEventLine}
                 </p>
               </div>
             )}

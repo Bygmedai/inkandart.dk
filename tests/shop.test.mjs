@@ -82,9 +82,10 @@ test("salgsdøren er ikke forældreløs — der går en dør ind fra huset", () 
   // (S573). Den må ikke pege på /shop igen: Emerge-fladen annoncerer walk-in
   // med pris, og K7 siger at det tal kun findes fysisk i og uden for butikken.
   const nav = readFileSync(join(root, "components/rummet/Nav.tsx"), "utf8");
-  const gaden = readFileSync(join(root, "app/(rummet)/gaden/page.tsx"), "utf8");
+  // S574: Gadens døre bor i GadenFlade (én komponent, to sprog).
+  const gaden = readFileSync(join(root, "components/rummet/GadenFlade.tsx"), "utf8");
   assert.match(nav, /href: "\/maerket"/, "Huset skal have en dør til Mærket");
-  assert.match(gaden, /href="\/maerket"/, "Gaden skal åbne Mærket");
+  assert.match(gaden, /localePath\(lang, "\/maerket"\)/, "Gaden skal åbne Mærket");
 });
 
 test("tilbage-linket er dækket af tap-reglen på ALLE undersider", () => {

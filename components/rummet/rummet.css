@@ -610,6 +610,15 @@ html:has([data-house="rummet"]) .grain {
 }
 .rum-footer a:hover { color: var(--hud); }
 
+/* Afmeldings-linjen i Blackbook-døren: en oplysning, ikke et løfte der
+   skal råbe. Samme dæmpning som husets øvrige småtekst — alpha 0.6 er
+   kontrast-gulvet fra #149. */
+.rum-door__afmeld {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--beton);
+}
+
 /* Sprogdøren: samme trykmål som resten af footeren, men markeret — det
    er en handling der skifter hele fladen, ikke endnu et lovlink.
    Farven er husets hud, ikke Emerges guld: Rummet kender ikke --gold. */

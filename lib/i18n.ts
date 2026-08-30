@@ -44,6 +44,10 @@ export const EN_ROUTES: ReadonlySet<string> = new Set([
   "/privatlivspolitik",
   "/booking",
   "/stolen",
+  "/gaden",
+  "/aftercare",
+  "/natten",
+  "/maerket",
 ]);
 
 /**
@@ -153,12 +157,21 @@ const da = {
    */
   rummet: {
     roomsLabel: "Rum",
-    blackbookLine: "Vi sender kun natten. Afmeld nederst i mailen.",
+    /**
+     * Blackbook (S574, copy-audit 30/8). Den gamle linje — «Vi sender kun
+     * natten» — sagde intet om hvad mailen indeholder, og lød som en
+     * natklub. En liste skal forklare sit udbytte på én sætning.
+     * ERSTATTER en linje Steven ratificerede 29/8; sig til hvis den skal
+     * tilbage.
+     */
+    blackbookLine:
+      "Nye flash, gæsteartister og aftener i huset. Vi skriver kun, når der er en dato, et drop eller en plads at fortælle om.",
     blackbookEmail: "Email",
-    blackbookGo: "Tilmeld",
+    blackbookGo: "Skriv mig op",
     blackbookBusy: "…",
-    blackbookOk: "Du er i bogen.",
+    blackbookOk: "Tak. Du hører fra os, når der er noget konkret.",
     blackbookFejl: "Noget gik galt — prøv igen.",
+    blackbookAfmeld: "Du kan afmelde når som helst.",
     terms: "Betingelser",
     privacy: "Privatliv",
     faq: "FAQ",
@@ -169,11 +182,31 @@ const da = {
     seeOnWall: "Se dem på Væggen i Mærket",
     bookTid: "Book tid",
     walkIn: "Walk-in — kom forbi",
-    noGuest: "Ingen gæst i stolen",
+    noGuest: "Ingen gæsteartist annonceret lige nu",
     guestPending: "Gæst · navn følger",
     walkInLine: "Walk-in når der er en fri stol — ellers book.",
     comeBy: (adresse: string) => `Kom forbi ${adresse} og se arbejdet i virkeligheden.`,
     bioIsDanish: "Artistens egne ord, på dansk.",
+    giftCard: "Gavekort",
+    /* Mærket. Hylden og Væggen er husets egennavne som rummene —
+       sætningerne omkring dem er ikke. */
+    shelfLabel: "Hylden",
+    shelfEmpty: "Der er ingen varer på hylden lige nu.",
+    wallLabel: "Væggen",
+    artistFilter: "Artist",
+    noWorksFrom: (navn: string) => `Ingen værker fra ${navn} på væggen endnu.`,
+    meetIn: (navn: string) => `Mød ${navn} i Stolen`,
+    orSee: " — eller ",
+    wholeWall: "se hele væggen",
+    /* Natten. Uden navne på plakaten står der en gæste-DJ, ikke et navn
+       vi ikke har fået. */
+    guestDj: "Gæste-DJ",
+    /* Forsidens aften-felt. En tom kalender er en tom kalender — ikke
+       en mytologi om noget der venter. */
+    tonightLabel: "I aften",
+    noEvent: "Ingen aften planlagt lige nu",
+    noEventLine: "Vil du have næste dato? Skriv dig op i Blackbook.",
+    seePoster: "Se plakaten",
   },
 
   shop: {
@@ -346,12 +379,14 @@ const en: Copy = {
   /** The room names stay Danish — they are the house's proper nouns. */
   rummet: {
     roomsLabel: "Rooms",
-    blackbookLine: "We only send the night. Unsubscribe at the bottom of the mail.",
+    blackbookLine:
+      "New flash, guest artists and studio events. We only write when there is a date, a drop or a spot to share.",
     blackbookEmail: "Email",
-    blackbookGo: "Sign up",
+    blackbookGo: "Sign me up",
     blackbookBusy: "…",
-    blackbookOk: "You're in the book.",
+    blackbookOk: "Thank you. You'll hear from us when there is something concrete.",
     blackbookFejl: "Something went wrong — try again.",
+    blackbookAfmeld: "You can unsubscribe at any time.",
     terms: "Terms",
     privacy: "Privacy",
     faq: "FAQ",
@@ -361,11 +396,27 @@ const en: Copy = {
     seeOnWall: "See them on the Wall in Mærket",
     bookTid: "Book a time",
     walkIn: "Walk-in — come by",
-    noGuest: "No guest in the chair",
+    noGuest: "No guest artist announced right now",
     guestPending: "Guest · name to follow",
     walkInLine: "Walk-in when a chair is free — otherwise book.",
     comeBy: (adresse: string) => `Come by ${adresse} and see the work for real.`,
     bioIsDanish: "The artist's own words, in Danish.",
+    /** Gavekortet hedder Gavekort i huset — men på engelsk skal en
+        turist kunne se HVAD døren er. */
+    giftCard: "Gift card",
+    shelfLabel: "Hylden",
+    shelfEmpty: "There is nothing on the shelf right now.",
+    wallLabel: "Væggen",
+    artistFilter: "Artist",
+    noWorksFrom: (navn: string) => `No work from ${navn} on the wall yet.`,
+    meetIn: (navn: string) => `Meet ${navn} in Stolen`,
+    orSee: " — or ",
+    wholeWall: "see the whole wall",
+    guestDj: "Guest DJ",
+    tonightLabel: "Tonight",
+    noEvent: "No evening planned right now",
+    noEventLine: "Want the next date? Sign up to Blackbook.",
+    seePoster: "See the poster",
   },
 
   shop: {
