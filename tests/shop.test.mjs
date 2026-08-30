@@ -118,19 +118,18 @@ test("tilbage-linket er dækket af tap-reglen på ALLE undersider", () => {
   }
 });
 
-test("de tre prints er levende med variantId — ikke ACTIVE-og-håbe", () => {
-  // 2026-08-24: priserne blev bekræftet (250/250/1.200) og varerne publiceret.
-  // Dagens lektie står i commerce.ts: DRAFT → ACTIVE var IKKE nok. Varerne
-  // manglede Webshop-kanalen og svarede stadig 410. Testen holder derfor fast
-  // i det målbare — et variantId pr. print — ikke i en status i Shopify.
+test("prints-væggen er ærligt lukket: demo-varerne er live:false", () => {
+  // S574 (Steven, 30/8): Dolk/Ouroboros/Signetring er DEMO-varer — Sonja
+  // lægger ægte varer op. Shopify-status DRAFT samme dag, målt 410 på alle
+  // tre cart-permalinks (negativ kontrol 410, gavekort 302). Testen vender:
+  // før håndhævede den «alle tre live», nu håndhæver den at ingen demo-vare
+  // kan få en købsknap. Når Sonjas rigtige varer kommer, skrives testen om
+  // sammen med kataloget — ikke før.
   const start = commerce.indexOf("export const SHOP_PRINTS");
   assert.ok(start > 0, "SHOP_PRINTS-listen findes");
   const blok = commerce.slice(start, commerce.indexOf("\n];", start));
-  const ider = [...blok.matchAll(/variantId: "(\d{14})"/g)].map((m) => m[1]);
-  assert.equal(ider.length, 3, "alle tre prints har et variantId");
-  assert.equal(new Set(ider).size, 3, "tre FORSKELLIGE variantId'er");
-  assert.equal([...blok.matchAll(/live: true/g)].length, 3, "alle tre er live");
-  assert.doesNotMatch(blok, /live: false/, "ingen halvåben hylde tilbage");
+  assert.doesNotMatch(blok, /live: true/, "demo-varer må ikke være live");
+  assert.match(blok, /NEDLAGT SOM DEMO 2026-08-30|S574/, "kendelsen står ved varerne");
 });
 
 test("REGRESSION: den danske væg-blok læser fra ordbogen, ikke fra markup", () => {
