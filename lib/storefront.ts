@@ -3,6 +3,9 @@
  *
  * Secrets only via env. Missing token or domain → empty, never a throw.
  * edition_ref in YAML is a product handle, not a GID.
+ *
+ * Hylden (S574) læser kollektionen `hylden` via productsInCollection.
+ * collectionByHandle er deprecated i 2026-07 — feltet er collection(handle:).
  */
 
 const API_VERSION = "2026-07";
@@ -18,6 +21,23 @@ export type StorefrontProduct = {
 export type StorefrontResult = {
   ok: boolean;
   products: StorefrontProduct[];
+};
+
+/**
+ * Vare fra en Storefront-kollektion. VareKort læser kun StorefrontProduct-
+ * felterne; titel/foto/gruppe mappes til Vare på siden.
+ */
+export type CollectionProduct = StorefrontProduct & {
+  title: string;
+  availableForSale: boolean;
+  imageUrl: string;
+  imageAlt: string;
+  productType: string;
+};
+
+export type CollectionResult = {
+  ok: boolean;
+  products: CollectionProduct[];
 };
 
 export type StorefrontCart = {
@@ -83,6 +103,55 @@ function numericId(gid: string): string {
   return m ? m[1] : "";
 }
 
+function asObject(raw: unknown): Record<string, unknown> | null {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return null;
+  return raw as Record<string, unknown>;
+}
+
+function strField(raw: unknown): string {
+  return typeof raw === "string" ? raw.trim() : "";
+}
+
+function variantNodes(raw: unknown): unknown[] {
+  const obj = asObject(raw);
+  if (!obj) return [];
+  const variants = asObject(obj.variants);
+  if (!variants) return [];
+  return Array.isArray(variants.nodes) ? variants.nodes : [];
+}
+
+function firstAvailableVariant(nodes: unknown[]): {
+  id: string;
+  priceAmount: string;
+  currency: string;
+} | null {
+  for (const node of nodes) {
+    const v = asObject(node);
+    if (!v || v.availableForSale !== true) continue;
+    const id = strField(v.id);
+    if (!id) continue;
+    const price = asObject(v.price);
+    return {
+      id,
+      priceAmount: strField(price?.amount),
+      currency: strField(price?.currencyCode),
+    };
+  }
+  return null;
+}
+
+function readImage(raw: Record<string, unknown>): { url: string; alt: string } {
+  const feat = asObject(raw.featuredImage);
+  const featUrl = strField(feat?.url);
+  if (featUrl) return { url: featUrl, alt: strField(feat?.altText) };
+  const images = asObject(raw.images);
+  const nodes = Array.isArray(images?.nodes) ? images.nodes : [];
+  const first = asObject(nodes[0]);
+  const url = strField(first?.url);
+  if (url) return { url, alt: strField(first?.altText) };
+  return { url: "", alt: "" };
+}
+
 function readProduct(raw: unknown): StorefrontProduct | null {
   if (!raw || typeof raw !== "object") return null;
   const p = raw as {
@@ -115,9 +184,100 @@ function readProduct(raw: unknown): StorefrontProduct | null {
   };
 }
 
+/** One GraphQL product node → CollectionProduct. Junk → null. Never throws. */
+export function readCollectionProduct(raw: unknown): CollectionProduct | null {
+  try {
+    const p = asObject(raw);
+    if (!p) return null;
+    const handle = strField(p.handle);
+    if (!handle) return null;
+    const live = firstAvailableVariant(variantNodes(p));
+    const image = readImage(p);
+    return {
+      handle,
+      variantGid: live?.id ?? "",
+      variantNumericId: live ? numericId(live.id) : "",
+      priceAmount: live?.priceAmount ?? "",
+      currency: live?.currency ?? "",
+      title: strField(p.title),
+      availableForSale: p.availableForSale === true,
+      imageUrl: image.url,
+      imageAlt: image.alt,
+      productType: strField(p.productType),
+    };
+  } catch {
+    return null;
+  }
+}
+
+function collectionNode(data: unknown): unknown {
+  const root = asObject(data);
+  if (!root) return null;
+  if ("collection" in root) return root.collection;
+  if ("collectionByHandle" in root) return root.collectionByHandle;
+  return null;
+}
+
+function productNodes(coll: unknown): unknown[] {
+  const c = asObject(coll);
+  if (!c) return [];
+  const products = asObject(c.products);
+  if (!products) return [];
+  if (Array.isArray(products.nodes)) return products.nodes;
+  if (Array.isArray(products.edges)) {
+    return products.edges.map((e) => asObject(e)?.node);
+  }
+  return [];
+}
+
+/**
+ * Pure parser: GraphQL `data` → live collection products.
+ * availableForSale false and nodes without an available variant are omitted.
+ * Junk nodes are skipped. Never throws.
+ */
+export function parseCollectionProducts(data: unknown): CollectionProduct[] {
+  try {
+    const coll = collectionNode(data);
+    if (coll == null) return [];
+    const out: CollectionProduct[] = [];
+    for (const node of productNodes(coll)) {
+      const p = readCollectionProduct(node);
+      if (!p) continue;
+      if (p.availableForSale !== true) continue;
+      if (!p.variantGid) continue;
+      out.push(p);
+    }
+    return out;
+  } catch {
+    return [];
+  }
+}
+
+/** Vare-shape til VareKort / ProduktFlade. linje er tom — YAML-copy er kun fallback. */
+export function vareFromCollectionProduct(p: CollectionProduct): {
+  handle: string;
+  titel: string;
+  foto: string;
+  linje: string;
+  gruppe: string;
+} {
+  return {
+    handle: p.handle,
+    titel: p.title,
+    foto: p.imageUrl,
+    linje: "",
+    gruppe: p.productType,
+  };
+}
+
 const PRODUCT_QUERY = `query Product($handle: String!) {
   product(handle: $handle) {
     handle
+    title
+    availableForSale
+    productType
+    featuredImage { url altText }
+    images(first: 1) { nodes { url altText } }
     variants(first: 10) {
       nodes {
         id
@@ -128,14 +288,14 @@ const PRODUCT_QUERY = `query Product($handle: String!) {
   }
 }`;
 
-export async function productByHandle(handle: string): Promise<StorefrontProduct | null> {
+export async function productByHandle(handle: string): Promise<CollectionProduct | null> {
   const h = handle.trim();
   if (!h) return null;
   if (!storefrontConfig().ok) return null;
   try {
     const data = await storefrontQuery(PRODUCT_QUERY, { handle: h });
     if (!data) return null;
-    return readProduct(data.product);
+    return readCollectionProduct(data.product);
   } catch {
     return null;
   }
@@ -155,6 +315,45 @@ export async function productsByHandles(handles: string[]): Promise<StorefrontRe
     return { products, ok: true };
   } catch {
     return { products: [], ok: false };
+  }
+}
+
+const COLLECTION_QUERY = `query CollectionByHandle($handle: String!) {
+  collection(handle: $handle) {
+    handle
+    products(first: 250) {
+      nodes {
+        title
+        handle
+        availableForSale
+        productType
+        featuredImage { url altText }
+        images(first: 1) { nodes { url altText } }
+        variants(first: 10) {
+          nodes {
+            id
+            availableForSale
+            price { amount currencyCode }
+          }
+        }
+      }
+    }
+  }
+}`;
+
+export async function productsInCollection(handle: string): Promise<CollectionResult> {
+  try {
+    const h = handle.trim();
+    if (!h) return { ok: false, products: [] };
+    const cfg = storefrontConfig();
+    if (!cfg.ok) return { ok: false, products: [] };
+    const data = await storefrontQuery(COLLECTION_QUERY, { handle: h });
+    if (!data) return { ok: false, products: [] };
+    const coll = collectionNode(data);
+    if (coll == null) return { ok: false, products: [] };
+    return { ok: true, products: parseCollectionProducts(data) };
+  } catch {
+    return { ok: false, products: [] };
   }
 }
 

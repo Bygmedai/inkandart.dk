@@ -10,9 +10,15 @@ import {
   loadHylden,
   wallChipArtists,
   type Artist,
+  type Vare,
   type Vaerk,
 } from "@/lib/content";
-import { productsByHandles } from "@/lib/storefront";
+import {
+  productsByHandles,
+  productsInCollection,
+  vareFromCollectionProduct,
+  type StorefrontProduct,
+} from "@/lib/storefront";
 
 export const metadata: Metadata = {
   title: "Mærket · Ink & Art",
@@ -49,13 +55,20 @@ export default async function MaerketPage({
   const wall = filterVisibleByArtist(house.vaerker, artistId);
   const chips = filterChips(house.artists, house.vaerker, artistId);
   const filteredArtist = artistId ? artistById(house.artists, artistId) : undefined;
-  // Hylden læser sin egen fil, ikke værkerne. Et værk er et fotografi;
-  // en vare er noget man kan købe. Se lib/content.ts → loadHylden.
-  const varer = loadHylden();
-  const sf = await productsByHandles(varer.map((v) => v.handle));
-  const hylden = varer
-    .map((vare) => ({ vare, product: sf.products.find((p) => p.handle === vare.handle) }))
-    .filter((x) => Boolean(x.product?.variantGid));
+  // Hylden læser Shopify-kollektionen `hylden` først. Svarer Storefront
+  // ikke (ingen env, fejl, timeout, manglende kollektion), falder vi
+  // tilbage til hylden.yml + productsByHandles som i dag.
+  const coll = await productsInCollection("hylden");
+  let hylden: { vare: Vare; product?: StorefrontProduct }[];
+  if (coll.ok) {
+    hylden = coll.products.map((p) => ({ vare: vareFromCollectionProduct(p), product: p }));
+  } else {
+    const varer = loadHylden();
+    const sf = await productsByHandles(varer.map((v) => v.handle));
+    hylden = varer
+      .map((vare) => ({ vare, product: sf.products.find((p) => p.handle === vare.handle) }))
+      .filter((x) => Boolean(x.product?.variantGid));
+  }
   const hyldenTom = hylden.length === 0;
 
   return (
