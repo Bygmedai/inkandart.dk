@@ -79,6 +79,7 @@ export function Door({
           {status === "busy" ? c.blackbookBusy : c.blackbookGo}
         </button>
       </div>
+      <p className="rum-door__afmeld">{c.blackbookAfmeld}</p>
       <p className="rum-door__status" role="status">
         {status === "ok" ? c.blackbookOk : status === "fejl" ? c.blackbookFejl : ""}
       </p>

@@ -723,10 +723,13 @@ test("Blackbook tager email, ikke telefon", () => {
   // S574: dørens ord bor i lib/i18n.ts, så den kan tale begge sprog.
   // Løftet måles dér — ikke i markup, hvor det ikke længere står.
   assert.match(door, /c\.blackbookLine/);
-  assert.match(i18n, /Vi sender kun natten/);
+  // S574 copy-audit: listen skal forklare sit udbytte på én sætning, og
+  // afmeldingen skal stå — men som oplysning, ikke som hele løftet.
+  assert.match(i18n, /Nye flash, gæsteartister og aftener i huset/);
   assert.doesNotMatch(i18n, /Afmeld med STOP/);
-  assert.match(i18n, /Afmeld nederst i mailen/);
-  assert.match(i18n, /Unsubscribe at the bottom of the mail/, "samme løfte på engelsk");
+  assert.match(i18n, /blackbookAfmeld: "Du kan afmelde når som helst\."/);
+  assert.match(i18n, /blackbookAfmeld: "You can unsubscribe at any time\."/);
+  assert.match(door, /c\.blackbookAfmeld/, "afmeldingen skal stå i døren");
 });
 
 test("Plader viser ikke DEMO-chip og ingen rum-billedtekst", () => {
@@ -822,10 +825,11 @@ test("S573 Door afmelding", () => {
   // Løftet flyttede til i18n i S574 (døren taler nu begge sprog), men det
   // står stadig — på begge sprog. Et afmeldings-løfte må aldrig forsvinde
   // i en refaktorering.
+  // Løftet om at kunne komme af listen igen står stadig — på begge sprog.
   const i18n = read("lib/i18n.ts");
-  assert.match(i18n, /Afmeld nederst i mailen/);
-  assert.match(i18n, /Unsubscribe at the bottom of the mail/);
-  assert.match(read("components/rummet/Door.tsx"), /c\.blackbookLine/);
+  assert.match(i18n, /Du kan afmelde når som helst/);
+  assert.match(i18n, /You can unsubscribe at any time/);
+  assert.match(read("components/rummet/Door.tsx"), /c\.blackbookAfmeld/);
 });
 
 test("S573 Gaden walk-in + tel", () => {
@@ -1345,7 +1349,7 @@ test("S574 Natten og Mærket på engelsk — husets navne står, sætningerne sk
   assert.match(i18n, /wallLabel: "Væggen"/);
 
   // Men sætningerne omkring dem skifter sprog.
-  assert.match(i18n, /shelfEmpty: "The shelf is being filled\."/);
+  assert.match(i18n, /shelfEmpty: "There is nothing on the shelf right now\."/);
   assert.match(i18n, /No work from \$\{navn\} on the wall yet/);
   assert.match(i18n, /guestDj: "Guest DJ"/);
 
@@ -1375,4 +1379,45 @@ test("S574 Natten og Mærket på engelsk — husets navne står, sætningerne sk
   for (const side of ["app/(rummet)/maerket/page.tsx", "app/(rummet)/en/maerket/page.tsx"]) {
     assert.match(read(side), /hentHylden\(\)/);
   }
+});
+
+test("S574 copy-audit: ingen mytologi hvor der skal stå en oplysning", () => {
+  const i18n = read("lib/i18n.ts");
+
+  // Blackbook forklarer sit udbytte og lover ikke en stemning.
+  assert.match(i18n, /når der er en dato, et drop eller en plads/);
+  assert.doesNotMatch(i18n, /Vi sender kun natten/, "den gamle linje er ude");
+  assert.match(i18n, /blackbookGo: "Skriv mig op"/);
+  assert.match(i18n, /blackbookOk: "Tak\. Du hører fra os, når der er noget konkret\."/);
+
+  // Tomtilstande hjælper videre i stedet for at lyde som albumtekster.
+  assert.match(i18n, /noEvent: "Ingen aften planlagt lige nu"/);
+  assert.match(i18n, /noEventLine: "Vil du have næste dato\? Skriv dig op i Blackbook\."/);
+  assert.match(i18n, /noGuest: "Ingen gæsteartist annonceret lige nu"/);
+  assert.match(i18n, /Der er ingen varer på hylden lige nu/);
+
+  // Forsiden læser dem — de stod hardkodet i markup før.
+  const huset = read("app/(rummet)/page.tsx");
+  assert.match(huset, /rummet\.noEvent/);
+  assert.doesNotMatch(huset, /Næste nat står i Blackbook/);
+  assert.doesNotMatch(huset, /Ingen nat i aften/);
+
+  // 404 er husets skal og en vej videre — ikke en sætning der lyder godt.
+  const nf = read("app/not-found.tsx");
+  assert.match(nf, /Siden findes ikke\./);
+  // De gamle linjer må ikke stå i det der RENDERES. (De nævnes i filens
+  // kommentar, så fremtidige læsere ved hvad der blev fjernet og hvorfor.)
+  const render = nf.slice(nf.indexOf("export default"));
+  assert.doesNotMatch(render, /Mærket består|Ind i landskabet/);
+  assert.match(nf, /RummetShell/, "404 skal bo i husets skal, ikke i Emerge-guld");
+  assert.match(nf, /href="\/booking"/);
+  assert.match(nf, /telefon_e164/, "en der er faret vild skal kunne ringe");
+  assert.match(nf, /index: false/, "en 404 må ikke indekseres");
+
+  // EN-forsiden må ikke sende en engelsk læser til de danske artistsider.
+  const en = read("app/(rummet)/en/page.tsx");
+  assert.match(en, /<ArtistKort/, "EN-forsiden bruger husets kort, ikke sin egen kopi");
+  assert.match(en, /lang="en"/);
+  assert.doesNotMatch(en, /href=\{`\/stolen\/\$\{a\.id\}`\}/, "kortene skal pege på /en/stolen");
+  assert.match(en, /href="\/en\/booking"/);
 });
