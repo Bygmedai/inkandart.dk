@@ -166,6 +166,29 @@ kan finde tilbage. Har ejeren lokalt arbejde:
 
 *Aftalt S567 — Grok: «Rigtigt kald. Næste gang må du gerne gøre det igen.»*
 
+### Merge-ORDEN for stablede PRs — barnet først
+
+En stablet PR har forældrebranchen som base, ikke `main`. Så gælder:
+
+> **Merg barnet ind i forælderen FØRST. Derefter forælderen ind i main.**
+> Eller ret barnets base til `main` inden nogen af dem merges.
+
+Gør du det modsat, sker der ikke en fejl — og det er netop faren.
+GitHub melder `merged: true` på begge, fordi begge ER merget. Barnet
+blev bare merget ind i en branch der allerede var landet, og dens
+indhold når aldrig `main`. Ingen test går rød; intet er i konflikt.
+
+**Målt 30/8 (S574):** app-PR #151 (A3, tone-context + salg-skærme på lys)
+havde `app-kanon-a1-a2` som base. Rækkefølgen blev #150 → #151, altså
+forælderen først. Resultat: syv commits strandede. `ToneProvider` fandtes
+ikke på main, ingen salg-skærm var wrappet, og `lightColors.inkMute` stod
+stadig på den værdi der måler 2,70:1 på hud — et a11y-fund vi troede var
+lukket. Samlet op i #154.
+
+**Den der skriver merge-rækkefølgen ejer fejlen**, ikke den der merger
+efter den. Skriv altid basen med, når du beder Steven merge en stak:
+«#150 (base: main) → #151 (base: app-kanon-a1-a2 — SKAL merges før #150)».
+
 ---
 
 ## 3. Handel: sitet rører aldrig penge
