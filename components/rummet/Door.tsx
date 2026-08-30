@@ -21,6 +21,18 @@ export function Door({
   const [status, setStatus] = useState<"idle" | "busy" | "ok" | "fejl">("idle");
   const c = t(lang).rummet;
 
+  /*
+   * Kom brugeren tilbage fra no-JS-vejen, står resultatet i URL'en.
+   * Vi læser det én gang ved montering, så svaret er det samme uanset
+   * om JS var med eller ej.
+   */
+  const [fraUrl] = useState<"ok" | "fejl" | null>(() => {
+    if (typeof window === "undefined") return null;
+    const v = new URLSearchParams(window.location.search).get("blackbook");
+    return v === "ok" || v === "fejl" ? v : null;
+  });
+  const vist = status === "idle" && fraUrl ? fraUrl : status;
+
   async function send(form: HTMLFormElement) {
     const data = new FormData(form);
     setStatus("busy");
@@ -45,11 +57,26 @@ export function Door({
     <form
       id="doer"
       className={variant === "inline" ? "rum-door rum-door--inline" : "rum-door"}
+      /*
+       * S574 (Vildes fund 30/8): formularen havde hverken method eller
+       * action. Uden JavaScript submitter en browser da som GET til
+       * SAMME side — så kundens mailadresse havnede i adresselinjen, i
+       * browserhistorikken og i serverloggen, mens tilmeldingen slet
+       * ikke skete. Døren står på hver eneste side.
+       *
+       * Nu er den en rigtig POST til endpointet. Med JS opfører den sig
+       * præcis som før (preventDefault + fetch); uden JS poster den
+       * rigtigt, og API'et svarer 303 tilbage hertil med ?blackbook=ok
+       * eller =fejl. Mailen forlader aldrig request-body'en.
+       */
+      method="post"
+      action="/api/subscribe"
       onSubmit={(e) => {
         e.preventDefault();
         void send(e.currentTarget);
       }}
     >
+      <input type="hidden" name="source" value="blackbook" />
       <div className="rum-door__head">
         <span className="rum-dot" aria-hidden="true" />
         <span className="rum-door__name">Blackbook</span>
@@ -81,7 +108,7 @@ export function Door({
       </div>
       <p className="rum-door__afmeld">{c.blackbookAfmeld}</p>
       <p className="rum-door__status" role="status">
-        {status === "ok" ? c.blackbookOk : status === "fejl" ? c.blackbookFejl : ""}
+        {vist === "ok" ? c.blackbookOk : vist === "fejl" ? c.blackbookFejl : ""}
       </p>
     </form>
   );
