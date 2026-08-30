@@ -76,6 +76,16 @@ export default async function ArtistPage({
             {artist.bio ? (
               <p className="rum-body-copy rum-artist__bio">{artist.bio}</p>
             ) : null}
+            {artist.instagram ? (
+              <p className="rum-artist__insta">
+                <a
+                  href={`https://www.instagram.com/${artist.instagram}/`}
+                  rel="noopener noreferrer"
+                >
+                  @{artist.instagram}
+                </a>
+              </p>
+            ) : null}
             <div className="rum-huset__cta">
               {artist.booking ? (
                 <a href={`/booking?artist=${artist.id}`} className="rum-book">
@@ -96,7 +106,7 @@ export default async function ArtistPage({
         {works.length > 0 ? (
           <section className="rum-artist__arkiv" aria-labelledby="arkiv">
             <h2 id="arkiv" className="rum-label">
-              Fra hånden
+              Arbejder
             </h2>
             <div className="rum-vaeg">
               {works.map((v) => (
@@ -106,14 +116,14 @@ export default async function ArtistPage({
               ))}
             </div>
             <p className="rum-kort__arkiv">
-              <a href={`/maerket?artist=${artist.id}`}>Se på Væggen i Mærket</a>
+              <a href={`/maerket?artist=${artist.id}`}>Se dem på Væggen i Mærket</a>
             </p>
           </section>
         ) : (
           <section className="rum-artist__arkiv">
             <div className="rum-empty">
               <p className="rum-empty__title rum-poster">
-                Arkivet er på vej
+                Billeder på vej
               </p>
               <p className="rum-body-copy" style={{ marginTop: 12, color: "var(--beton)" }}>
                 Kom forbi {kontakt.adresse} og se arbejdet i virkeligheden.

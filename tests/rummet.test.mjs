@@ -194,7 +194,7 @@ test("M2 cross-link tæller synlige værker fra YAML og udelader N=0", async () 
   const kort = read("components/rummet/ArtistKort.tsx");
   assert.match(kort, /workCount > 0/);
   assert.match(kort, /maerket\?artist=/);
-  assert.match(kort, /værker i arkivet/);
+  assert.match(kort, /arbejder på Væggen/);
   assert.doesNotMatch(kort, /0 værker/);
 });
 

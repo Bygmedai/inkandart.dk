@@ -65,7 +65,7 @@ export function Door({ variant = "page" }: { variant?: "page" | "inline" }) {
           />
         </div>
         <button type="submit" className="rum-door__go" disabled={status === "busy"}>
-          {status === "busy" ? "…" : "Ind"}
+          {status === "busy" ? "…" : "Tilmeld"}
         </button>
       </div>
       <p className="rum-door__status" role="status">

@@ -59,8 +59,8 @@ export function ArtistKort({
           <p className="rum-kort__arkiv">
             <a href={`/maerket?artist=${artist.id}`}>
               {workCount === 1
-                ? `${daNum(workCount)} værk i arkivet`
-                : `${daNum(workCount)} værker i arkivet`}
+                ? `Se ${daNum(workCount)} arbejde på Væggen`
+                : `Se ${daNum(workCount)} arbejder på Væggen`}
             </a>
           </p>
         ) : null}
