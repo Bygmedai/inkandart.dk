@@ -17,10 +17,14 @@
               {
                 "id": "gid://shopify/ProductVariant/53342061822280",
                 "availableForSale": true,
-                "price": { "amount": "450.0", "currencyCode": "DKK" }
+                "price": {
+                  "amount": "450.0",
+                  "currencyCode": "DKK"
+                }
               }
             ]
-          }
+          },
+          "description": "Testbeskrivelse for dolk. Mere tekst bagefter."
         },
         {
           "handle": "ouroboros",
@@ -36,10 +40,14 @@
               {
                 "id": "gid://shopify/ProductVariant/53342061855048",
                 "availableForSale": true,
-                "price": { "amount": "450.0", "currencyCode": "DKK" }
+                "price": {
+                  "amount": "450.0",
+                  "currencyCode": "DKK"
+                }
               }
             ]
-          }
+          },
+          "description": "Testbeskrivelse for ouroboros. Mere tekst bagefter."
         },
         {
           "handle": "signetring",
@@ -55,10 +63,14 @@
               {
                 "id": "gid://shopify/ProductVariant/53342061887816",
                 "availableForSale": true,
-                "price": { "amount": "1200.0", "currencyCode": "DKK" }
+                "price": {
+                  "amount": "1200.0",
+                  "currencyCode": "DKK"
+                }
               }
             ]
-          }
+          },
+          "description": "Testbeskrivelse for signetring. Mere tekst bagefter."
         },
         {
           "handle": "udsolgt-plakat",
@@ -74,10 +86,14 @@
               {
                 "id": "gid://shopify/ProductVariant/1",
                 "availableForSale": false,
-                "price": { "amount": "100.0", "currencyCode": "DKK" }
+                "price": {
+                  "amount": "100.0",
+                  "currencyCode": "DKK"
+                }
               }
             ]
-          }
+          },
+          "description": "Testbeskrivelse for udsolgt-plakat. Mere tekst bagefter."
         },
         {
           "handle": "naesering",
@@ -85,16 +101,22 @@
           "productType": "Smykker",
           "availableForSale": true,
           "featuredImage": null,
-          "images": { "nodes": [] },
+          "images": {
+            "nodes": []
+          },
           "variants": {
             "nodes": [
               {
                 "id": "gid://shopify/ProductVariant/53342061900000",
                 "availableForSale": true,
-                "price": { "amount": "350.0", "currencyCode": "DKK" }
+                "price": {
+                  "amount": "350.0",
+                  "currencyCode": "DKK"
+                }
               }
             ]
-          }
+          },
+          "description": "Testbeskrivelse for naesering. Mere tekst bagefter."
         },
         {
           "handle": "kun-udsolgte-varianter",
@@ -110,13 +132,19 @@
               {
                 "id": "gid://shopify/ProductVariant/2",
                 "availableForSale": false,
-                "price": { "amount": "10.0", "currencyCode": "DKK" }
+                "price": {
+                  "amount": "10.0",
+                  "currencyCode": "DKK"
+                }
               }
             ]
-          }
+          },
+          "description": "Testbeskrivelse for kun-udsolgte-varianter. Mere tekst bagefter."
         },
         null,
-        { "title": "ingen handle" },
+        {
+          "title": "ingen handle"
+        },
         "ikke-et-objekt"
       ]
     }

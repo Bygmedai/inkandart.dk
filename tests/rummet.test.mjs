@@ -31,7 +31,7 @@ test("content-filerne parse'r og tom-tilstandene følger data", async () => {
   const names = chairs.map((a) => a.fornavn);
   // S573: Anna Ogłuszka er husets piercer fra 31/8. En piercer sidder i
   // stolen paa linje med tatovoererne — det er samme rum og samme booking.
-  assert.deepEqual(names, ["Nizar Saad", "Emma Winding", "Anna Ogłuszka"]);
+  assert.deepEqual(names, ["Nizar Saad", "Emma Windinnalls", "Anna Ogłuszka"]);
   assert.ok(!names.includes("Sonja Rebner"), "Sonja sidder ikke i stolen");
 
   const featured = featuredVaerk(house.vaerker);
@@ -61,7 +61,7 @@ test("ingen dummy-navne eller opdigtede priser på Huset", () => {
     assert.doesNotMatch(src, new RegExp(forbidden.replace(/[.*]/g, "\\$&")));
   }
   assert.match(src, /Nizar Saad/);
-  assert.match(src, /Emma Winding/);
+  assert.match(src, /Emma Windinnalls/); // det lange navn er det rigtige (Steven 30/8)
   assert.match(src, /I stolen/);
   assert.match(src, /Larsbjørnsstræde 13, kælderen\. Walk-in når der er en fri stol — ellers book\./);
   assert.doesNotMatch(src, /Værket i dag/);
@@ -1010,4 +1010,21 @@ test("S574: Natten forklarer sig — og viser kun plakat når der ER en nat", ()
   const i = css.indexOf(".rum-empty__title {");
   const krop = css.slice(i, css.indexOf("}", i));
   assert.match(krop, /color:\s*var\(--hud\)/, "tom-titlen skal kunne læses — ikke grå på sort");
+});
+
+test("K6: den engelske forside bor i Rummet, ikke i Emerge", () => {
+  const en = read("app/(rummet)/en/page.tsx");
+  assert.match(en, /RummetShell/, "EN-forsiden skal bære Rummets dragt");
+  assert.match(en, /loadHusetForsideEn/, "ordene bor i huset.en.yml");
+  assert.match(en, /lang="en"/);
+  // Ingen døde døre: alle interne href'er på EN-forsiden skal findes.
+  for (const m of en.matchAll(/href="(\/[a-z-]*)"/g)) {
+    assert.ok(
+      ["/booking", "/stolen", "/"].some((r) => m[1] === r || m[1].startsWith("/stolen")),
+      `uventet dør på EN-forsiden: ${m[1]}`,
+    );
+  }
+  assert.equal(existsSync(join(root, "app/(emerge)/en/page.tsx")), false, "Emerge-EN-forsiden er pensioneret");
+  const yml = read("content/huset.en.yml");
+  assert.match(yml, /Book a session/);
 });
