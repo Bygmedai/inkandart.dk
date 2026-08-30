@@ -506,9 +506,15 @@ test("M2R runde 2: Gaden tal + footer CVR/telefon", () => {
   assert.match(kontakt, /44226413/);
   assert.match(kontakt, /\+4555248608/);
   assert.match(kontakt, /55 24 86 08/);
-  assert.match(gaden, /Larsbjørnsstræde 13 kld, 1454 København K/);
-  assert.match(gaden, /tel:\+4555248608/);
-  assert.match(gaden, /Depositum fra 100 kr/);
+  // S574: Gaden er nu data-drevet. Adresse og telefon kommer fra
+  // kontakt.yml gennem fladen — de stod hardkodet i siden før, så en
+  // flytning ville kræve en PR pr. flade.
+  const flade = read("components/rummet/GadenFlade.tsx");
+  assert.match(flade, /loadKontakt/);
+  assert.match(flade, /k\.adresse/);
+  assert.match(flade, /tel:\$\{k\.telefon_e164\}/);
+  assert.doesNotMatch(gaden, /Larsbjørnsstræde/, "adressen må ikke stå i markup igen");
+  assert.match(read("content/gaden.yml"), /Depositum fra 100 kr/);
   assert.doesNotMatch(gaden, /\[TAL BEKRÆFTES\]/);
 });
 
@@ -551,8 +557,9 @@ test("M3 Gaden: ingen [TAL BEKRÆFTES], Ring på, tomme timer udelades", async (
   const { loadGaden } = await import("../lib/content.ts");
   const info = loadGaden();
   assert.doesNotMatch(gaden, /\[TAL BEKRÆFTES\]/);
-  assert.match(gaden, /Ring på/);
-  assert.match(gaden, /tel:\+4555248608/);
+  const flade2 = read("components/rummet/GadenFlade.tsx");
+  assert.match(flade2, /"Ring på"/);
+  assert.match(flade2, /tel:\$\{k\.telefon_e164\}/);
   // 30/8: huset HAR åbningstider nu (Stevens kendelse: tor-lør til kl. 05).
   // Reglen der består: tider kommer fra YAML og opdigtes aldrig i kode.
   assert.match(yml, /Torsdag, fredag og lørdag/);
@@ -560,8 +567,8 @@ test("M3 Gaden: ingen [TAL BEKRÆFTES], Ring på, tomme timer udelades", async (
   assert.match(yml, /walk_in:\s*""/);
   assert.equal(info.walk_in, "");
   assert.doesNotMatch(gaden, /DEMO G-01/);
-  assert.match(gaden, /gaden\.aabent \?/);
-  assert.match(gaden, /gaden\.walk_in \?/);
+  assert.match(flade2, /gaden\.aabent \?/);
+  assert.match(flade2, /gaden\.walk_in \?/);
 });
 
 test("M3 Natten: plakatfoto fra YAML, tom-tilstand uændret, ingen DEMO H-02", () => {
@@ -818,15 +825,20 @@ test("S573 Door afmelding", () => {
 });
 
 test("S573 Gaden walk-in + tel", () => {
-  const gaden = read("app/(rummet)/gaden/page.tsx");
-  assert.match(gaden, /Walk-in når der er en fri stol/);
-  assert.match(gaden, /tel:\+4555248608/);
-  assert.match(gaden, /rum-tel/);
+  // Ordene flyttede til gaden.yml (S574) — løftet står stadig, og nu
+  // også på engelsk, hvor turisten faktisk læser det.
+  assert.match(read("content/gaden.yml"), /Walk-in når der er en fri stol/);
+  assert.match(read("content/gaden.en.yml"), /Walk-in whenever a chair is free/);
+  const flade = read("components/rummet/GadenFlade.tsx");
+  assert.match(flade, /telefon_e164/);
+  assert.match(flade, /rum-tel/);
 });
 
 test("S573 Stolen walk-in", () => {
-  const stolen = read("app/(rummet)/stolen/page.tsx");
-  assert.match(stolen, /Walk-in når der er en fri stol/);
+  const i18n = read("lib/i18n.ts");
+  assert.match(i18n, /walkInLine: "Walk-in når der er en fri stol — ellers book\."/);
+  assert.match(i18n, /walkInLine: "Walk-in when a chair is free — otherwise book\."/);
+  assert.match(read("app/(rummet)/stolen/page.tsx"), /walkInLine/);
 });
 
 test("G1 Huset intro i første fold", () => {
@@ -1010,6 +1022,10 @@ test("S574: Decap kender hver content-fil koden læser", () => {
     "content/privatliv.yml",
     "content/privatliv.en.yml",
     "content/booking.en.yml",
+    "content/gaden.en.yml",
+    "content/aftercare.yml",
+    "content/aftercare.en.yml",
+    "content/piercing.en.yml",
   ]) {
     assert.ok(cms.includes(fil), `${fil} mangler i Decap — Sonja kan ikke redigere den`);
   }
@@ -1260,4 +1276,42 @@ test("S574 EN-Stolen: artistsider på engelsk — men ingen oversat bio", async 
   // Rute-familien: /stolen/<id> findes på engelsk, så links ikke falder til dansk.
   assert.match(read("lib/i18n.ts"), /EN_ROUTE_PREFIXES/);
   assert.match(read("lib/i18n.ts"), /"\/stolen\/"/);
+});
+
+test("S574 Gaden og Aftercare: data-drevne og tosprogede", async () => {
+  const { loadGaden, loadGadenEn, loadAftercare, loadAftercareEn } =
+    await import("../lib/content.ts");
+
+  // Gaden: turistens beslutningsside. Samme fakta, to sprog.
+  const g = loadGaden();
+  const ge = loadGadenEn();
+  assert.match(g.aabent, /10–05/);
+  assert.match(ge.aabent, /10:00–05:00/, "tiderne skal være læselige for en turist");
+  assert.match(ge.fag_linje, /Tattoo and piercing/);
+  assert.equal(g.walk_in, ge.walk_in, "tomme walk-in-tider på begge sprog — ingen opdigtning");
+  assert.match(read("app/(rummet)/en/gaden/page.tsx"), /<RummetShell lang="en"/);
+
+  // Aftercare: plejeråd ud af koden og ind i YAML, så de kan rettes af
+  // dem der giver dem. Filen der bar dem er væk — ikke bare forladt.
+  assert.equal(existsSync(join(root, "lib/aftercare.ts")), false, "den gamle kodefil skal være væk");
+  const a = loadAftercare();
+  const ae = loadAftercareEn();
+  assert.equal(a.tattoo.length, ae.tattoo.length, "samme antal trin på begge sprog");
+  assert.equal(a.piercing.length, ae.piercing.length);
+  assert.ok(a.tattoo.length >= 4 && a.piercing.length >= 3);
+
+  // De praktiske detaljer er instruktioner folk følger på deres egen hud:
+  // tal og produkter skal være ens på begge sprog.
+  assert.match(a.tattoo[0].d, /2–4 timer/);
+  assert.match(ae.tattoo[0].d, /2–4 hours/);
+  assert.match(a.tattoo[2].d, /2–3 uger/);
+  assert.match(ae.tattoo[2].d, /2–3 weeks/);
+  assert.match(ae.piercing[0].d, /sterile saline/);
+
+  const flade = read("components/rummet/AftercareFlade.tsx");
+  assert.match(flade, /String\(i \+ 1\)\.padStart/, "numrene sættes af koden, ikke af teksten");
+  assert.match(read("app/(rummet)/en/aftercare/page.tsx"), /loadAftercareEn/);
+  for (const r of ["/gaden", "/aftercare"]) {
+    assert.ok(read("lib/i18n.ts").includes(`"${r}",`), `${r} mangler i EN_ROUTES`);
+  }
 });

@@ -1,4 +1,14 @@
+# Gaden — husets adresse-side og turistens beslutningsside.
 # Tom = linjen udelades. Opdigt aldrig åbningstider.
+# Adresse og telefon står IKKE her: de bor i kontakt.yml, ét sted for
+# hele huset. Retter Sonja nummeret der, retter det sig her.
+
+titel: Gaden
+aabent_label: "Åbent:"
 aabent: "Torsdag, fredag og lørdag kl. 10–05"
+walk_in_label: "Walk-in:"
 walk_in: ""
+depositum_linje: Depositum fra 100 kr
+fag_linje: Tatovering og piercing. Walk-in når der er en fri stol.
+foto: /slots/G-02.jpg
 billedtekst: Larsbjørnsstræde, aften, kælderlys i våde brosten.

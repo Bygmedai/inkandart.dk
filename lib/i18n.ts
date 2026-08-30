@@ -44,6 +44,8 @@ export const EN_ROUTES: ReadonlySet<string> = new Set([
   "/privatlivspolitik",
   "/booking",
   "/stolen",
+  "/gaden",
+  "/aftercare",
 ]);
 
 /**
@@ -174,6 +176,7 @@ const da = {
     walkInLine: "Walk-in når der er en fri stol — ellers book.",
     comeBy: (adresse: string) => `Kom forbi ${adresse} og se arbejdet i virkeligheden.`,
     bioIsDanish: "Artistens egne ord, på dansk.",
+    giftCard: "Gavekort",
   },
 
   shop: {
@@ -366,6 +369,9 @@ const en: Copy = {
     walkInLine: "Walk-in when a chair is free — otherwise book.",
     comeBy: (adresse: string) => `Come by ${adresse} and see the work for real.`,
     bioIsDanish: "The artist's own words, in Danish.",
+    /** Gavekortet hedder Gavekort i huset — men på engelsk skal en
+        turist kunne se HVAD døren er. */
+    giftCard: "Gift card",
   },
 
   shop: {

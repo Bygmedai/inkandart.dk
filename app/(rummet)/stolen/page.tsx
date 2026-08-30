@@ -7,7 +7,7 @@ import {
   loadHouse,
   visibleCountForArtist,
 } from "@/lib/content";
-import { alternates } from "@/lib/i18n";
+import { alternates, t } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Stolen · Ink & Art",
@@ -36,7 +36,7 @@ export default function StolenPage() {
 
           {guest.kind === "empty" ? (
             <div className="rum-empty">
-              <p className="rum-empty__title rum-poster">Ingen gæst i stolen</p>
+              <p className="rum-empty__title rum-poster">{t("da").rummet.noGuest}</p>
             </div>
           ) : (
             <ArtistKort
@@ -46,9 +46,7 @@ export default function StolenPage() {
             />
           )}
         </div>
-        <p className="rum-fact">
-          Walk-in når der er en fri stol — ellers book.
-        </p>
+        <p className="rum-fact">{t("da").rummet.walkInLine}</p>
       </main>
     </RummetShell>
   );
