@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import { RummetShell } from "@/components/rummet/Shell";
 import { DepositumTjek } from "@/components/rummet/DepositumTjek";
 import { cartUrl, depositumVarianter, RESERVATIONS } from "@/lib/commerce";
-import { loadBookingCopy } from "@/lib/content";
+import { loadBookingCopyEn } from "@/lib/content";
 import { verificerDepositum, type DepositumStatus } from "@/lib/depositum";
 
 export const metadata: Metadata = {
   title: "Booking · Ink & Art",
-  alternates: { canonical: "/booking/tak" },
+  alternates: { canonical: "/en/booking/tak" },
   robots: { index: false, follow: true },
 };
 
@@ -48,7 +48,7 @@ export default async function BookingTakPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const params = await searchParams;
-  const copy = loadBookingCopy();
+  const copy = loadBookingCopyEn();
   const ordre = oneParam(params.ordre);
   const status: DepositumStatus | null = ordre
     ? await verificerDepositum(ordre, depositumVarianter())
@@ -56,8 +56,8 @@ export default async function BookingTakPage({
   const depositum = RESERVATIONS.find((r) => r.id === "plads");
 
   return (
-    <RummetShell tone="salg">
-      <main id="main" className="rum-room rum-booking">
+    <RummetShell lang="en" tone="salg">
+      <main id="main" lang="en" className="rum-room rum-booking">
         <div className="rum-booking__koeb">
           <h1 className="rum-room__title rum-poster">{copy.tak_titel}</h1>
           {depositum ? (
@@ -76,7 +76,7 @@ export default async function BookingTakPage({
             copy={copy}
             status={status}
             ordre={ordre}
-            action="/booking/tak"
+            action="/en/booking/tak"
           />
         </div>
         <Plade foto={copy.foto} alt={copy.billedtekst} />

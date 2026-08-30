@@ -613,6 +613,50 @@ html:has([data-house="rummet"]) .grain {
 /* Afmeldings-linjen i Blackbook-døren: en oplysning, ikke et løfte der
    skal råbe. Samme dæmpning som husets øvrige småtekst — alpha 0.6 er
    kontrast-gulvet fra #149. */
+/* Trin 3 i booking-trappen er en oplysning, ikke en knap — men den skal
+   kunne læses som en del af trappen. */
+.rum-booking__trin-note {
+  margin: 0;
+  max-width: 44ch;
+}
+
+/* Depositum-opslaget: en form der virker uden JS, og et svar der kan
+   skelnes med farve OG ord (aldrig farve alene — WCAG 1.4.1). */
+.rum-tjek {
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rum-line);
+}
+.rum-tjek__form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+.rum-tjek__form input {
+  min-height: 44px;
+  min-width: 10ch;
+  padding: 0 12px;
+  background: transparent;
+  border: 1px solid var(--rum-line);
+  color: var(--hud);
+  font: inherit;
+}
+.rum-tjek__form input:focus-visible {
+  outline: 2px solid var(--hud);
+  outline-offset: 2px;
+}
+.rum-tjek__svar {
+  margin-top: 16px;
+  max-width: 52ch;
+}
+.rum-tjek__svar[data-status="betalt"] { color: var(--strobe); }
+.rum-tjek__svar[data-status="ikke_betalt"],
+.rum-tjek__svar[data-status="ukendt"],
+.rum-tjek__svar[data-status="ugyldigt"],
+.rum-tjek__svar[data-status="kan_ikke_tjekke"] { color: var(--hud); }
+
 .rum-door__afmeld {
   margin-top: 10px;
   font-size: 12px;

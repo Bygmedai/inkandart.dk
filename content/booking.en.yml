@@ -14,10 +14,27 @@ konsultation: >-
 note: >-
   Questions about the piece or the price? Call — or come by and ask at the
   counter.
+ordrenummer_trin: >-
+  Write your order number from the receipt in the comment field when you
+  book — that way we can see your payment next to your time.
 tak_titel: Your time is set. Pay the deposit now
 tak_betalt: >-
   Thank you. Your receipt comes from Shopify by mail — keep it, and show
   it at the counter if anything is unclear. The deposit comes off the
   price.
+tjek_titel: Check your deposit
+tjek_hjaelp: >-
+  Enter the order number from your receipt and we'll look up the payment.
+tjek_knap: Look it up
+svar_betalt: The deposit is paid. We can see it on the order.
+svar_ikke_betalt: >-
+  The order exists, but the payment has not gone through yet. Try again in
+  a moment — or give us a call.
+svar_ukendt: >-
+  We can't find a deposit with that number. Check the receipt, or call us
+  and we'll find it together.
+svar_ugyldigt: That doesn't look like an order number. It's on your receipt.
+svar_kan_ikke_tjekke: >-
+  We can't look it up right now. Call us and we'll find your payment.
 foto: /slots/H-04.jpg
 billedtekst: The reception with the house mark.

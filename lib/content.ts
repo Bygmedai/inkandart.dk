@@ -455,6 +455,17 @@ export type BookingCopy = {
   billedtekst: string;
   tak_titel: string;
   tak_betalt: string;
+  /** Trin 3: ordrenummeret kunden bærer med ind i Book.dk. */
+  ordrenummer_trin: string;
+  /** Opslags-formen på tak-siden — og dens fem mulige svar. */
+  tjek_titel: string;
+  tjek_hjaelp: string;
+  tjek_knap: string;
+  svar_betalt: string;
+  svar_ikke_betalt: string;
+  svar_ukendt: string;
+  svar_ugyldigt: string;
+  svar_kan_ikke_tjekke: string;
 };
 
 export function loadBookingCopy(): BookingCopy {
@@ -469,6 +480,15 @@ export function loadBookingCopy(): BookingCopy {
     billedtekst: str(d.billedtekst),
     tak_titel: str(d.tak_titel),
     tak_betalt: str(d.tak_betalt),
+    ordrenummer_trin: str(d.ordrenummer_trin),
+    tjek_titel: str(d.tjek_titel),
+    tjek_hjaelp: str(d.tjek_hjaelp),
+    tjek_knap: str(d.tjek_knap),
+    svar_betalt: str(d.svar_betalt),
+    svar_ikke_betalt: str(d.svar_ikke_betalt),
+    svar_ukendt: str(d.svar_ukendt),
+    svar_ugyldigt: str(d.svar_ugyldigt),
+    svar_kan_ikke_tjekke: str(d.svar_kan_ikke_tjekke),
   };
 }
 
@@ -489,6 +509,15 @@ export function loadBookingCopyEn(): BookingCopy {
     billedtekst: str(d.billedtekst),
     tak_titel: str(d.tak_titel),
     tak_betalt: str(d.tak_betalt),
+    ordrenummer_trin: str(d.ordrenummer_trin),
+    tjek_titel: str(d.tjek_titel),
+    tjek_hjaelp: str(d.tjek_hjaelp),
+    tjek_knap: str(d.tjek_knap),
+    svar_betalt: str(d.svar_betalt),
+    svar_ikke_betalt: str(d.svar_ikke_betalt),
+    svar_ukendt: str(d.svar_ukendt),
+    svar_ugyldigt: str(d.svar_ugyldigt),
+    svar_kan_ikke_tjekke: str(d.svar_kan_ikke_tjekke),
   };
 }
 
