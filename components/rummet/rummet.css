@@ -1290,3 +1290,27 @@ html:has([data-house="rummet"]) .grain {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+/* ── Nattespot (Villy, S574) ──────────────────────────────────────────
+   Kun afstand. Knappen er husets egen .rum-book, som allerede har
+   min-height 44px — et nyt knap-udtryk her ville betyde et nyt trykmål
+   at holde øje med, og huset har præcis ét. */
+.rum-spot {
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 1px solid var(--rum-line);
+  display: grid;
+  gap: 12px;
+  max-width: 62ch;
+}
+.rum-spot__titel {
+  margin: 0;
+}
+.rum-spot__koeb {
+  margin-top: 4px;
+  justify-content: space-between;
+}
+.rum-spot__vilkaar {
+  margin: 0;
+  color: var(--beton);
+}

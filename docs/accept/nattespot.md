@@ -1,6 +1,6 @@
 # Accept: Natten kan sælge noget
 
-Status: **UDKAST (2026-08-31)** — afventer Stevens sniff
+Status: **GODKENDT (2026-08-30)** — Stevens «God, og go fra mig»
 Bygger: Villy. Skrevet før bygning, jf. CLAUDE.md §6 og `docs/PROCES.md`.
 
 Det vi køber: at de timer huset holder åbent, som ingen anden tatovør i
@@ -37,7 +37,7 @@ beslutning.
 En holdt plads i stolen **torsdag, fredag eller lørdag efter kl. 22** —
 de timer hvor alle andre studier har lukket.
 
-**Stevens kald 31/8:**
+**Stevens kald 30/8:**
 
 | | |
 |---|---|
@@ -71,7 +71,7 @@ på sitet der ikke kommer fra jer.
    variant-ID giver ingen knap.
 
 **Lane-varsel.** Min QA-brief (S574) siger at jeg ikke rører `app/`,
-`components/`, `content/` eller `lib/`. Steven har 31/8 bedt mig bygge
+`components/`, `content/` eller `lib/`. Steven har 30/8 bedt mig bygge
 dette, hvilket går forud — men Grok ejer Shopify-katalogpleje og Haruki
 ejer EN-fladen, så begge råbes an i PR-teksten. Er én af jer uenig, så
 sig til før jeg bygger, ikke efter.

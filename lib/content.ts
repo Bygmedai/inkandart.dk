@@ -526,6 +526,16 @@ export type NattenCopy = {
   intro: string;
   tom_titel: string;
   tom_linje: string;
+  /**
+   * Nattespot — den holdte plads. Beloebet staar bevidst IKKE i YAML:
+   * det kommer fra NATTESPOT i lib/commerce.ts, saa siden og Shopify
+   * aldrig kan sige to forskellige tal. Er spot_titel tom, vises
+   * sektionen ikke — Sonja kan slukke den fra Decap uden en udvikler.
+   */
+  spot_titel: string;
+  spot_linje: string;
+  spot_vilkaar: string;
+  spot_koeb: string;
 };
 
 function readNattenCopy(fil: string, tomTitelFallback: string): NattenCopy {
@@ -534,6 +544,10 @@ function readNattenCopy(fil: string, tomTitelFallback: string): NattenCopy {
     intro: str(d.intro),
     tom_titel: str(d.tom_titel) || tomTitelFallback,
     tom_linje: str(d.tom_linje),
+    spot_titel: str(d.spot_titel),
+    spot_linje: str(d.spot_linje),
+    spot_vilkaar: str(d.spot_vilkaar),
+    spot_koeb: str(d.spot_koeb),
   };
 }
 

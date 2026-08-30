@@ -7,3 +7,14 @@ intro: >-
   stays open late. The next date is announced here and in Blackbook.
 tom_titel: No night tonight
 tom_linje: Sign up to Blackbook — we'll tell you when the next one lands.
+
+# Nattespot — the held seat. Same substance as natten.yml, own voice.
+# [ORD-TJEK Steven 30/8] — draft. The amount lives in lib/commerce.ts.
+spot_titel: Nattespot
+spot_linje: >-
+  Thursday, Friday and Saturday we are open past 22:00, when the rest of
+  the city has closed. Hold a seat in the chair — a few per night.
+spot_vilkaar: >-
+  The deposit comes off the price. We agree the rest in the studio, once
+  we have looked at the design together.
+spot_koeb: Hold a seat

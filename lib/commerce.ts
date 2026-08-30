@@ -232,6 +232,38 @@ export function kr(n: number): string {
 }
 
 /**
+ * RÅB (Villy, S574 — Stevens kald 30/8 «Sælg natten»): ny append-only-blok.
+ *
+ * Nattespot — en holdt plads torsdag, fredag eller lørdag EFTER KL. 22.
+ * De timer huset holder åbent, og som ingen anden tatovør i København
+ * holder åbent. Fladen /natten kunne indtil nu ikke tage imod en krone:
+ * målt 30/8 havde forsiden, /gaden og /natten NUL købslinks, mens
+ * /shop, /maerket og /gavekort havde 16 hver.
+ *
+ * 300 kr er Stevens kald — et kraftigere no-show-filter end husets 100 kr,
+ * uden at kræve fuld forudbetaling. Resten aftales i studiet, som på alt
+ * andet end walk-in-tilbuddet; en opfundet fastpris ville være det første
+ * tal på sitet der ikke kom fra huset.
+ *
+ * TO TRIN, ikke ét — gengivet live 30/8 så den næste ikke skal lære den igen:
+ *   status ACTIVE alene  → bart 410  (varen fandtes, men lå på ingen kanal)
+ *   + publishablePublish → bart 302, fulgt 200
+ *
+ * Målt 2026-08-30, husets protokol med negativ kontrol:
+ *   cart/53929126854984:1 → 302 (fulgt 200)   Nattespot ·  300,-
+ *   cart/99999999999999:1 → 410               negativ kontrol
+ */
+export const NATTESPOT = {
+  kr: 300,
+  variantId: "53929126854984",
+  handle: "nattespot-hold-en-plads",
+} as const;
+
+export function nattespotCartUrl(): string {
+  return cartUrl(NATTESPOT.variantId);
+}
+
+/**
  * RÅB (Haruki, S574 — Sirius P0-1): ny append-only-blok i Vildes fil.
  *
  * Alle varianter der TÆLLER som et depositum. Bruges af verifikationen
@@ -244,5 +276,8 @@ export function depositumVarianter(): ReadonlySet<string> {
     ...RESERVATIONS.map((r) => r.variantId),
     ...PIERCINGS.map((d) => d.variantId),
     ...FLASH_DEPOSITS.map((d) => d.variantId),
+    // Nattespot er et depositum. Uden denne linje betaler kunden 300 kr og
+    // faar at vide at ordren ikke er en holdt tid (Harukis raab ovenfor).
+    NATTESPOT.variantId,
   ]);
 }
