@@ -269,6 +269,12 @@ html:has([data-house="rummet"]) .grain {
   .rum-huset__intro { padding-top: 28px; }
 }
 
+.rum-huset__walkin {
+  margin-top: 14px;
+  max-width: 36rem;
+  color: var(--beton);
+}
+
 .rum-huset__plade { min-width: 0; position: relative; }
 .rum-huset__side {
   display: flex;
