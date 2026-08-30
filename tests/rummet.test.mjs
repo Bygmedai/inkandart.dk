@@ -303,6 +303,16 @@ test("M2 Hylden tømmes ikke tavst af en manglende domæne-env", async () => {
   }
 });
 
+test("M2 Book tid står over folden på telefonen", () => {
+  const css = read("components/rummet/rummet.css");
+  assert.match(
+    css,
+    /@media \(max-width: 699px\)\s*\{\s*\.rum-stolen__grid \.rum-kort__foto\s*\{[^}]*max-height/,
+    "portrættet skal have et loft på telefonen, ellers ligger Book tid under folden",
+  );
+  assert.match(css, /\.rum-kort__foto img\s*\{[^}]*object-fit: cover/, "loftet må beskære, ikke klemme ansigtet");
+});
+
 test("CI kører på integrationsgrenene, ellers kan Porten aldrig se 'check'", () => {
   const ci = read(".github/workflows/ci.yml");
   const porten = read(".github/workflows/porten.yml");
