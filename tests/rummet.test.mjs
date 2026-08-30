@@ -942,3 +942,20 @@ test("S573 QA: sitemap kender artistsiderne og lyver ikke om /blackbook", () => 
   // /blackbook er en 307 til /#doer — en redirect er ikke en side.
   assert.doesNotMatch(sitemap, /\/blackbook/);
 });
+
+test("S574: Decap kender hver content-fil koden læser", () => {
+  const cms = read("public/admin/config.yml");
+  // Læser koden en fil, skal Sonja kunne redigere den uden en editor.
+  for (const fil of [
+    "content/artists.yml",
+    "content/vaerker.yml",
+    "content/nat.yml",
+    "content/huset.yml",
+    "content/kontakt.yml",
+    "content/gaden.yml",
+  ]) {
+    assert.ok(cms.includes(fil), `${fil} mangler i Decap — Sonja kan ikke redigere den`);
+  }
+  // Og booking-kontakten: Anna skal kunne tændes fra CMS'et, ikke fra en PR.
+  assert.match(cms, /name: booking, widget: boolean/);
+});
