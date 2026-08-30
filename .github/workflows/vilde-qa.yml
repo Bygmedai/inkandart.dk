@@ -1,0 +1,96 @@
+name: vilde-qa
+
+# QA-vagten: måler i en rigtig browser det som prøverne ikke kan se.
+#
+# Baggrund: sitet gik live 30/8 med fem fejl som 205 grønne prøver ikke
+# fangede. Ingen af dem var en logikfejl — alle fem var geometri, som først
+# findes når layoutet er lagt ud i en bestemt bredde. Unit-prøver læser
+# markup; de ser ikke et 16px trykmål eller en overskrift der skærer i
+# vindueskanten.
+#
+# RÅDGIVENDE den første uge (S574). Jobbet er grønt uanset fund, så Porten
+# ikke spærrer på en vagt vi endnu ikke har set de falske positiver fra.
+# Fundene står i jobbets summary og skal læses der.
+#
+#   Gør den blokerende: fjern `ADVISORY: "1"` nedenfor. Det er hele
+#   ændringen — scriptet exit'er 1 på fund når variablen ikke er sat.
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Mindste rettigheder: vagten læser koden og lægger en artifact.
+# Den skriver ikke kommentarer og har ikke brug for at kunne.
+permissions:
+  contents: read
+
+jobs:
+  vilde-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      # Playwright er bevidst ikke en repo-dependency — den skal hverken i
+      # produktionsbundtet eller i alles `npm ci`. Samme kald som
+      # scripts/maal-flader.mjs bruger lokalt. Versionen er pinnet, så en
+      # ny browser ikke ændrer en måling uden at nogen har bedt om det.
+      - name: Installér Playwright (kun her)
+        run: |
+          npm i --no-save playwright@1.62.1
+          npx playwright install --with-deps chromium
+
+      # Storefront-tokenet skal med til BÅDE build og runtime: varesiden
+      # præ-renderes (generateStaticParams over hylden), og købsformen gates
+      # bag et svar fra Shopify. Uden tokenet renderer knappen ikke, og
+      # vagtens egen selvkontrol rapporterer et hul i dækningen frem for et
+      # bestået trykmål. Tokenet er husets offentlige read-only Storefront-
+      # nøgle — samme nøgle som allerede ligger i klientkode
+      # (UDRULNING-31-08.md). Admin-token og client secret er ikke rørt.
+      - name: Byg
+        env:
+          SHOPIFY_STOREFRONT_TOKEN: ${{ secrets.SHOPIFY_STOREFRONT_TOKEN }}
+        run: npm run build
+
+      # nohup + omdirigeret output, ikke et bart `&`: et trins skal lukker
+      # når trinnet er færdigt, og en baggrundsproces der stadig hænger på
+      # dens stdout kan ryge med. Loggen gemmes så et fejlet opstart kan
+      # læses i stedet for gættes.
+      - name: Start sitet
+        env:
+          SHOPIFY_STOREFRONT_TOKEN: ${{ secrets.SHOPIFY_STOREFRONT_TOKEN }}
+        run: |
+          nohup npx next start -p 3299 > server.log 2>&1 &
+          # Vent på at serveren svarer — aldrig et fast sleep, det er et gæt.
+          for i in $(seq 1 60); do
+            if curl -sf -o /dev/null http://localhost:3299/; then
+              echo "oppe efter ${i}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "serveren svarede ikke inden for 60s"
+          cat server.log
+          exit 1
+
+      - name: Mål
+        env:
+          BASE: http://localhost:3299
+          # Rådgivende: fjern linjen for at gøre vagten blokerende.
+          ADVISORY: "1"
+        run: node scripts/qa/vagt.mjs --skud qa-skud
+
+      - name: Gem screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vilde-qa-skud
+          path: qa-skud/
+          retention-days: 14
