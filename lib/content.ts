@@ -17,6 +17,9 @@ export type Artist = {
   billedtekst: string;
   aktiv: boolean;
   stol: boolean;
+  /** Kan gaesten booke tid hos denne artist? Tom/false = walk-in indtil
+   *  kalenderen er sat op. Vi tilbyder ikke en tid huset ikke kan give. */
+  booking: boolean;
 };
 
 export type Vaerk = {
@@ -95,6 +98,7 @@ function normalizeArtist(a: Artist): Artist {
     billedtekst: str(a.billedtekst),
     aktiv: bool(a.aktiv),
     stol: bool(a.stol),
+    booking: a.booking === undefined ? true : bool(a.booking),
   };
 }
 
