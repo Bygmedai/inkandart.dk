@@ -238,17 +238,32 @@ html:has([data-house="rummet"]) .grain {
   }
 }
 
-.rum-huset__title {
+.rum-huset__intro {
   grid-column: 1 / -1;
-  font-size: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 36rem;
+  padding: 4px 0 0;
+}
+.rum-huset__title {
+  font-size: 28px;
   margin: 0;
-  padding: 16px 0 0;
   color: var(--hud);
 }
+.rum-huset__lede {
+  margin: 0;
+}
+.rum-huset__cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 28px;
+  margin-top: 4px;
+}
 @media (min-width: 1100px) {
-  .rum-huset__title {
-    font-size: 28px;
-  }
+  .rum-huset__title { font-size: 40px; }
+  .rum-huset__intro { padding-top: 28px; }
 }
 
 .rum-huset__plade { min-width: 0; position: relative; }
@@ -603,6 +618,13 @@ html:has([data-house="rummet"]) .grain {
   max-width: 46ch;
 }
 
+.rum-natten__out {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 28px;
+  margin-top: 24px;
+}
+
 .rum-legal {
   padding: 36px var(--gutter) 80px;
   max-width: 68ch;
@@ -947,6 +969,12 @@ html:has([data-house="rummet"]) .grain {
   object-fit: cover;
   display: block;
   border: 1px solid var(--rum-line);
+}
+@media (max-width: 899px) {
+  .rum-booking__plade img {
+    max-height: 240px;
+    aspect-ratio: auto;
+  }
 }
 .rum-booking__go {
   font-size: 20px;

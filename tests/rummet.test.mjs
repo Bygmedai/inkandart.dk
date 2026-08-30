@@ -60,7 +60,7 @@ test("ingen dummy-navne eller opdigtede priser på Huset", () => {
   assert.match(src, /Emma Winding/);
   assert.match(src, /Nylavet/);
   assert.match(src, /I stolen/);
-  assert.match(src, /Walk-in når der er en fri stol — ellers book\. Larsbjørnsstræde 13, kælderen\./);
+  assert.match(src, /Larsbjørnsstræde 13, kælderen\. Walk-in når der er en fri stol — ellers book\./);
   assert.doesNotMatch(src, /Værket i dag/);
   assert.doesNotMatch(src, />\s*I huset\s*</);
   assert.doesNotMatch(src, /Walk-in og tider/);
@@ -636,7 +636,10 @@ test("S573 booking h1 Booking", () => {
 test("S573 Huset h1", () => {
   const huset = read("app/(rummet)/page.tsx");
   assert.match(huset, /rum-huset__title/);
-  assert.match(huset, />Huset</);
+  assert.match(huset, /Tatovering og piercing i Pisserenden/);
+  assert.match(huset, /className="rum-label">Huset</);
+  assert.match(huset, /tel:\+4555248608/);
+  assert.match(huset, /Book tid/);
 });
 
 test("S573 salg-label, slot 4/5, rum-tel, booking go", () => {
@@ -672,4 +675,56 @@ test("S573 Gaden walk-in + tel", () => {
 test("S573 Stolen walk-in", () => {
   const stolen = read("app/(rummet)/stolen/page.tsx");
   assert.match(stolen, /Walk-in når der er en fri stol/);
+});
+
+test("G1 Huset intro i første fold", () => {
+  const huset = read("app/(rummet)/page.tsx");
+  const css = read("components/rummet/rummet.css");
+  assert.match(huset, /rum-huset__intro/);
+  assert.match(huset, /className="rum-label">Huset</);
+  assert.match(huset, /<h1 className="rum-huset__title rum-poster">/);
+  assert.match(huset, /Tatovering og piercing i Pisserenden/);
+  assert.match(
+    huset,
+    /Larsbjørnsstræde 13, kælderen\. Walk-in når der er en fri stol — ellers book\./,
+  );
+  assert.match(huset, /id="booking"/);
+  assert.match(huset, /href="\/booking"/);
+  assert.match(huset, /className="rum-tel"/);
+  assert.match(huset, /href="tel:\+4555248608"/);
+  const intro = huset.indexOf("rum-huset__intro");
+  const plade = huset.indexOf("rum-huset__plade");
+  const bookingId = huset.indexOf('id="booking"');
+  assert.ok(intro !== -1 && plade !== -1 && intro < plade, "intro før plade");
+  assert.ok(bookingId !== -1 && bookingId < plade, "id=booking i fold-CTA");
+  assert.equal((huset.match(/id="booking"/g) || []).length, 1);
+  assert.doesNotMatch(huset, /className="rum-fact"/);
+  assert.doesNotMatch(huset, /rum-room__title/);
+  const introCss = css.indexOf(".rum-huset__intro {");
+  assert.notEqual(introCss, -1, "rum-huset__intro mangler");
+  const introKrop = css.slice(introCss, css.indexOf("}", introCss));
+  assert.match(introKrop, /grid-column:\s*1\s*\/\s*-1/);
+});
+
+test("G2 Natten har vej ud", () => {
+  const natten = read("app/(rummet)/natten/page.tsx");
+  const css = read("components/rummet/rummet.css");
+  assert.match(natten, /from "@\/components\/rummet\/Door"/);
+  assert.match(natten, /<Door variant="inline"/);
+  assert.match(natten, /href="\/booking"/);
+  assert.match(natten, /href="\/gaden"/);
+  assert.match(natten, /door=\{false\}/);
+  assert.match(natten, /Ingen nat i aften/);
+  assert.match(natten, /Næste nat står i Blackbook/);
+  assert.match(natten, /rum-natten__out/);
+  const out = css.indexOf(".rum-natten__out {");
+  assert.notEqual(out, -1, "rum-natten__out mangler");
+});
+
+test("G3 booking-foto max-height 240px under 899px", () => {
+  const css = read("components/rummet/rummet.css");
+  assert.match(
+    css,
+    /@media \(max-width:\s*899px\) \{[\s\S]*?\.rum-booking__plade img \{[\s\S]*?max-height:\s*240px/,
+  );
 });
