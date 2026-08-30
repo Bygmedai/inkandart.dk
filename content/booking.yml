@@ -14,11 +14,32 @@ konsultation: >-
 note: >-
   Spørgsmål om motiv eller pris? Ring på — eller kom forbi og tag
   snakken ved disken.
-# Tak-siden. tak_betalt må ALDRIG påstå at systemet har set en betaling —
-# kvitteringen kommer fra Shopify, ikke fra en URL-parameter.
+# Trin 3: ordrenummeret er den reference begge systemer kan bære. Book.dk
+# har ingen API (målt 30/8), så kunden bærer den selv — og så kan huset
+# slå betalingen op bagefter.
+ordrenummer_trin: >-
+  Skriv dit ordrenummer fra kvitteringen i kommentarfeltet når du
+  booker — så kan vi se din betaling ved siden af din tid.
+
+# Tak-siden. tak_betalt må ALDRIG påstå at systemet har set en betaling
+# uden faktisk at have spurgt Shopify.
 tak_titel: Din tid er sat. Betal depositum nu
 tak_betalt: >-
   Tak. Kvitteringen kommer fra Shopify på mail — gem den, og vis den
   ved disken hvis du er i tvivl. Depositummet fragår i prisen.
+tjek_titel: Tjek dit depositum
+tjek_hjaelp: >-
+  Skriv ordrenummeret fra din kvittering, så slår vi betalingen op.
+tjek_knap: Slå op
+svar_betalt: Depositummet er betalt. Vi kan se det på ordren.
+svar_ikke_betalt: >-
+  Ordren findes, men betalingen er ikke gået igennem endnu. Prøv igen om
+  lidt — eller ring til os.
+svar_ukendt: >-
+  Vi kan ikke finde et depositum med det nummer. Tjek kvitteringen, eller
+  ring til os, så finder vi det sammen.
+svar_ugyldigt: Det ligner ikke et ordrenummer. Det står på din kvittering.
+svar_kan_ikke_tjekke: >-
+  Vi kan ikke slå op lige nu. Ring til os, så finder vi din betaling.
 foto: /slots/H-04.jpg
 billedtekst: Receptionen med husets mærke.

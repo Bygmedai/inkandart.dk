@@ -609,18 +609,24 @@ test("M4 /booking/tak: data-drevet, ærlig betalt-gren, ingen konsekvens-kundete
   assert.match(yml, /tak_betalt:/);
   // Sirius P0-1 (30/8): ?betalt=1 er en URL-parameter, ikke et betalingsbevis.
   // Siden må aldrig påstå "Depositum er betalt" — kvitteringen er Shopifys.
-  assert.doesNotMatch(tak, /Depositum er betalt/);
+  // Kun det der RENDERES må måles — filens kommentar fortæller med vilje
+  // hvad der blev fjernet og hvorfor.
+  assert.doesNotMatch(tak.slice(tak.indexOf("export default")), /Depositum er betalt/);
   assert.match(yml, /Kvitteringen kommer fra Shopify/);
   assert.doesNotMatch(read("content/booking.yml").match(/tak_betalt:[^]*?(?=\n\w|$)/)[0], /er betalt/);
   // Variant-id'et kommer fra RESERVATIONS — ikke hardcodet i siden.
   assert.match(tak, /RESERVATIONS\.find/);
   assert.doesNotMatch(tak, /53492757627208/);
-  assert.match(tak, /params\.betalt/);
-  assert.match(tak, /\/\/ \[AFVENTER STEVEN\] konsekvens ved ubetalt/);
+  // S574 (Sirius P0-1, trin 2): ?betalt=1 er helt væk som sandhedskilde.
+  // Siden spørger Shopify om ordren i stedet for at tro på adresselinjen.
+  assert.doesNotMatch(tak, /params\.betalt/);
+  assert.match(tak, /verificerDepositum/);
   // Decap kan redigere de nye felter.
   const cfg = read("public/admin/config.yml");
   assert.match(cfg, /name: tak_titel/);
   assert.match(cfg, /name: tak_betalt/);
+  assert.match(cfg, /name: ordrenummer_trin/);
+  assert.match(cfg, /name: svar_betalt/);
 });
 
 test("U7 Decap GitHub OAuth-config", () => {

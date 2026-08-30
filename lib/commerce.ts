@@ -230,3 +230,19 @@ export function giftCartUrl(variantId: string): string {
 export function kr(n: number): string {
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
+
+/**
+ * RÅB (Haruki, S574 — Sirius P0-1): ny append-only-blok i Vildes fil.
+ *
+ * Alle varianter der TÆLLER som et depositum. Bruges af verifikationen
+ * på /booking/tak, så en betalt ordre på et print ikke kan aflæses som
+ * en holdt tid. Kommer der en ny depositum-vare, skal den med her —
+ * ellers kan kunden ikke få sin betaling bekræftet.
+ */
+export function depositumVarianter(): ReadonlySet<string> {
+  return new Set<string>([
+    ...RESERVATIONS.map((r) => r.variantId),
+    ...PIERCINGS.map((d) => d.variantId),
+    ...FLASH_DEPOSITS.map((d) => d.variantId),
+  ]);
+}
