@@ -613,6 +613,35 @@ html:has([data-house="rummet"]) .grain {
 /* Afmeldings-linjen i Blackbook-døren: en oplysning, ikke et løfte der
    skal råbe. Samme dæmpning som husets øvrige småtekst — alpha 0.6 er
    kontrast-gulvet fra #149. */
+/* Husets interne afstemningsside: en tabel der kan læses på en telefon
+   ved disken. Rammen scroller vandret i stedet for at sprænge siden. */
+.rum-vagt { max-width: 46ch; }
+.rum-tabel__ramme {
+  margin-top: 24px;
+  overflow-x: auto;
+  border: 1px solid var(--rum-line);
+}
+.rum-tabel {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.rum-tabel th,
+.rum-tabel td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--rum-line);
+  white-space: nowrap;
+}
+.rum-tabel th {
+  font-family: var(--rum-label-font, inherit);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--beton);
+}
+.rum-tabel tbody tr:last-child td { border-bottom: 0; }
+
 /* Trin 3 i booking-trappen er en oplysning, ikke en knap — men den skal
    kunne læses som en del af trappen. */
 .rum-booking__trin-note {

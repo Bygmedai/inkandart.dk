@@ -128,13 +128,23 @@ test("uden credentials svarer vi «kan ikke tjekke» — ikke «betalt»", async
   }
 });
 
-test("PRIVATLIV: modulet returnerer en status og intet andet", () => {
+test("PRIVATLIV: den offentlige verifikation returnerer en status og intet andet", () => {
   const src = read("lib/depositum.ts");
-  // Ingen kundedata forlader modulet — hverken i typen eller i kaldet.
-  for (const felt of ["customer", "email", "phone", "shippingAddress", "billingAddress"]) {
+  // Modulet har to veje med HVER SIN grænse:
+  //   verificerDepositum — offentlig (/booking/tak). Kun en status.
+  //   depositumOrdrer    — bag husets kode. Må se mailen, intet mere.
+  // Derfor måles den offentlige vej for sig, ikke hele filen.
+  const offentlig = src.slice(src.indexOf("export async function verificerDepositum"));
+  for (const felt of ["customer", "email", "phone", "shippingAddress", "billingAddress", "totalPrice"]) {
+    assert.ok(!offentlig.includes(felt), `verificerDepositum må ikke røre ${felt}`);
+  }
+  // Og forespørgslen bag den henter kun det den skal bruge.
+  const q = src.slice(src.indexOf("const ORDRE_QUERY"), src.indexOf("type OrdreSvar"));
+  assert.doesNotMatch(q, /customer|email|address|phone/i, "status-forespørgslen henter ingen kundedata");
+  // Hele modulet: navn, telefon og adresse hører ingen steder hjemme.
+  for (const felt of ["firstName", "lastName", "displayName", "shippingAddress", "billingAddress", "phoneNumber"]) {
     assert.ok(!src.includes(felt), `depositum.ts må ikke røre ${felt}`);
   }
-  assert.doesNotMatch(src, /totalPrice|shopMoney/, "beløb hører ikke til i svaret");
   // Verifikationen kender ikke kataloget — den får varianterne ind.
   assert.doesNotMatch(src, /RESERVATIONS|PIERCINGS|FLASH_DEPOSITS/);
 });
