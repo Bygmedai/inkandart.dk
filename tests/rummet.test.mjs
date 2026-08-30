@@ -31,7 +31,7 @@ test("content-filerne parse'r og tom-tilstandene følger data", async () => {
   const names = chairs.map((a) => a.fornavn);
   // S573: Anna Ogłuszka er husets piercer fra 31/8. En piercer sidder i
   // stolen paa linje med tatovoererne — det er samme rum og samme booking.
-  assert.deepEqual(names, ["Nizar Saad", "Emma Winding", "Anna Ogłuszka"]);
+  assert.deepEqual(names, ["Nizar Saad", "Emma Windinnalls", "Anna Ogłuszka"]);
   assert.ok(!names.includes("Sonja Rebner"), "Sonja sidder ikke i stolen");
 
   const featured = featuredVaerk(house.vaerker);
@@ -61,7 +61,7 @@ test("ingen dummy-navne eller opdigtede priser på Huset", () => {
     assert.doesNotMatch(src, new RegExp(forbidden.replace(/[.*]/g, "\\$&")));
   }
   assert.match(src, /Nizar Saad/);
-  assert.match(src, /Emma Winding/);
+  assert.match(src, /Emma Windinnalls/); // det lange navn er det rigtige (Steven 30/8)
   assert.match(src, /I stolen/);
   assert.match(src, /Larsbjørnsstræde 13, kælderen\. Walk-in når der er en fri stol — ellers book\./);
   assert.doesNotMatch(src, /Værket i dag/);
