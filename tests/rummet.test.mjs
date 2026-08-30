@@ -959,3 +959,11 @@ test("S574: Decap kender hver content-fil koden læser", () => {
   // Og booking-kontakten: Anna skal kunne tændes fra CMS'et, ikke fra en PR.
   assert.match(cms, /name: booking, widget: boolean/);
 });
+
+test("S574 Vilde-fund: links i etiket-linjer er trykmål, ikke tekst", () => {
+  const css = read("components/rummet/rummet.css");
+  const i = css.indexOf(".rum-label a {");
+  assert.notEqual(i, -1, "mønster-reglen for etiket-links mangler");
+  const krop = css.slice(i, css.indexOf("}", i));
+  assert.match(krop, /min-height:\s*44px/);
+});
