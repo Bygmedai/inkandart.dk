@@ -44,7 +44,63 @@ const TAGS_BY_SOURCE: Record<string, string[]> = {
   emerge: ["newsletter", "site-signup", "emerge"],
   flash: ["newsletter", "site-signup", "blackbook", "flash-waitlist"],
   blackbook: ["newsletter", "site-signup", "blackbook"],
+  /** App'en og den gamle webshop-proxy (S574): samme dør, samme consent. */
+  app: ["newsletter", "site-signup", "blackbook", "app-signup"],
 };
+
+/**
+ * Interesse-prefs fra app'ens Blackbook-formular (S574: den gamle
+ * webshop-endpoint /api/blackbook/join pensioneres som selvstændig
+ * consent-vej og proxyer hertil). Whitelist som alt andet: klienten
+ * sender nøgler, aldrig rå tags — ukendte nøgler ignoreres stille.
+ */
+const PREF_TAGS: Record<string, string> = {
+  events: "blackbook-events",
+  drops: "blackbook-drops",
+  merch: "blackbook-merch",
+};
+
+function prefTags(prefs: unknown): string[] {
+  if (!Array.isArray(prefs)) return [];
+  const out: string[] = [];
+  for (const p of prefs) {
+    const tag = PREF_TAGS[String(p)];
+    if (tag && !out.includes(tag)) out.push(tag);
+  }
+  return out;
+}
+
+/**
+ * CORS (S574): app.inkandart.dk og den gamle shop skal kunne poste hertil,
+ * så én endpoint ejer consent-modellen. Lukket liste + app-previews —
+ * aldrig vilkårlige origins.
+ */
+const ALLOWED_ORIGINS = [
+  "https://inkandart.dk",
+  "https://www.inkandart.dk",
+  "https://shop.inkandart.dk",
+  "https://app.inkandart.dk",
+];
+const PREVIEW_ORIGIN_RE = /^https:\/\/inkandart-app-[a-z0-9-]+\.vercel\.app$/;
+
+function corsHeadersFor(origin: string | null): Record<string, string> {
+  if (!origin) return {};
+  if (!ALLOWED_ORIGINS.includes(origin) && !PREVIEW_ORIGIN_RE.test(origin)) return {};
+  return {
+    "Access-Control-Allow-Origin": origin,
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+    Vary: "Origin",
+  };
+}
+
+function withCors(res: Response, origin: string | null): Response {
+  const extra = corsHeadersFor(origin);
+  if (Object.keys(extra).length === 0) return res;
+  const headers = new Headers(res.headers);
+  for (const [k, v] of Object.entries(extra)) headers.set(k, v);
+  return new Response(res.body, { status: res.status, headers });
+}
 
 function env(...names: string[]): string | undefined {
   for (const n of names) {
@@ -231,7 +287,15 @@ function json(obj: unknown, status = 200): Response {
   });
 }
 
+export async function OPTIONS(req: Request): Promise<Response> {
+  return withCors(new Response(null, { status: 204 }), req.headers.get("origin"));
+}
+
 export async function POST(req: Request): Promise<Response> {
+  return withCors(await handlePost(req), req.headers.get("origin"));
+}
+
+async function handlePost(req: Request): Promise<Response> {
   // Body-loft foer parsing: et uendeligt payload skal ikke naa JSON.parse.
   let raw: string;
   try {
@@ -243,7 +307,13 @@ export async function POST(req: Request): Promise<Response> {
     return json({ ok: false, error: "too_large" }, 413);
   }
 
-  let body: { email?: unknown; phone?: unknown; company?: unknown; source?: unknown };
+  let body: {
+    email?: unknown;
+    phone?: unknown;
+    company?: unknown;
+    source?: unknown;
+    prefs?: unknown;
+  };
   try {
     body = JSON.parse(raw);
   } catch {
@@ -258,7 +328,8 @@ export async function POST(req: Request): Promise<Response> {
   const phone = normalizePhone(phoneRaw);
   const honeypot = String(body?.company || "").trim();
   const source = String(body?.source || "footer");
-  const tags = TAGS_BY_SOURCE[source] || TAGS_BY_SOURCE.footer;
+  const baseTags = TAGS_BY_SOURCE[source] || TAGS_BY_SOURCE.footer;
+  const tags = [...new Set([...baseTags, ...prefTags(body?.prefs)])];
   const hasEmail = Boolean(email && email.length <= 200 && EMAIL_RE.test(email));
   const hasPhone = Boolean(phone);
 
