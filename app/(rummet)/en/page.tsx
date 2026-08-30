@@ -42,6 +42,9 @@ export default function HomePageEn() {
           <p className="rum-label">The house</p>
           <h1 className="rum-huset__title rum-poster">{fold.titel}</h1>
           <p className="rum-huset__lede rum-body-copy">{fold.lede}</p>
+          {fold.tider ? (
+            <p className="rum-label rum-huset__tider">{fold.tider}</p>
+          ) : null}
           <div className="rum-huset__cta">
             <a id="booking" href="/booking" className="rum-book">
               {fold.cta_book}

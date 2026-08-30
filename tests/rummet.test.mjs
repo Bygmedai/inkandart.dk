@@ -547,7 +547,7 @@ test("M3 Gaden: ingen [TAL BEKRÆFTES], Ring på, tomme timer udelades", async (
   // 30/8: huset HAR åbningstider nu (Stevens kendelse: tor-lør til kl. 05).
   // Reglen der består: tider kommer fra YAML og opdigtes aldrig i kode.
   assert.match(yml, /Torsdag, fredag og lørdag/);
-  assert.match(info.aabent, /kl\. 05/);
+  assert.match(info.aabent, /10–05/);
   assert.match(yml, /walk_in:\s*""/);
   assert.equal(info.walk_in, "");
   assert.doesNotMatch(gaden, /DEMO G-01/);
@@ -578,13 +578,29 @@ test("M4 /booking: depositum-sætning, variant, Videre til booking", () => {
   assert.match(door, /https:\/\/inkart\.book\.dk\//);
 });
 
-test("M4 /booking/tak: ubetalt copy, betalt-gren, ingen konsekvens-kundetekst", () => {
+test("M4 /booking/tak: data-drevet, ærlig betalt-gren, ingen konsekvens-kundetekst", () => {
   const tak = read("app/(rummet)/booking/tak/page.tsx");
-  assert.match(tak, /Din tid er sat\. Betal depositum nu/);
+  const yml = read("content/booking.yml");
+  // Ordene bor i booking.yml, ikke i markup.
+  assert.match(tak, /loadBookingCopy\(/);
+  assert.match(tak, /copy\.tak_titel/);
+  assert.match(tak, /copy\.tak_betalt/);
+  assert.match(yml, /tak_titel:/);
+  assert.match(yml, /tak_betalt:/);
+  // Sirius P0-1 (30/8): ?betalt=1 er en URL-parameter, ikke et betalingsbevis.
+  // Siden må aldrig påstå "Depositum er betalt" — kvitteringen er Shopifys.
+  assert.doesNotMatch(tak, /Depositum er betalt/);
+  assert.match(yml, /Kvitteringen kommer fra Shopify/);
+  assert.doesNotMatch(read("content/booking.yml").match(/tak_betalt:[^]*?(?=\n\w|$)/)[0], /er betalt/);
+  // Variant-id'et kommer fra RESERVATIONS — ikke hardcodet i siden.
+  assert.match(tak, /RESERVATIONS\.find/);
+  assert.doesNotMatch(tak, /53492757627208/);
   assert.match(tak, /params\.betalt/);
-  assert.match(tak, /Depositum er betalt/);
-  assert.match(tak, /\[AFVENTER STEVEN\] konsekvens ved ubetalt/);
   assert.match(tak, /\/\/ \[AFVENTER STEVEN\] konsekvens ved ubetalt/);
+  // Decap kan redigere de nye felter.
+  const cfg = read("public/admin/config.yml");
+  assert.match(cfg, /name: tak_titel/);
+  assert.match(cfg, /name: tak_betalt/);
 });
 
 test("U7 Decap GitHub OAuth-config", () => {
@@ -642,7 +658,8 @@ test("F14 booking er salgsflade på hud med handling først", () => {
   // faktisk ankommer til — i stedet for et moerkt studiebillede. Maalt: lys
   // paa folden 54,5 % -> 68,6 % ved 1440.
   assert.match(read("content/booking.yml"), /H-04\.jpg/);
-  assert.match(tak, /H-04\.jpg/);
+  // S574: tak-sidens billede kommer fra booking.yml (copy.foto), ikke markup.
+  assert.match(tak, /copy\.foto/);
   assert.match(read("content/booking.yml"), /Depositum 100 kr — fragår i prisen/);
   assert.match(booking, /copy\.door_label/);
   const koeb = booking.indexOf("rum-booking__koeb");
@@ -961,6 +978,12 @@ test("S574: Decap kender hver content-fil koden læser", () => {
     "content/gaden.yml",
     "content/booking.yml",
     "content/natten.yml",
+    "content/faq.yml",
+    "content/faq.en.yml",
+    "content/piercing.yml",
+    "content/huset.en.yml",
+    "content/betingelser.yml",
+    "content/betingelser.en.yml",
   ]) {
     assert.ok(cms.includes(fil), `${fil} mangler i Decap — Sonja kan ikke redigere den`);
   }
@@ -1027,4 +1050,21 @@ test("K6: den engelske forside bor i Rummet, ikke i Emerge", () => {
   assert.equal(existsSync(join(root, "app/(emerge)/en/page.tsx")), false, "Emerge-EN-forsiden er pensioneret");
   const yml = read("content/huset.en.yml");
   assert.match(yml, /Book a session/);
+});
+
+test("S574 hullerne: tider i folden, FAQ på begge sprog, piercing-tekst, konsultation", async () => {
+  const { loadHusetForside, loadHusetForsideEn, loadFaq, loadFaqEn, loadPiercing, loadBookingCopy, loadKontakt } =
+    await import("../lib/content.ts");
+  assert.match(loadHusetForside().tider, /[Tt]orsdag/, "H1: tiderne skal stå i folden");
+  assert.match(loadHusetForsideEn().tider, /Thursday/);
+  assert.ok(loadFaq().sporgsmal.length >= 8, "H5: FAQ skal bære husets svar");
+  assert.equal(loadFaq().sporgsmal.length, loadFaqEn().sporgsmal.length, "EN-FAQ følger DA");
+  const pi = loadPiercing();
+  assert.match(pi.tekst, /frihed|fejring|markør/i, "H6: teksten bærer Stevens vinkel");
+  assert.match(pi.priser, /efter aftale/i);
+  assert.match(loadBookingCopy().konsultation, /gratis og uforpligtende/, "H3: Iron & Ink-standarden");
+  assert.equal(loadKontakt().instagram, "ink.and.art.cph", "H2: husets handle");
+  const footer = read("components/rummet/Footer.tsx");
+  assert.match(footer, /instagram\.com/);
+  assert.match(footer, /href="\/faq"/);
 });

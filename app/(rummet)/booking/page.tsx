@@ -69,6 +69,9 @@ export default async function BookingPage({
               />
             </li>
           </ol>
+          {copy.konsultation ? (
+            <p className="rum-body-copy rum-booking__note">{copy.konsultation}</p>
+          ) : null}
           {copy.note ? (
             <p className="rum-body-copy rum-booking__note">{copy.note}</p>
           ) : null}

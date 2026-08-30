@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { RummetShell } from "@/components/rummet/Shell";
-import { cartUrl } from "@/lib/commerce";
+import { cartUrl, RESERVATIONS } from "@/lib/commerce";
+import { loadBookingCopy } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Booking · Ink & Art",
@@ -12,31 +13,42 @@ function oneParam(v: string | string[] | undefined): string {
   return (v || "").trim();
 }
 
-function Plade() {
+function Plade({ foto, alt }: { foto: string; alt: string }) {
   return (
     <div className="rum-booking__plade">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/slots/H-04.jpg" alt="Booking" />
+      <img src={foto} alt={alt} />
     </div>
   );
 }
 
+/**
+ * Tak-siden efter Book.dk-hoppet. Ordene bor i content/booking.yml.
+ *
+ * `?betalt=1` er en URL-parameter, ikke et betalingsbevis (Sirius P0-1,
+ * 30/8): systemet har ingen webhook og kan ikke se Shopify-ordren. Derfor
+ * må betalt-grenen aldrig påstå "depositum er betalt" — den peger på
+ * Shopify-kvitteringen som det bevis der faktisk findes. Den dag en
+ * server-side ordrestatus eksisterer, kan siden love mere.
+ */
 export default async function BookingTakPage({
   searchParams,
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const params = await searchParams;
+  const copy = loadBookingCopy();
   const betalt = oneParam(params.betalt) === "1";
+  const depositum = RESERVATIONS.find((r) => r.id === "plads");
 
   if (betalt) {
     return (
       <RummetShell tone="salg">
         <main id="main" className="rum-room rum-booking">
           <div className="rum-booking__koeb">
-            <p className="rum-body-copy rum-room__note">Depositum er betalt.</p>
+            <p className="rum-body-copy rum-room__note">{copy.tak_betalt}</p>
           </div>
-          <Plade />
+          <Plade foto={copy.foto} alt={copy.billedtekst} />
         </main>
       </RummetShell>
     );
@@ -47,20 +59,20 @@ export default async function BookingTakPage({
     <RummetShell tone="salg">
       <main id="main" className="rum-room rum-booking">
         <div className="rum-booking__koeb">
-          <h1 className="rum-room__title rum-poster">
-            Din tid er sat. Betal depositum nu
-          </h1>
-          <p style={{ marginTop: 24 }}>
-            <a
-              className="rum-book rum-book--row rum-booking__pris"
-              href={cartUrl("53492757627208")}
-              rel="noopener noreferrer"
-            >
-              Depositum 100 kr — fragår i prisen
-            </a>
-          </p>
+          <h1 className="rum-room__title rum-poster">{copy.tak_titel}</h1>
+          {depositum ? (
+            <p style={{ marginTop: 24 }}>
+              <a
+                className="rum-book rum-book--row rum-booking__pris"
+                href={cartUrl(depositum.variantId)}
+                rel="noopener noreferrer"
+              >
+                {copy.depositum_label}
+              </a>
+            </p>
+          ) : null}
         </div>
-        <Plade />
+        <Plade foto={copy.foto} alt={copy.billedtekst} />
       </main>
     </RummetShell>
   );

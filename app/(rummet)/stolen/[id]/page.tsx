@@ -4,6 +4,7 @@ import { RummetShell } from "@/components/rummet/Shell";
 import { Plade } from "@/components/rummet/Plade";
 import {
   artistById,
+  loadPiercing,
   loadHouse,
   loadKontakt,
   periodeLabel,
@@ -102,6 +103,25 @@ export default async function ArtistPage({
             </div>
           </div>
         </div>
+
+        {artist.haandvaerk.toLowerCase().includes("piercer") ? (
+          <section className="rum-artist__piercing" aria-labelledby="piercing">
+            {(() => {
+              const pi = loadPiercing();
+              return (
+                <>
+                  <h2 id="piercing" className="rum-label">
+                    {pi.titel}
+                  </h2>
+                  <p className="rum-body-copy rum-artist__bio">{pi.tekst}</p>
+                  {pi.priser ? (
+                    <p className="rum-label rum-artist__priser">{pi.priser}</p>
+                  ) : null}
+                </>
+              );
+            })()}
+          </section>
+        ) : null}
 
         {works.length > 0 ? (
           <section className="rum-artist__arkiv" aria-labelledby="arkiv">
