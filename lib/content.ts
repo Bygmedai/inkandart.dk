@@ -188,6 +188,8 @@ export type HusetForside = {
   kicker: string;
   titel: string;
   lede: string;
+  /** Åbningstiderne i folden — Stevens kald 30/8 (H1). */
+  tider: string;
   cta_book: string;
   hero_foto: string;
   hero_billedtekst: string;
@@ -199,6 +201,7 @@ export function loadHusetForside(): HusetForside {
     kicker: str(d.kicker),
     titel: str(d.titel),
     lede: str(d.lede),
+    tider: str(d.tider),
     cta_book: str(d.cta_book) || "Book tid",
     hero_foto: str(d.hero_foto),
     hero_billedtekst: str(d.hero_billedtekst),
@@ -249,6 +252,7 @@ export function loadHusetForsideEn(): HusetForsideEn {
     kicker: str(d.kicker),
     titel: str(d.titel) || da.titel,
     lede: str(d.lede) || da.lede,
+    tider: str(d.tider) || da.tider,
     cta_book: str(d.cta_book) || "Book a session",
     // Heroen deles med den danske forside — ét billede, husets eget.
     hero_foto: da.hero_foto,
@@ -272,6 +276,8 @@ export type Kontakt = {
   telefon_vist: string;
   telefon_e164: string;
   email: string;
+  /** Husets Instagram-handle uden @. */
+  instagram: string;
 };
 
 export function loadKontakt(): Kontakt {
@@ -284,6 +290,7 @@ export function loadKontakt(): Kontakt {
     telefon_vist: str(d.telefon_vist),
     telefon_e164: str(d.telefon_e164),
     email: str(d.email),
+    instagram: str(d.instagram),
   };
 }
 
@@ -291,9 +298,42 @@ export function loadKontakt(): Kontakt {
  * Periode-etiketten på et kort kommer fra data — aldrig hardcodet i markup.
  * fast → «Fast», gæst → «Gæst» / «I huset til …», alt andet står som skrevet.
  */
+/** FAQ — spørgsmål/svar fra YAML, dansk og engelsk (H5). */
+export type FaqPunkt = { q: string; a: string };
+export type Faq = { titel: string; lede: string; sporgsmal: FaqPunkt[] };
+
+function readFaq(fil: string): Faq {
+  const d = readYaml<Partial<Faq>>(fil);
+  const liste = Array.isArray(d.sporgsmal) ? d.sporgsmal : [];
+  return {
+    titel: str(d.titel) || "FAQ",
+    lede: str(d.lede),
+    sporgsmal: liste
+      .map((x) => ({ q: str(x?.q), a: str(x?.a) }))
+      .filter((x) => x.q && x.a),
+  };
+}
+
+export function loadFaq(): Faq {
+  return readFaq("faq.yml");
+}
+
+export function loadFaqEn(): Faq {
+  return readFaq("faq.en.yml");
+}
+
+/** Piercing-teksten (H6) — husets standardtekst, Decap-redigerbar. */
+export type PiercingCopy = { titel: string; tekst: string; priser: string };
+
+export function loadPiercing(): PiercingCopy {
+  const d = readYaml<Partial<PiercingCopy>>("piercing.yml");
+  return { titel: str(d.titel), tekst: str(d.tekst), priser: str(d.priser) };
+}
+
 /** Bookingsidens ord. */
 export type BookingCopy = {
   lede: string;
+  konsultation: string;
   depositum_label: string;
   door_label: string;
   note: string;
@@ -305,6 +345,7 @@ export function loadBookingCopy(): BookingCopy {
   const d = readYaml<Partial<BookingCopy>>("booking.yml");
   return {
     lede: str(d.lede),
+    konsultation: str(d.konsultation),
     depositum_label: str(d.depositum_label),
     door_label: str(d.door_label) || "Videre til booking",
     note: str(d.note),

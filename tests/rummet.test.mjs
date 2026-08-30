@@ -547,7 +547,7 @@ test("M3 Gaden: ingen [TAL BEKRÆFTES], Ring på, tomme timer udelades", async (
   // 30/8: huset HAR åbningstider nu (Stevens kendelse: tor-lør til kl. 05).
   // Reglen der består: tider kommer fra YAML og opdigtes aldrig i kode.
   assert.match(yml, /Torsdag, fredag og lørdag/);
-  assert.match(info.aabent, /kl\. 05/);
+  assert.match(info.aabent, /10–05/);
   assert.match(yml, /walk_in:\s*""/);
   assert.equal(info.walk_in, "");
   assert.doesNotMatch(gaden, /DEMO G-01/);
@@ -961,6 +961,12 @@ test("S574: Decap kender hver content-fil koden læser", () => {
     "content/gaden.yml",
     "content/booking.yml",
     "content/natten.yml",
+    "content/faq.yml",
+    "content/faq.en.yml",
+    "content/piercing.yml",
+    "content/huset.en.yml",
+    "content/betingelser.yml",
+    "content/betingelser.en.yml",
   ]) {
     assert.ok(cms.includes(fil), `${fil} mangler i Decap — Sonja kan ikke redigere den`);
   }
@@ -1027,4 +1033,21 @@ test("K6: den engelske forside bor i Rummet, ikke i Emerge", () => {
   assert.equal(existsSync(join(root, "app/(emerge)/en/page.tsx")), false, "Emerge-EN-forsiden er pensioneret");
   const yml = read("content/huset.en.yml");
   assert.match(yml, /Book a session/);
+});
+
+test("S574 hullerne: tider i folden, FAQ på begge sprog, piercing-tekst, konsultation", async () => {
+  const { loadHusetForside, loadHusetForsideEn, loadFaq, loadFaqEn, loadPiercing, loadBookingCopy, loadKontakt } =
+    await import("../lib/content.ts");
+  assert.match(loadHusetForside().tider, /[Tt]orsdag/, "H1: tiderne skal stå i folden");
+  assert.match(loadHusetForsideEn().tider, /Thursday/);
+  assert.ok(loadFaq().sporgsmal.length >= 8, "H5: FAQ skal bære husets svar");
+  assert.equal(loadFaq().sporgsmal.length, loadFaqEn().sporgsmal.length, "EN-FAQ følger DA");
+  const pi = loadPiercing();
+  assert.match(pi.tekst, /frihed|fejring|markør/i, "H6: teksten bærer Stevens vinkel");
+  assert.match(pi.priser, /efter aftale/i);
+  assert.match(loadBookingCopy().konsultation, /gratis og uforpligtende/, "H3: Iron & Ink-standarden");
+  assert.equal(loadKontakt().instagram, "ink.and.art.cph", "H2: husets handle");
+  const footer = read("components/rummet/Footer.tsx");
+  assert.match(footer, /instagram\.com/);
+  assert.match(footer, /href="\/faq"/);
 });

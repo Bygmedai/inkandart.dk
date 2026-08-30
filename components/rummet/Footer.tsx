@@ -16,7 +16,17 @@ export function Footer() {
       {" · "}
       <a href="/privatlivspolitik">Privatliv</a>
       {" · "}
+      <a href="/faq">FAQ</a>
+      {" · "}
       <a href={`mailto:${k.email}`}>{k.email}</a>
+      {k.instagram ? (
+        <>
+          {" · "}
+          <a href={`https://www.instagram.com/${k.instagram}/`} rel="noopener noreferrer">
+            @{k.instagram}
+          </a>
+        </>
+      ) : null}
     </footer>
   );
 }

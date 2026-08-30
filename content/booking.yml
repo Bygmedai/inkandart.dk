@@ -6,6 +6,11 @@ lede: >-
   Ombook senest 48 timer før, så følger depositummet med.
 depositum_label: Depositum 100 kr — fragår i prisen
 door_label: Videre til booking
+# [ORD-TJEK Steven] H3 30/8: konsultationen er en kapacitet huset har.
+konsultation: >-
+  Store motiver starter med en gratis og uforpligtende konsultation.
+  Ring, eller kom forbi og tag snakken ved disken — så tegner vi os
+  frem til det sammen, før du booker.
 note: >-
   Spørgsmål om motiv eller pris? Ring på — eller kom forbi og tag
   snakken ved disken.

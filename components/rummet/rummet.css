@@ -257,6 +257,10 @@ html:has([data-house="rummet"]) .grain {
 .rum-huset__lede {
   margin: 0;
 }
+.rum-huset__tider {
+  margin: 10px 0 0;
+  color: var(--beton);
+}
 .rum-huset__cta {
   display: flex;
   flex-wrap: wrap;
@@ -815,6 +819,13 @@ html:has([data-house="rummet"]) .grain {
 }
 .rum-artist__om .rum-huset__cta {
   margin-top: 24px;
+}
+.rum-artist__piercing {
+  margin-top: 44px;
+  max-width: 56ch;
+}
+.rum-artist__priser {
+  margin-top: 12px;
 }
 .rum-artist__arkiv {
   margin-top: 56px;
