@@ -149,3 +149,31 @@ collections:
           - { label: Intro, name: intro, widget: text, hint: "Hvad Natten ER, for en der aldrig har hørt om den." }
           - { label: Tom-tilstandens titel, name: tom_titel, widget: string, default: "Ingen nat i aften" }
           - { label: Tom-tilstandens linje, name: tom_linje, widget: string, required: false }
+
+  - name: betingelser
+    label: Betingelser
+    files:
+      - label: Betingelser (dansk)
+        name: betingelser_da
+        file: content/betingelser.yml
+        fields:
+          - { label: Titel, name: titel, widget: string }
+          - { label: Lede, name: lede, widget: text }
+          - label: Sektioner
+            name: sektioner
+            widget: list
+            fields:
+              - { label: Overskrift, name: overskrift, widget: string }
+              - { label: Tekst, name: tekst, widget: text }
+      - label: Terms (English)
+        name: betingelser_en
+        file: content/betingelser.en.yml
+        fields:
+          - { label: Titel, name: titel, widget: string }
+          - { label: Lede, name: lede, widget: text }
+          - label: Sektioner
+            name: sektioner
+            widget: list
+            fields:
+              - { label: Overskrift, name: overskrift, widget: string }
+              - { label: Tekst, name: tekst, widget: text }

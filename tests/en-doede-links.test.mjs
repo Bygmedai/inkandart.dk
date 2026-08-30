@@ -84,11 +84,17 @@ test("REGRESSION: localePath kan ikke bygge en engelsk rute vi ikke har", async 
 
 test("registeret matcher de sider der faktisk findes på disken", async () => {
   const { EN_ROUTES } = await import("../lib/i18n.ts");
-  const dir = join(root, "app/(emerge)/en");
-  const paa_disken = new Set(["/"]);
-  for (const d of readdirSync(dir, { withFileTypes: true })) {
-    if (!d.isDirectory() || d.name.startsWith("[")) continue;
-    if (existsSync(join(dir, d.name, "page.tsx"))) paa_disken.add(`/${d.name}`);
+  // /en er ved at flytte fra Emerge til Rummet (K6) — registeret gælder
+  // uanset hvilken gruppe siden bor i, så begge læses.
+  const paa_disken = new Set();
+  for (const gruppe of ["app/(emerge)/en", "app/(rummet)/en"]) {
+    const dir = join(root, gruppe);
+    if (!existsSync(dir)) continue;
+    if (existsSync(join(dir, "page.tsx"))) paa_disken.add("/");
+    for (const d of readdirSync(dir, { withFileTypes: true })) {
+      if (!d.isDirectory() || d.name.startsWith("[")) continue;
+      if (existsSync(join(dir, d.name, "page.tsx"))) paa_disken.add(`/${d.name}`);
+    }
   }
   assert.deepEqual([...EN_ROUTES].sort(), [...paa_disken].sort(),
     "EN_ROUTES skal opdateres i samme PR som en /en-side bygges eller fjernes");

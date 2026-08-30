@@ -657,6 +657,17 @@ html:has([data-house="rummet"]) .grain {
      side, ikke som en glemt spalte. */
   margin-inline: auto;
 }
+.rum-legal__lede {
+  margin-top: 14px;
+  color: var(--beton);
+}
+.rum-legal__afsnit {
+  margin-top: 34px;
+}
+.rum-legal__afsnit h2 {
+  font-size: 22px;
+  margin: 0 0 8px;
+}
 .rum-legal h1 {
   margin: 12px 0 0;
   font-size: clamp(36px, 6vw, 64px);

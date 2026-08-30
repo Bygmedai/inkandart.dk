@@ -26,5 +26,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: "https://inkandart.dk/flash", lastModified: new Date() },
     { url: "https://inkandart.dk/privatlivspolitik", lastModified: new Date() },
     { url: "https://inkandart.dk/betingelser", lastModified: new Date() },
+    { url: "https://inkandart.dk/en/betingelser", lastModified: new Date() },
   ];
 }
