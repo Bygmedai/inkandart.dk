@@ -744,6 +744,16 @@ html:has([data-house="rummet"]) .grain {
 .rum-artist__tilbage {
   color: var(--beton);
 }
+/* Vildes QA-vagt, første fangst (PR #215): tilbage-linkene på artist-
+   og varesiderne målte 74×15 og 66×15px. Samme fejlklasse som footeren
+   i #212 — rettelsen dér gik på .rum-footer a og glemte de nye sider.
+   Reglen dækker MØNSTRET (et link i en etiket-linje), ikke to udvalgte
+   klasser, så den tredje side ikke genopfinder fejlen. */
+.rum-label a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
 .rum-artist__tilbage:hover {
   color: var(--hud);
 }
