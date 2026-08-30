@@ -33,6 +33,8 @@ export type CollectionProduct = StorefrontProduct & {
   imageUrl: string;
   imageAlt: string;
   productType: string;
+  /** Produktets beskrivelse fra Shopify — husets egen salgslinje. */
+  description: string;
 };
 
 export type CollectionResult = {
@@ -204,6 +206,7 @@ export function readCollectionProduct(raw: unknown): CollectionProduct | null {
       imageUrl: image.url,
       imageAlt: image.alt,
       productType: strField(p.productType),
+      description: strField(p.description),
     };
   } catch {
     return null;
@@ -253,7 +256,23 @@ export function parseCollectionProducts(data: unknown): CollectionProduct[] {
   }
 }
 
-/** Vare-shape til VareKort / ProduktFlade. linje er tom — YAML-copy er kun fallback. */
+/**
+ * Salgslinjen klippes af produktets egen beskrivelse i Shopify: første
+ * punktum, ellers de første ~140 tegn. Beskrivelserne ER skrevet af huset
+ * («Et af husets flash-motiver, trykt i hånden…») — en disk uden dem viste
+ * varer uden et eneste sælgende ord (review-blokker på #213, rettet her).
+ * Sonja ejer dermed også salgslinjen fra Shopify admin.
+ */
+export function salgslinje(description: string): string {
+  const d = description.trim().replace(/\s+/g, " ");
+  if (!d) return "";
+  const punktum = d.indexOf(". ");
+  if (punktum > 20 && punktum < 160) return d.slice(0, punktum + 1);
+  if (d.length <= 140) return d;
+  return `${d.slice(0, 140).replace(/\s+\S*$/, "")}…`;
+}
+
+/** Vare-shape til VareKort / ProduktFlade. linje kommer fra Shopify-beskrivelsen. */
 export function vareFromCollectionProduct(p: CollectionProduct): {
   handle: string;
   titel: string;
@@ -265,7 +284,7 @@ export function vareFromCollectionProduct(p: CollectionProduct): {
     handle: p.handle,
     titel: p.title,
     foto: p.imageUrl,
-    linje: "",
+    linje: salgslinje(p.description),
     gruppe: p.productType,
   };
 }
@@ -276,6 +295,7 @@ const PRODUCT_QUERY = `query Product($handle: String!) {
     title
     availableForSale
     productType
+    description
     featuredImage { url altText }
     images(first: 1) { nodes { url altText } }
     variants(first: 10) {
@@ -327,6 +347,7 @@ const COLLECTION_QUERY = `query CollectionByHandle($handle: String!) {
         handle
         availableForSale
         productType
+        description
         featuredImage { url altText }
         images(first: 1) { nodes { url altText } }
         variants(first: 10) {

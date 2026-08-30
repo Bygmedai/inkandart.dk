@@ -120,3 +120,20 @@ test("S574: YAML-fallback og VareKort er urørt som kontrakt", () => {
   assert.match(kort, /vare\.titel/);
   assert.doesNotMatch(kort, /vare\.foto \?/);
 });
+
+test("salgslinjen klippes af Shopify-beskrivelsen — disken er aldrig ordløs", async () => {
+  const { salgslinje, readCollectionProduct } = await import("../lib/storefront.ts");
+  assert.equal(salgslinje(""), "");
+  assert.equal(
+    salgslinje("Et af husets flash-motiver, trykt i hånden på tykt papir. Hæng det op."),
+    "Et af husets flash-motiver, trykt i hånden på tykt papir.",
+  );
+  const lang = "x".repeat(300);
+  assert.ok(salgslinje(lang).length <= 141, "lange beskrivelser klippes");
+  const p = readCollectionProduct({
+    handle: "prøve", title: "Prøve", availableForSale: true, productType: "Print",
+    description: "Linjen her.", featuredImage: { url: "u", altText: "a" },
+    variants: { nodes: [{ id: "gid://shopify/ProductVariant/1", availableForSale: true, price: { amount: "1", currencyCode: "DKK" } }] },
+  });
+  assert.equal(p.description, "Linjen her.");
+});
