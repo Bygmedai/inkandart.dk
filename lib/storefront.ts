@@ -32,8 +32,16 @@ export type StorefrontConfig = {
   ok: boolean;
 };
 
+/**
+ * Husets butiksdomæne. Ikke en hemmelighed — det står allerede i
+ * lib/commerce.ts og i hver cart-permalink vi sender kunden hen på.
+ * Fallbacken findes, fordi en manglende NEXT_PUBLIC_SHOPIFY_DOMAIN
+ * ellers tømmer Hylden tavst, selv når token er sat.
+ */
+const DEFAULT_DOMAIN = "d1qp54-0w.myshopify.com";
+
 export function storefrontConfig(): StorefrontConfig {
-  const domain = (process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN || "").trim();
+  const domain = (process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN || "").trim() || DEFAULT_DOMAIN;
   const token = (process.env.SHOPIFY_STOREFRONT_TOKEN || "").trim();
   return { domain, token, ok: Boolean(domain && token) };
 }

@@ -733,6 +733,17 @@ html:has([data-house="rummet"]) .grain {
   height: 100%;
   object-fit: cover;
 }
+/* På telefonen fyldte portrættet skærmen alene: navnet stod nederst og
+   "Book tid" lå under folden. Man kunne se tatovøren, men ikke bestille
+   en tid hos ham. Loftet klipper portrættet — object-fit: cover holder
+   ansigtet — så knappen kommer op i syne. Fuld højde igen fra 700px,
+   hvor kortene alligevel står ved siden af hinanden. */
+@media (max-width: 699px) {
+  .rum-stolen__grid .rum-kort__foto {
+    max-height: 42svh;
+  }
+}
+
 .rum-kort__body {
   padding-top: 16px;
 }

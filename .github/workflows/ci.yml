@@ -2,7 +2,11 @@ name: CI
 
 on:
   pull_request:
-    branches: [main]
+    # Rummet bygges i en stak: haruki/* -> rummet-m2 -> rummet-m1 -> main.
+    # Kørte CI kun mod main, ville 'check' aldrig blive postet paa de
+    # stablede PR'er — og Porten, der kraever 'check', spaerrede dem
+    # fail-closed efter 721s ventetid. Derfor skal integrationsgrenene med.
+    branches: [main, rummet-m1, rummet-m2]
   push:
     branches: [main]
 
