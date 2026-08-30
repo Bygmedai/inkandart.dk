@@ -194,7 +194,7 @@ collections:
           - { label: Depositum-knappens tekst, name: depositum_label, widget: string, hint: "Beløbet skal matche Shopify-produktet." }
           - { label: Book.dk-knappens tekst, name: door_label, widget: string, default: "Videre til booking" }
           - { label: Note, name: note, widget: text, required: false }
-          - { label: "Trin 3 — ordrenummer", name: ordrenummer_trin, widget: text, required: false, hint: "Beder kunden skrive Shopify-ordrenummeret i Book.dk's kommentarfelt. Det er den eneste reference de to systemer deler." }
+          - { label: "Trin 2 — depositum", name: depositum_trin, widget: text, required: false, hint: "Kun for de lange sessioner. Kunden skal IKKE skrive et ordrenummer — vi afstemmer på mailadressen, som begge systemer allerede har." }
           - { label: "Tjek — overskrift", name: tjek_titel, widget: string, required: false }
           - { label: "Tjek — hjælpetekst", name: tjek_hjaelp, widget: text, required: false }
           - { label: "Tjek — knap", name: tjek_knap, widget: string, required: false }
@@ -217,7 +217,7 @@ collections:
           - { label: Depositum-knappens tekst, name: depositum_label, widget: string, hint: "Beløbet skal matche Shopify-produktet OG den danske side." }
           - { label: Book.dk-knappens tekst, name: door_label, widget: string, default: "On to booking" }
           - { label: Note, name: note, widget: text, required: false }
-          - { label: "Trin 3 — ordrenummer", name: ordrenummer_trin, widget: text, required: false, hint: "Beder kunden skrive Shopify-ordrenummeret i Book.dk's kommentarfelt. Det er den eneste reference de to systemer deler." }
+          - { label: "Trin 2 — depositum", name: depositum_trin, widget: text, required: false, hint: "Kun for de lange sessioner. Kunden skal IKKE skrive et ordrenummer — vi afstemmer på mailadressen, som begge systemer allerede har." }
           - { label: "Tjek — overskrift", name: tjek_titel, widget: string, required: false }
           - { label: "Tjek — hjælpetekst", name: tjek_hjaelp, widget: text, required: false }
           - { label: "Tjek — knap", name: tjek_knap, widget: string, required: false }

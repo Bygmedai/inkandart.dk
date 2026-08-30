@@ -51,29 +51,39 @@ export default async function BookingPage({
           {copy.lede ? (
             <p className="rum-body-copy rum-booking__lede">{copy.lede}</p>
           ) : null}
+          {/*
+            S574 (Steven, 30/8): trappen er vendt om. Depositummet stod
+            som trin 1 og spærrede ALLE kunder for at beskytte mod
+            udeblivelser på de få lange sessioner — en udeblivelse på en
+            25-minutters tatovering koster nærmest ingenting, en på en
+            7-timers dag koster artisten en arbejdsdag. Nu: book gratis
+            i ét flow, og betal kun hvor det tæller.
+
+            Kunden skriver ikke et referencenummer nogen steder. Book.dk
+            og Shopify deler allerede kundens mailadresse; det er den vi
+            afstemmer på.
+          */}
           <ol className="rum-booking__trin">
-            <li>
-              {depositum ? (
-                <a
-                  className="rum-book rum-book--row rum-booking__pris"
-                  href={cartUrl(depositum.variantId)}
-                  rel="noopener noreferrer"
-                >
-                  {copy.depositum_label}
-                </a>
-              ) : null}
-            </li>
             <li>
               <BookDoor
                 label={copy.door_label}
                 className="rum-book rum-book--row rum-booking__go"
               />
             </li>
-            {copy.ordrenummer_trin ? (
+            {copy.depositum_trin ? (
               <li>
                 <p className="rum-body-copy rum-booking__trin-note">
-                  {copy.ordrenummer_trin}
+                  {copy.depositum_trin}
                 </p>
+                {depositum ? (
+                  <a
+                    className="rum-book rum-book--row rum-booking__pris"
+                    href={cartUrl(depositum.variantId)}
+                    rel="noopener noreferrer"
+                  >
+                    {copy.depositum_label}
+                  </a>
+                ) : null}
               </li>
             ) : null}
           </ol>
