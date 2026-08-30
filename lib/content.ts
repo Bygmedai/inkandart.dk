@@ -202,6 +202,32 @@ export function loadHusetForside(): HusetForside {
   };
 }
 
+/** Den engelske forside — egen stemme, samme felter plus EN-mikrocopy. */
+export type HusetForsideEn = HusetForside & {
+  walk_in_line: string;
+  chairs_label: string;
+  tonight_label: string;
+  phone_line: string;
+};
+
+export function loadHusetForsideEn(): HusetForsideEn {
+  const d = readYaml<Partial<HusetForsideEn>>("huset.en.yml");
+  const da = loadHusetForside();
+  return {
+    kicker: str(d.kicker),
+    titel: str(d.titel) || da.titel,
+    lede: str(d.lede) || da.lede,
+    cta_book: str(d.cta_book) || "Book a session",
+    // Heroen deles med den danske forside — ét billede, husets eget.
+    hero_foto: da.hero_foto,
+    hero_billedtekst: str((d as Record<string, unknown>).hero_billedtekst as string) || da.hero_billedtekst,
+    walk_in_line: str(d.walk_in_line),
+    chairs_label: str(d.chairs_label) || "In the chair",
+    tonight_label: str(d.tonight_label) || "Tonight",
+    phone_line: str(d.phone_line) || "Call us",
+  };
+}
+
 /**
  * Husets stamdata — navn, CVR, adresse, telefon, mail. Ét sted.
  * Footer, forside og booking læser herfra; ingen flade ejer sit eget nummer.
