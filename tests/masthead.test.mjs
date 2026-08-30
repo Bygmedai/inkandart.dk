@@ -29,14 +29,14 @@ function kundesider() {
   gaa(join(root, "app"));
   return ud
     .map((p) => p.replace(root + "/", ""))
-    .filter((p) => p !== "app/page.tsx")          // forsiden har sit eget segl i heroen
+    .filter((p) => !p.includes("(rummet)"))       // Rummet har Nav-segl, ikke Masthead
     .filter((p) => !p.includes("figur-lab"))      // intern, ikke linket
-    .filter((p) => p !== "app/en/page.tsx");      // ER den engelske forside
+    .filter((p) => !p.endsWith("/en/page.tsx"));  // ER den engelske forside
 }
 
 test("hver kundevendt underside har praecis ét segl i toppen", () => {
   const sider = kundesider();
-  assert.ok(sider.length >= 10, `fandt kun ${sider.length} undersider — leder vi det rigtige sted?`);
+  assert.ok(sider.length >= 8, `fandt kun ${sider.length} undersider — leder vi det rigtige sted?`);
   for (const sti of sider) {
     const src = readFileSync(join(root, sti), "utf8");
     const antal = (src.match(/<Masthead\b/g) || []).length;
@@ -45,7 +45,7 @@ test("hver kundevendt underside har praecis ét segl i toppen", () => {
 });
 
 test("de engelske sider peger hjem til engelsk, ikke til dansk", () => {
-  for (const sti of kundesider().filter((p) => p.startsWith("app/en/"))) {
+  for (const sti of kundesider().filter((p) => p.includes("/en/"))) {
     const src = readFileSync(join(root, sti), "utf8");
     assert.match(src, /<Masthead lang="en"/, `${sti} skal give Masthead lang="en"`);
   }
@@ -71,7 +71,7 @@ test("negativ kontrol: ingen kundeside er en blindgyde", () => {
   const uden = [];
   for (const sti of kundesider()) {
     const src = readFileSync(join(root, sti), "utf8");
-    if (!/<Masthead\b/.test(src) && !/href="\/(en)?"/.test(src)) uden.push(sti);
+    if (!/<Masthead\b/.test(src) && !/<RummetShell\b/.test(src) && !/redirect\("\/#doer"\)/.test(src) && !/href="\/(en)?"/.test(src)) uden.push(sti);
   }
   assert.deepEqual(uden, [], `disse sider har ingen vej hjem: ${uden.join(", ")}`);
 });

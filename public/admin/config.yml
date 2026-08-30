@@ -1,0 +1,84 @@
+# Decap CMS — Rummet content. GitHub backend via oauth.bygmedai.dk.
+backend:
+  name: github
+  repo: Bygmedai/inkandart.dk
+  branch: main
+  base_url: https://oauth.bygmedai.dk
+publish_mode: simple
+
+media_folder: public/slots
+public_folder: /slots
+
+locale: da
+
+collections:
+  - name: artists
+    label: Artister
+    label_singular: Artist
+    folder: content
+    filter: { field: id, exists: true }
+    format: yml
+    extension: yml
+    create: false
+    delete: false
+    identifier_field: id
+    files:
+      - label: Artister
+        name: artists
+        file: content/artists.yml
+        fields:
+          - label: Artister
+            name: artists
+            widget: list
+            fields:
+              - { label: Id, name: id, widget: string }
+              - { label: Fornavn, name: fornavn, widget: string }
+              - { label: Håndværk, name: haandvaerk, widget: string, required: false }
+              - { label: Periode, name: periode, widget: select, options: [fast, gaest] }
+              - { label: I huset til, name: periode_til, widget: string, required: false }
+              - { label: Foto, name: foto, widget: image }
+              - { label: Billedtekst, name: billedtekst, widget: string, required: false, hint: "Motiv og teknik. Ikke en titel." }
+              - { label: Aktiv, name: aktiv, widget: boolean, default: true }
+              - { label: Sidder i stolen, name: stol, widget: boolean, default: true }
+
+  - name: vaerker
+    label: Værker
+    files:
+      - label: Værker
+        name: vaerker
+        file: content/vaerker.yml
+        fields:
+          - label: Værker
+            name: vaerker
+            widget: list
+            fields:
+              - { label: Slot / id, name: id, widget: string }
+              - { label: Titel, name: titel, widget: string, required: false, hint: "Tom = untitled. Opdigt aldrig en titel." }
+              - { label: Artist-id, name: artist, widget: string, hint: "nizar / emma / gaest" }
+              - { label: År, name: aar, widget: string, required: false }
+              - { label: Arkivnr, name: arkivnr, widget: string, required: false }
+              - { label: Foto, name: foto, widget: image }
+              - { label: Billedtekst, name: billedtekst, widget: string, required: false, hint: "Motiv og teknik. Ikke en titel." }
+              - { label: Må vises, name: maa_vises, widget: boolean, default: true }
+              - { label: DEMO, name: demo, widget: boolean, default: false, hint: "Chip vises ikke. Feltet bliver i YAML." }
+              - { label: Værket i dag, name: i_dag, widget: boolean, default: false }
+              - { label: Edition-ref, name: edition_ref, widget: string, required: false, hint: "Shopify product handle, not GID. From the admin URL, e.g. sort-hjort-hoodie." }
+
+  - name: nat
+    label: Natten
+    files:
+      - label: Natten
+        name: nat
+        file: content/nat.yml
+        fields:
+          - label: Nætter
+            name: nat
+            widget: list
+            fields:
+              - { label: Nr, name: nr, widget: string, required: false }
+              - { label: Dato, name: dato, widget: string, required: false }
+              - { label: Navne, name: navne, widget: list, required: false }
+              - { label: Tidsrum, name: tidsrum, widget: string, required: false }
+              - { label: Plakat, name: plakatfoto, widget: image, required: false }
+              - { label: Billedtekst, name: billedtekst, widget: string, required: false, hint: "Motiv og teknik." }
+              - { label: Aktiv i aften, name: aktiv, widget: boolean, default: false }

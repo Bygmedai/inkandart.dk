@@ -20,7 +20,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
  * sin egen.
  */
 const enRuter = () => {
-  const dir = join(root, "app/en");
+  const dir = join(root, "app/(emerge)/en");
   const ud = new Set(["/en"]);
   for (const d of readdirSync(dir, { withFileTypes: true })) {
     if (!d.isDirectory() || d.name.startsWith("[")) continue;
@@ -30,7 +30,7 @@ const enRuter = () => {
 };
 
 const enSider = () => {
-  const dir = join(root, "app/en");
+  const dir = join(root, "app/(emerge)/en");
   const ud = [];
   for (const d of readdirSync(dir, { withFileTypes: true })) {
     const f = d.isDirectory() ? join(dir, d.name, "page.tsx") : join(dir, d.name);
@@ -84,7 +84,7 @@ test("REGRESSION: localePath kan ikke bygge en engelsk rute vi ikke har", async 
 
 test("registeret matcher de sider der faktisk findes på disken", async () => {
   const { EN_ROUTES } = await import("../lib/i18n.ts");
-  const dir = join(root, "app/en");
+  const dir = join(root, "app/(emerge)/en");
   const paa_disken = new Set(["/"]);
   for (const d of readdirSync(dir, { withFileTypes: true })) {
     if (!d.isDirectory() || d.name.startsWith("[")) continue;

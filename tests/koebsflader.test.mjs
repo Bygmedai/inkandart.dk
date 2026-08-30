@@ -10,8 +10,8 @@ const read = (f) => readFileSync(join(root, f), "utf8");
 const commerce = read("lib/commerce.ts");
 const i18n = read("lib/i18n.ts");
 const raekke = read("components/emerge/DepositumRaekke.tsx");
-const daShop = read("app/shop/page.tsx");
-const enShop = read("app/en/shop/page.tsx");
+const daShop = read("app/(emerge)/shop/page.tsx");
+const enShop = read("app/(emerge)/en/shop/page.tsx");
 
 /**
  * Købsfladerne — vidner på at det vi KAN sælge, også STÅR der.
@@ -206,7 +206,7 @@ test("kridtet henter hvert ord fra ordbogen — ikke fra komponenten", () => {
 });
 
 test("hvert kaldsted giver kridtet og fuglen det rigtige sprog", () => {
-  const en = read("app/en/shop/page.tsx");
+  const en = read("app/(emerge)/en/shop/page.tsx");
   assert.match(en, /<KerbReservation lang="en"/, "/en/shop giver ikke engelsk videre");
   const scene = read("components/emerge/SceneV05.tsx");
   assert.match(scene, /<KerbReservation lang=\{lang\}/, "scenen giver ikke sit sprog videre");
@@ -221,10 +221,10 @@ test("de tosprogede par peger paa hinanden (hreflang begge veje)", () => {
   // /shop havde INGEN hreflang mens /en/shop pegede paa begge. Et ensrettet
   // par tæller ikke hos Google.
   for (const [sti, kald] of [
-    ["app/shop/page.tsx", '/shop'],
-    ["app/en/shop/page.tsx", '/shop'],
-    ["app/walk-in/page.tsx", '/walk-in'],
-    ["app/en/walk-in/page.tsx", '/walk-in'],
+    ["app/(emerge)/shop/page.tsx", '/shop'],
+    ["app/(emerge)/en/shop/page.tsx", '/shop'],
+    ["app/(emerge)/walk-in/page.tsx", '/walk-in'],
+    ["app/(emerge)/en/walk-in/page.tsx", '/walk-in'],
   ]) {
     const src = read(sti);
     assert.ok(

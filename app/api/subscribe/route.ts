@@ -158,7 +158,7 @@ const CREATE_CUSTOMER = `mutation newsletterSignup($input: CustomerInput!) {
 
 const FIND_CUSTOMER = `query findCustomer($q: String!) {
   customers(first: 5, query: $q) {
-    edges { node { id defaultEmailAddress { emailAddress marketingState } } }
+    edges { node { id defaultEmailAddress { emailAddress marketingState } defaultPhoneNumber { phoneNumber } } }
   }
 }`;
 
@@ -208,6 +208,22 @@ function emailQuery(email: string): string {
   return `email:"${email.replace(/["\\]/g, "")}"`;
 }
 
+function phoneQuery(phone: string): string {
+  return `phone:"${phone.replace(/["\\]/g, "")}"`;
+}
+
+/** E.164-ish. 8 danske cifre → +45. Tom eller vrøvl → null. */
+function normalizePhone(raw: string): string | null {
+  const stripped = raw.replace(/[^\d+]/g, "");
+  if (!stripped) return null;
+  let p = stripped;
+  if (p.startsWith("00")) p = "+" + p.slice(2);
+  if (/^\d{8}$/.test(p)) p = "+45" + p;
+  if (/^45\d{8}$/.test(p)) p = "+" + p;
+  if (!/^\+[1-9]\d{7,14}$/.test(p)) return null;
+  return p;
+}
+
 function json(obj: unknown, status = 200): Response {
   return new Response(JSON.stringify(obj), {
     status,
@@ -227,7 +243,7 @@ export async function POST(req: Request): Promise<Response> {
     return json({ ok: false, error: "too_large" }, 413);
   }
 
-  let body: { email?: unknown; company?: unknown; source?: unknown };
+  let body: { email?: unknown; phone?: unknown; company?: unknown; source?: unknown };
   try {
     body = JSON.parse(raw);
   } catch {
@@ -238,13 +254,18 @@ export async function POST(req: Request): Promise<Response> {
   }
 
   const email = String(body?.email || "").trim().toLowerCase();
+  const phoneRaw = String(body?.phone || "").trim();
+  const phone = normalizePhone(phoneRaw);
   const honeypot = String(body?.company || "").trim();
   const source = String(body?.source || "footer");
   const tags = TAGS_BY_SOURCE[source] || TAGS_BY_SOURCE.footer;
+  const hasEmail = Boolean(email && email.length <= 200 && EMAIL_RE.test(email));
+  const hasPhone = Boolean(phone);
 
   if (honeypot) return json({ ok: true });
 
-  if (!email || email.length > 200 || !EMAIL_RE.test(email)) {
+  if (!hasEmail && !hasPhone) {
+    if (phoneRaw) return json({ ok: false, error: "invalid_phone" }, 422);
     return json({ ok: false, error: "invalid_email" }, 422);
   }
 
@@ -262,8 +283,18 @@ export async function POST(req: Request): Promise<Response> {
     const created = op(
       await shopGraphql(store, token, CREATE_CUSTOMER, {
         input: {
-          email,
-          emailMarketingConsent: { marketingState: "SUBSCRIBED", marketingOptInLevel: "SINGLE_OPT_IN" },
+          ...(hasEmail
+            ? {
+                email,
+                emailMarketingConsent: { marketingState: "SUBSCRIBED", marketingOptInLevel: "SINGLE_OPT_IN" },
+              }
+            : {}),
+          ...(hasPhone
+            ? {
+                phone,
+                smsMarketingConsent: { marketingState: "SUBSCRIBED", marketingOptInLevel: "SINGLE_OPT_IN" },
+              }
+            : {}),
           tags,
         },
       }),
@@ -281,7 +312,7 @@ export async function POST(req: Request): Promise<Response> {
     // laese fejlteksten — `customerCreate.userErrors` er af typen UserError,
     // som slet ikke har et `code`-felt (verificeret mod skemaet S568). Vi
     // spoerger butikken i stedet: findes kunden med praecis denne email?
-    return await resolveExisting(store, token, email, errs);
+    return await resolveExisting(store, token, hasEmail ? email : "", errs, hasPhone ? phone : null);
   } catch (err) {
     console.error("subscribe: upstream failed", err instanceof Error ? err.message : err);
     return json({ ok: false, error: "upstream" }, 502);
@@ -304,7 +335,25 @@ async function resolveExisting(
   token: string,
   email: string,
   createErrors: Array<{ message?: string }>,
+  phone: string | null = null,
 ): Promise<Response> {
+  if (!email && phone) {
+    const foundPhone = op(await shopGraphql(store, token, FIND_CUSTOMER, { q: phoneQuery(phone) }), "customers");
+    const edgesP = foundPhone.edges;
+    if (!Array.isArray(edgesP)) throw new Error("shopify_missing_edges:customers");
+    const nodes = (edgesP as Array<{ node?: { id?: string; defaultPhoneNumber?: { phoneNumber?: string } } }>)
+      .map((e) => e?.node)
+      .filter((n) => typeof n?.id === "string");
+    const exactPhone = nodes.filter((n) => {
+      const raw = n?.defaultPhoneNumber?.phoneNumber || "";
+      return normalizePhone(raw) === phone || raw.replace(/\s/g, "") === phone;
+    });
+    if (exactPhone.length === 1) return json({ ok: true, already: true });
+    if (exactPhone.length > 1) throw new Error("shopify_ambiguous_customer");
+    console.error("subscribe: userErrors", JSON.stringify(createErrors));
+    return json({ ok: false, error: "rejected" }, 422);
+  }
+
   const found = op(await shopGraphql(store, token, FIND_CUSTOMER, { q: emailQuery(email) }), "customers");
   const edges = found.edges;
   if (!Array.isArray(edges)) throw new Error("shopify_missing_edges:customers");

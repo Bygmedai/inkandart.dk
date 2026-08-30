@@ -1,0 +1,1056 @@
+/* Rummet tokens — only on Rummet surfaces. Emerge :root stays for remaining pages. */
+
+[data-house="rummet"] {
+  --nat: #070707;
+  --hud: #e8dcc8;
+  --blod: #b91c1c;
+  --strobe: #c8ff3d;
+  --beton: #8a8580;
+  --rum-line: rgba(232, 220, 200, 0.12);
+  --void: #070707;
+  --text: #e8dcc8;
+  --text-soft: #e8dcc8;
+  --text-mute: #8a8580;
+  --gold: #8a8580;
+  --oxblood: #b91c1c;
+  --gutter: clamp(20px, 6vw, 96px);
+
+  background: var(--nat);
+  color: var(--hud);
+  font-family: var(--font-chair), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 900px) {
+  [data-house="rummet"] {
+    padding-bottom: 0;
+  }
+}
+
+[data-house="rummet"] * { border-radius: 0; }
+
+[data-house="rummet"] :focus-visible {
+  outline: 2px solid var(--hud);
+  outline-offset: 2px;
+}
+
+[data-house="rummet"] .rum-nat :focus-visible {
+  outline-color: var(--strobe);
+}
+
+html:has([data-rummet]),
+html:has([data-house="rummet"]) {
+  background: #070707;
+}
+html:has([data-rummet]) .grain,
+html:has([data-house="rummet"]) .grain {
+  display: none;
+}
+
+.rum-main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.rum-poster {
+  font-family: var(--font-poster), "Anton", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 0.92;
+}
+
+.rum-label {
+  font-family: var(--font-chair), system-ui, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--beton);
+  line-height: 1.3;
+}
+
+.rum-body-copy {
+  font-size: 16px;
+  line-height: 1.5;
+  text-transform: none;
+  max-width: 46ch;
+}
+
+/* ── Nav ── */
+
+.rum-nav {
+  height: 64px;
+  padding: 0 var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--rum-line);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--nat);
+}
+
+@media (min-width: 900px) {
+  .rum-nav { height: 88px; }
+}
+
+.rum-nav__mark {
+  font-family: var(--font-poster), sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.18em;
+  color: var(--hud);
+  text-transform: uppercase;
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.rum-nav__segl {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  display: block;
+}
+.rum-nav__segl img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+@media (min-width: 900px) {
+  .rum-nav__mark { font-size: 26px; }
+}
+
+.rum-nav__rooms {
+  display: none;
+  align-items: center;
+  gap: 34px;
+}
+@media (min-width: 900px) {
+  .rum-nav__rooms { display: flex; }
+}
+
+.rum-nav__room {
+  font-family: var(--font-poster), sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--beton);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.rum-nav__room[aria-current="page"],
+.rum-nav__room:hover {
+  color: var(--hud);
+}
+
+.rum-nav__split {
+  display: none;
+  width: 1px;
+  height: 15px;
+  background: rgba(232, 220, 200, 0.2);
+}
+@media (min-width: 900px) {
+  .rum-nav__split { display: block; }
+}
+
+.rum-nav__book {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  min-width: 44px;
+  justify-content: center;
+  color: var(--hud);
+  font-family: var(--font-poster), sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.rum-dot {
+  display: block;
+  width: 8px;
+  height: 8px;
+  background: var(--blod);
+  flex: none;
+}
+
+.rum-nav__book-word { display: none; }
+@media (min-width: 900px) {
+  .rum-nav__book-word { display: inline; }
+}
+
+/* ── Mobile room bar ── */
+
+.rum-dock {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  display: flex;
+  align-items: stretch;
+  border-top: 1px solid var(--rum-line);
+  background: var(--nat);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (min-width: 900px) {
+  .rum-dock { display: none; }
+}
+
+.rum-dock a {
+  flex: 1;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-poster), sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--beton);
+  padding: 12px 4px;
+}
+.rum-dock a[aria-current="page"] { color: var(--hud); }
+.rum-dock__book { flex: none; width: 48px; }
+
+/* ── Huset ── */
+
+.rum-huset {
+  padding: 24px var(--gutter) 48px;
+  display: grid;
+  gap: 40px;
+}
+@media (min-width: 1100px) {
+  .rum-huset {
+    grid-template-columns: minmax(280px, 46vw) 1fr;
+    gap: 40px 48px;
+    padding: 0 var(--gutter) 68px 0;
+    align-items: start;
+  }
+}
+
+.rum-huset__intro {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 36rem;
+  padding: 4px 0 0;
+}
+.rum-huset__title {
+  font-size: 28px;
+  margin: 0;
+  color: var(--hud);
+}
+.rum-huset__lede {
+  margin: 0;
+}
+.rum-huset__cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 28px;
+  margin-top: 4px;
+}
+@media (min-width: 1100px) {
+  .rum-huset__title { font-size: 40px; }
+  .rum-huset__intro { padding-top: 28px; }
+}
+
+.rum-huset__plade { min-width: 0; position: relative; }
+.rum-huset__side {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+@media (min-width: 1100px) {
+  .rum-huset__side { padding-top: 28px; }
+}
+
+.rum-huset__chairs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px 16px;
+  margin-top: 12px;
+}
+.rum-huset__chairs .rum-kort__foto,
+.rum-huset__chairs .rum-chair__foto {
+  min-width: 220px;
+}
+
+/* M2 masthead segl — graphic, hud on nat, not a corner icon */
+.rum-segl {
+  display: block;
+  width: min(var(--rum-segl-size, 220px), 72vw);
+  line-height: 0;
+}
+.rum-segl img {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* SVG is white disc + red mark — reads on nat; no invert. */
+}
+.rum-segl--above { margin: 8px 0 16px; }
+.rum-segl--beside { margin: 8px 0 16px; }
+.rum-segl--masthead { margin: 8px 0 16px; }
+.rum-huset__maerke {
+  margin: 0 0 28px;
+}
+.rum-huset__maerke .rum-segl {
+  filter: drop-shadow(0 8px 18px rgba(7, 7, 7, 0.55));
+}
+
+@media (max-width: 1099px) {
+  .rum-huset__plade .rum-plade__frame,
+  .rum-huset__plade .rum-plade__frame img {
+    min-height: 58svh;
+  }
+}
+
+@media (min-width: 1100px) {
+  .rum-huset__kicker {
+    position: absolute;
+    top: 28px;
+    right: 16px;
+    z-index: 3;
+    margin: 0;
+    color: var(--hud);
+  }
+  .rum-huset__plade .rum-plade__frame {
+    border: none;
+    max-height: none;
+    min-height: max(62svh, calc(100svh - 88px));
+    width: 100%;
+    aspect-ratio: auto;
+    background: var(--nat);
+  }
+  .rum-huset__plade .rum-plade__frame img {
+    min-height: max(62svh, calc(100svh - 88px));
+    object-fit: cover;
+  }
+  .rum-huset__plade .rum-plade figcaption {
+    padding: 16px var(--gutter) 0;
+  }
+}
+
+.rum-plade { margin: 0; }
+.rum-plade__frame {
+  position: relative;
+  border: 1px solid var(--rum-line);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #111;
+}
+@media (min-width: 1100px) {
+  .rum-plade__frame {
+    max-height: min(68svh, 700px);
+    width: 100%;
+    aspect-ratio: 4 / 5;
+  }
+}
+.rum-plade__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.rum-demo {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--beton);
+  background: rgba(7, 7, 7, 0.72);
+  padding: 4px 8px;
+}
+.rum-plade__titel {
+  margin: 16px 0 0;
+  font-size: clamp(22px, 3vw, 34px);
+}
+.rum-plade__artist {
+  margin: 8px 0 0;
+  font-size: 15px;
+  opacity: 0.74;
+}
+.rum-plade__meta {
+  margin: 4px 0 0;
+}
+
+.rum-chair {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  border-bottom: none;
+  text-decoration: none;
+  color: inherit;
+  min-height: 44px;
+  min-width: 0;
+}
+.rum-chair__foto {
+  position: relative;
+  width: 100%;
+  min-width: 220px;
+  aspect-ratio: 4 / 5;
+  border: 1px solid var(--rum-line);
+  overflow: hidden;
+}
+.rum-chair__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.rum-chair__navn {
+  margin: 0;
+  font-size: clamp(22px, 2.4vw, 30px);
+}
+.rum-chair__craft {
+  margin: 8px 0 0;
+  font-size: 15px;
+  opacity: 0.74;
+}
+.rum-chair__meta { margin: 6px 0 0; }
+
+.rum-empty {
+  border: 1px solid var(--rum-line);
+  padding: 22px 24px;
+  color: var(--beton);
+}
+.rum-empty__title {
+  margin: 0;
+  font-size: clamp(28px, 4vw, 40px);
+  color: var(--beton);
+}
+
+.rum-nat {
+  margin-top: 28px;
+}
+.rum-nat__card {
+  margin-top: 14px;
+  border: 1px solid var(--rum-line);
+  padding: 22px 24px;
+}
+.rum-nat__card--live {
+  border-left: 3px solid var(--strobe);
+}
+.rum-nat__title {
+  margin: 0;
+  font-size: clamp(32px, 4vw, 48px);
+}
+.rum-nat__meta { margin: 12px 0 0; }
+.rum-nat__go {
+  margin-top: 16px;
+  font-family: var(--font-poster), sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 15px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.rum-huset__door {
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(232, 220, 200, 0.1);
+}
+
+.rum-fact {
+  margin: 20px 0 0;
+  font-size: 16px;
+  color: var(--hud);
+  opacity: 0.78;
+  max-width: 46ch;
+}
+
+.rum-book {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--font-poster), sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hud);
+  border-bottom: 1px solid rgba(232, 220, 200, 0.28);
+}
+
+.rum-tel {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/* ── Door ── */
+
+.rum-door {
+  padding: 28px var(--gutter) 36px;
+}
+.rum-door--inline {
+  padding: 0;
+}
+.rum-door__head {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+.rum-door__name {
+  font-family: var(--font-poster), sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--hud);
+}
+.rum-door__line {
+  margin: 12px 0 0;
+  color: var(--beton);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.rum-door__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+  margin-top: 18px;
+}
+.rum-door__field {
+  flex: 1;
+  min-width: 180px;
+}
+.rum-door__field label {
+  display: block;
+  font-size: 12px;
+  color: var(--beton);
+  margin-bottom: 6px;
+}
+.rum-door__field input[type="email"] {
+  width: 100%;
+  min-height: 44px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(232, 220, 200, 0.28);
+  color: var(--hud);
+  font-size: 16px;
+  padding: 8px 0;
+}
+.rum-door__go {
+  min-height: 44px;
+  min-width: 88px;
+  padding: 0 16px;
+  background: var(--hud);
+  color: var(--nat);
+  font-family: var(--font-poster), sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+}
+.rum-door__go:disabled { opacity: 0.5; cursor: wait; }
+.rum-door__status {
+  margin: 10px 0 0;
+  min-height: 1.2em;
+  font-size: 13px;
+  color: var(--beton);
+}
+.rum-door__hp {
+  position: absolute;
+  left: -9999px;
+}
+
+/* ── Footer ── */
+
+.rum-footer {
+  margin-top: auto;
+  padding: 20px var(--gutter) 28px;
+  border-top: 1px solid var(--rum-line);
+  color: var(--beton);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.rum-footer a { color: var(--beton); }
+.rum-footer a:hover { color: var(--hud); }
+
+/* ── Room stubs ── */
+
+.rum-room {
+  padding: 36px var(--gutter) 72px;
+  max-width: min(100%, 1680px);
+  width: 100%;
+  box-sizing: border-box;
+}
+.rum-room__title {
+  margin: 12px 0 0;
+  font-size: clamp(48px, 10vw, 96px);
+}
+.rum-room__slot {
+  position: relative;
+  margin-top: 28px;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+.rum-room__slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+@media (max-width: 899px) {
+  .rum-room__slot {
+    aspect-ratio: 4 / 5;
+  }
+}
+.rum-room__note {
+  margin: 24px 0 0;
+  max-width: 46ch;
+}
+
+.rum-natten__out {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 28px;
+  margin-top: 24px;
+}
+
+.rum-legal {
+  padding: 36px var(--gutter) 80px;
+  max-width: 68ch;
+}
+.rum-legal h1 {
+  margin: 12px 0 0;
+  font-size: clamp(36px, 6vw, 64px);
+}
+.rum-legal ol { list-style: none; padding: 0; margin: 24px 0 0; }
+.rum-legal li {
+  display: flex;
+  gap: 16px;
+  border-top: 1px solid var(--rum-line);
+  padding: 20px 0;
+}
+.rum-legal h2 {
+  margin: 40px 0 0;
+  font-size: clamp(24px, 4vw, 36px);
+}
+.rum-legal h3 {
+  margin: 0;
+  font-size: 16px;
+}
+.rum-legal p { margin: 12px 0 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-house="rummet"] * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Trailing header book is mobile-only (dot). Desktop uses the one inside rooms. */
+.rum-nav > .rum-nav__cluster { display: flex; }
+@media (min-width: 900px) {
+  .rum-nav > .rum-nav__cluster { display: none; }
+}
+
+/* ── M2 Stolen / Mærket ── */
+
+.rum-nav__cluster,
+.rum-dock__cluster {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.rum-dock__cluster {
+  flex: none;
+  align-items: stretch;
+}
+
+.rum-cart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  font-family: var(--font-poster), sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--hud);
+}
+
+.rum-book--row {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 44px;
+  margin-top: 16px;
+  padding: 10px 0;
+  justify-content: flex-start;
+}
+
+.rum-stolen__grid {
+  margin-top: 28px;
+  display: grid;
+  gap: 36px;
+}
+@media (min-width: 800px) {
+  .rum-stolen__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 48px;
+  }
+}
+@media (min-width: 1200px) {
+  .rum-stolen__grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+.rum-kort {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.rum-kort__foto {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border: 1px solid var(--rum-line);
+  overflow: hidden;
+  background: #111;
+}
+.rum-kort__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* På telefonen fyldte portrættet skærmen alene: navnet stod nederst og
+   "Book tid" lå under folden. Man kunne se tatovøren, men ikke bestille
+   en tid hos ham. Loftet klipper portrættet — object-fit: cover holder
+   ansigtet — så knappen kommer op i syne. Fuld højde igen fra 700px,
+   hvor kortene alligevel står ved siden af hinanden. */
+@media (max-width: 699px) {
+  .rum-stolen__grid .rum-kort__foto {
+    max-height: 42svh;
+  }
+}
+
+.rum-kort__body {
+  padding-top: 16px;
+}
+.rum-kort__arkiv {
+  margin: 12px 0 0;
+}
+.rum-kort__arkiv a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 15px;
+  color: var(--hud);
+  text-transform: none;
+}
+.rum-kort__arkiv a:hover {
+  color: var(--hud);
+}
+
+.rum-maerket__hylden {
+  margin-top: 36px;
+}
+.rum-maerket__hylden .rum-empty {
+  max-width: 46ch;
+}
+.rum-maerket__vaeg {
+  margin-top: 48px;
+}
+
+.rum-hylden {
+  margin-top: 16px;
+  display: grid;
+  /* To i bredden allerede på telefonen. Én vare per skærm er en
+     udstillingsmontre, ikke en disk: kunden kan hverken sammenligne
+     eller skimme, og med hundrede varer bliver hylden en rulletur.
+     To kolonner halverer også pladens andel af skærmen, så papiret
+     bærer fladen i stedet for blækket. Målt på Mærket ved 390px:
+     lys andel 54,1% → 73,8%. Salgsporten åbnede. */
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+@media (min-width: 700px) {
+  .rum-hylden {
+    gap: 28px;
+  }
+}
+.rum-hylden__item {
+  color: inherit;
+  text-decoration: none;
+  min-height: 44px;
+}
+
+.rum-gave {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+.rum-gave__n {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 4px;
+}
+
+.rum-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  margin-top: 12px;
+}
+.rum-filter a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 15px;
+  color: var(--beton);
+  text-transform: none;
+}
+.rum-filter a[aria-current="page"],
+.rum-filter a:hover {
+  color: var(--hud);
+}
+
+.rum-vaeg {
+  margin-top: 20px;
+  display: grid;
+  gap: 24px 16px;
+  grid-template-columns: 1fr 1fr;
+}
+@media (min-width: 700px) {
+  .rum-vaeg {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px 24px;
+  }
+}
+@media (min-width: 1200px) {
+  .rum-vaeg {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+.rum-vaeg__item { min-width: 0; }
+
+.rum-produkt__plade {
+  margin-top: 28px;
+  max-width: 560px;
+}
+.rum-produkt__fragt {
+  margin-top: 20px;
+}
+.rum-produkt__koeb {
+  margin-top: 8px;
+  max-width: 560px;
+}
+.rum-produkt__koeb button {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(232, 220, 200, 0.28);
+  cursor: pointer;
+  color: var(--hud);
+  padding: 0;
+}
+
+/* ── Mærket: salgsflade på hud, ramme (nav/footer) bliver på nat ── */
+
+[data-tone="salg"] .rum-main {
+  background: var(--hud);
+  color: var(--nat);
+  --rum-line: rgba(7, 7, 7, 0.18);
+  --text: var(--nat);
+}
+
+[data-tone="salg"] .rum-maerket,
+[data-tone="salg"] .rum-produkt {
+  color: var(--nat);
+  width: 100%;
+  max-width: min(100%, 1680px);
+}
+
+[data-tone="salg"] .rum-poster {
+  color: var(--nat);
+}
+
+[data-tone="salg"] .rum-empty__title {
+  color: var(--nat);
+}
+
+[data-tone="salg"] .rum-filter a {
+  color: var(--nat);
+}
+
+[data-tone="salg"] .rum-filter a[aria-current="page"],
+[data-tone="salg"] .rum-filter a:hover {
+  color: var(--blod);
+}
+
+[data-tone="salg"] .rum-book {
+  color: var(--nat);
+  border-bottom-color: rgba(7, 7, 7, 0.28);
+}
+
+[data-tone="salg"] .rum-gave__n {
+  color: var(--nat);
+}
+
+[data-tone="salg"] .rum-plade__frame,
+[data-tone="salg"] .rum-kort__foto {
+  border-color: rgba(7, 7, 7, 0.22);
+  background: var(--hud);
+}
+
+[data-tone="salg"] .rum-demo {
+  color: var(--nat);
+  background: rgba(232, 220, 200, 0.88);
+}
+
+[data-tone="salg"] .rum-plade__titel,
+[data-tone="salg"] .rum-plade__artist,
+[data-tone="salg"] .rum-plade__meta {
+  color: var(--nat);
+}
+
+[data-tone="salg"] .rum-produkt__koeb button {
+  color: var(--blod);
+  border-bottom-color: rgba(185, 28, 28, 0.45);
+  font-size: 20px;
+}
+
+[data-tone="salg"] .rum-main :focus-visible {
+  outline-color: var(--nat);
+}
+
+[data-tone="salg"] .rum-maerket__hylden,
+[data-tone="salg"] .rum-maerket__vaeg {
+  width: 100%;
+}
+
+[data-tone="salg"] .rum-hylden {
+  width: 100%;
+}
+
+[data-tone="salg"] .rum-vaeg {
+  width: 100%;
+}
+
+[data-tone="salg"] .rum-empty,
+[data-tone="salg"] .rum-body-copy,
+[data-tone="salg"] .rum-kort__navn,
+[data-tone="salg"] .rum-kort__arkiv a {
+  color: var(--nat);
+}
+
+[data-tone="salg"] .rum-nav,
+[data-tone="salg"] .rum-footer,
+[data-tone="salg"] .rum-dock {
+  background: var(--nat);
+  color: var(--hud);
+}
+
+[data-tone="salg"] .rum-label {
+  color: #5f5a54;
+}
+
+/* ── Booking: salgsflade, handling først, ét rum-billede ── */
+
+.rum-booking {
+  display: grid;
+  gap: 28px 40px;
+}
+@media (min-width: 800px) {
+  .rum-booking {
+    grid-template-columns: minmax(16rem, 1fr) minmax(14rem, 1fr);
+    align-items: start;
+  }
+}
+.rum-booking__koeb { min-width: 0; }
+.rum-booking__plade { min-width: 0; }
+.rum-booking__plade img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  display: block;
+  border: 1px solid var(--rum-line);
+}
+@media (max-width: 899px) {
+  .rum-booking__plade img {
+    max-height: 240px;
+    aspect-ratio: auto;
+  }
+}
+.rum-booking__go {
+  font-size: 20px;
+  width: 100%;
+  justify-content: center;
+}
+.rum-booking__pris {
+  color: var(--blod);
+  font-size: 20px;
+  letter-spacing: 0.02em;
+}
+[data-tone="salg"] .rum-booking__pris {
+  color: var(--blod);
+  font-size: 20px;
+}
+[data-tone="salg"] .rum-booking {
+  color: var(--nat);
+}
+
+.rum-billedtekst {
+  margin: 12px 0 0;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: inherit;
+  max-width: 46ch;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.rum-plade .rum-billedtekst { margin-top: 12px; }
+.rum-booking__plade .rum-billedtekst { margin-top: 10px; }
+[data-tone="salg"] .rum-billedtekst { color: var(--nat); }
+
+/* Hylden som disk, ikke som galleri (S573).
+   Varekortet har hvid bund fordi en vare fotograferes på ren baggrund —
+   den skal kunne ses, ikke stemme. Prisen er stor nok til at være svaret
+   på det spørgsmål øjet stiller. */
+.rum-vare__frame {
+  background: #fff;
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+.rum-vare__frame img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.rum-vare__pris {
+  font-size: 20px;
+  line-height: 1.1;
+  margin: 4px 0 2px;
+}
+@media (min-width: 700px) {
+  .rum-hylden {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

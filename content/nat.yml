@@ -1,0 +1,11 @@
+# Én post pr. nat. aktiv: true = vises som «i aften».
+# Tom liste eller ingen aktiv → «Ingen nat i aften».
+# DJ-navne afventer — vises som «Gæste-DJ» når natten er aktiv.
+
+- nr: ""
+  dato: ""
+  navne: []
+  tidsrum: ""
+  plakatfoto: /slots/H-02.jpg
+  billedtekst: Rummet efter lukketid, lampen tændt, tom stol.
+  aktiv: false

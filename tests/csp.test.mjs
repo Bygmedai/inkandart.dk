@@ -16,12 +16,15 @@ function walk(dir, acc = []) {
   return acc;
 }
 
-test("vercel CSP matches lib/csp.ts and describes runtime", () => {
+test("vercel CSP matches lib/csp.ts and describes runtime", async () => {
   const cspMod = readFileSync(join(root, "lib/csp.ts"), "utf8");
   const vercel = JSON.parse(readFileSync(join(root, "vercel.json"), "utf8"));
   const header = vercel.headers
     .flatMap((h) => h.headers)
     .find((h) => h.key === "Content-Security-Policy").value;
+
+  const { CONTENT_SECURITY_POLICY } = await import("../lib/csp.ts");
+  assert.equal(header, CONTENT_SECURITY_POLICY);
 
   assert.match(cspMod, /object-src 'none'/);
   assert.match(cspMod, /default-src 'self'/);

@@ -1,0 +1,100 @@
+# Værker. Untitled — ingen opdigtede titler.
+# edition_ref tom = hylden er tom («Vi laver ikke varer uden værk.»).
+# i_dag: det værk Huset viser som pladen.
+# billedtekst: motiv + teknik. Ikke en titel, ikke et kunstnerkredit.
+
+- id: V-01
+  titel: ""
+  artist: nizar
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-01.jpg
+  billedtekst: Ornamental mandala, sort blæk og prikker, overarm.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-02
+  titel: ""
+  artist: nizar
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-02.jpg
+  billedtekst: Slange, sort og grå streg, underarm.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-03
+  titel: ""
+  artist: emma
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-03.jpg
+  billedtekst: Flash-ark. Dolke og kranie, farve.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-04
+  titel: ""
+  artist: emma
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-04.jpg
+  billedtekst: Flash-ark. To frøer, farve.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-05
+  titel: ""
+  artist: nizar
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-05.jpg
+  billedtekst: Ornamental bånd, sort blæk og prikker, læg.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-06
+  titel: ""
+  artist: emma
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-06.jpg
+  billedtekst: Sol, fin streg og prikker, håndled.
+  maa_vises: true
+  demo: false
+  i_dag: true
+  edition_ref: ""
+
+- id: V-07
+  titel: ""
+  artist: nizar
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-07.jpg
+  billedtekst: Panter, sort og grå, lår.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-08
+  titel: ""
+  artist: emma
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-08.jpg
+  billedtekst: Streg på fingre, sort blæk.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""

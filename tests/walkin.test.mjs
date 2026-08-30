@@ -8,7 +8,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const commerce = readFileSync(join(root, "lib/commerce.ts"), "utf8");
 const relic = readFileSync(join(root, "components/emerge/WalkinRelic.tsx"), "utf8");
 const scene = readFileSync(join(root, "components/emerge/SceneV05.tsx"), "utf8");
-const page = readFileSync(join(root, "app/walk-in/page.tsx"), "utf8");
+const page = readFileSync(join(root, "app/(emerge)/walk-in/page.tsx"), "utf8");
 const sitemap = readFileSync(join(root, "app/sitemap.ts"), "utf8");
 
 test("walk-in 900 uses the live Shopify variant and skip_shop_pay", () => {
