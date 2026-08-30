@@ -73,9 +73,12 @@ export default async function ArtistPage({
               <p className="rum-chair__craft">{artist.haandvaerk}</p>
             ) : null}
             <p className="rum-label rum-chair__meta">{periodeLabel(artist)}</p>
+            {artist.bio ? (
+              <p className="rum-body-copy rum-artist__bio">{artist.bio}</p>
+            ) : null}
             <div className="rum-huset__cta">
               {artist.booking ? (
-                <a href="/booking" className="rum-book">
+                <a href={`/booking?artist=${artist.id}`} className="rum-book">
                   Book tid
                 </a>
               ) : (

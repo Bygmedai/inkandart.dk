@@ -17,6 +17,14 @@
   periode: fast
   foto: /slots/S-02.jpg
   billedtekst: Emma Winding i huset.
+  # Emmas egne ord, fra hendes præsentation (Artister/Emma, 30/8).
+  bio: >-
+    Jeg elsker det kreative håndværk, detaljerne og mødet med alle de
+    forskellige mennesker, der kommer forbi. Uanset om du kommer med en
+    klar idé eller kun en tanke, hjælper jeg dig gerne med at gøre den
+    til virkelighed. Jeg går op i at skabe et flot og gennemført
+    resultat, samtidig med at du føler dig tryg og godt tilpas gennem
+    hele processen.
   aktiv: true
   stol: true
 

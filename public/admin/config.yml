@@ -41,6 +41,7 @@ collections:
               - { label: Aktiv, name: aktiv, widget: boolean, default: true }
               - { label: Sidder i stolen, name: stol, widget: boolean, default: true }
               - { label: Kan bookes, name: booking, widget: boolean, default: true, hint: "Fra = kortet siger walk-in. Tænd når Book.dk-kalenderen er sat op." }
+              - { label: Bio, name: bio, widget: text, required: false, hint: "Artistens egne ord. Tom = linjen udelades. Skriv aldrig en bio for et menneske der ikke selv har skrevet den." }
 
   - name: vaerker
     label: Værker
@@ -123,3 +124,28 @@ collections:
           - { label: Åbningstider, name: aabent, widget: string, required: false, hint: "Tom = linjen udelades. Opdigt aldrig tider." }
           - { label: Walk-in-tider, name: walk_in, widget: string, required: false, hint: "Tom = linjen udelades." }
           - { label: Billedtekst, name: billedtekst, widget: string, required: false }
+
+  - name: booking
+    label: Booking-siden
+    files:
+      - label: Booking-siden
+        name: booking
+        file: content/booking.yml
+        fields:
+          - { label: Lede, name: lede, widget: text }
+          - { label: Depositum-knappens tekst, name: depositum_label, widget: string, hint: "Beløbet skal matche Shopify-produktet." }
+          - { label: Book.dk-knappens tekst, name: door_label, widget: string, default: "Videre til booking" }
+          - { label: Note, name: note, widget: text, required: false }
+          - { label: Foto, name: foto, widget: image }
+          - { label: Billedtekst, name: billedtekst, widget: string }
+
+  - name: natten_side
+    label: Nattens side
+    files:
+      - label: Nattens side
+        name: natten_side
+        file: content/natten.yml
+        fields:
+          - { label: Intro, name: intro, widget: text, hint: "Hvad Natten ER, for en der aldrig har hørt om den." }
+          - { label: Tom-tilstandens titel, name: tom_titel, widget: string, default: "Ingen nat i aften" }
+          - { label: Tom-tilstandens linje, name: tom_linje, widget: string, required: false }
