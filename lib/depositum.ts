@@ -140,6 +140,98 @@ type OrdreSvar = {
   };
 };
 
+/**
+ * Depositum-ordrer til afstemningen (S574). Kun det Sonja skal bruge
+ * for at parre en betaling med en booking: nummer, tidspunkt, mail og
+ * beløb. Ingen navn, telefon eller adresse — de hjælper ikke med
+ * matchningen, og så skal de ikke stå på en skærm i butikken.
+ */
+export type DepositumOrdre = {
+  nummer: string;
+  tid: string;
+  email: string;
+  belob: string;
+  betalt: boolean;
+};
+
+const LISTE_QUERY = `
+  query Depositumordrer($q: String!) {
+    orders(first: 50, query: $q, sortKey: CREATED_AT, reverse: true) {
+      edges {
+        node {
+          name
+          createdAt
+          displayFinancialStatus
+          totalPriceSet { shopMoney { amount currencyCode } }
+          customer { defaultEmailAddress { emailAddress } }
+          lineItems(first: 20) { edges { node { variant { id } } } }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * Henter de seneste depositum-ordrer. Fejler LUKKET: kan vi ikke spørge
+ * Shopify, får Sonja et tomt svar og en besked — aldrig en liste der
+ * ser komplet ud men mangler halvdelen.
+ */
+export async function depositumOrdrer(
+  varianter: ReadonlySet<string>,
+  dage = 60,
+): Promise<{ ok: boolean; ordrer: DepositumOrdre[] }> {
+  const store = env("SHOPIFY_STORE", "Shopify_store") || DEFAULT_STORE;
+  const token = await adminToken(store);
+  if (!token) return { ok: false, ordrer: [] };
+
+  const fra = new Date(Date.now() - dage * 86_400_000).toISOString().slice(0, 10);
+  let json: { data?: { orders?: { edges?: { node?: Record<string, unknown> }[] } } };
+  try {
+    const res = await fetch(`https://${store}/admin/api/${API_VERSION}/graphql.json`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Shopify-Access-Token": token },
+      body: JSON.stringify({ query: LISTE_QUERY, variables: { q: `created_at:>=${fra}` } }),
+      signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
+      cache: "no-store",
+    });
+    if (!res.ok) return { ok: false, ordrer: [] };
+    json = await res.json();
+  } catch {
+    return { ok: false, ordrer: [] };
+  }
+
+  const kanter = json?.data?.orders?.edges;
+  if (!Array.isArray(kanter)) return { ok: false, ordrer: [] };
+
+  const ordrer: DepositumOrdre[] = [];
+  for (const k of kanter) {
+    const n = k?.node as
+      | {
+          name?: string;
+          createdAt?: string;
+          displayFinancialStatus?: string;
+          totalPriceSet?: { shopMoney?: { amount?: string; currencyCode?: string } };
+          customer?: { defaultEmailAddress?: { emailAddress?: string } | null } | null;
+          lineItems?: { edges?: { node?: { variant?: { id?: string } | null } }[] };
+        }
+      | undefined;
+    if (!n) continue;
+    const erDepositum = (n.lineItems?.edges ?? []).some((e) =>
+      varianter.has(variantId(e?.node?.variant?.id)),
+    );
+    if (!erDepositum) continue;
+    const penge = n.totalPriceSet?.shopMoney;
+    ordrer.push({
+      nummer: String(n.name || ""),
+      tid: String(n.createdAt || ""),
+      email: String(n.customer?.defaultEmailAddress?.emailAddress || ""),
+      belob: penge ? `${Math.round(Number(penge.amount))} ${penge.currencyCode || ""}`.trim() : "",
+      betalt: n.displayFinancialStatus === "PAID",
+    });
+  }
+  return { ok: true, ordrer };
+}
+
 /** Variant-GID → bart id. Ordren svarer med gid, kataloget har cifre. */
 function variantId(gid: string | undefined | null): string {
   return String(gid || "").split("/").pop() || "";

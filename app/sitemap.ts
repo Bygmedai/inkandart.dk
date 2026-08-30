@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { loadHouse, profiledArtists } from "@/lib/content";
 
+// /afstemning er husets egen side — den står bevidst IKKE her, og den
+// er noindex. Et sitemap er en invitation.
 export default function sitemap(): MetadataRoute.Sitemap {
   const artistPages = profiledArtists(loadHouse().artists).map((a) => ({
     url: `https://inkandart.dk/stolen/${a.id}`,
