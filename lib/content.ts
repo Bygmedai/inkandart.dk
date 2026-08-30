@@ -202,6 +202,34 @@ export function loadHusetForside(): HusetForside {
   };
 }
 
+/** Betingelser — sektioner fra YAML, dansk og engelsk. Decap-redigerbare. */
+export type BetingelserSektion = { overskrift: string; tekst: string };
+export type Betingelser = {
+  titel: string;
+  lede: string;
+  sektioner: BetingelserSektion[];
+};
+
+function readBetingelser(fil: string): Betingelser {
+  const d = readYaml<Partial<Betingelser>>(fil);
+  const sektioner = Array.isArray(d.sektioner) ? d.sektioner : [];
+  return {
+    titel: str(d.titel),
+    lede: str(d.lede),
+    sektioner: sektioner
+      .map((x) => ({ overskrift: str(x?.overskrift), tekst: str(x?.tekst) }))
+      .filter((x) => x.overskrift && x.tekst),
+  };
+}
+
+export function loadBetingelser(): Betingelser {
+  return readBetingelser("betingelser.yml");
+}
+
+export function loadBetingelserEn(): Betingelser {
+  return readBetingelser("betingelser.en.yml");
+}
+
 /**
  * Husets stamdata — navn, CVR, adresse, telefon, mail. Ét sted.
  * Footer, forside og booking læser herfra; ingen flade ejer sit eget nummer.

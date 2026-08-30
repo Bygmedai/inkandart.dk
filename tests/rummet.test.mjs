@@ -544,9 +544,11 @@ test("M3 Gaden: ingen [TAL BEKRÆFTES], Ring på, tomme timer udelades", async (
   assert.doesNotMatch(gaden, /\[TAL BEKRÆFTES\]/);
   assert.match(gaden, /Ring på/);
   assert.match(gaden, /tel:\+4555248608/);
-  assert.match(yml, /aabent:\s*""/);
+  // 30/8: huset HAR åbningstider nu (Stevens kendelse: tor-lør til kl. 05).
+  // Reglen der består: tider kommer fra YAML og opdigtes aldrig i kode.
+  assert.match(yml, /Torsdag, fredag og lørdag/);
+  assert.match(info.aabent, /kl\. 05/);
   assert.match(yml, /walk_in:\s*""/);
-  assert.equal(info.aabent, "");
   assert.equal(info.walk_in, "");
   assert.doesNotMatch(gaden, /DEMO G-01/);
   assert.match(gaden, /gaden\.aabent \?/);

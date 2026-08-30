@@ -1,23 +1,23 @@
 import type { Metadata } from "next";
 import { RummetShell } from "@/components/rummet/Shell";
-import { loadBetingelser } from "@/lib/content";
+import { loadBetingelserEn } from "@/lib/content";
 import { alternates } from "@/lib/i18n";
 
-const _b = loadBetingelser();
+const _b = loadBetingelserEn();
 
 export const metadata: Metadata = {
   title: `${_b.titel} · Ink & Art`,
   description: _b.lede,
-  alternates: { ...alternates("/betingelser"), canonical: "/betingelser" },
+  alternates: { ...alternates("/betingelser"), canonical: "/en/betingelser" },
 };
 
-/** Godkendt af Steven 30/8. Teksten bor i content/betingelser.yml. */
-export default function BetingelserPage() {
-  const b = loadBetingelser();
+/** English terms — same substance as the Danish canon, own voice. */
+export default function TermsPageEn() {
+  const b = loadBetingelserEn();
   return (
     <RummetShell>
-      <main id="main" className="rum-legal">
-        <p className="rum-label">Huset</p>
+      <main id="main" lang="en" className="rum-legal">
+        <p className="rum-label">The house</p>
         <h1 className="rum-poster">{b.titel}</h1>
         <p className="rum-body-copy rum-legal__lede">{b.lede}</p>
         {b.sektioner.map((s) => (
