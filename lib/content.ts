@@ -173,6 +173,85 @@ export function loadGaden(): GadenInfo {
   };
 }
 
+/**
+ * Forsiden — Huset. Ord og hero bor i content/huset.yml, ikke i markup.
+ * Sonja retter filen; koden kender kun felterne.
+ */
+export type HusetForside = {
+  kicker: string;
+  titel: string;
+  lede: string;
+  cta_book: string;
+  hero_foto: string;
+  hero_billedtekst: string;
+};
+
+export function loadHusetForside(): HusetForside {
+  const d = readYaml<Partial<HusetForside>>("huset.yml");
+  return {
+    kicker: str(d.kicker),
+    titel: str(d.titel),
+    lede: str(d.lede),
+    cta_book: str(d.cta_book) || "Book tid",
+    hero_foto: str(d.hero_foto),
+    hero_billedtekst: str(d.hero_billedtekst),
+  };
+}
+
+/**
+ * Husets stamdata — navn, CVR, adresse, telefon, mail. Ét sted.
+ * Footer, forside og booking læser herfra; ingen flade ejer sit eget nummer.
+ */
+export type Kontakt = {
+  navn: string;
+  cvr: string;
+  adresse: string;
+  by: string;
+  telefon_vist: string;
+  telefon_e164: string;
+  email: string;
+};
+
+export function loadKontakt(): Kontakt {
+  const d = readYaml<Partial<Kontakt>>("kontakt.yml");
+  return {
+    navn: str(d.navn),
+    cvr: str(d.cvr),
+    adresse: str(d.adresse),
+    by: str(d.by),
+    telefon_vist: str(d.telefon_vist),
+    telefon_e164: str(d.telefon_e164),
+    email: str(d.email),
+  };
+}
+
+/**
+ * Periode-etiketten på et kort kommer fra data — aldrig hardcodet i markup.
+ * fast → «Fast», gæst → «Gæst» / «I huset til …», alt andet står som skrevet.
+ */
+export function periodeLabel(a: Artist): string {
+  if (a.periode === "fast") return "Fast";
+  if (a.periode === "gaest") {
+    return a.periode_til ? `I huset til ${a.periode_til}` : "Gæst";
+  }
+  return a.periode;
+}
+
+/**
+ * Chips på Væggen: kun artister der faktisk har værker at filtrere på.
+ * En chip uden værker bag sig er en dør ind i et tomt rum.
+ */
+export function wallChipArtists(artists: Artist[], vaerker: Vaerk[]): Artist[] {
+  return artists.filter(
+    (a) => a.aktiv && a.fornavn && visibleCountForArtist(vaerker, a.id) > 0,
+  );
+}
+
+/** Artister der har deres egen side i Stolen: aktive, med navn, i stolen. */
+export function profiledArtists(artists: Artist[]): Artist[] {
+  return artists.filter((a) => a.aktiv && a.stol && a.fornavn);
+}
+
 export function artistById(artists: Artist[], id: string): Artist | undefined {
   return artists.find((a) => a.id === id);
 }

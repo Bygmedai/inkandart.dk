@@ -54,18 +54,41 @@ test("ingen dummy-navne eller opdigtede priser på Huset", () => {
     read("content/artists.yml"),
     read("content/vaerker.yml"),
     read("content/nat.yml"),
+    read("content/huset.yml"),
+    read("content/kontakt.yml"),
   ].join("\n");
   for (const forbidden of ["Nizar Haddad", "Emma Ravn", "Kaya Lind", "900 kr", "fra 900", "gonzo"]) {
     assert.doesNotMatch(src, new RegExp(forbidden.replace(/[.*]/g, "\\$&")));
   }
   assert.match(src, /Nizar Saad/);
   assert.match(src, /Emma Winding/);
-  assert.match(src, /Nylavet/);
   assert.match(src, /I stolen/);
   assert.match(src, /Larsbjørnsstræde 13, kælderen\. Walk-in når der er en fri stol — ellers book\./);
   assert.doesNotMatch(src, /Værket i dag/);
   assert.doesNotMatch(src, />\s*I huset\s*</);
   assert.doesNotMatch(src, /Walk-in og tider/);
+});
+
+test("Huset er layout, ikke tekst: ord og kontakt kommer fra YAML", async () => {
+  const huset = read("app/(rummet)/page.tsx");
+  // Fladen læser data — den ejer den ikke.
+  assert.match(huset, /loadHusetForside/);
+  assert.match(huset, /loadKontakt/);
+  assert.match(huset, /\{fold\.titel\}/);
+  assert.match(huset, /\{fold\.lede\}/);
+  assert.match(huset, /kontakt\.telefon_e164/);
+  // Hardcodede ord i markup er fejlen vi lige har fjernet. Hold den ude.
+  assert.doesNotMatch(huset, /Tatovering og piercing i Pisserenden/);
+  assert.doesNotMatch(huset, /55 24 86 08/);
+  assert.doesNotMatch(huset, />Fast</);
+  const { loadHusetForside, loadKontakt } = await import("../lib/content.ts");
+  const fold = loadHusetForside();
+  assert.ok(fold.titel.length > 0, "huset.yml skal have en titel");
+  assert.ok(fold.hero_foto.startsWith("/"), "hero_foto skal pege på et af husets billeder");
+  assert.ok(fold.hero_billedtekst.length > 0, "heroen skal have en billedtekst");
+  const k = loadKontakt();
+  assert.match(k.telefon_e164, /^\+45\d{8}$/);
+  assert.ok(k.email.includes("@"));
 });
 
 test("Rummet-tokens og fonte er self-hostet", () => {
@@ -147,7 +170,7 @@ test("Rummet-nav har segl på undersider, stort segl kun på Huset", () => {
   assert.match(nav, /href="\/"/);
   assert.match(nav, /Ink & Art/);
   assert.doesNotMatch(nav, /Ink and Art/);
-  assert.match(huset, /rum-huset__maerke/);
+  assert.match(huset, /rum-huset__segl/);
   assert.match(huset, /<Segl /);
   const i = css.indexOf(".rum-nav__mark {");
   assert.notEqual(i, -1, "rum-nav__mark-reglen mangler");
@@ -393,8 +416,10 @@ test("M2R navn-familie: kort / langt / legal", () => {
   const layout = read("app/layout.tsx");
   assert.match(nav, /Ink & Art/);
   assert.doesNotMatch(nav, /Ink and Art/);
-  assert.match(footer, /Ink and Art Cph ApS/);
-  assert.doesNotMatch(footer, /Ink and Art Cph ·/);
+  // Navnet bor i kontakt.yml — footeren læser det, den ejer det ikke.
+  assert.match(footer, /loadKontakt/);
+  assert.match(read("content/kontakt.yml"), /Ink and Art Cph ApS/);
+  assert.doesNotMatch(read("content/kontakt.yml"), /Ink and Art Cph ·/);
   assert.match(segl, /alt="Ink & Art Copenhagen"/);
   assert.match(segl, /size = 220/);
   assert.match(segl, /placement/);
@@ -447,12 +472,13 @@ test("M2R Huset: segl + kort, Natten/Gaden overlay, ingen frit", () => {
   const gave = read("components/rummet/GavekortKoeb.tsx");
   assert.match(huset, /from "@\/components\/rummet\/Segl"/);
   assert.match(huset, /<Segl /);
-  assert.match(huset, /rum-huset__maerke/);
-  const pladeBlok = huset.slice(huset.indexOf("rum-huset__plade"), huset.indexOf("rum-huset__side"));
-  assert.doesNotMatch(pladeBlok, /<Segl /);
+  // Seglet ligger PÅ heroen — det er husets mærke på husets billede
+  // (Stevens kendelse 30/8), ikke en klistermærke i en sidekolonne.
+  const heroBlok = huset.slice(huset.indexOf("rum-huset__hero"), huset.indexOf("rum-huset__side"));
+  assert.match(heroBlok, /<Segl /);
   const nav = read("components/rummet/Nav.tsx");
   assert.match(huset, /rum-huset__chairs/);
-  assert.match(huset, /className="rum-kort rum-chair"/);
+  assert.match(huset, /<ArtistKort/);
   assert.doesNotMatch(natten, /rum-room__on/);
   assert.match(natten, /Ingen nat i aften/);
   assert.doesNotMatch(gaden, /rum-room__on/);
@@ -463,9 +489,13 @@ test("M2R Huset: segl + kort, Natten/Gaden overlay, ingen frit", () => {
 test("M2R runde 2: Gaden tal + footer CVR/telefon", () => {
   const footer = read("components/rummet/Footer.tsx");
   const gaden = read("app/(rummet)/gaden/page.tsx");
-  assert.match(footer, /CVR 44226413/);
-  assert.match(footer, /tel:\+4555248608/);
-  assert.match(footer, /55 24 86 08/);
+  const kontakt = read("content/kontakt.yml");
+  // Tallene bor i kontakt.yml; footeren læser dem.
+  assert.match(footer, /loadKontakt/);
+  assert.match(footer, /CVR \{k\.cvr\}/);
+  assert.match(kontakt, /44226413/);
+  assert.match(kontakt, /\+4555248608/);
+  assert.match(kontakt, /55 24 86 08/);
   assert.match(gaden, /Larsbjørnsstræde 13 kld, 1454 København K/);
   assert.match(gaden, /tel:\+4555248608/);
   assert.match(gaden, /Depositum fra 100 kr/);
@@ -491,9 +521,15 @@ test("M2R runde 2: Mærket salgsflade på hud", () => {
   assert.match(nav, /Ink & Art/);
 });
 
-test("M2R runde 2: Huset mobil 58svh, slot uden px-cap", () => {
+test("Huset-hero er et vindue, ikke en biograf", () => {
   const css = read("components/rummet/rummet.css");
-  assert.match(css, /min-height:\s*58svh/);
+  // Heroen har et loft i begge retninger. Det gamle 100svh-hero fyldte
+  // hele skærmen med ét makrofoto (QA 30/8) — det må ikke komme igen.
+  const i = css.indexOf(".rum-huset__hero > img");
+  assert.notEqual(i, -1, "hero-billedreglen mangler");
+  const krop = css.slice(i, css.indexOf("}", i));
+  assert.match(krop, /height:\s*min\(/, "heroens højde skal have et loft");
+  assert.doesNotMatch(css, /calc\(100svh - 88px\)/);
   const s = css.indexOf(".rum-room__slot {");
   const slot = css.slice(s, css.indexOf("}", s));
   assert.doesNotMatch(slot, /max-height/);
@@ -709,11 +745,12 @@ test("S573 booking h1 Booking", () => {
 
 test("S573 Huset h1", () => {
   const huset = read("app/(rummet)/page.tsx");
+  const yml = read("content/huset.yml");
   assert.match(huset, /rum-huset__title/);
-  assert.match(huset, /Tatovering og piercing i Pisserenden/);
+  assert.match(yml, /Tatovering og piercing i Pisserenden/);
   assert.match(huset, /className="rum-label">Huset</);
-  assert.match(huset, /tel:\+4555248608/);
-  assert.match(huset, /Book tid/);
+  assert.match(huset, /tel:\$\{kontakt\.telefon_e164\}/);
+  assert.match(yml, /cta_book: Book tid/);
 });
 
 test("S573 salg-label, slot 4/5, rum-tel, booking go", () => {
@@ -754,23 +791,23 @@ test("S573 Stolen walk-in", () => {
 test("G1 Huset intro i første fold", () => {
   const huset = read("app/(rummet)/page.tsx");
   const css = read("components/rummet/rummet.css");
+  const yml = read("content/huset.yml");
   assert.match(huset, /rum-huset__intro/);
   assert.match(huset, /className="rum-label">Huset</);
-  assert.match(huset, /<h1 className="rum-huset__title rum-poster">/);
-  assert.match(huset, /Tatovering og piercing i Pisserenden/);
+  assert.match(huset, /<h1 className="rum-huset__title rum-poster">\{fold\.titel\}<\/h1>/);
+  assert.match(yml, /Tatovering og piercing i Pisserenden/);
   assert.match(
-    huset,
+    yml,
     /Larsbjørnsstræde 13, kælderen\. Walk-in når der er en fri stol — ellers book\./,
   );
   assert.match(huset, /id="booking"/);
   assert.match(huset, /href="\/booking"/);
   assert.match(huset, /className="rum-tel"/);
-  assert.match(huset, /href="tel:\+4555248608"/);
   const intro = huset.indexOf("rum-huset__intro");
-  const plade = huset.indexOf("rum-huset__plade");
+  const hero = huset.indexOf("rum-huset__hero");
   const bookingId = huset.indexOf('id="booking"');
-  assert.ok(intro !== -1 && plade !== -1 && intro < plade, "intro før plade");
-  assert.ok(bookingId !== -1 && bookingId < plade, "id=booking i fold-CTA");
+  assert.ok(intro !== -1 && hero !== -1 && intro < hero, "intro før hero");
+  assert.ok(bookingId !== -1 && bookingId < hero, "id=booking i fold-CTA");
   assert.equal((huset.match(/id="booking"/g) || []).length, 1);
   assert.doesNotMatch(huset, /className="rum-fact"/);
   assert.doesNotMatch(huset, /rum-room__title/);
@@ -839,4 +876,69 @@ test("en artist uden booking faar walk-in, ikke en tid vi ikke kan give", async 
   const kort = readFileSync(join(root, "components/rummet/ArtistKort.tsx"), "utf8");
   assert.match(kort, /artist\.booking \?/, "kortet skal forgrene paa booking");
   assert.match(kort, /Walk-in — kom forbi/);
+});
+
+test("S573 QA: artisterne er døre, ikke plakater", async () => {
+  const kort = read("components/rummet/ArtistKort.tsx");
+  // Foto og navn linker til artistens egen side.
+  assert.match(kort, /href = pending \? null : `\/stolen\/\$\{artist\.id\}`/);
+  assert.match(kort, /rum-kort__link/);
+  // Perioden kommer fra data — aldrig et hardcodet «Fast».
+  assert.match(kort, /periodeLabel\(artist\)/);
+  assert.doesNotMatch(kort, />Fast</);
+  // Siden findes, og den genereres fra artists.yml.
+  const side = read("app/(rummet)/stolen/[id]/page.tsx");
+  assert.match(side, /generateStaticParams/);
+  assert.match(side, /profiledArtists/);
+  assert.match(side, /notFound\(\)/);
+  const { loadHouse, profiledArtists } = await import("../lib/content.ts");
+  const profiler = profiledArtists(loadHouse().artists);
+  assert.ok(profiler.length >= 3, "mindst tre artister skal have en side");
+  for (const a of profiler) assert.ok(a.id && a.fornavn);
+});
+
+test("S573 QA: Væggens chips fører aldrig ind i et tomt rum", async () => {
+  const { loadHouse, wallChipArtists, visibleCountForArtist } = await import("../lib/content.ts");
+  const house = loadHouse();
+  const chips = wallChipArtists(house.artists, house.vaerker);
+  for (const a of chips) {
+    assert.ok(
+      visibleCountForArtist(house.vaerker, a.id) > 0,
+      `${a.id} har en chip men ingen værker — det er en blindgyde`,
+    );
+  }
+  // Og rammer nogen alligevel et tomt filter via URL, står der en forklaring.
+  const maerket = read("app/(rummet)/maerket/page.tsx");
+  assert.match(maerket, /wall\.length === 0 && filteredArtist/);
+  assert.match(maerket, /på væggen endnu/);
+});
+
+test("S573 QA: footerens handlinger kan rammes med en tommelfinger", () => {
+  const css = read("components/rummet/rummet.css");
+  const i = css.indexOf(".rum-footer a {");
+  assert.notEqual(i, -1);
+  const krop = css.slice(i, css.indexOf("}", i));
+  assert.match(krop, /min-height:\s*44px/);
+});
+
+test("S573 QA: kontakt.yml er den eneste kilde til husets nummer", () => {
+  // Ingen komponent eller side i Rummet må bære nummeret selv.
+  const filer = [
+    "app/(rummet)/page.tsx",
+    "app/(rummet)/stolen/page.tsx",
+    "app/(rummet)/stolen/[id]/page.tsx",
+    "components/rummet/Footer.tsx",
+    "components/rummet/ArtistKort.tsx",
+  ];
+  for (const f of filer) {
+    assert.doesNotMatch(read(f), /\+4555248608|55 24 86 08/, `${f} hardcoder telefonnummeret`);
+  }
+});
+
+test("S573 QA: sitemap kender artistsiderne og lyver ikke om /blackbook", () => {
+  const sitemap = read("app/sitemap.ts");
+  assert.match(sitemap, /profiledArtists/);
+  assert.match(sitemap, /stolen\/\$\{a\.id\}/);
+  // /blackbook er en 307 til /#doer — en redirect er ikke en side.
+  assert.doesNotMatch(sitemap, /\/blackbook/);
 });

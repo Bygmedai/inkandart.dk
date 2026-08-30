@@ -5,11 +5,12 @@ import { GavekortKoeb } from "@/components/rummet/GavekortKoeb";
 import { VareKort } from "@/components/rummet/VareKort";
 import {
   artistById,
-  chairArtists,
   filterVisibleByArtist,
   loadHouse,
   loadHylden,
+  wallChipArtists,
   type Artist,
+  type Vaerk,
 } from "@/lib/content";
 import { productsByHandles } from "@/lib/storefront";
 
@@ -24,11 +25,17 @@ function oneParam(v: string | string[] | undefined): string {
   return (v || "").trim();
 }
 
-function filterChips(artists: Artist[], current: string): Artist[] {
-  const chairs = chairArtists(artists);
-  if (!current || chairs.some((a) => a.id === current)) return chairs;
+/**
+ * Chips er kun for artister med værker på væggen — en chip uden værker
+ * bag sig er en dør ind i et tomt rum (fundet med Anna, S573). Står der
+ * alligevel et artist-id i URL'en uden værker, viser væggen en forklaring
+ * i stedet for ingenting.
+ */
+function filterChips(artists: Artist[], vaerker: Vaerk[], current: string): Artist[] {
+  const chips = wallChipArtists(artists, vaerker);
+  if (!current || chips.some((a) => a.id === current)) return chips;
   const extra = artists.find((a) => a.id === current && a.fornavn);
-  return extra ? [...chairs, extra] : chairs;
+  return extra ? [...chips, extra] : chips;
 }
 
 export default async function MaerketPage({
@@ -40,7 +47,8 @@ export default async function MaerketPage({
   const artistId = oneParam(params.artist);
   const house = loadHouse();
   const wall = filterVisibleByArtist(house.vaerker, artistId);
-  const chips = filterChips(house.artists, artistId);
+  const chips = filterChips(house.artists, house.vaerker, artistId);
+  const filteredArtist = artistId ? artistById(house.artists, artistId) : undefined;
   // Hylden læser sin egen fil, ikke værkerne. Et værk er et fotografi;
   // en vare er noget man kan købe. Se lib/content.ts → loadHylden.
   const varer = loadHylden();
@@ -93,16 +101,31 @@ export default async function MaerketPage({
               );
             })}
           </nav>
-          <div className="rum-vaeg">
-            {wall.map((v) => {
-              const artist = artistById(house.artists, v.artist);
-              return (
-                <article key={v.id} className="rum-vaeg__item">
-                  <Plade vaerk={v} artist={artist} />
-                </article>
-              );
-            })}
-          </div>
+          {wall.length === 0 && filteredArtist ? (
+            <div className="rum-empty" style={{ marginTop: 16 }}>
+              <p className="rum-empty__title rum-poster">
+                Ingen værker fra {filteredArtist.fornavn} på væggen endnu.
+              </p>
+              <p className="rum-body-copy" style={{ marginTop: 12 }}>
+                <a href={`/stolen/${filteredArtist.id}`}>
+                  Mød {filteredArtist.fornavn} i Stolen
+                </a>
+                {" — eller "}
+                <a href="/maerket">se hele væggen</a>.
+              </p>
+            </div>
+          ) : (
+            <div className="rum-vaeg">
+              {wall.map((v) => {
+                const artist = artistById(house.artists, v.artist);
+                return (
+                  <article key={v.id} className="rum-vaeg__item">
+                    <Plade vaerk={v} artist={artist} />
+                  </article>
+                );
+              })}
+            </div>
+          )}
         </section>
       </main>
     </RummetShell>

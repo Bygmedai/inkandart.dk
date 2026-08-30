@@ -1,0 +1,124 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { RummetShell } from "@/components/rummet/Shell";
+import { Plade } from "@/components/rummet/Plade";
+import {
+  artistById,
+  loadHouse,
+  loadKontakt,
+  periodeLabel,
+  profiledArtists,
+  visibleVaerkerForArtist,
+} from "@/lib/content";
+
+/**
+ * Artistens egen side. Alt her kommer fra artists.yml og vaerker.yml —
+ * får huset en ny artist, findes siden i samme commit som datalinjen.
+ * Ingen bio bliver digtet: felter uden indhold udelades.
+ */
+
+export function generateStaticParams() {
+  const house = loadHouse();
+  return profiledArtists(house.artists).map((a) => ({ id: a.id }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const house = loadHouse();
+  const artist = artistById(house.artists, id);
+  if (!artist || !artist.fornavn) return {};
+  const kontakt = loadKontakt();
+  return {
+    title: `${artist.fornavn} · Ink & Art`,
+    description: [artist.haandvaerk, `${kontakt.adresse}, ${kontakt.by}.`]
+      .filter(Boolean)
+      .join(" · "),
+    alternates: { canonical: `/stolen/${artist.id}` },
+  };
+}
+
+export default async function ArtistPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const house = loadHouse();
+  const artist = profiledArtists(house.artists).find((a) => a.id === id);
+  if (!artist) notFound();
+
+  const works = visibleVaerkerForArtist(house.vaerker, artist.id);
+  const kontakt = loadKontakt();
+
+  return (
+    <RummetShell>
+      <main id="main" className="rum-room rum-artist">
+        <p className="rum-label">
+          <a href="/stolen" className="rum-artist__tilbage">
+            Stolen
+          </a>
+        </p>
+        <div className="rum-artist__fold">
+          <div className="rum-kort__foto rum-artist__foto">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={artist.foto} alt={artist.billedtekst || artist.fornavn} />
+          </div>
+          <div className="rum-artist__om">
+            <h1 className="rum-room__title rum-poster">{artist.fornavn}</h1>
+            {artist.haandvaerk ? (
+              <p className="rum-chair__craft">{artist.haandvaerk}</p>
+            ) : null}
+            <p className="rum-label rum-chair__meta">{periodeLabel(artist)}</p>
+            <div className="rum-huset__cta">
+              {artist.booking ? (
+                <a href="/booking" className="rum-book">
+                  Book tid
+                </a>
+              ) : (
+                <a href="/gaden" className="rum-book">
+                  Walk-in — kom forbi
+                </a>
+              )}
+              <a className="rum-tel" href={`tel:${kontakt.telefon_e164}`}>
+                Ring på — {kontakt.telefon_vist}
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {works.length > 0 ? (
+          <section className="rum-artist__arkiv" aria-labelledby="arkiv">
+            <h2 id="arkiv" className="rum-label">
+              Fra hånden
+            </h2>
+            <div className="rum-vaeg">
+              {works.map((v) => (
+                <article key={v.id} className="rum-vaeg__item">
+                  <Plade vaerk={v} artist={artist} />
+                </article>
+              ))}
+            </div>
+            <p className="rum-kort__arkiv">
+              <a href={`/maerket?artist=${artist.id}`}>Se på Væggen i Mærket</a>
+            </p>
+          </section>
+        ) : (
+          <section className="rum-artist__arkiv">
+            <div className="rum-empty">
+              <p className="rum-empty__title rum-poster">
+                Arkivet er på vej
+              </p>
+              <p className="rum-body-copy" style={{ marginTop: 12, color: "var(--beton)" }}>
+                Kom forbi {kontakt.adresse} og se arbejdet i virkeligheden.
+              </p>
+            </div>
+          </section>
+        )}
+      </main>
+    </RummetShell>
+  );
+}
