@@ -387,12 +387,12 @@ test("M2 Book tid på Stolen er stadig et klædt hop, række ≥ 44px", () => {
   const huset = read("app/(rummet)/page.tsx");
   const booking = read("app/(rummet)/booking/page.tsx");
   const css = read("components/rummet/rummet.css");
-  assert.match(kort, /href="\/booking"/);
+  assert.match(kort, /\/booking\?artist=\$\{artist\.id\}/, "kortets dør bærer artistens id med");
   assert.match(kort, /rum-book--row/);
   assert.match(kort, /Book tid/);
   assert.match(huset, /href="\/booking"/);
   assert.match(door, /https:\/\/inkart\.book\.dk\//);
-  assert.match(booking, /Videre til booking/);
+  assert.match(read("content/booking.yml"), /Videre til booking/);
   assert.doesNotMatch(stolen, /s8|depositum/i);
   const i = css.indexOf(".rum-book--row {");
   assert.notEqual(i, -1, "rum-book--row mangler");
@@ -480,7 +480,8 @@ test("M2R Huset: segl + kort, Natten/Gaden overlay, ingen frit", () => {
   assert.match(huset, /rum-huset__chairs/);
   assert.match(huset, /<ArtistKort/);
   assert.doesNotMatch(natten, /rum-room__on/);
-  assert.match(natten, /Ingen nat i aften/);
+  assert.match(natten, /copy\.tom_titel/);
+  assert.match(read("content/natten.yml"), /Ingen nat i aften/);
   assert.doesNotMatch(gaden, /rum-room__on/);
   assert.doesNotMatch(gaden, /\[TAL BEKRÆFTES\]/);
   assert.doesNotMatch(gave, /frit/);
@@ -555,17 +556,20 @@ test("M3 Gaden: ingen [TAL BEKRÆFTES], Ring på, tomme timer udelades", async (
 test("M3 Natten: plakatfoto fra YAML, tom-tilstand uændret, ingen DEMO H-02", () => {
   const natten = read("app/(rummet)/natten/page.tsx");
   assert.match(natten, /nat\.plakatfoto/);
-  assert.match(natten, /Ingen nat i aften/);
-  assert.match(natten, /Næste nat står i Blackbook/);
+  // Tom-tilstandens ord bor i natten.yml (S574) — og siden forklarer konceptet.
+  assert.match(natten, /copy\.tom_titel/);
+  assert.match(natten, /rum-natten__intro/);
+  assert.match(read("content/natten.yml"), /Ingen nat i aften/);
   assert.doesNotMatch(natten, /DEMO H-02/);
   assert.doesNotMatch(natten, /rum-demo/);
 });
 
 test("M4 /booking: depositum-sætning, variant, Videre til booking", () => {
   const booking = read("app/(rummet)/booking/page.tsx");
-  assert.match(booking, /Depositum 100 kr — fragår i prisen/);
-  assert.match(booking, /53492757627208|cartUrl\(/);
-  assert.match(booking, /Videre til booking/);
+  const bookingYml = read("content/booking.yml");
+  assert.match(bookingYml, /Depositum 100 kr — fragår i prisen/);
+  assert.match(booking, /cartUrl\(/);
+  assert.match(bookingYml, /Videre til booking/);
   assert.match(booking, /BookDoor/);
   const door = read("components/rummet/BookDoor.tsx");
   assert.match(door, /label = "Book tid"/);
@@ -617,7 +621,7 @@ test("ArtistKort og Huset går via /booking; række ≥ 44px", () => {
   const kort = read("components/rummet/ArtistKort.tsx");
   const huset = read("app/(rummet)/page.tsx");
   const css = read("components/rummet/rummet.css");
-  assert.match(kort, /href="\/booking"/);
+  assert.match(kort, /\/booking\?artist=/, "kortet går via /booking med kontekst");
   assert.match(huset, /href="\/booking"/);
   assert.doesNotMatch(kort, /BookDoor/);
   const i = css.indexOf(".rum-book--row {");
@@ -635,10 +639,10 @@ test("F14 booking er salgsflade på hud med handling først", () => {
   // S573: booking og kvitteringen viser receptionen (H-04) — det sted kunden
   // faktisk ankommer til — i stedet for et moerkt studiebillede. Maalt: lys
   // paa folden 54,5 % -> 68,6 % ved 1440.
-  assert.match(booking, /H-04\.jpg/);
+  assert.match(read("content/booking.yml"), /H-04\.jpg/);
   assert.match(tak, /H-04\.jpg/);
-  assert.match(booking, /Depositum 100 kr — fragår i prisen/);
-  assert.match(booking, /Videre til booking/);
+  assert.match(read("content/booking.yml"), /Depositum 100 kr — fragår i prisen/);
+  assert.match(booking, /copy\.door_label/);
   const koeb = booking.indexOf("rum-booking__koeb");
   const plade = booking.indexOf("rum-booking__plade");
   assert.ok(koeb !== -1 && plade !== -1 && koeb < plade, "handling før billede");
@@ -825,8 +829,8 @@ test("G2 Natten har vej ud", () => {
   assert.match(natten, /href="\/booking"/);
   assert.match(natten, /href="\/gaden"/);
   assert.match(natten, /door=\{false\}/);
-  assert.match(natten, /Ingen nat i aften/);
-  assert.match(natten, /Næste nat står i Blackbook/);
+  assert.match(natten, /copy\.tom_titel/);
+  assert.match(natten, /copy\.tom_linje/);
   assert.match(natten, /rum-natten__out/);
   const out = css.indexOf(".rum-natten__out {");
   assert.notEqual(out, -1, "rum-natten__out mangler");
@@ -953,6 +957,8 @@ test("S574: Decap kender hver content-fil koden læser", () => {
     "content/huset.yml",
     "content/kontakt.yml",
     "content/gaden.yml",
+    "content/booking.yml",
+    "content/natten.yml",
   ]) {
     assert.ok(cms.includes(fil), `${fil} mangler i Decap — Sonja kan ikke redigere den`);
   }
@@ -966,4 +972,40 @@ test("S574 Vilde-fund: links i etiket-linjer er trykmål, ikke tekst", () => {
   assert.notEqual(i, -1, "mønster-reglen for etiket-links mangler");
   const krop = css.slice(i, css.indexOf("}", i));
   assert.match(krop, /min-height:\s*44px/);
+});
+
+test("S574: en artists egne ord står på hendes side — og kun hendes egne", async () => {
+  const { loadHouse, artistById } = await import("../lib/content.ts");
+  const artists = loadHouse().artists;
+  const emma = artistById(artists, "emma");
+  assert.ok(emma.bio.length > 100, "Emmas bio (hendes præsentation) skal være på siden");
+  // Anna har ikke skrevet en bio — så har hun heller ikke en.
+  assert.equal(artistById(artists, "anna").bio, "", "vi digter ikke en bio");
+  const side = read("app/(rummet)/stolen/[id]/page.tsx");
+  assert.match(side, /artist\.bio \?/, "bio uden indhold udelades");
+});
+
+test("S574: booking er en trappe med kontekst, ikke to konkurrerende links", async () => {
+  const side = read("app/(rummet)/booking/page.tsx");
+  assert.match(side, /rum-booking__trin/, "trinnene skal være en nummereret trappe");
+  assert.match(side, /searchParams/, "siden skal kunne modtage ?artist=");
+  assert.match(side, /Hos \{artist\.fornavn\}/, "konteksten fra artistens side må ikke forsvinde");
+  assert.match(side, /loadBookingCopy/, "ordene bor i booking.yml");
+  assert.doesNotMatch(side, /"53492757627208"/, "variant-id'et bor i commerce.ts, ikke i en side");
+  // Døren fra artistsiden og kortet bærer konteksten med.
+  assert.match(read("app/(rummet)/stolen/[id]/page.tsx"), /\/booking\?artist=\$\{artist\.id\}/);
+  assert.match(read("components/rummet/ArtistKort.tsx"), /\/booking\?artist=\$\{artist\.id\}/);
+});
+
+test("S574: Natten forklarer sig — og viser kun plakat når der ER en nat", () => {
+  const side = read("app/(rummet)/natten/page.tsx");
+  assert.match(side, /loadNattenCopy/, "sidens ord bor i natten.yml");
+  assert.match(side, /rum-natten__intro/, "intro-linjen skal stå under titlen");
+  // Fotoet må kun stå inde i nat-grenen — tom-tilstanden er tekst og dør.
+  const tomBlok = side.slice(side.indexOf('className="rum-empty"'), side.indexOf("</main>"));
+  assert.doesNotMatch(tomBlok, /<img/, "tom-tilstanden viser ikke et umotiveret foto");
+  const css = read("components/rummet/rummet.css");
+  const i = css.indexOf(".rum-empty__title {");
+  const krop = css.slice(i, css.indexOf("}", i));
+  assert.match(krop, /color:\s*var\(--hud\)/, "tom-titlen skal kunne læses — ikke grå på sort");
 });

@@ -15,6 +15,9 @@ export type Artist = {
   periode_til?: string;
   foto: string;
   billedtekst: string;
+  /** Artistens egen præsentation, med egne ord. Tom = linjen udelades.
+   *  Vi skriver ALDRIG en bio for et menneske der ikke har skrevet den. */
+  bio: string;
   aktiv: boolean;
   stol: boolean;
   /** Kan gaesten booke tid hos denne artist? Tom/false = walk-in indtil
@@ -129,6 +132,7 @@ function normalizeArtist(a: Artist): Artist {
     periode_til: str(a.periode_til) || undefined,
     foto: str(a.foto),
     billedtekst: str(a.billedtekst),
+    bio: str(a.bio),
     aktiv: bool(a.aktiv),
     stol: bool(a.stol),
     booking: a.booking === undefined ? true : bool(a.booking),
@@ -229,6 +233,44 @@ export function loadKontakt(): Kontakt {
  * Periode-etiketten på et kort kommer fra data — aldrig hardcodet i markup.
  * fast → «Fast», gæst → «Gæst» / «I huset til …», alt andet står som skrevet.
  */
+/** Bookingsidens ord. */
+export type BookingCopy = {
+  lede: string;
+  depositum_label: string;
+  door_label: string;
+  note: string;
+  foto: string;
+  billedtekst: string;
+};
+
+export function loadBookingCopy(): BookingCopy {
+  const d = readYaml<Partial<BookingCopy>>("booking.yml");
+  return {
+    lede: str(d.lede),
+    depositum_label: str(d.depositum_label),
+    door_label: str(d.door_label) || "Videre til booking",
+    note: str(d.note),
+    foto: str(d.foto),
+    billedtekst: str(d.billedtekst),
+  };
+}
+
+/** Nattens sideord — konceptet, ikke enkeltnætterne (de bor i nat.yml). */
+export type NattenCopy = {
+  intro: string;
+  tom_titel: string;
+  tom_linje: string;
+};
+
+export function loadNattenCopy(): NattenCopy {
+  const d = readYaml<Partial<NattenCopy>>("natten.yml");
+  return {
+    intro: str(d.intro),
+    tom_titel: str(d.tom_titel) || "Ingen nat i aften",
+    tom_linje: str(d.tom_linje),
+  };
+}
+
 export function periodeLabel(a: Artist): string {
   if (a.periode === "fast") return "Fast";
   if (a.periode === "gaest") {

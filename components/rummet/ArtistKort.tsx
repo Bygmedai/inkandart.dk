@@ -66,7 +66,7 @@ export function ArtistKort({
         ) : null}
         {!compact && !pending ? (
           artist.booking ? (
-            <a href="/booking" className="rum-book rum-book--row">
+            <a href={`/booking?artist=${artist.id}`} className="rum-book rum-book--row">
               Book tid
             </a>
           ) : (

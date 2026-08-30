@@ -438,7 +438,9 @@ html:has([data-house="rummet"]) .grain {
 .rum-empty__title {
   margin: 0;
   font-size: clamp(28px, 4vw, 40px);
-  color: var(--beton);
+  /* Var --beton (grå på nat) — under AA på en overskrift. Tom-tilstanden
+     skal kunne LÆSES; det er hele dens job (Stevens QA af Natten, 30/8). */
+  color: var(--hud);
 }
 
 .rum-nat {
@@ -712,6 +714,49 @@ html:has([data-house="rummet"]) .grain {
   margin-top: 16px;
   padding: 10px 0;
   justify-content: flex-start;
+}
+
+.rum-artist__bio {
+  margin-top: 18px;
+  max-width: 52ch;
+}
+
+.rum-natten__intro {
+  margin-top: 14px;
+  max-width: 52ch;
+}
+
+.rum-booking__hos {
+  margin-top: 6px;
+}
+.rum-booking__lede {
+  margin-top: 16px;
+  max-width: 46ch;
+}
+.rum-booking__trin {
+  list-style: none;
+  counter-reset: trin;
+  margin: 24px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+.rum-booking__trin > li {
+  counter-increment: trin;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.rum-booking__trin > li::before {
+  content: counter(trin);
+  font-family: var(--font-poster), sans-serif;
+  font-size: 22px;
+  min-width: 28px;
+}
+.rum-booking__note {
+  margin-top: 22px;
+  max-width: 46ch;
+  color: var(--beton);
 }
 
 .rum-artist__fold {
