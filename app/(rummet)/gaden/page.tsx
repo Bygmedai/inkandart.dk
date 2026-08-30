@@ -16,7 +16,7 @@ export default function GadenPage() {
         <h1 className="rum-room__title rum-poster">Gaden</h1>
         <div className="rum-room__slot">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/slots/G-01.jpg" alt="Gaden" />
+          <img src="/slots/G-02.jpg" alt="Gaden" />
         </div>
         <p className="rum-room__note rum-body-copy">
           Larsbjørnsstræde 13 kld, 1454 København K.

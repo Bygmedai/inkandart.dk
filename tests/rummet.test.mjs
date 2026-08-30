@@ -522,8 +522,11 @@ test("F14 booking er salgsflade på hud med handling først", () => {
   assert.match(booking, /tone="salg"/);
   assert.match(tak, /tone="salg"/);
   assert.match(booking, /rum-booking__pris/);
-  assert.match(booking, /H-01\.jpg/);
-  assert.match(tak, /H-01\.jpg/);
+  // S573: booking og kvitteringen viser receptionen (H-04) — det sted kunden
+  // faktisk ankommer til — i stedet for et moerkt studiebillede. Maalt: lys
+  // paa folden 54,5 % -> 68,6 % ved 1440.
+  assert.match(booking, /H-04\.jpg/);
+  assert.match(tak, /H-04\.jpg/);
   assert.match(booking, /Depositum 100 kr — fragår i prisen/);
   assert.match(booking, /Videre til booking/);
   const koeb = booking.indexOf("rum-booking__koeb");
