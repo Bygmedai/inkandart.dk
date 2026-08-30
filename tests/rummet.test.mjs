@@ -943,6 +943,23 @@ test("S573 QA: sitemap kender artistsiderne og lyver ikke om /blackbook", () => 
   assert.doesNotMatch(sitemap, /\/blackbook/);
 });
 
+test("S574: Decap kender hver content-fil koden læser", () => {
+  const cms = read("public/admin/config.yml");
+  // Læser koden en fil, skal Sonja kunne redigere den uden en editor.
+  for (const fil of [
+    "content/artists.yml",
+    "content/vaerker.yml",
+    "content/nat.yml",
+    "content/huset.yml",
+    "content/kontakt.yml",
+    "content/gaden.yml",
+  ]) {
+    assert.ok(cms.includes(fil), `${fil} mangler i Decap — Sonja kan ikke redigere den`);
+  }
+  // Og booking-kontakten: Anna skal kunne tændes fra CMS'et, ikke fra en PR.
+  assert.match(cms, /name: booking, widget: boolean/);
+});
+
 test("S574 Vilde-fund: links i etiket-linjer er trykmål, ikke tekst", () => {
   const css = read("components/rummet/rummet.css");
   const i = css.indexOf(".rum-label a {");

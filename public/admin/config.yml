@@ -40,6 +40,7 @@ collections:
               - { label: Billedtekst, name: billedtekst, widget: string, required: false, hint: "Motiv og teknik. Ikke en titel." }
               - { label: Aktiv, name: aktiv, widget: boolean, default: true }
               - { label: Sidder i stolen, name: stol, widget: boolean, default: true }
+              - { label: Kan bookes, name: booking, widget: boolean, default: true, hint: "Fra = kortet siger walk-in. Tænd når Book.dk-kalenderen er sat op." }
 
   - name: vaerker
     label: Værker
@@ -82,3 +83,43 @@ collections:
               - { label: Plakat, name: plakatfoto, widget: image, required: false }
               - { label: Billedtekst, name: billedtekst, widget: string, required: false, hint: "Motiv og teknik." }
               - { label: Aktiv i aften, name: aktiv, widget: boolean, default: false }
+
+  - name: huset
+    label: Forsiden
+    files:
+      - label: Forsiden
+        name: huset
+        file: content/huset.yml
+        fields:
+          - { label: Titel, name: titel, widget: string }
+          - { label: Lede, name: lede, widget: text }
+          - { label: Book-knappens tekst, name: cta_book, widget: string, default: "Book tid" }
+          - { label: Hero-foto, name: hero_foto, widget: image, hint: "Forsidens store billede. Seglet lægger sig ovenpå — vælg et motiv der tåler det." }
+          - { label: Hero-billedtekst, name: hero_billedtekst, widget: string, hint: "Sig hvad man ser. Bliver billedets alt-tekst." }
+          - { label: Kicker, name: kicker, widget: string, required: false, hint: "Lille etiket i heroens hjørne. Tom = ingen." }
+
+  - name: kontakt
+    label: Kontakt & stamdata
+    files:
+      - label: Kontakt & stamdata
+        name: kontakt
+        file: content/kontakt.yml
+        fields:
+          - { label: Firmanavn, name: navn, widget: string }
+          - { label: CVR, name: cvr, widget: string }
+          - { label: Adresse, name: adresse, widget: string }
+          - { label: By, name: by, widget: string }
+          - { label: "Telefon (som det vises)", name: telefon_vist, widget: string }
+          - { label: "Telefon (E.164, +45...)", name: telefon_e164, widget: string, pattern: ["^\\+45\\d{8}$", "Skal være +45 fulgt af 8 cifre"] }
+          - { label: Booking-mail, name: email, widget: string, pattern: ["@", "Skal være en mailadresse"] }
+
+  - name: gaden
+    label: Gaden
+    files:
+      - label: Gaden
+        name: gaden
+        file: content/gaden.yml
+        fields:
+          - { label: Åbningstider, name: aabent, widget: string, required: false, hint: "Tom = linjen udelades. Opdigt aldrig tider." }
+          - { label: Walk-in-tider, name: walk_in, widget: string, required: false, hint: "Tom = linjen udelades." }
+          - { label: Billedtekst, name: billedtekst, widget: string, required: false }
