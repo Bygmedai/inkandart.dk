@@ -393,7 +393,12 @@ test("M2 Book tid på Stolen er stadig et klædt hop, række ≥ 44px", () => {
   const css = read("components/rummet/rummet.css");
   assert.match(kort, /\/booking\?artist=\$\{artist\.id\}/, "kortets dør bærer artistens id med");
   assert.match(kort, /rum-book--row/);
-  assert.match(kort, /Book tid/);
+  // S574: knappens ord bor i i18n (kortet tales nu på begge sprog) —
+  // løftet måles i kilden, og på begge sprog.
+  assert.match(kort, /c\.bookTid/);
+  const i18n = read("lib/i18n.ts");
+  assert.match(i18n, /bookTid: "Book tid"/);
+  assert.match(i18n, /bookTid: "Book a time"/);
   assert.match(huset, /href="\/booking"/);
   assert.match(door, /https:\/\/inkart\.book\.dk\//);
   assert.match(read("content/booking.yml"), /Videre til booking/);
@@ -911,13 +916,18 @@ test("en artist uden booking faar walk-in, ikke en tid vi ikke kan give", async 
   }
   const kort = readFileSync(join(root, "components/rummet/ArtistKort.tsx"), "utf8");
   assert.match(kort, /artist\.booking \?/, "kortet skal forgrene paa booking");
-  assert.match(kort, /Walk-in — kom forbi/);
+  assert.match(kort, /c\.walkIn/);
+  const i18nSrc = readFileSync(join(root, "lib/i18n.ts"), "utf8");
+  assert.match(i18nSrc, /walkIn: "Walk-in — kom forbi"/);
+  assert.match(i18nSrc, /walkIn: "Walk-in — come by"/);
 });
 
 test("S573 QA: artisterne er døre, ikke plakater", async () => {
   const kort = read("components/rummet/ArtistKort.tsx");
   // Foto og navn linker til artistens egen side.
-  assert.match(kort, /href = pending \? null : `\/stolen\/\$\{artist\.id\}`/);
+  // S574: stien går gennem localePath, så et engelsk kort peger på
+  // /en/stolen/<id> i stedet for at smide turisten på den danske side.
+  assert.match(kort, /localePath\(lang, `\/stolen\/\$\{artist\.id\}`\)/);
   assert.match(kort, /rum-kort__link/);
   // Perioden kommer fra data — aldrig et hardcodet «Fast».
   assert.match(kort, /periodeLabel\(artist\)/);
@@ -1167,8 +1177,9 @@ test("S574 skallen taler sidens sprog — ingen dansk skal om engelsk indhold", 
 
   // Sprogdøren: peger på samme side, og vises kun når den anden findes.
   const dor = read("components/rummet/LangDoor.tsx");
-  assert.match(dor, /EN_ROUTES\.has/, "en dør der lyver er værre end ingen dør");
-  assert.match(dor, /if \(!findes\) return null/);
+  assert.match(dor, /enExists\(bare\)/, "en dør der lyver er værre end ingen dør");
+  assert.match(read("lib/i18n.ts"), /export function enExists/);
+  assert.match(dor, /return null/, "ingen dør frem for en dør der lander på dansk");
   assert.doesNotMatch(dor, /href="\/en"/, "sprogdøren må ikke smide alle på forsiden");
   assert.match(read("components/rummet/Footer.tsx"), /<LangDoor lang=\{lang\}/);
 });
@@ -1203,4 +1214,50 @@ test("S574 EN-booking: pengerejsen findes på engelsk med samme tal", async () =
   assert.match(read("app/sitemap.ts"), /inkandart\.dk\/en\/booking"/);
   // Og den danske side skal pege tilbage — hreflang er et par, ikke en pil.
   assert.match(read("app/(rummet)/booking/page.tsx"), /\.\.\.alternates\("\/booking"\)/);
+});
+
+test("S574 EN-Stolen: artistsider på engelsk — men ingen oversat bio", async () => {
+  const { loadHouse, profiledArtists } = await import("../lib/content.ts");
+  const side = read("app/(rummet)/en/stolen/[id]/page.tsx");
+  const liste = read("app/(rummet)/en/stolen/page.tsx");
+
+  // Kernereglen: en bio er et menneskes egne ord. Har artisten ikke selv
+  // skrevet en engelsk, viser vi den danske MÆRKET som dansk — vi lægger
+  // aldrig maskinengelsk i munden på dem.
+  assert.match(side, /artist\.bio_en/);
+  assert.match(side, /lang="da"/, "den danske bio skal mærkes som dansk");
+  assert.match(side, /c\.bioIsDanish/, "og siges højt, ikke skjules");
+
+  // Faget må gerne oversættes — men kun af et menneske i Decap.
+  assert.match(side, /artist\.haandvaerk_en \|\| artist\.haandvaerk/);
+  assert.match(read("public/admin/config.yml"), /name: haandvaerk_en/);
+  assert.match(read("public/admin/config.yml"), /name: bio_en/);
+
+  // Ingen af artisterne har (endnu) en engelsk bio — så ingen må se ud
+  // som om de har. Falder det om senere, er det fordi nogen har skrevet
+  // en, og så skal denne linje opdateres bevidst.
+  const artister = profiledArtists(loadHouse().artists);
+  assert.ok(artister.length >= 3);
+  for (const a of artister) {
+    assert.equal(typeof a.bio_en, "string", `${a.id}: bio_en skal findes som felt`);
+  }
+
+  // Siderne findes for hver artist, og hreflang-parret peger begge veje.
+  assert.match(side, /generateStaticParams/);
+  assert.match(side, /profiledArtists/);
+  assert.match(side, /canonical: `\/en\/stolen\/\$\{artist\.id\}`/);
+  assert.match(read("app/(rummet)/stolen/[id]/page.tsx"), /alternates\(`\/stolen\/\$\{artist\.id\}`\)/);
+  assert.match(liste, /<RummetShell lang="en"/);
+  assert.match(liste, /Stolen<\/h1>/, "rummets navn oversættes ikke");
+
+  // Piercing-teksten findes på engelsk med samme prisløfte.
+  const { loadPiercing, loadPiercingEn } = await import("../lib/content.ts");
+  assert.match(loadPiercingEn().tekst, /celebration|freedom|marker/i);
+  assert.match(loadPiercingEn().priser, /by agreement/i);
+  assert.match(loadPiercing().priser, /efter aftale/i);
+  assert.doesNotMatch(loadPiercingEn().priser, /\d{2,}/, "ingen pris vi ikke har sat");
+
+  // Rute-familien: /stolen/<id> findes på engelsk, så links ikke falder til dansk.
+  assert.match(read("lib/i18n.ts"), /EN_ROUTE_PREFIXES/);
+  assert.match(read("lib/i18n.ts"), /"\/stolen\/"/);
 });

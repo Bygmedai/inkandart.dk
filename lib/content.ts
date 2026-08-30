@@ -18,6 +18,20 @@ export type Artist = {
   /** Artistens egen præsentation, med egne ord. Tom = linjen udelades.
    *  Vi skriver ALDRIG en bio for et menneske der ikke har skrevet den. */
   bio: string;
+  /**
+   * Artistens fag på engelsk. Tomt = den danske linje bruges.
+   *
+   * Håndværkslinjen ER en etiket og må gerne oversættes — men kun af et
+   * menneske, i Decap. Vi maskinoversætter ikke en artists fag.
+   */
+  haandvaerk_en: string;
+  /**
+   * Artistens EGEN engelske præsentation. Tom = vi viser den danske og
+   * mærker den lang="da". Samme regel som bio'en: vi skriver den ikke
+   * for dem, og vi oversætter dem ikke — det ville være at lægge ord i
+   * munden på et menneske (S574).
+   */
+  bio_en: string;
   /** Instagram-handle uden @. Tom = linjen udelades. */
   instagram: string;
   aktiv: boolean;
@@ -135,6 +149,8 @@ function normalizeArtist(a: Artist): Artist {
     foto: str(a.foto),
     billedtekst: str(a.billedtekst),
     bio: str(a.bio),
+    haandvaerk_en: str(a.haandvaerk_en),
+    bio_en: str(a.bio_en),
     instagram: str(a.instagram),
     aktiv: bool(a.aktiv),
     stol: bool(a.stol),
@@ -345,6 +361,12 @@ export type PiercingCopy = { titel: string; tekst: string; priser: string };
 
 export function loadPiercing(): PiercingCopy {
   const d = readYaml<Partial<PiercingCopy>>("piercing.yml");
+  return { titel: str(d.titel), tekst: str(d.tekst), priser: str(d.priser) };
+}
+
+/** Samme tekst på engelsk — og samme prisløfte: efter aftale. */
+export function loadPiercingEn(): PiercingCopy {
+  const d = readYaml<Partial<PiercingCopy>>("piercing.en.yml");
   return { titel: str(d.titel), tekst: str(d.tekst), priser: str(d.priser) };
 }
 

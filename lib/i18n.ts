@@ -43,15 +43,38 @@ export const EN_ROUTES: ReadonlySet<string> = new Set([
   "/faq",
   "/privatlivspolitik",
   "/booking",
+  "/stolen",
 ]);
+
+/**
+ * Rute-FAMILIER der findes på engelsk (S574). En artistside er ikke én
+ * rute men én pr. artist, og EN_ROUTES kan ikke liste dem: sættet er en
+ * konstant, og at læse content/ her ville trække node:fs ind i hver
+ * klient-bundle der importerer i18n (LangDoor, Nav).
+ *
+ * Præfikset er sandt ved konstruktion: /en/stolen/[id] genereres af
+ * samme generateStaticParams som den danske. Kommer der en artist til,
+ * findes begge sider i samme commit.
+ */
+export const EN_ROUTE_PREFIXES: readonly string[] = ["/stolen/"];
+
+function hasEnglish(bare: string): boolean {
+  return EN_ROUTES.has(bare) || EN_ROUTE_PREFIXES.some((p) => bare.startsWith(p));
+}
 
 /** `/walk-in` på dansk, `/en/walk-in` på engelsk — hvis ruten findes. */
 export function localePath(lang: Locale, path: string): string {
   const p = path.startsWith("/") ? path : `/${path}`;
   if (lang === DEFAULT_LOCALE) return p;
   const bare = p.split(/[#?]/)[0];
-  if (!EN_ROUTES.has(bare)) return p; // ingen engelsk side endnu → dansk
+  if (!hasEnglish(bare)) return p; // ingen engelsk side endnu → dansk
   return `/en${bare === "/" ? "" : bare}${p.slice(bare.length)}`;
+}
+
+/** Findes denne sti på engelsk? Bruges af sprogdøren, så den ikke lyver. */
+export function enExists(path: string): boolean {
+  const bare = (path.startsWith("/") ? path : `/${path}`).split(/[#?]/)[0];
+  return hasEnglish(bare);
 }
 
 /** Gensidige hreflang-par + x-default. Google kræver at de peger på hinanden. */
@@ -139,6 +162,18 @@ const da = {
     terms: "Betingelser",
     privacy: "Privatliv",
     faq: "FAQ",
+    /** Stolen og artistsiderne. Rumnavnet selv oversættes ikke. */
+    backToStolen: "Stolen",
+    works: "Arbejder",
+    worksComing: "Billeder på vej",
+    seeOnWall: "Se dem på Væggen i Mærket",
+    bookTid: "Book tid",
+    walkIn: "Walk-in — kom forbi",
+    noGuest: "Ingen gæst i stolen",
+    guestPending: "Gæst · navn følger",
+    walkInLine: "Walk-in når der er en fri stol — ellers book.",
+    comeBy: (adresse: string) => `Kom forbi ${adresse} og se arbejdet i virkeligheden.`,
+    bioIsDanish: "Artistens egne ord, på dansk.",
   },
 
   shop: {
@@ -320,6 +355,17 @@ const en: Copy = {
     terms: "Terms",
     privacy: "Privacy",
     faq: "FAQ",
+    backToStolen: "Stolen",
+    works: "Work",
+    worksComing: "Photos on the way",
+    seeOnWall: "See them on the Wall in Mærket",
+    bookTid: "Book a time",
+    walkIn: "Walk-in — come by",
+    noGuest: "No guest in the chair",
+    guestPending: "Guest · name to follow",
+    walkInLine: "Walk-in when a chair is free — otherwise book.",
+    comeBy: (adresse: string) => `Come by ${adresse} and see the work for real.`,
+    bioIsDanish: "The artist's own words, in Danish.",
   },
 
   shop: {

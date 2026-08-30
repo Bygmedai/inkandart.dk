@@ -42,6 +42,8 @@ collections:
               - { label: Sidder i stolen, name: stol, widget: boolean, default: true }
               - { label: Kan bookes, name: booking, widget: boolean, default: true, hint: "Fra = kortet siger walk-in. Tænd når Book.dk-kalenderen er sat op." }
               - { label: Bio, name: bio, widget: text, required: false, hint: "Artistens egne ord. Tom = linjen udelades. Skriv aldrig en bio for et menneske der ikke selv har skrevet den." }
+              - { label: "Håndværk (engelsk)", name: haandvaerk_en, widget: string, required: false, hint: "Fagets navn på engelsk. Tom = den danske linje vises." }
+              - { label: "Bio (engelsk)", name: bio_en, widget: text, required: false, hint: "Artistens EGEN engelske tekst. Tom = den danske bio vises som dansk. Oversæt aldrig en bio for dem." }
               - { label: Instagram, name: instagram, widget: string, required: false, hint: "Handle uden @. Tom = linjen udelades." }
 
   - name: vaerker
@@ -270,6 +272,14 @@ collections:
       - label: Piercing-teksten
         name: piercing
         file: content/piercing.yml
+        fields:
+          - { label: Titel, name: titel, widget: string }
+          - { label: Tekst, name: tekst, widget: text }
+          - { label: Priser, name: priser, widget: string }
+
+      - label: Piercing (English)
+        name: piercing_en
+        file: content/piercing.en.yml
         fields:
           - { label: Titel, name: titel, widget: string }
           - { label: Tekst, name: tekst, widget: text }

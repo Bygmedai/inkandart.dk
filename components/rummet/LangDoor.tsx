@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { DEFAULT_LOCALE, EN_ROUTES, localePath, t, type Locale } from "@/lib/i18n";
+import { DEFAULT_LOCALE, enExists, localePath, t, type Locale } from "@/lib/i18n";
 
 /**
  * Sprogdøren i Rummets footer (S574).
@@ -31,11 +31,10 @@ export function LangDoor({ lang = DEFAULT_LOCALE }: { lang?: Locale }) {
       : pathname;
 
   const other: Locale = lang === DEFAULT_LOCALE ? "en" : DEFAULT_LOCALE;
-  const rod = `/${bare.split("/")[1] || ""}`;
 
-  // Findes den anden udgave? Dansk findes altid; engelsk kun for EN_ROUTES.
-  const findes = other === DEFAULT_LOCALE || EN_ROUTES.has(rod === "/" ? "/" : rod);
-  if (!findes) return null;
+  // Findes den anden udgave? Dansk findes altid; engelsk kun hvor vi
+  // faktisk har bygget siden — enExists kender både ruter og familier.
+  if (other !== DEFAULT_LOCALE && !enExists(bare)) return null;
 
   return (
     <a
