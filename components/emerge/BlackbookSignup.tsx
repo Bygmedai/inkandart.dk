@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { track } from "@vercel/analytics";
 
 /**
  * Blackbook-signup (Haruki-review S566 F2, Steven-valg 20/8: portér).
@@ -25,7 +26,17 @@ export function BlackbookSignup({ source = "emerge" }: { source?: string }) {
         }),
       });
       const out = await res.json().catch(() => null);
-      setStatus(res.ok && out?.ok ? "ok" : "fejl");
+      const lykkedes = res.ok && out?.ok;
+      setStatus(lykkedes ? "ok" : "fejl");
+      // #245 C. Kun naar den LYKKEDES — et forsoeg der fejler er ikke en
+      // tilmelding. INGEN PII: kun hvilken flade den kom fra, aldrig mailen.
+      if (lykkedes) {
+        try {
+          track("blackbook_signup", { source });
+        } catch {
+          /* en maaling maa aldrig staa i vejen for en tilmelding */
+        }
+      }
     } catch {
       setStatus("fejl");
     }

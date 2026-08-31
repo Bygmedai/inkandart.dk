@@ -153,6 +153,8 @@ export default function ShopPage() {
                     className="gade__print-koeb"
                     href={cartUrl(p.variantId)}
                     aria-label={c.buyAria(p.navn, kr(p.kr))}
+                    data-hz-handle={p.handle}
+                    data-hz-pris={p.kr}
                   >
                     {kr(p.kr)},- →
                   </a>

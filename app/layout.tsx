@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
+import { KlikVagt } from "@/components/analytics/Klik";
 import "./globals.css";
 
 /**
@@ -37,6 +38,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Script src="/seo-ld.js" strategy="afterInteractive" />
         {children}
         <Analytics />
+        {/* Klik-events (#245 C). Én ø for hele sitet, saa handelsfladerne
+            forbliver server-renderede og virker uden JS. */}
+        <KlikVagt />
       </body>
     </html>
   );

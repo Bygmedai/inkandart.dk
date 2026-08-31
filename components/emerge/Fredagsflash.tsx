@@ -48,6 +48,7 @@ export async function Fredagsflash() {
         <p className="mt-5">
           <a
             href={fredagsflashCartUrl()}
+            data-hz-event="plads_klik"
             aria-label={`Hold en plads til fredagsflash — ${FREDAGSFLASH.depositumKr} kroner i depositum`}
             className="inline-flex border border-[var(--gold)]/40 px-4 py-2 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)] transition-colors hover:border-[var(--gold)]"
           >
