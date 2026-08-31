@@ -55,6 +55,8 @@ export function DepositumRaekke({
               className="depot__koeb"
               href={cartUrl(v.variantId)}
               aria-label={aria(ariaSted[v.id] ?? navn, kr(v.kr))}
+              data-hz-handle={v.id}
+              data-hz-pris={v.kr}
             >
               <span className="depot__verbum">{koeb}</span>
               <span className="depot__pris">{kr(v.kr)},-</span>
