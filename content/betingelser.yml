@@ -34,11 +34,28 @@ sektioner:
       beder om billed-ID ved tvivl. Piercing under 18 kræver samtykke fra
       en forælder, der er med i butikken.
 
+  - overskrift: Hvad du siger ja til
+    tekst: >-
+      En tatovering er permanent. Fjernelse er dyrt, gør ondt og efterlader
+      næsten altid et spor — regn med at det du får i dag, bliver siddende.
+      Undervejs og de første dage efter kan huden være øm, rød og hævet; det
+      er normalt. Allergi over for blæk sker sjældent, men det sker.
+      Infektion er den ene risiko du selv har hånd om — den kommer næsten
+      altid af aftercare der ikke blev fulgt.
+  - overskrift: Samtykkeerklæring
+    tekst: >-
+      Før din tid beder vi dig udfylde en kort erklæring: hvem du er, hvad du
+      skal have lavet, og de helbredsforhold der kan have betydning —
+      graviditet, blodfortyndende medicin, allergi, hudlidelser. Du kan gøre
+      det hjemmefra på inkandart.dk/samtykke, så bruger vi ikke din tid i
+      stolen på papir. Har du ikke gjort det, gør vi det i butikken. Vi
+      gemmer erklæringen, så længe du er kunde hos os.
   - overskrift: Dit ansvar før vi går i gang
     tekst: >-
       Mød ædru og udhvilet op. Fortæl os om allergier, medicin,
       graviditet eller helbredsforhold der kan have betydning — det
-      bliver mellem os. Vi kan afvise at arbejde, hvis vi vurderer det
+      bliver mellem os. Du følger den aftercare du får med; det er den der
+      afgør hvordan det heler. Vi kan afvise at arbejde, hvis vi vurderer det
       ikke er forsvarligt; i så fald flyttes din tid og dit depositum.
 
   - overskrift: Touch-up
@@ -74,7 +91,16 @@ sektioner:
       ydelse, så kontakt os på booking@inkandart.dk — købelovens regler
       gælder.
 
+  - overskrift: Hvem der står for hvad
+    tekst: >-
+      Vi står for arbejdet og for hygiejnen: rene hænder, nye nåle, sterilt
+      udstyr, og et resultat vi kan stå inde for. Er der noget galt med det
+      vi har lavet, så sig til — vi retter det. Det der sker med huden efter
+      du er gået, afhænger af aftercare, og den er din. Følger du den ikke,
+      kan vi ikke stå på mål for hvordan det heler.
   - overskrift: Billeder
     tekst: >-
       Vi fotograferer kun dit færdige arbejde til væggen eller vores
-      kanaler hvis du siger ja — og et nej koster ingenting.
+      kanaler hvis du siger ja. Du krydser det af på samtykkeerklæringen, det er et
+      selvstændigt ja, og du kan trække det tilbage igen ved at skrive til
+      booking@inkandart.dk. Et nej koster ingenting.
