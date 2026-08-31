@@ -7,9 +7,11 @@ import { BlackbookSignup } from "@/components/emerge/BlackbookSignup";
 import { Fredagsflash } from "@/components/emerge/Fredagsflash";
 
 import { SkipLink } from "@/components/i18n/SkipLink";
+import { LangSwitch } from "@/components/i18n/LangSwitch";
+import { alternates } from "@/lib/i18n";
 import { Masthead } from "@/components/brand/Masthead";
 export const metadata: Metadata = {
-  alternates: { canonical: "/flash" },
+  alternates: { ...alternates("/flash"), canonical: "/flash" },
   title: "Flash · Ink & Art",
   description:
     "Færdigtegnede motiver til fast pris — først til mølle. Flash-drops fra Ink & Art Copenhagen; medlemmer i Blackbook ser dem først.",
@@ -35,6 +37,7 @@ export default async function FlashPage() {
       <SkipLink lang="da" />
     <main id="main" className="mx-auto max-w-[68ch] px-[var(--gutter)] py-24">
       <Masthead lang="da" />
+      <LangSwitch lang="da" path="/flash" />
       <p className="mt-10 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--gold)]">
         Flash
       </p>

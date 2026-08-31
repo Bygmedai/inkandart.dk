@@ -48,6 +48,10 @@ export const EN_ROUTES: ReadonlySet<string> = new Set([
   "/aftercare",
   "/natten",
   "/maerket",
+  // #245 A4 (Villy — RAAB til Haruki, din fil): /en/flash er nu en aegte
+  // side. Uden denne raekke 308'er LangSwitch og hreflang den til dansk,
+  // selv om siden findes.
+  "/flash",
 ]);
 
 /**

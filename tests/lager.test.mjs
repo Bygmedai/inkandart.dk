@@ -158,10 +158,29 @@ test("tid og priser står ét sted — Nizar skal kunne bede om 19–01", async 
 test("knappen renderer kun når pladsen kan bevises", () => {
   const blok = read("components/emerge/Fredagsflash.tsx");
   assert.match(blok, /lager\.status === "ledig"/, "knappen er ikke gatet på dommen");
-  assert.match(blok, /Udsolgt i denne uge/, "der mangler en tilstand uden knap");
-  // Ingen doed handling: knappen findes kun i den gren der kan koebes.
-  const udenKnap = blok.slice(blok.indexOf("Udsolgt i denne uge"));
-  assert.doesNotMatch(udenKnap, /fredagsflashCartUrl/);
+  assert.match(blok, /udsolgt:/, "der mangler en tilstand uden knap");
+
+  // Ingen doed handling: knappen findes kun i den gren der KAN koebes.
+  // Bind udsnittet til selve ternaeren — ikke til en tekststump. Teksten
+  // flyttede til en konstant oeverst i filen, og et hegn der peger paa
+  // ord flytter sig naar ordene goer (samme fejl som CLAUDE.md §1 advarer
+  // mod for CSS).
+  const jsx = blok.slice(blok.indexOf("{kanKoebes ? ("));
+  const elseGren = jsx.slice(jsx.indexOf(") : ("));
+  assert.ok(elseGren.length > 0, "ternaeren har ingen else-gren");
+  assert.doesNotMatch(elseGren, /fredagsflashCartUrl/,
+    "koebslinket findes i den gren hvor pladsen IKKE kan bevises");
+  assert.match(elseGren, /t\.udsolgt/);
+});
+
+test("blokken taler begge sprog — og tallene staar stadig ét sted", () => {
+  const blok = read("components/emerge/Fredagsflash.tsx");
+  assert.match(blok, /lang = "da"/, "sproget kan ikke vaelges");
+  assert.match(blok, /TEKST\[lang\]/);
+  for (const n of ["titel", "udsolgt", "hold", "traekkes"]) {
+    const antal = [...blok.matchAll(new RegExp(`^\\s+${n}:`, "gm"))].length;
+    assert.equal(antal, 2, `${n} findes ${antal} gange — der skal vaere ét pr. sprog`);
+  }
 });
 
 /* ── #245 A2 + A3 ──────────────────────────────────────────────────── */
