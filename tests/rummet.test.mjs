@@ -955,7 +955,12 @@ test("S573 QA: artisterne er døre, ikke plakater", async () => {
   assert.match(kort, /localePath\(lang, `\/stolen\/\$\{artist\.id\}`\)/);
   assert.match(kort, /rum-kort__link/);
   // Perioden kommer fra data — aldrig et hardcodet «Fast».
-  assert.match(kort, /periodeLabel\(artist\)/);
+  // Perioden kommer fra periodeLabel(), ikke fra en haardkodet etiket i
+  // kortet — OG den faar ordbogens tekster med, saa den taler laeserens
+  // sprog. Uden det sidste stod «Fast» paa hver engelsk artist-flade
+  // (Stevens fund 31/8; maalt 6 forekomster paa /en/stolen alene).
+  assert.match(kort, /periodeLabel\(artist, c\.periode\)/);
+  assert.doesNotMatch(kort, /"Fast"|"Gæst"/, "en periode-etiket er hardcodet i kortet");
   assert.doesNotMatch(kort, />Fast</);
   // Siden findes, og den genereres fra artists.yml.
   const side = read("app/(rummet)/stolen/[id]/page.tsx");

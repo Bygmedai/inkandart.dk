@@ -156,3 +156,48 @@ test("S574 sprogdøren står hvor den kan ses — ikke kun nederst i footeren", 
   // Og reglen fra før består: en dør der lyver er værre end ingen dør.
   assert.match(dør, /enExists\(bare\)/);
 });
+
+test("periode-etiketten taler laeserens sprog — Stevens fund 31/8", async () => {
+  const { periodeLabel } = await import("../lib/content.ts");
+  const { t } = await import("../lib/i18n.ts");
+
+  const fast = { periode: "fast" };
+  const gaest = { periode: "gaest" };
+  const gaestTil = { periode: "gaest", periode_til: "12. oktober" };
+
+  // Dansk er standarden: hvert dansk kaldsted er uaendret uden argument.
+  assert.equal(periodeLabel(fast), "Fast");
+  assert.equal(periodeLabel(gaest), "Gæst");
+  assert.equal(periodeLabel(gaestTil), "I huset til 12. oktober");
+
+  // Engelsk skal komme fra ordbogen, ikke fra et gaet.
+  const en = t("en").rummet.periode;
+  assert.equal(periodeLabel(fast, en), "Resident");
+  assert.equal(periodeLabel(gaest, en), "Guest");
+  assert.equal(periodeLabel(gaestTil, en), "In the house until 12. oktober");
+
+  // NEGATIV KONTROL: den engelske ordbog maa ikke baere danske ord.
+  for (const v of Object.values(en)) {
+    const s = typeof v === "function" ? v("x") : v;
+    assert.doesNotMatch(s, /[æøåÆØÅ]/, `dansk i den engelske periode-etiket: ${s}`);
+  }
+});
+
+test("fagets navn staar paa engelsk — og er skrevet af et menneske", async () => {
+  const yaml = await import("yaml");
+  const { readFileSync } = await import("node:fs");
+  const artister = yaml
+    .parse(readFileSync(join(root, "content/artists.yml"), "utf8"))
+    .filter((a) => a.stol !== false && a.fornavn);
+
+  for (const a of artister) {
+    assert.ok(a.haandvaerk_en, `${a.id} mangler haandvaerk_en — /en falder tilbage til dansk`);
+    assert.doesNotMatch(a.haandvaerk_en, /[æøåÆØÅ]/, `${a.id}: dansk i haandvaerk_en`);
+  }
+
+  // Anna staar EKSPLICIT selv om ordet er det samme paa begge sprog.
+  // Uden det leverer den danske fallback det rigtige ord ved et tilfaelde,
+  // og et hegn der holder ved et tilfaelde holder ikke naar teksten skifter.
+  const anna = artister.find((a) => a.id === "anna");
+  assert.equal(anna.haandvaerk_en, "Piercer");
+});

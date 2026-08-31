@@ -5,6 +5,17 @@
 - id: nizar
   fornavn: Nizar Saad
   haandvaerk: Tatovør & tegner · grundlægger
+  # [ORD-TJEK Steven 31/8] — UDKAST. Fagets navn paa engelsk.
+  #
+  # Feltet stod TOMT for alle tre artister, saa den engelske flade faldt
+  # tilbage til dansk: «Tatovør & tegner · grundlægger» stod paa /en.
+  # Stevens fund. Husets regel siger at fagets navn maa oversaettes — men
+  # kun af et menneske, aldrig af en agent paa egen haand. Derfor et udkast.
+  #
+  # «tegner» kan baade vaere illustrator og draughtsman. Jeg har valgt
+  # illustrator, fordi det er det en kunde forstaar. Sig til hvis han hellere
+  # vil kaldes noget andet — det er hans fag, ikke vores etiket.
+  haandvaerk_en: Tattoo artist & illustrator · founder
   # Nizars bio — Stevens kendelse 31/8 2026.
   #
   # Der laa TO tekster i huset: den korte (appen + sitet, identiske, 355
@@ -59,6 +70,10 @@
 - id: emma
   fornavn: Emma Windinnalls
   haandvaerk: Tatovør · farvet flash og traditionelt
+  # [ORD-TJEK Steven 31/8] — UDKAST, samme grund som Nizars.
+  # «farvet flash» → «colour flash»; britisk stavemaade, som resten af
+  # den engelske flade.
+  haandvaerk_en: Tattoo artist · colour flash and traditional
   # Handle fra Steven 31/8: https://www.instagram.com/winds_tattoos
   instagram: winds_tattoos
   periode: fast
@@ -78,6 +93,11 @@
 - id: anna
   fornavn: Anna Ogłuszka
   haandvaerk: Piercer
+  # [ORD-TJEK Steven 31/8] — UDKAST. Ordet er det samme paa engelsk, men
+  # det skal staa EKSPLICIT: staar feltet tomt, er det den danske fallback
+  # der leverer det rigtige ord ved et tilfaelde. Et hegn der holder ved et
+  # tilfaelde, holder ikke naar teksten aendrer sig.
+  haandvaerk_en: Piercer
   # Handle fra Steven 30/8: https://www.instagram.com/annao.piercing/
   instagram: annao.piercing
   periode: fast

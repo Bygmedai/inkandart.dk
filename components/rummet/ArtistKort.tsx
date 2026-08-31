@@ -36,11 +36,14 @@ export function ArtistKort({
   const c = t(lang).rummet;
   const pending = guestKind === "pending";
   const name = pending ? c.guestPending : artist.fornavn;
-  const alt = artist.billedtekst || (pending ? "Gæst" : artist.fornavn);
+  // Alt-teksten skal ogsaa tales. Stod haardkodet «Gæst», saa en
+  // skaermlaeser paa /en/stolen sagde et dansk ord om et billede —
+  // usynligt for den der kan se. Fanget af proeven i rummet.test.mjs.
+  const alt = artist.billedtekst || (pending ? c.periode.gaest : artist.fornavn);
   const craft = pending
     ? ""
     : (lang === "en" && artist.haandvaerk_en) || artist.haandvaerk;
-  const periode = pending ? "" : periodeLabel(artist);
+  const periode = pending ? "" : periodeLabel(artist, c.periode);
   const href = pending ? null : localePath(lang, `/stolen/${artist.id}`);
 
   const foto = (

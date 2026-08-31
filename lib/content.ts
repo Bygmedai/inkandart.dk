@@ -627,10 +627,34 @@ export function loadNattenCopyEn(): NattenCopy {
   return readNattenCopy("natten.en.yml", "No night tonight");
 }
 
-export function periodeLabel(a: Artist): string {
-  if (a.periode === "fast") return "Fast";
+/**
+ * Perioden i stolen, paa laeserens sprog.
+ *
+ * Stod foer haardkodet paa dansk, saa «Fast» blev vist paa hver eneste
+ * engelske artist-flade — ogsaa selv om ArtistKort ellers taler engelsk.
+ * Maalt 31/8: 6 forekomster paa /en/stolen alene (Stevens fund).
+ *
+ * Etiketten er husets, ikke artistens: «Fast» er en tilstand vi selv har
+ * fundet paa. Derfor MAA den oversaettes her. Fagets navn (haandvaerk)
+ * maa den ikke — det staar i haandvaerk_en og skrives af et menneske.
+ */
+export type PeriodeTekster = {
+  fast: string;
+  gaest: string;
+  til: (dato: string) => string;
+};
+
+/** Dansk er standarden, saa hvert dansk kaldsted er uaendret. */
+const PERIODE_DA: PeriodeTekster = {
+  fast: "Fast",
+  gaest: "Gæst",
+  til: (dato) => `I huset til ${dato}`,
+};
+
+export function periodeLabel(a: Artist, tekster: PeriodeTekster = PERIODE_DA): string {
+  if (a.periode === "fast") return tekster.fast;
   if (a.periode === "gaest") {
-    return a.periode_til ? `I huset til ${a.periode_til}` : "Gæst";
+    return a.periode_til ? tekster.til(a.periode_til) : tekster.gaest;
   }
   return a.periode;
 }
