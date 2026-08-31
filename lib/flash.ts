@@ -16,7 +16,18 @@ export type FlashPiece = {
   id: string;
   title: string;
   artist: string;
-  size: FlashSize;
+  /**
+   * Stoerrelsen — KUN naar den er kendt (Haruki #245 A2).
+   *
+   * Feltet var paakraevet, saa flash-droppet satte «M» paa hvert motiv fra
+   * Shopify og skjulte det bagefter i view-laget. Et felt der altid loej og
+   * aldrig blev vist. Nu er det valgfrit: kender vi ikke stoerrelsen,
+   * baerer motivet den ikke, og siden skriver den ikke.
+   *
+   * Vej A (Steven 30/8): stoerrelsen staar i produktets NAVN i Shopify
+   * («Ouroboros · underarm»), fordi det er ét felt Emma alligevel udfylder.
+   */
+  size?: FlashSize;
   priceKr: number;
   /** Motiv-fil: /flash/{id}.webp (transparent, høj opløsning). */
   img: string;

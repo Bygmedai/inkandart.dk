@@ -69,7 +69,7 @@ export default async function FlashPage() {
                   <p className="mt-3 text-[13px] uppercase tracking-[0.08em]">{f.title}</p>
                   <p className="mt-1 font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[0.2em] text-[var(--text-mute)]">
                     {f.artist ? `${f.artist} · ` : ""}
-                    {f.artist ? `${SIZE_LABEL[f.size]} · ` : ""}
+                    {f.size ? `${SIZE_LABEL[f.size]} · ` : ""}
                     {f.priceKr > 0 ? `${kr(f.priceKr)} kr` : ""}
                     {f.oneOff && f.priceKr > 0 ? " · one-off" : ""}
                   </p>
@@ -116,6 +116,29 @@ export default async function FlashPage() {
           <BlackbookSignup source="flash" />
         </section>
       )}
+
+      {hasDrops ? (
+        // A3 (#245): tilmeldingen skal ogsaa staa NAAR der er motiver.
+        // Droppet ER grunden til at melde sig til — stod den kun i den
+        // tomme tilstand, fjernede siden tilmeldingen praecis naar grunden
+        // opstod. Copy'en er en anden her: der er noget at se lige nu, og
+        // det vi lover er det naeste drop, ikke dette.
+        <section className="mt-12 border border-[var(--text)]/15 p-7" aria-labelledby="flash-blackbook">
+          <p
+            id="flash-blackbook"
+            className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.3em] text-[var(--gold)]"
+          >
+            Næste drop, før alle andre
+          </p>
+          <p className="mt-4 max-w-[52ch] text-[var(--text-soft)]">
+            Motiverne her er først til mølle. Er du i{" "}
+            <strong className="font-normal text-[var(--text)]">Blackbook</strong>, ser du
+            det næste drop før alle andre — og kan tage dit, før nogen anden gør.
+            Gratis, ingen spam.
+          </p>
+          <BlackbookSignup source="flash" />
+        </section>
+      ) : null}
 
       <Fredagsflash />
 
