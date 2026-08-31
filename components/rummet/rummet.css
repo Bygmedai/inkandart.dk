@@ -1538,3 +1538,50 @@ html:has([data-house="rummet"]) .grain {
   gap: 4px;
   color: var(--text-soft);
 }
+
+/* ── Piercingpriser (Villy, S577) ─────────────────────────────────────
+   Tabellen ruller i sin EGEN beholder; siden ruller ikke vandret. En side
+   der skrider sidelæns på telefonen er en side man taber sit sted i, og
+   det er min egen gate.
+
+   `tabular-nums` så kolonnen står lige uanset om der står 50 eller 899. */
+.rum-priser {
+  margin-top: 32px;
+}
+.rum-priser__intro {
+  max-width: 54ch;
+}
+.rum-priser__gruppe {
+  margin-top: 28px;
+}
+.rum-priser__rulle {
+  margin-top: 10px;
+  overflow-x: auto;
+}
+.rum-priser__tabel {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+.rum-priser__tabel th,
+.rum-priser__tabel td {
+  border-top: 1px solid var(--rum-line);
+  padding: 10px 0;
+  text-align: left;
+  font-weight: 400;
+}
+.rum-priser__tabel th {
+  color: var(--text-soft);
+  padding-right: 20px;
+}
+.rum-priser__tal {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+  color: var(--text);
+}
+.rum-priser__note {
+  margin-top: 24px;
+  max-width: 54ch;
+  color: var(--beton);
+}

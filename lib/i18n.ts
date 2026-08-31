@@ -52,6 +52,9 @@ export const EN_ROUTES: ReadonlySet<string> = new Set([
   // side. Uden denne raekke 308'er LangSwitch og hreflang den til dansk,
   // selv om siden findes.
   "/flash",
+  // /en/piercing er en aegte side (S577). Uden raekken her 308'er
+  // LangSwitch og hreflang den til dansk, selv om den findes.
+  "/piercing",
 ]);
 
 /**

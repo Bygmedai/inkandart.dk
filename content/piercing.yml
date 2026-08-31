@@ -1,7 +1,8 @@
 # Piercing hos Ink & Art — husets standardtekst (H6, Stevens bestilling
 # 30/8: «Vægt på hvor meget vi ved at det betyder for kunden at få det
 # lavet. Hvordan det kan være både frisættende og en vigtig markør.»)
-# [ORD-TJEK Steven] — ret frit i Decap.
+# [ORD-TJEK Steven] — rettes via PR indtil HOUSE-CMS-01 er i drift;
+# Decap er nedlagt (CMS-RULING-01, 31/8).
 
 titel: Piercing hos Ink & Art
 tekst: >-
@@ -12,5 +13,3 @@ tekst: >-
   får du ro, rene hænder og et ærligt ord om hvad der klæder dig — og
   hvad der skal hele først. Vi sælger smykker over disken og skifter
   gerne dem du har.
-priser: >-
-  Priser efter aftale — ring, eller kom ned i butikken.

@@ -1,6 +1,6 @@
 # Piercing at Ink & Art — English. Same substance as content/piercing.yml,
-# own voice. Prices are by agreement here too: we never publish a price the
-# house has not set.
+# own voice. PRICES MOVED to content/piercing-priser.yml — one number, two
+# languages, so the two can never disagree.
 
 titel: Piercing at Ink & Art
 tekst: >-
@@ -11,5 +11,3 @@ tekst: >-
   honest word about what suits you — and what needs to heal first. We sell
   jewellery over the counter, and we are happy to change the ones you
   already wear.
-priser: >-
-  Prices by agreement — call, or come down to the shop.
