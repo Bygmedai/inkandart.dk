@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { DEFAULT_LOCALE, localePath, t, type Locale } from "@/lib/i18n";
 import { CartIndicator } from "./CartIndicator";
+import { LangDoor } from "./LangDoor";
 
 const ROOMS = [
   { href: "/stolen", label: "Stolen" },
@@ -80,8 +81,16 @@ export function Nav({ lang = DEFAULT_LOCALE }: { lang?: Locale }) {
             </Link>
           ))}
           <span className="rum-nav__split" aria-hidden="true" />
+          <LangDoor lang={lang} variant="nav" />
           <Blackbook word lang={lang} />
         </nav>
+        {/*
+          Sprogdøren står som direkte barn af headeren, ikke pakket ind:
+          `.rum-nav > .rum-nav__cluster` er en eksisterende regel der
+          styrer den mobile Blackbook-klynge, og en wrapper ville bryde
+          den lydløst. Egen klasse, husets egen 900px-grænse.
+        */}
+        <LangDoor lang={lang} variant="nav" />
         <Blackbook mobile lang={lang} />
       </header>
       <nav className="rum-dock" aria-label={c.roomsLabel}>

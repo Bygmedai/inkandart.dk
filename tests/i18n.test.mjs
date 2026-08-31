@@ -114,3 +114,36 @@ test("hegnet er dybt — ordbøgerne har samme form hele vejen ned", () => {
       : typeof o;
   assert.deepEqual(shape(t("en")), shape(t("da")));
 });
+
+test("S574 sprogdøren står hvor den kan ses — ikke kun nederst i footeren", () => {
+  const nav = readFileSync(join(root, "components/rummet/Nav.tsx"), "utf8");
+  const css = readFileSync(join(root, "components/rummet/rummet.css"), "utf8");
+  const dør = readFileSync(join(root, "components/rummet/LangDoor.tsx"), "utf8");
+
+  // Stevens fund 30/8: den fandtes, men stod som sidste led i footeren
+  // efter telefon, betingelser, privatliv, FAQ, mail og Instagram.
+  // En turist ruller ikke derned. Nu står den også i navigationen.
+  assert.match(nav, /<LangDoor lang=\{lang\} variant="nav" \/>/);
+  assert.equal(
+    (nav.match(/variant="nav"/g) || []).length,
+    2,
+    "én i rooms-rækken (desktop) og én i headeren (mobil)",
+  );
+
+  // Begge udgaver følger husets egen 900px-grænse — aldrig begge synlige.
+  assert.match(css, /\.rum-nav > \.rum-lang--nav \{ display: inline-flex; \}/);
+  assert.match(css, /@media \(min-width: 900px\) \{\s*\.rum-nav > \.rum-lang--nav \{ display: none; \}/);
+
+  // Trykmål: 44px som husets øvrige handlinger.
+  const i = css.indexOf(".rum-lang--nav {");
+  const krop = css.slice(i, css.indexOf("}", i));
+  assert.match(krop, /min-height:\s*44px/);
+  assert.match(krop, /min-width:\s*44px/);
+
+  // Den korte form i navigationen, den lange i footeren.
+  assert.match(dør, /kort = other === "en" \? "EN" : "DA"/);
+  assert.match(dør, /variant === "nav" \? kort : t\(lang\)\.otherLangName/);
+
+  // Og reglen fra før består: en dør der lyver er værre end ingen dør.
+  assert.match(dør, /enExists\(bare\)/);
+});
