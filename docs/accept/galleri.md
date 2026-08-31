@@ -90,10 +90,15 @@ når siden åbnes,
 så står pauseknappen på engelsk, og hvert billedes alt-tekst er den tekst
 redaktøren selv skrev — vi oversætter ikke en billedtekst for hende.
 
-**A7 — en redaktør kan fylde slotten.**
-Givet et menneske i Decap uden adgang til kode,
+**A7 — en redaktør kan fylde slotten. — KAN IKKE OPFYLDES ENDNU (31/8).**
+Givet et menneske uden adgang til kode,
 når hun lægger et billede i «Flere billeder» på en artist og udgiver,
 så står billedet i rotationen på artistens side.
+
+Decap-fladen er nedlagt (Sirius, CMS-RULING-01), og der findes ingen
+afløser endnu. Slotten virker — men vejen ind i den er en PR, indtil
+HOUSE-CMS-01 forbinder `artist.galleri` fra Shopify. Skrevet her frem for
+at lade kriteriet staa som om det var opfyldt.
 
 **A8 — loftet stopper hende hvor hun kan se det (negativ kontrol).**
 Givet en redaktør der prøver at lægge et **femte** ekstra billede på,

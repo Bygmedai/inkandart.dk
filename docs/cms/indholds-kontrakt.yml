@@ -1,3 +1,23 @@
+# HUSETS INDHOLDS-KONTRAKT
+#
+# Hvad et menneske skal kunne rette UDEN en agent og UDEN at røre kode.
+#
+# Filen startede som Decaps `config.yml` og lå på `public/admin/`. Decap er
+# pensioneret (Sirius, CMS-RULING-01, 31/8): en eval-kapabel JavaScript-app
+# og en GitHub-skrivetoken på samme origin som kundesitet er den forkerte
+# magtgrænse. `/admin` svarer nu 410.
+#
+# Filen bliver stående her, fordi LISTEN stadig er sand. Felterne herunder
+# er dem huset skal kunne redigere; kun redigeringsfladen skifter. Når
+# HOUSE-CMS-01 flytter dem til Shopify-metaobjects, skal denne fil
+# erstattes af den Shopify-kontrakt — ikke bare slettes, og ikke blive
+# stående som en grøn prøve der ikke måler noget.
+#
+# Testene der læser filen vogter én ting: at koden ikke begynder at læse en
+# content-fil som intet menneske kan redigere. Den vagt gælder uændret.
+#
+# Villy, S576.
+
 # Decap CMS — Rummet content. GitHub backend via oauth.bygmedai.dk.
 backend:
   name: github

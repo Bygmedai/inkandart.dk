@@ -1,56 +1,62 @@
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { test } from "node:test";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const html = readFileSync(join(root, "public/admin/index.html"), "utf8");
 
 /**
- * Decap-fladen på /admin — den eneste vej et menneske uden kode har ind
- * i indholdet.
+ * `/admin` er død (Sirius, CMS-RULING-01, 31/8).
  *
- * Fejlen den her vogter mod, er målt i produktion 31/8: Next svarer 308 fra
- * /admin/ til /admin, og fra /admin peger «./» på roden. En relativ
- * script-sti blev derfor hentet som /decap-cms.js — 404, blank skærm.
+ * Denne fil vogtede før at Decap-fladen VIRKEDE. Nu vogter den det modsatte:
+ * at der ikke ligger CMS-bytes på kundesitet, og at adressen svarer 410.
  *
- * Det lumske er at HTML'en svarer 200 hele vejen igennem. En statuskode på
- * /admin måler at filen bliver leveret, ikke at siden virker.
+ * Grunden til at det er en prøve og ikke bare en sletning: en 5,1 MB
+ * eval-kapabel app og et GitHub-OAuth-indgangspunkt på kundens origin er
+ * nemme at få tilbage ved et uheld — et `npm run build` af et gammelt
+ * værktøj, en gendannet mappe, en kopieret opsætning. Grænsen skal have en
+ * vagt, ikke en hukommelse.
  */
 
-test("intet på /admin hentes relativt", () => {
-  // Negativ kontrol først: findes «./» overhovedet, er resten ligegyldigt.
-  assert.doesNotMatch(
-    html,
-    /(?:src|href)="\.\//,
-    "relativ sti på /admin — den opløses mod roden, ikke mod /admin/",
-  );
+test("der ligger ingen CMS-bytes under public/", () => {
+  assert.equal(existsSync(join(root, "public/admin")), false,
+    "public/admin er tilbage — 5,1 MB eval-kapabel JS på kundens origin");
 
-  const stier = [...html.matchAll(/(?:src|href)="([^"]+)"/g)].map((m) => m[1]);
-  assert.ok(stier.length >= 2, "hverken script eller config peges der på");
-
-  for (const sti of stier) {
-    if (/^https?:\/\//.test(sti)) continue; // eksterne må gerne være absolutte URL'er
-    assert.ok(
-      sti.startsWith("/admin/"),
-      `${sti} ligger ikke under /admin/ — den findes ikke fra /admin`,
-    );
-    assert.ok(
-      existsSync(join(root, "public", sti)),
-      `${sti} peges der på, men filen findes ikke i public/`,
-    );
-  }
+  // Bredere end mappenavnet: en CMS-bundle må ikke ligge NOGET sted under
+  // public/, uanset hvad nogen kalder mappen.
+  const fundne = [];
+  const gaa = (dir, sti = "") => {
+    for (const navn of readdirSync(dir)) {
+      const p = join(dir, navn);
+      if (statSync(p).isDirectory()) gaa(p, `${sti}/${navn}`);
+      else if (/decap|netlify-cms|sveltia/i.test(navn)) fundne.push(`${sti}/${navn}`);
+    }
+  };
+  gaa(join(root, "public"));
+  assert.deepEqual(fundne, [], "en CMS-bundle er sluppet ind under public/");
 });
 
-test("config'en peges der eksplicit på", () => {
-  // Uden denne linje henter Decap selv «config.yml» relativt til siden,
-  // altså /config.yml — 404. Script-stien alene er ikke nok: målt 31/8 giver
-  // det «Error loading the CMS configuration» i stedet for en blank skærm.
-  assert.match(
-    html,
-    /rel="cms-config-url"/,
-    "ingen cms-config-url — Decap gætter selv, og gætter forkert på /admin",
-  );
-  assert.match(html, /href="\/admin\/config\.yml"/);
+test("/admin svarer 410 — væk med vilje, ikke en tastefejl", () => {
+  const rute = join(root, "app/admin/[[...slug]]/route.ts");
+  assert.ok(existsSync(rute), "der er ingen rute til at svare på /admin");
+  const src = readFileSync(rute, "utf8");
+
+  // 410 og ikke 404: adressen HAR eksisteret. Et 404 ville sige «findes
+  // ikke», hvilket er forkert — og en crawler ville blive ved med at prøve.
+  assert.match(src, /status: 410/);
+  assert.doesNotMatch(src, /status: 404/);
+  assert.match(src, /export function GET/);
+  assert.match(src, /export function HEAD/, "HEAD skal svare det samme som GET");
+});
+
+test("kontrakten overlevede fladen", () => {
+  // Listen over hvad et menneske skal kunne rette er stadig sand; kun
+  // redigeringsfladen skiftede. Slettes den her uden en Shopify-kontrakt i
+  // stedet, mister huset sin eneste beskrivelse af hvad der ER indhold.
+  const kontrakt = join(root, "docs/cms/indholds-kontrakt.yml");
+  assert.ok(existsSync(kontrakt), "indholds-kontrakten er væk");
+  const src = readFileSync(kontrakt, "utf8");
+  assert.match(src, /HUSETS INDHOLDS-KONTRAKT/);
+  assert.match(src, /HOUSE-CMS-01/, "der står ikke hvad der afløser den");
 });

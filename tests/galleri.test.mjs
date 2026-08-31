@@ -159,11 +159,12 @@ test("én slot ser ud som før galleriet fandtes", () => {
   assert.doesNotMatch(gren, /rum-galleri__foto/, "én slot får en animation");
 });
 
-test("redaktøren stoppes i Decap, ikke i tavshed", () => {
-  const decap = read("public/admin/config.yml");
+test("loftet staar i kontrakten, ikke kun i koden", () => {
+  // Kontrakten, ikke en editor-config: fladen er nedlagt, listen staar ved magt.
+  const decap = read("docs/cms/indholds-kontrakt.yml");
   const felt = decap.slice(decap.indexOf("name: fotos"), decap.indexOf("name: fotos") + 900);
   assert.match(felt, /widget: list/);
-  assert.match(felt, /max: 4/, "loftet står ikke hvor redaktøren kan se det");
+  assert.match(felt, /max: 4/, "loftet står ikke i kontrakten");
   // 4 ekstra + portrættet = GALLERI_MAX. Driver de to fra hinanden, kan hun
   // lægge et billede på der aldrig bliver vist.
   assert.equal(4 + 1, MAX, "Decaps max og GALLERI_MAX er ikke det samme loft");

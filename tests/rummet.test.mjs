@@ -135,7 +135,7 @@ test("rum-ruter og slots findes", () => {
   }
   const slots = readdirSync(join(root, "public/slots")).filter((n) => n.endsWith(".jpg"));
   assert.ok(slots.length >= 20, `forventede slot-jpg, fandt ${slots.length}`);
-  assert.ok(existsSync(join(root, "public/admin/config.yml")));
+  assert.ok(existsSync(join(root, "docs/cms/indholds-kontrakt.yml")));
 });
 
 test("metadata opfinder ikke walk-in 900 kr", () => {
@@ -414,7 +414,7 @@ test("M2 Book tid på Stolen er stadig et klædt hop, række ≥ 44px", () => {
 });
 
 test("M2 edition_ref er handle, ikke GID — dokumenteret", () => {
-  const cfg = read("public/admin/config.yml");
+  const cfg = read("docs/cms/indholds-kontrakt.yml");
   const ind = read("docs/handoff-rummet/M2-INDSTILLINGER.md");
   assert.match(cfg, /Shopify product handle, not GID/);
   assert.match(ind, /edition_ref = Shopify product handle/);
@@ -626,28 +626,19 @@ test("M4 /booking/tak: data-drevet, ærlig betalt-gren, ingen konsekvens-kundete
   assert.doesNotMatch(tak, /params\.betalt/);
   assert.match(tak, /verificerDepositum/);
   // Decap kan redigere de nye felter.
-  const cfg = read("public/admin/config.yml");
+  const cfg = read("docs/cms/indholds-kontrakt.yml");
   assert.match(cfg, /name: tak_titel/);
   assert.match(cfg, /name: tak_betalt/);
   assert.match(cfg, /name: depositum_trin/);
   assert.match(cfg, /name: svar_betalt/);
 });
 
-test("U7 Decap GitHub OAuth-config", () => {
-  const cfg = read("public/admin/config.yml");
-  const html = read("public/admin/index.html");
-  assert.match(cfg, /name:\s*github/);
-  assert.match(cfg, /base_url:\s*https:\/\/oauth\.bygmedai\.dk/);
-  assert.match(cfg, /repo:\s*Bygmedai\/inkandart\.dk/);
-  assert.match(cfg, /branch:\s*main/);
-  assert.match(cfg, /publish_mode:\s*simple/);
-  assert.doesNotMatch(cfg, /git-gateway/);
-  assert.doesNotMatch(cfg, /local_backend/);
-  assert.match(html, /\.\/decap-cms\.js/);
-  assert.doesNotMatch(html, /unpkg/);
-  assert.ok(existsSync(join(root, "public/admin/decap-cms.js")), "decap-cms.js mangler");
-});
-
+/* U7 «Decap GitHub OAuth-config» er FJERNET (Villy, S576).
+   Den vogtede Decaps egen OAuth-opsaetning, index.html og decap-cms.js paa
+   public/. Fladen er nedlagt (Sirius, CMS-RULING-01) og filerne er slettet,
+   saa proeven ville vogte noget der ikke findes. Den vagt der ERSTATTER den
+   staar i tests/admin.test.mjs: ingen CMS-bytes under public/, og /admin
+   svarer 410. */
 test("ingen [TAL BEKRÆFTES] under app/(rummet) kundeflader", () => {
   const dir = join(root, "app/(rummet)");
   const hits = [];
@@ -1025,7 +1016,7 @@ test("S573 QA: sitemap kender artistsiderne og lyver ikke om /blackbook", () => 
 });
 
 test("S574: Decap kender hver content-fil koden læser", () => {
-  const cms = read("public/admin/config.yml");
+  const cms = read("docs/cms/indholds-kontrakt.yml");
   // Læser koden en fil, skal Sonja kunne redigere den uden en editor.
   for (const fil of [
     "content/artists.yml",
@@ -1283,8 +1274,8 @@ test("S574 EN-Stolen: artistsider på engelsk — men ingen oversat bio", async 
 
   // Faget må gerne oversættes — men kun af et menneske i Decap.
   assert.match(side, /artist\.haandvaerk_en \|\| artist\.haandvaerk/);
-  assert.match(read("public/admin/config.yml"), /name: haandvaerk_en/);
-  assert.match(read("public/admin/config.yml"), /name: bio_en/);
+  assert.match(read("docs/cms/indholds-kontrakt.yml"), /name: haandvaerk_en/);
+  assert.match(read("docs/cms/indholds-kontrakt.yml"), /name: bio_en/);
 
   // Ingen af artisterne har (endnu) en engelsk bio — så ingen må se ud
   // som om de har. Falder det om senere, er det fordi nogen har skrevet

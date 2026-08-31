@@ -2,6 +2,15 @@
 
 Én side. Få ord.
 
+> **FORAELDET 31/8 2026.** `/admin` svarer 410. Decap er pensioneret
+> (Sirius, CMS-RULING-01): en eval-kapabel app og en GitHub-skrivetoken paa
+> kundens origin er den forkerte magtgraense. Fladen var i oevrigt allerede
+> i stykker i produktion — den loadede og fejlede paa CSP.
+>
+> Indtil HOUSE-CMS-01 flytter indholdet til Shopify, gaar aendringer gennem
+> en PR. Det er langsommere, og det er aerligt. Afsnittet herunder staar som
+> historik.
+
 Indholdet bor i git-filer i repoet. Decap `/admin` loader CMS'en (self-hostet script) og peger på GitHub-backend via `https://oauth.bygmedai.dk`. OAuth er peget — Sonjas konto er Harukis job; vi har kun gjort config + `/admin` loader.
 
 ## De tre opgaver
