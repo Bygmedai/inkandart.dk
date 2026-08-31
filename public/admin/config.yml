@@ -45,6 +45,21 @@ collections:
               - { label: "Håndværk (engelsk)", name: haandvaerk_en, widget: string, required: false, hint: "Fagets navn på engelsk. Tom = den danske linje vises." }
               - { label: "Bio (engelsk)", name: bio_en, widget: text, required: false, hint: "Artistens EGEN engelske tekst. Tom = den danske bio vises som dansk. Oversæt aldrig en bio for dem." }
               - { label: Instagram, name: instagram, widget: string, required: false, hint: "Handle uden @. Tom = linjen udelades." }
+              # Galleri-slots (Villy, S575 — docs/accept/galleri.md).
+              # max: 4 er loftet HVOR REDAKTOEREN KAN SE DET. Koden har det
+              # samme loft (GALLERI_MAX = 5, portraettet talt med), men en
+              # tavs afkortning er en loegn — her bliver hun stoppet i stedet.
+              - label: "Flere billeder"
+                name: fotos
+                widget: list
+                required: false
+                max: 4
+                summary: "{{fields.tekst}}"
+                hint: "Ekstra billeder til artistens side. Ét ekstra er nok: så begynder billederne at skifte af sig selv. Max fire — portrættet ovenfor er det femte."
+                fields:
+                  - { label: Billede, name: fil, widget: image }
+                  - { label: Billedtekst, name: tekst, widget: string, required: false, hint: "Hvad ser man? Dine ord — vi oversætter dem ikke." }
+                  - { label: Fokuspunkt, name: fokus, widget: string, required: false, hint: "Kun hvis motivet beskæres skævt. Fx «72% 30%» rykker udsnittet mod højre og op. Tom = midten." }
 
   - name: vaerker
     label: Værker

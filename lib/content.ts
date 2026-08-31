@@ -7,6 +7,34 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { parse } from "yaml";
 
+/**
+ * Et ekstra billede i artistens galleri-slot.
+ *
+ * `fokus` er `object-position`. Den er ikke pynt: husets eneste ubrugte
+ * Nizar-billede er 1179x753 — bredformat i en 4:5-slot. Uden et fokuspunkt
+ * beskaerer `object-fit: cover` ham halvt vaek i hoejre kant. Tom = "50% 50%".
+ */
+export type ArtistFoto = {
+  /** Sti under /public. Tom raekke findes ikke — den falder ud. */
+  fil: string;
+  /** Alt-tekst. Redaktoerens egne ord; vi oversaetter dem ikke. */
+  tekst: string;
+  /** object-position, fx "72% 30%". Tom = midten. */
+  fokus: string;
+};
+
+/**
+ * Loft for hvor mange billeder en artist kan rotere imellem.
+ *
+ * CSS'en i rummet.css har ét @keyframes pr. antal (2–5) — dumt og laesbart
+ * frem for smart og skroebeligt. Haever du loftet, saa laeg keyframes til i
+ * SAMME commit; tests/galleri.test.mjs kraever parret.
+ *
+ * Redaktoeren stoppes i Decap (max 4 ekstra), hvor hun kan se det. Dette er
+ * bagstopperen for den der redigerer YAML i haanden.
+ */
+export const GALLERI_MAX = 5;
+
 export type Artist = {
   id: string;
   fornavn: string;
@@ -39,6 +67,8 @@ export type Artist = {
   /** Kan gaesten booke tid hos denne artist? Tom/false = walk-in indtil
    *  kalenderen er sat op. Vi tilbyder ikke en tid huset ikke kan give. */
   booking: boolean;
+  /** Ekstra billeder ud over portraettet. Tom liste = én slot, som foer. */
+  fotos: ArtistFoto[];
 };
 
 export type Vaerk = {
@@ -161,7 +191,44 @@ function normalizeArtist(a: Artist): Artist {
     aktiv: bool(a.aktiv),
     stol: bool(a.stol),
     booking: a.booking === undefined ? true : bool(a.booking),
+    fotos: normalizeFotos((a as unknown as Record<string, unknown>).fotos),
   };
+}
+
+function normalizeFotos(raw: unknown): ArtistFoto[] {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .map((f) => {
+      const o = (f ?? {}) as Record<string, unknown>;
+      return {
+        fil: str(o.fil as string),
+        tekst: str(o.tekst as string),
+        fokus: str(o.fokus as string),
+      };
+    })
+    .filter((f) => f.fil);
+}
+
+/**
+ * Artistens billeder i visningsraekkefoelge: portraettet foerst, derefter
+ * slotterne fra artists.yml. Altid mindst ét element naar artisten har et
+ * foto, saa kaldstedet ikke skal kende forskel paa «én artist med ét
+ * billede» og «et galleri» — komponenten afgoer det paa laengden.
+ *
+ * Samme fil to gange er én slot. En redaktoer der lister portraettet igen
+ * skal ikke faa en rotation mellem billedet og sig selv.
+ */
+export function artistFotos(artist: Artist): ArtistFoto[] {
+  const alle: ArtistFoto[] = [
+    { fil: str(artist.foto), tekst: str(artist.billedtekst), fokus: "" },
+    ...(artist.fotos ?? []),
+  ].filter((f) => f.fil);
+  const unikke: ArtistFoto[] = [];
+  for (const f of alle) {
+    if (unikke.some((u) => u.fil === f.fil)) continue;
+    unikke.push(f);
+  }
+  return unikke.slice(0, GALLERI_MAX);
 }
 
 function normalizeVaerk(v: Vaerk): Vaerk {
