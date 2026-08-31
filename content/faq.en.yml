@@ -11,8 +11,8 @@ sporgsmal:
       surprises.
   - q: Can I just walk in?
     a: >-
-      Yes. Walk in when a chair is free — Thursday, Friday and
-      Saturday, 10:00–05:00. Want a guaranteed slot? Book ahead.
+      Yes. Walk in when a chair is free — {tider}. Want a
+      guaranteed slot? Book ahead.
   - q: How do I book?
     a: >-
       Pay the deposit (from 100 kr) on the booking page and pick your

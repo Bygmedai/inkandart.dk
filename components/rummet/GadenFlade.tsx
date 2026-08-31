@@ -1,5 +1,7 @@
 import type { GadenInfo } from "@/lib/content";
 import { loadKontakt } from "@/lib/content";
+import { loadAabningstider } from "@/lib/content";
+import { formatTider } from "@/lib/tider";
 import { localePath, t, type Locale } from "@/lib/i18n";
 
 /**
@@ -17,6 +19,8 @@ import { localePath, t, type Locale } from "@/lib/i18n";
 export function GadenFlade({ gaden, lang }: { gaden: GadenInfo; lang: Locale }) {
   const k = loadKontakt();
   const c = t(lang).rummet;
+  // Tiden kommer fra content/aabningstider.yml — ét sted for hele huset.
+  const tider = formatTider(loadAabningstider(), c.tider);
   const ring = lang === "en" ? "Call" : "Ring på";
 
   return (
@@ -43,9 +47,9 @@ export function GadenFlade({ gaden, lang }: { gaden: GadenInfo; lang: Locale }) 
           {gaden.aabent_label} {gaden.aabent}
         </p>
       ) : null}
-      {gaden.walk_in ? (
+      {tider ? (
         <p className="rum-room__note rum-body-copy">
-          {gaden.walk_in_label} {gaden.walk_in}
+          {gaden.walk_in_label} {tider}
         </p>
       ) : null}
       {gaden.depositum_linje ? (

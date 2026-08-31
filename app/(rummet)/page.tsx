@@ -13,6 +13,8 @@ import {
   activeNat,
   visibleCountForArtist,
 } from "@/lib/content";
+import { loadAabningstider } from "@/lib/content";
+import { formatTider } from "@/lib/tider";
 import { alternates, t } from "@/lib/i18n";
 
 const _fold = loadHusetForside();
@@ -32,6 +34,9 @@ export const metadata: Metadata = {
 export default function HusetPage() {
   const house = loadHouse();
   const fold = loadHusetForside();
+  // Butikkens tider — ét sted, content/aabningstider.yml. Foer stod de
+  // i seks filer i to formater og drev fra hinanden.
+  const husetsTider = formatTider(loadAabningstider(), t("da").rummet.tider);
   const kontakt = loadKontakt();
   const chairs = chairArtists(house.artists);
   const guest = guestState(house.artists);
@@ -44,8 +49,8 @@ export default function HusetPage() {
           <p className="rum-label">Huset</p>
           <h1 className="rum-huset__title rum-poster">{fold.titel}</h1>
           <p className="rum-huset__lede rum-body-copy">{fold.lede}</p>
-          {fold.tider ? (
-            <p className="rum-label rum-huset__tider">{fold.tider}</p>
+          {husetsTider ? (
+            <p className="rum-label rum-huset__tider">{husetsTider}</p>
           ) : null}
           <div className="rum-huset__cta">
             <a id="booking" href="/booking" className="rum-book">

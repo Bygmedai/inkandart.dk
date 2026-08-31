@@ -228,7 +228,10 @@ test("artistens tider staar paa begge sprog — og paa korrekt dansk", async () 
     assert.doesNotMatch(d, /[æøåÆØÅ]/, `dansk i den engelske ugedag: ${d}`);
   }
 
-  const kilde = readFileSync(join(root, "components/rummet/Tider.tsx"), "utf8");
+  // Formateringen bor i lib/tider.ts, saa BAADE artistsiden, /gaden,
+  // forsiden og FAQ'en bruger den samme regel. Ellers formaterer fire
+  // flader den samme tid paa fire maader.
+  const kilde = readFileSync(join(root, "lib/tider.ts"), "utf8");
   assert.match(kilde, /charAt\(0\)\.toUpperCase\(\)/, "linjen stort-skrives ikke");
 });
 
@@ -240,5 +243,50 @@ test("et halvt tidsrum vises ikke — hellere ingen tid end en forkert", async (
     for (const r of a.tider ?? []) {
       assert.ok(r.dage.length > 0 && r.fra && r.til, `${a.id}: halvt tidsrum sluppet igennem`);
     }
+  }
+});
+
+test("butikkens tider staar ÉT sted og laeses af alle flader", async () => {
+  const { loadAabningstider, loadGaden, loadGadenEn, loadHusetForside, loadHusetForsideEn } =
+    await import("../lib/content.ts");
+  const { formatTider, formatTiderIndlejret } = await import("../lib/tider.ts");
+  const { t } = await import("../lib/i18n.ts");
+
+  // Kilden findes og er Emmas tider (Steven 31/8: «Butikken er aaben Emmas tider»).
+  const tider = loadAabningstider();
+  assert.equal(tider.length, 3);
+  assert.deepEqual(tider[0], { dage: ["tir", "ons"], fra: "13", til: "23" });
+
+  // NEGATIV KONTROL — den vigtigste her: ingen af de gamle kopier maa baere
+  // en tid. Den 31/8 stod den samme aabningstid i SEKS filer i to formater,
+  // blev rettet to gange paa en time, og begge gange slap to filer igennem.
+  assert.equal(loadGaden().walk_in, "", "gaden.yml er en kopi");
+  assert.equal(loadGadenEn().walk_in, "", "gaden.en.yml er en kopi");
+  assert.equal(loadGaden().aabent, "", "«Åbent» lover en doer huset ikke styrer");
+  assert.equal(loadHusetForside().tider, "", "huset.yml er en kopi");
+  assert.equal(loadHusetForsideEn().tider, "", "huset.en.yml er en kopi");
+
+  // Og de to sprog kan ikke sige forskellige klokkeslet, fordi tallene kun
+  // findes ét sted — kun dagene oversaettes.
+  const da = formatTider(tider, t("da").rummet.tider);
+  const en = formatTider(tider, t("en").rummet.tider);
+  for (const tal of ["13–23", "16–02.30", "19–05.30"]) {
+    assert.ok(da.includes(tal), `dansk mangler ${tal}`);
+    assert.ok(en.includes(tal), `engelsk mangler ${tal}`);
+  }
+  assert.match(da, /^Tirsdag og onsdag/, "dansk: stort kun paa foerste ord");
+  assert.match(en, /^Tuesday and Wednesday/);
+
+  // Indlejret i en saetning skal dansk begynde med lille.
+  assert.match(formatTiderIndlejret(tider, t("da").rummet.tider), /^tirsdag/);
+  assert.match(formatTiderIndlejret(tider, t("en").rummet.tider), /^Tuesday/);
+});
+
+test("FAQ'ens svar baerer en pladsholder, ikke en tid", () => {
+  for (const f of ["content/faq.yml", "content/faq.en.yml"]) {
+    const src = readFileSync(join(root, f), "utf8");
+    assert.match(src, /\{tider\}/, `${f} mangler pladsholderen`);
+    // Ingen klokkeslet i FAQ-teksten — saa kan den ikke drive fra kilden.
+    assert.doesNotMatch(src.replace(/^\s*#.*$/gm, ""), /\d{1,2}[:.]\d{2}[–-]|\d{1,2}–\d{2}/, `${f} baerer en tid`);
   }
 });

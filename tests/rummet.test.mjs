@@ -564,15 +564,24 @@ test("M3 Gaden: ingen [TAL BEKRÆFTES], Ring på, tomme timer udelades", async (
   const flade2 = read("components/rummet/GadenFlade.tsx");
   assert.match(flade2, /"Ring på"/);
   assert.match(flade2, /tel:\$\{k\.telefon_e164\}/);
-  // 30/8: huset HAR åbningstider nu (Stevens kendelse: tor-lør til kl. 05).
-  // Reglen der består: tider kommer fra YAML og opdigtes aldrig i kode.
-  assert.match(yml, /Torsdag, fredag og lørdag/);
-  assert.match(info.aabent, /10–05/);
-  assert.match(yml, /walk_in:\s*""/);
-  assert.equal(info.walk_in, "");
+  // 31/8 (Stevens kendelse): «Åbent» er FJERNET, og tiden staar paa
+  // WALK-IN-linjen. Huset lukker naar den sidste artist gaar hjem, saa en
+  // aabningstid ville love en doer huset ikke styrer. Vi lover en stol.
+  //
+  // Reglen der bestaar: tider kommer fra YAML og opdigtes aldrig i kode.
+  assert.equal(info.aabent, "", "«Åbent» skal vaere tom — vi lover ikke en doer");
+  // Tiden staar IKKE i gaden.yml. Den kommer fra content/aabningstider.yml,
+  // ét sted for hele huset. Skriver nogen den her, er det den syvende kopi.
+  assert.equal(info.walk_in, "", "en tid i gaden.yml er en kopi");
+  assert.doesNotMatch(yml.replace(/^\s*#.*$/gm, ""), /\d{1,2}[–-]\d{2}/, "et klokkeslet er sivet ind i gaden.yml");
+  const { loadAabningstider } = await import("../lib/content.ts");
+  assert.ok(loadAabningstider().length > 0, "butikkens tider mangler");
   assert.doesNotMatch(gaden, /DEMO G-01/);
   assert.match(flade2, /gaden\.aabent \?/);
-  assert.match(flade2, /gaden\.walk_in \?/);
+  // Linjen er stadig gatet paa data — den kommer bare fra kilden nu.
+  // En tom kilde giver ingen linje, ikke en tom linje (rails §4).
+  assert.match(flade2, /\{tider \?/);
+  assert.match(flade2, /formatTider\(loadAabningstider\(\)/);
 });
 
 test("M3 Natten: plakatfoto fra YAML, tom-tilstand uændret, ingen DEMO H-02", () => {
@@ -1121,8 +1130,14 @@ test("K6: den engelske forside bor i Rummet, ikke i Emerge", () => {
 test("S574 hullerne: tider i folden, FAQ på begge sprog, piercing-tekst, konsultation", async () => {
   const { loadHusetForside, loadHusetForsideEn, loadFaq, loadFaqEn, loadPiercing, loadBookingCopy, loadKontakt } =
     await import("../lib/content.ts");
-  assert.match(loadHusetForside().tider, /[Tt]orsdag/, "H1: tiderne skal stå i folden");
-  assert.match(loadHusetForsideEn().tider, /Thursday/);
+  // Dagene blev udvidet 31/8: tirsdag–loerdag, fordi huset er aabent naar
+  // en artist er der. Proeven kraever nu STARTDAGEN, ikke en vilkaarlig dag.
+  // Folden faar tiderne fra aabningstider.yml, ikke fra huset.yml — ellers
+  // er de to kopier der driver. Selve linjen proeves i i18n.test.mjs.
+  const { loadAabningstider: hentTider } = await import("../lib/content.ts");
+  assert.equal(loadHusetForside().tider, "", "en tid i huset.yml er en kopi");
+  assert.equal(loadHusetForsideEn().tider, "", "en tid i huset.en.yml er en kopi");
+  assert.ok(hentTider().length > 0, "H1: butikkens tider mangler");
   assert.ok(loadFaq().sporgsmal.length >= 8, "H5: FAQ skal bære husets svar");
   assert.equal(loadFaq().sporgsmal.length, loadFaqEn().sporgsmal.length, "EN-FAQ følger DA");
   const pi = loadPiercing();
@@ -1318,10 +1333,14 @@ test("S574 Gaden og Aftercare: data-drevne og tosprogede", async () => {
   // Gaden: turistens beslutningsside. Samme fakta, to sprog.
   const g = loadGaden();
   const ge = loadGadenEn();
-  assert.match(g.aabent, /10–05/);
-  assert.match(ge.aabent, /10:00–05:00/, "tiderne skal være læselige for en turist");
+  // Tiden staar paa walk-in-linjen, ikke paa «Åbent» (Steven 31/8).
+  assert.equal(g.aabent, "", "«Åbent» er fjernet paa dansk");
+  assert.equal(ge.aabent, "", "«Open» er fjernet paa engelsk — ellers siger de to sprog forskelligt");
+  // Tiden staar ét sted og formateres pr. sprog. Derfor KAN de to sprog
+  // ikke sige forskellige klokkeslet — det er hele pointen med kilden.
+  assert.equal(g.walk_in, "");
+  assert.equal(ge.walk_in, "");
   assert.match(ge.fag_linje, /Tattoo and piercing/);
-  assert.equal(g.walk_in, ge.walk_in, "tomme walk-in-tider på begge sprog — ingen opdigtning");
   assert.match(read("app/(rummet)/en/gaden/page.tsx"), /<RummetShell lang="en"/);
 
   // Aftercare: plejeråd ud af koden og ind i YAML, så de kan rettes af

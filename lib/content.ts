@@ -1,3 +1,4 @@
+import type { Tidsrum } from "./tider";
 /**
  * Rummet content loader. Reads git files in content/ at build time.
  * Changing copy lives in those files — never here. This module only
@@ -46,14 +47,7 @@ export const GALLERI_MAX = 5;
  * husets aabningstider — en artist kan vaere i huset uden at doeren er
  * aaben for walk-in, og huset kan have aabent uden at hun er der.
  */
-export type ArtistTid = {
-  /** Ugedags-noegler: man tir ons tor fre loer son. */
-  dage: string[];
-  /** Fra, som artisten skrev det: "13", "16", "19". */
-  fra: string;
-  /** Til: "23", "02.30", "05.30". Kan ligge efter midnat. */
-  til: string;
-};
+export type ArtistTid = Tidsrum;
 
 export type Artist = {
   id: string;
@@ -803,3 +797,21 @@ export function vaerkById(vaerker: Vaerk[], id: string): Vaerk | undefined {
   if (!key) return undefined;
   return visibleVaerker(vaerker).find((v) => v.id === key);
 }
+
+/**
+ * Butikkens tider — ét sted for hele huset.
+ *
+ * Stevens kendelse 31/8: «Butikken er aaben Emmas tider.» Huset lukker naar
+ * den sidste artist gaar hjem, saa tiderne ER artisternes — ikke en politik
+ * huset har vedtaget uafhaengigt af hvem der moeder ind.
+ *
+ * Laeses af /gaden, forsidens fold og FAQ'en, paa begge sprog. Foer i dag
+ * stod den samme tid i SEKS filer i to formater; den blev rettet to gange
+ * paa en time, og begge gange slap to filer igennem. Det er ikke en fejl
+ * nogen begik — det er hvad seks kopier goer.
+ */
+export function loadAabningstider(): Tidsrum[] {
+  const data = readYaml<{ tider?: unknown }>("aabningstider.yml");
+  return normalizeTider(data.tider);
+}
+
