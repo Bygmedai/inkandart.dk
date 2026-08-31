@@ -112,8 +112,12 @@ sitet**. I dag holder sitet kun en læse-only Storefront-nøgle. At give den
 offentlige flade en Admin-skrivenøgle er en ny angrebsflade og en
 arkitekturbeslutning — ikke en opgave.
 
-Den ligger hos **Sirius**, som allerede har CSP-spørgsmålet om `/admin` på
-bordet. To beslutninger om hvor meget magt den offentlige flade skal have,
-bør tages af den samme person på samme tid.
+**Sirius har afgjort det (CMS-RULING-01, 31/8).** Ingen Shopify Admin-token
+og ingen GitHub-token i browserkode på `inkandart.dk` — regel 4. En webhook
+hører hjemme i målarkitekturen, men som **verificeret revalidering med en
+fast allowlist af cache-tags**, ikke som en nøgle der kan skrive i butikken.
+
+Vejen er dermed lukket for det her formål. B3 bliver en Flow, som beskrevet
+ovenfor.
 
 *Villy, S576. Ændres opsætningen, ændres denne fil i samme omgang.*
