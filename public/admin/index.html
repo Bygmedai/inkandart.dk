@@ -4,8 +4,24 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Rummet · indhold</title>
+    <!--
+      ROD-ABSOLUTTE STIER, IKKE RELATIVE.
+
+      Next dropper den afsluttende skraastreg: /admin/ svarer 308 til /admin.
+      Fra /admin peger "./" paa roden, saa "./decap-cms.js" blev hentet som
+      /decap-cms.js — 404. Siden var blank, og HTML'en svarede stadig 200,
+      saa en statuskode-maaling paa /admin saa groen ud uden at maale noget.
+      Maalt i produktion 31/8.
+
+      Config'en har samme faelde: Decap henter selv "config.yml" relativt til
+      siden, altsaa /config.yml — ogsaa 404. Derfor peges der eksplicit paa
+      den her. Begge linjer skal vaere absolutte. Maalt: retter man kun
+      script-stien, bytter man den blanke skaerm for «Error loading the CMS
+      configuration» og et 404 paa /config.yml.
+    -->
+    <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
   </head>
   <body>
-    <script src="./decap-cms.js"></script>
+    <script src="/admin/decap-cms.js"></script>
   </body>
 </html>
