@@ -1,0 +1,50 @@
+# Samtykkeerklaeringen. Ordene her — ikke i komponenten.
+#
+# Formen er Simones (Fra Simone, 31/8). Rettes frit; felterne selv bor i
+# lib/samtykke.ts, fordi de skal proeves.
+
+titel: Samtykke
+lede: >-
+  Udfyld den her, foer du kommer. Saa bruger vi din tid i stolen paa
+  arbejdet i stedet for paa papir. Tager det to minutter hjemmefra, tager
+  det ti hernede.
+dig: Dig
+dit_navn: Fulde navn
+foedselsdato: Foedselsdato
+email: Email
+telefon: Telefon
+arbejdet: Arbejdet
+kunstner: Kunstner
+placering: Hvor paa kroppen
+motiv: Hvad skal det vaere
+motiv_hint: Beskriv det med dine egne ord. Stoerrelse, farve eller sort, hvad du taenker.
+helbred: Helbred
+helbred_lede: >-
+  Kryds af hvis noget af det her gaelder dig. Det bliver mellem os og din
+  kunstner, og det aendrer kun hvordan vi griber det an.
+helbred_valg:
+  - { id: gravid, tekst: Jeg er gravid eller ammer }
+  - { id: blodfortyndende, tekst: Jeg tager blodfortyndende medicin }
+  - { id: allergi, tekst: Jeg har allergi over for blaek eller latex }
+  - { id: hudlidelse, tekst: Jeg har en hudlidelse eller foelsom hud }
+  - { id: andet, tekst: Andet der kan have betydning }
+helbred_note: Vil du uddybe?
+erklaering: Erklaering
+erklaering_valg:
+  - { id: atten, tekst: Jeg er fyldt 18 aar. }
+  - { id: permanent, tekst: Jeg ved at en tatovering er permanent, og at fjernelse er dyrt og efterlader et spor. }
+  - { id: aftercare, tekst: Jeg foelger den aftercare jeg faar med. Det er den der afgoer hvordan det heler. }
+foto_ok: >-
+  I maa gerne bruge et billede af det faerdige arbejde paa vaeggen og paa
+  jeres kanaler. Et nej koster ingenting.
+send: Send
+sender: Sender
+tak_titel: Tak
+tak: >-
+  Vi har den. Du behoever ikke goere mere — kom bare til din tid.
+fejl: >-
+  Noget gik galt, og vi vil hellere sige det end lade som om. Proev igen, eller
+  udfyld den hernede naar du kommer.
+fejl_felter: Der mangler noget herover. Se de markerede felter.
+print: Print den i stedet
+betingelser_linje: Se ogsaa husets betingelser.
