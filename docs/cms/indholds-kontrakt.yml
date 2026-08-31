@@ -390,6 +390,8 @@ collections:
           - { label: Tekst, name: tekst, widget: text }
           # «Priser» er FJERNET. Piercingprisen er en liste, ikke en
           # sætning — se piercing_priser nedenfor.
+          - { label: Foto af smykkeskabet, name: foto, widget: image, required: false, hint: "Tom = ingen ramme paa siden." }
+          - { label: Billedtekst, name: billedtekst, widget: string, required: false }
 
       - label: Piercing (English)
         name: piercing_en

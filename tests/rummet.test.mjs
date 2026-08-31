@@ -216,7 +216,16 @@ test("M2 artist-filter er shareable via ?artist=", async () => {
   const alle = filterVisibleByArtist(house.vaerker, "");
   assert.ok(nizar.length > 0 && nizar.every((v) => v.artist === "nizar"));
   assert.ok(emma.length > 0 && emma.every((v) => v.artist === "emma"));
-  assert.equal(alle.length, nizar.length + emma.length);
+  // S574: stod her som `alle === nizar + emma`. Det var en optaelling af
+  // huset, ikke en egenskab ved filtret — saa Annas foerste vaerk vaelter
+  // den. Filtret skal PARTITIONERE: hver artist for sig, uden rest.
+  const ider = [...new Set(alle.map((v) => v.artist))];
+  const sum = ider.reduce(
+    (n, id) => n + filterVisibleByArtist(house.vaerker, id).length,
+    0,
+  );
+  assert.equal(sum, alle.length);
+  assert.ok(ider.includes("nizar") && ider.includes("emma"));
   assert.deepEqual(
     filterVisibleByArtist(house.vaerker, "findes-ikke").map((v) => v.id),
     [],
