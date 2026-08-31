@@ -17,8 +17,6 @@ name: Porten
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
-  check_suite:
-    types: [completed]
 
 permissions:
   contents: read
