@@ -37,15 +37,18 @@ async function tjek(navn, fn) {
 
 // ── Kunderejsen ────────────────────────────────────────────────────────
 await tjek("forside: åbner og kan booke", async () => {
+  // Book først, betal efter (#230): forsiden linker ikke længere direkte
+  // til inkart.book.dk — den går via husets egen /booking-side. Målingen
+  // følger den arkitektur, ikke den forladte streng.
   const r = await hent(`${BASE}/`);
   if (r.status !== 200) return `HTTP ${r.status}`;
-  if (!/inkart\.book/.test(r.body)) return "booking-linket er væk fra forsiden";
+  if (!/id="booking"\s+href="\/booking"/.test(r.body)) return "booking-linket er væk fra forsiden";
 });
 
 await tjek("engelsk flade: findes og er engelsk", async () => {
   const r = await hent(`${BASE}/en`);
   if (r.status !== 200) return `HTTP ${r.status}`;
-  if (!/Walk-in/.test(r.body) || !/Gift card/.test(r.body))
+  if (!/walk-in/i.test(r.body) || !/Book a session/.test(r.body))
     return "engelske kerneord mangler — er fladen faldet tilbage til dansk?";
 });
 

@@ -48,7 +48,7 @@ export default function HomePageEn() {
             <p className="rum-label rum-huset__tider">{fold.tider}</p>
           ) : null}
           <div className="rum-huset__cta">
-            <a id="booking" href="/booking" className="rum-book">
+            <a id="booking" href="/en/booking" className="rum-book">
               {fold.cta_book}
             </a>
             <a className="rum-tel" href={`tel:${kontakt.telefon_e164}`}>
