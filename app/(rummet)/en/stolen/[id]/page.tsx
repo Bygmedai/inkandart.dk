@@ -88,7 +88,7 @@ export default async function ArtistPageEn({
           <div className="rum-artist__om">
             <h1 className="rum-room__title rum-poster">{artist.fornavn}</h1>
             {craft ? <p className="rum-chair__craft">{craft}</p> : null}
-            <p className="rum-label rum-chair__meta">{periodeLabel(artist)}</p>
+            <p className="rum-label rum-chair__meta">{periodeLabel(artist, c.periode)}</p>
             {artist.bio_en ? (
               <Bio tekst={artist.bio_en} />
             ) : artist.bio ? (

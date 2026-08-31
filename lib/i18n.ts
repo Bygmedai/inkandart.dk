@@ -188,6 +188,17 @@ const da = {
     walkIn: "Walk-in — kom forbi",
     noGuest: "Ingen gæsteartist annonceret lige nu",
     guestPending: "Gæst · navn følger",
+    /**
+     * Perioden i stolen (Villy, S576 — RAAB til Haruki, din fil).
+     * periodeLabel() returnerede haardkodet dansk, saa «Fast» stod paa
+     * ALLE engelske artist-flader: /en, /en/stolen og hver artistside.
+     * Maalt 31/8 i bygget HTML: 6 forekomster paa listen alene.
+     */
+    periode: {
+      fast: "Fast",
+      gaest: "Gæst",
+      til: (dato: string) => `I huset til ${dato}`,
+    },
     walkInLine: "Walk-in når der er en fri stol — ellers book.",
     /**
      * Nattespot (Villy, S574). Skaermlaeser-saetningen for koebsknappen.
@@ -418,6 +429,11 @@ const en: Copy = {
     walkIn: "Walk-in — come by",
     noGuest: "No guest artist announced right now",
     guestPending: "Guest · name to follow",
+    periode: {
+      fast: "Resident",
+      gaest: "Guest",
+      til: (dato: string) => `In the house until ${dato}`,
+    },
     walkInLine: "Walk-in when a chair is free — otherwise book.",
     spotAria: (handling: string, pris: string) =>
       `${handling} — ${pris} DKK deposit`,
