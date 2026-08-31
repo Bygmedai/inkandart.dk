@@ -1611,3 +1611,41 @@ test("prislisten har sin egen rute paa begge sprog, og tabellen ruller alene", (
   const komp = read("components/rummet/Prisliste.tsx");
   assert.match(komp, /<th scope="row">/);
 });
+
+/**
+ * S578. Et vaerk-id er en noegle: galleriet, ?artist=-filtret og
+ * /maerket/vaerk/[id] slaar alle op paa den. To vaerker med samme id giver
+ * ikke en fejl — det ene bliver bare usynligt, og hvilket ét afhaenger af
+ * hvem der laeser listen foerst.
+ *
+ * Det var ikke teoretisk. En aldrig-merged patch fra 30/8 paa Stevens
+ * disk gav Annas foerste vaerk id'et V-09 — samme nummer som Emmas
+ * edderkop fik i #265. Haruki fangede den selv i #267 og valgte V-11.
+ * Men den blev fanget fordi et menneske huskede det, og det er ikke en
+ * vagt. Naeste gang ligger patchen bare et andet sted.
+ */
+test("to vaerker kan ikke dele et id", async () => {
+  const yaml = await import("yaml");
+  const vaerker = yaml.parse(read("content/vaerker.yml"));
+
+  const set = new Map();
+  for (const v of vaerker) {
+    const forrige = set.get(v.id);
+    assert.equal(
+      forrige,
+      undefined,
+      `to vaerker deler id ${v.id}: «${forrige}» og «${v.billedtekst}» — det ene bliver usynligt`,
+    );
+    set.set(v.id, v.billedtekst);
+  }
+
+  // Negativ kontrol: uden den beviser «ingen dubletter» ingenting, hvis
+  // filen skulle vaere tom eller parset til noget andet end en liste.
+  assert.ok(Array.isArray(vaerker) && set.size > 0, "prøven maalte ingen vaerker");
+
+  // Id'et er husets format, ikke en fri streng. En «V-9» eller «v-11»
+  // ville vaere et ANDET id end V-09 og V-11 uden at nogen kunne se det.
+  for (const id of set.keys()) {
+    assert.match(String(id), /^V-\d{2}$/, `${id} foelger ikke V-nn`);
+  }
+});
