@@ -85,11 +85,18 @@
   # Tallene er hendes. De er IKKE udledt af husets aabningstid, og de maa
   # ikke rettes til for at passe med den.
   #
-  # ⚠ KONFLIKT, ikke loest her: huset siger fire steder «Torsdag, fredag og
-  # loerdag kl. 10–05» (gaden.yml, gaden.en.yml, huset.yml, faq.yml). Emma
-  # er der ogsaa tirsdag og onsdag, og til 05.30 fredag/loerdag. Enten er
-  # husets linje foraeldet, eller ogsaa er hun der uden at doeren er aaben.
-  # Det er Stevens kald — se PR-teksten.
+  # AFGJORT af Steven, S578: «Husets er de rette. Hendes var hendes
+  # arbejdstider.» Konflikten var altsaa ikke en konflikt — de to taeller
+  # to forskellige ting:
+  #
+  #   husets tider   = hvornaar doeren er aaben (content/aabningstider.yml)
+  #   en artists     = hvornaar hun er paa arbejde, inkl. nedlukning efter
+  #                    lukketid
+  #
+  # Derfor SKAL Emma kunne slutte efter huset (ons 23 mod 22, tor 02.30 mod
+  # 02, loer 05.30 mod 05). Det er ikke en fejl, og det maa ikke «rettes».
+  # Labellen siger «I huset» / «In the house» — hun er der, doeren er ikke
+  # noedvendigvis aaben. Se Tider.tsx, som siger det samme.
   tider:
     - dage: [tir, ons]
       fra: "13"

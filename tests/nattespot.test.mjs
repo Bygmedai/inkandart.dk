@@ -85,3 +85,57 @@ test("REGRESSION: skærmlæser-sætningen taler kundens sprog", () => {
   const i18n = read("lib/i18n.ts");
   assert.equal([...i18n.matchAll(/spotAria:/g)].length, 2, "begge sprog");
 });
+
+/**
+ * S578. Villy meldte til Steven at natte-linjen var foraeldet efter at
+ * huset fik nye tider (man–soen). Det var FORKERT: huset lukker 22 alle
+ * andre dage, saa «torsdag, fredag og loerdag har vi aabent efter kl. 22»
+ * var — og er — praecis rigtigt.
+ *
+ * Men fejlen var vaerd at have, fordi den viste hvad linjen ER: en
+ * haandskrevet kopi af en kendsgerning der bor i aabningstider.yml.
+ * Aendrer huset sine tider, bliver saetningen usand uden at noget bliver
+ * roedt. Det er samme klasse som de seks duplikerede aabningstider vi
+ * fjernede i S577 — den kan bare ikke loeses ved at pege ét sted hen,
+ * fordi det er saelgende copy, ikke en tidsangivelse.
+ *
+ * Saa vagten binder sig til PAASTANDEN, ikke til ordene: naevner linjen
+ * ugedage, skal det vaere praecis de dage huset faktisk har aabent efter
+ * 22. Sonja kan omskrive saetningen frit — hun kan bare ikke komme til at
+ * love en nat vi ikke har.
+ */
+test("natte-linjen naevner de dage huset faktisk har aabent efter 22", async () => {
+  const yaml = await import("yaml");
+  const { t } = await import("../lib/i18n.ts");
+  const d = yaml.parse(read("content/aabningstider.yml"));
+
+  // Aaben efter 22 = lukketiden ligger efter midnat (til < fra, fx 13→02)
+  // eller senere end 22 samme dag. «13–22» lukker PAA 22 og taeller ikke.
+  const sent = new Set(
+    d.tider
+      .filter((r) => Number(r.til) < Number(r.fra) || Number(r.til) > 22)
+      .flatMap((r) => r.dage),
+  );
+  assert.ok(sent.size > 0, "negativ kontrol: ingen sene dage maalt i kilden");
+
+  for (const [sprog, fil] of [["da", "content/natten.yml"], ["en", "content/natten.en.yml"]]) {
+    const ordbog = t(sprog).rummet.tider.dag;
+    const linje = yaml.parse(read(fil)).spot_linje ?? "";
+
+    const naevnt = new Set(
+      Object.entries(ordbog)
+        .filter(([, ord]) => new RegExp(`\\b${ord}\\b`, "i").test(linje))
+        .map(([noegle]) => noegle),
+    );
+
+    // Naevner copy'en slet ingen dage, lover den ingen bestemte naetter.
+    // Det er en gyldig formulering og skal ikke tvinges roed.
+    if (naevnt.size === 0) continue;
+
+    assert.deepEqual(
+      [...naevnt].sort(),
+      [...sent].sort(),
+      `${fil}: linjen lover ${[...naevnt].sort()} — huset har aabent efter 22 paa ${[...sent].sort()}`,
+    );
+  }
+});
