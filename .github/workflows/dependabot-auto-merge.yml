@@ -1,12 +1,24 @@
-# Dependabot auto-merge (caller, S460 migration)
+# Dependabot auto-merge (INLINE — public-repo variant, v2a envelope)
 #
-# Calls reusable workflow from Bygmedai/.github @v1. Bounded patch-only auto-merge:
-# only version-update:semver-patch from dependabot[bot] is auto-approved + merged.
-# Major + minor remain human-review.
+# inkandart.dk is a PUBLIC repo. GitHub blocks a public repo from consuming a reusable
+# workflow that lives in a PRIVATE repo (Bygmedai/.github) — even in the same
+# org, even with the reusable's access policy set to 'organization'. The previous
+# caller (uses: Bygmedai/.github/.github/workflows/dependabot-auto-merge.yml@v1)
+# failed at STARTUP on every pull_request_target (355 runs, 100 % failure), and
+# — because the job-level dependabot gate was removed in S549 — it painted a red
+# check on EVERY PR in the repo, not only Dependabot's.
 #
-# Authority: AMENDMENT-S459-VENDOR-SECURITY-CARVEOUT-v1.0 §Q3 (bounded patch auto-merge).
+# Fix (S576, same pattern as trufflehog.yml): inline the reusable 1:1. Same v2a
+# envelope, same pull_request_target security posture (metadata + review + merge
+# only; NO checkout, NO install, NO PR code). Same identity
+# (DEPENDABOT_AUTOMERGE_TOKEN, fallback GITHUB_TOKEN). Job-level gate on
+# dependabot[bot] restored — other PRs are skipped, not failed.
 #
-# To update auto-merge logic: edit Bygmedai/.github reusable workflow + bump tag.
+# Keep in sync with Bygmedai/.github/.github/workflows/dependabot-auto-merge.yml.
+# If .github is ever made public, revert to the reusable caller.
+#
+# Authority: AMENDMENT-S459-VENDOR-SECURITY-CARVEOUT-v1.0 §Q3 → Sirius RULING S502
+# (envelope v2a). Precedent for inlining: trufflehog.yml in inkandart.dk.
 
 name: Dependabot auto-merge
 on: pull_request_target
@@ -16,12 +28,80 @@ permissions:
   pull-requests: write
 
 jobs:
-  auto-merge:
-    # S549: job-level if fjernet — eneste diff fra de 10 virkende callers, og
-    # workflowen har fejlet paa startup (0 jobs, tom log) siden foer S549.
-    # Den reusable workflow gater selv paa dependabot[bot] internt.
-    uses: Bygmedai/.github/.github/workflows/dependabot-auto-merge.yml@v1
-    # S549: reusable workflows arver IKKE secrets automatisk (GitHub docs) —
-    # uden inherit naar DEPENDABOT_AUTOMERGE_TOKEN aldrig frem, og approval falder
-    # tilbage til github-actions[bot], som ikke er code-owner -> PR blokeret for evigt.
-    secrets: inherit
+  dependabot:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    timeout-minutes: 5
+    steps:
+      - name: Fetch Dependabot metadata
+        id: meta
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Evaluate v2a envelope (metadata only, no PR code)
+        id: gate
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          UT: ${{ steps.meta.outputs.update-type }}
+          DT: ${{ steps.meta.outputs.dependency-type }}
+          ECO: ${{ steps.meta.outputs.package-ecosystem }}
+          MAINT: ${{ steps.meta.outputs.maintainer-changes }}
+          GROUP: ${{ steps.meta.outputs.dependency-group }}
+        run: |
+          set -euo pipefail
+          eco_lc="$(echo "${ECO:-}" | tr '[:upper:]' '[:lower:]')"
+          is_actions=false
+          case "$eco_lc" in *github*action*) is_actions=true ;; esac
+
+          eligible=false
+          reason="not-in-envelope"
+
+          # 1. patch — any dependency-type, any ecosystem
+          if [ "${UT:-}" = "version-update:semver-patch" ]; then
+            eligible=true; reason="patch"
+          fi
+          # 2. dev-dependency minor/patch
+          if [ "${DT:-}" = "direct:development" ] && \
+             { [ "${UT:-}" = "version-update:semver-minor" ] || [ "${UT:-}" = "version-update:semver-patch" ]; }; then
+            eligible=true; reason="dev-minor-patch"
+          fi
+          # 3. github-actions minor/patch
+          if [ "$is_actions" = "true" ] && \
+             { [ "${UT:-}" = "version-update:semver-minor" ] || [ "${UT:-}" = "version-update:semver-patch" ]; }; then
+            eligible=true; reason="gha-minor-patch"
+          fi
+
+          # ---- HARD EXCLUSIONS (override eligibility) ----
+          if [ "${UT:-}" = "version-update:semver-major" ]; then eligible=false; reason="major-excluded"; fi
+          if [ "${MAINT:-}" = "true" ]; then eligible=false; reason="maintainer-changes"; fi
+          # unclear classification
+          if [ -z "${UT:-}" ]; then eligible=false; reason="unclear-update-type"; fi
+
+          # github-actions deploy/release/prod-adjacent guard (file PATHS only — no code read)
+          if [ "$is_actions" = "true" ] && [ "$eligible" = "true" ]; then
+            files="$(gh api "repos/$REPO/pulls/$PR_NUMBER/files" --paginate --jq '.[].filename' || true)"
+            if echo "$files" | grep -Eiq '(deploy|release|production|prod|vercel|supabase|storage|publish|secret|package_release)'; then
+              eligible=false; reason="gha-prod-adjacent-workflow"
+            fi
+          fi
+
+          echo "eligible=$eligible" >> "$GITHUB_OUTPUT"
+          echo "reason=$reason"   >> "$GITHUB_OUTPUT"
+          echo "::notice::v2a decision UT=$UT DT=$DT ECO=$ECO MAINT=$MAINT GROUP=$GROUP -> eligible=$eligible ($reason)"
+
+      - name: Approve eligible PR
+        if: steps.gate.outputs.eligible == 'true'
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.DEPENDABOT_AUTOMERGE_TOKEN || secrets.GITHUB_TOKEN }}
+        run: gh pr review --approve "$PR_URL" --body "v2a auto-approve (${{ steps.gate.outputs.reason }}); green-CI gated."
+
+      - name: Enable auto-merge for eligible PR
+        if: steps.gate.outputs.eligible == 'true'
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.DEPENDABOT_AUTOMERGE_TOKEN || secrets.GITHUB_TOKEN }}
+        run: gh pr merge --auto --squash "$PR_URL"
