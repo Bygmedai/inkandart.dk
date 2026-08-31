@@ -5,9 +5,13 @@
 
 titel: Gaden
 aabent_label: "Åbent:"
-aabent: "Torsdag, fredag og lørdag kl. 10–05.30"
+# «Åbent» er FJERNET (Stevens kald 31/8). Huset lukker naar den sidste
+# artist gaar hjem, saa en aabningstid ville love en doer vi ikke styrer.
+# Vi lover en stol, ikke en doer — derfor staar tiden paa walk-in-linjen.
+# Tom = linjen udelades, jf. filens egen regel.
+aabent: ""
 walk_in_label: "Walk-in:"
-walk_in: ""
+walk_in: "Tirsdag til lørdag kl. 10–05.30"
 depositum_linje: Depositum fra 100 kr
 fag_linje: Tatovering og piercing. Walk-in når der er en fri stol.
 foto: /slots/G-02.jpg
