@@ -583,18 +583,33 @@ export function loadSamtykkeEn(): SamtykkeCopy {
 /** Piercing-teksten (H6) — husets standardtekst, Decap-redigerbar. */
 /** Ingen `priser` her laengere. Piercingprisen ER en liste, ikke en
  *  saetning — den bor i content/piercing-priser.yml med ét tal og to
- *  navne. En doed noegle ville invitere den tilbage. */
-export type PiercingCopy = { titel: string; tekst: string };
+ *  navne. En doed noegle ville invitere den tilbage.
+ *
+ *  Skabet er derimod en del af teksten: den lover smykker over disken,
+ *  og fotoet viser disken. Tom `foto` tegner ingen ramme. */
+export type PiercingCopy = {
+  titel: string;
+  tekst: string;
+  foto: string;
+  billedtekst: string;
+};
+
+function piercing(fil: string): PiercingCopy {
+  const d = readYaml<Partial<PiercingCopy>>(fil);
+  return {
+    titel: str(d.titel),
+    tekst: str(d.tekst),
+    foto: str(d.foto),
+    billedtekst: str(d.billedtekst),
+  };
+}
 
 export function loadPiercing(): PiercingCopy {
-  const d = readYaml<Partial<PiercingCopy>>("piercing.yml");
-  return { titel: str(d.titel), tekst: str(d.tekst) };
-}
+  return piercing("piercing.yml");}
 
 /** Samme tekst på engelsk. Prisen staar samme sted for begge sprog. */
 export function loadPiercingEn(): PiercingCopy {
-  const d = readYaml<Partial<PiercingCopy>>("piercing.en.yml");
-  return { titel: str(d.titel), tekst: str(d.tekst) };
+  return piercing("piercing.en.yml");
 }
 
 /** Bookingsidens ord. */

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { RummetShell } from "@/components/rummet/Shell";
 import { Plade } from "@/components/rummet/Plade";
+import { PiercingBlok } from "@/components/rummet/PiercingBlok";
 import { Bio } from "@/components/rummet/Bio";
 import { Tider } from "@/components/rummet/Tider";
 import { ArtistGalleri } from "@/components/rummet/Galleri";
@@ -113,24 +114,11 @@ export default async function ArtistPage({
         </div>
 
         {artist.haandvaerk.toLowerCase().includes("piercer") ? (
-          <section className="rum-artist__piercing" aria-labelledby="piercing">
-            {(() => {
-              const pi = loadPiercing();
-              return (
-                <>
-                  <h2 id="piercing" className="rum-label">
-                    {pi.titel}
-                  </h2>
-                  <p className="rum-body-copy rum-artist__bio">{pi.tekst}</p>
-                  {/* Prislisten bor paa /piercing — ikke to kopier af den samme
-                      tabel. Doeren staar her, hvor kunden allerede er. */}
-                  <p className="rum-label rum-artist__priser">
-                    <a href="/piercing">Se alle piercingpriser →</a>
-                  </p>
-                </>
-              );
-            })()}
-          </section>
+          <PiercingBlok
+            pi={loadPiercing()}
+            prisHref="/piercing"
+            prisTekst="Se alle piercingpriser →"
+          />
         ) : null}
 
         {works.length > 0 ? (

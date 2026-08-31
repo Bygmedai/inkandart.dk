@@ -953,6 +953,12 @@ html:has([data-house="rummet"]) .grain {
 .rum-artist__priser {
   margin-top: 12px;
 }
+/* Smykkeskabet i piercing-afsnittet. Samme ramme som artistfotoet, men
+   smallere: det er en illustration til teksten, ikke sidens hoved. */
+.rum-artist__skab {
+  margin: 20px 0 24px;
+  max-width: 360px;
+}
 .rum-artist__arkiv {
   margin-top: 56px;
 }

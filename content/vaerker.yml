@@ -122,3 +122,21 @@
   demo: false
   i_dag: false
   edition_ref: ""
+
+# Annas arbejde. Foto fra husets egen mappe (Artister/Anna O piecer, 30/8).
+# Tredje fil i mappen er en genkendelig kunde — den ligger ikke her foer
+# Sonja har hendes skriftlige samtykke. Fjerde er et gulv, ikke en piercing.
+#
+# V-09 og V-10 er Emmas to nye vaerker (#265). Den gamle, aldrig merged
+# patch fra 30/8 gav dette vaerk V-09; det nummer er taget nu.
+- id: V-11
+  titel: ""
+  artist: anna
+  aar: ""
+  arkivnr: ""
+  foto: /slots/P-02.jpg
+  billedtekst: Industrial med kaede, guld. Oere, helet.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""

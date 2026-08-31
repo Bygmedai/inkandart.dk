@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { RummetShell } from "@/components/rummet/Shell";
 import { Plade } from "@/components/rummet/Plade";
+import { PiercingBlok } from "@/components/rummet/PiercingBlok";
 import { Bio } from "@/components/rummet/Bio";
 import { Tider } from "@/components/rummet/Tider";
 import { ArtistGalleri } from "@/components/rummet/Galleri";
@@ -115,7 +116,7 @@ export default async function ArtistPageEn({
                   {c.bookTid}
                 </a>
               ) : (
-                <a href="/gaden" className="rum-book">
+                <a href="/en/gaden" className="rum-book">
                   {c.walkIn}
                 </a>
               )}
@@ -127,24 +128,11 @@ export default async function ArtistPageEn({
         </div>
 
         {artist.haandvaerk.toLowerCase().includes("piercer") ? (
-          <section className="rum-artist__piercing" aria-labelledby="piercing">
-            {(() => {
-              const pi = loadPiercingEn();
-              return (
-                <>
-                  <h2 id="piercing" className="rum-label">
-                    {pi.titel}
-                  </h2>
-                  <p className="rum-body-copy rum-artist__bio">{pi.tekst}</p>
-                  {/* Prislisten bor paa /piercing — ikke to kopier af den samme
-                      tabel. Doeren staar her, hvor kunden allerede er. */}
-                  <p className="rum-label rum-artist__priser">
-                    <a href="/en/piercing">See all piercing prices →</a>
-                  </p>
-                </>
-              );
-            })()}
-          </section>
+          <PiercingBlok
+            pi={loadPiercingEn()}
+            prisHref="/en/piercing"
+            prisTekst="See all piercing prices →"
+          />
         ) : null}
 
         {works.length > 0 ? (
@@ -160,7 +148,7 @@ export default async function ArtistPageEn({
               ))}
             </div>
             <p className="rum-kort__arkiv">
-              <a href={`/maerket?artist=${artist.id}`}>{c.seeOnWall}</a>
+              <a href={`/en/maerket?artist=${artist.id}`}>{c.seeOnWall}</a>
             </p>
           </section>
         ) : (
