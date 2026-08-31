@@ -1480,3 +1480,48 @@ test("S574 book først, betal efter — tragten spærrer ikke længere", async (
     assert.match(read(f), /verificerDepositum/, `${f}: opslaget skal bestå`);
   }
 });
+
+/* ── Nizars bio: Stevens kendelse 31/8 ─────────────────────────────── */
+
+test("en bio med tre afsnit renderes som tre afsnit, ikke som én klump", async () => {
+  const { Bio } = await import("../components/rummet/Bio.tsx").catch(() => ({}));
+  // Komponenten kan ikke koeres her (JSX), saa vi maaler kilden OG data.
+  const kilde = read("components/rummet/Bio.tsx");
+  assert.match(kilde, /split\(\/\\n\\s\*\\n\//, "Bio deler ikke paa tomme linjer");
+  assert.match(kilde, /afsnit\.map/, "Bio renderer ikke ét <p> pr. afsnit");
+
+  // Og begge artistsider skal bruge den. Et raat {artist.bio} i ét <p>
+  // lader tre afsnit loebe sammen, uden at nogen test gaar roed.
+  for (const fil of [
+    "app/(rummet)/stolen/[id]/page.tsx",
+    "app/(rummet)/en/stolen/[id]/page.tsx",
+  ]) {
+    const side = read(fil);
+    assert.match(side, /<Bio tekst=/, `${fil} bruger ikke Bio`);
+    assert.doesNotMatch(side, /<p[^>]*>\{artist\.bio(_en)?\}<\/p>/,
+      `${fil} renderer stadig bio raat i ét <p>`);
+  }
+});
+
+test("Nizars bio staar ORDRET som Steven afgjorde — ingen haarde linjeskift", async () => {
+  const yaml = await import("yaml");
+  const n = yaml.parse(read("content/artists.yml")).find((a) => a.id === "nizar");
+
+  const afsnit = n.bio.split(/\n\s*\n/);
+  assert.equal(afsnit.length, 3, "bio'en har ikke tre afsnit");
+
+  // Faelden: YAML `|-` bevarer HVERT linjeskift, ogsaa en ombrydning der kun
+  // var pen at se paa i editoren. Foerste forsoeg fik haarde linjeskift midt
+  // i saetningerne — og en normaliserende sammenligning sagde «identisk».
+  for (const a of afsnit) {
+    assert.doesNotMatch(a, /\n/, "haardt linjeskift inde i et afsnit");
+  }
+  assert.match(n.bio, /en dag fandt en blyant vej til hans hånd/,
+    "saetningen om blyanten er den ene ting den korte version ikke sagde");
+
+  // Den engelske er et udkast, men skal have samme form.
+  assert.equal(n.bio_en.split(/\n\s*\n/).length, 3);
+  for (const a of n.bio_en.split(/\n\s*\n/)) {
+    assert.doesNotMatch(a, /\n/);
+  }
+});
