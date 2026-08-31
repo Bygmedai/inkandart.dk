@@ -26,9 +26,18 @@ test("REGRESSION: en engelsk side vi HAR bygget må ikke 308'es væk", () => {
   assert.doesNotMatch(redirects, /from: "\/en\/walk-in\//);
 });
 
+test("REGRESSION: /en/flash er bygget (#245 A4) og maa ikke 308'es vaek", () => {
+  // Samme faelde som /en/walk-in: redirects koerer FOER routing i Next.
+  // Blev reglen staaende, ville app/(emerge)/en/flash/page.tsx aldrig
+  // kunne naas — siden ville findes og alligevel ikke.
+  assert.doesNotMatch(redirects, /slashPair\("\/en\/flash"/);
+  assert.doesNotMatch(redirects, /from: "\/en\/flash\//);
+  assert.equal(existsSync(join(root, "app/(emerge)/en/flash/page.tsx")), true);
+});
+
 test("ruter vi IKKE har bygget endnu 308'er stadig — ingen halve huller", () => {
-  // /en/flash findes ikke som side → skal blive ved med at 308'e.
-  assert.match(redirects, /slashPair\("\/en\/flash"/);
+  // /en/gavekort findes ikke som side → skal blive ved med at 308'e.
+  // Hellere dansk end 404 (CLAUDE.md §1).
   assert.match(redirects, /slashPair\("\/en\/gavekort"/);
 });
 
