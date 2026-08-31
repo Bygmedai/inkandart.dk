@@ -98,3 +98,27 @@
   demo: false
   i_dag: false
   edition_ref: ""
+
+- id: V-09
+  titel: ""
+  artist: emma
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-09.jpg
+  billedtekst: Edderkop og pæon, fin streg, overarm.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-10
+  titel: ""
+  artist: emma
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-10.jpg
+  billedtekst: Øje, sort blæk, fod.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""

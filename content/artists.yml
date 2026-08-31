@@ -69,11 +69,14 @@
 
 - id: emma
   fornavn: Emma Windinnalls
-  haandvaerk: Tatovør · farvet flash og traditionelt
+  # Udvidet 1/9 (Harukis fund): linjen udelod den fine streg hun faktisk
+  # laver. V-06 er «Sol, fin streg og prikker, håndled», og to af de tre
+  # nye billeder fra 31/8 er fin streg. Kortet solgte hende for smalt.
+  haandvaerk: Tatovør · farvet flash, traditionelt og fin streg
   # [ORD-TJEK Steven 31/8] — UDKAST, samme grund som Nizars.
   # «farvet flash» → «colour flash»; britisk stavemaade, som resten af
   # den engelske flade.
-  haandvaerk_en: Tattoo artist · colour flash and traditional
+  haandvaerk_en: Tattoo artist · colour flash, traditional and fine line
   # Emmas egne tider, sendt til Steven 31/8 2026 og videregivet ordret:
   #   «Jeg er i butikken 13-23 tirsdag og onsdag
   #    16-2.30 torsdag
@@ -110,6 +113,15 @@
     til virkelighed. Jeg går op i at skabe et flot og gennemført
     resultat, samtidig med at du føler dig tryg og godt tilpas gennem
     hele processen.
+  # Emmas engelske bio (Haruki, 1/9). Oversat fra HENDES egne ord ovenfor
+  # og ord-tjekket. Feltet stod tomt, saa den engelske profil faldt tilbage
+  # til dansk.
+  bio_en: >-
+    I love the craft, the detail, and meeting all the different people who
+    come through. Whether you arrive with a clear idea or only a thought,
+    I'll gladly help you make it real. It matters to me that the result is
+    finished and worth looking at — and that you feel safe and comfortable
+    the whole way through.
   aktiv: true
   stol: true
 
@@ -121,6 +133,14 @@
   # der leverer det rigtige ord ved et tilfaelde. Et hegn der holder ved et
   # tilfaelde, holder ikke naar teksten aendrer sig.
   haandvaerk_en: Piercer
+  # Annas bio (Haruki, 1/9). En HOLDELINJE, ikke en profil: den siger hvad
+  # hun goer og inviterer ind, og intet mere. Nizars og Emmas bios er deres
+  # egne ord; Annas skal ogsaa vaere hendes, og Sonja henter fire saetninger
+  # fra hende. Skriv ikke mere end det her, og opfind ikke en stemme for
+  # hende — huset skriver ALDRIG en bio for et menneske (S574).
+  bio: >-
+    Anna sætter alle piercinger undtagen de intime, og hun skifter gerne det
+    smykke du allerede har. Kom forbi — så finder I placeringen sammen.
   # Handle fra Steven 30/8: https://www.instagram.com/annao.piercing/
   instagram: annao.piercing
   periode: fast
