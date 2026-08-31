@@ -34,12 +34,29 @@ sektioner:
       photo ID if in doubt. Piercing under 18 requires a parent's consent,
       with the parent present in the shop.
 
+  - overskrift: What you're agreeing to
+    tekst: >-
+      A tattoo is permanent. Removal is expensive, it hurts, and it almost
+      always leaves a trace — assume that what you get today stays. During
+      the work and for the first few days after, the skin can be sore, red
+      and swollen; that is normal. An allergic reaction to ink is rare, but
+      it happens. Infection is the one risk you hold yourself — it almost
+      always comes from aftercare that was not followed.
+  - overskrift: Consent form
+    tekst: >-
+      Before your appointment we ask you to fill in a short form: who you
+      are, what you are having done, and the health details that matter —
+      pregnancy, blood thinners, allergies, skin conditions. You can do it at
+      home at inkandart.dk/samtykke, so we do not spend your chair time on
+      paperwork. If you have not, we will do it in the shop. We keep the form
+      for as long as you are a customer with us.
   - overskrift: Before we start
     tekst: >-
       Show up sober and rested. Tell us about allergies, medication,
       pregnancy or health conditions that could matter — it stays between
-      us. We may decline to work if we judge it isn't safe; if so, your
-      session and deposit are moved.
+      us. You follow the aftercare you are given; that is what decides how
+      it heals. We may decline to work if we judge it isn't safe; if so,
+      your session and deposit are moved.
 
   - overskrift: Touch-ups
     tekst: >-
@@ -74,7 +91,16 @@ sektioner:
       service, contact us at booking@inkandart.dk — Danish consumer law
       applies.
 
+  - overskrift: Who is responsible for what
+    tekst: >-
+      We answer for the work and for hygiene: clean hands, new needles,
+      sterile equipment, and a result we stand behind. If something is wrong
+      with what we made, tell us — we will put it right. What happens to your
+      skin after you leave depends on aftercare, and that part is yours. If
+      it is not followed, we cannot answer for how it heals.
   - overskrift: Photos
     tekst: >-
       We only photograph your finished work for the wall or our channels
-      if you say yes — and a no costs nothing.
+      if you say yes. You tick it on the consent form, it is a separate
+      yes, and you can withdraw it again by writing to
+      booking@inkandart.dk. A no costs nothing.
