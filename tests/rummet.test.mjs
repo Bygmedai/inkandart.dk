@@ -567,7 +567,7 @@ test("M3 Gaden: ingen [TAL BEKRÆFTES], Ring på, tomme timer udelades", async (
   // 30/8: huset HAR åbningstider nu (Stevens kendelse: tor-lør til kl. 05).
   // Reglen der består: tider kommer fra YAML og opdigtes aldrig i kode.
   assert.match(yml, /Torsdag, fredag og lørdag/);
-  assert.match(info.aabent, /10–05/);
+  assert.match(info.aabent, /10–05\.30/);
   assert.match(yml, /walk_in:\s*""/);
   assert.equal(info.walk_in, "");
   assert.doesNotMatch(gaden, /DEMO G-01/);
@@ -1318,8 +1318,8 @@ test("S574 Gaden og Aftercare: data-drevne og tosprogede", async () => {
   // Gaden: turistens beslutningsside. Samme fakta, to sprog.
   const g = loadGaden();
   const ge = loadGadenEn();
-  assert.match(g.aabent, /10–05/);
-  assert.match(ge.aabent, /10:00–05:00/, "tiderne skal være læselige for en turist");
+  assert.match(g.aabent, /10–05\.30/);
+  assert.match(ge.aabent, /10:00–05:30/, "tiderne skal være læselige for en turist");
   assert.match(ge.fag_linje, /Tattoo and piercing/);
   assert.equal(g.walk_in, ge.walk_in, "tomme walk-in-tider på begge sprog — ingen opdigtning");
   assert.match(read("app/(rummet)/en/gaden/page.tsx"), /<RummetShell lang="en"/);
