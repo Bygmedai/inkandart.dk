@@ -46,6 +46,8 @@
 - id: emma
   fornavn: Emma Windinnalls
   haandvaerk: Tatovør · farvet flash og traditionelt
+  # Handle fra Steven 31/8: https://www.instagram.com/winds_tattoos
+  instagram: winds_tattoos
   periode: fast
   foto: /slots/S-02.jpg
   billedtekst: Emma Windinnalls i huset.
