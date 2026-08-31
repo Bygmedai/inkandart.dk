@@ -96,7 +96,10 @@ export default async function BookingPageEn({
           <p className="rum-body-copy rum-booking__note">
             Our booking calendar is in Danish. If that is easier over the
             phone, call{" "}
-            <a className="rum-tel" href={`tel:${kontakt.telefon_e164}`}>
+            <a
+              className="rum-tel rum-tel--i-tekst"
+              href={`tel:${kontakt.telefon_e164}`}
+            >
               {kontakt.telefon_vist}
             </a>{" "}
             — we speak English in the shop.
