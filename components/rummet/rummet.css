@@ -1374,3 +1374,151 @@ html:has([data-house="rummet"]) .grain {
   margin: 0;
   color: var(--beton);
 }
+
+/* ── Galleri-slots på artistsiden (Villy, S575) ───────────────────────
+   Kriterier: docs/accept/galleri.md. Markup: components/rummet/Galleri.tsx.
+
+   Rotationen er ren CSS. Hvert billede kører den SAMME animation, forskudt
+   med sin egen --i. Delayet er NEGATIVT (--i minus antal): så er alle
+   animationer allerede i gang ved indlæsning, og det første skift er en
+   krydsfade som alle de andre. Med et positivt delay ligger billede 2 og
+   venter på opacity 0 og springer hårdt ind — pænt i teorien, et hak i
+   praksis.
+
+   Ét @keyframes pr. antal, fordi keyframe-procenter ikke kan regnes ud af
+   en custom property: det synlige vindue er 100/n %. Derfor loftet på fem
+   (GALLERI_MAX i lib/content.ts). Lægger du en sjette til, så læg dens
+   keyframes til her i samme commit — tests/galleri.test.mjs kræver parret.
+
+   trin = 5s pr. billede, fade = 0,8s. Fadens procent er 100*0,8/(n*5). */
+.rum-galleri {
+  --rum-galleri-trin: 5s;
+}
+.rum-galleri__foto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  animation-duration: calc(var(--rum-galleri-antal) * var(--rum-galleri-trin));
+  animation-delay: calc(
+    (var(--i) - var(--rum-galleri-antal)) * var(--rum-galleri-trin)
+  );
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.rum-galleri[data-antal="2"] { --rum-galleri-antal: 2; }
+.rum-galleri[data-antal="2"] .rum-galleri__foto { animation-name: rum-galleri-2; }
+@keyframes rum-galleri-2 {
+  0% { opacity: 1; }
+  42% { opacity: 1; }
+  50% { opacity: 0; }
+  92% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.rum-galleri[data-antal="3"] { --rum-galleri-antal: 3; }
+.rum-galleri[data-antal="3"] .rum-galleri__foto { animation-name: rum-galleri-3; }
+@keyframes rum-galleri-3 {
+  0% { opacity: 1; }
+  28% { opacity: 1; }
+  33.333% { opacity: 0; }
+  94.667% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.rum-galleri[data-antal="4"] { --rum-galleri-antal: 4; }
+.rum-galleri[data-antal="4"] .rum-galleri__foto { animation-name: rum-galleri-4; }
+@keyframes rum-galleri-4 {
+  0% { opacity: 1; }
+  21% { opacity: 1; }
+  25% { opacity: 0; }
+  96% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.rum-galleri[data-antal="5"] { --rum-galleri-antal: 5; }
+.rum-galleri[data-antal="5"] .rum-galleri__foto { animation-name: rum-galleri-5; }
+@keyframes rum-galleri-5 {
+  0% { opacity: 1; }
+  16.8% { opacity: 1; }
+  20% { opacity: 0; }
+  96.8% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Checkboxen bærer tilstanden; labelen er knappen. Den er skjult for øjet,
+   ikke for tastaturet — focus-ringen tegnes på labelen nedenfor. */
+.rum-galleri__kontakt {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.rum-galleri__kontakt:checked ~ .rum-galleri__foto {
+  animation-play-state: paused;
+}
+
+/* Knappen ligger oven på et fotografi, så baggrunden er næsten uigennem-
+   sigtig nat: på et helvidt billede blander 0,92 sig til #1b1b1b, og hud
+   på #1b1b1b måler 11,9:1. Under 24×24 px må den ikke komme — det er min
+   egen gate. Målt: 32 px høj. */
+.rum-galleri__pause {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 6px 12px;
+  background: rgba(7, 7, 7, 0.92);
+  border: 1px solid var(--rum-line);
+  color: var(--hud);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.rum-galleri__kontakt:focus-visible ~ .rum-galleri__pause {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+/* Ét ord ad gangen. display:none — ikke opacity — så knappens navn for en
+   skærmlæser er præcis det der står på den. */
+.rum-galleri__ord--gaa { display: none; }
+.rum-galleri__kontakt:checked ~ .rum-galleri__pause .rum-galleri__ord--stop { display: none; }
+.rum-galleri__kontakt:checked ~ .rum-galleri__pause .rum-galleri__ord--gaa { display: inline; }
+
+/* Reducér bevægelse må ikke koste et billede. Stakken bliver et kontaktark:
+   portrættet i fuld bredde, resten under det. Intet bevæger sig, og derfor
+   er der heller ingen pauseknap — der er ikke noget at pause. */
+@media (prefers-reduced-motion: reduce) {
+  .rum-galleri {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    aspect-ratio: auto;
+  }
+  .rum-galleri__foto {
+    position: static;
+    inset: auto;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    opacity: 1;
+    animation: none;
+  }
+  .rum-galleri__foto:first-of-type {
+    grid-column: 1 / -1;
+  }
+  .rum-galleri__pause,
+  .rum-galleri__kontakt {
+    display: none;
+  }
+}

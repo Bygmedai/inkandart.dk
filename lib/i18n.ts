@@ -195,6 +195,14 @@ const da = {
       `${handling} — ${pris} kroner i depositum`,
     comeBy: (adresse: string) => `Kom forbi ${adresse} og se arbejdet i virkeligheden.`,
     bioIsDanish: "Artistens egne ord, på dansk.",
+    /**
+     * Galleri-slotten paa artistsiden (Villy, S575 — RAAB til Haruki, din
+     * fil). Knappen er WCAG 2.2 SC 2.2.2's pause-mulighed, ikke pynt.
+     * Den laa naesten haardkodet paa dansk; det er praecis den fejlklasse
+     * der gav danske aria-labels paa /en (rapporteret paa #232).
+     */
+    galleriPause: "Pause billederne",
+    galleriAfspil: "Afspil billederne",
     giftCard: "Gavekort",
     /* Mærket. Hylden og Væggen er husets egennavne som rummene —
        sætningerne omkring dem er ikke. */
@@ -411,6 +419,8 @@ const en: Copy = {
       `${handling} — ${pris} DKK deposit`,
     comeBy: (adresse: string) => `Come by ${adresse} and see the work for real.`,
     bioIsDanish: "The artist's own words, in Danish.",
+    galleriPause: "Pause the photos",
+    galleriAfspil: "Play the photos",
     /** Gavekortet hedder Gavekort i huset — men på engelsk skal en
         turist kunne se HVAD døren er. */
     giftCard: "Gift card",

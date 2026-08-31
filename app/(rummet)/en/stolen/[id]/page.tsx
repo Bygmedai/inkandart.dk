@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { RummetShell } from "@/components/rummet/Shell";
 import { Plade } from "@/components/rummet/Plade";
+import { ArtistGalleri } from "@/components/rummet/Galleri";
 import {
   artistById,
   loadPiercingEn,
@@ -78,10 +79,11 @@ export default async function ArtistPageEn({
           </a>
         </p>
         <div className="rum-artist__fold">
-          <div className="rum-kort__foto rum-artist__foto">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={artist.foto} alt={artist.billedtekst || artist.fornavn} />
-          </div>
+          <ArtistGalleri
+            artist={artist}
+            pause={c.galleriPause}
+            afspil={c.galleriAfspil}
+          />
           <div className="rum-artist__om">
             <h1 className="rum-room__title rum-poster">{artist.fornavn}</h1>
             {craft ? <p className="rum-chair__craft">{craft}</p> : null}
