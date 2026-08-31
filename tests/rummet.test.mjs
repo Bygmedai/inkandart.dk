@@ -192,7 +192,7 @@ test("M2 cross-link tæller synlige værker fra YAML og udelader N=0", async () 
   const { loadHouse, visibleCountForArtist } = await import("../lib/content.ts");
   const house = loadHouse();
   assert.equal(visibleCountForArtist(house.vaerker, "nizar"), 4);
-  assert.equal(visibleCountForArtist(house.vaerker, "emma"), 4);
+  assert.equal(visibleCountForArtist(house.vaerker, "emma"), 6); // V-09, V-10 fra 31/8
   assert.equal(visibleCountForArtist(house.vaerker, "gaest"), 0);
 
   const kort = read("components/rummet/ArtistKort.tsx");
@@ -1075,8 +1075,20 @@ test("S574: en artists egne ord står på hendes side — og kun hendes egne", a
   const artists = loadHouse().artists;
   const emma = artistById(artists, "emma");
   assert.ok(emma.bio.length > 100, "Emmas bio (hendes præsentation) skal være på siden");
-  // Anna har ikke skrevet en bio — så har hun heller ikke en.
-  assert.equal(artistById(artists, "anna").bio, "", "vi digter ikke en bio");
+  // Anna har STADIG ikke skrevet sin egen bio. Linjen paa hendes profil er
+  // en HOLDELINJE fra huset (Haruki, 1/9): den siger hvad hun goer og
+  // inviterer ind, og intet mere. Sonja henter fire saetninger fra hende.
+  //
+  // Vagten er ikke fjernet — den har skiftet karakter. Foer kraevede den at
+  // feltet var TOMT; nu kraever den at det er PRAECIS holdelinjen. Saa kan
+  // ingen vokse den til en opdigtet stemme uden at aendre denne test med
+  // vilje, og Annas egne ord kan komme ind naar hun har givet dem.
+  const anna = artistById(artists, "anna").bio.replace(/\s+/g, " ").trim();
+  assert.equal(
+    anna,
+    "Anna sætter alle piercinger undtagen de intime, og hun skifter gerne det smykke du allerede har. Kom forbi — så finder I placeringen sammen.",
+    "Annas linje er vokset ud over holdelinjen — er det hendes egne ord?",
+  );
   const side = read("app/(rummet)/stolen/[id]/page.tsx");
   assert.match(side, /artist\.bio \?/, "bio uden indhold udelades");
 });
