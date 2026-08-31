@@ -163,3 +163,42 @@ test("knappen renderer kun når pladsen kan bevises", () => {
   const udenKnap = blok.slice(blok.indexOf("Udsolgt i denne uge"));
   assert.doesNotMatch(udenKnap, /fredagsflashCartUrl/);
 });
+
+/* ── #245 A2 + A3 ──────────────────────────────────────────────────── */
+
+test("A2: et motiv fra Shopify baerer ikke en stoerrelse vi ikke kender", () => {
+  const [kort] = tilFlashPieces([
+    { handle: "rose", titel: "Rose · underarm", billede: "", prisKr: 450,
+      variantId: "11", lager: { status: "ledig", antal: 1, grund: "" } },
+  ]);
+  // Feltet var paakraevet, saa hvert motiv fik «M» og fik det skjult i view.
+  // Et felt der altid lyver er vaerre end et felt der mangler.
+  assert.equal(kort.size, undefined, "stoerrelsen paastaas ikke");
+
+  const regler = read("lib/lager-regler.ts").replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*$/gm, "");
+  assert.doesNotMatch(regler, /size:/, "stoerrelsen saettes ikke i koden");
+
+  // Typen skal vaere valgfri — ellers er loegnen bare flyttet til kaldstedet.
+  assert.match(read("lib/flash.ts"), /size\?: FlashSize;/);
+});
+
+test("A2: siden viser stoerrelsen naar den findes — og kun da", () => {
+  const side = read("app/(emerge)/flash/page.tsx");
+  // Foer: gatet paa `f.artist`, som altid var tom. Feltet kunne aldrig vises,
+  // og vaerdien var alligevel forkert. Nu gater den paa sig selv.
+  assert.match(side, /\{f\.size \? `\$\{SIZE_LABEL\[f\.size\]\} · ` : ""\}/);
+  assert.doesNotMatch(side, /SIZE_LABEL\[f\.size\]\} · ` : ""\}\s*\n\s*\{f\.artist \?/);
+});
+
+test("A3: tilmeldingen staar OGSAA naar der er motiver", () => {
+  const side = read("app/(emerge)/flash/page.tsx");
+  const traef = [...side.matchAll(/<BlackbookSignup/g)];
+  assert.equal(traef.length, 2, "tilmeldingen skal staa i begge tilstande");
+
+  // Den nye skal ligge i den gren der har motiver. Droppet ER grunden til
+  // at melde sig til; stod den kun i den tomme tilstand, forsvandt
+  // tilmeldingen praecis naar grunden opstod.
+  const grenen = side.slice(side.indexOf("{hasDrops ? ("), side.indexOf("<Fredagsflash />"));
+  assert.match(grenen, /<BlackbookSignup source="flash" \/>/);
+  assert.match(grenen, /Næste drop, før alle andre/);
+});

@@ -218,9 +218,9 @@ export function tilFlashPieces(varer: FlashVare[]): FlashPiece[] {
       id: v.handle,
       title: v.titel,
       // Artist og størrelse hører til motivet; indtil Shopify bærer dem
-      // struktureret, står de i navnet. Vises ikke som tomme felter.
+      // struktureret, står de i NAVNET. Vi sætter dem ikke — et felt der
+      // altid lyver er værre end et felt der mangler (#245 A2).
       artist: "",
-      size: "M" as const,
       // Et taget motiv viser ingen pris — «Taget» er hele beskeden (#236).
       priceKr: taget ? 0 : v.prisKr,
       img: v.billede,
