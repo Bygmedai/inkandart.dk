@@ -1,6 +1,7 @@
 # Accept: Blackbook betaler for sig selv
 
-Status: **UDKAST (2026-08-30)** — afventer Stevens sniff + svar fra Emma og Nizar
+Status: **GODKENDT i princippet (2026-08-30)** — vej A valgt af Steven.
+Afventer stadig priser og motiver fra Emma, og efter-købet fra Nizar + Emma.
 Skrevet af Villy før bygning, jf. CLAUDE.md §6 og `docs/PROCES.md`.
 
 Det vi køber: at Emmas tegninger er solgt før nålen rører hud — og at
@@ -52,20 +53,33 @@ gange. Der findes ingen indbygget «ét på tværs af varianter». Vælger vi
 det forkerte her, sælger vi det samme unikke motiv til tre personer — og
 det er en fejl kunden opdager, ikke CI.
 
-Tre veje, med min anbefaling:
+**Stevens kendelse 30/8:** *«Emma vælger str på en flash, så den kun findes
+én gang og fjernes når den er solgt.»* — **vej A.**
 
-| vej | hvordan | pris |
-|---|---|---|
-| **A — Emma sætter størrelsen** *(anbefalet)* | Motivet tegnes i én størrelse. «Dolk · håndflade · 1.400,-». Kunden vælger ikke; prisen følger den størrelse Emma har tegnet. | Problemet forsvinder helt. Men kunden kan ikke skalere. |
-| B — tre varianter + huset tager varen ned | Kunden vælger størrelse. Når den første sælger, sætter huset produktet på draft. | Kunden kan skalere. Der er et vindue på minutter hvor to kan købe samme motiv. |
-| C — tre varianter + automatik | Som B, men Shopify Flow sætter varen på draft ved første ordre. | Lukker vinduet. Kræver at Flow sættes op og passes — ny ting at holde øje med. |
+Det opløser konflikten helt: er størrelsen en egenskab ved motivet og ikke et
+valg hos kunden, findes der kun én variant, og Shopifys lager på 1 gør
+præcis det den skal. Ingen automatik at passe, intet vindue hvor to kan købe
+det samme.
 
-**Jeg anbefaler A** — ikke af tekniske grunde, men fordi det er sådan flash
-faktisk fungerer: arket er tegnet i en skala. Det holder også løftet «ét
-motiv, én gang» uden en manuel handling der kan glemmes kl. 23.
+Til reference, de veje der IKKE blev valgt:
 
-**Vil I have at kunden kan vælge størrelse, er det B eller C — og så skal
-den beslutning tages bevidst, ikke opdages.** Sig til hvilken.
+| vej | hvorfor ikke |
+|---|---|
+| B — tre varianter, huset tager varen ned | kunden kan skalere, men der er et vindue på minutter hvor to kan købe samme motiv |
+| C — tre varianter + Shopify Flow | lukker vinduet, men er en ny automatik der skal passes |
+
+### Emma skal kunne køre det fra sin telefon
+
+Stevens tilføjelse: *«hvis det er teknisk muligt at vælge via telefonen.»*
+
+Det er det — og det kræver ingen kode. Shopifys mobil-app kan oprette varen,
+sætte pris og størrelse, lægge den i kollektionen og tage den ned igen.
+**Der bygges derfor ikke et redigeringsværktøj.** Emmas arbejdsgang er fire
+tryk i en app hun i forvejen kan have på telefonen, og sitet læser resultatet.
+
+Det er også hvorfor vej A er den rigtige på mere end ét plan: B og C ville
+have krævet at nogen huskede en ekstra handling, eller at en automatik kørte
+rigtigt, klokken 23 en fredag.
 
 ---
 
@@ -155,8 +169,8 @@ Og til sidst: **Steven køber et motiv selv** og ser det blive mærket taget.
 |---|---|---|
 | 1 | **Priserne.** Størrelserne og hvad de koster. Jeg opfinder ikke husets priser. | Emma |
 | 2 | **Hvad sker der efter købet?** Stevens svar 30/8: *«Skal afklares med Nizar og Emma.»* Indtil det er afklaret, må copy'en **ikke** love hverken en tid eller en frist. | Nizar + Emma |
-| 3 | **Vej A, B eller C** i tabellen ovenfor. | Steven |
-| 4 | **Ti motiver og en dato.** | Emma |
+| 3 | ~~Vej A, B eller C~~ — **afgjort 30/8: vej A.** | ~~Steven~~ ✅ |
+| 4 | **Ti motiver og en dato.** Hvert motiv: billede, størrelse, pris. | Emma |
 
 Punkt 2 er det eneste der kan gøre siden usand: sælger vi et motiv uden at
 kunne sige hvad der så sker, står kunden med en kvittering og intet svar.
