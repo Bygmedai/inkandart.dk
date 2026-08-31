@@ -12,8 +12,8 @@ sporgsmal:
       overraskelser.
   - q: Kan jeg bare komme forbi?
     a: >-
-      Ja. Walk-in når der er en fri stol — tirsdag til lørdag
-      kl. 10–05.30. Vil du være sikker på en tid, så book.
+      Ja. Walk-in når der er en fri stol — {tider}. Vil du være
+      sikker på en tid, så book.
   - q: Hvordan booker jeg?
     a: >-
       Betal depositum (fra 100 kr) på bookingsiden og vælg din tid.

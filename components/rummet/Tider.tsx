@@ -1,4 +1,5 @@
 import type { ArtistTid } from "@/lib/content";
+import { tiderListe } from "@/lib/tider";
 
 type Tekster = {
   label: string;
@@ -19,27 +20,7 @@ type Tekster = {
  * noget denne komponent skal udglatte.
  */
 export function Tider({ tider, t }: { tider: ArtistTid[]; t: Tekster }) {
-  if (tider.length === 0) return null;
-
-  const dagerække = (dage: string[]): string => {
-    const navne = dage.map((d) => t.dag[d]).filter(Boolean);
-    if (navne.length === 0) return "";
-    if (navne.length === 1) return navne[0];
-    return `${navne.slice(0, -1).join(", ")} ${t.og} ${navne[navne.length - 1]}`;
-  };
-
-  // Kun linjens foerste tegn stort-skrives. Ordbogen holder dagene som de
-  // ser ud midt i en saetning — smaa paa dansk, store paa engelsk — saa
-  // den ene regel giver korrekt sprog begge steder.
-  const stort = (l: string) => l.charAt(0).toUpperCase() + l.slice(1);
-
-  const linjer = tider
-    .map((r) => {
-      const dage = dagerække(r.dage);
-      return dage ? stort(`${dage} ${r.fra}–${r.til}`) : "";
-    })
-    .filter(Boolean);
-
+  const linjer = tiderListe(tider, t);
   if (linjer.length === 0) return null;
 
   return (

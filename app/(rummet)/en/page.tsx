@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { RummetShell } from "@/components/rummet/Shell";
 import { ArtistKort } from "@/components/rummet/ArtistKort";
 import { Segl } from "@/components/rummet/Segl";
-import { alternates } from "@/lib/i18n";
+import { alternates , t} from "@/lib/i18n";
 import {
   chairArtists,
   guestState,
@@ -11,6 +11,8 @@ import {
   visibleCountForArtist,
   loadKontakt,
 } from "@/lib/content";
+import { loadAabningstider } from "@/lib/content";
+import { formatTider } from "@/lib/tider";
 
 const _fold = loadHusetForsideEn();
 const _kontakt = loadKontakt();
@@ -32,6 +34,9 @@ export const metadata: Metadata = {
  */
 export default function HomePageEn() {
   const fold = loadHusetForsideEn();
+  // Butikkens tider — ét sted, content/aabningstider.yml. Foer stod de
+  // i seks filer i to formater og drev fra hinanden.
+  const husetsTider = formatTider(loadAabningstider(), t("en").rummet.tider);
   const kontakt = loadKontakt();
   const house = loadHouse();
   const chairs = chairArtists(house.artists);
@@ -44,8 +49,8 @@ export default function HomePageEn() {
           <p className="rum-label">The house</p>
           <h1 className="rum-huset__title rum-poster">{fold.titel}</h1>
           <p className="rum-huset__lede rum-body-copy">{fold.lede}</p>
-          {fold.tider ? (
-            <p className="rum-label rum-huset__tider">{fold.tider}</p>
+          {husetsTider ? (
+            <p className="rum-label rum-huset__tider">{husetsTider}</p>
           ) : null}
           <div className="rum-huset__cta">
             <a id="booking" href="/en/booking" className="rum-book">

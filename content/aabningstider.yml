@@ -1,0 +1,29 @@
+# Butikkens tider — ÉT sted for hele huset.
+#
+# Stevens kendelse 31/8 2026: «Butikken er åben Emmas tider.» Huset lukker
+# når den sidste artist går hjem, så tiderne ER artisternes tider — ikke en
+# politik huset har vedtaget uafhængigt af hvem der møder ind.
+#
+# Lige nu er det Emmas, fordi hun er den der er der. Kommer der flere
+# artister med egne tider, skal denne fil favne dem — og så er det her det
+# sker, ét sted, ikke i seks filer på to sprog.
+#
+# HVORFOR ÉT STED: den 31/8 stod den samme åbningstid i seks filer i to
+# formater. Den blev rettet to gange på en time, og begge gange slap to
+# filer igennem, fordi de skrev tiden anderledes. Det er ikke en fejl nogen
+# begik; det er hvad seks kopier gør.
+#
+# Dagene oversættes af ordbogen (lib/i18n.ts). Klokkeslettene står ens på
+# begge sprog — et tal der skal oversættes er et tal der kan drive.
+#
+# Opdigt aldrig en tid. Er den ikke bekræftet af et menneske, udelades den.
+tider:
+  - dage: [tir, ons]
+    fra: "13"
+    til: "23"
+  - dage: [tor]
+    fra: "16"
+    til: "02.30"
+  - dage: [fre, loer]
+    fra: "19"
+    til: "05.30"

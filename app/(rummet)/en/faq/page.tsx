@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { RummetShell } from "@/components/rummet/Shell";
-import { loadFaqEn } from "@/lib/content";
-import { alternates } from "@/lib/i18n";
+import { loadFaqEn, loadAabningstider } from "@/lib/content";
+import { formatTiderIndlejret } from "@/lib/tider";
+import { alternates, t } from "@/lib/i18n";
 
 const _f = loadFaqEn();
 
@@ -13,6 +14,10 @@ export const metadata: Metadata = {
 
 export default function FaqPageEn() {
   const f = loadFaqEn();
+  // Tiden kommer fra content/aabningstider.yml — ikke fra svarets tekst,
+  // saa FAQ'en ikke bliver den syvende kopi. Lille begyndelsesbogstav,
+  // fordi den staar midt i en saetning.
+  const tider = formatTiderIndlejret(loadAabningstider(), t("en").rummet.tider);
   return (
     <RummetShell lang="en">
       <main id="main" lang="en" className="rum-legal">
@@ -22,7 +27,7 @@ export default function FaqPageEn() {
         {f.sporgsmal.map((x) => (
           <section key={x.q} className="rum-legal__afsnit">
             <h2 className="rum-poster">{x.q}</h2>
-            <p className="rum-body-copy">{x.a}</p>
+            <p className="rum-body-copy">{x.a.replace("{tider}", tider)}</p>
           </section>
         ))}
       </main>

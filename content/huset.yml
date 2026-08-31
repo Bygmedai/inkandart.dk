@@ -10,7 +10,8 @@
 kicker: ""
 titel: Tatovering og piercing i Pisserenden
 lede: Larsbjørnsstræde 13, kælderen. Walk-in når der er en fri stol — ellers book.
-tider: Tirsdag til lørdag kl. 10–05.30
+# Tom = kommer fra aabningstider.yml.
+tider: ""
 cta_book: Book tid
 hero_foto: /slots/G-03.jpg
 hero_billedtekst: Husets neonskilt i vinduet mod Larsbjørnsstræde.
