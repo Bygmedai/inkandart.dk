@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { site } from "@/lib/site";
-import { flash, SIZE_LABEL } from "@/lib/flash";
+import { SIZE_LABEL } from "@/lib/flash";
+import { hentFlashDrop } from "@/lib/flash-drop";
 import { cartUrl, kr } from "@/lib/commerce";
 import { BlackbookSignup } from "@/components/emerge/BlackbookSignup";
 
@@ -19,7 +20,11 @@ const howItDrops = [
   { t: "Medlemmer først", d: "Blackbook ser hvert drop før alle andre. Det er gratis at være med." },
 ];
 
-export default function FlashPage() {
+export default async function FlashPage() {
+  // Motiverne kommer fra Shopify-kollektionen `flash-drop-01`, saa Emma kan
+  // laegge dem op fra telefonen. Falder tilbage til lib/flash.ts (tom) hvis
+  // Storefront ikke svarer — og saa siger siden aerligt «naeste drop er paa vej».
+  const flash = await hentFlashDrop();
   const hasDrops = flash.length > 0;
 
   return (
@@ -62,8 +67,10 @@ export default function FlashPage() {
                   />
                   <p className="mt-3 text-[13px] uppercase tracking-[0.08em]">{f.title}</p>
                   <p className="mt-1 font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[0.2em] text-[var(--text-mute)]">
-                    {f.artist} · {SIZE_LABEL[f.size]} · {kr(f.priceKr)} kr
-                    {f.oneOff ? " · one-off" : ""}
+                    {f.artist ? `${f.artist} · ` : ""}
+                    {f.artist ? `${SIZE_LABEL[f.size]} · ` : ""}
+                    {f.priceKr > 0 ? `${kr(f.priceKr)} kr` : ""}
+                    {f.oneOff && f.priceKr > 0 ? " · one-off" : ""}
                   </p>
                   {sold ? (
                     <p className="mt-3 font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[0.2em] text-[var(--oxblood)]">

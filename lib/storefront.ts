@@ -257,6 +257,65 @@ export function parseCollectionProducts(data: unknown): CollectionProduct[] {
 }
 
 /**
+ * RÅB TIL GROK (Villy, S574 — Stevens kald 30/8 «Sælg natten»/flash-drop):
+ * additiv funktion i din fil. Din egen `parseCollectionProducts` er
+ * UÆNDRET, og hylden opfører sig præcis som før.
+ *
+ * Hvorfor der skal to til: hylden SKAL skjule en vare der ikke kan købes —
+ * en død købsknap er værre end ingen (rails §4). Flash skal det MODSATTE:
+ * et solgt motiv bliver stående, mærket «Taget», fordi det at se hvad der
+ * er væk er halvdelen af beviset for at knapheden er ægte. Samme parser
+ * kan ikke gøre begge dele.
+ *
+ * Jeg har lagt den her frem for at duplikere COLLECTION_QUERY i min egen
+ * fil — to kopier af samme forespørgsel driver fra hinanden. Vil du flytte
+ * eller omdøbe den, så gør det frit; kun `lib/flash-drop.ts` kalder den.
+ */
+export function parseCollectionProductsMedSolgte(
+  data: unknown,
+): CollectionProduct[] {
+  try {
+    const coll = collectionNode(data);
+    if (coll == null) return [];
+    const out: CollectionProduct[] = [];
+    for (const node of productNodes(coll)) {
+      const p = readCollectionProduct(node);
+      if (!p) continue;
+      // Bevidst INGEN filtrering her — det er hele forskellen.
+      //
+      // Heller ikke paa variantGid: en SOLGT vare har ingen tilgaengelig
+      // variant, saa readCollectionProduct giver den en tom variantGid og
+      // en tom pris. Krævede vi et variantGid, ville det solgte motiv
+      // forsvinde ad bagdøren — praecis det vi er her for at undgaa.
+      // Uden pris og uden koebsknap er netop hvad «Taget» betyder.
+      out.push(p);
+    }
+    return out;
+  } catch {
+    return [];
+  }
+}
+
+/** Som productsInCollection, men beholder de solgte. Se råbet ovenfor. */
+export async function productsInCollectionMedSolgte(
+  handle: string,
+): Promise<CollectionResult> {
+  try {
+    const h = handle.trim();
+    if (!h) return { ok: false, products: [] };
+    const cfg = storefrontConfig();
+    if (!cfg.ok) return { ok: false, products: [] };
+    const data = await storefrontQuery(COLLECTION_QUERY, { handle: h });
+    if (!data) return { ok: false, products: [] };
+    const coll = collectionNode(data);
+    if (coll == null) return { ok: false, products: [] };
+    return { ok: true, products: parseCollectionProductsMedSolgte(data) };
+  } catch {
+    return { ok: false, products: [] };
+  }
+}
+
+/**
  * Salgslinjen klippes af produktets egen beskrivelse i Shopify: første
  * punktum, ellers de første ~140 tegn. Beskrivelserne ER skrevet af huset
  * («Et af husets flash-motiver, trykt i hånden…») — en disk uden dem viste
