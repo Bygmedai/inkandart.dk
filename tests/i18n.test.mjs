@@ -252,10 +252,12 @@ test("butikkens tider staar ÉT sted og laeses af alle flader", async () => {
   const { formatTider, formatTiderIndlejret } = await import("../lib/tider.ts");
   const { t } = await import("../lib/i18n.ts");
 
-  // Kilden findes og er Emmas tider (Steven 31/8: «Butikken er aaben Emmas tider»).
+  // Kilden findes. De konkrete tal proeves i «husets tider er husets» —
+  // her handler det om at der KUN er én kilde. En proeve der laaser sig fast
+  // paa tallene gaar roed hver gang huset aendrer aabningstid, og saa
+  // vogter den ikke laengere det den blev skrevet for.
   const tider = loadAabningstider();
-  assert.equal(tider.length, 3);
-  assert.deepEqual(tider[0], { dage: ["tir", "ons"], fra: "13", til: "23" });
+  assert.ok(tider.length > 0, "kilden er tom");
 
   // NEGATIV KONTROL — den vigtigste her: ingen af de gamle kopier maa baere
   // en tid. Den 31/8 stod den samme aabningstid i SEKS filer i to formater,
@@ -270,16 +272,35 @@ test("butikkens tider staar ÉT sted og laeses af alle flader", async () => {
   // findes ét sted — kun dagene oversaettes.
   const da = formatTider(tider, t("da").rummet.tider);
   const en = formatTider(tider, t("en").rummet.tider);
-  for (const tal of ["13–23", "16–02.30", "19–05.30"]) {
+  for (const tal of ["13–22", "13–02", "13–05"]) {
     assert.ok(da.includes(tal), `dansk mangler ${tal}`);
     assert.ok(en.includes(tal), `engelsk mangler ${tal}`);
   }
-  assert.match(da, /^Tirsdag og onsdag/, "dansk: stort kun paa foerste ord");
-  assert.match(en, /^Tuesday and Wednesday/);
+  // Bundet til REGLEN, ikke til ordene: en proeve der citerer linjen gaar
+  // roed hver gang huset aendrer aabningstid, og saa vogter den intet.
+  //
+  // Dansk: stort paa foerste tegn, og INGEN storskrevet ugedag derefter.
+  assert.match(da, /^[A-ZÆØÅ]/, "dansk: linjen starter ikke med stort");
+  const danskeDage = Object.values(t("da").rummet.tider.dag);
+  for (const dag of danskeDage) {
+    const stor = dag.charAt(0).toUpperCase() + dag.slice(1);
+    assert.doesNotMatch(da.slice(1), new RegExp(stor),
+      `dansk: «${stor}» med stort midt i linjen`);
+  }
+  // Engelsk: hver ugedag der optraeder, skal vaere storskrevet.
+  for (const dag of Object.values(t("en").rummet.tider.dag)) {
+    if (en.includes(dag.toLowerCase())) {
+      assert.fail(`engelsk: «${dag}» med lille`);
+    }
+  }
 
   // Indlejret i en saetning skal dansk begynde med lille.
-  assert.match(formatTiderIndlejret(tider, t("da").rummet.tider), /^tirsdag/);
-  assert.match(formatTiderIndlejret(tider, t("en").rummet.tider), /^Tuesday/);
+  // Indlejret midt i en saetning: dansk starter med LILLE, engelsk med stort.
+  // Igen bundet til reglen, ikke til hvilken dag der tilfaeldigvis er foerst.
+  assert.match(formatTiderIndlejret(tider, t("da").rummet.tider), /^[a-zæøå]/,
+    "dansk: ugedag med stort midt i en saetning");
+  assert.match(formatTiderIndlejret(tider, t("en").rummet.tider), /^[A-Z]/,
+    "engelsk: ugedag med lille");
 });
 
 test("FAQ'ens svar baerer en pladsholder, ikke en tid", () => {
@@ -288,5 +309,59 @@ test("FAQ'ens svar baerer en pladsholder, ikke en tid", () => {
     assert.match(src, /\{tider\}/, `${f} mangler pladsholderen`);
     // Ingen klokkeslet i FAQ-teksten — saa kan den ikke drive fra kilden.
     assert.doesNotMatch(src.replace(/^\s*#.*$/gm, ""), /\d{1,2}[:.]\d{2}[–-]|\d{1,2}–\d{2}/, `${f} baerer en tid`);
+  }
+});
+
+test("en ukendt dagnoegle bliver ikke tavst smidt vaek", async () => {
+  // Harukis fund 1/9: han skrev «soen» i sit eget brief. Ordbogen bruger
+  // «son». `dagerække` filtrerer ukendte noegler vaek med .filter(Boolean),
+  // saa soendagen ville vaere forsvundet fra fladen UDEN at noget blev
+  // roedt — hverken en fejl, en tom linje eller en test.
+  //
+  // Det er den dyreste slags fejl: den ser ud som om alt virker.
+  const yaml = await import("yaml");
+  const { readFileSync } = await import("node:fs");
+  const { t } = await import("../lib/i18n.ts");
+
+  const kendte = {
+    da: new Set(Object.keys(t("da").rummet.tider.dag)),
+    en: new Set(Object.keys(t("en").rummet.tider.dag)),
+  };
+  // Begge sprog skal kende de samme dage. Ellers falder en dag ud paa ét
+  // sprog og staar paa det andet.
+  assert.deepEqual([...kendte.da].sort(), [...kendte.en].sort(),
+    "ordboegerne kender ikke de samme ugedage");
+
+  const kilder = [
+    ["content/aabningstider.yml", (d) => d.tider ?? []],
+    ["content/artists.yml", (d) => d.flatMap((a) => a.tider ?? [])],
+  ];
+  for (const [fil, hent] of kilder) {
+    for (const r of hent(yaml.parse(readFileSync(join(root, fil), "utf8")))) {
+      for (const dag of r.dage ?? []) {
+        assert.ok(kendte.da.has(dag), `${fil}: ukendt dagnoegle «${dag}» — den forsvinder tavst`);
+      }
+    }
+  }
+});
+
+test("husets tider er husets, ikke en artists vagtplan", async () => {
+  const yaml = await import("yaml");
+  const { readFileSync } = await import("node:fs");
+  const d = yaml.parse(readFileSync(join(root, "content/aabningstider.yml"), "utf8"));
+
+  // Alle syv dage skal vaere daekket. Filen stod foerst med Emmas vagter,
+  // hvor mandag og soendag manglede helt — huset var «lukket» to dage det
+  // ikke er lukket.
+  const daekket = new Set(d.tider.flatMap((r) => r.dage));
+  for (const dag of ["man", "tir", "ons", "tor", "fre", "loer", "son"]) {
+    assert.ok(daekket.has(dag), `${dag} mangler i husets tider`);
+  }
+
+  // 05.30 var Emmas nedlukning EFTER lukketid, ikke en aabningstid.
+  // Et halvt minuttal her betyder at en artists kalender er sivet ind igen.
+  for (const r of d.tider) {
+    assert.doesNotMatch(r.til, /\.30$/, `${r.dage} lukker :30 — er det en artists nedlukning?`);
+    assert.equal(r.fra, "13", `${r.dage} aabner ikke 13 — huset aabner samme tid hver dag`);
   }
 });

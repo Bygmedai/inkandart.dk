@@ -1,12 +1,18 @@
 # Butikkens tider — ÉT sted for hele huset.
 #
-# Stevens kendelse 31/8 2026: «Butikken er åben Emmas tider.» Huset lukker
-# når den sidste artist går hjem, så tiderne ER artisternes tider — ikke en
-# politik huset har vedtaget uafhængigt af hvem der møder ind.
+# Kilden er husets egen teamguide (Simone), bekræftet af Steven 31/8 2026.
 #
-# Lige nu er det Emmas, fordi hun er den der er der. Kommer der flere
-# artister med egne tider, skal denne fil favne dem — og så er det her det
-# sker, ét sted, ikke i seks filer på to sprog.
+# RETTET 1/9 efter Harukis fund. Filen stod først med EMMAS VAGTER — tir/ons
+# 13–23, tor 16–02.30, fre/lør 19–05.30. Det var forkert på to måder:
+#
+#   1. Mandag og søndag manglede helt. Huset er åbent begge dage.
+#   2. 05.30 er Emmas NEDLUKNING efter lukketid, ikke et tidspunkt en kunde
+#      kan komme ind på. Det stod på fladen som en åbningstid.
+#
+# Præmissen «butikken er åben Emmas tider» holdt så længe hun var den eneste
+# faste. Huset har nu tre i stolen og en piercer, og sine egne tider. En
+# artists kalender og husets åbningstid er ikke det samme, og fladen må kun
+# vise det sidste.
 #
 # HVORFOR ÉT STED: den 31/8 stod den samme åbningstid i seks filer i to
 # formater. Den blev rettet to gange på en time, og begge gange slap to
@@ -18,12 +24,15 @@
 #
 # Opdigt aldrig en tid. Er den ikke bekræftet af et menneske, udelades den.
 tider:
-  - dage: [tir, ons]
+  - dage: [man, tir, ons]
     fra: "13"
-    til: "23"
+    til: "22"
   - dage: [tor]
-    fra: "16"
-    til: "02.30"
+    fra: "13"
+    til: "02"
   - dage: [fre, loer]
-    fra: "19"
-    til: "05.30"
+    fra: "13"
+    til: "05"
+  - dage: [son]
+    fra: "13"
+    til: "22"
