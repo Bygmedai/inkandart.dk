@@ -89,7 +89,7 @@ jobs:
 
       - name: Gem screenshots
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: vilde-qa-skud
           path: qa-skud/
