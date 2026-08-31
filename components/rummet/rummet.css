@@ -1522,3 +1522,19 @@ html:has([data-house="rummet"]) .grain {
     display: none;
   }
 }
+
+/* ── Artistens tider (Villy, S576) ────────────────────────────────────
+   Kun afstand og listeform. Ingen ny farve og ingen ny typografi: linjen
+   skal ligne resten af folden, ikke et skilt. `.rum-label` giver
+   overskriften, og listen arver brødteksten. */
+.rum-artist__tider {
+  margin-top: 20px;
+}
+.rum-artist__tider-liste {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+  color: var(--text-soft);
+}

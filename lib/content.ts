@@ -35,6 +35,26 @@ export type ArtistFoto = {
  */
 export const GALLERI_MAX = 5;
 
+/**
+ * Et tidsrum en artist er i huset.
+ *
+ * STRUKTURERET, ikke fritekst. Dagene skal kunne siges paa engelsk uden at
+ * et menneske oversaetter «tirsdag» — det er en ugedag, ikke nogens ord.
+ * Klokkeslet er tal og staar ens paa begge sprog.
+ *
+ * Tallene er artistens egne. De opdigtes ALDRIG, og de udledes ikke af
+ * husets aabningstider — en artist kan vaere i huset uden at doeren er
+ * aaben for walk-in, og huset kan have aabent uden at hun er der.
+ */
+export type ArtistTid = {
+  /** Ugedags-noegler: man tir ons tor fre loer son. */
+  dage: string[];
+  /** Fra, som artisten skrev det: "13", "16", "19". */
+  fra: string;
+  /** Til: "23", "02.30", "05.30". Kan ligge efter midnat. */
+  til: string;
+};
+
 export type Artist = {
   id: string;
   fornavn: string;
@@ -69,6 +89,8 @@ export type Artist = {
   booking: boolean;
   /** Ekstra billeder ud over portraettet. Tom liste = én slot, som foer. */
   fotos: ArtistFoto[];
+  /** Hvornaar hun er i huset. Tom liste = vi siger ingenting. */
+  tider: ArtistTid[];
 };
 
 export type Vaerk = {
@@ -192,7 +214,26 @@ function normalizeArtist(a: Artist): Artist {
     stol: bool(a.stol),
     booking: a.booking === undefined ? true : bool(a.booking),
     fotos: normalizeFotos((a as unknown as Record<string, unknown>).fotos),
+    tider: normalizeTider((a as unknown as Record<string, unknown>).tider),
   };
+}
+
+const UGEDAGE = ["man", "tir", "ons", "tor", "fre", "loer", "son"];
+
+function normalizeTider(raw: unknown): ArtistTid[] {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .map((t) => {
+      const o = (t ?? {}) as Record<string, unknown>;
+      const dage = Array.isArray(o.dage)
+        ? o.dage.map((d) => str(d as string)).filter((d) => UGEDAGE.includes(d))
+        : [];
+      return { dage, fra: str(o.fra as string), til: str(o.til as string) };
+    })
+    // Et tidsrum uden dag eller uden klokkeslet er ikke et tidsrum. Det
+    // udelades frem for at blive vist halvt — en halv aabningstid er
+    // vaerre end ingen (rails §4).
+    .filter((t) => t.dage.length > 0 && t.fra && t.til);
 }
 
 function normalizeFotos(raw: unknown): ArtistFoto[] {
