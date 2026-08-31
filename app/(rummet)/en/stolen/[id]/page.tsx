@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { RummetShell } from "@/components/rummet/Shell";
 import { Plade } from "@/components/rummet/Plade";
+import { Bio } from "@/components/rummet/Bio";
 import { ArtistGalleri } from "@/components/rummet/Galleri";
 import {
   artistById,
@@ -89,12 +90,10 @@ export default async function ArtistPageEn({
             {craft ? <p className="rum-chair__craft">{craft}</p> : null}
             <p className="rum-label rum-chair__meta">{periodeLabel(artist)}</p>
             {artist.bio_en ? (
-              <p className="rum-body-copy rum-artist__bio">{artist.bio_en}</p>
+              <Bio tekst={artist.bio_en} />
             ) : artist.bio ? (
               <>
-                <p className="rum-body-copy rum-artist__bio" lang="da">
-                  {artist.bio}
-                </p>
+                <Bio tekst={artist.bio} lang="da" />
                 <p className="rum-label rum-artist__insta">{c.bioIsDanish}</p>
               </>
             ) : null}
