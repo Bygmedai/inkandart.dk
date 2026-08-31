@@ -74,6 +74,29 @@
   # «farvet flash» → «colour flash»; britisk stavemaade, som resten af
   # den engelske flade.
   haandvaerk_en: Tattoo artist · colour flash and traditional
+  # Emmas egne tider, sendt til Steven 31/8 2026 og videregivet ordret:
+  #   «Jeg er i butikken 13-23 tirsdag og onsdag
+  #    16-2.30 torsdag
+  #    19-5.30 fredag og lørdag»
+  #
+  # Tallene er hendes. De er IKKE udledt af husets aabningstid, og de maa
+  # ikke rettes til for at passe med den.
+  #
+  # ⚠ KONFLIKT, ikke loest her: huset siger fire steder «Torsdag, fredag og
+  # loerdag kl. 10–05» (gaden.yml, gaden.en.yml, huset.yml, faq.yml). Emma
+  # er der ogsaa tirsdag og onsdag, og til 05.30 fredag/loerdag. Enten er
+  # husets linje foraeldet, eller ogsaa er hun der uden at doeren er aaben.
+  # Det er Stevens kald — se PR-teksten.
+  tider:
+    - dage: [tir, ons]
+      fra: "13"
+      til: "23"
+    - dage: [tor]
+      fra: "16"
+      til: "02.30"
+    - dage: [fre, loer]
+      fra: "19"
+      til: "05.30"
   # Handle fra Steven 31/8: https://www.instagram.com/winds_tattoos
   instagram: winds_tattoos
   periode: fast

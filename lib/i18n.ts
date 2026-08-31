@@ -199,6 +199,23 @@ const da = {
       gaest: "Gæst",
       til: (dato: string) => `I huset til ${dato}`,
     },
+    /**
+     * Artistens tider (Villy, S576 — RAAB til Haruki, din fil).
+     * Ugedage er ikke nogens ord; de er etiketter og maa oversaettes her.
+     * Klokkeslettene staar i artists.yml og er artistens egne.
+     */
+    tider: {
+      label: "I huset",
+      og: "og",
+      // Dagene staar som de ser ud MIDT i en saetning. Dansk skriver
+      // ugedage med lille; engelsk med stort. Komponenten stort-skriver
+      // kun linjens foerste tegn — saa bliver begge sprog rigtige af
+      // samme regel. «Tirsdag og Onsdag» var forkert dansk (maalt 31/8).
+      dag: {
+        man: "mandag", tir: "tirsdag", ons: "onsdag", tor: "torsdag",
+        fre: "fredag", loer: "lørdag", son: "søndag",
+      },
+    },
     walkInLine: "Walk-in når der er en fri stol — ellers book.",
     /**
      * Nattespot (Villy, S574). Skaermlaeser-saetningen for koebsknappen.
@@ -433,6 +450,14 @@ const en: Copy = {
       fast: "Resident",
       gaest: "Guest",
       til: (dato: string) => `In the house until ${dato}`,
+    },
+    tider: {
+      label: "In the house",
+      og: "and",
+      dag: {
+        man: "Monday", tir: "Tuesday", ons: "Wednesday", tor: "Thursday",
+        fre: "Friday", loer: "Saturday", son: "Sunday",
+      },
     },
     walkInLine: "Walk-in when a chair is free — otherwise book.",
     spotAria: (handling: string, pris: string) =>

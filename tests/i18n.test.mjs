@@ -201,3 +201,44 @@ test("fagets navn staar paa engelsk — og er skrevet af et menneske", async () 
   const anna = artister.find((a) => a.id === "anna");
   assert.equal(anna.haandvaerk_en, "Piercer");
 });
+
+test("artistens tider staar paa begge sprog — og paa korrekt dansk", async () => {
+  const yaml = await import("yaml");
+  const { readFileSync } = await import("node:fs");
+  const emma = yaml
+    .parse(readFileSync(join(root, "content/artists.yml"), "utf8"))
+    .find((a) => a.id === "emma");
+
+  // Tallene er Emmas egne, sendt 31/8. De maa aendres, men ikke udledes af
+  // husets aabningstid — en artist kan vaere i huset uden at doeren er aaben.
+  assert.equal(emma.tider.length, 3);
+  assert.deepEqual(emma.tider[0], { dage: ["tir", "ons"], fra: "13", til: "23" });
+  assert.deepEqual(emma.tider[1], { dage: ["tor"], fra: "16", til: "02.30" });
+  assert.deepEqual(emma.tider[2], { dage: ["fre", "loer"], fra: "19", til: "05.30" });
+
+  const { t } = await import("../lib/i18n.ts");
+  // Dansk skriver ugedage med LILLE midt i en saetning; engelsk med stort.
+  // Ordbogen holder dem som de ser ud midt i en saetning, og komponenten
+  // stort-skriver kun foerste tegn. «Tirsdag og Onsdag» var forkert dansk.
+  for (const d of Object.values(t("da").rummet.tider.dag)) {
+    assert.match(d, /^[a-zæøå]/, `dansk ugedag med stort: ${d}`);
+  }
+  for (const d of Object.values(t("en").rummet.tider.dag)) {
+    assert.match(d, /^[A-Z]/, `engelsk ugedag med lille: ${d}`);
+    assert.doesNotMatch(d, /[æøåÆØÅ]/, `dansk i den engelske ugedag: ${d}`);
+  }
+
+  const kilde = readFileSync(join(root, "components/rummet/Tider.tsx"), "utf8");
+  assert.match(kilde, /charAt\(0\)\.toUpperCase\(\)/, "linjen stort-skrives ikke");
+});
+
+test("et halvt tidsrum vises ikke — hellere ingen tid end en forkert", async () => {
+  const { loadHouse } = await import("../lib/content.ts");
+  // Parseren smider raekker uden dag eller uden klokkeslet vaek. En halv
+  // aabningstid sender en kunde til en laast doer (rails §4).
+  for (const a of loadHouse().artists) {
+    for (const r of a.tider ?? []) {
+      assert.ok(r.dage.length > 0 && r.fra && r.til, `${a.id}: halvt tidsrum sluppet igennem`);
+    }
+  }
+});
