@@ -26,6 +26,9 @@ export const RUM = [
 export const EKSTRA = [
   { navn: "Artistside", rute: "/stolen/nizar" },
   { navn: "Vareside", rute: "/maerket/dolk" },
+  // Flash blev en koebsflade med flash-droppet (S574). En rute der tager
+  // imod penge uden en vagt er en rute hvor det naeste overloeb faar lov.
+  { navn: "Flash", rute: "/flash" },
 ];
 
 export const FLADER = [...RUM, ...EKSTRA];

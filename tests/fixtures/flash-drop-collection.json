@@ -1,0 +1,27 @@
+{
+  "collection": {
+    "handle": "flash-drop-01",
+    "products": {
+      "nodes": [
+        {
+          "handle": "ouroboros-underarm",
+          "title": "Ouroboros · underarm",
+          "productType": "Flash",
+          "availableForSale": true,
+          "featuredImage": { "url": "https://cdn.shopify.com/s/files/1/ouroboros-ua.png", "altText": "Ouroboros, underarm" },
+          "variants": { "nodes": [{ "id": "gid://shopify/ProductVariant/50000000000001", "availableForSale": true, "price": { "amount": "1400.0", "currencyCode": "DKK" } }] },
+          "description": "Slangen der bider sig selv i halen."
+        },
+        {
+          "handle": "dolk-haandflade",
+          "title": "Dolk · håndflade",
+          "productType": "Flash",
+          "availableForSale": false,
+          "featuredImage": { "url": "https://cdn.shopify.com/s/files/1/dolk-hf.png", "altText": "Dolk, håndflade" },
+          "variants": { "nodes": [{ "id": "gid://shopify/ProductVariant/50000000000002", "availableForSale": false, "price": { "amount": "900.0", "currencyCode": "DKK" } }] },
+          "description": "Et af husets motiver."
+        }
+      ]
+    }
+  }
+}
