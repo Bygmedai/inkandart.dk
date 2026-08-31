@@ -1109,10 +1109,12 @@ test("K6: den engelske forside bor i Rummet, ikke i Emerge", () => {
   assert.match(en, /loadHusetForsideEn/, "ordene bor i huset.en.yml");
   assert.match(en, /lang="en"/);
   // Ingen døde døre: alle interne href'er på EN-forsiden skal findes.
-  for (const m of en.matchAll(/href="(\/[a-z-]*)"/g)) {
+  // Sprogsluk (regression, målt i prod 2026-08-31): stien skal bære /en/ —
+  // en bar "/booking" sender en engelsktalende besøgende til den danske side.
+  for (const m of en.matchAll(/href="(\/[a-z/-]*)"/g)) {
     assert.ok(
-      ["/booking", "/stolen", "/"].some((r) => m[1] === r || m[1].startsWith("/stolen")),
-      `uventet dør på EN-forsiden: ${m[1]}`,
+      ["/en/booking", "/stolen", "/"].some((r) => m[1] === r || m[1].startsWith("/stolen")),
+      `uventet eller sprogforkert dør på EN-forsiden: ${m[1]}`,
     );
   }
   assert.equal(existsSync(join(root, "app/(emerge)/en/page.tsx")), false, "Emerge-EN-forsiden er pensioneret");
