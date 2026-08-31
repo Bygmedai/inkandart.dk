@@ -1585,3 +1585,107 @@ html:has([data-house="rummet"]) .grain {
   max-width: 54ch;
   color: var(--beton);
 }
+
+/* ---- Samtykkeerklaeringen. Simones formular, husets ramme. -------------
+   Felterne er brede og hoeje nok til en tommelfinger: den udfyldes paa en
+   telefon i sofaen, ikke paa en laptop. 16px paa input er ikke pynt — under
+   det zoomer iOS ind af sig selv, og saa hopper siden. */
+.rum-samtykke__form {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  max-width: 44rem;
+  margin-top: 32px;
+}
+.rum-samtykke__form fieldset {
+  border: 0;
+  border-top: 1px solid rgba(232, 224, 213, 0.16);
+  margin: 0;
+  padding: 24px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.rum-samtykke__form legend {
+  padding: 0 0 8px;
+}
+.rum-samtykke__form label {
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  opacity: 0.75;
+}
+.rum-samtykke__form input[type="text"],
+.rum-samtykke__form input[type="email"],
+.rum-samtykke__form input[type="tel"],
+.rum-samtykke__form input[type="date"],
+.rum-samtykke__form input:not([type]),
+.rum-samtykke__form textarea {
+  width: 100%;
+  font: inherit;
+  font-size: 16px;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(232, 224, 213, 0.22);
+  border-radius: 2px;
+  padding: 12px 14px;
+  margin-bottom: 6px;
+}
+.rum-samtykke__form textarea {
+  resize: vertical;
+}
+.rum-samtykke__tjek {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  min-height: 44px;
+  padding: 6px 0;
+  opacity: 1;
+  cursor: pointer;
+}
+.rum-samtykke__tjek input {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  margin: 2px 0 0;
+  accent-color: #c9a227;
+}
+.rum-samtykke__tjek span {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.rum-samtykke__foto {
+  margin-top: 8px;
+}
+.rum-samtykke__hint {
+  font-size: 0.85rem;
+  opacity: 0.6;
+  line-height: 1.5;
+  margin: 4px 0 0;
+}
+.rum-samtykke__fejl {
+  border-left: 3px solid #c4553d;
+  padding-left: 14px;
+  font-size: 0.95rem;
+}
+.rum-samtykke__print {
+  margin-top: 28px;
+}
+/* Honeypot: skjult for oejet og for skaermlaeseren, men udfyldt af bots. */
+.rum-samtykke__hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+/* Udskrift: kunden uden telefon udfylder den i haanden ved disken. */
+@media print {
+  .rum-samtykke__form button,
+  .rum-samtykke__print {
+    display: none;
+  }
+  .rum-samtykke__form input,
+  .rum-samtykke__form textarea {
+    border-bottom: 1px solid #000;
+  }
+}

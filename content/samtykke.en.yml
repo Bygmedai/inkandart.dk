@@ -1,0 +1,49 @@
+# The consent form — English. Same substance, own voice.
+#
+# Formen er Simones (Fra Simone, 31/8). Rettes frit; felterne selv bor i
+# lib/samtykke.ts, fordi de skal proeves.
+
+titel: Consent
+lede: >-
+  Fill this in before you come. Then we spend your chair time on the work
+  instead of on paperwork. Two minutes at home is ten minutes down here.
+dig: You
+dit_navn: Full name
+foedselsdato: Date of birth
+email: Email
+telefon: Phone
+arbejdet: The work
+kunstner: Artist
+placering: Where on the body
+motiv: What are we making
+motiv_hint: Describe it in your own words. Size, colour or black, what you have in mind.
+helbred: Health
+helbred_lede: >-
+  Tick anything that applies to you. It stays between us and your artist,
+  and it only changes how we go about it.
+helbred_valg:
+  - { id: gravid, tekst: I am pregnant or breastfeeding }
+  - { id: blodfortyndende, tekst: I take blood-thinning medication }
+  - { id: allergi, tekst: I am allergic to ink or latex }
+  - { id: hudlidelse, tekst: I have a skin condition or sensitive skin }
+  - { id: andet, tekst: Something else that might matter }
+helbred_note: Anything you want to add?
+erklaering: Declaration
+erklaering_valg:
+  - { id: atten, tekst: I am 18 or over. }
+  - { id: permanent, tekst: I understand a tattoo is permanent, and that removal is expensive and leaves a trace. }
+  - { id: aftercare, tekst: I will follow the aftercare I am given. It decides how this heals. }
+foto_ok: >-
+  You may use a photo of the finished work on the wall and on your channels.
+  A no costs nothing.
+send: Send
+sender: Sending
+tak_titel: Thank you
+tak: >-
+  We have it. Nothing more to do — just come to your appointment.
+fejl: >-
+  Something went wrong, and we would rather say so than pretend. Try again,
+  or fill it in down here when you arrive.
+fejl_felter: Something is missing above. Check the marked fields.
+print: Print it instead
+betingelser_linje: See the house terms as well.

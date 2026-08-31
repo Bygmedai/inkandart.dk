@@ -532,6 +532,54 @@ export function loadAftercareEn(): AftercareCopy {
   return readAftercare("aftercare.en.yml");
 }
 
+/** Samtykkeerklaeringens ord. Felterne selv bor i lib/samtykke.ts. */
+export type Valg = { id: string; tekst: string };
+export type SamtykkeCopy = {
+  titel: string; lede: string;
+  dig: string; dit_navn: string; foedselsdato: string; email: string; telefon: string;
+  arbejdet: string; kunstner: string; placering: string; motiv: string; motiv_hint: string;
+  helbred: string; helbred_lede: string; helbred_valg: Valg[]; helbred_note: string;
+  erklaering: string; erklaering_valg: Valg[]; foto_ok: string;
+  send: string; sender: string;
+  tak_titel: string; tak: string; fejl: string; fejl_felter: string;
+  print: string; betingelser_linje: string;
+};
+
+function valg(v: unknown): Valg[] {
+  if (!Array.isArray(v)) return [];
+  return v
+    .map((x) => ({ id: str((x as Valg)?.id), tekst: str((x as Valg)?.tekst) }))
+    .filter((x) => x.id && x.tekst);
+}
+
+function samtykke(fil: string): SamtykkeCopy {
+  const d = readYaml<Record<string, unknown>>(fil);
+  const t = (k: string) => str(d[k]);
+  return {
+    titel: t("titel"), lede: t("lede"),
+    dig: t("dig"), dit_navn: t("dit_navn"), foedselsdato: t("foedselsdato"),
+    email: t("email"), telefon: t("telefon"),
+    arbejdet: t("arbejdet"), kunstner: t("kunstner"), placering: t("placering"),
+    motiv: t("motiv"), motiv_hint: t("motiv_hint"),
+    helbred: t("helbred"), helbred_lede: t("helbred_lede"),
+    helbred_valg: valg(d.helbred_valg), helbred_note: t("helbred_note"),
+    erklaering: t("erklaering"), erklaering_valg: valg(d.erklaering_valg),
+    foto_ok: t("foto_ok"),
+    send: t("send"), sender: t("sender"),
+    tak_titel: t("tak_titel"), tak: t("tak"),
+    fejl: t("fejl"), fejl_felter: t("fejl_felter"),
+    print: t("print"), betingelser_linje: t("betingelser_linje"),
+  };
+}
+
+export function loadSamtykke(): SamtykkeCopy {
+  return samtykke("samtykke.yml");
+}
+
+export function loadSamtykkeEn(): SamtykkeCopy {
+  return samtykke("samtykke.en.yml");
+}
+
 /** Piercing-teksten (H6) — husets standardtekst, Decap-redigerbar. */
 /** Ingen `priser` her laengere. Piercingprisen ER en liste, ikke en
  *  saetning — den bor i content/piercing-priser.yml med ét tal og to
