@@ -136,9 +136,11 @@ export default async function ArtistPageEn({
                     {pi.titel}
                   </h2>
                   <p className="rum-body-copy rum-artist__bio">{pi.tekst}</p>
-                  {pi.priser ? (
-                    <p className="rum-label rum-artist__priser">{pi.priser}</p>
-                  ) : null}
+                  {/* Prislisten bor paa /piercing — ikke to kopier af den samme
+                      tabel. Doeren staar her, hvor kunden allerede er. */}
+                  <p className="rum-label rum-artist__priser">
+                    <a href="/en/piercing">See all piercing prices →</a>
+                  </p>
                 </>
               );
             })()}

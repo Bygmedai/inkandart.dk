@@ -1142,7 +1142,12 @@ test("S574 hullerne: tider i folden, FAQ på begge sprog, piercing-tekst, konsul
   assert.equal(loadFaq().sporgsmal.length, loadFaqEn().sporgsmal.length, "EN-FAQ følger DA");
   const pi = loadPiercing();
   assert.match(pi.tekst, /frihed|fejring|markør/i, "H6: teksten bærer Stevens vinkel");
-  assert.match(pi.priser, /efter aftale/i);
+  // «Priser efter aftale» er RETRAKTERET for piercing (Nizar/Steven 31/8).
+  // Den er rigtig for tatovering, hvor prisen aftales med kunstneren, og
+  // forkert for piercing, hvor prisen ER en liste. Huset lavede ~40
+  // piercinger om maaneden uden en eneste pris offentligt.
+  assert.equal(pi.priser, undefined, "den doede priser-noegle staar der endnu");
+  assert.doesNotMatch(read("lib/content.ts"), /priser: str\(d\.priser\)/, "loaderen laeser stadig en doed noegle");
   assert.match(loadBookingCopy().konsultation, /gratis og uforpligtende/, "H3: Iron & Ink-standarden");
   assert.equal(loadKontakt().instagram, "ink.and.art.cph", "H2: husets handle");
   const footer = read("components/rummet/Footer.tsx");
@@ -1317,9 +1322,13 @@ test("S574 EN-Stolen: artistsider på engelsk — men ingen oversat bio", async 
   // Piercing-teksten findes på engelsk med samme prisløfte.
   const { loadPiercing, loadPiercingEn } = await import("../lib/content.ts");
   assert.match(loadPiercingEn().tekst, /celebration|freedom|marker/i);
-  assert.match(loadPiercingEn().priser, /by agreement/i);
-  assert.match(loadPiercing().priser, /efter aftale/i);
-  assert.doesNotMatch(loadPiercingEn().priser, /\d{2,}/, "ingen pris vi ikke har sat");
+  assert.equal(loadPiercingEn().priser, undefined);
+  assert.equal(loadPiercing().priser, undefined);
+  // Prisen bor i content/piercing-priser.yml — ikke i broedteksten. Et tal
+  // i tekstfeltet ville vaere en syvende kopi der driver.
+  for (const pi of [loadPiercing(), loadPiercingEn()]) {
+    assert.doesNotMatch(pi.tekst, /\d{2,}\s*(kr|kroner|DKK)/i, "en pris er sivet ind i broedteksten");
+  }
 
   // Rute-familien: /stolen/<id> findes på engelsk, så links ikke falder til dansk.
   assert.match(read("lib/i18n.ts"), /EN_ROUTE_PREFIXES/);
@@ -1539,4 +1548,54 @@ test("Nizars bio staar ORDRET som Steven afgjorde — ingen haarde linjeskift", 
   for (const a of n.bio_en.split(/\n\s*\n/)) {
     assert.doesNotMatch(a, /\n/);
   }
+});
+
+/* ── Piercingpriser (S577) ─────────────────────────────────────────── */
+
+test("prisen findes ÉT sted — de to sprog kan ikke sige forskellige tal", async () => {
+  const { loadPiercingpriser } = await import("../lib/content.ts");
+  const da = loadPiercingpriser("da");
+  const en = loadPiercingpriser("en");
+
+  // Haruki bad om en test der fanger drift mellem to prislister. Den
+  // struktur findes ikke laengere: hver linje baerer sit tal ÉN gang og sit
+  // navn paa begge sprog. Derfor proever vi ikke for drift — vi proever at
+  // driften er umulig.
+  const tal = (p) => [...p.grupper.flatMap((g) => g.linjer.map((l) => l.pris)), ...p.tillaeg.map((l) => l.pris)];
+  assert.deepEqual(tal(da), tal(en), "to sprog, to tal-saet — kilden er delt igen");
+  assert.equal(da.grupper.length, en.grupper.length);
+  da.grupper.forEach((g, i) => assert.equal(g.linjer.length, en.grupper[i].linjer.length));
+
+  // Navnene ER oversat med vilje. Er de ens, er noget ikke blevet oversat.
+  assert.notEqual(da.grupper[0].gruppe, en.grupper[0].gruppe);
+
+  // Ingen halve priser: en linje uden tal eller uden navn vises ikke.
+  for (const p of [da, en]) {
+    for (const l of [...p.grupper.flatMap((g) => g.linjer), ...p.tillaeg]) {
+      assert.ok(Number.isFinite(l.pris) && l.pris > 0, `pris uden tal: ${l.navn}`);
+      assert.ok(l.navn, `linje uden navn: ${l.pris}`);
+    }
+  }
+});
+
+test("fladen lover fuld pris — intet tilbud i en yml-fil", () => {
+  // Intro-tilbuddet til de foerste 100 er markedsfoering og koerer paa
+  // Instagram. Et tilbud i en fil bliver staaende naar kampagnen stopper.
+  const src = read("content/piercing-priser.yml").replace(/^\s*#.*$/gm, "");
+  assert.doesNotMatch(src, /tilbud|rabat|spar |discount|offer/i, "et tilbud er sivet ind i prisfilen");
+});
+
+test("prislisten har sin egen rute paa begge sprog, og tabellen ruller alene", () => {
+  for (const f of ["app/(rummet)/piercing/page.tsx", "app/(rummet)/en/piercing/page.tsx"]) {
+    assert.ok(existsSync(join(root, f)), `${f} mangler`);
+  }
+  // Tabellen ruller i sin egen beholder; siden maa ikke skride sidelaens.
+  const css = read("components/rummet/rummet.css");
+  const rulle = css.slice(css.indexOf(".rum-priser__rulle {"));
+  assert.match(rulle.slice(0, 120), /overflow-x: auto/);
+  assert.match(css, /font-variant-numeric: tabular-nums/, "tallene staar ikke i kolonne");
+  // Rigtig tabel, ikke et grid: en skaermlaeser skal kunne sige
+  // «Septum, 499» frem for to loesrevne celler.
+  const komp = read("components/rummet/Prisliste.tsx");
+  assert.match(komp, /<th scope="row">/);
 });

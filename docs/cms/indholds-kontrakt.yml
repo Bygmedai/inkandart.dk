@@ -388,7 +388,8 @@ collections:
         fields:
           - { label: Titel, name: titel, widget: string }
           - { label: Tekst, name: tekst, widget: text }
-          - { label: Priser, name: priser, widget: string }
+          # «Priser» er FJERNET. Piercingprisen er en liste, ikke en
+          # sætning — se piercing_priser nedenfor.
 
       - label: Piercing (English)
         name: piercing_en
@@ -396,4 +397,52 @@ collections:
         fields:
           - { label: Titel, name: titel, widget: string }
           - { label: Tekst, name: tekst, widget: text }
-          - { label: Priser, name: priser, widget: string }
+
+      # Prislisten. ÉT tal, to navne — så de to sprog ikke kan sige
+      # forskellige priser. Sonja skal kunne rette en pris uden at røre
+      # GitHub; en prisliste hun ikke selv kan rette, bliver forkert.
+      #
+      # ⚠ DET KAN HUN IKKE I DAG. Decap er nedlagt (CMS-RULING-01, 31/8),
+      # og der findes endnu ingen afløser. Felterne står her, fordi de er
+      # den kontrakt HOUSE-CMS-01 skal opfylde — ikke fordi der er en flade
+      # at rette dem i. Indtil da går en prisændring gennem en PR.
+      - label: Piercingpriser
+        name: piercing_priser
+        file: content/piercing-priser.yml
+        fields:
+          - label: Intro
+            name: intro
+            widget: object
+            fields:
+              - { label: Dansk, name: da, widget: text }
+              - { label: English, name: en, widget: text }
+          - label: Prisgrupper
+            name: prisgrupper
+            widget: list
+            fields:
+              - label: Gruppe
+                name: gruppe
+                widget: object
+                fields:
+                  - { label: Dansk, name: da, widget: string }
+                  - { label: English, name: en, widget: string }
+              - label: Linjer
+                name: linjer
+                widget: list
+                fields:
+                  - { label: Pris i kroner, name: pris, widget: number, value_type: int, min: 1 }
+                  - { label: Dansk navn, name: da, widget: string }
+                  - { label: English name, name: en, widget: string }
+          - label: Tillæg
+            name: tillaeg
+            widget: list
+            fields:
+              - { label: Pris i kroner, name: pris, widget: number, value_type: int, min: 1 }
+              - { label: Dansk navn, name: da, widget: string }
+              - { label: English name, name: en, widget: string }
+          - label: Note
+            name: note
+            widget: object
+            fields:
+              - { label: Dansk, name: da, widget: text }
+              - { label: English, name: en, widget: text }

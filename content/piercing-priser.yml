@@ -1,0 +1,66 @@
+# Piercingpriser — ÉT tal, to sprog.
+#
+# Nizar har godkendt listen (Steven, 31/8 2026). Det er FULD PRIS. Intro-
+# tilbuddet til de første 100 er markedsføring og kører på Instagram; det
+# hører ikke hjemme i en fil på fladen.
+#
+# HVORFOR ÉN FIL OG IKKE TO. Haruki bad om en test der fanger drift mellem
+# en dansk og en engelsk prisliste — og skrev samtidig at en struktur hvor
+# tallet kun findes ét sted ville være bedre end testen. Den findes: hver
+# linje bærer sit tal én gang og sit navn på begge sprog. To lister kan
+# drive fra hinanden; én liste kan ikke.
+#
+# Navnene ER oversat med vilje — «Enkelt øreflip» og «Single lobe» er det
+# samme sted sagt til to mennesker. Tallet er ikke oversat, fordi 375 kr
+# er 375 kr.
+#
+# Retter nogen en pris, rettes den ét sted og slår igennem begge sprog.
+# Opdigt aldrig en pris. Er den ikke godkendt af huset, står den ikke her.
+
+intro:
+  da: >-
+    Faste priser. Anna sætter alle piercinger undtagen intime — og skifter
+    gerne det smykke du allerede har.
+  en: >-
+    Fixed prices. Anna does every piercing except intimate ones — and is
+    happy to change the jewellery you already wear.
+
+prisgrupper:
+  - gruppe: { da: "Øre", en: "Ear" }
+    linjer:
+      - { pris: 375, da: "Enkelt øreflip", en: "Single lobe" }
+      - { pris: 650, da: "Begge øreflipper", en: "Both lobes" }
+      - { pris: 425, da: "Helix, forward helix, flat, tragus, conch, rook, daith", en: "Helix, forward helix, flat, tragus, conch, rook, daith" }
+      - { pris: 499, da: "Snug, anti-tragus", en: "Snug, anti-tragus" }
+      - { pris: 599, da: "Industrial", en: "Industrial" }
+  - gruppe: { da: "Ansigt", en: "Face" }
+    linjer:
+      - { pris: 425, da: "Næsefløj", en: "Nostril" }
+      - { pris: 549, da: "Høj næse", en: "High nostril" }
+      - { pris: 499, da: "Septum", en: "Septum" }
+      - { pris: 499, da: "Øjenbryn", en: "Eyebrow" }
+      - { pris: 450, da: "Smiley", en: "Smiley" }
+      - { pris: 799, da: "Bridge", en: "Bridge" }
+  - gruppe: { da: "Læbe og mund", en: "Lip and mouth" }
+    linjer:
+      - { pris: 499, da: "Enkelt læbe — labret, medusa, monroe, madonna, vertical labret", en: "Single lip — labret, medusa, monroe, madonna, vertical labret" }
+      - { pris: 750, da: "Snake bites eller angel bites, begge sider", en: "Snake bites or angel bites, both sides" }
+      - { pris: 599, da: "Tunge", en: "Tongue" }
+  - gruppe: { da: "Krop", en: "Body" }
+    linjer:
+      - { pris: 499, da: "Navle", en: "Navel" }
+      - { pris: 499, da: "Nipple, enkelt", en: "Nipple, single" }
+      - { pris: 899, da: "Nipple, begge", en: "Nipples, both" }
+      - { pris: 599, da: "Surface eller dermal anchor", en: "Surface or dermal anchor" }
+
+tillaeg:
+  - { pris: 150, da: "Smykkeskift", en: "Jewellery change" }
+  - { pris: 50, da: "Fjernelse af smykke", en: "Jewellery removal" }
+
+note:
+  da: >-
+    Alle priser i kroner. Kender du ikke navnet på det sted du gerne vil
+    have, så kom forbi — kortet ligger på disken, og du kan pege.
+  en: >-
+    All prices in kroner. If you don't know the name of the placement you
+    want, come by — the map is on the counter, and you can point.

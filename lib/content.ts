@@ -533,17 +533,20 @@ export function loadAftercareEn(): AftercareCopy {
 }
 
 /** Piercing-teksten (H6) — husets standardtekst, Decap-redigerbar. */
-export type PiercingCopy = { titel: string; tekst: string; priser: string };
+/** Ingen `priser` her laengere. Piercingprisen ER en liste, ikke en
+ *  saetning — den bor i content/piercing-priser.yml med ét tal og to
+ *  navne. En doed noegle ville invitere den tilbage. */
+export type PiercingCopy = { titel: string; tekst: string };
 
 export function loadPiercing(): PiercingCopy {
   const d = readYaml<Partial<PiercingCopy>>("piercing.yml");
-  return { titel: str(d.titel), tekst: str(d.tekst), priser: str(d.priser) };
+  return { titel: str(d.titel), tekst: str(d.tekst) };
 }
 
-/** Samme tekst på engelsk — og samme prisløfte: efter aftale. */
+/** Samme tekst på engelsk. Prisen staar samme sted for begge sprog. */
 export function loadPiercingEn(): PiercingCopy {
   const d = readYaml<Partial<PiercingCopy>>("piercing.en.yml");
-  return { titel: str(d.titel), tekst: str(d.tekst), priser: str(d.priser) };
+  return { titel: str(d.titel), tekst: str(d.tekst) };
 }
 
 /** Bookingsidens ord. */
@@ -815,3 +818,48 @@ export function loadAabningstider(): Tidsrum[] {
   return normalizeTider(data.tider);
 }
 
+/* ── Piercingpriser ─────────────────────────────────────────────────────
+   Ét tal, to sprog. Nizar har godkendt listen; det er fuld pris.
+   Se hovedet i content/piercing-priser.yml for hvorfor det er ÉN fil. */
+
+export type Prislinje = { pris: number; navn: string };
+export type Prisgruppe = { gruppe: string; linjer: Prislinje[] };
+export type Piercingpriser = {
+  intro: string;
+  grupper: Prisgruppe[];
+  tillaeg: Prislinje[];
+  note: string;
+};
+
+function tosproget(raw: unknown, lang: "da" | "en"): string {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return "";
+  return str((raw as Record<string, unknown>)[lang] as string);
+}
+
+function prislinjer(raw: unknown, lang: "da" | "en"): Prislinje[] {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .map((l) => {
+      const o = (l ?? {}) as Record<string, unknown>;
+      return { pris: Number(o.pris), navn: str(o[lang] as string) };
+    })
+    // En linje uden tal eller uden navn paa DETTE sprog vises ikke. En halv
+    // pris er vaerre end ingen — kunden skal kunne regne med tallet.
+    .filter((l) => Number.isFinite(l.pris) && l.pris > 0 && l.navn);
+}
+
+export function loadPiercingpriser(lang: "da" | "en" = "da"): Piercingpriser {
+  const d = readYaml<Record<string, unknown>>("piercing-priser.yml");
+  const grupper = Array.isArray(d.prisgrupper) ? d.prisgrupper : [];
+  return {
+    intro: tosproget(d.intro, lang),
+    grupper: grupper
+      .map((g) => {
+        const o = (g ?? {}) as Record<string, unknown>;
+        return { gruppe: tosproget(o.gruppe, lang), linjer: prislinjer(o.linjer, lang) };
+      })
+      .filter((g) => g.gruppe && g.linjer.length > 0),
+    tillaeg: prislinjer(d.tillaeg, lang),
+    note: tosproget(d.note, lang),
+  };
+}
