@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { RummetShell } from "@/components/rummet/Shell";
 import { Plade } from "@/components/rummet/Plade";
 import { Bio } from "@/components/rummet/Bio";
+import { Tider } from "@/components/rummet/Tider";
 import { ArtistGalleri } from "@/components/rummet/Galleri";
 import {
   artistById,
@@ -97,6 +98,7 @@ export default async function ArtistPageEn({
                 <p className="rum-label rum-artist__insta">{c.bioIsDanish}</p>
               </>
             ) : null}
+            <Tider tider={artist.tider} t={c.tider} />
             {artist.instagram ? (
               <p className="rum-artist__insta">
                 <a
