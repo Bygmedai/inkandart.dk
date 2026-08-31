@@ -5,13 +5,22 @@
 - id: nizar
   fornavn: Nizar Saad
   haandvaerk: Tatovør & tegner · grundlægger
-  # [ORD-TJEK Steven] H7 30/8: «super dygtig tegner, overlader ofte
-  # arbejdet til de andre — pt Emma og et par skiftende». Skrevet om
-  # til kundens vinkel; ret frit i Decap.
+  # Nizars bio. Stevens kald 31/8: teksten fra appen skal staa her.
+  # Kopieret ORDRET fra inkandart-webshop, app/data/artists.ts:43 —
+  # den godkendte prototypes tekst. Ikke omskrevet, ikke forkortet.
+  #
+  # ERSTATTER H7-linjen fra 30/8 («Nizar tegner. Husets motiver starter
+  # paa hans bord, og stregen foeres af ham selv eller husets artister»),
+  # som var Harukis omskrivning af Stevens note om at Nizar ofte overlader
+  # arbejdet til de andre. Den oplysning staar IKKE i appens tekst.
+  # Villy har raabt op om det; Steven bestemmer om den skal tilbage.
   bio: >-
-    Nizar tegner. Husets motiver starter på hans bord, og stregen
-    føres af ham selv eller husets artister — se den på
-    @ink.and.art.cph.
+    Founder & Artist. Nogle mennesker finder deres vej — Nizar skabte
+    sin. Hans stil kan ikke sættes i én genre; den formes af mennesket
+    foran ham, af kemien, af fortællingen. For ham er en tatovering ikke
+    et motiv men et kapitel. Med Ink & Art bygger han ikke bare et
+    studie, men et sted hvor mennesker foreviger deres livshistorie —
+    én tatovering ad gangen.
   instagram: ink.and.art.cph
   periode: fast
   foto: /slots/S-04.jpg
