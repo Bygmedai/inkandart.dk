@@ -17,6 +17,12 @@ const fixture = JSON.parse(read("tests/fixtures/flash-drop-collection.json"));
  * knapheden i stykker uden at nogen kan se det.
  */
 
+// NB (Villy, S576): efter #245 A1 gaar den LEVENDE vej gennem
+// lib/lager-regler.ts, ikke gennem parseCollectionProductsMedSolgte.
+// Proeven nedenfor vogter derfor Groks parser, som Haruki har bedt om at
+// lade staa — men den vogter ikke laengere det /flash faktisk goer.
+// Den levende vej proeves i tests/lager.test.mjs. Sagt hoejt, fordi en
+// groen proeve der ikke maaler det man tror er vaerre end ingen proeve.
 test("et solgt motiv bliver stående — det filtreres IKKE fra", async () => {
   const { parseCollectionProductsMedSolgte, parseCollectionProducts } =
     await import("../lib/storefront.ts");
@@ -32,23 +38,31 @@ test("et solgt motiv bliver stående — det filtreres IKKE fra", async () => {
   assert.equal(hylden.length, 1, "hylden skjuler stadig det solgte");
 });
 
-test("solgt bliver til claimed — og claimed slukker købsknappen", () => {
-  // Siden gater knappen bag `sold`; claimed sættes af availableForSale.
-  const mod = read("lib/flash-drop.ts");
-  assert.match(mod, /claimed: !p\.availableForSale/);
+test("solgt bliver til claimed — og claimed slukker købsknappen", async () => {
+  // Adfaerd, ikke kildetekst: en «taget» vare skal komme ud som claimed OG
+  // uden variantId, saa siden ikke kan rende en koebsknap paa noget der er
+  // vaek — heller ikke ved en fejl i view-laget.
+  const { tilFlashPieces } = await import("../lib/lager-regler.ts");
+  const [taget] = tilFlashPieces([
+    { handle: "dolk", titel: "Dolk", billede: "", prisKr: 450, variantId: "1",
+      lager: { status: "taget", antal: 0, grund: "" } },
+  ]);
+  assert.equal(taget.claimed, true, "taget bliver til claimed");
+  assert.equal(taget.variantId, undefined, "et taget motiv baerer ingen variant");
+
   const side = read("app/(emerge)/flash/page.tsx");
   assert.match(side, /const sold = f\.oneOff && f\.claimed/);
   assert.match(side, /sold \? \(/, "solgt viser «Taget», ikke en købsknap");
 });
 
 test("hvert motiv er et one-off — vej A, ét motiv én gang", () => {
-  assert.match(read("lib/flash-drop.ts"), /oneOff: true/);
+  assert.match(read("lib/lager-regler.ts"), /oneOff: true/);
 });
 
 test("Storefront tavs ⇒ fallback, ikke en gætte-hylde", () => {
   // Uden env eller ved fejl falder vi tilbage til lib/flash.ts, som er tom,
   // og siden siger ærligt at næste drop er på vej (rails §4).
-  assert.match(read("lib/flash-drop.ts"), /if \(!coll\.ok\) return flash;/);
+  assert.match(read("lib/flash-drop.ts"), /if \(!svar\.ok\) return flash;/);
   assert.match(read("lib/flash.ts"), /export const flash: FlashPiece\[\] = \[\]/);
 });
 
@@ -58,11 +72,18 @@ test("kollektionens navn står ét sted", () => {
   assert.equal([...kode.matchAll(/flash-drop-01/g)].length, 1);
 });
 
-test("prisen kommer fra Shopify — ikke fra en fil i repoet", () => {
-  const mod = read("lib/flash-drop.ts");
-  assert.match(mod, /priceKr: Math\.round\(Number\(p\.priceAmount\)/);
-  // Ingen hardcodede beløb: priserne er Emmas, og de bor i butikken.
-  assert.doesNotMatch(mod, /priceKr: \d/);
+test("prisen kommer fra Shopify — ikke fra en fil i repoet", async () => {
+  const { tilFlashPieces } = await import("../lib/lager-regler.ts");
+  const [ledig] = tilFlashPieces([
+    { handle: "rose", titel: "Rose", billede: "", prisKr: 812, variantId: "9",
+      lager: { status: "ledig", antal: 1, grund: "" } },
+  ]);
+  assert.equal(ledig.priceKr, 812, "prisen kommer fra butikken, uaendret");
+
+  // Ingen hardcodede beloeb: priserne er Emmas, og de bor i butikken.
+  // (0 er tilladt — det er «taget», altsaa fravaeret af en pris.)
+  const kode = read("lib/lager-regler.ts").replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*$/gm, "");
+  assert.doesNotMatch(kode, /priceKr: [1-9]/);
 });
 
 test("et solgt motiv viser ingen pris — «Taget» er hele beskeden", () => {

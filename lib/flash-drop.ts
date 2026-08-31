@@ -1,5 +1,6 @@
 import { flash, type FlashPiece } from "@/lib/flash";
-import { productsInCollectionMedSolgte } from "@/lib/storefront";
+import { flashVarer } from "@/lib/lager";
+import { tilFlashPieces } from "@/lib/lager-regler";
 
 /**
  * Flash-droppet hentes fra Shopify-kollektionen `flash-drop-01`.
@@ -26,25 +27,18 @@ import { productsInCollectionMedSolgte } from "@/lib/storefront";
  * oprindelige sætning «når et motiv er væk, er det væk, og siden siger
  * det». Skal det helt af siden, er det ét flag her.
  *
+ * FAIL-CLOSED (Haruki #245 A1, S576). Et motiv vises kun hvis dets variant
+ * kan BEVISE at den er ét stykke. Et utrakteret lager svarer «til salg» for
+ * evigt, og så kunne det samme unikke motiv sælges ti gange. Beviset og
+ * begrundelserne bor i lib/lager-regler.ts; her er indgangen, og loggen
+ * siger hvem der blev holdt ude og hvorfor.
+ *
  * Svarer Storefront ikke — ingen env, fejl, timeout, ingen kollektion —
  * falder vi tilbage til lib/flash.ts. Den er tom, og så siger siden ærligt
  * at næste drop er på vej. Bedre en tom hylde end en gætte-hylde (rails §4).
  */
 export async function hentFlashDrop(): Promise<FlashPiece[]> {
-  const coll = await productsInCollectionMedSolgte("flash-drop-01");
-  if (!coll.ok) return flash;
-
-  return coll.products.map((p) => ({
-    id: p.handle,
-    title: p.title,
-    // Artist og størrelse hører til motivet; indtil Shopify bærer dem
-    // struktureret, står de i navnet. Vises ikke som tomme felter.
-    artist: "",
-    size: "M" as const,
-    priceKr: Math.round(Number(p.priceAmount) || 0),
-    img: p.imageUrl,
-    variantId: p.variantNumericId,
-    oneOff: true,
-    claimed: !p.availableForSale,
-  }));
+  const svar = await flashVarer("flash-drop-01");
+  if (!svar.ok) return flash;
+  return tilFlashPieces(svar.varer);
 }
