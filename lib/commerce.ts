@@ -264,6 +264,33 @@ export function nattespotCartUrl(): string {
 }
 
 /**
+ * Fredagsflash — hver fredag 18–24 (Haruki, #245 B1/B2. Villy, S576).
+ *
+ * Tid og priser står ÉT sted, fordi Nizar skal kunne bede om «19–01» uden
+ * at nogen leder i tre filer. Kopierer du et af tallene ud i copy, har du
+ * lavet det andet sted de kan drive fra hinanden.
+ *
+ * Produktet er DRAFT indtil Steven tænder det (Aktiv + udgivet til Webshop
+ * og Inkandart Headless). Indtil da renderer blokken uden knap — se
+ * `variantLager()` i lib/lager.ts. Det er ikke en fejltilstand; det er den
+ * rigtige tilstand for en reservation huset endnu ikke har sagt ja til.
+ */
+export const FREDAGSFLASH = {
+  dag: "fredag",
+  aabner: "18",
+  lukker: "24",
+  lilleKr: 450,
+  mellemKr: 800,
+  depositumKr: 300,
+  variantId: "53935797338440",
+  handle: "fredagsflash-hold-en-plads",
+} as const;
+
+export function fredagsflashCartUrl(): string {
+  return cartUrl(FREDAGSFLASH.variantId);
+}
+
+/**
  * RÅB (Haruki, S574 — Sirius P0-1): ny append-only-blok i Vildes fil.
  *
  * Alle varianter der TÆLLER som et depositum. Bruges af verifikationen
@@ -279,5 +306,9 @@ export function depositumVarianter(): ReadonlySet<string> {
     // Nattespot er et depositum. Uden denne linje betaler kunden 300 kr og
     // faar at vide at ordren ikke er en holdt tid (Harukis raab ovenfor).
     NATTESPOT.variantId,
+    // Fredagsflash ogsaa: 300 kr der «traekkes fra i stolen» ER et depositum.
+    // Uden linjen her betaler kunden og faar at vide at ordren ikke er en
+    // holdt plads.
+    FREDAGSFLASH.variantId,
   ]);
 }

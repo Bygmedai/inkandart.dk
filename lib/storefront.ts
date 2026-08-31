@@ -72,7 +72,7 @@ function endpoint(cfg: StorefrontConfig): string {
   return `https://${cfg.domain}/api/${API_VERSION}/graphql.json`;
 }
 
-async function storefrontQuery(
+export async function storefrontQuery(
   query: string,
   variables: Record<string, unknown>,
 ): Promise<Record<string, unknown> | null> {

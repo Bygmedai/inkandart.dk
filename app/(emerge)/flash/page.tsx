@@ -4,6 +4,7 @@ import { SIZE_LABEL } from "@/lib/flash";
 import { hentFlashDrop } from "@/lib/flash-drop";
 import { cartUrl, kr } from "@/lib/commerce";
 import { BlackbookSignup } from "@/components/emerge/BlackbookSignup";
+import { Fredagsflash } from "@/components/emerge/Fredagsflash";
 
 import { SkipLink } from "@/components/i18n/SkipLink";
 import { Masthead } from "@/components/brand/Masthead";
@@ -115,6 +116,8 @@ export default async function FlashPage() {
           <BlackbookSignup source="flash" />
         </section>
       )}
+
+      <Fredagsflash />
 
       <section className="mt-12" aria-labelledby="flash-how">
         <h2
