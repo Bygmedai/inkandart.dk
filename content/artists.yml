@@ -5,14 +5,38 @@
 - id: nizar
   fornavn: Nizar Saad
   haandvaerk: Tatovør & tegner · grundlægger
-  # [ORD-TJEK Steven] H7 30/8: «super dygtig tegner, overlader ofte
-  # arbejdet til de andre — pt Emma og et par skiftende». Skrevet om
-  # til kundens vinkel; ret frit i Decap.
+  # Nizars bio. Stevens kald 31/8: teksten fra appen skal staa her.
+  # Kopieret ORDRET fra inkandart-webshop, app/data/artists.ts:43 —
+  # den godkendte prototypes tekst. Ikke omskrevet, ikke forkortet.
+  #
+  # ERSTATTER H7-linjen fra 30/8 («Nizar tegner. Husets motiver starter
+  # paa hans bord, og stregen foeres af ham selv eller husets artister»),
+  # som var Harukis omskrivning af Stevens note om at Nizar ofte overlader
+  # arbejdet til de andre. Den oplysning staar IKKE i appens tekst.
+  # Villy har raabt op om det; Steven bestemmer om den skal tilbage.
   bio: >-
-    Nizar tegner. Husets motiver starter på hans bord, og stregen
-    føres af ham selv eller husets artister — se den på
-    @ink.and.art.cph.
+    Founder & Artist. Nogle mennesker finder deres vej — Nizar skabte
+    sin. Hans stil kan ikke sættes i én genre; den formes af mennesket
+    foran ham, af kemien, af fortællingen. For ham er en tatovering ikke
+    et motiv men et kapitel. Med Ink & Art bygger han ikke bare et
+    studie, men et sted hvor mennesker foreviger deres livshistorie —
+    én tatovering ad gangen.
   instagram: ink.and.art.cph
+  # [ORD-TJEK Steven 31/8] — UDKAST. Egen stemme, ikke en ord-for-ord-
+  # oversaettelse; samme substans og samme laengde som den danske.
+  #
+  # NB: husets regel (S574, lib/content.ts) siger at en bio ALDRIG
+  # oversaettes — den er et menneskes egne ord. Stevens kald 31/8
+  # goer undtagelsen, med den begrundelse at den danske tekst er
+  # prototypens marketingtekst og ikke Nizars egne ord. Sig til hvis
+  # reglen skal staa uroert, saa ryger dette felt ud igen.
+  bio_en: >-
+    Founder & Artist. Some people find their path — Nizar made his. His
+    style will not sit in one genre; it takes shape from the person in
+    front of him, from the chemistry, from the story. To him a tattoo is
+    not a motif but a chapter. With Ink & Art he is not just building a
+    studio, but a place where people set their life story down for
+    good — one tattoo at a time.
   periode: fast
   foto: /slots/S-04.jpg
   billedtekst: Nizar Saad foran husets skilt.
