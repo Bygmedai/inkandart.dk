@@ -1,239 +1,268 @@
 # Forslag: vejen fra booking til stolen
 
 **Type:** forslag — docs-only, ingen kode
-**Til review:** Sirius · **Bygger:** Villy · **Merge-gate:** Steven
-**Dato:** 1/9 2026 (S578)
-**Acceptkriterier:** `docs/accept/samtykke-flow.md` (UDKAST, PR #280)
+**Version:** v2, revideret efter Sirius' review af PR #280
+**Bygger:** Villy · **Review:** Sirius · **Beslutning:** Steven
+**Acceptkriterier:** `docs/accept/samtykke-flow.md` (UDKAST v2)
 
 **Stevens bestilling, ordret:**
 
 > «En kunde skal have en automatiseret vej fra booking, via samtykke, til at
-> møde op i butikken. Hvor artisten skal kunne se alt, for at kunne hjælpe
-> kunden med at få sat den rigtige tus, det rigtige sted og også at kunne
-> rådgive såfremt der er ting der skal tages hensyn til, som kunden har
-> beskrevet om sin krop og sig selv, og som kan være i modstrid med kundens
-> eget ønske.»
-
-Og: *«Drop at fixe løgnen, da vi ingen kunder har pt. Vi bygger det rette flow.»*
+> møde op i butikken. Hvor artisten skal kunne se alt … også at kunne rådgive
+> såfremt der er ting der skal tages hensyn til, som kunden har beskrevet om
+> sin krop og sig selv, og som kan være i modstrid med kundens eget ønske.»
 
 ---
 
 ## 0. Hvad der er målt, og hvad der er antaget
 
-Alt i dette afsnit er målt 1/9 2026 mod produktion og mod koden på `main`.
-Intet af det er læst i en README.
+Alt i dette afsnit er efterprøvet 1/9 2026 mod produktion og mod koden på
+`main`. Intet af det er læst i en README.
 
 | Påstand | Sådan er den efterprøvet |
 |---|---|
-| Stevens erklæring blev aldrig gemt | Shopify Admin API: ingen kunde oprettet eller opdateret 1/9. Nyeste `updatedAt` = 2026-08-31T23:32:41Z (Harukis røgtest). `steven.wensley@gmail.com` sidst rørt 22/8 |
+| Stevens erklæring blev aldrig gemt | Shopify Admin API: ingen kunde oprettet eller opdateret 1/9. Nyeste `updatedAt` = 2026-08-31T23:32:41Z (Harukis røgtest). Bekræftet af Stevens eget skærmbillede: ingen tag, ingen note, intet metafelt |
 | Fladen lyver ikke selv | `SamtykkeFlade.tsx:56` — `if (res.ok) setTilstand("tak")`. Serveren svarede altså 200 |
 | Serveren svarer 200 uden at skrive | `app/api/samtykke/route.ts`: `const kendt = …includes("taken"); if (!skabt?.customer?.id && !kendt) return 502;` → derefter `return svar(200, {ok:true})` |
 | Røgtesten ramte aldrig fejlen | Den brugte `roegtest-samtykke@bygmedai.dk` — en frisk adresse. `customerCreate` lykkes; «taken»-vejen blev aldrig kørt |
-| Der sendes ingen mail | Ingen mail-kode i `app/api/samtykke/route.ts`. Grep efter nodemailer/resend/postmark/sendgrid/mailto: → 0 træf i ruten |
+| Der sendes ingen mail | Ingen mail-kode i ruten. Grep efter nodemailer/resend/postmark/sendgrid/mailto: → 0 træf |
 | `/booking` og `/samtykke` kender ikke hinanden | 0 krydsreferencer i begge retninger |
 | Huset kan allerede det rigtige greb | `/api/subscribe:433` — «Om det betyder ‹findes allerede› afgøres **IKKE** ved at læse fejlteksten» → den slår kunden op og opdaterer |
 
-**Ironien er værd at bemærke:** samtykke-ruten kopierede token-vekslingen fra
-`/api/subscribe` og skriver det selv i sin header. Den kopierede hærdningen,
-men ikke opslaget.
-
 **Antaget, ikke målt:** at Steven brugte en mailadresse der fandtes i forvejen.
 Det er den eneste vej der giver 200 uden en skrivning, men jeg har ikke set
-hans indtastning. Falder den antagelse, falder årsagsforklaringen — ikke
-fundet.
+hans indtastning.
 
 ---
 
-## 1. Tre bindinger. De er ikke til forhandling, og de former designet
+## 1. Tre bindinger. De former designet
 
-**B1 — Book.dk er ikke vores.** `app/(rummet)/booking/page.tsx:25` siger det
-selv: *«Book.dk kan ikke deep-linke.»* Bookingen er gratis og sker på et
-fremmed system. Vi ejer hverken dens data eller dens mails.
+**B1 — Book.dk er ikke vores.** `app/(rummet)/booking/page.tsx:25`:
+*«Book.dk kan ikke deep-linke.»*
 
-**B2 — Kunden skriver aldrig et referencenummer.** Husets eget kald i
-`content/booking.yml`: *«mailadressen står allerede i både Book.dk og
-Shopify, og det er den vi afstemmer på.»*
+**B2 — Kunden skriver aldrig et referencenummer.** `content/booking.yml`:
+*«mailadressen står allerede i både Book.dk og Shopify, og det er den vi
+afstemmer på.»*
 
 **B3 — `inkandart.dk` har ingen login.** Ingen brugerkonti, ingen
-adgangsstyring. En side med en kundes helbredsoplysninger kan derfor ikke
-ligge her. Og CLAUDE.md: **0 credentials, nogensinde.**
+adgangsstyring. Og CLAUDE.md: **0 credentials, nogensinde.**
 
 ---
 
-## 2. Den ene ubekendte der afgør hvilket flow vi overhovedet kan bygge
+## 2. Sirius' review — hvad der holder
 
-**Kan Book.dks bekræftelsesmail bære vores link — og kan den bære bookingens
-eget referencenummer i URL'en?**
+Jeg har vurderet punkterne enkeltvis. **Syv af dem holder**, og et af dem er
+skarpere end min egen analyse:
 
-Det spørgsmål har to svar, og de giver to forskellige produkter:
+**2.1 Tags er selv helbredsoplysninger.** Mit v1-forslag om
+`blodfortyndende`, `gravid`, `pigment-allergi` som Shopify-tags var forkert.
+Et tag er synligt i lister, i søgning, i eksporter og for enhver app med
+kunde-scope. **Trukket tilbage uden forbehold.**
 
-### Vej A — Book.dk kan kun bære et fast link
+**2.2 Vej A er ikke en tastefejlsrisiko — det er en identitetsfejl.** Dette
+er reviewets bedste fund, og jeg gik forbi det. Med mail + dato kan
+**enhver der kender en kundes mailadresse** aflevere helbredsoplysninger på
+den kundes profil. Jeg skrev at AC2 gjorde en tastefejl «synlig». Det er
+den forkerte ramme. Han har ret.
 
-Kunden får `inkandart.dk/samtykke` og skriver selv **mailadresse + aftalens
-dato**. Koblingen er kundens hukommelse.
+**2.3 «Ren kunde tier» er en farlig nul-tilstand.** Det stikker, fordi det
+er præcis den fejltype jeg selv har jagtet hele dagen: en tom skærm ser ens
+ud, uanset om kunden er rask eller om erklæringen mangler. Fire eksplicitte
+tilstande i stedet.
 
-- Billig. Ingen integration. Kan bygges i dag.
-- **Svag.** En tastefejl i datoen giver en erklæring der peger på den forkerte
-  dag, og ingen opdager det før kunden står ved stolen.
-- AC2 gør fejlen **synlig**; den forhindrer den ikke. Det er en reel svaghed,
-  ikke en formalitet.
+**2.4 Gyldighed skal skilles fra sletning.** Et fejlet oprydningsjob må
+aldrig forlænge en gyldighed. Rigtigt og vigtigt.
 
-### Vej B — Book.dk kan bære variabler i mailskabelonen
+**2.5 AC8 var for svag.** Privat fane måler kun anonym adgang. De rigtige
+risici er en uautoriseret medarbejder, et genbrugt link, og lækage i URL,
+emnefelt, analytics og logs.
 
-Kunden får `inkandart.dk/samtykke?ref=<bookingens eget id>`. Vi gemmer
-referencen ordret og aldrig andet.
+**2.6 AC6 manglede tidsvindue, tidszone, flytning og flerdags-sessioner.**
 
-- **Stærk.** Erklæringen er bundet til aftalen af systemet, ikke af kunden.
-- Kræver at nogen åbner Book.dks mailskabelon og ser efter.
-- Ændrer ikke vores kode ret meget — feltet er bare forudfyldt og skrivebeskyttet.
+**2.7 Acceptkriterier må ikke navngive et system.** v1 skrev «Shopify» ind i
+tre af dem. Det var en implementering forklædt som et krav.
 
-**Min anbefaling:** Vej B, hvis den findes. Og **den afklaring koster
-minutter og skal hjem før første commit** — ikke bagefter. Det er den
-billigste risikoreduktion i hele opgaven.
+Alle syv er ført ind i `docs/accept/samtykke-flow.md` v2.
 
-**Bygger vi Vej A først, skal skemaet designes så Vej B kan sættes i uden at
-kunden mærker det:** samme felt, forudfyldt i stedet for tomt.
+**Om de juridiske henvisninger:** jeg tager rammen — helbredsoplysninger er
+en særlig kategori, og principperne i artikel 5 gælder. Jeg har ikke
+efterprøvet de konkrete sider, og jeg vejer dem ikke. **Det gør en jurist —
+hverken han eller jeg.**
 
 ---
 
-## 3. Forslaget
+## 3. Fire steder hvor jeg ikke følger ham
+
+### K1 — Model 3 gør huset selv til databehandler for helbredsdata
+
+Sirius afviser Shopify som journal (rigtigt) og mail som alternativ
+(rigtigt) — og foreskriver så en **selvbygget vault** med
+adgangsbegrænsede medarbejderroller, servergenererede engangs-tokens,
+sletning med retry, overvågning og revisionsspor.
+
+Det ville blive **det mest sikkerhedskritiske system huset ejer.** Bygget af
+fire agenter i højt tempo, uden en sikkerhedsansvarlig, i et repo hvis
+hårdeste skinne er *0 credentials, nogensinde*, på et site der i dag ikke
+har så meget som ét login.
+
+Og bemærk hans egen liste over hvad juraen skal afgøre: den indeholder
+**databehandlerforhold**. En selvbygget vault har ingen databehandler at
+pege på — **vi bliver den selv**, for særlige kategorier af persondata.
+
+Han fjerner én risiko og installerer en større uden at veje den. Det er
+ikke en indvending mod hans diagnose; det er en indvending mod hans recept.
+
+### K2 — Han låser arkitekturen i samme åndedrag som han siger «jura først»
+
+Hvis behandlingsgrundlag, artikel 9-undtagelse, adgangskreds,
+databehandlerforhold og opbevaringsfrist alle er ubesvarede — og det er
+hans egne ord — så er **Model 3 lige så for tidlig som Model 1.**
+
+Det juridiske svar kan selv afgøre hvor data må ligge. Falder det ud til at
+det eneste holdbare grundlag kræver en databehandler med en aftale, er en
+selvbygget vault ude, uanset hvor pænt den er tegnet.
+
+Man kan ikke sige «ingen kode før jura» og samtidig fastlægge arkitekturen.
+
+### K3 — Ingen af hans fire Book.dk-spørgsmål spørger om vi allerede ejer løsningen
+
+Alle fire handler om **integration**: variabler, webhooks, tokens. Ingen af
+dem spørger om Book.dk simpelthen skal **holde** erklæringen.
+
+Målt i dag, ordret fra `book.dk/funktioner/journalsystem`:
+
+> «Med vores intuitive **journalsystem** får du nem adgang til al
+> kundeinformation og **behandlingshistorik** samlet ét sted.»
+
+> «Systemet understøtter også **digital underskrift**, så du nemt kan
+> **indhente samtykke** fra dine klienter.»
+
+> «Sikker opbevaring af **personfølsomme data** med fokus på datasikkerhed
+> og overholdelse af alle GDPR-krav.»
+
+> «Alle data er **krypteret** både under transmission og lagring.»
+
+> «Du kan tilpasse systemet til netop dine behov med **skabeloner**,
+> quick-notes og genveje.»
+
+Og forsiden kalder produktet: *«Professionelt Booking, Kasse &
+journalsystem.»*
+
+**Huset betaler allerede for et journalsystem med digital underskrift til
+samtykke, krypteret opbevaring af personfølsomme data og skabeloner — i det
+system hvor bookingen i forvejen bor.**
+
+### Model 0 — erklæringen bor der hvor bookingen bor
 
 ```
-1  Kunden booker på Book.dk                         gratis, uændret
-2  Bekræftelsen bærer link til /samtykke            ← INDSTILLING, ikke kode
-3  Kunden udfylder hjemmefra
-4  Kvittering til KUNDEN — hele erklæringen ordret
-5  Erklæringen på kundekortet i Shopify
-      + modstrid som TAG                            ← ses uden at åbne noget
-6  Ved stolen: artisten slår op på mailadressen
+Book.dk: booking  →  journalpost på DEN booking  →  digital underskrift
+                                ↓
+                  artistens skærm ER journalen (har allerede logins)
+                                ↓
+              Shopify: rører aldrig en helbredsoplysning
 ```
 
-**Trin 2 er ikke kode.** Det er en indstilling i Book.dk. Kan systemet det
-ikke, falder flowet tilbage til at huset sender linket — og så skal vi vide
-**hvem** der gør det og **hvornår**, ellers er «automatiseret vej» et ord
-uden dækning.
+Hvad Model 0 løser, uden at vi bygger noget:
 
----
-
-## 4. Designvalg, med det jeg fravalgte
-
-### 4.1 Pakken bor i Shopify admin
-
-**Valgt:** kundekortet i Shopify — tags, note og et metafelt.
-
-| Fravalgt | Hvorfor |
+| | |
 |---|---|
-| Login på `inkandart.dk` | Ny brugerdatabase, nye adgangskoder, ny angrebsflade — for at vise noget Sonja allerede har et system til. Bryder B3 og husets 0-credentials-regel |
-| Et tredje system (Notion, Airtable) | Endnu en flade at vedligeholde, endnu et sted helbredsdata ligger, endnu en konto der kan miste adgang |
+| **Identitetsbindingen** | intrinsisk. Journalposten hænger på bookingen, ikke på en mailadresse nogen har tastet. Præcis den fejl Sirius fandt — **uden et token-system** |
+| **«Én skærm»** | journalen ER skærmen, og den har allerede medarbejderlogins og roller |
+| **Ingen helbredsdata i Shopify** | de kommer aldrig i nærheden |
+| **Databehandlerforholdet** | Book.dk er den naturlige modpart. Vi bliver ikke selv behandler |
+| **Ny angrebsflade** | ingen. Ingen vault, ingen nye konti, intet nyt sted hvor helbredsdata kan lække |
 
-Sonja er i Shopify hver dag. Kunden findes der i forvejen. Det er det eneste
-sted der allerede har konti, adgangsstyring og en logbog.
+**Det Model 0 sandsynligvis ikke kan:** råbe modstriden op. Automatisk at
+sammenholde «blodfortyndende» med «stor flade» er næppe en færdig funktion i
+et salon-journalsystem. **Det er formentlig hele vores byggeopgave** — og
+den kan vise sig at være en skabelon og en husregel frem for kode.
 
-### 4.2 Modstrid som tag, ikke kun som tekst
+**Hvad jeg IKKE ved, og som afgør det hele.** Alt ovenfor står på Book.dks
+egne markedsføringssider. Jeg har ingen konto. Jeg kan ikke efterprøve:
 
-Et afkrydsningsfelt blandt fem andre bliver overset. Et **tag** står øverst
-på kundekortet og kan ses uden at åbne noget.
+- om journalen kan bære **vores felter** (motiv, placering, størrelse,
+  helbred i egne ord) — siden nævner skabeloner, ikke frie felter
+- om **kunden** kan få sin egen kopi
+- om artisten kan åbne den **på en telefon ved stolen**
+- om der findes en **databehandleraftale**
+- hvad «GDPR-overholdelse» konkret dækker
 
-Udkast til reglerne — **de skal godkendes af nogen der sætter tusch i
-mennesker til daglig, ikke af mig:**
+Og ét direkte hul: **siden nævner ingen sletteprocedure.** Kun automatisk
+backup. Mod Sirius' krav om opbevaringsbegrænsning er det et åbent
+spørgsmål, ikke et svar.
 
-| Kunden har oplyst | Sammen med | Tag |
+**Derfor er Model 0 ikke en konklusion. Det er en måling der mangler** — og
+den koster tyve minutter inde i en konto vi allerede betaler for. Den bør
+foretages før nogen tegner en vault.
+
+### K4 — «Byg ikke Vej A» fjerner en nødvej uden at nævne en anden
+
+Hans spørgsmål 4 er det rigtige: *hvem sender invitationen, hvis intet kan
+automatiseres?* Men reviewet forbyder den eneste nødvej der var beskrevet,
+og sætter ikke en anden i stedet. Så står vi uden flow hvis Book.dk siger nej.
+
+**Mit svar:** nødvejen er ikke at kunden taster sin egen mail. Det er at
+**huset udsteder linket.**
+
+Book.dks notifikation lander allerede i `booking@inkandart.dk` med kundens
+navn — det ses i Stevens indbakke: *«Book.dk Booking Service · Ny booking
+notifikation — Reeve Jensen.»* Adressen kommer altså **fra bookingsystemet,
+ikke fra den der åbner formularen.** Et engangslink udstedt af os til den
+adresse bevarer identitetsbindingen uden at Book.dk skal kunne noget som
+helst med skabeloner.
+
+Det er svagere end Model 0 og svagere end en ægte token fra Book.dk. Det er
+**ikke** Vej A.
+
+---
+
+## 4. Hvad der skal måles nu — revideret rækkefølge
+
+Sirius' fire spørgsmål er gode, men de starter ét trin for sent.
+
+| # | Spørgsmål | Hvem |
 |---|---|---|
-| gravid | hvad som helst | `stop-tal-med-kunden` |
-| blodfortyndende | stor flade / lang session | `oeget-bloedning` |
-| allergi | farvet motiv | `pigment-allergi` |
-| hudlidelse | placeringen den sidder på | `hud-paa-stedet` |
-| under 18 | hvad som helst | hård spærring, ikke et tag |
+| **0** | **Kan Book.dks journal bære erklæringen?** Egne felter, kundens kopi, artistens visning på telefon, sletning, databehandleraftale | Steven eller Sonja, inde i kontoen |
+| 1 | Kan Book.dk indsætte booking-ID, dato, mail og artist som variabler? | — kun hvis 0 falder |
+| 2 | Kan den kalde webhook/API ved oprettelse, flytning og aflysning? | — kun hvis 0 falder |
+| 3 | Kan vi udstede en engangs-token pr. booking? | — kun hvis 0 falder |
+| 4 | Hvis nej til alt: huset udsteder linket (K4) | Steven |
 
-**Negativ kontrol i AC5:** en kunde uden helbredssvar får **ingen** tags.
-Ellers betyder et tag ingenting.
-
-**Dette er ikke medicinsk rådgivning.** Listen råber; den beslutter ikke.
-Artistens dømmekraft står over den.
-
-### 4.3 Fail-closed på kvitteringen
-
-Dagens fejl i én sætning: **fladen sagde «vi har den» før den havde den.**
-
-Forslaget vender rækkefølgen om: fladen siger først «vi har den» når
-erklæringen **er skrevet** og kvitteringen **er sendt**. Alt andet siger det
-som det er.
-
-Og skrivningen bruger `/api/subscribe`s greb: **slå kunden op på mail og
-opdatér.** Aldrig at læse en fejltekst og gætte.
+**Spørgsmål 0 kan spare hele opgaven.** Det er den billigste måling i
+projektet, og den kræver et login jeg ikke har og ikke skal have.
 
 ---
 
-## 5. Den spænding jeg ikke kan løse alene — Sirius, den er til dig
+## 5. Hvad jeg beder om svar på
 
-**AC4 siger: artisten skal se alt på én skærm.**
-**Dataminimering siger: læg så lidt følsomt i CRM'et som muligt.**
-
-De trækker hver sin vej, og jeg kan ikke afgøre det på egen hånd:
-
-### Model 1 — alt på kundekortet
-
-Helbredssvar og kundens egne ord ligger i Shopify-metafeltet.
-
-- AC4 er triviel. Én skærm, alt er der.
-- Særlige kategorier af persondata ligger permanent i et **markedsføringssystem**
-  ved siden af nyhedsbrevs-tags. Alle med Shopify-adgang kan læse dem.
-
-### Model 2 — kun flag i CRM'et, detaljen i mailen
-
-Kundekortet bærer `samtykke · 2026-09-14` og modstrids-tags. De frie ord om
-krop og helbred lever kun i mailen til kunden og til `booking@inkandart.dk`.
-
-- Markant mindre følsom data i CRM'et, og den udløber med indbakkens egne regler.
-- AC4 bliver **to** steder at kigge — præcis det Steven bad om at undgå.
-
-**Jeg foreslår Model 1 med tre betingelser**, og jeg vil gerne modsiges:
-
-1. Metafeltet får en **udløbsregel** — erklæringen slettes N dage efter
-   aftalen. N er Stevens tal.
-2. Privatlivspolitikken siger det **før** vi gemmer noget: hvad vi gemmer,
-   hvor længe, og hvordan man får det slettet.
-3. Ingen helbredsdata i **tags** ud over den grove modstrid. Et tag er
-   synligt overalt i Shopify, også i eksporter og lister.
-
-**Grunden til at jeg lander på Model 1:** en artist der skal kigge to steder,
-kigger ét sted. Så er sikkerheden vundet på papiret og tabt ved stolen. Men
-det er et argument om menneskers adfærd, ikke om jura, og det er præcis den
-slags argument der bør efterprøves af en anden end den der fandt på det.
+1. **Model 0 mod Model 3.** Er det rigtigt at måle Book.dks journal før vi
+   tegner en vault? Jeg mener ja, og K1 er min begrundelse.
+2. **K2 — rækkefølgen.** Kan arkitekturen fastlægges før det juridiske svar,
+   eller skal begge vente?
+3. **K4 — nødvejen.** Holder «huset udsteder linket» som identitetsbinding,
+   hvis Book.dk ikke kan udstede tokens?
+4. **Modstrids-listen.** Sirius og jeg er enige om at den kun må flagge til
+   menneskelig vurdering, aldrig afgøre. Formen — status mod fritekst — er
+   stadig åben, og indholdet skal en fagperson godkende.
 
 ---
 
-## 6. Hvad jeg beder Sirius tage stilling til
+## 6. Kendt restrisiko
 
-1. **Model 1 mod Model 2** (§5). Er «én skærm» værd at lægge særlige
-   kategorier i et markedsføringssystem, med udløb og en oplyst politik?
-2. **Vej A mod Vej B** (§2). Er det rigtigt at holde bygningen tilbage til
-   Book.dk-spørgsmålet er besvaret — eller bygge Vej A nu med Vej B forberedt?
-3. **Modstrids-listen** (§4.2). Er formen rigtig? Indholdet skal en fagperson
-   godkende, men strukturen — tag mod tekst — er en arkitekturbeslutning.
-4. **Udløbsreglen.** Bør en erklæring slettes automatisk, eller er det en
-   manuel handling? Et automatisk slet der fejler, er værre end intet løfte.
-
----
-
-## 7. Kendt restrisiko
-
-Skrevet ned, så et review ikke skal grave det frem.
-
-- **Book.dk er uafklaret.** Indtil nogen har set i mailskabelonen, er
-  koblingen kundens indtastning. Vej A's svaghed er reel.
-- **Ingen notifikation til artisten.** Hun slår op; hun får ikke besked. En
-  besked pr. aftale kræver at vi ved hvilken artist aftalen hører til, og det
-  får vi ikke fra Book.dk i dag.
-- **Ingen rate-limit.** Arvet fra `/api/subscribe`: edge-runtime har ingen
-  delt tilstand, så en tæller i hukommelsen ville være teater. Uændret her,
-  og bevidst ikke foregivet.
-- **Jeg er ikke jurist.** §5 er et arkitekturforslag, ikke en vurdering af om
-  behandlingen er lovlig. Det spørgsmål har ikke fået et svar endnu, og det
-  skal have et før AC3 og AC5 bygges.
-- **Årsagsforklaringen hviler på én antagelse** (§0): at Stevens mailadresse
-  fandtes i forvejen. Den er ikke set, kun udledt.
+- **Ingen juridisk afgørelse.** Intet af AC3, AC4, AC5 eller AC8 kan bygges
+  før den findes. Jeg er ikke jurist.
+- **Model 0 er umålt.** Alt om Book.dks journal står på deres egne
+  salgssider. Ingen konto, ingen efterprøvning.
+- **Book.dks tekniske evner er umålte.** Uden svar kan AC1, AC2 og AC6 ikke
+  bygges som skrevet.
+- **Ingen notifikation til artisten.** Hun åbner dagens aftale.
+- **Ingen rate-limit.** Arvet fra `/api/subscribe`; edge-runtime har ingen
+  delt tilstand, så en tæller i hukommelsen ville være teater.
+- **Årsagsforklaringen hviler på én antagelse** (§0).
 
 ---
 
-*Villy, 1/9 2026. Forslag — ikke en beslutning, og ikke bygget.*
+*v1 1/9 2026. v2 samme dag efter Sirius' review. Forslag — ikke en
+beslutning, og ikke bygget.*
+
+**Kilder til §K3:** [book.dk — journalsystem](https://book.dk/funktioner/journalsystem) · [book.dk — forside](https://book.dk/)
