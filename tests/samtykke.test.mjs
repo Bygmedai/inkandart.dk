@@ -567,3 +567,134 @@ test("AC5: begge samtykke-sider staar i sitemappet", () => {
   assert.match(s, /inkandart\.dk\/samtykke"/, "den danske side mangler");
   assert.match(s, /inkandart\.dk\/en\/samtykke"/, "den engelske side mangler");
 });
+
+/**
+ * S578, sidste runde — Stevens fund paa den ENGELSKE flade 1/9:
+ *
+ *   «Men den fejler. Og jeg kan ikke som kunde se hvad jeg skal aendre.»
+ *
+ * Han havde tastet en foedselsdato i FREMTIDEN. Ruten svarede korrekt
+ *   422 { ok:false, fejl:[{felt:"foedselsdato",grund:"under18"}] }
+ * og fladen smed listen vaek og skrev «check the marked fields» — uden
+ * at markere noget. Maalt i Vercels runtime-log: tre 422'ere paa 44
+ * sekunder (11:45:40, 11:46:02, 11:46:24 UTC). Han proevede tre gange og
+ * kunne ikke se hvorfor.
+ *
+ * Jeg havde selv skrevet i E2E-guiden at den tilstand ikke kunne naas
+ * fra en browser, fordi felterne er `required`. Det var forkert:
+ * `required` maaler at der STAAR noget, ikke at det passer.
+ */
+
+test("FUND: fladen viser HVAD der er galt — den smider ikke listen vaek", () => {
+  const f = read("components/rummet/SamtykkeFlade.tsx").replace(/\s+/g, " ");
+
+  // 422-grenen skal LAESE kroppen. Bundet til reglen: der findes en
+  // 422-gren, og den saetter fejl-listen foer den skifter tilstand.
+  assert.match(f, /res\.status === 422/, "der er ingen 422-gren mere");
+  assert.match(
+    f,
+    /res\.status === 422.{0,400}setFejl\(.{0,120}\.fejl.{0,120}\).{0,120}setTilstand\("felter"\)/,
+    "422-grenen laeser ikke fejl-listen fra svaret",
+  );
+
+  // Og listen skal RENDERES med baade feltets navn og grunden. Uden
+  // begge to staar der «noget er galt» uden at sige hvad eller hvorfor.
+  assert.match(f, /feltnavn\(c, f\.felt\)/, "feltets navn vises ikke");
+  assert.match(f, /grundord\(c, f\.grund\)/, "grunden vises ikke");
+
+  // Negativ kontrol paa proeven selv: den maa ikke gaa groen paa en
+  // flade der har ordene men aldrig naar dem. Listen skal haenge paa
+  // fejl-tilstanden, ikke staa frit.
+  assert.match(f, /tilstand === "felter" \?/, "listen haenger ikke paa felter-tilstanden");
+});
+
+test("FUND: de afviste felter bliver faktisk MARKERET", () => {
+  const f = read("components/rummet/SamtykkeFlade.tsx").replace(/\s+/g, " ");
+
+  // «Se de markerede felter» var en paastand uden daekning. Maerket skal
+  // komme fra serverens egen liste — ikke fra en haandholdt gaetteliste
+  // der driver fra den.
+  assert.match(f, /new Set\(fejl\.map\(\(f\) => f\.felt\)\)/, "maerket bygger ikke paa svaret");
+  assert.match(f, /"aria-invalid": true/, "der er intet maerke for skaermlaeseren");
+
+  // Hvert felt serveren kan naevne, skal kunne maerkes paa fladen.
+  for (const felt of ["navn", "foedselsdato", "email", "aftale_dato", "placering", "motiv"]) {
+    assert.match(f, new RegExp(`maerk\\("${felt}"\\)`), `${felt} kan ikke maerkes`);
+  }
+  // De to skalaer er radioknapper — de maerkes paa deres fieldset.
+  for (const felt of ["stoerrelse", "farve"]) {
+    assert.match(f, new RegExp(`daarlige\\.has\\("${felt}"\\)`), `${felt} kan ikke maerkes`);
+  }
+
+  // Farven maa ikke baere beskeden alene: der SKAL staa ord ved siden af.
+  const css = read("components/rummet/rummet.css");
+  assert.match(css, /rum-samtykke__fejl-liste/, "der er ingen liste at laese maerket i");
+});
+
+test("FUND: hver grund serveren kan give, har ord paa BEGGE sprog", async () => {
+  const { loadSamtykke, loadSamtykkeEn } = await import("../lib/content.ts");
+
+  // Grundene laeses ud af valideringens egen kildekode, ikke af en liste
+  // jeg skriver ved siden af. Tilfoejer nogen en ny grund, gaar denne
+  // proeve roed indtil den har ord — paa begge sprog.
+  const kilde = read("lib/samtykke.ts").replace(/\/\*[\s\S]*?\*\//g, "");
+  const grunde = new Set([...kilde.matchAll(/grund: "([a-z0-9-]+)"/g)].map((m) => m[1]));
+  assert.ok(grunde.size >= 5, `fandt kun ${grunde.size} grunde — laeste proeven noget?`);
+
+  for (const [navn, copy] of [["da", loadSamtykke()], ["en", loadSamtykkeEn()]]) {
+    const har = new Set(copy.fejl_grunde.map((g) => g.id));
+    for (const g of grunde) assert.ok(har.has(g), `${navn}: grunden «${g}» har ingen ord`);
+    for (const g of copy.fejl_grunde) {
+      assert.ok(g.tekst.trim(), `${navn}: «${g.id}» har en tom tekst`);
+    }
+  }
+
+  // «mangler» hedder faktisk «mangler» paa dansk, saa id !== tekst duer
+  // ikke som negativ kontrol. Den rigtige kontrol er at de to sprog ER
+  // forskellige — ellers har nogen kopieret den ene fil til den anden.
+
+  // Og de to sprog maa ikke vaere det samme — saa maalte proeven ingenting.
+  assert.notDeepEqual(
+    loadSamtykke().fejl_grunde.map((g) => g.tekst),
+    loadSamtykkeEn().fejl_grunde.map((g) => g.tekst),
+  );
+});
+
+test("FUND: browseren kender de graenser serveren maaler paa", () => {
+  const f = read("components/rummet/SamtykkeFlade.tsx").replace(/\s+/g, " ");
+
+  // 18-aars-reglen staar i browseren OG paa serveren. Den i browseren
+  // sparer kunden en tur over nettet; den paa serveren er porten.
+  assert.match(f, /name="foedselsdato"[^>]{0,200}max=\{attenAar/, "foedselsdatoen har ingen graense");
+  assert.match(f, /name="aftale_dato"[^>]{0,200}min=\{idag/, "aftaledatoen har ingen graense");
+
+  // Graenserne saettes efter mount. Regnes de under server-renderen,
+  // staar serveren i UTC og kunden hvor hun staar — og de to er ikke
+  // enige omkring midnat.
+  assert.match(f, /useEffect\(\(\) => \{ setIdag\(idagLokalt\(\)\)/, "graenserne regnes paa serveren");
+});
+
+test("FUND: 18-aars-graensen i browseren er den SAMME regel som serverens", async () => {
+  const { aarSiden } = await import("../lib/samtykke.ts");
+  const f = read("components/rummet/SamtykkeFlade.tsx");
+
+  // Proeven regner browserens graense efter med komponentens egen formel,
+  // og holder den op mod serverens aarSiden(). To dage: graensen selv
+  // (skal give praecis 18) og dagen efter (skal give 17).
+  const nu = new Date(2026, 8, 1);
+  const p = (n) => String(n).padStart(2, "0");
+  const iso = (d) => `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+  const graense = iso(new Date(nu.getFullYear() - 18, nu.getMonth(), nu.getDate()));
+
+  assert.equal(aarSiden(graense, nu), 18, "graensen selv giver ikke 18 aar");
+  const dagenEfter = new Date(nu.getFullYear() - 18, nu.getMonth(), nu.getDate() + 1);
+  assert.equal(aarSiden(iso(dagenEfter), nu), 17, "dagen efter graensen giver ikke 17");
+
+  // Og komponenten skal regne den paa samme maade — ikke «i dag» og
+  // heller ikke et aarstal alene.
+  assert.match(
+    f.replace(/\s+/g, " "),
+    /senesteFoedselsdato\(d = new Date\(\)\).{0,200}d\.getFullYear\(\) - 18, d\.getMonth\(\), d\.getDate\(\)/,
+    "komponenten regner 18-aars-graensen anderledes end serveren",
+  );
+});

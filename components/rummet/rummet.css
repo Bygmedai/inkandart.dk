@@ -1713,6 +1713,34 @@ html:has([data-house="rummet"]) .grain {
   padding-left: 14px;
   font-size: 0.95rem;
 }
+/* Én linje pr. felt serveren afviste. Uden den stod der «se de markerede
+   felter» og intet var markeret — kunden kunne se AT den fejlede, ikke
+   HVAD hun skulle rette (Stevens fund paa den engelske flade 1/9). */
+.rum-samtykke__fejl-liste {
+  margin: 10px 0 0;
+  padding-left: 18px;
+  line-height: 1.5;
+}
+.rum-samtykke__fejl-liste li {
+  margin-top: 4px;
+}
+.rum-samtykke__fejl:focus-visible {
+  outline: 2px solid #c4553d;
+  outline-offset: 4px;
+}
+/* Og saa MARKERER vi dem. Maerket er kun et pejlemaerke — beskeden staar i
+   listen, saa farven aldrig baerer betydningen alene. Selector'en er bundet
+   til `input`/`textarea` fordi feltreglen ovenfor er det: en klasse alene
+   ville tabe paa specificitet og se ud som om den virkede. */
+.rum-samtykke__form input[data-fejl],
+.rum-samtykke__form textarea[data-fejl] {
+  border-color: #c4553d;
+}
+.rum-samtykke__form fieldset[data-fejl],
+.rum-samtykke__form label[data-fejl] {
+  border-left: 3px solid #c4553d;
+  padding-left: 12px;
+}
 .rum-samtykke__print {
   margin-top: 28px;
 }

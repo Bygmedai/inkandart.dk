@@ -132,6 +132,32 @@ forskel uden at åbne dem?
 *Steven efterprøver:* søg på «blodfortyndende» i Shopify. Nul træf. Kig på
 emnefeltet i indbakken — der står `GENNEMGANG`, ikke hvad der er galt.
 
+### AC6 — En afvist formular fortæller hvad kunden skal rette
+
+**Givet** en kunde der har udfyldt noget der ikke kan passere serveren —
+en fødselsdato der ikke giver 18 år, en mail der ikke kan læses, et
+felt der er for langt
+**Når** hun trykker send
+**Så** står der **hvilket felt** og **hvorfor**, med feltets eget navn på
+hendes eget sprog — og feltet er markeret.
+
+**Negativ kontrol:** markeringen må aldrig bære beskeden alene. Farven er
+et pejlemærke; ordene står i listen. Slukker man for CSS, kan hun stadig
+læse hvad der er galt.
+
+*Steven efterprøver:* skriv en fødselsdato i fremtiden på **den engelske**
+flade. Der skal stå hvilket felt og hvorfor — på engelsk.
+
+**Hvorfor den findes:** Steven ramte den 1/9. Serveren svarede korrekt
+`422 {fejl:[{felt:"foedselsdato",grund:"under18"}]}`, og fladen smed
+listen væk og skrev «check the marked fields» uden at markere noget.
+Målt i Vercels runtime-log: tre 422'ere på 44 sekunder. Han prøvede tre
+gange og kunne ikke se hvorfor.
+
+Jeg havde selv skrevet i E2E-gennemgangen at den tilstand ikke kunne nås
+fra en browser, fordi felterne er `required`. Det var forkert: `required`
+måler at der **står** noget, ikke at det **passer**.
+
 ---
 
 ## Uden for købet
