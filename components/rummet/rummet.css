@@ -511,6 +511,26 @@ html:has([data-house="rummet"]) .grain {
   align-items: center;
   min-height: 44px;
 }
+/* Telefonnummeret MIDT i en saetning.
+   De 44px er rigtige naar linket staar alene som et trykmaal — men i
+   loebende tekst goer `min-height` linjeboksen 44px hoej, og afsnittet
+   falder fra hinanden. Maalt paa /en/booking 1/9: tre linjer med
+   dobbelt skydning, fordi nummeret stod midt i saetningen.
+
+   Trykfladen forsvinder ikke. Den flyttes fra linjeboksen til en usynlig
+   udvidelse, saa fingeren rammer de samme ~44px mens linjen beholder sin
+   normale skydning. */
+.rum-tel--i-tekst {
+  display: inline;
+  align-items: initial;
+  min-height: 0;
+  position: relative;
+}
+.rum-tel--i-tekst::after {
+  content: "";
+  position: absolute;
+  inset: -12px -4px;
+}
 
 /* ── Door ── */
 
@@ -904,14 +924,34 @@ html:has([data-house="rummet"]) .grain {
   display: grid;
   gap: 14px;
 }
+/* Trinnene i bookingtrappen.
+   Var `display: flex; align-items: center`. Det holdt saa laenge et trin
+   havde ÉT barn. Trin 2 har to — en broedtekst og depositum-knappen — og
+   flex satte dem ved siden af hinanden, lodret centreret: teksten i en
+   smal spalte til venstre, knappen svaevende til hoejre, og tallet
+   midtfor et femlinjers afsnit. Maalt paa /en/booking 1/9.
+
+   Grid i stedet: tallet i foerste spalte, og HVERT barn paa sin egen
+   raekke i anden. Saa stables tekst og knap, og tallet staar ved
+   trinnets foerste linje uanset hvor mange boern trinnet har. */
 .rum-booking__trin > li {
   counter-increment: trin;
-  display: flex;
-  align-items: center;
-  gap: 14px;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  align-items: start;
+  gap: 12px 14px;
+}
+/* Boernene SKAL i anden spalte. Uden den her fylder auto-placeringen
+   foerste spalte paa naeste raekke ud, og trin 2's depositum-knap havner
+   under tallet i en 28px bred stump. Maalt lokalt, 1/9. */
+.rum-booking__trin > li > * {
+  grid-column: 2;
 }
 .rum-booking__trin > li::before {
   content: counter(trin);
+  grid-column: 1;
+  grid-row: 1;
+  line-height: 1.2;
   font-family: var(--font-poster), sans-serif;
   font-size: 22px;
   min-width: 28px;
