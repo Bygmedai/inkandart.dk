@@ -387,3 +387,68 @@ test("brevene taler rigtigt dansk — repoets ASCII maa ikke sive ud", async () 
   // Negativ kontrol: moenstret SKAL fange den fejl vi lige rettede.
   assert.match("motivet er stoerre end en underarm", mistanke);
 });
+
+/**
+ * Stevens end-to-end-proeve 1/9. Fire fejl var kun synlige for et
+ * menneske der laeste brevet i sin egen indbakke — ingen proeve saa dem,
+ * fordi de alle sammen var RIGTIGE strenge paa det FORKERTE sted.
+ */
+
+test("kundens brev taler TIL hende, ikke OM hende", async () => {
+  const { valider, kundeBrev, husBrev } = await import("../lib/samtykke.ts");
+  const mk = (sprog) => {
+    const v = valider({
+      sprog, navn: "Steven Wensley", foedselsdato: "1975-01-01",
+      aftale_dato: "2026-09-23", email: "a@b.dk", telefon: "", kunstner: "Nizar",
+      placering: "Ryg", motiv: "Satan", stoerrelse: "stor", farve: "farve",
+      helbred: ["blodfortyndende"], helbred_note: "", foto_ok: true,
+      atten: true, permanent: true, aftercare: true,
+    });
+    assert.ok(v.ok, JSON.stringify(v.fejl));
+    return v.vaerdi;
+  };
+
+  // Brevet siger «Hej Steven» — saa maa det ikke to linjer nede tale om
+  // ham i tredje person. Maalt i Stevens egen indbakke.
+  const da = kundeBrev(mk("da"), "2026-09-01T11:05:10.727Z");
+  assert.match(da, /Du tager blodfortyndende medicin/);
+  assert.doesNotMatch(da, /Kunden /, "kundens eget brev taler om hende i tredje person");
+
+  const en = kundeBrev(mk("en"), "2026-09-01T11:05:10.727Z");
+  assert.match(en, /You take blood-thinning medication/);
+  assert.doesNotMatch(en, /Kunden |Du /, "engelsk kunde faar danske ord");
+
+  // Og husets brev er ALTID dansk og altid tredje person — ogsaa naar
+  // kunden er engelsk. Det er artisten der laeser det.
+  const hus = husBrev(mk("en"), "nu");
+  assert.match(hus, /Kunden tager blodfortyndende medicin/);
+  assert.doesNotMatch(hus, /ABOUT YOUR BODY|WHAT YOU WANT|You take/,
+    "husets brev blander sprog — «You» ville betyde kunden, men artisten laeser");
+});
+
+test("brevet er skrevet til et menneske, ikke til en maskine", async () => {
+  const { valider, kundeBrev, husEmne } = await import("../lib/samtykke.ts");
+  const v = valider({
+    sprog: "da", navn: "Steven Wensley", foedselsdato: "1975-01-01",
+    aftale_dato: "2026-09-23", email: "a@b.dk", telefon: "", kunstner: "Nizar",
+    placering: "Ryg", motiv: "Satan", stoerrelse: "stor", farve: "farve",
+    helbred: [], helbred_note: "", foto_ok: true,
+    atten: true, permanent: true, aftercare: true,
+  });
+  assert.ok(v.ok);
+  const b = kundeBrev(v.vaerdi, "2026-09-01T11:05:10.727Z");
+
+  // Gmail linkificerede «2026-09-23» — den stod blaa og understreget i
+  // kundens brev, som om det var et telefonnummer.
+  assert.match(b, /23\. september 2026/);
+  assert.doesNotMatch(b, /2026-09-23/, "ISO-datoen staar stadig i broedteksten");
+
+  // «Sendt 2026-09-01T11:05:10.727Z» er maskinformat.
+  assert.doesNotMatch(b, /T\d\d:\d\d:\d\d\.\d\d\dZ/, "raat tidsstempel i et brev");
+
+  // «Foto maa bruges:ja» — padEnd(12) var kortere end etiketten.
+  assert.match(b, /Foto må bruges: +ja/, "etiket og vaerdi klistrer sammen");
+
+  // Men EMNET beholder ISO: det sorterer og soeges paa i en indbakke.
+  assert.match(husEmne(v.vaerdi), /2026-09-23/);
+});
