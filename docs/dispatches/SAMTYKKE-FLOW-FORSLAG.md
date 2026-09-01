@@ -166,7 +166,7 @@ Hvad Model 0 løser, uden at vi bygger noget:
 
 | | |
 |---|---|
-| **Identitetsbindingen** | intrinsisk. Journalposten hænger på bookingen, ikke på en mailadresse nogen har tastet. Præcis den fejl Sirius fandt — **uden et token-system** |
+| ~~**Identitetsbindingen**~~ | ~~intrinsisk~~ — **FALSIFICERET 1/9, se nedenfor.** Journalposten hænger på **kunden**, ikke på bookingen |
 | **«Én skærm»** | journalen ER skærmen, og den har allerede medarbejderlogins og roller |
 | **Ingen helbredsdata i Shopify** | de kommer aldrig i nærheden |
 | **Databehandlerforholdet** | Book.dk er den naturlige modpart. Vi bliver ikke selv behandler |
@@ -194,6 +194,45 @@ spørgsmål, ikke et svar.
 **Derfor er Model 0 ikke en konklusion. Det er en måling der mangler** — og
 den koster tyve minutter inde i en konto vi allerede betaler for. Den bør
 foretages før nogen tegner en vault.
+
+### MÅLT 1/9 — og Model 0 holder ikke som beskrevet
+
+Steven åbnede kontoen. Jeg tog fejl på tre punkter, og de er mine egne.
+
+**Journalen findes**, men den er en fane på **kundekortet** — ikke en app, og
+ikke en del af bookingen. Faneraekken er `Kunde · Kundegrupper · Journal ·
+Aftaler`.
+
+| Vi har brug for | Journalen er |
+|---|---|
+| et skema **kunden** udfylder hjemmefra | et **fritekstfelt personalet** skriver i: «Skriv journal indlæg her…» |
+| strukturerede felter (motiv, placering, helbred) | brødtekst med fed/kursiv, billeder og lydoptagelse |
+| binding til **den konkrete aftale** | binding til **kunden**. «Journal» og «Aftaler» er adskilte faner |
+| digital underskrift | **ikke set nogen steder i dialogen** |
+
+**Den tungeste rettelse er bindingen.** Jeg skrev ovenfor at Model 0 løser
+identitetsbindingen «intrinsisk, fordi journalposten hænger på bookingen».
+**Det er forkert.** Den hænger på kunden. AC2 og AC6 ville ikke være opfyldt
+— præcis den svaghed reviewet pegede på, og jeg påstod at have løst den
+uden at have set produktet.
+
+**Og den digitale underskrift — mit eget afgørende spørgsmål — ses ikke.**
+
+**Model 0 er dermed ikke en vej som beskrevet.** Den er højst et sted at
+lægge et referat, ikke et sted at indhente en erklæring.
+
+**To ting fra målingen står stadig:**
+
+- **Kundekortet har et CPR-felt.** Systemet er bygget til at bære følsomme
+  personoplysninger, og der er formentlig en databehandleraftale. Det taler
+  fortsat for K1 — mod at huset selv bygger et helbredsdata-system.
+- **«Se minside som ‹kundens navn›»** — der findes en kundevendt flade.
+  Det er det eneste sted tilbage hvor et kundeudfyldt skema kunne bo, og
+  det er ikke undersøgt.
+
+**Hvad der stadig ikke er målt:** om digital underskrift findes et andet
+sted i produktet, hvad «minside» kan, og om der findes en API der kan
+skrive til journalen.
 
 ### K4 — «Byg ikke Vej A» fjerner en nødvej uden at nævne en anden
 
