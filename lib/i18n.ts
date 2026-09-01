@@ -58,6 +58,9 @@ export const EN_ROUTES: ReadonlySet<string> = new Set([
   // Samtykkeerklaeringen findes paa begge sprog fra foerste commit — en
   // engelsk kunde skal kunne udfylde den hjemmefra som alle andre.
   "/samtykke",
+  // Teamguiden findes paa begge sprog bag husets kode. Uden raekken her
+  // 308'er sprogskifteren en engelsk medarbejder til den danske guide.
+  "/personale",
 ]);
 
 /**

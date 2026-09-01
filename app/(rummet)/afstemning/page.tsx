@@ -22,6 +22,7 @@ function Laas({ fejl }: { fejl: boolean }) {
         Husets side. Skriv koden for at se depositum-betalingerne.
       </p>
       <form method="post" action="/api/vagt" className="rum-tjek__form">
+        <input type="hidden" name="retur" value="afstemning" />
         <label htmlFor="kode" className="rum-label">
           Kode
         </label>
@@ -139,6 +140,7 @@ export default async function AfstemningPage({
 
         <form method="post" action="/api/vagt" style={{ marginTop: 40 }}>
           <input type="hidden" name="handling" value="ud" />
+          <input type="hidden" name="retur" value="afstemning" />
           <button type="submit" className="rum-book rum-book--row">
             Log ud
           </button>

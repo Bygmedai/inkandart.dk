@@ -532,6 +532,134 @@ export function loadAftercareEn(): AftercareCopy {
   return readAftercare("aftercare.en.yml");
 }
 
+/**
+ * Teamguiden — husets interne haandbog paa /personale, bag koden.
+ *
+ * TIDER OG PIERCINGPRISER ER IKKE FELTER HER. De hentes af siden fra
+ * aabningstider.yml og piercing-priser.yml. En haandbog der gentog
+ * aabningstiden ville vaere den syvende kopi af et tal huset lige har
+ * samlet ét sted — og den kopi ville drive.
+ */
+export type Kort = { t: string; d: string };
+export type Liste = { titel: string; punkter: string[] };
+export type Rolle = { navn: string; rolle: string; tekst: string };
+export type Regel = { overskrift: string; tekst: string };
+export type Ydelse = { ydelse: string; pris: string };
+
+export type TeamguideCopy = {
+  titel: string; lede: string;
+  laas_titel: string; laas_lede: string; laas_knap: string;
+  laas_fejl: string; laas_ud: string;
+  mission_titel: string; mission: string;
+  vaerdier_titel: string; vaerdier: Kort[];
+  huset_titel: string; huset_lede: string; huset_booking_note: string;
+  priser_titel: string; priser_lede: string;
+  priser_tattoo_titel: string; priser_tattoo: Ydelse[];
+  priser_flash_titel: string; priser_flash: Ydelse[]; priser_flash_note: string;
+  priser_piercing_titel: string; priser_piercing_note: string;
+  priser_kampagne: string;
+  aabning_titel: string; aabning_lede: string; aabning: Liste[]; aabning_note: string;
+  lukning_titel: string; lukning_lede: string; lukning: Liste[]; lukning_note: string;
+  roller_titel: string; roller_lede: string; roller: Rolle[]; roller_note: string;
+  salg_titel: string; salg_lede: string;
+  salg_mindset_titel: string; salg_mindset: Kort[];
+  salg_faser_titel: string; salg_faser: Kort[];
+  salg_indvendinger_titel: string; salg_indvendinger: Kort[];
+  salg_maal: string;
+  regler_titel: string; regler_lede: string; regler: Regel[];
+  kontakt_titel: string; kontakt_lede: string; kontakt: Rolle[];
+  kultur_titel: string; kultur: Regel[];
+};
+
+function kort(v: unknown): Kort[] {
+  if (!Array.isArray(v)) return [];
+  return v
+    .map((x) => ({ t: str((x as Kort)?.t), d: str((x as Kort)?.d) }))
+    .filter((x) => x.t || x.d);
+}
+function lister(v: unknown): Liste[] {
+  if (!Array.isArray(v)) return [];
+  return v
+    .map((x) => ({
+      titel: str((x as Liste)?.titel),
+      punkter: Array.isArray((x as Liste)?.punkter)
+        ? (x as Liste).punkter.map(str).filter(Boolean)
+        : [],
+    }))
+    .filter((x) => x.titel && x.punkter.length > 0);
+}
+function roller(v: unknown): Rolle[] {
+  if (!Array.isArray(v)) return [];
+  return v
+    .map((x) => ({
+      navn: str((x as Rolle)?.navn),
+      rolle: str((x as Rolle)?.rolle),
+      tekst: str((x as Rolle)?.tekst),
+    }))
+    .filter((x) => x.navn);
+}
+function regler(v: unknown): Regel[] {
+  if (!Array.isArray(v)) return [];
+  return v
+    .map((x) => ({
+      overskrift: str((x as Regel)?.overskrift),
+      tekst: str((x as Regel)?.tekst),
+    }))
+    .filter((x) => x.overskrift && x.tekst);
+}
+function ydelser(v: unknown): Ydelse[] {
+  if (!Array.isArray(v)) return [];
+  return v
+    .map((x) => ({ ydelse: str((x as Ydelse)?.ydelse), pris: str((x as Ydelse)?.pris) }))
+    .filter((x) => x.ydelse && x.pris);
+}
+
+function teamguide(fil: string): TeamguideCopy {
+  const d = readYaml<Record<string, unknown>>(fil);
+  const t = (k: string) => str(d[k]);
+  return {
+    titel: t("titel"), lede: t("lede"),
+    laas_titel: t("laas_titel"), laas_lede: t("laas_lede"),
+    laas_knap: t("laas_knap"), laas_fejl: t("laas_fejl"), laas_ud: t("laas_ud"),
+    mission_titel: t("mission_titel"), mission: t("mission"),
+    vaerdier_titel: t("vaerdier_titel"), vaerdier: kort(d.vaerdier),
+    huset_titel: t("huset_titel"), huset_lede: t("huset_lede"),
+    huset_booking_note: t("huset_booking_note"),
+    priser_titel: t("priser_titel"), priser_lede: t("priser_lede"),
+    priser_tattoo_titel: t("priser_tattoo_titel"), priser_tattoo: ydelser(d.priser_tattoo),
+    priser_flash_titel: t("priser_flash_titel"), priser_flash: ydelser(d.priser_flash),
+    priser_flash_note: t("priser_flash_note"),
+    priser_piercing_titel: t("priser_piercing_titel"),
+    priser_piercing_note: t("priser_piercing_note"),
+    priser_kampagne: t("priser_kampagne"),
+    aabning_titel: t("aabning_titel"), aabning_lede: t("aabning_lede"),
+    aabning: lister(d.aabning), aabning_note: t("aabning_note"),
+    lukning_titel: t("lukning_titel"), lukning_lede: t("lukning_lede"),
+    lukning: lister(d.lukning), lukning_note: t("lukning_note"),
+    roller_titel: t("roller_titel"), roller_lede: t("roller_lede"),
+    roller: roller(d.roller), roller_note: t("roller_note"),
+    salg_titel: t("salg_titel"), salg_lede: t("salg_lede"),
+    salg_mindset_titel: t("salg_mindset_titel"), salg_mindset: kort(d.salg_mindset),
+    salg_faser_titel: t("salg_faser_titel"), salg_faser: kort(d.salg_faser),
+    salg_indvendinger_titel: t("salg_indvendinger_titel"),
+    salg_indvendinger: kort(d.salg_indvendinger),
+    salg_maal: t("salg_maal"),
+    regler_titel: t("regler_titel"), regler_lede: t("regler_lede"),
+    regler: regler(d.regler),
+    kontakt_titel: t("kontakt_titel"), kontakt_lede: t("kontakt_lede"),
+    kontakt: roller(d.kontakt),
+    kultur_titel: t("kultur_titel"), kultur: regler(d.kultur),
+  };
+}
+
+export function loadTeamguide(): TeamguideCopy {
+  return teamguide("teamguide.yml");
+}
+
+export function loadTeamguideEn(): TeamguideCopy {
+  return teamguide("teamguide.en.yml");
+}
+
 /** Samtykkeerklaeringens ord. Felterne selv bor i lib/samtykke.ts. */
 export type Valg = { id: string; tekst: string };
 export type SamtykkeCopy = {
