@@ -1695,3 +1695,201 @@ html:has([data-house="rummet"]) .grain {
     border-bottom: 1px solid #000;
   }
 }
+
+/* ── Teamguiden paa /personale ────────────────────────────────────────
+   Husets interne haandbog. Bag koden, saa den maa gerne vaere lang — men
+   den laeses staaende i en butik paa en telefon, saa alt skal kunne rammes
+   med en tommelfinger og alt skal kunne scannes. */
+.rum-guide__h {
+  margin: 56px 0 8px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rum-line);
+}
+.rum-guide__h3 {
+  margin: 28px 0 8px;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.rum-guide__kort {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 1px;
+  background: var(--rum-line);
+  border: 1px solid var(--rum-line);
+  margin: 14px 0 0;
+}
+.rum-guide__kort > div {
+  background: var(--void);
+  padding: 16px 18px;
+}
+.rum-guide__kort b {
+  display: block;
+  margin-bottom: 4px;
+}
+.rum-guide__kort p {
+  margin: 0;
+  color: var(--beton);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.rum-guide__fakta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0 20px;
+  margin: 16px 0 0;
+}
+.rum-guide__fakta dt {
+  color: var(--beton);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 8px 0;
+}
+.rum-guide__fakta dd {
+  margin: 0;
+  padding: 8px 0;
+}
+.rum-guide__tid {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--rum-line);
+}
+.rum-guide__tid dd {
+  padding: 8px 0;
+}
+.rum-guide__rulle {
+  overflow-x: auto;
+  margin: 12px 0 0;
+}
+.rum-guide__tabel {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+.rum-guide__caption {
+  text-align: left;
+  color: var(--beton);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 14px 0 4px;
+}
+.rum-guide__tabel td {
+  border-top: 1px solid var(--rum-line);
+  padding: 10px 14px 10px 0;
+  text-align: left;
+}
+.rum-guide__tal {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+  padding-right: 0;
+}
+.rum-guide__note {
+  margin-top: 12px;
+  color: var(--beton);
+  font-size: 0.9rem;
+  max-width: 54ch;
+}
+.rum-guide__raab {
+  border-left: 3px solid var(--blod);
+  padding: 12px 16px;
+  margin: 20px 0 0;
+  max-width: 56ch;
+}
+/* Tjeklisterne. Hele linjen er trykflade — ikke bare den lille firkant. */
+.rum-guide__liste {
+  border: 1px solid var(--rum-line);
+  margin: 14px 0 0;
+}
+.rum-guide__liste > b {
+  display: block;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--rum-line);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+.rum-guide__liste label {
+  display: flex;
+  gap: 13px;
+  align-items: flex-start;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--rum-line);
+  cursor: pointer;
+  min-height: 44px;
+  font-size: 15px;
+  line-height: 1.45;
+}
+.rum-guide__liste label:last-child {
+  border-bottom: 0;
+}
+.rum-guide__liste input {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  margin: 1px 0 0;
+  accent-color: var(--guld, #c9a227);
+  cursor: pointer;
+}
+.rum-guide__liste input:checked + span {
+  color: var(--beton);
+  text-decoration: line-through;
+}
+.rum-guide__maaler {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 16px 0 0;
+  color: var(--beton);
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+  min-height: 44px;
+}
+.rum-guide__nulstil {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--rum-line);
+  color: inherit;
+  font: inherit;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  min-height: 44px;
+  cursor: pointer;
+}
+.rum-guide__roller {
+  display: grid;
+  gap: 1px;
+  background: var(--rum-line);
+  border: 1px solid var(--rum-line);
+  margin: 14px 0 0;
+}
+.rum-guide__roller > div {
+  background: var(--void);
+  padding: 16px 18px;
+}
+.rum-guide__roller b {
+  display: block;
+}
+.rum-guide__roller i {
+  display: block;
+  font-style: normal;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--blod);
+  margin: 3px 0 6px;
+}
+.rum-guide__roller p {
+  margin: 0;
+  color: var(--beton);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.rum-guide__ud {
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rum-line);
+}

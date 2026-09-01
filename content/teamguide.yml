@@ -1,0 +1,260 @@
+# Husets teamguide. Ligger på /personale bag husets kode.
+#
+# Formen er Simones (Fra Simone, 31/8). Ordene rettes frit her.
+#
+# TIDER OG PIERCINGPRISER STÅR IKKE I DENNE FIL. De hentes fra
+# aabningstider.yml og piercing-priser.yml, så guiden ikke bliver en
+# syvende kopi af den åbningstid vi lige har samlet ét sted. Ændrer
+# huset en tid, ændrer guiden sig med.
+
+titel: Teamguide
+lede: >-
+  Du er del af et studie, der bygger relationer mellem kunstner og kunde
+  — ikke bare tatoveringer. Alt hvad vi gør handler om kvalitet, respekt
+  og værdi.
+laas_titel: Husets guide
+laas_lede: >-
+  Den her side er til holdet. Skriv husets kode for at åbne den.
+laas_knap: Luk op
+laas_fejl: Koden passer ikke. Spørg Nizar eller Simone.
+laas_ud: Log ud
+
+mission_titel: Mission
+mission: >-
+  Vi skaber varige relationer mellem kunstner og kunde gennem tatoveringer
+  og piercinger af højeste kvalitet. Vi markedsfører vores kunstnere
+  aktivt, bygger deres portfolio og sikrer at de får den eksponering de
+  fortjener.
+
+vaerdier_titel: De fem værdier
+vaerdier:
+  - t: Respekt
+    d: "Vi behandler alle — kunder, kunstnere, partnere — med dybde og ægte interesse."
+  - t: Branding
+    d: "Alt hvad vi gør repræsenterer Ink & Art. Ikke sjusk. Ikke uprofessionelt."
+  - t: Omsætning
+    d: "Vi driver salg. Altid. Det er sådan vi vokser."
+  - t: Initiativ
+    d: "Spørg først hvis du er i tvivl — men træf beslutninger selv."
+  - t: Ansvar
+    d: "Gem kvitteringer. Ryd op efter dig. Hold orden."
+
+huset_titel: Huset
+huset_lede: >-
+  Adressen, tiderne og de systemer du skal bruge. Lær tiderne udenad — du
+  bliver spurgt om dem hver dag.
+huset_booking_note: Alt i Book.dk — bookinger, gæstekunstnere, piercing, touch-up. Ligger det ikke der, findes det ikke.
+
+priser_titel: Priser
+priser_lede: >-
+  Du skal kunne dem udenad. Ingen «jeg skal lige spørge». Du kender
+  tallene, du kender ordene, du er klar.
+priser_tattoo_titel: Tatovering
+priser_tattoo:
+  - { ydelse: 7 timers session, pris: 6.500 }
+  - { ydelse: 6 timers session, pris: 5.400 }
+  - { ydelse: 4 timers session, pris: 3.600 }
+  - { ydelse: Én lille tatovering, pris: 700 }
+  - { ydelse: To små tatoveringer — walk-in-tilbuddet, pris: 900 }
+  - { ydelse: Timepris uden for pakkerne, pris: 1.000 }
+priser_flash_titel: Flash
+priser_flash:
+  - { ydelse: Mindste — på størrelse med en 20-krone, pris: 450 }
+  - { ydelse: Mellem, pris: 800 }
+  - { ydelse: To små samlet, pris: 900 }
+priser_flash_note: >-
+  Kunden kan altid opgradere til en større mod merbetaling. Klargøring og
+  oprydning er næsten ens for lille og mellem — så spørg altid om den
+  mellemste.
+priser_piercing_titel: Piercing hos Anna
+priser_piercing_note: >-
+  Anna sætter alle piercinger undtagen intime. Piercingkortet ligger på
+  disken — lad kunden pege i stedet for at gætte navnet.
+priser_kampagne: >-
+  Tilbud og kampagner skifter. Tjek Messenger-gruppen inden din vagt, så
+  du ved hvad der kører i dag.
+
+aabning_titel: Åbning
+aabning_lede: >-
+  Hver dag starter med orden. Her er hvad du sikrer, før kunderne kommer.
+  Sæt flueben — de nulstilles i morgen.
+aabning:
+  - titel: Sikkerhed & adgang
+    punkter:
+      - Åbn dørene — tjek at nøglerne virker
+      - Tjek alarm, kameraer, nøgler og låse
+      - Tænd alt lys — også skiltet ude foran
+      - Tjek temperaturen — varme eller aircondition
+  - titel: Rengøring
+    punkter:
+      - Rengør alle arbejdsflader
+      - Aftal indbyrdes hvem der vasker gulv i hele butikken
+      - Tjek køkkenet — altid rent, det er en fælles opgave
+      - Tjek gæsteområdet — altid rent, fælles opgave
+      - Tjek hver station — skal være ryddet fra i går
+  - titel: Sterilisering & sikkerhed
+    punkter:
+      - Steriliseringsudstyret virker
+      - Håndsprit og håndvask klar på alle stationer
+      - Handsker, masker og øjenværn på plads
+      - Nåle er tilgængelige
+  - titel: Admin & booking
+    punkter:
+      - Log ind på Book.dk
+      - Læs dagens bookinger og kundeforespørgsler
+      - Tjek Messenger-gruppen for beskeder fra holdet
+      - Kassen er klar — kortterminal og MobilePay virker
+  - titel: Kunstnere & stemning
+    punkter:
+      - Alle kunstnere er klar med deres udstyr
+      - Musikken er på
+      - Stemningen er på plads
+      - Køleskabet til kunderne er fyldt — køb ind hvis nødvendigt
+aabning_note: >-
+  Du skal være opdateret på dagens priser og kampagner, inden den første
+  kunde kommer ind.
+
+lukning_titel: Lukning
+lukning_lede: Når dagen slutter, sikrer vi at studiet er klar til den næste.
+lukning:
+  - titel: Rengøring & orden
+    punkter:
+      - Alle arbejdsflader er rengjort
+      - Gulvene er fejet eller støvsuget
+      - Køkkenet er gjort helt rent
+      - Gæsteområdet er gjort helt rent
+      - Hver station er rengjort og ryddet
+      - Affaldet er ude
+  - titel: Admin & sikkerhed
+    punkter:
+      - Bookingsystemet er lukket ned
+      - Alle kvitteringer er gemt
+      - Kassens tal stemmer
+      - Værktøj og udstyr er ryddet væk
+      - Nåle og materialer er på lager
+  - titel: Fysisk sikkerhed
+    punkter:
+      - Alle vinduer og døre er lukket
+      - Alarm, kameraer og låse er sikret
+      - Alt lys er slukket — undtagen nødlys
+      - Dørene er låst
+lukning_note: Gem altid kvitteringer. Det er regel nummer ét. Ingen undtagelser.
+
+roller_titel: Roller
+roller_lede: Hvem gør hvad. Er du i tvivl om noget, findes svaret som regel hos én af dem.
+roller:
+  - navn: Nizar Saad
+    rolle: Ejer · grundlægger · tatovør
+    tekst: >-
+      Sætter holdet, er mentor for kunstnerne, driver strategien og den
+      kunstneriske retning. Han tatoverer også, og han er i huset hver dag.
+      Alle priser er hans.
+  - navn: Simone Chimera
+    rolle: Direktør · CEO
+    tekst: >-
+      Driver den daglige forretning, sikrer kvaliteten, håndterer kunstnere
+      og partnere, og står for det administrative — herunder løn.
+  - navn: Steven Wensley
+    rolle: Partner · systemer og aftaler
+    tekst: >-
+      Står for systemerne, tallene og aftalerne bag huset — site, webshop,
+      booking og opgørelser til kunstnerne. Ikke gulvet.
+  - navn: Emma Windinnalls
+    rolle: Tatovør
+    tekst: Farvet flash, traditionelt og fin streg. I huset alle dage undtagen søndag og mandag.
+  - navn: Anna Ogłuszka
+    rolle: Piercer
+    tekst: >-
+      Sætter alle piercinger undtagen intime, og skifter smykker. Faste dage
+      meldes ud.
+  - navn: Sonja Rebner
+    rolle: Store manager · sociale medier
+    tekst: Driver butikken på gulvet, lukker walk-in-salget, og står for Instagram og opslag.
+  - navn: Ø
+    rolle: Bogholder
+    tekst: >-
+      Regnskab, skat og det finansielle overblik. Kunstnerne fakturerer huset
+      efter den månedlige opgørelse.
+roller_note: >-
+  Nizar sætter holdet. Det er ham der til sidst afgør hvem der arbejder
+  sammen og hvordan. Respekt for det.
+
+salg_titel: Walk-in — luk salget
+salg_lede: Dit job er at lukke salg. Ikke at være sød. At lukke.
+salg_mindset_titel: Mindset
+salg_mindset:
+  - t: Selvtillid
+    d: "Du ved hvad du tilbyder. Ink & Art er godt."
+  - t: Værdi
+    d: "Du sælger ikke tatoveringer. Du åbner muligheden for kunst på deres krop."
+  - t: Lyt
+    d: "Kunden skal sige mere end dig. Du stiller spørgsmål og venter."
+salg_faser_titel: De fire faser
+salg_faser:
+  - t: De kommer ind
+    d: "Du: «Hej — hvad drømmer du om?»"
+  - t: De siger hvad de vil have
+    d: "Du stiller uddybende spørgsmål. Du lader dem tale færdig."
+  - t: Du lukker
+    d: "Du: «Vi har tid hos [kunstner] nu, hvis du er interesseret?»"
+  - t: Betaling
+    d: "De betaler ved kassen og går videre til kunstneren."
+salg_indvendinger_titel: De tre indvendinger
+salg_indvendinger:
+  - t: Prisen
+    d: "«Vi er ikke billige. Vi er gode. Det er det, det handler om.»"
+  - t: Timingen
+    d: "«Fair nok. Lad mig booke en tid til dig — hvornår passer det?»"
+  - t: Usikkerheden
+    d: "«Helt normalt. Så booker vi en konsultation med kunstneren.»"
+salg_maal: 900 kr i nyt salg pr. vagt · to bookinger om ugen · og en smule bedre end sidste gang.
+
+regler_titel: Regler
+regler_lede: >-
+  Det korte sæt. Der kommer løbende opdateringer — lyt til Nizar og Simone,
+  og implementér samme dag.
+regler:
+  - overskrift: Respekt & branding
+    tekst: >-
+      Alt hvad vi gør repræsenterer Ink & Art. Vi er altid professionelle,
+      respektfulde og værdibaserede. Det er ikke til forhandling — ikke med
+      kunder, ikke med partnere, ikke med hinanden.
+  - overskrift: Module — vores klubpartner
+    tekst: >-
+      Vi har et fast ansvar for at omtale Module positivt. De er vigtige for
+      os. Når du taler med kunder, partnere eller på sociale medier, så nævn
+      Module på en god måde. Værn om den relation.
+  - overskrift: Omsætning
+    tekst: >-
+      Du skal altid have omsætningen for øje. Ikke aggressivt — men det er
+      sådan vi vokser. Hver dag, hver kunde, hver besked: er der en chance
+      for at lukke et salg eller en booking? Ja? Så gør det.
+  - overskrift: Priser & kampagner
+    tekst: >-
+      Du skal altid være opdateret på gældende priser og kampagner. Ingen
+      «jeg skal lige spørge». Du kender tallene. Du kender ordene. Du er klar.
+  - overskrift: Initiativ & ansvar
+    tekst: >-
+      Gem altid kvitteringer — det er regel nummer ét, uden undtagelser. Ryd
+      op efter dig selv; det er det mindste. Ser du noget der skal gøres, så
+      gør det. Spørg først hvis du er i tvivl, men træf beslutninger selv.
+      Vi har tillid til din dømmekraft.
+
+kontakt_titel: Kontakt
+kontakt_lede: Har du et spørgsmål, så brug den her rækkefølge.
+kontakt:
+  - navn: Nizar Saad
+    rolle: "Først — alt strategisk"
+    tekst: "Ledelse, større beslutninger, hvem der arbejder hvornår, og alt om priser."
+  - navn: Simone Chimera
+    rolle: "+45 60 53 60 68"
+    tekst: "Administration, kontrakter, regnskab og alt personalerelateret."
+
+kultur_titel: Kultur
+kultur:
+  - overskrift: Vi forventer ikke perfektion
+    tekst: "Vi forventer at du gør dit bedste. Fejl sker. Det vigtige er at du lærer, bliver bedre og driver salg."
+  - overskrift: Træf dine egne beslutninger
+    tekst: "Er du i tvivl, så spørg Nizar. Men tror du det er det bedste for studiet, så træf beslutningen selv."
+  - overskrift: Messenger-gruppen
+    tekst: "Al daglig kommunikation sker der. Tjek den hver dag. Skriv hvad du har lavet, stil spørgsmål, hold hinanden opdateret."

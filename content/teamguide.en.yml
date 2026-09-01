@@ -1,0 +1,257 @@
+# The house team guide — English. Lives at /en/personale behind the house code.
+# Same substance as content/teamguide.yml, own voice.
+#
+# HOURS AND PIERCING PRICES ARE NOT IN THIS FILE. They come from
+# aabningstider.yml and piercing-priser.yml, so the guide never becomes a
+# second copy of a number the house has already settled once.
+
+titel: Team guide
+lede: >-
+  You're part of a studio that builds relationships between artist and
+  customer — not just tattoos. Everything we do is about quality, respect
+  and value.
+laas_titel: The house guide
+laas_lede: >-
+  This page is for the team. Enter the house code to open it.
+laas_knap: Unlock
+laas_fejl: That code doesn't match. Ask Nizar or Simone.
+laas_ud: Log out
+
+mission_titel: Mission
+mission: >-
+  We create lasting relationships between artist and customer through
+  tattoos and piercings of the highest quality. We market our artists
+  actively, build their portfolios, and make sure they get the exposure
+  they deserve.
+
+vaerdier_titel: The five values
+vaerdier:
+  - t: Respect
+    d: "We treat everyone — customers, artists, partners — with depth and genuine interest."
+  - t: Branding
+    d: "Everything we do represents Ink & Art. Nothing sloppy. Nothing unprofessional."
+  - t: Revenue
+    d: "We drive sales. Always. That is how we grow."
+  - t: Initiative
+    d: "Ask first if you're in doubt — but make the decision yourself."
+  - t: Responsibility
+    d: "Keep the receipts. Clean up after yourself. Keep order."
+
+huset_titel: The house
+huset_lede: >-
+  The address, the hours and the systems you'll use. Learn the hours by
+  heart — you'll be asked every day.
+huset_booking_note: Everything in Book.dk — bookings, guest artists, piercing, touch-ups. If it isn't there, it doesn't exist.
+
+priser_titel: Prices
+priser_lede: >-
+  Know them by heart. No "let me just ask". You know the numbers, you know
+  the words, you're ready.
+priser_tattoo_titel: Tattoo
+priser_tattoo:
+  - { ydelse: 7-hour session, pris: 6.500 }
+  - { ydelse: 6-hour session, pris: 5.400 }
+  - { ydelse: 4-hour session, pris: 3.600 }
+  - { ydelse: One small tattoo, pris: 700 }
+  - { ydelse: Two small tattoos — the walk-in offer, pris: 900 }
+  - { ydelse: Hourly rate outside the packages, pris: 1.000 }
+priser_flash_titel: Flash
+priser_flash:
+  - { ydelse: Smallest — about the size of a 20-krone coin, pris: 450 }
+  - { ydelse: Medium, pris: 800 }
+  - { ydelse: Two small together, pris: 900 }
+priser_flash_note: >-
+  The customer can always size up for more. Prep and clean-down cost the
+  same for small and medium — so always offer the medium.
+priser_piercing_titel: Piercing with Anna
+priser_piercing_note: >-
+  Anna does every piercing except intimate ones. The piercing map is on the
+  counter — let the customer point instead of guessing the name.
+priser_kampagne: >-
+  Offers change. Check the Messenger group before your shift so you know
+  what's running today.
+
+aabning_titel: Opening
+aabning_lede: >-
+  Every day starts in order. Here's what you make sure of before customers
+  arrive. Tick them off — they reset tomorrow.
+aabning:
+  - titel: Security & access
+    punkter:
+      - Open the doors — check the keys work
+      - Check alarm, cameras, keys and locks
+      - All lights on — including the sign out front
+      - Check the temperature — heating or air conditioning
+  - titel: Cleaning
+    punkter:
+      - Clean all work surfaces
+      - Agree between you who mops the whole shop floor
+      - Check the kitchen — always clean, it's a shared task
+      - Check the guest area — always clean, shared task
+      - Check every station — should be clear from yesterday
+  - titel: Sterilisation & safety
+    punkter:
+      - Sterilisation equipment works
+      - Hand sanitiser and wash ready at every station
+      - Gloves, masks and eye protection in place
+      - Needles are available
+  - titel: Admin & booking
+    punkter:
+      - Log in to Book.dk
+      - Read today's bookings and customer requests
+      - Check the Messenger group for team messages
+      - Till is ready — card terminal and MobilePay work
+  - titel: Artists & atmosphere
+    punkter:
+      - All artists are ready with their equipment
+      - Music is on
+      - The room feels right
+      - Customer fridge is stocked — go buy if it isn't
+aabning_note: >-
+  Be up to date on today's prices and campaigns before the first customer
+  walks in.
+
+lukning_titel: Closing
+lukning_lede: When the day ends, we make sure the studio is ready for the next one.
+lukning:
+  - titel: Cleaning & order
+    punkter:
+      - All work surfaces cleaned
+      - Floors swept or vacuumed
+      - Kitchen fully cleaned
+      - Guest area fully cleaned
+      - Every station cleaned and cleared
+      - Rubbish taken out
+  - titel: Admin & security
+    punkter:
+      - Booking system closed down
+      - All receipts saved
+      - Till totals match
+      - Tools and equipment put away
+      - Needles and materials in storage
+  - titel: Physical security
+    punkter:
+      - All windows and doors closed
+      - Alarm, cameras and locks secured
+      - All lights off — except emergency lighting
+      - Doors locked
+lukning_note: Always keep receipts. That is rule number one. No exceptions.
+
+roller_titel: Roles
+roller_lede: Who does what. If you're in doubt about something, the answer usually sits with one of them.
+roller:
+  - navn: Nizar Saad
+    rolle: Owner · founder · tattoo artist
+    tekst: >-
+      Sets the team, mentors the artists, drives strategy and artistic
+      direction. He tattoos too, and he's in the house every day. Every
+      price is his.
+  - navn: Simone Chimera
+    rolle: Director · CEO
+    tekst: >-
+      Runs the daily business, safeguards quality, handles artists and
+      partners, and owns the administrative side including payroll.
+  - navn: Steven Wensley
+    rolle: Partner · systems and agreements
+    tekst: >-
+      Owns the systems, the numbers and the agreements behind the house —
+      site, webshop, booking and artist statements. Not the shop floor.
+  - navn: Emma Windinnalls
+    rolle: Tattoo artist
+    tekst: Colour flash, traditional and fine line. In the house every day except Sunday and Monday.
+  - navn: Anna Ogłuszka
+    rolle: Piercer
+    tekst: >-
+      Does every piercing except intimate ones, and changes jewellery. Fixed
+      days to be announced.
+  - navn: Sonja Rebner
+    rolle: Store manager · social media
+    tekst: Runs the shop floor, closes the walk-in sale, and owns Instagram and posting.
+  - navn: Ø
+    rolle: Accountant
+    tekst: >-
+      Accounts, tax and the financial overview. Artists invoice the house
+      against the monthly statement.
+roller_note: >-
+  Nizar sets the team. He's the one who ultimately decides who works
+  together and how. Respect that.
+
+salg_titel: Walk-in — close the sale
+salg_lede: Your job is closing sales. Not being nice. Closing.
+salg_mindset_titel: Mindset
+salg_mindset:
+  - t: Confidence
+    d: "You know what you're offering. Ink & Art is good."
+  - t: Value
+    d: "You're not selling tattoos. You're opening the possibility of art on their body."
+  - t: Listen
+    d: "The customer should talk more than you. You ask, and you wait."
+salg_faser_titel: The four phases
+salg_faser:
+  - t: They walk in
+    d: "You: «Hey — what are you dreaming of?»"
+  - t: They say what they want
+    d: "You ask deeper questions. You let them finish."
+  - t: You close
+    d: "You: «We have time with [artist] now, if you're interested?»"
+  - t: Payment
+    d: "They pay at the till and go through to the artist."
+salg_indvendinger_titel: The three objections
+salg_indvendinger:
+  - t: Price
+    d: "«We're not cheap. We're good. That's what this is about.»"
+  - t: Timing
+    d: "«Fair enough. Let me book you a slot — when suits you?»"
+  - t: Uncertainty
+    d: "«Completely normal. Let's book a consultation with the artist.»"
+salg_maal: 900 kr in new sales per shift · two bookings a week · and a little better than last time.
+
+regler_titel: Rules
+regler_lede: >-
+  The short set. Things get updated as we go — listen to Nizar and Simone,
+  and put it into practice the same day.
+regler:
+  - overskrift: Respect & branding
+    tekst: >-
+      Everything we do represents Ink & Art. We are always professional,
+      respectful and grounded in our values. That isn't negotiable — not
+      with customers, not with partners, not with each other.
+  - overskrift: Module — our club partner
+    tekst: >-
+      We have a standing responsibility to speak well of Module. They matter
+      to us. When you talk to customers, partners or on social media,
+      mention Module in a good light. Look after that relationship.
+  - overskrift: Revenue
+    tekst: >-
+      Always keep revenue in mind. Not aggressively — but it's how we grow.
+      Every day, every customer, every message: is there a chance to close a
+      sale or a booking? Yes? Then do it.
+  - overskrift: Prices & campaigns
+    tekst: >-
+      Always be up to date on current prices and campaigns. No "let me just
+      ask". You know the numbers. You know the words. You're ready.
+  - overskrift: Initiative & responsibility
+    tekst: >-
+      Always keep receipts — rule number one, no exceptions. Clean up after
+      yourself; it's the least you can do. If you see something that needs
+      doing, do it. Ask first if you're in doubt, but make the call
+      yourself. We trust your judgement.
+
+kontakt_titel: Contact
+kontakt_lede: Got a question? Use this order.
+kontakt:
+  - navn: Nizar Saad
+    rolle: "First — anything strategic"
+    tekst: "Leadership, bigger decisions, who works when, and anything to do with prices."
+  - navn: Simone Chimera
+    rolle: "+45 60 53 60 68"
+    tekst: "Administration, contracts, accounts and anything staff-related."
+
+kultur_titel: Culture
+kultur:
+  - overskrift: We don't expect perfection
+    tekst: "We expect you to do your best. Mistakes happen. What matters is that you learn, get better, and drive sales."
+  - overskrift: Make your own decisions
+    tekst: "If you're in doubt, ask Nizar. But if you think it's best for the studio, make the call yourself."
+  - overskrift: The Messenger group
+    tekst: "All daily communication happens there. Check it every day. Post what you've done, ask questions, keep each other in the loop."
