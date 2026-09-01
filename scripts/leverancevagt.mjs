@@ -27,6 +27,23 @@
  * Den noegle `/api/samtykke` sender med, er sending-only og laast til ét
  * domaene. Den kan ikke laese, og det skal den blive ved med ikke at
  * kunne. Vagten har sin egen laesenoegle.
+ *
+ * OG VAGTEN TROR IKKE PAA DET — DEN MAALER DET
+ *
+ * Resend har kun `full_access` og `sending_access`; der er intet
+ * read-only niveau, og `domain_id` gaelder kun afsendelse. Enhver noegle
+ * der kan LAESE, er derfor en hovednoegle til hele det team den sidder i.
+ * Det er ufarligt naar teamet kun rummer huset — og en laekage af en
+ * ANDEN kundes post hvis teamet deles.
+ *
+ * Den betingelse stod indtil nu som en advarsel i workflow-filen: «saet
+ * ikke hemmeligheden foer teamet er skilt ad». En advarsel er en aftale
+ * i hukommelsen. Den holder indtil den ikke goer, og den holder i hvert
+ * fald ikke naar nogen om et halvt aar roterer en noegle i en fart.
+ *
+ * Derfor spoerger vagten FOERST: hvad raekker denne noegle over? Ser den
+ * ét eneste domaene der ikke er husets, stopper den — foer den har
+ * hentet ét brev. Betingelsen er flyttet fra en kommentar til en maaling.
  */
 
 /**
@@ -41,6 +58,7 @@
  * Vinduet blev aldrig sat paa proeve. Derfor har det sit eget scenarie nu.
  */
 const API = "https://api.resend.com/emails?limit=100";
+const DOMAENER = "https://api.resend.com/domains";
 const VINDUE_TIMER = 26;
 
 /**
@@ -81,6 +99,62 @@ function noegle() {
     process.exit(1);
   }
   return k;
+}
+
+/**
+ * Hvad raekker noeglen over? Spoerges FOER der hentes ét brev, saa en
+ * for bred noegle aldrig naar at traekke en anden kundes liste ned.
+ *
+ * Bemaerk hvad der IKKE staar i fejlen: de fremmede domaeners navne.
+ * Kun hvor mange. En andens kundeliste hoerer ikke hjemme i vores
+ * CI-log — samme regel som at brevenes emner ikke goer.
+ */
+async function noeglenSerKunHuset(k) {
+  let res;
+  try {
+    res = await fetch(DOMAENER, {
+      headers: { Authorization: `Bearer ${k}` },
+      signal: AbortSignal.timeout(TIMEOUT_MS),
+    });
+  } catch {
+    console.error("FEJL: kunne ikke naa Resend for at se hvad noeglen raekker over.");
+    process.exit(1);
+  }
+  if (!res.ok) {
+    console.error(
+      `FEJL: Resend svarede ${res.status} paa domaene-opslaget.\n` +
+        (res.status === 401 || res.status === 403
+          ? "Er det sendenoeglen? Den er sending-only med vilje (AC4).\n" +
+            "Vagten skal have sin EGEN laesenoegle."
+          : ""),
+    );
+    process.exit(1);
+  }
+  const d = await res.json().catch(() => null);
+  const liste = Array.isArray(d?.data) ? d.data : null;
+  // Tom eller uventet: saa VED vi ikke hvad noeglen raekker over, og
+  // «ved ikke» maa aldrig blive til «saa er den vel fin». Samme regel
+  // som «nul breve er roedt».
+  if (!liste || liste.length === 0) {
+    console.error(
+      "FEJL: kunne ikke se hvilke domaener noeglen raekker over.\n" +
+        "Vagten laeser ikke breve med en noegle den ikke kender raekkevidden af.",
+    );
+    process.exit(1);
+  }
+  const fremmede = liste
+    .map((x) => String(x?.name ?? ""))
+    .filter((n) => !(n === HUSET || n.endsWith(`.${HUSET}`)));
+  if (fremmede.length) {
+    console.error(
+      `FEJL: noeglen raekker ud over huset — den ser ${fremmede.length} domaene(r) der ikke er vores.\n` +
+        "Saa er det en hovednoegle til et delt team, og vagten ville kunne\n" +
+        "laese en anden kundes post. Den stopper her uden at hente ét brev.\n" +
+        "Lav en noegle i et team der KUN rummer huset, og saet den som\n" +
+        "RESEND_READ_KEY. Navnene staar med vilje ikke her.",
+    );
+    process.exit(1);
+  }
 }
 
 async function hentBreve(k) {
@@ -126,7 +200,9 @@ function timerSiden(iso) {
   return (Date.now() - t) / 3_600_000;
 }
 
-const breve = await hentBreve(noegle());
+const k = noegle();
+await noeglenSerKunHuset(k);
+const breve = await hentBreve(k);
 
 // AC2's negative kontrol: nul breve er IKKE «alt vel». Enten er noeglen
 // bundet til et tomt team, eller ogsaa har huset ikke sendt noget — og i

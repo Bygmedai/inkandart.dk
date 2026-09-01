@@ -120,3 +120,110 @@ test("vagten koerer paa en tidsplan og kan startes i haanden", () => {
   assert.match(wf, /workflow_dispatch:/, "kan ikke koeres i haanden naar noget braender");
   assert.match(wf, /permissions:\s*\n\s*contents: read/, "for brede rettigheder");
 });
+
+/**
+ * S578 — noeglens raekkevidde er nu en MAALING, ikke en advarsel.
+ *
+ * v2 skrev i workflow-filen: «saet ikke hemmeligheden foer teamet er
+ * skilt ad». Betingelsen var rigtig, og Haruki opfyldte den samme dag.
+ * Men den stod som en aftale i hukommelsen — og den slags holder indtil
+ * den ikke goer. Om et halvt aar roterer nogen noeglen i en fart.
+ *
+ * Proeverne herunder koerer VAGTEN, ikke dens kildetekst. Resend
+ * erstattes af en stub der saettes ind foer scriptet starter — der er
+ * ingen port, og dermed ingen forladt server at maale paa ved en fejl.
+ */
+
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
+const koer = promisify(execFile);
+
+const HUSETS_DOMAENE = { data: [{ name: "send.inkandart.dk" }, { name: "inkandart.dk" }] };
+const ET_BREV = (timer, event = "delivered") => ({
+  id: "x", from: "samtykke@send.inkandart.dk", last_event: event,
+  created_at: new Date(Date.now() - timer * 3600_000).toISOString(),
+});
+
+async function vagten(plan, noegle = "en-laesenoegle") {
+  try {
+    const r = await koer(
+      process.execPath,
+      ["--import", "./tests/fixtures/resend-stub.mjs", "scripts/leverancevagt.mjs"],
+      { cwd: root, env: { ...process.env, RESEND_READ_KEY: noegle, STUB: JSON.stringify(plan) } },
+    );
+    return { kode: 0, ud: r.stdout + r.stderr };
+  } catch (e) {
+    return { kode: e.code ?? 1, ud: (e.stdout ?? "") + (e.stderr ?? "") };
+  }
+}
+
+test("AC4: vagten spoerger hvad noeglen raekker over — FOER den henter et brev", async () => {
+  // Stubben har KUN et svar til domaene-opslaget. Henter vagten breve
+  // alligevel, kaster stubben — og saa er raekkefoelgen forkert.
+  const fremmed = { data: [{ name: "inkandart.dk" }, { name: "en-anden-kunde.dk" }] };
+  const r = await vagten({ "/domains": { krop: fremmed } });
+
+  assert.equal(r.kode, 1, "en for bred noegle blev accepteret");
+  assert.match(r.ud, /raekker ud over huset/, "vagten siger ikke hvorfor den stopper");
+  assert.match(r.ud, /1 domaene/, "vagten siger ikke HVOR MANGE fremmede den saa");
+
+  // Og navnet paa den anden kunde staar IKKE i loggen.
+  assert.doesNotMatch(r.ud, /en-anden-kunde/, "en anden kundes domaene staar i vores CI-log");
+
+  // Negativ kontrol: den maa ikke vaere naaet til brevene. Stubben har
+  // intet svar paa /emails, saa et forsoeg ville se anderledes ud.
+  assert.doesNotMatch(r.ud, /stubben har intet svar/, "vagten hentede breve foer den havde tjekket noeglen");
+});
+
+test("AC4: en noegle hvis raekkevidde ikke kan aflaeses, er ogsaa roed", async () => {
+  /**
+   * Bundet til GRUNDEN, ikke bare til exit-koden.
+   *
+   * Foerste udgave af denne proeve maalte kun `kode === 1` og fravaeret
+   * af «Ingen bemaerkninger». Den gik GROEN da jeg fjernede
+   * tom-liste-tjekket i en mutation: vagten faldt igennem til
+   * brevhentningen, stubben havde intet svar dér, og vagten doede med 1
+   * af en helt anden aarsag. Et hegn der bestod fordi det ikke maalte
+   * noget — praecis den fejl vagten selv findes for at fange.
+   */
+  for (const [navn, plan, grund] of [
+    ["tom liste", { "/domains": { krop: { data: [] } } }, /kunne ikke se hvilke domaener/],
+    ["uventet svar", { "/domains": { krop: { noget: "andet" } } }, /kunne ikke se hvilke domaener/],
+    // `data` der ikke er en liste. Uden `Array.isArray` slipper en
+    // streng igennem og bliver laest tegn for tegn — den maalte proeve
+    // for den vagt, ikke bare for den tomme liste.
+    ["data er ikke en liste", { "/domains": { krop: { data: "noget" } } }, /kunne ikke se hvilke domaener/],
+    ["sendenoeglen (401)", { "/domains": { status: 401, krop: {} } }, /domaene-opslaget[\s\S]*sending-only/],
+  ]) {
+    const r = await vagten(plan);
+    assert.equal(r.kode, 1, `${navn}: vagten faldt igennem til groen`);
+    assert.match(r.ud, grund, `${navn}: vagten stoppede, men ikke af den grund den skulle`);
+    assert.doesNotMatch(r.ud, /Ingen bemaerkninger/, `${navn}: vagten meldte alt vel`);
+    // Og den naaede aldrig brevene: stubben har intet svar paa /emails,
+    // saa et forsoeg ville efterlade sit eget spor.
+    assert.doesNotMatch(r.ud, /stubben har intet svar/,
+      `${navn}: vagten hentede breve med en noegle den ikke kendte raekkevidden af`);
+  }
+});
+
+test("AC4: husets EGEN noegle slipper igennem — og vagten maaler videre", async () => {
+  // Den positive kontrol. Uden den beviser de roede prøver ingenting:
+  // en vagt der altid gaar roed ville ogsaa bestaa dem.
+  const r = await vagten({
+    "/domains": { krop: HUSETS_DOMAENE },
+    "/emails": { krop: { data: [ET_BREV(2), ET_BREV(30)] } },
+  });
+  assert.equal(r.kode, 0, `husets egen noegle blev afvist:\n${r.ud}`);
+  assert.match(r.ud, /Ingen bemaerkninger/, "vagten naaede aldrig frem til rapporten");
+});
+
+test("AC4: et brev der IKKE kom frem, gaar stadig roedt bag den nye port", async () => {
+  // Vagtens egentlige opgave maa ikke vaere blevet spaerret inde bag
+  // noegletjekket. `suppressed` er praecis den tilstand Haruki fandt.
+  const r = await vagten({
+    "/domains": { krop: HUSETS_DOMAENE },
+    "/emails": { krop: { data: [ET_BREV(2, "suppressed"), ET_BREV(30)] } },
+  });
+  assert.equal(r.kode, 1, "et brev der ikke kom frem, blev meldt som alt vel");
+  assert.match(r.ud, /kom ikke frem/);
+});

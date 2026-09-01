@@ -119,16 +119,37 @@ domænelåsen ligge. Nøglen kunne læse breve fra alle domæner i teamet,
 Han slettede den igen.
 
 **Givet** at den eneste nøgle der kan læse, er en hovednøgle til hele
-teamet
-**Når** man overvejer at lægge den i `inkandart.dk`s GitHub-secrets
-**Så** gør man det **ikke** — før teamet er skilt ad, så nøglen kun kan
-nå husets egen post.
+sit team
+**Når** vagten starter
+**Så** spørger den **først** Resend hvad nøglen rækker over — og stopper
+**før den henter ét brev**, hvis den ser ét eneste domæne der ikke er
+husets.
 
-*Steven efterprøver:* opret nøglen i et selvstændigt Ink and Art-team.
-Prøv den mod et andet domæne. Den skal afvises.
+**Negativ kontrol:** en nøgle der ikke kan svare på spørgsmålet — tom
+liste, uventet svar, 401 — er også rødt. «Ved ikke» må aldrig blive til
+«så er den vel fin».
+
+**Og fejlen nævner ikke de fremmede domæner ved navn**, kun hvor mange.
+En anden kundes liste hører ikke hjemme i vores CI-log, lige så lidt som
+brevenes emner gør.
+
+*Steven efterprøver:* sæt sendenøglen som `RESEND_READ_KEY` i stedet for
+læsenøglen. Vagten skal gå rød med en besked der siger hvorfor — ikke
+melde alt vel.
+
+### Hvorfor kriteriet blev lavet om (1/9)
+
+v2 sagde: **læg ikke nøglen i secrets før teamet er skilt ad.** Det var
+rigtigt, og Haruki skilte teamet ad samme dag. Men kriteriet var en
+**aftale i hukommelsen**, skrevet som en advarsel i workflow-filen. Den
+slags holder indtil den ikke gør — og den holder i hvert fald ikke når
+nogen om et halvt år roterer nøglen i en fart og griber den nærmeste.
+
+Betingelsen er nu flyttet fra en kommentar til en måling. Det er samme
+lære som resten af huset: **sandhed i artefakter, ikke i hukommelse.**
 
 **Vagten kan merges uden nøglen.** Uden den fejler den åbent og melder
-ikke alt vel. Det er hemmeligheden der skal vente, ikke koden.
+ikke alt vel. Nøglen kan nu sættes.
 
 ---
 
@@ -137,8 +158,9 @@ ikke alt vel. Det er hemmeligheden der skal vente, ikke koden.
 **Vagten ser kun bagud.** Den fanger et brev der allerede er gået galt —
 den forhindrer det ikke. Kunden har set «TAK» i mellemtiden.
 
-**Den kræver en ny nøgle.** En læsenøgle i Vercel eller i GitHub-secrets.
-Den skal være **read-only**, og den skal ikke kunne sende.
+**Den kræver en ny nøgle.** En læsenøgle i GitHub-secrets. «Read-only»
+findes ikke hos Resend — det tætteste er en nøgle i et team der kun
+rummer huset, og **det** er det vagten måler.
 
 **Et døgns forsinkelse er et valg.** Hyppigere ville koste kald uden at
 ændre hvad nogen kan nå at gøre — Sonja læser ikke en rapport klokken tre
