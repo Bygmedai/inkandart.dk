@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { RummetShell } from "@/components/rummet/Shell";
+import { HusetsSider } from "@/components/rummet/HusetsSider";
 import { depositumVarianter } from "@/lib/commerce";
 import { depositumOrdrer } from "@/lib/depositum";
 import { VAGT_COOKIE, VAGT_TIMER, tokenErGyldigt } from "@/lib/vagt";
@@ -89,6 +90,7 @@ export default async function AfstemningPage({
     <RummetShell door={false}>
       <main id="main" className="rum-room rum-legal">
         <p className="rum-label">Huset</p>
+        <HusetsSider her="afstemning" />
         <h1 className="rum-poster">Afstemning</h1>
         <p className="rum-body-copy rum-legal__lede">
           Depositum-betalinger de seneste 60 dage. Hold dem op mod

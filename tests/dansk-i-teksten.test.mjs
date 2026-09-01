@@ -33,6 +33,9 @@ const LOVLIGE = new Set([
   "loer",
   // ord hvor sekvensen er ægte dansk eller engelsk
   "datoen", "købsdatoen", "email", "emails", "does",
+  // kamera + er. Fanget af vagten da teamguiden kom til — og det er
+  // sådan listen skal vokse: et menneske tager stilling, én gang.
+  "kameraer",
 ]);
 
 const danskeFiler = readdirSync(join(root, "content"))

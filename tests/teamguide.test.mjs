@@ -93,3 +93,27 @@ test("guiden staar ikke i navigationen — den findes kun for dem der kender den
   const nav = read("components/rummet/Nav.tsx");
   assert.doesNotMatch(nav, /personale/);
 });
+
+test("husets to sider kender hinanden — men kun bag laasen", () => {
+  const stribe = read("components/rummet/HusetsSider.tsx");
+  assert.match(stribe, /\/personale/);
+  assert.match(stribe, /\/afstemning/);
+
+  const afst = read("app/(rummet)/afstemning/page.tsx");
+  // Striben maa IKKE staa paa laaseskaermen — den ville fortaelle en
+  // fremmed hvad der ligger bag koden.
+  const laas = afst.slice(afst.indexOf("function Laas"), afst.indexOf("function dansk"));
+  assert.doesNotMatch(laas, /HusetsSider/, "striben staar paa laaseskaermen");
+  // Men den skal staa paa den aabne side.
+  const aaben = afst.slice(afst.indexOf("export default"));
+  assert.match(aaben, /<HusetsSider her="afstemning"/);
+
+  // Teamguiden vises kun bag laasen i forvejen, saa den maa gerne baere den.
+  assert.match(read("components/rummet/TeamguideFlade.tsx"), /<HusetsSider her="personale"/);
+});
+
+test("striben er stadig ikke en offentlig doer", () => {
+  // Negativ kontrol: den maa ikke sive ind i navigationen eller sitemappet.
+  assert.doesNotMatch(read("components/rummet/Nav.tsx"), /personale|afstemning/);
+  assert.doesNotMatch(read("app/sitemap.ts"), /personale/);
+});
