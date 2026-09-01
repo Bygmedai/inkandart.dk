@@ -30,7 +30,13 @@ export const SAMTYKKER = ["atten", "permanent", "aftercare"] as const;
 export const STOERRELSER = ["lille", "mellem", "stor"] as const;
 export const FARVER = ["sort", "farve"] as const;
 
+export type Sprog = "da" | "en";
+
 export type Samtykke = {
+  /** Kundens sprog. Fladen sendte det allerede; valider() smed det vaek,
+   *  saa en engelsk kunde fik «Din samtykkeerklaering» i indbakken.
+   *  Sirius' fund 1/9 — et braendt EN-flow, ikke kosmetik. */
+  sprog: Sprog;
   navn: string;
   foedselsdato: string;
   /** Dagen aftalen staar paa. Kunden taster den selv — Book.dk kan ikke
@@ -53,6 +59,8 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const DATO_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 const MAX = 400;
+/** Felter brevet lover ORDRET. De maa aldrig klippes i tavshed. */
+export const ORDRET = ["motiv", "helbred_note", "placering"] as const;
 const s = (v: unknown) => (v == null ? "" : String(v).trim().slice(0, MAX));
 
 export type Fejl = { felt: string; grund: string };
@@ -66,8 +74,20 @@ export function valider(raw: unknown): { ok: true; vaerdi: Samtykke } | { ok: fa
   const fejl: Fejl[] = [];
   const d = (raw ?? {}) as Record<string, unknown>;
 
+  const sprog: Sprog = d.sprog === "en" ? "en" : "da";
+
   const navn = s(d.navn);
   if (navn.length < 2) fejl.push({ felt: "navn", grund: "mangler" });
+
+  // «Ordret» skal vaere sandt. Serveren klippede foer stiltiende ved 400
+  // tegn, mens brevet lovede kundens egne ord ordret (Sirius' fund 1/9).
+  // Nu er for lang tekst en FEJL kunden kan se, ikke et tab hun ikke
+  // opdager. Fladen har samme graense, saa det sker aldrig i en browser.
+  for (const felt of ORDRET) {
+    if (typeof d[felt] === "string" && (d[felt] as string).trim().length > MAX) {
+      fejl.push({ felt, grund: "for-lang" });
+    }
+  }
 
   const foedselsdato = s(d.foedselsdato);
   if (!DATO_RE.test(foedselsdato)) fejl.push({ felt: "foedselsdato", grund: "format" });
@@ -108,6 +128,7 @@ export function valider(raw: unknown): { ok: true; vaerdi: Samtykke } | { ok: fa
   return {
     ok: true,
     vaerdi: {
+      sprog,
       navn,
       foedselsdato,
       aftale_dato,
@@ -158,31 +179,38 @@ export function modstrid(v: Samtykke): Modstrid[] {
   if (har("gravid")) {
     ud.push({
       noegle: "gravid",
-      tekst: "Kunden har oplyst at hun er gravid. Tag snakken foer I gaar i gang.",
+      tekst: "Kunden har oplyst at hun er gravid. Tag snakken før I går i gang.",
     });
   }
+  // BEVIDST uden betingelse paa stoerrelse. PR-teksten sagde foerst
+  // «blodfortyndende OG en stor flade» — det beskrev en spaerre der ikke
+  // fandtes i koden (Sirius' fund 1/9). Af de to maader at rette det paa
+  // vaelger jeg at skrive reglen som den er, ikke at bygge spaerren:
+  // en LILLE tatovering bloeder ogsaa, og en regel der tier ved «lille»
+  // ville vaere daarligere for kunden. Stoerrelsen staar i teksten, saa
+  // artisten kan vaegte den — den afgoer bare ikke OM der raabes.
   if (har("blodfortyndende")) {
     ud.push({
       noegle: "bloedning",
-      tekst: `Blodfortyndende medicin oplyst, og motivet er ${STOERRELSE_ORD[v.stoerrelse] ?? v.stoerrelse}. Regn med mere bloedning og laengere heling.`,
+      tekst: `Blodfortyndende medicin oplyst, og motivet er ${STOERRELSE_ORD[v.stoerrelse] ?? v.stoerrelse}. Regn med mere blødning og længere heling.`,
     });
   }
   if (har("allergi") && v.farve === "farve") {
     ud.push({
       noegle: "pigment",
-      tekst: "Allergi oplyst, og motivet skal vaere i farver. Spoerg hvad allergien gaelder, foer I vaelger pigment.",
+      tekst: "Allergi oplyst, og motivet skal være i farver. Spørg hvad allergien gælder, før I vælger pigment.",
     });
   }
   if (har("hudlidelse")) {
     ud.push({
       noegle: "hud",
-      tekst: `Hudlidelse oplyst. Spoerg om den sidder paa ${v.placering || "det sted motivet skal sidde"}.`,
+      tekst: `Hudlidelse oplyst. Spørg om den sidder på ${v.placering || "det sted motivet skal sidde"}.`,
     });
   }
   if (har("andet") || v.helbred_note) {
     ud.push({
       noegle: "egne-ord",
-      tekst: "Kunden har skrevet noget med sine egne ord. Laes det.",
+      tekst: "Kunden har skrevet noget med sine egne ord. Læs det.",
     });
   }
   return ud;
@@ -190,9 +218,9 @@ export function modstrid(v: Samtykke): Modstrid[] {
 
 /** Stoerrelsen sagt som et menneske ville sige den. */
 export const STOERRELSE_ORD: Record<string, string> = {
-  lille: "mindre end en haandflade",
-  mellem: "mellem en haandflade og en underarm",
-  stor: "stoerre end en underarm",
+  lille: "mindre end en håndflade",
+  mellem: "mellem en håndflade og en underarm",
+  stor: "større end en underarm",
 };
 
 
@@ -233,6 +261,21 @@ const HELBRED_ORD: Record<string, string> = {
 
 const FARVE_ORD: Record<string, string> = { sort: "sort blæk", farve: "farver" };
 
+/** Samme ord paa engelsk. Kundens brev taler hendes sprog. */
+const HELBRED_ORD_EN: Record<string, string> = {
+  gravid: "are pregnant",
+  blodfortyndende: "take blood-thinning medication",
+  allergi: "have an allergy",
+  hudlidelse: "have a skin condition",
+  andet: "noted something else",
+};
+const FARVE_ORD_EN: Record<string, string> = { sort: "black ink", farve: "colour" };
+export const STOERRELSE_ORD_EN: Record<string, string> = {
+  lille: "smaller than a palm",
+  mellem: "between a palm and a forearm",
+  stor: "larger than a forearm",
+};
+
 /** Emnet til huset. Bærer aldrig et helbredsord — kun et neutralt mærke. */
 export function husEmne(v: Samtykke): string {
   const m = modstrid(v);
@@ -240,14 +283,31 @@ export function husEmne(v: Samtykke): string {
   return `Samtykke · ${v.navn} · ${v.aftale_dato} · ${hale}`;
 }
 
-/** Kundens eget emne. Siger intet om hendes krop. */
+/**
+ * Kundens eget emne — paa HENDES sprog.
+ *
+ * Husets brev er altid dansk: det laeses af studiet. Kundens er ikke.
+ * Fladen sendte allerede `sprog`, men valider() smed det vaek, saa en
+ * engelsk kunde fik «Din samtykkeerklaering» i indbakken.
+ */
 export function kundeEmne(v: Samtykke): string {
-  return `Din samtykkeerklæring · Ink & Art · ${v.aftale_dato}`;
+  return v.sprog === "en"
+    ? `Your consent form · Ink & Art · ${v.aftale_dato}`
+    : `Din samtykkeerklæring · Ink & Art · ${v.aftale_dato}`;
 }
 
 const linje = (n: string, v: string) => `  ${n.padEnd(12)}${v || "—"}`;
 
 function oensket(v: Samtykke): string {
+  if (v.sprog === "en") {
+    return [
+      "WHAT YOU WANT",
+      linje("Design:", v.motiv),
+      linje("Placement:", v.placering),
+      linje("Size:", STOERRELSE_ORD_EN[v.stoerrelse] ?? v.stoerrelse),
+      linje("Colour:", FARVE_ORD_EN[v.farve] ?? v.farve),
+    ].join("\n");
+  }
   return [
     "ØNSKET",
     linje("Motiv:", v.motiv),
@@ -258,6 +318,13 @@ function oensket(v: Samtykke): string {
 }
 
 function kroppen(v: Samtykke): string {
+  if (v.sprog === "en") {
+    const k = v.helbred.length
+      ? v.helbred.map((h) => `  · You ${HELBRED_ORD_EN[h] ?? h}`).join("\n")
+      : "  · You did not tick anything.";
+    const e = v.helbred_note ? `\n\n  In your own words:\n  «${v.helbred_note}»` : "";
+    return `ABOUT YOUR BODY\n${k}${e}`;
+  }
   const kryds = v.helbred.length
     ? v.helbred.map((h) => `  · Kunden ${HELBRED_ORD[h] ?? h}`).join("\n")
     : "  · Kunden har ikke krydset noget af.";
@@ -314,26 +381,52 @@ export function husBrev(v: Samtykke, tidspunkt: string): string {
  * har sagt, og den skal ikke laegges i munden paa hende.
  */
 export function kundeBrev(v: Samtykke, tidspunkt: string): string {
-  return [
-    `Hej ${v.navn.split(" ")[0]}`,
-    "",
-    "Her er den erklæring du sendte til Ink & Art. Gem den — det er din",
-    "egen kopi, og du skal ikke bede os om den.",
-    "",
-    `Aftale: ${v.aftale_dato}   ·   Artist: ${v.kunstner || "ikke oplyst"}`,
-    "",
-    oensket(v),
-    "",
-    kroppen(v),
-    "",
-    "DU ERKLÆREDE",
-    "  · At du er fyldt 18 år",
-    "  · At du forstår at en tatovering er permanent",
-    "  · At du følger den aftercare du får med",
-    linje("Foto må bruges:", v.foto_ok ? "ja" : "nej"),
-    "",
-    `Sendt ${tidspunkt}`,
-    "",
-    "Er noget forkert, så skriv til os — så retter vi det ved disken.",
-  ].join("\n");
+  const en = v.sprog === "en";
+  const fornavn = v.navn.split(" ")[0];
+  return en
+    ? [
+        `Hi ${fornavn}`,
+        "",
+        "Here is the form you sent to Ink & Art. Keep it — it is your own",
+        "copy, and you should not have to ask us for it.",
+        "",
+        `Appointment: ${v.aftale_dato}   ·   Artist: ${v.kunstner || "not given"}`,
+        "",
+        oensket(v),
+        "",
+        kroppen(v),
+        "",
+        "YOU DECLARED",
+        "  · That you are 18 or older",
+        "  · That you understand a tattoo is permanent",
+        "  · That you follow the aftercare you are given",
+        linje("Photos allowed:", v.foto_ok ? "yes" : "no"),
+        "",
+        `Sent ${tidspunkt}`,
+        "",
+        "If anything is wrong, reply to this email — we will fix it at the counter.",
+      ].join("\n")
+    : [
+        `Hej ${fornavn}`,
+        "",
+        "Her er den erklæring du sendte til Ink & Art. Gem den — det er din",
+        "egen kopi, og du skal ikke bede os om den.",
+        "",
+        `Aftale: ${v.aftale_dato}   ·   Artist: ${v.kunstner || "ikke oplyst"}`,
+        "",
+        oensket(v),
+        "",
+        kroppen(v),
+        "",
+        "DU ERKLÆREDE",
+        "  · At du er fyldt 18 år",
+        "  · At du forstår at en tatovering er permanent",
+        "  · At du følger den aftercare du får med",
+        linje("Foto må bruges:", v.foto_ok ? "ja" : "nej"),
+        "",
+        `Sendt ${tidspunkt}`,
+        "",
+        "Er noget forkert, så svar på denne mail — så retter vi det ved disken.",
+      ].join("\n");
 }
+

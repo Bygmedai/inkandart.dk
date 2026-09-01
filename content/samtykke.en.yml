@@ -58,6 +58,10 @@ tak: >-
 fejl: >-
   It was NOT sent. We would rather say so than pretend — so you know you
   need to do something. Try again, or fill it in down here when you arrive.
+fejl_halvt: >-
+  We have most likely received your form — but your copy did not go
+  through. Do NOT send it again; then we would get it twice. Write to us,
+  or mention it at the counter when you arrive.
 fejl_felter: Something is missing above. Check the marked fields.
 print: Print it instead
 betingelser_linje: See the house terms as well.

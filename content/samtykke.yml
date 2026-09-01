@@ -58,11 +58,15 @@ send: Send
 sender: Sender
 tak_titel: Tak
 tak: >-
-  Vi har den, og du har fået en kopi på mail. Gem den — så har du selv
+  Vi har den, og en kopi er på vej til din mail. Gem den — så har du selv
   dine egne ord. Du behøver ikke gøre mere; kom bare til din tid.
 fejl: >-
   Den blev IKKE sendt. Vi vil hellere sige det end lade som om — så du ved
   at du skal gøre noget. Prøv igen, eller udfyld den hernede når du kommer.
+fejl_halvt: >-
+  Vi har sandsynligvis modtaget din erklæring — men kopien til dig gik
+  ikke igennem. Send den IKKE igen; så får vi den to gange. Skriv til os,
+  eller sig det ved disken når du kommer.
 fejl_felter: Der mangler noget herover. Se de markerede felter.
 print: Print den i stedet
 betingelser_linje: Se også husets betingelser.

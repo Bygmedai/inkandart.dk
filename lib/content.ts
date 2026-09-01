@@ -676,7 +676,7 @@ export type SamtykkeCopy = {
   helbred: string; helbred_lede: string; helbred_valg: Valg[]; helbred_note: string;
   erklaering: string; erklaering_valg: Valg[]; foto_ok: string;
   send: string; sender: string;
-  tak_titel: string; tak: string; fejl: string; fejl_felter: string;
+  tak_titel: string; tak: string; fejl: string; fejl_felter: string; fejl_halvt: string;
   print: string; betingelser_linje: string;
 };
 
@@ -706,7 +706,7 @@ function samtykke(fil: string): SamtykkeCopy {
     foto_ok: t("foto_ok"),
     send: t("send"), sender: t("sender"),
     tak_titel: t("tak_titel"), tak: t("tak"),
-    fejl: t("fejl"), fejl_felter: t("fejl_felter"),
+    fejl: t("fejl"), fejl_felter: t("fejl_felter"), fejl_halvt: t("fejl_halvt"),
     print: t("print"), betingelser_linje: t("betingelser_linje"),
   };
 }
