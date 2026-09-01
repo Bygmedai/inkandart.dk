@@ -40,7 +40,7 @@ test("hvert foto i YAML findes paa disken", () => {
 });
 
 test("den engelske artistside sender ikke kunden til danske rum", () => {
-  const s = read("app/(rummet)/en/stolen/[id]/page.tsx");
+  const s = read("app/(en)/(rummet)/en/stolen/[id]/page.tsx");
   for (const rum of ["gaden", "maerket", "booking", "stolen"]) {
     const danske = s.match(new RegExp(`href=(?:"|\\{\`)/${rum}\\b`, "g")) || [];
     assert.deepEqual(danske, [], `/en/stolen linker til /${rum} i stedet for /en/${rum}`);
@@ -50,14 +50,14 @@ test("den engelske artistside sender ikke kunden til danske rum", () => {
 });
 
 test("prisdoeren paa piercerens side foelger sproget", () => {
-  assert.match(read("app/(rummet)/stolen/[id]/page.tsx"), /prisHref="\/piercing"/);
-  assert.match(read("app/(rummet)/en/stolen/[id]/page.tsx"), /prisHref="\/en\/piercing"/);
+  assert.match(read("app/(da)/(rummet)/stolen/[id]/page.tsx"), /prisHref="\/piercing"/);
+  assert.match(read("app/(en)/(rummet)/en/stolen/[id]/page.tsx"), /prisHref="\/en\/piercing"/);
 });
 
 test("piercing-blokken er én komponent, ikke to kopier", () => {
   for (const p of [
-    "app/(rummet)/stolen/[id]/page.tsx",
-    "app/(rummet)/en/stolen/[id]/page.tsx",
+    "app/(da)/(rummet)/stolen/[id]/page.tsx",
+    "app/(en)/(rummet)/en/stolen/[id]/page.tsx",
   ]) {
     assert.match(read(p), /<PiercingBlok\b/, p);
     assert.doesNotMatch(read(p), /rum-artist__piercing/, `${p} tegner blokken selv`);

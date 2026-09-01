@@ -3,21 +3,21 @@ import Script from "next/script";
 
 const display = localFont({
   src: [
-    { path: "../fonts/CormorantGaramond-500-latin.woff2", weight: "500", style: "normal" },
-    { path: "../fonts/CormorantGaramond-Italic-500-latin.woff2", weight: "500", style: "italic" },
+    { path: "../../fonts/CormorantGaramond-500-latin.woff2", weight: "500", style: "normal" },
+    { path: "../../fonts/CormorantGaramond-Italic-500-latin.woff2", weight: "500", style: "italic" },
   ],
   variable: "--font-display",
   display: "swap",
 });
 
 const body = localFont({
-  src: [{ path: "../fonts/SpaceGrotesk-latin.woff2", weight: "400 700", style: "normal" }],
+  src: [{ path: "../../fonts/SpaceGrotesk-latin.woff2", weight: "400 700", style: "normal" }],
   variable: "--font-body",
   display: "swap",
 });
 
 const mono = localFont({
-  src: [{ path: "../fonts/SpaceMono-Regular.woff2", weight: "400", style: "normal" }],
+  src: [{ path: "../../fonts/SpaceMono-Regular.woff2", weight: "400", style: "normal" }],
   variable: "--font-mono",
   display: "swap",
 });

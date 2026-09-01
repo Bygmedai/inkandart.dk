@@ -20,7 +20,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
  * sin egen.
  */
 const enRuter = () => {
-  const dir = join(root, "app/(emerge)/en");
+  const dir = join(root, "app/(en)/(emerge)/en");
   const ud = new Set(["/en"]);
   for (const d of readdirSync(dir, { withFileTypes: true })) {
     if (!d.isDirectory() || d.name.startsWith("[")) continue;
@@ -30,7 +30,7 @@ const enRuter = () => {
 };
 
 const enSider = () => {
-  const dir = join(root, "app/(emerge)/en");
+  const dir = join(root, "app/(en)/(emerge)/en");
   const ud = [];
   for (const d of readdirSync(dir, { withFileTypes: true })) {
     const f = d.isDirectory() ? join(dir, d.name, "page.tsx") : join(dir, d.name);
@@ -87,7 +87,7 @@ test("registeret matcher de sider der faktisk findes på disken", async () => {
   // /en er ved at flytte fra Emerge til Rummet (K6) — registeret gælder
   // uanset hvilken gruppe siden bor i, så begge læses.
   const paa_disken = new Set();
-  for (const gruppe of ["app/(emerge)/en", "app/(rummet)/en"]) {
+  for (const gruppe of ["app/(en)/(emerge)/en", "app/(en)/(rummet)/en"]) {
     const dir = join(root, gruppe);
     if (!existsSync(dir)) continue;
     if (existsSync(join(dir, "page.tsx"))) paa_disken.add("/");

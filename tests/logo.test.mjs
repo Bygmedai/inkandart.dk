@@ -129,7 +129,7 @@ test("det delekort layoutet PEGER på, findes faktisk", () => {
   // CLAUDE.md §5's fælde: en og:image der peger på en fil der ikke er der,
   // består build og fejler i drift — du opdager det først når nogen deler
   // linket og der ikke kommer noget billede. Vidnet følger stien.
-  const layout = readFileSync(join(root, "app/layout.tsx"), "utf8");
+  const layout = readFileSync(join(root, "app/(da)/layout.tsx"), "utf8");
   const m = layout.match(/url:\s*"(\/[^"]+\.(?:jpg|jpeg|png|webp))"/);
   assert.ok(m, "kunne ikke finde og:image-stien i layout.tsx");
   const fil = join(root, "public", m[1]);

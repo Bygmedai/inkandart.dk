@@ -94,7 +94,7 @@ test("S574: productsInCollection uden env → ok:false, aldrig throw", async () 
 test("S574: Mærket kalder kollektionen først og YAML-fallback ved !ok", () => {
   // S574: hylde-hentningen bor i lib/hylden-data.ts — ét sted, to sprog.
   const maerket = read("lib/hylden-data.ts");
-  const handle = read("app/(rummet)/maerket/[handle]/page.tsx");
+  const handle = read("app/(da)/(rummet)/maerket/[handle]/page.tsx");
   const storefront = read("lib/storefront.ts");
   assert.match(maerket, /productsInCollection\("hylden"\)/);
   assert.match(maerket, /coll\.ok/);

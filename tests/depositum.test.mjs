@@ -150,7 +150,7 @@ test("PRIVATLIV: den offentlige verifikation returnerer en status og intet andet
 });
 
 test("tak-siden beviser betalingen i stedet for at tro på URL'en", () => {
-  for (const f of ["app/(rummet)/booking/tak/page.tsx", "app/(rummet)/en/booking/tak/page.tsx"]) {
+  for (const f of ["app/(da)/(rummet)/booking/tak/page.tsx", "app/(en)/(rummet)/en/booking/tak/page.tsx"]) {
     const side = read(f);
     assert.match(side, /verificerDepositum/, `${f} skal spørge Shopify`);
     assert.doesNotMatch(side, /params\.betalt/, `${f}: ?betalt=1 er ikke et bevis`);

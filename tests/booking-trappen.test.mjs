@@ -62,14 +62,14 @@ test("et telefonnummer i loebende tekst spraenger ikke linjen", () => {
 });
 
 test("den ene inline-forekomst bruger modifieren", () => {
-  const s = read("app/(rummet)/en/booking/page.tsx");
+  const s = read("app/(en)/(rummet)/en/booking/page.tsx");
   assert.match(s, /rum-tel rum-tel--i-tekst/);
 });
 
 test("telefonnumre der staar alene beholder den almindelige regel", () => {
   // Negativ kontrol: modifieren maa ikke brede sig til de frittstaaende.
   for (const p of [
-    "app/(rummet)/piercing/page.tsx",
+    "app/(da)/(rummet)/piercing/page.tsx",
     "components/rummet/GadenFlade.tsx",
   ]) {
     const s = read(p);

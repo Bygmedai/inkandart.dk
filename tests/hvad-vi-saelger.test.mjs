@@ -10,10 +10,10 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 // læses med som en del af scenen. En titel der ryger ud af huset.yml uden
 // erstatning gør stadig vidnet rødt.
 const scene =
-  readFileSync(join(root, "app/(rummet)/page.tsx"), "utf8") +
+  readFileSync(join(root, "app/(da)/(rummet)/page.tsx"), "utf8") +
   "\n" +
   readFileSync(join(root, "content/huset.yml"), "utf8");
-const layout = readFileSync(join(root, "app/layout.tsx"), "utf8");
+const layout = readFileSync(join(root, "app/(da)/layout.tsx"), "utf8");
 
 /**
  * Sitet skal sige hvad huset sælger — med synlig tekst.

@@ -202,7 +202,7 @@ test("A2: et motiv fra Shopify baerer ikke en stoerrelse vi ikke kender", () => 
 });
 
 test("A2: siden viser stoerrelsen naar den findes — og kun da", () => {
-  const side = read("app/(emerge)/flash/page.tsx");
+  const side = read("app/(da)/(emerge)/flash/page.tsx");
   // Foer: gatet paa `f.artist`, som altid var tom. Feltet kunne aldrig vises,
   // og vaerdien var alligevel forkert. Nu gater den paa sig selv.
   assert.match(side, /\{f\.size \? `\$\{SIZE_LABEL\[f\.size\]\} · ` : ""\}/);
@@ -210,7 +210,7 @@ test("A2: siden viser stoerrelsen naar den findes — og kun da", () => {
 });
 
 test("A3: tilmeldingen staar OGSAA naar der er motiver", () => {
-  const side = read("app/(emerge)/flash/page.tsx");
+  const side = read("app/(da)/(emerge)/flash/page.tsx");
   const traef = [...side.matchAll(/<BlackbookSignup/g)];
   assert.equal(traef.length, 2, "tilmeldingen skal staa i begge tilstande");
 

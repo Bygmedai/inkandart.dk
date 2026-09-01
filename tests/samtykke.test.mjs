@@ -115,8 +115,8 @@ test("fladen kvitterer kun paa et rent svar", () => {
 });
 
 test("begge sprogruter findes og peger paa hver sin betingelsesside", () => {
-  assert.match(read("app/(rummet)/samtykke/page.tsx"), /betingelserHref="\/betingelser"/);
-  assert.match(read("app/(rummet)/en/samtykke/page.tsx"), /betingelserHref="\/en\/betingelser"/);
+  assert.match(read("app/(da)/(rummet)/samtykke/page.tsx"), /betingelserHref="\/betingelser"/);
+  assert.match(read("app/(en)/(rummet)/en/samtykke/page.tsx"), /betingelserHref="\/en\/betingelser"/);
 });
 
 test("formularen kan printes til dem uden telefon", () => {
