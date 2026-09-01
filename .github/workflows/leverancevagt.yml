@@ -1,0 +1,37 @@
+# Leverancevagt — ser om husets breve rent faktisk kom frem.
+#
+# Et 2xx fra Resend betyder «accepteret til afsendelse», ikke «landet».
+# Fail-closed i /api/samtykke fanger ikke en bounce hos modtageren.
+# Acceptkriterier: docs/accept/leverancevagt.md
+#
+# Én gang i doegnet er et VALG: hyppigere ville koste kald uden at aendre
+# hvad nogen kan naa at goere. Sonja laeser ikke en rapport kl. tre om
+# natten.
+#
+# Kendt begraensning, samme som kundevagten: GitHub slaar cron fra efter
+# 60 dages repo-stilhed. Fravaeret af koersler er derfor ogsaa et signal.
+name: Leverancevagt
+on:
+  schedule:
+    - cron: "17 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  leverance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+      # LAESE-noeglen. Den der sendes med i /api/samtykke er sending-only
+      # og laast til ét domaene — den maa ALDRIG staa her.
+      - run: node scripts/leverancevagt.mjs
+        env:
+          RESEND_READ_KEY: ${{ secrets.RESEND_READ_KEY }}
