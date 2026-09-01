@@ -40,12 +40,20 @@ function Blackbook({
       <a
         href={`${localePath(lang, "/")}#doer`}
         className={dock ? "rum-dock__book" : "rum-nav__book"}
-        aria-label={word ? undefined : "Blackbook"}
+        // Navnet staar ÉT sted. Foer S578 kom det to steder ad gangen:
+        // det synlige ord og et skjult dubletord. `.rum-nav__book-word` er
+        // skjult under 900px og synlig over, men dubletten var der altid —
+        // saa over 900px maalte innerText bogstaveligt
+        // «BLACKBOOK\nBLACKBOOK», og en skaermlaeser sagde det to gange.
+        // Paa mobil var linket rigtigt, saa fejlen fandtes KUN paa desktop.
+        //
+        // aria-label er ordret det synlige ord, saa Label in Name (2.5.3)
+        // holder: talestyring kan stadig sige «Blackbook».
+        aria-label="Blackbook"
         data-mobile-book={mobile ? "" : undefined}
       >
         <span className="rum-dot" aria-hidden="true" />
         {word ? <span className="rum-nav__book-word">Blackbook</span> : null}
-        <span className="sr-only">Blackbook</span>
       </a>
       <CartIndicator />
     </span>

@@ -29,6 +29,35 @@ export const EKSTRA = [
   // Flash blev en koebsflade med flash-droppet (S574). En rute der tager
   // imod penge uden en vagt er en rute hvor det naeste overloeb faar lov.
   { navn: "Flash", rute: "/flash" },
+
+  // S578. Fuld QA fandt fire fejl paa fladen; ingen af dem gik roede her,
+  // fordi vagten ikke saa paa de ruter. Porten var groen paa #267 og #270
+  // fordi den ikke kiggede der — ikke fordi der ikke var noget at se.
+  //
+  // De nyeste kundevendte flader. /gavekort tager imod penge og havde
+  // ingen vagt — samme klasse hul som de to nye.
+  { navn: "Piercingpriser", rute: "/piercing" },
+  { navn: "Samtykke", rute: "/samtykke" },
+  { navn: "Gavekort", rute: "/gavekort" },
+
+  // Og den engelske flade, som INGEN vagt roerte. En turist moedte de
+  // samme layouts som en dansker, uden at én proeve saa dem.
+  //
+  // Reglen er ikke listen herunder — den er i
+  // «QA-vagten ser begge sprog» (tests/qa-daekning.test.mjs): har en
+  // vagtet dansk flade en engelsk tvilling i EN_ROUTES, skal tvillingen
+  // ogsaa vagtes. Tilfoejer nogen en engelsk side og glemmer den her,
+  // gaar den proeve roed. Ellers ville listen bare drifte igen.
+  { navn: "EN Huset", rute: "/en" },
+  { navn: "EN Stolen", rute: "/en/stolen" },
+  { navn: "EN Natten", rute: "/en/natten" },
+  { navn: "EN Gaden", rute: "/en/gaden" },
+  { navn: "EN Maerket", rute: "/en/maerket" },
+  { navn: "EN Booking", rute: "/en/booking" },
+  { navn: "EN Artistside", rute: "/en/stolen/nizar" },
+  { navn: "EN Flash", rute: "/en/flash" },
+  { navn: "EN Piercingpriser", rute: "/en/piercing" },
+  { navn: "EN Samtykke", rute: "/en/samtykke" },
 ];
 
 export const FLADER = [...RUM, ...EKSTRA];
