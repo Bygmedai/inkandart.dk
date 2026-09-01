@@ -81,14 +81,32 @@ Den må ikke komme igen i en ny form.
 *Steven efterprøver:* to breve i listen, ét rent og ét med modstrid.
 Kan en engelsktalende se forskel uden at åbne dem?
 
-### AC4 — Kundens eget brev er ét sprog, hendes eget
+### AC4 — Kundens brev bærer begge sprog, hendes eget først
 
-**Givet** en kunde der udfyldte på engelsk
+**Givet** en kunde der udfyldte på ét sprog
 **Når** hun får sin kopi
-**Så** er den **helt** engelsk. Hun skal ikke se husets danske ord.
+**Så** står **hendes eget sprog først**, en streg, og det andet under.
 
-*Allerede opfyldt i dag — målt: nul danske ord i det engelske kundebrev.
-Kriteriet står her, så det ikke går tabt når brevet bliver tosproget.*
+**Og hun tiltales i anden person på begge sprog** — aldrig «Kunden».
+
+**Negativ kontrol:** en engelsk kunde skal møde «Hi» på første linje, ikke
+«Hej». Står det andet sprog øverst, er kriteriet faldet.
+
+*Steven efterprøver:* udfyld på `/en/samtykke`. Første linje i mailen skal
+være engelsk.
+
+**v1 sagde det modsatte, og jeg tog fejl.** Jeg skrev at hendes kopi er
+«hendes erklæring», og at to udgaver rejser spørgsmålet om hvilken hun
+sagde ja til. Steven vendte den:
+
+> «Vi skal ikke komplicere. De flere kan sagtens læse en mail med to
+> sprog. Ellers skal vi have et kompliceret setup.»
+
+Han har ret. Brevet er en **kvittering**, ikke et modunderskrevet
+dokument — hun indsendte ét skema på ét sprog, og en oversættelse ved
+siden af ændrer ikke hvad hun indsendte. Og **ét brevformat er simplere
+end to**: det var netop to kodeveje der skabte sprogblandingen samme
+morgen.
 
 ### AC5 — Begge sider står i sitemappet
 

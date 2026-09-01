@@ -273,13 +273,17 @@ test("FUND 1: en engelsk kunde faar et engelsk brev", async () => {
   assert.equal(da.sprog, "da");
   assert.equal(en.sprog, "en", "sproget bliver stadig smidt vaek i valider()");
 
+  // EMNET er ét sprog — hendes. Det er dét hun ser i indbakkelisten.
   assert.match(kundeEmne(en), /Your consent form/);
   assert.doesNotMatch(kundeEmne(en), /samtykkeerklæring/i, "engelsk kunde faar dansk emne");
-  assert.match(kundeBrev(en, "nu"), /YOU DECLARED/);
-  assert.doesNotMatch(kundeBrev(en, "nu"), /DU ERKLÆREDE/);
-
-  // Negativ kontrol: den danske skal stadig vaere dansk.
   assert.match(kundeEmne(da), /samtykkeerklæring/);
+
+  // BREVET baerer begge sprog fra 1/9 (Stevens kald). Reglen er ikke
+  // laengere «kun hendes sprog» — den er «hendes sprog staar FOERST».
+  // Proeven laaste sig fast paa den gamle adfaerd, ikke paa reglen.
+  assert.match(kundeBrev(en, "nu"), /^Hi /, "engelsk kunde moeder ikke engelsk foerst");
+  assert.match(kundeBrev(da, "nu"), /^Hej /, "dansk kunde moeder ikke dansk foerst");
+  assert.match(kundeBrev(en, "nu"), /YOU DECLARED/);
   assert.match(kundeBrev(da, "nu"), /DU ERKLÆREDE/);
 
   // Husets brev er ALTID dansk — det laeses af studiet, ikke af kunden.
@@ -416,7 +420,12 @@ test("kundens brev taler TIL hende, ikke OM hende", async () => {
 
   const en = kundeBrev(mk("en"), "2026-09-01T11:05:10.727Z");
   assert.match(en, /You take blood-thinning medication/);
-  assert.doesNotMatch(en, /Kunden |Du /, "engelsk kunde faar danske ord");
+  // Brevet baerer nu begge sprog, saa «ingen danske ord» er bevidst
+  // falsk. Reglen der BESTAAR er anden person: hun maa aldrig omtales
+  // som «Kunden» i sit eget brev — heller ikke i den danske blok.
+  assert.match(en, /Du tager blodfortyndende medicin/);
+  assert.doesNotMatch(en, /Kunden |The customer /,
+    "kundens eget brev taler om hende i tredje person");
 
   // Og husets brev er ALTID dansk og altid tredje person — ogsaa naar
   // kunden er engelsk. Det er artisten der laeser det.
@@ -516,19 +525,41 @@ test("AC2: de to sprog blandes ikke, og ingen taler til den forkerte laeser", as
     "husets brev taler til artisten som om hun var kunden");
 });
 
-test("AC4: kundens eget brev er ÉT sprog — hendes eget", async () => {
+test("AC4: kundens brev baerer BEGGE sprog — hendes eget foerst", async () => {
   const { kundeBrev } = await import("../lib/samtykke.ts");
 
-  // Kundens kopi er hendes erklaering. To udgaver af en erklaering rejser
-  // spoergsmaalet om hvilken hun sagde ja til. Og vi VED hvad hun laeser:
-  // hun udfyldte skemaet paa det sprog.
-  const en = kundeBrev(await mkSamtykke({ sprog: "en" }), "2026-09-01T11:00:00.000Z");
-  assert.doesNotMatch(en, /─{10,}/, "kundens brev er blevet tosproget");
-  assert.doesNotMatch(en, /ØNSKET|OPLYST OM KROPPEN|Du er gravid/);
+  // Steven 1/9: «De flere kan sagtens laese en mail med to sprog. Ellers
+  // skal vi have et kompliceret setup.»
+  //
+  // Jeg argumenterede foerst imod: «hendes kopi er hendes erklaering».
+  // Det var for staerkt sagt — brevet er en KVITTERING, ikke et
+  // modunderskrevet dokument. Og ét format er simplere end to; det var
+  // netop to kodeveje der skabte sprogblandingen samme morgen.
+  for (const [sprog, foerst, andet] of [
+    ["da", /^Hej /, "Hi "],
+    ["en", /^Hi /, "Hej "],
+  ]) {
+    const b = kundeBrev(await mkSamtykke({ sprog }), "2026-09-01T11:00:00.000Z");
+    assert.match(b, foerst, `${sprog}: hendes eget sprog staar ikke foerst`);
+    assert.ok(b.includes(andet), `${sprog}: det andet sprog mangler`);
+    assert.match(b, /─{10,}/, `${sprog}: de to blokke er ikke adskilt`);
 
-  const da = kundeBrev(await mkSamtykke({ sprog: "da" }), "2026-09-01T11:00:00.000Z");
-  assert.doesNotMatch(da, /─{10,}/);
-  assert.doesNotMatch(da, /WHAT YOU WANT|ABOUT YOUR BODY/);
+    // Hver blok er HEL — aldrig en dansk overskrift med en engelsk linje
+    // under. Samme regel som husets brev (AC2).
+    const [a, c] = b.split(/─{10,}/);
+    const dansk = /ØNSKET|OPLYST OM KROPPEN|DU ERKLÆREDE/;
+    const engelsk = /WHAT YOU WANT|ABOUT YOUR BODY|YOU DECLARED/;
+    const [dBlok, eBlok] = sprog === "da" ? [a, c] : [c, a];
+    assert.match(dBlok, dansk); assert.doesNotMatch(dBlok, engelsk);
+    assert.match(eBlok, engelsk); assert.doesNotMatch(eBlok, dansk);
+  }
+
+  // Og kunden tiltales i ANDEN person paa begge sprog — aldrig «Kunden».
+  const b = kundeBrev(await mkSamtykke({ sprog: "da" }), "nu");
+  assert.match(b, /Du er gravid/);
+  assert.match(b, /You are pregnant/);
+  assert.doesNotMatch(b, /Kunden |The customer /,
+    "kundens eget brev taler om hende i tredje person");
 });
 
 test("AC5: begge samtykke-sider staar i sitemappet", () => {

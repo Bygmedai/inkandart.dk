@@ -523,52 +523,63 @@ function blok(v: Samtykke, tidspunkt: string, sprog: Sprog): string[] {
  * har sagt, og den skal ikke laegges i munden paa hende.
  */
 export function kundeBrev(v: Samtykke, tidspunkt: string): string {
-  const en = v.sprog === "en";
-  const fornavn = v.navn.split(" ")[0];
-  return en
-    ? [
-        `Hi ${fornavn}`,
-        "",
-        "Here is the form you sent to Ink & Art. Keep it — it is your own",
-        "copy, and you should not have to ask us for it.",
-        "",
-        `Appointment: ${datoOrd(v.aftale_dato, "en")}   ·   Artist: ${v.kunstner || "not given"}`,
-        "",
-        oensket(v, "en"),
-        "",
-        kroppen(v, "en"),
-        "",
-        "YOU DECLARED",
-        "  · That you are 18 or older",
-        "  · That you understand a tattoo is permanent",
-        "  · That you follow the aftercare you are given",
-        linje("Photos allowed:", v.foto_ok ? "yes" : "no"),
-        "",
-        `Sent ${tidOrd(tidspunkt, "en")}`,
-        "",
-        "If anything is wrong, reply to this email — we will fix it at the counter.",
-      ].join("\n")
-    : [
-        `Hej ${fornavn}`,
-        "",
-        "Her er den erklæring du sendte til Ink & Art. Gem den — det er din",
-        "egen kopi, og du skal ikke bede os om den.",
-        "",
-        `Aftale: ${datoOrd(v.aftale_dato)}   ·   Artist: ${v.kunstner || "ikke oplyst"}`,
-        "",
-        oensket(v, "da"),
-        "",
-        kroppen(v, "da"),
-        "",
-        "DU ERKLÆREDE",
-        "  · At du er fyldt 18 år",
-        "  · At du forstår at en tatovering er permanent",
-        "  · At du følger den aftercare du får med",
-        linje("Foto må bruges:", v.foto_ok ? "ja" : "nej"),
-        "",
-        `Sendt ${tidOrd(tidspunkt)}`,
-        "",
-        "Er noget forkert, så svar på denne mail — så retter vi det ved disken.",
-      ].join("\n");
+  // HENDES sprog foerst — hun aabner brevet og skal se sit eget med det
+  // samme. Det andet staar under stregen.
+  const andet: Sprog = v.sprog === "en" ? "da" : "en";
+  return [
+    ...kundeBlok(v, tidspunkt, v.sprog),
+    "",
+    STREG,
+    "",
+    ...kundeBlok(v, tidspunkt, andet),
+  ].join("\n");
 }
+
+/**
+ * Én sproglig blok af kundens brev. Anden person — det er hende der
+ * laeser om sig selv.
+ *
+ * Kundens brev baerer BEGGE sprog fra 1/9. Jeg argumenterede foerst imod:
+ * «hendes kopi er hendes erklaering, og to udgaver rejser spoergsmaalet
+ * om hvilken hun sagde ja til.» Steven vendte den, og han har ret —
+ * brevet er en KVITTERING, ikke et modunderskrevet dokument. Hun
+ * indsendte ét skema paa ét sprog; en oversaettelse ved siden af aendrer
+ * ikke hvad hun indsendte.
+ *
+ * Og det praktiske argument slaar det juridiske: ÉT brevformat er
+ * simplere end to. Det var netop to kodeveje der skabte sprogblandingen
+ * samme morgen.
+ */
+function kundeBlok(v: Samtykke, tidspunkt: string, sprog: Sprog): string[] {
+  const en = sprog === "en";
+  const fornavn = v.navn.split(" ")[0];
+  return [
+    en ? `Hi ${fornavn}` : `Hej ${fornavn}`,
+    "",
+    en
+      ? "Here is the form you sent to Ink & Art. Keep it — it is your own\ncopy, and you should not have to ask us for it."
+      : "Her er den erklæring du sendte til Ink & Art. Gem den — det er din\negen kopi, og du skal ikke bede os om den.",
+    "",
+    en
+      ? `Appointment: ${datoOrd(v.aftale_dato, "en")}   ·   Artist: ${v.kunstner || "not given"}`
+      : `Aftale: ${datoOrd(v.aftale_dato)}   ·   Artist: ${v.kunstner || "ikke oplyst"}`,
+    "",
+    oensket(v, sprog),
+    "",
+    kroppen(v, sprog),
+    "",
+    en ? "YOU DECLARED" : "DU ERKLÆREDE",
+    en ? "  · That you are 18 or older" : "  · At du er fyldt 18 år",
+    en ? "  · That you understand a tattoo is permanent" : "  · At du forstår at en tatovering er permanent",
+    en ? "  · That you follow the aftercare you are given" : "  · At du følger den aftercare du får med",
+    linje(en ? "Photos allowed:" : "Foto må bruges:", v.foto_ok ? (en ? "yes" : "ja") : (en ? "no" : "nej")),
+    "",
+    en ? `Sent ${tidOrd(tidspunkt, "en")}` : `Sendt ${tidOrd(tidspunkt)}`,
+    "",
+    en
+      ? "If anything is wrong, reply to this email — we will fix it at the counter."
+      : "Er noget forkert, så svar på denne mail — så retter vi det ved disken.",
+  ];
+}
+
 
