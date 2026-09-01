@@ -251,24 +251,45 @@ export const STOERRELSE_ORD: Record<string, string> = {
  * gennemgaas, staar inde i brevet.
  */
 
-const HELBRED_ORD: Record<string, string> = {
-  gravid: "gravid",
-  blodfortyndende: "tager blodfortyndende medicin",
-  allergi: "har en allergi",
-  hudlidelse: "har en hudlidelse",
-  andet: "har noteret noget andet",
+/**
+ * Helbredsordene i TRE udgaver, fordi de laeses af to forskellige
+ * mennesker paa to sprog:
+ *
+ *   hus   → artisten laeser OM kunden.     «Kunden tager …»   altid dansk
+ *   da    → kunden laeser om SIG SELV.     «Du tager …»
+ *   en    → samme, paa engelsk.            «You take …»
+ *
+ * Foer 1/9 var der kun ÉN dansk udgave, skrevet i husets perspektiv, og
+ * den blev genbrugt i kundens eget brev. Steven fik derfor et brev der
+ * sagde «Hej Steven» og to linjer nede «Kunden tager blodfortyndende
+ * medicin». Maalt i hans indbakke, ikke i en proeve.
+ */
+const HELBRED_ORD: Record<string, Record<string, string>> = {
+  hus: {
+    gravid: "Kunden er gravid",
+    blodfortyndende: "Kunden tager blodfortyndende medicin",
+    allergi: "Kunden har en allergi",
+    hudlidelse: "Kunden har en hudlidelse",
+    andet: "Kunden har noteret noget andet",
+  },
+  da: {
+    gravid: "Du er gravid",
+    blodfortyndende: "Du tager blodfortyndende medicin",
+    allergi: "Du har en allergi",
+    hudlidelse: "Du har en hudlidelse",
+    andet: "Du har noteret noget andet",
+  },
+  en: {
+    gravid: "You are pregnant",
+    blodfortyndende: "You take blood-thinning medication",
+    allergi: "You have an allergy",
+    hudlidelse: "You have a skin condition",
+    andet: "You noted something else",
+  },
 };
 
 const FARVE_ORD: Record<string, string> = { sort: "sort blæk", farve: "farver" };
 
-/** Samme ord paa engelsk. Kundens brev taler hendes sprog. */
-const HELBRED_ORD_EN: Record<string, string> = {
-  gravid: "are pregnant",
-  blodfortyndende: "take blood-thinning medication",
-  allergi: "have an allergy",
-  hudlidelse: "have a skin condition",
-  andet: "noted something else",
-};
 const FARVE_ORD_EN: Record<string, string> = { sort: "black ink", farve: "colour" };
 export const STOERRELSE_ORD_EN: Record<string, string> = {
   lille: "smaller than a palm",
@@ -296,10 +317,50 @@ export function kundeEmne(v: Samtykke): string {
     : `Din samtykkeerklæring · Ink & Art · ${v.aftale_dato}`;
 }
 
-const linje = (n: string, v: string) => `  ${n.padEnd(12)}${v || "—"}`;
+/** 16 fordi «Foto maa bruges:» og «Photos allowed:» er de laengste.
+ *  padEnd(12) gav «Foto maa bruges:ja» uden mellemrum — maalt i Stevens
+ *  indbakke 1/9. */
+/**
+ * Datoer som et menneske skriver dem.
+ *
+ * «2026-09-23» blev linkificeret af Gmail — det staar blaat og
+ * understreget i kundens brev, som om det var et telefonnummer (maalt i
+ * Stevens indbakke 1/9). Og «Sendt 2026-09-01T11:05:10.727Z» er
+ * maskinformat i et brev til et menneske.
+ *
+ * ISO-datoen bliver staaende i FELTET; det er kun visningen der aendres.
+ */
+const MAANED: Record<string, string[]> = {
+  da: ["januar","februar","marts","april","maj","juni","juli","august","september","oktober","november","december"],
+  en: ["January","February","March","April","May","June","July","August","September","October","November","December"],
+};
 
-function oensket(v: Samtykke): string {
-  if (v.sprog === "en") {
+export function datoOrd(iso: string, sprog: "da" | "en" = "da"): string {
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso);
+  if (!m) return iso;
+  const [, aar, md, dag] = m;
+  const navn = MAANED[sprog][Number(md) - 1];
+  if (!navn) return iso;
+  return sprog === "en"
+    ? `${Number(dag)} ${navn} ${aar}`
+    : `${Number(dag)}. ${navn} ${aar}`;
+}
+
+/** Tidspunkt uden millisekunder og uden Z. Dansk tid, sagt som en tid. */
+export function tidOrd(iso: string, sprog: "da" | "en" = "da"): string {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  const dato = datoOrd(d.toISOString(), sprog);
+  const kl = d.toLocaleTimeString(sprog === "en" ? "en-GB" : "da-DK", {
+    hour: "2-digit", minute: "2-digit", timeZone: "Europe/Copenhagen",
+  });
+  return sprog === "en" ? `${dato} at ${kl}` : `${dato} kl. ${kl}`;
+}
+
+const linje = (n: string, v: string) => `  ${n.padEnd(16)}${v || "—"}`;
+
+function oensket(v: Samtykke, sprog: string): string {
+  if (sprog === "en") {
     return [
       "WHAT YOU WANT",
       linje("Design:", v.motiv),
@@ -317,19 +378,23 @@ function oensket(v: Samtykke): string {
   ].join("\n");
 }
 
-function kroppen(v: Samtykke): string {
-  if (v.sprog === "en") {
-    const k = v.helbred.length
-      ? v.helbred.map((h) => `  · You ${HELBRED_ORD_EN[h] ?? h}`).join("\n")
-      : "  · You did not tick anything.";
-    const e = v.helbred_note ? `\n\n  In your own words:\n  «${v.helbred_note}»` : "";
-    return `ABOUT YOUR BODY\n${k}${e}`;
-  }
+/**
+ * @param maalgruppe "hus" (artisten laeser om kunden) eller "da"/"en"
+ *        (kunden laeser om sig selv). Perspektivet er et ARGUMENT — det
+ *        maa ikke udledes af v.sprog, for husets brev er altid dansk og
+ *        altid i tredje person, ogsaa naar kunden er engelsk.
+ */
+function kroppen(v: Samtykke, maalgruppe: "hus" | "da" | "en"): string {
+  const ord = HELBRED_ORD[maalgruppe];
+  const en = maalgruppe === "en";
+  const tom = { hus: "Kunden har ikke krydset noget af.", da: "Du har ikke krydset noget af.", en: "You did not tick anything." }[maalgruppe];
   const kryds = v.helbred.length
-    ? v.helbred.map((h) => `  · Kunden ${HELBRED_ORD[h] ?? h}`).join("\n")
-    : "  · Kunden har ikke krydset noget af.";
-  const egne = v.helbred_note ? `\n\n  Med egne ord:\n  «${v.helbred_note}»` : "";
-  return `OPLYST OM KROPPEN\n${kryds}${egne}`;
+    ? v.helbred.map((h) => `  · ${ord[h] ?? h}`).join("\n")
+    : `  · ${tom}`;
+  const egne = v.helbred_note
+    ? `\n\n  ${en ? "In your own words" : maalgruppe === "hus" ? "Kundens egne ord" : "Med egne ord"}:\n  «${v.helbred_note}»`
+    : "";
+  return `${en ? "ABOUT YOUR BODY" : "OPLYST OM KROPPEN"}\n${kryds}${egne}`;
 }
 
 /**
@@ -348,13 +413,13 @@ export function husBrev(v: Samtykke, tidspunkt: string): string {
 
   return [
     `SAMTYKKE — ${v.navn}`,
-    `Aftale: ${v.aftale_dato}   ·   Artist: ${v.kunstner || "ikke oplyst"}`,
+    `Aftale: ${datoOrd(v.aftale_dato)}   ·   Artist: ${v.kunstner || "ikke oplyst"}`,
     "",
     top,
     "",
-    oensket(v),
+    oensket(v, "da"),
     "",
-    kroppen(v),
+    kroppen(v, "hus"),
     "",
     "KUNDEN",
     linje("Navn:", v.navn),
@@ -368,7 +433,7 @@ export function husBrev(v: Samtykke, tidspunkt: string): string {
     "  · Følger den aftercare hun får med",
     linje("Foto må bruges:", v.foto_ok ? "ja" : "nej"),
     "",
-    `Udfyldt ${tidspunkt}`,
+    `Udfyldt ${tidOrd(tidspunkt)}`,
     "",
     "Dette brev er hele erklæringen. Der ligger ikke en kopi i noget",
     "andet system — hverken i Shopify eller i en database hos os.",
@@ -390,11 +455,11 @@ export function kundeBrev(v: Samtykke, tidspunkt: string): string {
         "Here is the form you sent to Ink & Art. Keep it — it is your own",
         "copy, and you should not have to ask us for it.",
         "",
-        `Appointment: ${v.aftale_dato}   ·   Artist: ${v.kunstner || "not given"}`,
+        `Appointment: ${datoOrd(v.aftale_dato, "en")}   ·   Artist: ${v.kunstner || "not given"}`,
         "",
-        oensket(v),
+        oensket(v, "en"),
         "",
-        kroppen(v),
+        kroppen(v, "en"),
         "",
         "YOU DECLARED",
         "  · That you are 18 or older",
@@ -402,7 +467,7 @@ export function kundeBrev(v: Samtykke, tidspunkt: string): string {
         "  · That you follow the aftercare you are given",
         linje("Photos allowed:", v.foto_ok ? "yes" : "no"),
         "",
-        `Sent ${tidspunkt}`,
+        `Sent ${tidOrd(tidspunkt, "en")}`,
         "",
         "If anything is wrong, reply to this email — we will fix it at the counter.",
       ].join("\n")
@@ -412,11 +477,11 @@ export function kundeBrev(v: Samtykke, tidspunkt: string): string {
         "Her er den erklæring du sendte til Ink & Art. Gem den — det er din",
         "egen kopi, og du skal ikke bede os om den.",
         "",
-        `Aftale: ${v.aftale_dato}   ·   Artist: ${v.kunstner || "ikke oplyst"}`,
+        `Aftale: ${datoOrd(v.aftale_dato)}   ·   Artist: ${v.kunstner || "ikke oplyst"}`,
         "",
-        oensket(v),
+        oensket(v, "da"),
         "",
-        kroppen(v),
+        kroppen(v, "da"),
         "",
         "DU ERKLÆREDE",
         "  · At du er fyldt 18 år",
@@ -424,7 +489,7 @@ export function kundeBrev(v: Samtykke, tidspunkt: string): string {
         "  · At du følger den aftercare du får med",
         linje("Foto må bruges:", v.foto_ok ? "ja" : "nej"),
         "",
-        `Sendt ${tidspunkt}`,
+        `Sendt ${tidOrd(tidspunkt)}`,
         "",
         "Er noget forkert, så svar på denne mail — så retter vi det ved disken.",
       ].join("\n");
