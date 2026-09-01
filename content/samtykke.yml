@@ -19,9 +19,22 @@ email: Email
 telefon: Telefon
 arbejdet: Arbejdet
 kunstner: Kunstner
+aftale_dato: Hvornår er din tid
+aftale_hint: >-
+  Datoen står i din bookingbekræftelse. Den bruger vi til at lægge
+  erklæringen på den rigtige dag.
 placering: Hvor på kroppen
 motiv: Hvad skal det være
-motiv_hint: Beskriv det med dine egne ord. Størrelse, farve eller sort, hvad du tænker.
+motiv_hint: Beskriv det med dine egne ord. Hvad du tænker, hvad det skal sige.
+stoerrelse: Hvor stort
+stoerrelse_valg:
+  - { id: lille, tekst: Mindre end en håndflade }
+  - { id: mellem, tekst: Mellem en håndflade og en underarm }
+  - { id: stor, tekst: Større end en underarm }
+farve: Farve eller sort
+farve_valg:
+  - { id: sort, tekst: Sort blæk }
+  - { id: farve, tekst: Farver }
 helbred: Helbred
 helbred_lede: >-
   Kryds af hvis noget af det her gælder dig. Det bliver mellem os og din
@@ -45,10 +58,15 @@ send: Send
 sender: Sender
 tak_titel: Tak
 tak: >-
-  Vi har den. Du behøver ikke gøre mere — kom bare til din tid.
+  Vi har den, og en kopi er på vej til din mail. Gem den — så har du selv
+  dine egne ord. Du behøver ikke gøre mere; kom bare til din tid.
 fejl: >-
-  Noget gik galt, og vi vil hellere sige det end lade som om. Prøv igen, eller
-  udfyld den hernede når du kommer.
+  Den blev IKKE sendt. Vi vil hellere sige det end lade som om — så du ved
+  at du skal gøre noget. Prøv igen, eller udfyld den hernede når du kommer.
+fejl_halvt: >-
+  Vi har sandsynligvis modtaget din erklæring — men kopien til dig gik
+  ikke igennem. Send den IKKE igen; så får vi den to gange. Skriv til os,
+  eller sig det ved disken når du kommer.
 fejl_felter: Der mangler noget herover. Se de markerede felter.
 print: Print den i stedet
 betingelser_linje: Se også husets betingelser.

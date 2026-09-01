@@ -24,7 +24,9 @@ export function SamtykkeFlade({
   lang: "da" | "en";
   betingelserHref: string;
 }) {
-  const [tilstand, setTilstand] = useState<"klar" | "sender" | "tak" | "fejl" | "felter">("klar");
+  const [tilstand, setTilstand] = useState<
+    "klar" | "sender" | "tak" | "fejl" | "felter" | "halvt"
+  >("klar");
 
   async function send(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -36,8 +38,11 @@ export function SamtykkeFlade({
       email: f.get("email"),
       telefon: f.get("telefon"),
       kunstner: f.get("kunstner"),
+      aftale_dato: f.get("aftale_dato"),
       placering: f.get("placering"),
       motiv: f.get("motiv"),
+      stoerrelse: f.get("stoerrelse"),
+      farve: f.get("farve"),
       helbred: f.getAll("helbred").map(String),
       helbred_note: f.get("helbred_note"),
       foto_ok: f.get("foto_ok") === "on",
@@ -53,8 +58,18 @@ export function SamtykkeFlade({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(krop),
       });
-      if (res.ok) setTilstand("tak");
-      else setTilstand(res.status === 422 ? "felter" : "fejl");
+      if (res.ok) {
+        setTilstand("tak");
+      } else if (res.status === 422) {
+        setTilstand("felter");
+      } else {
+        // Ruten siger HVILKET led der faldt. Gik brevet til huset afsted,
+        // men kundens kopi ikke, er «prøv igen» en løgn den anden vej —
+        // huset kan allerede have erklæringen, og et nyt forsøg giver en
+        // dublet. Sirius' fund 1/9.
+        const krop = await res.json().catch(() => null);
+        setTilstand(krop?.led === "kunde" ? "halvt" : "fejl");
+      }
     } catch {
       setTilstand("fejl");
     }
@@ -96,11 +111,38 @@ export function SamtykkeFlade({
           <legend className="rum-label">{c.arbejdet}</legend>
           <label htmlFor="kunstner">{c.kunstner}</label>
           <input id="kunstner" name="kunstner" />
+          <label htmlFor="aftale_dato">{c.aftale_dato}</label>
+          <input id="aftale_dato" name="aftale_dato" type="date" required />
+          <p className="rum-samtykke__hint">{c.aftale_hint}</p>
           <label htmlFor="placering">{c.placering}</label>
-          <input id="placering" name="placering" required />
+          <input id="placering" name="placering" required maxLength={400} />
           <label htmlFor="motiv">{c.motiv}</label>
-          <textarea id="motiv" name="motiv" rows={3} required />
+          <textarea id="motiv" name="motiv" rows={3} required maxLength={400} />
           <p className="rum-samtykke__hint">{c.motiv_hint}</p>
+
+          {/* Stoerrelse er et VALG, ikke fritekst: modstrids-reglen
+              «blodfortyndende og en stor flade» skal kunne regnes ud, og
+              «ret stor, tror jeg» kan ikke maales. Radioknapper frem for
+              en <select>, saa hele skalaen ses paa én gang. */}
+          <fieldset className="rum-samtykke__skala">
+            <legend>{c.stoerrelse}</legend>
+            {c.stoerrelse_valg.map((v) => (
+              <label key={v.id} className="rum-samtykke__tjek">
+                <input type="radio" name="stoerrelse" value={v.id} required />
+                <span>{v.tekst}</span>
+              </label>
+            ))}
+          </fieldset>
+
+          <fieldset className="rum-samtykke__skala">
+            <legend>{c.farve}</legend>
+            {c.farve_valg.map((v) => (
+              <label key={v.id} className="rum-samtykke__tjek">
+                <input type="radio" name="farve" value={v.id} required />
+                <span>{v.tekst}</span>
+              </label>
+            ))}
+          </fieldset>
         </fieldset>
 
         <fieldset>
@@ -113,7 +155,7 @@ export function SamtykkeFlade({
             </label>
           ))}
           <label htmlFor="helbred_note">{c.helbred_note}</label>
-          <textarea id="helbred_note" name="helbred_note" rows={2} />
+          <textarea id="helbred_note" name="helbred_note" rows={2} maxLength={400} />
         </fieldset>
 
         <fieldset>
@@ -130,6 +172,11 @@ export function SamtykkeFlade({
           </label>
         </fieldset>
 
+        {tilstand === "halvt" ? (
+          <p className="rum-samtykke__fejl" role="alert">
+            {c.fejl_halvt}
+          </p>
+        ) : null}
         {tilstand === "fejl" ? (
           <p className="rum-samtykke__fejl" role="alert">
             {c.fejl}

@@ -670,11 +670,13 @@ export type Valg = { id: string; tekst: string };
 export type SamtykkeCopy = {
   titel: string; lede: string;
   dig: string; dit_navn: string; foedselsdato: string; email: string; telefon: string;
-  arbejdet: string; kunstner: string; placering: string; motiv: string; motiv_hint: string;
+  arbejdet: string; kunstner: string; aftale_dato: string; aftale_hint: string;
+  placering: string; motiv: string; motiv_hint: string;
+  stoerrelse: string; stoerrelse_valg: Valg[]; farve: string; farve_valg: Valg[];
   helbred: string; helbred_lede: string; helbred_valg: Valg[]; helbred_note: string;
   erklaering: string; erklaering_valg: Valg[]; foto_ok: string;
   send: string; sender: string;
-  tak_titel: string; tak: string; fejl: string; fejl_felter: string;
+  tak_titel: string; tak: string; fejl: string; fejl_felter: string; fejl_halvt: string;
   print: string; betingelser_linje: string;
 };
 
@@ -692,15 +694,19 @@ function samtykke(fil: string): SamtykkeCopy {
     titel: t("titel"), lede: t("lede"),
     dig: t("dig"), dit_navn: t("dit_navn"), foedselsdato: t("foedselsdato"),
     email: t("email"), telefon: t("telefon"),
-    arbejdet: t("arbejdet"), kunstner: t("kunstner"), placering: t("placering"),
+    arbejdet: t("arbejdet"), kunstner: t("kunstner"),
+    aftale_dato: t("aftale_dato"), aftale_hint: t("aftale_hint"),
+    placering: t("placering"),
     motiv: t("motiv"), motiv_hint: t("motiv_hint"),
+    stoerrelse: t("stoerrelse"), stoerrelse_valg: valg(d.stoerrelse_valg),
+    farve: t("farve"), farve_valg: valg(d.farve_valg),
     helbred: t("helbred"), helbred_lede: t("helbred_lede"),
     helbred_valg: valg(d.helbred_valg), helbred_note: t("helbred_note"),
     erklaering: t("erklaering"), erklaering_valg: valg(d.erklaering_valg),
     foto_ok: t("foto_ok"),
     send: t("send"), sender: t("sender"),
     tak_titel: t("tak_titel"), tak: t("tak"),
-    fejl: t("fejl"), fejl_felter: t("fejl_felter"),
+    fejl: t("fejl"), fejl_felter: t("fejl_felter"), fejl_halvt: t("fejl_halvt"),
     print: t("print"), betingelser_linje: t("betingelser_linje"),
   };
 }
