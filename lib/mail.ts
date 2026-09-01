@@ -59,7 +59,16 @@ export async function sendMail(til: string, emne: string, tekst: string): Promis
         Authorization: `Bearer ${noegle}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ from: fra, to: [til], subject: emne, text: tekst }),
+      // reply_to peger paa husets rigtige postkasse. Afsenderen er et
+      // send-subdomaene uden modtagelse, saa uden denne linje ville et
+      // svar fra kunden forsvinde — og kundens brev siger «skriv til os».
+      body: JSON.stringify({
+        from: fra,
+        to: [til],
+        reply_to: husAdresse(),
+        subject: emne,
+        text: tekst,
+      }),
       signal: AbortSignal.timeout(TIMEOUT_MS),
     });
     if (!res.ok) {

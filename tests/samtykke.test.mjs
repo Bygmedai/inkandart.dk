@@ -222,3 +222,11 @@ test("modstriden er forsigtig, og den afgoer ingenting", async () => {
       `modstriden afgoer noget den ikke maa: «${m.tekst}»`);
   }
 });
+
+test("et svar fra kunden forsvinder ikke", () => {
+  // Kundens brev siger «skriv til os». Afsenderen er et send-subdomaene
+  // uden modtagelse, saa uden reply_to ville svaret gaa i ingenting.
+  const m = read("lib/mail.ts");
+  assert.match(m, /reply_to: husAdresse\(\)/, "kundens svar har ingen vej hjem");
+  assert.match(read("lib/samtykke.ts"), /skriv til os/, "brevet inviterer ikke til svar");
+});
