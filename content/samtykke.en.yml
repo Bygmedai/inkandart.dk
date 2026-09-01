@@ -62,6 +62,12 @@ fejl_halvt: >-
   We have most likely received your form — but your copy did not go
   through. Do NOT send it again; then we would get it twice. Write to us,
   or mention it at the counter when you arrive.
-fejl_felter: Something is missing above. Check the marked fields.
+fejl_felter: Fix the below and we will send it.
+fejl_grunde:
+  - { id: mangler, tekst: is missing }
+  - { id: format, tekst: cannot be read }
+  - { id: under18, tekst: is in the future, or you are under 18 }
+  - { id: for-lang, tekst: is too long — 400 characters at most }
+  - { id: ikke-accepteret, tekst: needs to be ticked }
 print: Print it instead
 betingelser_linje: See the house terms as well.

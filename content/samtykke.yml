@@ -67,6 +67,15 @@ fejl_halvt: >-
   Vi har sandsynligvis modtaget din erklæring — men kopien til dig gik
   ikke igennem. Send den IKKE igen; så får vi den to gange. Skriv til os,
   eller sig det ved disken når du kommer.
-fejl_felter: Der mangler noget herover. Se de markerede felter.
+fejl_felter: Ret det herunder, så sender vi den.
+# Én saetning pr. grund serveren kan give. Kunden skal kunne se HVAD der
+# er galt — ikke bare AT noget er galt. Steven ramte «under18» med en
+# foedselsdato i fremtiden 1/9 og kunne ikke se hvorfor.
+fejl_grunde:
+  - { id: mangler, tekst: mangler }
+  - { id: format, tekst: kan ikke læses }
+  - { id: under18, tekst: ligger i fremtiden, eller du er under 18 }
+  - { id: for-lang, tekst: er for lang — højst 400 tegn }
+  - { id: ikke-accepteret, tekst: skal krydses af }
 print: Print den i stedet
 betingelser_linje: Se også husets betingelser.
