@@ -14,9 +14,22 @@ email: Email
 telefon: Phone
 arbejdet: The work
 kunstner: Artist
+aftale_dato: When is your appointment
+aftale_hint: >-
+  The date is in your booking confirmation. We use it to file the form
+  under the right day.
 placering: Where on the body
 motiv: What are we making
-motiv_hint: Describe it in your own words. Size, colour or black, what you have in mind.
+motiv_hint: Describe it in your own words. What you have in mind, what it should say.
+stoerrelse: How big
+stoerrelse_valg:
+  - { id: lille, tekst: Smaller than a palm }
+  - { id: mellem, tekst: Between a palm and a forearm }
+  - { id: stor, tekst: Larger than a forearm }
+farve: Colour or black
+farve_valg:
+  - { id: sort, tekst: Black ink }
+  - { id: farve, tekst: Colour }
 helbred: Health
 helbred_lede: >-
   Tick anything that applies to you. It stays between us and your artist,
@@ -40,10 +53,11 @@ send: Send
 sender: Sending
 tak_titel: Thank you
 tak: >-
-  We have it. Nothing more to do — just come to your appointment.
+  We have it, and a copy is on its way to your inbox. Keep it — then you
+  have your own words. Nothing more to do; just come to your appointment.
 fejl: >-
-  Something went wrong, and we would rather say so than pretend. Try again,
-  or fill it in down here when you arrive.
+  It was NOT sent. We would rather say so than pretend — so you know you
+  need to do something. Try again, or fill it in down here when you arrive.
 fejl_felter: Something is missing above. Check the marked fields.
 print: Print it instead
 betingelser_linje: See the house terms as well.

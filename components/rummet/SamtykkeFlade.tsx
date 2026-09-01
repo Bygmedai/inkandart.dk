@@ -36,8 +36,11 @@ export function SamtykkeFlade({
       email: f.get("email"),
       telefon: f.get("telefon"),
       kunstner: f.get("kunstner"),
+      aftale_dato: f.get("aftale_dato"),
       placering: f.get("placering"),
       motiv: f.get("motiv"),
+      stoerrelse: f.get("stoerrelse"),
+      farve: f.get("farve"),
       helbred: f.getAll("helbred").map(String),
       helbred_note: f.get("helbred_note"),
       foto_ok: f.get("foto_ok") === "on",
@@ -96,11 +99,38 @@ export function SamtykkeFlade({
           <legend className="rum-label">{c.arbejdet}</legend>
           <label htmlFor="kunstner">{c.kunstner}</label>
           <input id="kunstner" name="kunstner" />
+          <label htmlFor="aftale_dato">{c.aftale_dato}</label>
+          <input id="aftale_dato" name="aftale_dato" type="date" required />
+          <p className="rum-samtykke__hint">{c.aftale_hint}</p>
           <label htmlFor="placering">{c.placering}</label>
           <input id="placering" name="placering" required />
           <label htmlFor="motiv">{c.motiv}</label>
           <textarea id="motiv" name="motiv" rows={3} required />
           <p className="rum-samtykke__hint">{c.motiv_hint}</p>
+
+          {/* Stoerrelse er et VALG, ikke fritekst: modstrids-reglen
+              «blodfortyndende og en stor flade» skal kunne regnes ud, og
+              «ret stor, tror jeg» kan ikke maales. Radioknapper frem for
+              en <select>, saa hele skalaen ses paa én gang. */}
+          <fieldset className="rum-samtykke__skala">
+            <legend>{c.stoerrelse}</legend>
+            {c.stoerrelse_valg.map((v) => (
+              <label key={v.id} className="rum-samtykke__tjek">
+                <input type="radio" name="stoerrelse" value={v.id} required />
+                <span>{v.tekst}</span>
+              </label>
+            ))}
+          </fieldset>
+
+          <fieldset className="rum-samtykke__skala">
+            <legend>{c.farve}</legend>
+            {c.farve_valg.map((v) => (
+              <label key={v.id} className="rum-samtykke__tjek">
+                <input type="radio" name="farve" value={v.id} required />
+                <span>{v.tekst}</span>
+              </label>
+            ))}
+          </fieldset>
         </fieldset>
 
         <fieldset>
