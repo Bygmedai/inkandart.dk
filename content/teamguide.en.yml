@@ -49,12 +49,12 @@ priser_lede: >-
   the words, you're ready.
 priser_tattoo_titel: Tattoo
 priser_tattoo:
-  - { ydelse: 7-hour session, pris: 6.500 }
-  - { ydelse: 6-hour session, pris: 5.400 }
-  - { ydelse: 4-hour session, pris: 3.600 }
+  - { ydelse: 7-hour session, pris: 6500 }
+  - { ydelse: 6-hour session, pris: 5400 }
+  - { ydelse: 4-hour session, pris: 3600 }
   - { ydelse: One small tattoo, pris: 700 }
   - { ydelse: Two small tattoos — the walk-in offer, pris: 900 }
-  - { ydelse: Hourly rate outside the packages, pris: 1.000 }
+  - { ydelse: Hourly rate outside the packages, pris: 1000 }
 priser_flash_titel: Flash
 priser_flash:
   - { ydelse: Smallest — about the size of a 20-krone coin, pris: 450 }

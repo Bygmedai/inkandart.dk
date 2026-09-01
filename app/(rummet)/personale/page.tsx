@@ -74,7 +74,7 @@ export default async function PersonalePage({
   const kontakt = loadKontakt();
   return (
     <RummetShell>
-      <main id="main" className="rum-room rum-legal">
+      <main id="main">
         <TeamguideFlade
           c={c}
           tider={tiderListe(loadAabningstider(), t("da").rummet.tider)}

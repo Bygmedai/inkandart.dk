@@ -544,7 +544,9 @@ export type Kort = { t: string; d: string };
 export type Liste = { titel: string; punkter: string[] };
 export type Rolle = { navn: string; rolle: string; tekst: string };
 export type Regel = { overskrift: string; tekst: string };
-export type Ydelse = { ydelse: string; pris: string };
+/** Prisen er et TAL. Adskilleren hoerer til ved visningen — se tal() i
+ *  TeamguideFlade. Skrives den i yml som «6.500», laeser YAML 6,5. */
+export type Ydelse = { ydelse: string; pris: number };
 
 export type TeamguideCopy = {
   titel: string; lede: string;
@@ -610,8 +612,11 @@ function regler(v: unknown): Regel[] {
 function ydelser(v: unknown): Ydelse[] {
   if (!Array.isArray(v)) return [];
   return v
-    .map((x) => ({ ydelse: str((x as Ydelse)?.ydelse), pris: str((x as Ydelse)?.pris) }))
-    .filter((x) => x.ydelse && x.pris);
+    .map((x) => ({
+      ydelse: str((x as { ydelse?: unknown })?.ydelse),
+      pris: Number((x as { pris?: unknown })?.pris),
+    }))
+    .filter((x) => x.ydelse && Number.isFinite(x.pris) && x.pris > 0);
 }
 
 function teamguide(fil: string): TeamguideCopy {

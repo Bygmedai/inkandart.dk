@@ -1740,12 +1740,40 @@ html:has([data-house="rummet"]) .grain {
    Husets interne haandbog. Bag koden, saa den maa gerne vaere lang — men
    den laeses staaende i en butik paa en telefon, saa alt skal kunne rammes
    med en tommelfinger og alt skal kunne scannes. */
-.rum-guide__h {
+/* Guiden er ikke en lovtekst, selv om den arver .rum-legal for typografien.
+   Den baeres af kort, tabeller og tjeklister — ikke af én spalte prosa —
+   saa den faar husets fulde bredde, mens selve proseen holder sit maal.
+
+   FEJLEN DEN RETTER (S578): siden satte .rum-legal BAADE paa <main> og paa
+   sektionen indeni. Begge steder gav 68ch og en gutter, saa maalet og
+   polstringen blev talt to gange: paa 1440px stod teksten i en spalte paa
+   198px med overskriften haengende ud over kanten. Nu ejer sektionen
+   layoutet alene, og <main> er en ren beholder. */
+.rum-guide {
+  max-width: min(100%, 1180px);
+}
+.rum-guide > p,
+.rum-guide > .rum-guide__note,
+.rum-guide > .rum-guide__raab {
+  max-width: 68ch;
+}
+/* Tal og afkrydsning skal kunne scannes lodret. En prisliste der er en
+   meter bred er sværere at læse end en der er 700px. */
+.rum-guide__fakta,
+.rum-guide__rulle,
+.rum-guide__liste,
+.rum-guide__maaler {
+  max-width: 720px;
+}
+/* .rum-legal h2/h3 er (0,1,1) og slog disse (0,1,0), saa marginerne herunder
+   aldrig traadte i kraft: overskrifterne klistrede til tabellen ovenover.
+   Scopet hæver dem til (0,2,0). */
+.rum-guide .rum-guide__h {
   margin: 56px 0 8px;
   padding-top: 20px;
   border-top: 1px solid var(--rum-line);
 }
-.rum-guide__h3 {
+.rum-guide .rum-guide__h3 {
   margin: 28px 0 8px;
   font-size: 1.05rem;
   font-weight: 600;
@@ -1754,13 +1782,13 @@ html:has([data-house="rummet"]) .grain {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
   gap: 1px;
-  background: var(--rum-line);
-  border: 1px solid var(--rum-line);
+  background: var(--void);
   margin: 14px 0 0;
 }
 .rum-guide__kort > div {
   background: var(--void);
   padding: 16px 18px;
+  box-shadow: 0 0 0 1px var(--rum-line);
 }
 .rum-guide__kort b {
   display: block;
@@ -1901,14 +1929,15 @@ html:has([data-house="rummet"]) .grain {
 }
 .rum-guide__roller {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
   gap: 1px;
-  background: var(--rum-line);
-  border: 1px solid var(--rum-line);
+  background: var(--void);
   margin: 14px 0 0;
 }
 .rum-guide__roller > div {
   background: var(--void);
   padding: 16px 18px;
+  box-shadow: 0 0 0 1px var(--rum-line);
 }
 .rum-guide__roller b {
   display: block;

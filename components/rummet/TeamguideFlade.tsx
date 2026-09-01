@@ -22,6 +22,16 @@ import { HusetsSider } from "@/components/rummet/HusetsSider";
 
 type Prisgruppe = { gruppe: string; linjer: { navn: string; pris: number }[] };
 
+/**
+ * Tal med tusindeadskiller. Huset skriver priser som rene heltal i sine
+ * yml-filer — 6500, ikke 6.500 — fordi «6.500» i YAML er tallet seks komma
+ * fem. Det kostede os en prisliste hvor en 7-timers session stod til 6,5
+ * (S578). Adskilleren hoerer til her, ved visningen, ikke i data.
+ */
+function tal(n: number, sprog: "da" | "en"): string {
+  return new Intl.NumberFormat(sprog === "en" ? "en-GB" : "da-DK").format(n);
+}
+
 function Tjekliste({
   gruppe,
   lister,
@@ -117,9 +127,11 @@ export function TeamguideFlade({
   ordAf: string;
   ordNulstil: string;
 }) {
+  const sprog: "da" | "en" = retur === "en/personale" ? "en" : "da";
+
   return (
     <section className="rum-legal rum-guide">
-      <HusetsSider her="personale" lang={retur === "en/personale" ? "en" : "da"} />
+      <HusetsSider her="personale" lang={sprog} />
       <h1 className="rum-poster">{c.titel}</h1>
       <p className="rum-body-copy rum-legal__lede">{c.lede}</p>
 
@@ -169,7 +181,7 @@ export function TeamguideFlade({
             {c.priser_tattoo.map((y) => (
               <tr key={y.ydelse}>
                 <td>{y.ydelse}</td>
-                <td className="rum-guide__tal">{y.pris}</td>
+                <td className="rum-guide__tal">{tal(y.pris, sprog)}</td>
               </tr>
             ))}
           </tbody>
@@ -183,7 +195,7 @@ export function TeamguideFlade({
             {c.priser_flash.map((y) => (
               <tr key={y.ydelse}>
                 <td>{y.ydelse}</td>
-                <td className="rum-guide__tal">{y.pris}</td>
+                <td className="rum-guide__tal">{tal(y.pris, sprog)}</td>
               </tr>
             ))}
           </tbody>
@@ -200,7 +212,7 @@ export function TeamguideFlade({
               {g.linjer.map((l) => (
                 <tr key={l.navn}>
                   <td>{l.navn}</td>
-                  <td className="rum-guide__tal">{l.pris}</td>
+                  <td className="rum-guide__tal">{tal(l.pris, sprog)}</td>
                 </tr>
               ))}
             </tbody>

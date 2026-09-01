@@ -51,12 +51,12 @@ priser_lede: >-
   tallene, du kender ordene, du er klar.
 priser_tattoo_titel: Tatovering
 priser_tattoo:
-  - { ydelse: 7 timers session, pris: 6.500 }
-  - { ydelse: 6 timers session, pris: 5.400 }
-  - { ydelse: 4 timers session, pris: 3.600 }
+  - { ydelse: 7 timers session, pris: 6500 }
+  - { ydelse: 6 timers session, pris: 5400 }
+  - { ydelse: 4 timers session, pris: 3600 }
   - { ydelse: Én lille tatovering, pris: 700 }
   - { ydelse: To små tatoveringer — walk-in-tilbuddet, pris: 900 }
-  - { ydelse: Timepris uden for pakkerne, pris: 1.000 }
+  - { ydelse: Timepris uden for pakkerne, pris: 1000 }
 priser_flash_titel: Flash
 priser_flash:
   - { ydelse: Mindste — på størrelse med en 20-krone, pris: 450 }
