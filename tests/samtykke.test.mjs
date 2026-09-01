@@ -452,3 +452,87 @@ test("brevet er skrevet til et menneske, ikke til en maskine", async () => {
   // Men EMNET beholder ISO: det sorterer og soeges paa i en indbakke.
   assert.match(husEmne(v.vaerdi), /2026-09-23/);
 });
+
+/**
+ * S578 — det engelske spor hele vejen.
+ *
+ * Steven 1/9: «Vi har 40 % udenlandske kunder og 50 % af vores artister
+ * er fra udlandet.» Det vaelter en antagelse jeg selv skrev ind samme
+ * morgen: «husets brev er altid dansk — det laeses af studiet».
+ */
+
+const mkSamtykke = async (o = {}) => {
+  const { valider } = await import("../lib/samtykke.ts");
+  const v = valider({
+    sprog: "da", navn: "Mette Hansen", foedselsdato: "1990-01-01",
+    aftale_dato: "2026-09-23", email: "a@b.dk", telefon: "", kunstner: "Jane",
+    placering: "Ryg", motiv: "slange", stoerrelse: "stor", farve: "farve",
+    helbred: ["gravid"], helbred_note: "", foto_ok: true,
+    atten: true, permanent: true, aftercare: true, ...o,
+  });
+  assert.ok(v.ok, JSON.stringify(v.fejl));
+  return v.vaerdi;
+};
+
+test("AC1: en udenlandsk artist kan laese advarslen — ogsaa om en DANSK kunde", async () => {
+  const { husBrev, husEmne } = await import("../lib/samtykke.ts");
+
+  // Den almindeligste uheldige kombination: udenlandsk artist, dansk
+  // kunde. Den loeses IKKE ved at foelge kundens sprog.
+  const b = husBrev(await mkSamtykke({ sprog: "da" }), "2026-09-01T11:00:00.000Z");
+  assert.match(b, /⚠ GENNEMGANG KRÆVES/);
+  assert.match(b, /⚠ REVIEW REQUIRED/, "en dansk kunde giver ingen engelsk advarsel");
+  assert.match(b, /The customer has told us she is pregnant/);
+
+  // Negativ kontrol: og omvendt. En engelsk kunde skal stadig give dansk.
+  const e = husBrev(await mkSamtykke({ sprog: "en" }), "2026-09-01T11:00:00.000Z");
+  assert.match(e, /⚠ GENNEMGANG KRÆVES/, "en engelsk kunde giver ingen dansk advarsel");
+  assert.match(e, /⚠ REVIEW REQUIRED/);
+
+  // AC3: emnet kan scannes af begge, og baerer stadig intet helbredsord.
+  const emne = husEmne(await mkSamtykke({}));
+  assert.match(emne, /GENNEMGANG \/ REVIEW/);
+  for (const ord of ["gravid", "pregnant", "blodfortyndende"]) {
+    assert.ok(!emne.toLowerCase().includes(ord), `emnet baerer «${ord}»`);
+  }
+});
+
+test("AC2: de to sprog blandes ikke, og ingen taler til den forkerte laeser", async () => {
+  const { husBrev } = await import("../lib/samtykke.ts");
+  const b = husBrev(await mkSamtykke({}), "2026-09-01T11:00:00.000Z");
+  const [da, en] = b.split(/─{10,}/);
+  assert.ok(da && en, "brevet er ikke delt i to hele blokke");
+
+  // Hver blok er HEL. Ingen engelsk overskrift i den danske halvdel.
+  assert.doesNotMatch(da, /WHAT THE CUSTOMER|ABOUT THE CUSTOMER|REVIEW REQUIRED/);
+  assert.doesNotMatch(en, /ØNSKET|OPLYST OM KROPPEN|GENNEMGANG KRÆVES/);
+
+  // Og husets engelske blok taler om kunden i TREDJE person. «WHAT YOU
+  // WANT» til en artist ville betyde HENDES oenske — samme fejl som i
+  // morges, i ny form.
+  assert.match(en, /WHAT THE CUSTOMER WANTS/);
+  assert.match(en, /ABOUT THE CUSTOMER'S BODY/);
+  assert.doesNotMatch(en, /WHAT YOU WANT|ABOUT YOUR BODY|You take|You are pregnant/,
+    "husets brev taler til artisten som om hun var kunden");
+});
+
+test("AC4: kundens eget brev er ÉT sprog — hendes eget", async () => {
+  const { kundeBrev } = await import("../lib/samtykke.ts");
+
+  // Kundens kopi er hendes erklaering. To udgaver af en erklaering rejser
+  // spoergsmaalet om hvilken hun sagde ja til. Og vi VED hvad hun laeser:
+  // hun udfyldte skemaet paa det sprog.
+  const en = kundeBrev(await mkSamtykke({ sprog: "en" }), "2026-09-01T11:00:00.000Z");
+  assert.doesNotMatch(en, /─{10,}/, "kundens brev er blevet tosproget");
+  assert.doesNotMatch(en, /ØNSKET|OPLYST OM KROPPEN|Du er gravid/);
+
+  const da = kundeBrev(await mkSamtykke({ sprog: "da" }), "2026-09-01T11:00:00.000Z");
+  assert.doesNotMatch(da, /─{10,}/);
+  assert.doesNotMatch(da, /WHAT YOU WANT|ABOUT YOUR BODY/);
+});
+
+test("AC5: begge samtykke-sider staar i sitemappet", () => {
+  const s = read("app/sitemap.ts");
+  assert.match(s, /inkandart\.dk\/samtykke"/, "den danske side mangler");
+  assert.match(s, /inkandart\.dk\/en\/samtykke"/, "den engelske side mangler");
+});
