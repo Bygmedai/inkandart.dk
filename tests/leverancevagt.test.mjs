@@ -6,8 +6,16 @@ import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => readFileSync(join(root, p), "utf8");
+/**
+ * Strip kommentarer — men IKKE en URL.
+ *
+ * Foerste udgave brugte `/\/\/.*$/` og aad derfor alt efter «https://».
+ * `limit=100` forsvandt, proeven gik roed, og de OEVRIGE assertions paa
+ * samme linjer maalte stille ingenting. Et hegn der aeder sit eget maal.
+ * `(?<!:)` holder skemaets to skraastreger ude.
+ */
 const udenKommentarer = (t) =>
-  t.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*$/gm, "").replace(/^#.*$/gm, "");
+  t.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(?<!:)\/\/.*$/gm, "").replace(/^#.*$/gm, "");
 
 /**
  * Leverancevagten. Acceptkriterier: docs/accept/leverancevagt.md
@@ -31,22 +39,49 @@ test("AC2: en vagt der intet maaler, maa ikke ligne en der intet fandt", () => {
   }
 
   // Og den grønne vej skal SIGE hvor mange den saa paa.
-  assert.match(s, /breve\.length\} breve maalt/, "rapporten siger ikke hvor mange");
+  // Rapporten skal sige BAADE hvor mange af husets breve den saa paa, og
+  // hvor stor siden var — ellers kan «alt vel» ikke skelnes fra «jeg saa
+  // kun de nyeste».
+  assert.match(s, /mine\.length\} af husets breve/, "rapporten siger ikke hvor mange");
+  assert.match(s, /siden gav \$\{breve\.length\}/, "rapporten siger ikke hvor stor siden var");
 });
 
-test("AC3: rapporten baerer ingen kundedata", () => {
+test("AC3: rapporten baerer ingen kundedata — men vagten MAA laese det den filtrerer paa", () => {
   const s = udenKommentarer(read("scripts/leverancevagt.mjs"));
 
-  // Listen fra Resend HAR `to`, `subject`, `from`, `cc`, `bcc`.
-  // Vagten maa ikke laese nogen af dem.
-  for (const felt of ["\\.to\\b", "\\.subject\\b", "\\.from\\b", "\\.cc\\b", "\\.bcc\\b", "reply_to"]) {
-    assert.doesNotMatch(s, new RegExp(`b\\.${felt.replace(/^\\\\\./, "")}`),
-      `vagten laeser ${felt} — det hoerer ikke i en CI-log`);
+  // v1 forboed vagten at LAESE afsenderen. Det gjorde domaenefilteret
+  // umuligt at bygge: uden `from` kan den ikke se hvis brev det er.
+  // Kriteriet blandede to ting. Vagten maa SE hvad den skal bruge — den
+  // maa bare aldrig SKRIVE det (Harukis fund 1/9).
+  assert.match(s, /b\.from/, "uden afsenderen kan husets post ikke skilles fra andres");
+
+  // Men modtager og emne roeres slet ikke.
+  for (const felt of ["to", "subject", "cc", "bcc", "reply_to", "html", "text"]) {
+    assert.doesNotMatch(s, new RegExp(`b\\.${felt}\\b`),
+      `vagten laeser b.${felt} — det er der ingen grund til`);
   }
 
-  // Kun id, tilstand og tidspunkt gaar i rapporten.
-  assert.match(s, /id: b\.id/);
-  assert.match(s, /last_event/);
+  // Og kun id, tilstand og tidspunkt gaar VIDERE til rapporten.
+  const raekke = s.slice(s.indexOf("const raekke"), s.indexOf("\n", s.indexOf("const raekke")));
+  assert.match(raekke, /x\.id/);
+  assert.doesNotMatch(raekke, /from|to|subject/, "raekken i rapporten baerer mere end id og tilstand");
+});
+
+test("AC1b: et vindue der ikke blev daekket, er roedt", () => {
+  const s = udenKommentarer(read("scripts/leverancevagt.mjs"));
+  // Uden limit giver Resend 20 og has_more:true. Vagten lovede et doegn.
+  assert.match(s, /limit=100/, "siden er ikke stoerre end standardens 20");
+  assert.match(s, /VINDUE_TIMER/, "der er intet vindue at daekke");
+  // Og hvis siden ikke naaede tilbage til vinduets start: roed.
+  assert.match(s, /aeldste < VINDUE_TIMER[\s\S]{0,400}process\.exit\(1\)/,
+    "en side der ikke naaede vinduets start, melder alt vel");
+});
+
+test("AC3b: husets vagt raaber ikke paa en andens post", () => {
+  const s = udenKommentarer(read("scripts/leverancevagt.mjs"));
+  assert.match(s, /fraHuset/, "der er intet domaenefilter");
+  assert.match(s, /breve\.filter\(\(b\) => fraHuset\(b\)/,
+    "filteret bruges ikke foer breve taelles op");
 });
 
 test("AC4: sendenoeglen maa aldrig staa i vagten", () => {
@@ -66,7 +101,7 @@ test("en tilstand der ikke er kendt, taeller som en fejl", async () => {
   // igennem som «vel nok fint». Samme klasse som «en ukendt dagnoegle
   // bliver ikke tavst smidt vaek» (S577).
   const s = udenKommentarer(read("scripts/leverancevagt.mjs"));
-  const i = s.indexOf("for (const b of breve)");
+  const i = s.indexOf("for (const b of mine)");
   assert.ok(i > -1, "negativ kontrol: fandt ikke loekken");
   const loekke = s.slice(i, s.indexOf("\n}", i));
 

@@ -32,6 +32,16 @@ jobs:
           node-version: "22"
       # LAESE-noeglen. Den der sendes med i /api/samtykke er sending-only
       # og laast til ét domaene — den maa ALDRIG staa her.
+      #
+      # ⚠ SAET IKKE HEMMELIGHEDEN FOER TEAMET ER SKILT AD.
+      # Resend har KUN full_access og sending_access; der er intet
+      # read-only niveau, og `domain_id` gaelder kun afsendelse (maalt af
+      # Haruki 1/9, bekraeftet i Resends egen dokumentation). Den eneste
+      # noegle der kan LAESE, er derfor en hovednoegle til hele teamet —
+      # og teamet deles i dag med andre kunder.
+      #
+      # Uden hemmeligheden fejler vagten AABENT. Det er hemmeligheden der
+      # skal vente, ikke koden.
       - run: node scripts/leverancevagt.mjs
         env:
           RESEND_READ_KEY: ${{ secrets.RESEND_READ_KEY }}

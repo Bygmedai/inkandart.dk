@@ -29,7 +29,30 @@
  * kunne. Vagten har sin egen laesenoegle.
  */
 
-const API = "https://api.resend.com/emails";
+/**
+ * VINDUET. `GET /emails` uden `limit` giver **20** og `has_more: true` —
+ * maalt paa husets konto 1/9 af Haruki. Vagten lovede «inden for et
+ * doegn» og leverede «de 20 nyeste, uanset hvornaar». Paa kontoen som
+ * den ser ud i dag daekker 20 breve fire doegn, saa den SER rigtig ud.
+ * Det er praecis dét der goer den farlig: en fredag med flash og
+ * erklaeringer kan 20 breve vaere under en time.
+ *
+ * Rigget fangede det ikke, fordi det svarer med det man giver det.
+ * Vinduet blev aldrig sat paa proeve. Derfor har det sit eget scenarie nu.
+ */
+const API = "https://api.resend.com/emails?limit=100";
+const VINDUE_TIMER = 26;
+
+/**
+ * Husets eget domaene. Teamet deles med andre kunder, saa uden dette
+ * filter gaar husets vagt roed paa en ANDENS stavefejl.
+ *
+ * Bemaerk forskellen mellem hvad koden SER og hvad loggen BAERER: vagten
+ * skal laese afsenderen for at kunne filtrere — den maa bare aldrig
+ * skrive den. Mit foerste acceptkriterium blandede de to, og saa kunne
+ * filteret ikke bygges (Harukis fund 1/9).
+ */
+const HUSET = "inkandart.dk";
 const TIMEOUT_MS = 15_000;
 
 /**
@@ -92,6 +115,11 @@ async function hentBreve(k) {
   return liste;
 }
 
+function fraHuset(b) {
+  const f = String(b.from ?? "");
+  return f.includes(`@${HUSET}`) || f.includes(`.${HUSET}`);
+}
+
 function timerSiden(iso) {
   const t = Date.parse(iso);
   if (Number.isNaN(t)) return Infinity;
@@ -111,10 +139,29 @@ if (breve.length === 0) {
   process.exit(1);
 }
 
+// DAEKKEDE VI VINDUET? Er det AELDSTE brev paa siden nyere end vinduets
+// start, har vi ikke set hele doegnet — og «100 breve maalt» ville lyde
+// som daekning. Samme regel som «tom er roed»: et vindue der ikke
+// passede, er ogsaa noget vagten ikke har maalt.
+const aeldste = Math.max(...breve.map((b) => timerSiden(b.created_at)));
+if (aeldste < VINDUE_TIMER) {
+  console.error(
+    `FEJL: vinduet blev ikke daekket.\n` +
+      `Siden gav ${breve.length} breve, og det aeldste er ${aeldste.toFixed(1)} timer gammelt —\n` +
+      `mindre end de ${VINDUE_TIMER} timer vagten skal se paa. Der ligger breve\n` +
+      `uden for siden som ingen har set. Haev limit, eller koer oftere.`,
+  );
+  process.exit(1);
+}
+
+// Kun husets egne breve. Vi LAESER afsenderen for at filtrere; vi
+// SKRIVER den aldrig.
+const mine = breve.filter((b) => fraHuset(b) && timerSiden(b.created_at) <= VINDUE_TIMER);
+
 const gaaet_galt = [];
 const tavse = [];
 
-for (const b of breve) {
+for (const b of mine) {
   const e = String(b.last_event ?? "");
   if (LEVERET.has(e)) continue;
   if (UNDERVEJS.has(e)) {
@@ -128,10 +175,13 @@ for (const b of breve) {
 
 const raekke = (x) => `  ${x.id}   ${x.e.padEnd(18)} ${x.t}`;
 
-console.log(`Leverancevagt · ${breve.length} breve maalt\n`);
+console.log(
+  `Leverancevagt · ${mine.length} af husets breve i de sidste ${VINDUE_TIMER} timer\n` +
+    `(siden gav ${breve.length}, aeldste ${aeldste.toFixed(1)} timer)\n`,
+);
 
 if (gaaet_galt.length === 0 && tavse.length === 0) {
-  console.log(`Alle ${breve.length} er leveret. Ingen bemaerkninger.`);
+  console.log(`Alle ${mine.length} er leveret. Ingen bemaerkninger.`);
   process.exit(0);
 }
 
