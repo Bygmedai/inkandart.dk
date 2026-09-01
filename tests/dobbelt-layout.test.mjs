@@ -120,7 +120,7 @@ test("negativ kontrol: vagten kan faktisk se en dobbelt", () => {
 
 test("positiv kontrol: teamguiden ejer sit eget layout", () => {
   assert.ok(komponenter.get("TeamguideFlade").has("rum-legal"), "fladen sætter rum-legal på sin rod");
-  for (const f of ["app/(rummet)/personale/page.tsx", "app/(rummet)/en/personale/page.tsx"]) {
+  for (const f of ["app/(da)/(rummet)/personale/page.tsx", "app/(en)/(rummet)/en/personale/page.tsx"]) {
     const kilde = readFileSync(join(root, f), "utf8");
     const sidste = mainKlasser(kilde).at(-1);
     assert.ok(!sidste.has("rum-legal"), `${f}: <main> omkring guiden må ikke også sætte rum-legal`);

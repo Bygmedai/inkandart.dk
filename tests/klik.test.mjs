@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync, statSync } from "node:fs";
 import { test } from "node:test";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -92,9 +92,9 @@ test("handelsfladerne er stadig server-renderede", () => {
   // Hele grunden til den delegerede lytter: et onClick paa «Tag den →»
   // ville goere koebsfladen til en klientflade (CLAUDE.md §5).
   for (const fil of [
-    "app/(emerge)/flash/page.tsx",
-    "app/(emerge)/shop/page.tsx",
-    "app/(emerge)/en/shop/page.tsx",
+    "app/(da)/(emerge)/flash/page.tsx",
+    "app/(da)/(emerge)/shop/page.tsx",
+    "app/(en)/(emerge)/en/shop/page.tsx",
     "components/emerge/Fredagsflash.tsx",
   ]) {
     assert.doesNotMatch(read(fil), /"use client"/, `${fil} er blevet en klientflade`);
@@ -103,10 +103,10 @@ test("handelsfladerne er stadig server-renderede", () => {
 });
 
 test("de fire koebsknapper er annoteret — ellers er eventet uden indhold", () => {
-  const flash = read("app/(emerge)/flash/page.tsx");
+  const flash = read("app/(da)/(emerge)/flash/page.tsx");
   assert.match(flash, /data-hz-handle=\{f\.id\}/);
   assert.match(flash, /data-hz-pris=\{f\.priceKr\}/);
-  for (const fil of ["app/(emerge)/shop/page.tsx", "app/(emerge)/en/shop/page.tsx"]) {
+  for (const fil of ["app/(da)/(emerge)/shop/page.tsx", "app/(en)/(emerge)/en/shop/page.tsx"]) {
     assert.match(read(fil), /data-hz-handle=\{p\.handle\}/, fil);
     assert.match(read(fil), /data-hz-pris=\{p\.kr\}/, fil);
   }
@@ -123,7 +123,26 @@ test("tilmeldingen tælles kun når den lykkedes", () => {
 });
 
 test("lytteren er monteret ét sted — og kun ét", () => {
-  const layout = read("app/layout.tsx");
-  assert.match(layout, /<KlikVagt \/>/);
-  assert.equal([...layout.matchAll(/<KlikVagt \/>/g)].length, 1);
+  // Sproget fik to rod-layouts ((da) og (en)); begge deler HusetsRod, saa
+  // lytteren skal staa i skallen og INTET andet sted. Vidnet tæller derfor
+  // paa tvaers af hele traeet i stedet for i én fil — ellers ville en
+  // KlikVagt i det ene rod-layout kunne fordoble sig usynligt.
+  const skal = read("components/rod/HusetsRod.tsx");
+  assert.equal([...skal.matchAll(/<KlikVagt \/>/g)].length, 1, "skallen monterer den ikke én gang");
+
+  const traef = [];
+  const gaa = (mappe) => {
+    for (const navn of readdirSync(mappe)) {
+      const sti = join(mappe, navn);
+      if (statSync(sti).isDirectory()) gaa(sti);
+      else if (/\.tsx$/.test(navn)) {
+        const n = ([...readFileSync(sti, "utf8").matchAll(/<KlikVagt \/>/g)]).length;
+        if (n) traef.push(`${sti.replace(root + "/", "")} (${n})`);
+      }
+    }
+  };
+  gaa(join(root, "app"));
+  gaa(join(root, "components"));
+  assert.deepEqual(traef, ["components/rod/HusetsRod.tsx (1)"],
+    `lytteren staar flere steder: ${traef.join(", ")}`);
 });

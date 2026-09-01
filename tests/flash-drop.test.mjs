@@ -50,7 +50,7 @@ test("solgt bliver til claimed — og claimed slukker købsknappen", async () =>
   assert.equal(taget.claimed, true, "taget bliver til claimed");
   assert.equal(taget.variantId, undefined, "et taget motiv baerer ingen variant");
 
-  const side = read("app/(emerge)/flash/page.tsx");
+  const side = read("app/(da)/(emerge)/flash/page.tsx");
   assert.match(side, /const sold = f\.oneOff && f\.claimed/);
   assert.match(side, /sold \? \(/, "solgt viser «Taget», ikke en købsknap");
 });
@@ -89,6 +89,6 @@ test("prisen kommer fra Shopify — ikke fra en fil i repoet", async () => {
 test("et solgt motiv viser ingen pris — «Taget» er hele beskeden", () => {
   // En solgt vare har ingen tilgængelig variant, så prisen er tom. Siden må
   // ikke skrive «0 kr» — det ligner en fejl, ikke et udsolgt motiv.
-  const side = read("app/(emerge)/flash/page.tsx");
+  const side = read("app/(da)/(emerge)/flash/page.tsx");
   assert.match(side, /f\.priceKr > 0 \? `\$\{kr\(f\.priceKr\)\} kr` : ""/);
 });

@@ -11,8 +11,8 @@ const yml = (p) => parse(read(p));
 
 const da = yml("content/teamguide.yml");
 const en = yml("content/teamguide.en.yml");
-const side = read("app/(rummet)/personale/page.tsx");
-const sideEn = read("app/(rummet)/en/personale/page.tsx");
+const side = read("app/(da)/(rummet)/personale/page.tsx");
+const sideEn = read("app/(en)/(rummet)/en/personale/page.tsx");
 
 /**
  * Teamguiden paa /personale.
@@ -99,7 +99,7 @@ test("husets to sider kender hinanden — men kun bag laasen", () => {
   assert.match(stribe, /\/personale/);
   assert.match(stribe, /\/afstemning/);
 
-  const afst = read("app/(rummet)/afstemning/page.tsx");
+  const afst = read("app/(da)/(rummet)/afstemning/page.tsx");
   // Striben maa IKKE staa paa laaseskaermen — den ville fortaelle en
   // fremmed hvad der ligger bag koden.
   const laas = afst.slice(afst.indexOf("function Laas"), afst.indexOf("function dansk"));

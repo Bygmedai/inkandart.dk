@@ -74,7 +74,7 @@ test("cookien kan ikke læses af JavaScript og udløber selv", () => {
 
 test("siden viser kun det matchningen kræver — ingen navne eller adresser", () => {
   const lib = read("lib/depositum.ts");
-  const side = read("app/(rummet)/afstemning/page.tsx");
+  const side = read("app/(da)/(rummet)/afstemning/page.tsx");
   // Mailen SKAL med — det er nøglen mellem Shopify og Book.dk.
   assert.match(lib, /emailAddress/);
   // Men resten skal ikke.
@@ -89,7 +89,7 @@ test("siden viser kun det matchningen kræver — ingen navne eller adresser", (
 });
 
 test("afstemningen er lukket for søgemaskiner og for cachen", () => {
-  const side = read("app/(rummet)/afstemning/page.tsx");
+  const side = read("app/(da)/(rummet)/afstemning/page.tsx");
   assert.match(side, /index: false/);
   assert.match(side, /dynamic = "force-dynamic"/, "en side med kundedata må ikke bygges statisk");
   assert.match(side, /revalidate = 0/);
@@ -97,7 +97,7 @@ test("afstemningen er lukket for søgemaskiner og for cachen", () => {
 });
 
 test("koden sendes som POST — aldrig i en URL", () => {
-  const side = read("app/(rummet)/afstemning/page.tsx");
+  const side = read("app/(da)/(rummet)/afstemning/page.tsx");
   const rute = read("app/api/vagt/route.ts");
   assert.match(side, /method="post"/);
   assert.match(side, /type="password"/);

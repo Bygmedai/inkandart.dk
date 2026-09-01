@@ -59,7 +59,7 @@ test("matrix covers the retired 11ty routes", () => {
 
 test("English flash is a live page too — #245 A4, ikke længere en 308", () => {
   // Samme faelde som /en/walk-in: redirects koeres FOER routing i Next.
-  // Blev reglen staaende, ville app/(emerge)/en/flash/page.tsx aldrig kunne
+  // Blev reglen staaende, ville app/(en)/(emerge)/en/flash/page.tsx aldrig kunne
   // naas — siden ville findes og alligevel ikke.
   assert.doesNotMatch(redirectsSrc, /slashPair\("\/en\/flash"/);
   assert.doesNotMatch(redirectsSrc, /from: "\/en\/flash\//);
@@ -100,7 +100,7 @@ test("every fragment destination points at an anchor that actually exists", () =
   assert.ok(fragments.length >= 4, "matrixen skal bære fragment-destinationer");
   const surfaces = [
     readFileSync(join(root, "components/emerge/SceneV05.tsx"), "utf8"),
-    readFileSync(join(root, "app/(rummet)/page.tsx"), "utf8"),
+    readFileSync(join(root, "app/(da)/(rummet)/page.tsx"), "utf8"),
   ].join("\n");
   for (const id of new Set(fragments)) {
     assert.match(surfaces, new RegExp(`id="${id}"`), `anker #${id} findes ikke i scenen`);

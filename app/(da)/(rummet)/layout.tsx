@@ -3,8 +3,8 @@ import "@/components/rummet/rummet.css";
 
 const poster = localFont({
   src: [
-    { path: "../fonts/Anton-latin.woff2", weight: "400", style: "normal" },
-    { path: "../fonts/Anton-latin-ext.woff2", weight: "400", style: "normal" },
+    { path: "../../fonts/Anton-latin.woff2", weight: "400", style: "normal" },
+    { path: "../../fonts/Anton-latin-ext.woff2", weight: "400", style: "normal" },
   ],
   variable: "--font-poster",
   display: "swap",
@@ -12,10 +12,10 @@ const poster = localFont({
 
 const chair = localFont({
   src: [
-    { path: "../fonts/InstrumentSans-latin.woff2", weight: "400 700", style: "normal" },
-    { path: "../fonts/InstrumentSans-latin-ext.woff2", weight: "400 700", style: "normal" },
-    { path: "../fonts/InstrumentSans-Italic-latin.woff2", weight: "400 700", style: "italic" },
-    { path: "../fonts/InstrumentSans-Italic-latin-ext.woff2", weight: "400 700", style: "italic" },
+    { path: "../../fonts/InstrumentSans-latin.woff2", weight: "400 700", style: "normal" },
+    { path: "../../fonts/InstrumentSans-latin-ext.woff2", weight: "400 700", style: "normal" },
+    { path: "../../fonts/InstrumentSans-Italic-latin.woff2", weight: "400 700", style: "italic" },
+    { path: "../../fonts/InstrumentSans-Italic-latin-ext.woff2", weight: "400 700", style: "italic" },
   ],
   variable: "--font-chair",
   display: "swap",

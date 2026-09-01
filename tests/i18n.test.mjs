@@ -8,8 +8,8 @@ import { LOCALES, localePath, alternates, t } from "../lib/i18n.ts";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const redirects = readFileSync(join(root, "lib/redirects.ts"), "utf8");
 const sitemap = readFileSync(join(root, "app/sitemap.ts"), "utf8");
-const daPage = readFileSync(join(root, "app/(emerge)/walk-in/page.tsx"), "utf8");
-const enPage = readFileSync(join(root, "app/(emerge)/en/walk-in/page.tsx"), "utf8");
+const daPage = readFileSync(join(root, "app/(da)/(emerge)/walk-in/page.tsx"), "utf8");
+const enPage = readFileSync(join(root, "app/(en)/(emerge)/en/walk-in/page.tsx"), "utf8");
 const sw = readFileSync(join(root, "components/i18n/LangSwitch.tsx"), "utf8");
 
 test("dansk bor på roden, engelsk på /en — ingen rute er flyttet", () => {
@@ -17,7 +17,7 @@ test("dansk bor på roden, engelsk på /en — ingen rute er flyttet", () => {
   assert.equal(localePath("da", "/walk-in"), "/walk-in");
   assert.equal(localePath("en", "/walk-in"), "/en/walk-in");
   assert.equal(localePath("en", "/"), "/en");
-  assert.equal(existsSync(join(root, "app/(emerge)/walk-in/page.tsx")), true);
+  assert.equal(existsSync(join(root, "app/(da)/(emerge)/walk-in/page.tsx")), true);
 });
 
 test("REGRESSION: en engelsk side vi HAR bygget må ikke 308'es væk", () => {
@@ -28,11 +28,11 @@ test("REGRESSION: en engelsk side vi HAR bygget må ikke 308'es væk", () => {
 
 test("REGRESSION: /en/flash er bygget (#245 A4) og maa ikke 308'es vaek", () => {
   // Samme faelde som /en/walk-in: redirects koerer FOER routing i Next.
-  // Blev reglen staaende, ville app/(emerge)/en/flash/page.tsx aldrig
+  // Blev reglen staaende, ville app/(en)/(emerge)/en/flash/page.tsx aldrig
   // kunne naas — siden ville findes og alligevel ikke.
   assert.doesNotMatch(redirects, /slashPair\("\/en\/flash"/);
   assert.doesNotMatch(redirects, /from: "\/en\/flash\//);
-  assert.equal(existsSync(join(root, "app/(emerge)/en/flash/page.tsx")), true);
+  assert.equal(existsSync(join(root, "app/(en)/(emerge)/en/flash/page.tsx")), true);
 });
 
 test("ruter vi IKKE har bygget endnu 308'er stadig — ingen halve huller", () => {
@@ -50,8 +50,8 @@ test("S574 REGRESSION: en bygget EN-side må ALDRIG have en redirect-række", ()
   // CLAUDE.md siger reglen: «en engelsk rute holder op med at 308'e i
   // samme commit som siden findes.» Den blev håndhævet af en liste over
   // ruter, og en liste glemmer. Nu udledes den af hvad der FAKTISK
-  // ligger i app/(rummet)/en/ — så den kan ikke glemme.
-  const enDir = join(root, "app/(rummet)/en");
+  // ligger i app/(en)/(rummet)/en/ — så den kan ikke glemme.
+  const enDir = join(root, "app/(en)/(rummet)/en");
   const ruter = [];
   const gaa = (dir, sti) => {
     for (const navn of readdirSync(dir)) {

@@ -31,7 +31,11 @@ function kundesider() {
     .map((p) => p.replace(root + "/", ""))
     .filter((p) => !p.includes("(rummet)"))       // Rummet har Nav-segl, ikke Masthead
     .filter((p) => !p.includes("figur-lab"))      // intern, ikke linket
-    .filter((p) => !p.endsWith("/en/page.tsx"));  // ER den engelske forside
+    .filter((p) => !p.endsWith("/en/page.tsx"))   // ER den engelske forside
+    // En rute der kun kalder notFound() tegner ingen flade — den har hverken
+    // segl eller vej hjem, fordi den aldrig naar at blive vist. Udledt af
+    // indholdet, ikke af en navneliste, saa den ikke skal vedligeholdes.
+    .filter((p) => !/notFound\(\)/.test(readFileSync(join(root, p), "utf8")));
 }
 
 test("hver kundevendt underside har praecis ét segl i toppen", () => {

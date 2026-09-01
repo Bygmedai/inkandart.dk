@@ -7,10 +7,10 @@ import { fileURLToPath } from "node:url";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const commerce = readFileSync(join(root, "lib/commerce.ts"), "utf8");
 const offer = readFileSync(join(root, "components/emerge/GiftCard.tsx"), "utf8");
-const page = readFileSync(join(root, "app/(emerge)/gavekort/page.tsx"), "utf8");
-const giv = readFileSync(join(root, "app/(emerge)/gavekort/giv/page.tsx"), "utf8");
-const kort = readFileSync(join(root, "app/(emerge)/gavekort/kort/page.tsx"), "utf8");
-const tildig = readFileSync(join(root, "app/(emerge)/gavekort/til-dig/page.tsx"), "utf8");
+const page = readFileSync(join(root, "app/(da)/(emerge)/gavekort/page.tsx"), "utf8");
+const giv = readFileSync(join(root, "app/(da)/(emerge)/gavekort/giv/page.tsx"), "utf8");
+const kort = readFileSync(join(root, "app/(da)/(emerge)/gavekort/kort/page.tsx"), "utf8");
+const tildig = readFileSync(join(root, "app/(da)/(emerge)/gavekort/til-dig/page.tsx"), "utf8");
 const sitemap = readFileSync(join(root, "app/sitemap.ts"), "utf8");
 
 test("gift cards keep live Shopify variants and skip Shop Pay interstitial", () => {
@@ -91,7 +91,7 @@ test("note card grows with the greeting — credit-card lock is the offer vouche
 });
 
 test("gavekort ships its own OG image (exact type, not a product shot)", () => {
-  const og = readFileSync(join(root, "app/(emerge)/gavekort/opengraph-image.tsx"), "utf8");
+  const og = readFileSync(join(root, "app/(da)/(emerge)/gavekort/opengraph-image.tsx"), "utf8");
   assert.match(og, /ImageResponse/);
   assert.match(og, /Giv blæk videre/);
   assert.match(og, /1200/);

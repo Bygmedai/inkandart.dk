@@ -5,7 +5,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const page = readFileSync(join(root, "app/(emerge)/shop/page.tsx"), "utf8");
+const page = readFileSync(join(root, "app/(da)/(emerge)/shop/page.tsx"), "utf8");
 const commerce = readFileSync(join(root, "lib/commerce.ts"), "utf8");
 const sitemap = readFileSync(join(root, "app/sitemap.ts"), "utf8");
 const css = readFileSync(join(root, "app/globals.css"), "utf8");
