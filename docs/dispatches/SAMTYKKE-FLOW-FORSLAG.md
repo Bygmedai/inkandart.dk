@@ -286,7 +286,49 @@ projektet, og den kræver et login jeg ikke har og ikke skal have.
 
 ---
 
-## 6. Kendt restrisiko
+## 6. Efterskrift: hvad der blev bygget, og den ene rest der staar tilbage
+
+Flowet er bygget i **#281** — to breve, ingen vault, Shopify roert slet
+ikke. Acceptkriterierne v3 foelger med den PR; **dette dokument baerer
+dem ikke mere.** Filen fandtes ikke paa `main`, og to aabne PR'er der
+hver tilfoejer sin version af den samme fil er en faelde: den forkerte
+raekkefoelge lader v2 overskrive den v3 der matcher koden, uden at nogen
+proeve gaar roed. Afhaengigheden er fjernet frem for skrevet ned.
+
+### Resten: et sendt brev er ikke et modtaget brev
+
+Resend svarer `2xx` naar brevet er **accepteret til afsendelse**, ikke
+naar det er landet. To ting falder derfor uden for vores fail-closed:
+
+| | Resend | ruten | kunden ser |
+|---|---|---|---|
+| domaenet ikke verificeret | 4xx | **502** | «det gik galt» — korrekt |
+| afvist eller bounced hos modtageren | **2xx** | **200 TAK** | «vi har den» — og brevet kom aldrig |
+
+**Det er ikke teoretisk.** Haruki fandt det i husets egen Resend-log 1/9:
+et brev fra en anden rute til `kontak@bygmedai.dk` — en stavefejl, der
+mangler et t. Resend svarede 2xx. Status er `suppressed`. Ingen fik det
+at vide, og det har koert saadan i ukendt tid.
+
+**Lukningen er lille.** Resend foerer `last_event` pr. brev. Ét laesekald
+mod `GET /emails`, der flager alt der ikke staar `delivered`, fanger
+baade en afvisning, en kundes tastefejl og en fuld postkasse — tre
+huller, ét kald. Ingen webhook, intet endepunkt, ingen
+signaturvalidering, ingen ny offentlig flade. Den kan koere som en vagt
+én gang i doegnet.
+
+Den kraever en **laese**-noegle. Den vi sender med, er med vilje
+sending-only og laast til ét domaene, og det skal den blive ved med at
+vaere.
+
+*Jeg skrev det foerst som «kraever bounce-webhooks» og lagde det dermed i
+samme bunke som den kompleksitet vi netop havde skaaret vaek. Haruki
+rettede formuleringen, og han har ret: forskellen afgoer om nogen toer
+tage den. Den hoerer til som sit eget lille stykke med sin egen accept.*
+
+---
+
+## 7. Kendt restrisiko
 
 - **Ingen juridisk afgørelse.** Intet af AC3, AC4, AC5 eller AC8 kan bygges
   før den findes. Jeg er ikke jurist.
