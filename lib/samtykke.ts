@@ -172,14 +172,28 @@ export function aarSiden(iso: string, nu = new Date()): number {
  */
 export type Modstrid = { noegle: string; tekst: string };
 
-export function modstrid(v: Samtykke): Modstrid[] {
+/**
+ * @param sprog teksten skrives paa. Noeglen er den samme paa begge, saa
+ *        de to udgaver kan parres.
+ *
+ * Husets brev baerer BEGGE sprog. Steven 1/9: «Vi har 40 % udenlandske
+ * kunder og 50 % af vores artister er fra udlandet.» Jeg havde skrevet
+ * «husets brev er altid dansk — det laeses af studiet», og det er
+ * forkert. En udenlandsk artist fik sikkerhedsadvarslerne paa dansk.
+ *
+ * Og det loeses ikke ved at foelge KUNDENS sprog: den almindeligste
+ * uheldige kombination er en udenlandsk artist med en dansk kunde.
+ */
+export function modstrid(v: Samtykke, sprog: Sprog = "da"): Modstrid[] {
   const ud: Modstrid[] = [];
   const har = (h: string) => v.helbred.includes(h);
 
   if (har("gravid")) {
     ud.push({
       noegle: "gravid",
-      tekst: "Kunden har oplyst at hun er gravid. Tag snakken før I går i gang.",
+      tekst: sprog === "en"
+        ? "The customer has told us she is pregnant. Talk it through before you start."
+        : "Kunden har oplyst at hun er gravid. Tag snakken før I går i gang.",
     });
   }
   // BEVIDST uden betingelse paa stoerrelse. PR-teksten sagde foerst
@@ -192,25 +206,33 @@ export function modstrid(v: Samtykke): Modstrid[] {
   if (har("blodfortyndende")) {
     ud.push({
       noegle: "bloedning",
-      tekst: `Blodfortyndende medicin oplyst, og motivet er ${STOERRELSE_ORD[v.stoerrelse] ?? v.stoerrelse}. Regn med mere blødning og længere heling.`,
+      tekst: sprog === "en"
+        ? `Blood-thinning medication reported, and the design is ${STOERRELSE_ORD_EN[v.stoerrelse] ?? v.stoerrelse}. Expect more bleeding and slower healing.`
+        : `Blodfortyndende medicin oplyst, og motivet er ${STOERRELSE_ORD[v.stoerrelse] ?? v.stoerrelse}. Regn med mere blødning og længere heling.`,
     });
   }
   if (har("allergi") && v.farve === "farve") {
     ud.push({
       noegle: "pigment",
-      tekst: "Allergi oplyst, og motivet skal være i farver. Spørg hvad allergien gælder, før I vælger pigment.",
+      tekst: sprog === "en"
+        ? "Allergy reported, and the design is in colour. Ask what the allergy covers before you choose pigment."
+        : "Allergi oplyst, og motivet skal være i farver. Spørg hvad allergien gælder, før I vælger pigment.",
     });
   }
   if (har("hudlidelse")) {
     ud.push({
       noegle: "hud",
-      tekst: `Hudlidelse oplyst. Spørg om den sidder på ${v.placering || "det sted motivet skal sidde"}.`,
+      tekst: sprog === "en"
+        ? `Skin condition reported. Ask whether it is on ${v.placering || "the placement"}.`
+        : `Hudlidelse oplyst. Spørg om den sidder på ${v.placering || "det sted motivet skal sidde"}.`,
     });
   }
   if (har("andet") || v.helbred_note) {
     ud.push({
       noegle: "egne-ord",
-      tekst: "Kunden har skrevet noget med sine egne ord. Læs det.",
+      tekst: sprog === "en"
+        ? "The customer wrote something in her own words. Read it."
+        : "Kunden har skrevet noget med sine egne ord. Læs det.",
     });
   }
   return ud;
@@ -265,6 +287,13 @@ export const STOERRELSE_ORD: Record<string, string> = {
  * medicin». Maalt i hans indbakke, ikke i en proeve.
  */
 const HELBRED_ORD: Record<string, Record<string, string>> = {
+  "hus-en": {
+    gravid: "The customer is pregnant",
+    blodfortyndende: "The customer takes blood-thinning medication",
+    allergi: "The customer has an allergy",
+    hudlidelse: "The customer has a skin condition",
+    andet: "The customer noted something else",
+  },
   hus: {
     gravid: "Kunden er gravid",
     blodfortyndende: "Kunden tager blodfortyndende medicin",
@@ -300,7 +329,9 @@ export const STOERRELSE_ORD_EN: Record<string, string> = {
 /** Emnet til huset. Bærer aldrig et helbredsord — kun et neutralt mærke. */
 export function husEmne(v: Samtykke): string {
   const m = modstrid(v);
-  const hale = m.length ? "GENNEMGANG" : "ingen bemærkninger";
+  // Begge sprog i emnet, saa en artist kan scanne indbakkelisten uden at
+  // aabne noget — uanset hvad hun laeser. Stadig intet helbredsord.
+  const hale = m.length ? "GENNEMGANG / REVIEW" : "ingen bemærkninger / no notes";
   return `Samtykke · ${v.navn} · ${v.aftale_dato} · ${hale}`;
 }
 
@@ -360,9 +391,12 @@ export function tidOrd(iso: string, sprog: "da" | "en" = "da"): string {
 const linje = (n: string, v: string) => `  ${n.padEnd(16)}${v || "—"}`;
 
 function oensket(v: Samtykke, sprog: string): string {
-  if (sprog === "en") {
+  if (sprog === "en" || sprog === "hus-en") {
     return [
-      "WHAT YOU WANT",
+      // «WHAT YOU WANT» til en artist ville betyde HENDES oenske. Anden
+      // person mod den forkerte laeser — samme fejl som i morges, i ny
+      // form. AC2 findes netop for at fange den.
+      sprog === "hus-en" ? "WHAT THE CUSTOMER WANTS" : "WHAT YOU WANT",
       linje("Design:", v.motiv),
       linje("Placement:", v.placering),
       linje("Size:", STOERRELSE_ORD_EN[v.stoerrelse] ?? v.stoerrelse),
@@ -384,17 +418,36 @@ function oensket(v: Samtykke, sprog: string): string {
  *        maa ikke udledes af v.sprog, for husets brev er altid dansk og
  *        altid i tredje person, ogsaa naar kunden er engelsk.
  */
-function kroppen(v: Samtykke, maalgruppe: "hus" | "da" | "en"): string {
+function kroppen(v: Samtykke, maalgruppe: "hus" | "hus-en" | "da" | "en"): string {
   const ord = HELBRED_ORD[maalgruppe];
-  const en = maalgruppe === "en";
-  const tom = { hus: "Kunden har ikke krydset noget af.", da: "Du har ikke krydset noget af.", en: "You did not tick anything." }[maalgruppe];
+  const en = maalgruppe === "en" || maalgruppe === "hus-en";
+  const tom = {
+    hus: "Kunden har ikke krydset noget af.",
+    "hus-en": "The customer did not tick anything.",
+    da: "Du har ikke krydset noget af.",
+    en: "You did not tick anything.",
+  }[maalgruppe];
   const kryds = v.helbred.length
     ? v.helbred.map((h) => `  · ${ord[h] ?? h}`).join("\n")
     : `  · ${tom}`;
   const egne = v.helbred_note
-    ? `\n\n  ${en ? "In your own words" : maalgruppe === "hus" ? "Kundens egne ord" : "Med egne ord"}:\n  «${v.helbred_note}»`
+    ? `\n\n  ${
+        maalgruppe === "hus-en"
+          ? "The customer's own words"
+          : maalgruppe === "en"
+            ? "In your own words"
+            : maalgruppe === "hus"
+              ? "Kundens egne ord"
+              : "Med egne ord"
+      }:\n  «${v.helbred_note}»`
     : "";
-  return `${en ? "ABOUT YOUR BODY" : "OPLYST OM KROPPEN"}\n${kryds}${egne}`;
+  const overskrift = {
+    hus: "OPLYST OM KROPPEN",
+    "hus-en": "ABOUT THE CUSTOMER'S BODY",
+    da: "OPLYST OM KROPPEN",
+    en: "ABOUT YOUR BODY",
+  }[maalgruppe];
+  return `${overskrift}\n${kryds}${egne}`;
 }
 
 /**
@@ -406,39 +459,63 @@ function kroppen(v: Samtykke, maalgruppe: "hus" | "da" | "en"): string {
  * AC4) — ellers kan «ingenting» ikke skelnes fra «ikke modtaget».
  */
 export function husBrev(v: Samtykke, tidspunkt: string): string {
-  const m = modstrid(v);
+  return [...blok(v, tidspunkt, "da"), "", STREG, "", ...blok(v, tidspunkt, "en")].join("\n");
+}
+
+const STREG =
+  "──────────────────────────────────────────────────────────────";
+
+/**
+ * Én sproglig blok af husets brev. HEL — aldrig en dansk overskrift med
+ * en engelsk linje under. Det var fejlen i morges, og den maa ikke komme
+ * igen i en ny form (acceptkriterium AC2).
+ */
+function blok(v: Samtykke, tidspunkt: string, sprog: Sprog): string[] {
+  const en = sprog === "en";
+  const m = modstrid(v, sprog);
   const top = m.length
-    ? ["⚠ GENNEMGANG KRÆVES — tal med kunden før I går i gang", ...m.map((x) => `  · ${x.tekst}`)].join("\n")
-    : "INGEN BEMÆRKNINGER — kunden har ikke oplyst noget der taler imod ønsket.";
+    ? [
+        en
+          ? "⚠ REVIEW REQUIRED — talk to the customer before you start"
+          : "⚠ GENNEMGANG KRÆVES — tal med kunden før I går i gang",
+        ...m.map((x) => `  · ${x.tekst}`),
+      ].join("\n")
+    : en
+      ? "NO NOTES — the customer reported nothing that speaks against what she wants."
+      : "INGEN BEMÆRKNINGER — kunden har ikke oplyst noget der taler imod ønsket.";
 
   return [
-    `SAMTYKKE — ${v.navn}`,
-    `Aftale: ${datoOrd(v.aftale_dato)}   ·   Artist: ${v.kunstner || "ikke oplyst"}`,
+    en ? `CONSENT — ${v.navn}` : `SAMTYKKE — ${v.navn}`,
+    en
+      ? `Appointment: ${datoOrd(v.aftale_dato, "en")}   ·   Artist: ${v.kunstner || "not given"}`
+      : `Aftale: ${datoOrd(v.aftale_dato)}   ·   Artist: ${v.kunstner || "ikke oplyst"}`,
     "",
     top,
     "",
-    oensket(v, "da"),
+    oensket(v, en ? "hus-en" : "da"),
     "",
-    kroppen(v, "hus"),
+    kroppen(v, en ? "hus-en" : "hus"),
     "",
-    "KUNDEN",
-    linje("Navn:", v.navn),
-    linje("Født:", v.foedselsdato),
-    linje("Mail:", v.email),
-    linje("Telefon:", v.telefon),
+    en ? "THE CUSTOMER" : "KUNDEN",
+    linje(en ? "Name:" : "Navn:", v.navn),
+    linje(en ? "Born:" : "Født:", v.foedselsdato),
+    linje(en ? "Email:" : "Mail:", v.email),
+    linje(en ? "Phone:" : "Telefon:", v.telefon),
     "",
-    "ERKLÆRET AF KUNDEN",
-    "  · Er fyldt 18 år",
-    "  · Forstår at en tatovering er permanent",
-    "  · Følger den aftercare hun får med",
-    linje("Foto må bruges:", v.foto_ok ? "ja" : "nej"),
+    en ? "THE CUSTOMER DECLARED" : "ERKLÆRET AF KUNDEN",
+    en ? "  · That she is 18 or older" : "  · Er fyldt 18 år",
+    en ? "  · That she understands a tattoo is permanent" : "  · Forstår at en tatovering er permanent",
+    en ? "  · That she follows the aftercare she is given" : "  · Følger den aftercare hun får med",
+    linje(en ? "Photos allowed:" : "Foto må bruges:", v.foto_ok ? (en ? "yes" : "ja") : (en ? "no" : "nej")),
     "",
-    `Udfyldt ${tidOrd(tidspunkt)}`,
+    en ? `Filled in ${tidOrd(tidspunkt, "en")}` : `Udfyldt ${tidOrd(tidspunkt)}`,
     "",
-    "Dette brev er hele erklæringen. Der ligger ikke en kopi i noget",
-    "andet system — hverken i Shopify eller i en database hos os.",
-  ].join("\n");
+    en
+      ? "This letter is the whole form. There is no copy in any other\nsystem — not in Shopify, not in a database of ours."
+      : "Dette brev er hele erklæringen. Der ligger ikke en kopi i noget\nandet system — hverken i Shopify eller i en database hos os.",
+  ];
 }
+
 
 /**
  * Kundens egen kopi. Hendes svar ordret — men UDEN husets vurdering.
@@ -446,52 +523,63 @@ export function husBrev(v: Samtykke, tidspunkt: string): string {
  * har sagt, og den skal ikke laegges i munden paa hende.
  */
 export function kundeBrev(v: Samtykke, tidspunkt: string): string {
-  const en = v.sprog === "en";
-  const fornavn = v.navn.split(" ")[0];
-  return en
-    ? [
-        `Hi ${fornavn}`,
-        "",
-        "Here is the form you sent to Ink & Art. Keep it — it is your own",
-        "copy, and you should not have to ask us for it.",
-        "",
-        `Appointment: ${datoOrd(v.aftale_dato, "en")}   ·   Artist: ${v.kunstner || "not given"}`,
-        "",
-        oensket(v, "en"),
-        "",
-        kroppen(v, "en"),
-        "",
-        "YOU DECLARED",
-        "  · That you are 18 or older",
-        "  · That you understand a tattoo is permanent",
-        "  · That you follow the aftercare you are given",
-        linje("Photos allowed:", v.foto_ok ? "yes" : "no"),
-        "",
-        `Sent ${tidOrd(tidspunkt, "en")}`,
-        "",
-        "If anything is wrong, reply to this email — we will fix it at the counter.",
-      ].join("\n")
-    : [
-        `Hej ${fornavn}`,
-        "",
-        "Her er den erklæring du sendte til Ink & Art. Gem den — det er din",
-        "egen kopi, og du skal ikke bede os om den.",
-        "",
-        `Aftale: ${datoOrd(v.aftale_dato)}   ·   Artist: ${v.kunstner || "ikke oplyst"}`,
-        "",
-        oensket(v, "da"),
-        "",
-        kroppen(v, "da"),
-        "",
-        "DU ERKLÆREDE",
-        "  · At du er fyldt 18 år",
-        "  · At du forstår at en tatovering er permanent",
-        "  · At du følger den aftercare du får med",
-        linje("Foto må bruges:", v.foto_ok ? "ja" : "nej"),
-        "",
-        `Sendt ${tidOrd(tidspunkt)}`,
-        "",
-        "Er noget forkert, så svar på denne mail — så retter vi det ved disken.",
-      ].join("\n");
+  // HENDES sprog foerst — hun aabner brevet og skal se sit eget med det
+  // samme. Det andet staar under stregen.
+  const andet: Sprog = v.sprog === "en" ? "da" : "en";
+  return [
+    ...kundeBlok(v, tidspunkt, v.sprog),
+    "",
+    STREG,
+    "",
+    ...kundeBlok(v, tidspunkt, andet),
+  ].join("\n");
 }
+
+/**
+ * Én sproglig blok af kundens brev. Anden person — det er hende der
+ * laeser om sig selv.
+ *
+ * Kundens brev baerer BEGGE sprog fra 1/9. Jeg argumenterede foerst imod:
+ * «hendes kopi er hendes erklaering, og to udgaver rejser spoergsmaalet
+ * om hvilken hun sagde ja til.» Steven vendte den, og han har ret —
+ * brevet er en KVITTERING, ikke et modunderskrevet dokument. Hun
+ * indsendte ét skema paa ét sprog; en oversaettelse ved siden af aendrer
+ * ikke hvad hun indsendte.
+ *
+ * Og det praktiske argument slaar det juridiske: ÉT brevformat er
+ * simplere end to. Det var netop to kodeveje der skabte sprogblandingen
+ * samme morgen.
+ */
+function kundeBlok(v: Samtykke, tidspunkt: string, sprog: Sprog): string[] {
+  const en = sprog === "en";
+  const fornavn = v.navn.split(" ")[0];
+  return [
+    en ? `Hi ${fornavn}` : `Hej ${fornavn}`,
+    "",
+    en
+      ? "Here is the form you sent to Ink & Art. Keep it — it is your own\ncopy, and you should not have to ask us for it."
+      : "Her er den erklæring du sendte til Ink & Art. Gem den — det er din\negen kopi, og du skal ikke bede os om den.",
+    "",
+    en
+      ? `Appointment: ${datoOrd(v.aftale_dato, "en")}   ·   Artist: ${v.kunstner || "not given"}`
+      : `Aftale: ${datoOrd(v.aftale_dato)}   ·   Artist: ${v.kunstner || "ikke oplyst"}`,
+    "",
+    oensket(v, sprog),
+    "",
+    kroppen(v, sprog),
+    "",
+    en ? "YOU DECLARED" : "DU ERKLÆREDE",
+    en ? "  · That you are 18 or older" : "  · At du er fyldt 18 år",
+    en ? "  · That you understand a tattoo is permanent" : "  · At du forstår at en tatovering er permanent",
+    en ? "  · That you follow the aftercare you are given" : "  · At du følger den aftercare du får med",
+    linje(en ? "Photos allowed:" : "Foto må bruges:", v.foto_ok ? (en ? "yes" : "ja") : (en ? "no" : "nej")),
+    "",
+    en ? `Sent ${tidOrd(tidspunkt, "en")}` : `Sendt ${tidOrd(tidspunkt)}`,
+    "",
+    en
+      ? "If anything is wrong, reply to this email — we will fix it at the counter."
+      : "Er noget forkert, så svar på denne mail — så retter vi det ved disken.",
+  ];
+}
+
 
