@@ -1933,3 +1933,32 @@ html:has([data-house="rummet"]) .grain {
   padding-top: 24px;
   border-top: 1px solid var(--rum-line);
 }
+
+/* ── Stribe mellem husets to interne sider ───────────────────────────
+   Vises kun bag laasen. Den aabner ingenting — den fortaeller hvad der
+   er derinde, saa man ikke skal kunne adressen udenad. */
+.rum-husnav {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0 0 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--rum-line);
+  font-size: 0.8rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.rum-husnav > span {
+  color: var(--beton);
+}
+.rum-husnav a,
+.rum-husnav b {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 600;
+}
+.rum-husnav b {
+  color: var(--blod);
+}

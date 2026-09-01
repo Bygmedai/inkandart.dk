@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { TeamguideCopy } from "@/lib/content";
+import { HusetsSider } from "@/components/rummet/HusetsSider";
 
 /**
  * Husets teamguide. Én komponent, to sprog — ordene kommer ind som data,
@@ -118,6 +119,7 @@ export function TeamguideFlade({
 }) {
   return (
     <section className="rum-legal rum-guide">
+      <HusetsSider her="personale" lang={retur === "en/personale" ? "en" : "da"} />
       <h1 className="rum-poster">{c.titel}</h1>
       <p className="rum-body-copy rum-legal__lede">{c.lede}</p>
 
