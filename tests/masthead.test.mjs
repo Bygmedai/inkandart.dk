@@ -79,3 +79,41 @@ test("negativ kontrol: ingen kundeside er en blindgyde", () => {
 test("seglet findes som fil", () => {
   assert.ok(existsSync(join(root, "public/brand/logo-segl.svg")), "seglet mangler");
 });
+
+/**
+ * S578. Fuld QA maalte at Blackbook-linket blev laest op TO gange paa
+ * desktop: `innerText` var bogstaveligt «BLACKBOOK\nBLACKBOOK».
+ *
+ * Navnet kom to steder fra paa én gang — det synlige ord og et
+ * `sr-only`-dubletord. `.rum-nav__book-word` er `display:none` under 900px
+ * og `inline` over, men `sr-only` var der altid. Paa mobil var linket
+ * derfor rigtigt, og fejlen fandtes KUN over 900px. Det er grunden til at
+ * ingen saa den: den mobile udgave, som alle tjekker, var i orden.
+ */
+test("Blackbook har ét navn, ikke to (WCAG 4.1.2 / 2.5.3)", () => {
+  const src = readFileSync(join(root, "components/rummet/Nav.tsx"), "utf8");
+  const i = src.indexOf("function Blackbook");
+  assert.ok(i > -1, "negativ kontrol: fandt ikke Blackbook-komponenten");
+  // Udsnittet bindes til NAESTE toplevel-erklaering, ikke til det foerste
+  // «\n}» — det rammer destruktureringens parentes og klipper blokken over
+  // foer aria-label. Et hegn der maaler for lidt ser groent ud.
+  const slut = src.indexOf("\nexport function", i);
+  assert.ok(slut > i, "negativ kontrol: fandt ikke enden paa komponenten");
+  // Kommentarer strippes: forklaringen paa fejlen NAEVNER «sr-only», og en
+  // proeve der laeser sin egen begrundelse som kode maaler det forkerte.
+  const blok = src.slice(i, slut).replace(/\/\/.*$/gm, "");
+
+  // Ordet maa kun staa som SYNLIG tekst. Et sr-only-dublet ved siden af
+  // det synlige ord er praecis den fejl der blev maalt.
+  assert.doesNotMatch(blok, /sr-only/,
+    "et sr-only-navn ved siden af det synlige ord bliver laest op to gange");
+
+  // Og navnet skal findes, ogsaa naar ordet er skjult under 900px.
+  assert.match(blok, /aria-label="Blackbook"/,
+    "uden aria-label mister linket sit navn paa mobil, hvor ordet er skjult");
+
+  // aria-label skal vaere ORDRET det synlige ord — ellers kan talestyring
+  // ikke sige det man laeser (Label in Name, 2.5.3).
+  const synligt = blok.match(/book-word">([^<]+)</);
+  assert.equal(synligt?.[1], "Blackbook", "det synlige ord og navnet er ikke ens");
+});
