@@ -17,20 +17,37 @@ name: Porten
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
+  # S579 (2/9): en laast sti frigives af et menneskes godkendelse — saa porten
+  # skal vaagne naar den gives, og naar den trakkes tilbage. Foer dette koerte
+  # porten aldrig paa en review: Steven godkendte #289 tolv sekunder efter
+  # portens sidste koersel, og den stod roed for evigt.
+  pull_request_review:
+    types: [submitted, dismissed]
 
 permissions:
   contents: read
   pull-requests: write
   checks: read
   statuses: read
+  # S579: review-koerslen genstarter push-koerslen (se nedenfor). Kun egne runs.
+  actions: write
 
 concurrency:
-  group: porten-${{ github.event.pull_request.number || github.sha }}
+  # Egen gruppe pr. haendelse: en review-koersel maa aldrig aflyse den
+  # push-koersel den er sat i verden for at genstarte (maalt 2/9 08:02:02:
+  # godkendelsen aflyste dommen).
+  group: porten-${{ github.event_name }}-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
 
 jobs:
   porten:
-    name: porten
+    # S579 (2/9, Stevens screenshot): GitHub grupperer checks pr. NAVN +
+    # HAENDELSE. En groen «porten (pull_request_review)» erstatter ikke en
+    # roed «porten (pull_request)» — den staar ved siden af, og den roede
+    # er stadig paakraevet. Derfor hedder kun push-koerslen «porten»;
+    # review-koerslen doemmer ikke selv, den GENSTARTER push-koerslen, saa
+    # dommen lander i det check der faktisk kraeves.
+    name: ${{ github.event_name == 'pull_request_review' && 'porten-vaekning' || 'porten' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -47,6 +64,11 @@ jobs:
       # Dommeren hentes nu fra kalderens default-branch, som findes på både
       # pull_request og check_suite. En PR der ændrer porten selv rammer
       # LAASTE_STIER og kræver et menneskes merge — det er den rigtige vej.
+      # S579 (2/9): «et menneskes merge» er nu en MÅLING, ikke en evig rød:
+      # en godkendelse på netop head-sha fra en konto på allowlisten i
+      # scripts/porten-frigivelse.mjs — hentet herfra, fra default-branch,
+      # så PR'en ikke kan skrive sig selv ind — gør porten grøn. Kun
+      # låst-sti-grunden frigives; en rød check kan ingen godkendelse løfte.
       - name: Hent dommeren fra default-branch — aldrig fra PR'ens træ
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -69,7 +91,31 @@ jobs:
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
-            const { porten, kvittering, AABEN } = await import(`${process.env.GITHUB_WORKSPACE}/.porten/porten.mjs`);
+            // --- review-haendelse: doem ikke her — genstart push-koerslen (S579) ---
+            //
+            // Dommen SKAL falde i «porten (pull_request)»: det er den GitHub
+            // kraever, og en groen tvilling fra en anden haendelse loefter den
+            // ikke (Stevens screenshot 2/9 08:11). Vi finder den seneste
+            // push-koersel paa netop dette head og genstarter dens fejlede job.
+            // Den laeser reviews naar den doemmer, ser godkendelsen, og
+            // skriver sin egen kvittering. Er den stadig i gang, naar den
+            // selv at se godkendelsen — saa roerer vi den ikke.
+            if (context.eventName === 'pull_request_review') {
+              const pr = context.payload.pull_request;
+              const { data } = await github.rest.actions.listWorkflowRuns({
+                ...context.repo, workflow_id: 'porten.yml', event: 'pull_request',
+                head_sha: pr.head.sha, per_page: 5,
+              });
+              const koersel = (data.workflow_runs ?? [])[0];
+              if (!koersel) { core.info(`Ingen push-koersel af porten paa ${pr.head.sha.slice(0, 7)} — intet at genstarte.`); return; }
+              if (koersel.status !== 'completed') { core.info(`Push-koerslen ${koersel.id} er stadig i gang — den ser selv godkendelsen.`); return; }
+              if (koersel.conclusion === 'success') { core.info(`Push-koerslen ${koersel.id} er allerede groen.`); return; }
+              await github.rest.actions.reRunWorkflowFailedJobs({ ...context.repo, run_id: koersel.id });
+              core.info(`Genstartede push-koerslen ${koersel.id} paa ${pr.head.sha.slice(0, 7)} efter review fra @${context.payload.review?.user?.login ?? '?'}.`);
+              return;
+            }
+
+            const { porten, kvittering, AABEN, LAASTE_STIER } = await import(`${process.env.GITHUB_WORKSPACE}/.porten/porten.mjs`);
 
             // S566 · MÅLT (bygmedai-adskillelse 20/8): check_suite-hændelser bærer
             // ingen payload.pull_request — porten fejlede dér med «Ingen PR i
@@ -194,15 +240,50 @@ jobs:
             const erDependabot = pr.user?.login === 'dependabot[bot]' && pr.user?.type === 'Bot';
             const resultat = porten({ checks, paakraevede, filer, forfatterErAgent, erDependabot, anmeldelse, forhaandsvisning });
 
+            // --- laast sti: frigivet af et menneskes godkendelse? (S579, 2/9) ---
+            //
+            // Dommeren siger «kraever et menneskes merge» og kan ikke selv se en
+            // godkendelse. Indtil 2/9 var det en port der ALDRIG blev groen —
+            // og en port der er roed EFTER mennesket har gjort det den bad om,
+            // laerer folk at merge hen over roedt.
+            //
+            // F4 (praemortem #178) gaelder stadig: ikke «ligner et menneske»,
+            // men en ALLOWLISTE af navngivne konti. Listen og reglerne ligger i
+            // scripts/porten-frigivelse.mjs, hentet fra DEFAULT-BRANCH som
+            // dommeren selv — saa en PR kan ikke skrive sig selv ind i den.
+            // Godkendelsen skal sidde paa netop dette commit; et push bagefter
+            // goer den vaerdiloes igen. Kun laast-sti-grunden fjernes. En roed
+            // check kan ingen godkendelse frigive.
+            let endelig = resultat;
+            const ramt = (filer ?? []).filter((f) => LAASTE_STIER.some((m) => m.test(f)));
+            if (ramt.length && resultat.dom !== AABEN) {
+              // MÅLT 2/9 på #290 selv: scriptet fandtes ikke på main endnu, importen
+              // kastede ERR_MODULE_NOT_FOUND, og porten døde UDEN kvittering. Rødt,
+              // men ulæseligt. Kan frigivelsen ikke indlæses, står dommen som den
+              // er (låst sti spærrer stadig) — og noten siger hvorfor der ikke
+              // blev låst op. Fail-closed skal kunne læses på PR'en.
+              try {
+                const { frigivelse, anvendFrigivelse } = await import(`${process.env.GITHUB_WORKSPACE}/scripts/porten-frigivelse.mjs`);
+                const reviews = await github.paginate(github.rest.pulls.listReviews,
+                  { ...context.repo, pull_number: pr.number, per_page: 100 }).catch(() => []);
+                const fri = frigivelse({ reviews, headSha: pr.head.sha, forfatter: pr.user?.login });
+                endelig = anvendFrigivelse(resultat, { fri, ramt, headSha: pr.head.sha, AABEN });
+              } catch (e) {
+                core.warning(`Frigivelse kunne ikke indlæses: ${e.message}`);
+                endelig = { ...resultat, noter: [...(resultat.noter ?? []),
+                  `Låst sti kunne ikke frigives: scripts/porten-frigivelse.mjs kunne ikke indlæses fra default-branch (${e.code ?? e.name}). Dommen står.`] };
+              }
+            }
+
             // --- én kvittering per PR, redigeret på stedet (S564 F4: ti domme på ti pushes) ---
             const MAERKE = '<!-- bygmedai-porten -->';
-            const krop = `${MAERKE}\n${kvittering(resultat)}`;
+            const krop = `${MAERKE}\n${kvittering(endelig)}`;
             const eksisterende = (await github.paginate(github.rest.issues.listComments,
               { ...context.repo, issue_number: pr.number, per_page: 100 }))
               .find(c => c.body?.startsWith(MAERKE));
             if (eksisterende) await github.rest.issues.updateComment({ ...context.repo, comment_id: eksisterende.id, body: krop });
             else await github.rest.issues.createComment({ ...context.repo, issue_number: pr.number, body: krop });
 
-            core.summary.addRaw(kvittering(resultat)).write();
-            if (resultat.dom !== AABEN) core.setFailed(`PR #${pr.number}: Porten er spærret: ${resultat.grunde.length} grund(e).`);
+            core.summary.addRaw(kvittering(endelig)).write();
+            if (endelig.dom !== AABEN) core.setFailed(`PR #${pr.number}: Porten er spærret: ${endelig.grunde.length} grund(e).`);
             }   // for (const pr of maal)

@@ -173,7 +173,7 @@ test("guldknappen står uden for den generelle købsflade-regel", () => {
   // og en forklaring er ikke en selektor. Uden dette målte vidnet sin egen
   // dokumentation og dumpede på den.
   const css = read("app/globals.css").replace(/\/\*[\s\S]*?\*\//g, "");
-  const generelle = [...css.matchAll(/a\[href\*="myshopify\.com\/cart\/"\][^\s{,]*/g)].map(
+  const generelle = [...css.matchAll(/a\[href\*="\/cart\/"\][^\s{,]*/g)].map(
     (m) => m[0],
   );
   assert.ok(generelle.length >= 4, "den generelle købsflade-regel findes ikke");

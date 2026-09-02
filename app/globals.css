@@ -1350,7 +1350,8 @@ body:not(:has(.emerge-v05)):not(:has([data-rummet])) main .text-\[10px\] { font-
    engelske flade i præcis de filer lige nu, og en collage er ikke værd at
    kollidere over. Krogene er strukturelle og gratis:
      · `body:not(:has(.emerge-v05)):not(:has([data-rummet]))` = Emerge-undersider; aldrig Rummet
-     · `a[href*="myshopify.com/cart/"]` = præcis de links der kan købe noget,
+     · `a[href*="/cart/"]` = præcis de links der kan købe noget (uanset om kassen
+     hedder myshopify eller butik.inkandart.dk — domænet er ikke stilens sag),
        uanset hvis lane de bor i.
 
    Laget ligger bag indholdet (z-index 0 mod indholdets 1) og har
@@ -1429,14 +1430,14 @@ body:not(:has(.emerge-v05)):not(:has([data-rummet])) main { position: relative; 
    se HVOR man køber det. Selektoren rammer cart-permalinks — altså præcis
    de handlinger der fører til betaling — og kun uden for scenen, hvor
    kridtet og relikvierne er bevidst anderledes. */
-body:not(:has(.emerge-v05)):not(:has([data-rummet])) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb) {
+body:not(:has(.emerge-v05)):not(:has([data-rummet])) main a[href*="/cart/"]:not(.kerb__mark):not(.depot__koeb) {
   border: 1.5px solid rgba(201, 162, 39, 0.55);
   background: linear-gradient(180deg, rgba(201, 162, 39, 0.1), rgba(201, 162, 39, 0.03));
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(232, 224, 213, 0.08);
   transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
 }
-body:not(:has(.emerge-v05)):not(:has([data-rummet])) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb):hover,
-body:not(:has(.emerge-v05)):not(:has([data-rummet])) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb):focus-visible {
+body:not(:has(.emerge-v05)):not(:has([data-rummet])) main a[href*="/cart/"]:not(.kerb__mark):not(.depot__koeb):hover,
+body:not(:has(.emerge-v05)):not(:has([data-rummet])) main a[href*="/cart/"]:not(.kerb__mark):not(.depot__koeb):focus-visible {
   border-color: var(--gold);
   background: linear-gradient(180deg, rgba(201, 162, 39, 0.2), rgba(201, 162, 39, 0.07));
   transform: translateY(-2px);
@@ -1460,8 +1461,8 @@ body:not(:has(.emerge-v05)):not(:has([data-rummet])) main .gift-denom::after {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body:not(:has(.emerge-v05)):not(:has([data-rummet])) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb) { transition: none; }
-  body:not(:has(.emerge-v05)):not(:has([data-rummet])) main a[href*="myshopify.com/cart/"]:not(.kerb__mark):not(.depot__koeb):hover { transform: none; }
+  body:not(:has(.emerge-v05)):not(:has([data-rummet])) main a[href*="/cart/"]:not(.kerb__mark):not(.depot__koeb) { transition: none; }
+  body:not(:has(.emerge-v05)):not(:has([data-rummet])) main a[href*="/cart/"]:not(.kerb__mark):not(.depot__koeb):hover { transform: none; }
 }
 
 /* Sprogskifter — samme side, andet sprog. Aldrig tilbage til forsiden. */
