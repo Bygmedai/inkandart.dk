@@ -90,16 +90,57 @@ function målISiden(cfg) {
     }
   }
 
+  /**
+   * TRYKFELTET, IKKE KASSEN.
+   *
+   * Huset udvider bevidst smaa links med et absolut ::after og negative
+   * inset — `.rum-tel--i-tekst` er moensteret, og telefonnummeret paa
+   * /en/booking bruger det: kassen er 85×20, fingeren faar 93×44.
+   *
+   * Maalte vagten kun getBoundingClientRect(), meldte den TI fund om et
+   * link der allerede ER rettet (2 raekker × 5 bredder, 2/9) — og fem af
+   * dem som «handling under 44px». En vagt der raaber om noget der er i
+   * orden, laerer folk at overhoere den, og saa drukner det aegte fund
+   * paa nabofladen i stoejen.
+   *
+   * `Math.max` er hele sikringen: et pseudo-element kan kun GOERE feltet
+   * stoerre, aldrig mindre. En positiv inset skubber indad og bliver
+   * derfor ignoreret af sig selv. (Foerste udgave havde ogsaa et
+   * `Math.min(0, ...)` om hvert tal — doed kode, som en mutation viste
+   * ved ikke at kunne gaa roed. Fjernet.)
+   *
+   * Elementet skal selv vaere positioneret: ellers haenger pseudoen paa en
+   * fjernere forfader, og feltet ligger et andet sted end det det skulle
+   * daekke. Uden den regel kan et hvilket som helst stort ::after et sted
+   * i traeet faa et 16px-link til at se rigeligt ud.
+   */
+  function trykfelt(el) {
+    const r = el.getBoundingClientRect();
+    let bredde = r.width;
+    let hoejde = r.height;
+    if (getComputedStyle(el).position === "static") return { bredde, hoejde };
+    for (const pseudo of ["::after", "::before"]) {
+      const s = getComputedStyle(el, pseudo);
+      if (s.content === "none" || s.position !== "absolute") continue;
+      const px = (v) => (v.endsWith("px") ? parseFloat(v) : NaN);
+      const [t, h, b, v] = [px(s.top), px(s.right), px(s.bottom), px(s.left)];
+      if ([t, h, b, v].some(Number.isNaN)) continue;
+      bredde = Math.max(bredde, r.width - h - v);
+      hoejde = Math.max(hoejde, r.height - t - b);
+    }
+    return { bredde, hoejde };
+  }
+
   // 2 — trykmål
   const smaa = [];
   const handlingSmaa = [];
   const handlingRamt = {};
   for (const el of document.querySelectorAll("a,button")) {
     if (!synlig(el)) continue;
-    const r = el.getBoundingClientRect();
+    const { bredde, hoejde } = trykfelt(el);
     const navn = `${el.tagName.toLowerCase()} "${(el.textContent || "").trim().slice(0, 24) || el.getAttribute("aria-label") || "?"}"`;
-    if (r.width < cfg.TAP_MIN || r.height < cfg.TAP_MIN) {
-      smaa.push(`${navn} ${Math.round(r.width)}×${Math.round(r.height)}`);
+    if (bredde < cfg.TAP_MIN || hoejde < cfg.TAP_MIN) {
+      smaa.push(`${navn} ${Math.round(bredde)}×${Math.round(hoejde)}`);
     }
   }
   const handlingTags = {};
@@ -110,21 +151,34 @@ function målISiden(cfg) {
     // den måler en kasse, består altid, og skjuler knappen indeni.
     handlingTags[sel] = els.filter((e) => e.tagName !== "A" && e.tagName !== "BUTTON").length;
     for (const el of els) {
-      const r = el.getBoundingClientRect();
-      if (r.height < cfg.HANDLING_MIN) {
-        handlingSmaa.push(`${sel} "${(el.textContent || "").trim().slice(0, 20)}" h=${Math.round(r.height)}`);
+      const { hoejde } = trykfelt(el);
+      if (hoejde < cfg.HANDLING_MIN) {
+        handlingSmaa.push(`${sel} "${(el.textContent || "").trim().slice(0, 20)}" h=${Math.round(hoejde)}`);
       }
     }
   }
 
-  // 3 — venstre gutter i <main>. Fixed-elementer hører til chromen, ikke indholdet.
+  /**
+   * 3 — venstre gutter i <main>. Fixed-elementer hoerer til chromen.
+   *
+   * Og KUN elementer der selv baerer tekst taeller som «indhold». En
+   * fuldbredde-baggrund, et billede der bloeder ud over kanten og et
+   * marquee-spor er DEKORATION — de SKAL roere kanten; det er hele deres
+   * opgave. Maalte vagten hver eneste efterkommer, meldte den /gavekort
+   * roed paa tre bredder for `div.gift-page__wash`, hvis bredde er lig
+   * viewportens (maalt 2/9) — mens reglen den findes for, at LAESBAR
+   * tekst ikke klistrer til kanten, var opfyldt hele tiden.
+   */
   const main = document.querySelector("main");
   let gutter = null;
   if (main) {
+    const baererTekst = (el) =>
+      [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim());
     let min = Infinity;
     for (const el of main.querySelectorAll("*")) {
       if (!synlig(el)) continue;
       if (getComputedStyle(el).position === "fixed") continue;
+      if (!baererTekst(el)) continue;
       const r = el.getBoundingClientRect();
       if (r.left >= 0 && r.left < min) min = r.left;
     }

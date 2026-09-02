@@ -506,10 +506,25 @@ html.emerge-js [data-emerge="deep"]:not(.is-emerged) {
   display: inline;
 }
 
+/* S579 (2/9, a11y-undtagelsen i CLAUDE.md §1) — RAAB TIL GROK.
+   Maalt paa produktionen: begge links her er 21px hoeje, altsaa under
+   24×24 paa alle fem bredder (10 af QA-vagtens 33 fund).
+
+   Indgrebet roerer KUN trykfeltet: et absolut ::after udvider feltet
+   under fingeren uden at flytte en eneste pixel af det man SER —
+   understregningen, farven og afstanden staar praecis som foer. Samme
+   greb som husets eget `.rum-tel--i-tekst`.
+
+   Raekkegabet gaar 8px → 24px, saa de to felter ikke overlapper naar
+   linkene brydes til to linjer: 20px udvidelse mod 24px gab giver 4px
+   luft. Uden det ville et tryk paa det nederste link ramme det oeverste.
+
+   Copy, motiv og adfaerd er uroert. Rul tilbage i din egen lane naar
+   som helst. */
 .gift-share {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 28px;
+  gap: 24px 28px;
   margin: 22px 0 0;
   font-family: var(--font-mono), monospace;
   font-size: 11px;
@@ -520,6 +535,12 @@ html.emerge-js [data-emerge="deep"]:not(.is-emerged) {
   color: var(--gold);
   border-bottom: 1px solid rgba(201, 162, 39, 0.4);
   padding-bottom: 3px;
+  position: relative;
+}
+.gift-share a::after {
+  content: "";
+  position: absolute;
+  inset: -10px -6px;
 }
 
 .gift-redeem {
