@@ -40,7 +40,17 @@
  * mutationer. Workflowet henter reviews og giver dem videre.
  */
 
-/** Konti hvis godkendelse frigiver en laast sti. Aendres kun via PR paa main. */
+/**
+ * Konti hvis godkendelse frigiver en laast sti. Aendres kun via PR paa main.
+ *
+ * TEKSTERNE HERUNDER LAESES AF MENNESKER. `grund` og noterne ender i
+ * portens kvittering paa PR'en. Kildekoden skriver aa/oe/ae af vane —
+ * og den vane sivede ud i kvitteringen 2/9 08:14: «Ingen gyldig
+ * godkendelse paa dette commit fra en konto der maa laase op» stod
+ * ved siden af «Låst sti frigives af en godkendelse på netop …».
+ * Samme fejl som paa /samtykke 1/9. Alt der returneres som tekst,
+ * skrives derfor med æ, ø og å — og en proeve maaler OUTPUTTET.
+ */
 export const MAA_LAASE_OP = ['stevenwensley-a11y'];
 
 const login = (u) => String(u?.login ?? '').trim().toLowerCase();
@@ -62,7 +72,7 @@ export function frigivelse(k) {
     .filter(Boolean);
 
   if (!headSha) return { frigivet: false, af: null, grund: 'Intet head-commit at binde godkendelsen til.' };
-  if (!liste.length) return { frigivet: false, af: null, grund: 'Ingen konto maa laase op.' };
+  if (!liste.length) return { frigivet: false, af: null, grund: 'Ingen konto må låse op.' };
   if (!reviews.length) return { frigivet: false, af: null, grund: 'Ingen reviews.' };
 
   // Seneste review pr. konto. Sorteret paa tid, saa raekkefoelgen i input
@@ -82,7 +92,7 @@ export function frigivelse(k) {
     if (r?.commit_id !== headSha) continue;
     return { frigivet: true, af: r.user.login, grund: `@${r.user.login} godkendte ${headSha.slice(0, 7)}.` };
   }
-  return { frigivet: false, af: null, grund: 'Ingen gyldig godkendelse paa dette commit fra en konto der maa laase op.' };
+  return { frigivet: false, af: null, grund: 'Ingen gyldig godkendelse på dette commit fra en konto der må låse op.' };
 }
 
 /** Dommerens egen ordlyd for en laast sti. Aendres den ved en udrulning, gaar en proeve roed. */
