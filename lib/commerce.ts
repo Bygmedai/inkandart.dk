@@ -6,13 +6,38 @@
  * cart-permalink, så checkout (MobilePay/kort/wallets) bliver liggende hos
  * Shopify — sitet håndterer aldrig selv penge eller credentials.
  *
- * Domænet kan overrides med NEXT_PUBLIC_SHOPIFY_DOMAIN (fx hvis butikken en
- * dag får et primært domæne). Variant-ID'erne er læst 1:1 fra det live
- * Gavekort-produkt (handle gavekort-100-til-ink-and-art); alle beløb er
- * availableForSale og publiceret på online-store-kanalen.
+ * KASSEN OG API'ET ER TO DOMÆNER — MED VILJE.
+ *
+ * Kunden ser adresselinjen mens hun betaler. Indtil 2/9 2026 stod der
+ * `d1qp54-0w.myshopify.com` — et maskingenereret navn hun aldrig har hørt
+ * om, på det øjeblik hvor hun taster sit kort. Det ligner phishing.
+ * Husets kasse hedder nu `butik.inkandart.dk`.
+ *
+ * Men Storefront-API'et (lib/storefront.ts) og Admin-API'et
+ * (lib/depositum.ts, /api/subscribe) skal blive på myshopify-domænet.
+ * Shopify anbefaler det, og det er dér vi har målt at kaldene virker.
+ * Derfor findes der to variabler:
+ *
+ *   NEXT_PUBLIC_SHOPIFY_KASSE   → det kunden ser: cart-permalinks, produkt-URL'er
+ *   NEXT_PUBLIC_SHOPIFY_DOMAIN  → det koden taler med: API-kald
+ *
+ * Er KASSE ikke sat, falder kassen tilbage til API-domænet, og alt virker
+ * som før. Så kan variablen sættes i Vercel den dag certifikatet er på
+ * plads — uden at røre koden igen. Shopify viderestiller selv mellem
+ * de to domæner, så et gammelt link i en mail dør aldrig.
+ *
+ * Variant-ID'erne er læst 1:1 fra det live Gavekort-produkt
+ * (handle gavekort-100-til-ink-and-art); alle beløb er availableForSale
+ * og publiceret på online-store-kanalen.
  */
-const SHOPIFY_DOMAIN =
+const API_DOMAIN =
   process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN?.trim() || "d1qp54-0w.myshopify.com";
+
+/** Kassen — det domæne kunden ser i adresselinjen når hun betaler. */
+const KASSE_DOMAIN = process.env.NEXT_PUBLIC_SHOPIFY_KASSE?.trim() || API_DOMAIN;
+
+/** Eksporteret så et vidne kan måle den — ikke så andre moduler bygger URL'er selv. */
+export const kassensDomaene = (): string => KASSE_DOMAIN;
 
 const GIFT_CARD_HANDLE = "gavekort-100-til-ink-and-art";
 
@@ -39,7 +64,7 @@ export const GIFT_CARDS: GiftCard[] = [
  * Alle beløb sælges via cart-permalink på /gavekort. Beholdt så gamle
  * importører ikke knækker — brug den ikke som kundedør.
  */
-export const GIFT_CARD_PRODUCT_URL = `https://${SHOPIFY_DOMAIN}/products/${GIFT_CARD_HANDLE}`;
+export const GIFT_CARD_PRODUCT_URL = `https://${KASSE_DOMAIN}/products/${GIFT_CARD_HANDLE}`;
 
 /**
  * Walk-in: to små tattoos, 900 kr. Live Shopify-produkt
@@ -52,7 +77,7 @@ export const WALKIN = {
   handle: "2-sma-tattoos-walk-in-tilbud",
 } as const;
 
-export const WALKIN_PRODUCT_URL = `https://${SHOPIFY_DOMAIN}/products/${WALKIN.handle}`;
+export const WALKIN_PRODUCT_URL = `https://${KASSE_DOMAIN}/products/${WALKIN.handle}`;
 
 export function walkinCartUrl(): string {
   return cartUrl(WALKIN.variantId);
@@ -218,7 +243,7 @@ export const FLASH_DEPOSITS: Deposit[] = [
 /** Cart-permalink for enhver variant (gavekort, flash, …): lægger varen i
     kurven og sender direkte til Shopify-checkout. */
 export function cartUrl(variantId: string): string {
-  return `https://${SHOPIFY_DOMAIN}/cart/${variantId}:1?skip_shop_pay=true`;
+  return `https://${KASSE_DOMAIN}/cart/${variantId}:1?skip_shop_pay=true`;
 }
 
 /** Gavekort-alias — bevaret for læsbarhed på gavekort-fladen. */
