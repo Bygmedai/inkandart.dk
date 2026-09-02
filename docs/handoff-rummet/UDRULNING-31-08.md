@@ -35,6 +35,7 @@ Projekt `inkandart-dk` (`prj_RaATmqi4YdHxPYmDytMZ8UYUwWKJ`):
 |---|---|---|
 | `SHOPIFY_STOREFRONT_TOKEN` | production, preview | encrypted |
 | `NEXT_PUBLIC_SHOPIFY_DOMAIN` | production, preview, development | plain |
+| `NEXT_PUBLIC_SHOPIFY_KASSE` | production, preview, development | plain — kassens domæne (`butik.inkandart.dk`, #291); kun kurv-links, aldrig API |
 
 Storefront-tokenet er samme offentlige nøgle som webshoppen allerede kører
 på. Den er læse-adgang til publicerede produkter og ligger i forvejen i
