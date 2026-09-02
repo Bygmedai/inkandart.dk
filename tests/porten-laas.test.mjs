@@ -64,3 +64,31 @@ test("porten henter frigivelsen fra default-branch og bruger dommerens egen list
   assert.doesNotMatch(fang, /AABEN/, "catch-grenen aabner porten");
   assert.match(fang, /endelig = /, "catch-grenen efterlader dommen uden note");
 });
+
+test("review-koerslen doemmer ikke selv — den genstarter push-koerslen, og hedder ikke «porten»", () => {
+  /**
+   * Stevens screenshot 2/9 08:11: «Porten / porten (pull_request)» roed og
+   * paakraevet, «Porten / porten (pull_request_review)» groen og paakraevet
+   * — side om side. GitHub grupperer pr. navn + haendelse; den groene
+   * loefter ikke den roede. Dommen skal derfor falde i push-koerslen.
+   */
+  const wf = read(".github/workflows/porten.yml");
+  // Kun push-koerslen hedder «porten». Review-koerslen har et andet navn,
+  // saa der aldrig staar to «porten» paa samme commit.
+  assert.match(wf, /name: \$\{\{ github\.event_name == 'pull_request_review' && '[a-z-]+' \|\| 'porten' \}\}/,
+    "review-koerslen hedder ogsaa «porten» — saa staar der to");
+  // Review-grenen genstarter push-koerslen paa NETOP dette head, og stopper.
+  const m = wf.match(/if \(context\.eventName === 'pull_request_review'\) \{([\s\S]*?)\n\s{12}\}/);
+  assert.ok(m, "der er ingen review-gren");
+  const gren = m[1];
+  assert.match(gren, /event: 'pull_request'/, "genstarter ikke en push-koersel");
+  assert.match(gren, /head_sha: pr\.head\.sha/, "genstarter ikke paa netop dette head");
+  assert.match(gren, /reRunWorkflowFailedJobs/, "genstarter ingenting");
+  assert.match(gren, /status !== 'completed'[\s\S]*?return/, "roerer en koersel der stadig er i gang");
+  assert.doesNotMatch(gren, /porten\(|kvittering\(|setFailed/, "review-grenen doemmer selv");
+  assert.ok(gren.trim().endsWith("return;"), "review-grenen falder igennem til dommen");
+  // Genstart kraever rettigheden — og kun den.
+  assert.match(wf, /permissions:[\s\S]*?actions: write/, "ingen ret til at genstarte egne koersler");
+  // Og review-koerslen maa aldrig AFLYSE push-koerslen (maalt 08:02:02).
+  assert.match(wf, /group: porten-\$\{\{ github\.event_name \}\}-/, "review og push deler concurrency-gruppe — den ene aflyser den anden");
+});

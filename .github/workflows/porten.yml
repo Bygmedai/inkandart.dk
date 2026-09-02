@@ -29,14 +29,25 @@ permissions:
   pull-requests: write
   checks: read
   statuses: read
+  # S579: review-koerslen genstarter push-koerslen (se nedenfor). Kun egne runs.
+  actions: write
 
 concurrency:
-  group: porten-${{ github.event.pull_request.number || github.sha }}
+  # Egen gruppe pr. haendelse: en review-koersel maa aldrig aflyse den
+  # push-koersel den er sat i verden for at genstarte (maalt 2/9 08:02:02:
+  # godkendelsen aflyste dommen).
+  group: porten-${{ github.event_name }}-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
 
 jobs:
   porten:
-    name: porten
+    # S579 (2/9, Stevens screenshot): GitHub grupperer checks pr. NAVN +
+    # HAENDELSE. En groen «porten (pull_request_review)» erstatter ikke en
+    # roed «porten (pull_request)» — den staar ved siden af, og den roede
+    # er stadig paakraevet. Derfor hedder kun push-koerslen «porten»;
+    # review-koerslen doemmer ikke selv, den GENSTARTER push-koerslen, saa
+    # dommen lander i det check der faktisk kraeves.
+    name: ${{ github.event_name == 'pull_request_review' && 'porten-vaekning' || 'porten' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -80,6 +91,30 @@ jobs:
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
+            // --- review-haendelse: doem ikke her — genstart push-koerslen (S579) ---
+            //
+            // Dommen SKAL falde i «porten (pull_request)»: det er den GitHub
+            // kraever, og en groen tvilling fra en anden haendelse loefter den
+            // ikke (Stevens screenshot 2/9 08:11). Vi finder den seneste
+            // push-koersel paa netop dette head og genstarter dens fejlede job.
+            // Den laeser reviews naar den doemmer, ser godkendelsen, og
+            // skriver sin egen kvittering. Er den stadig i gang, naar den
+            // selv at se godkendelsen — saa roerer vi den ikke.
+            if (context.eventName === 'pull_request_review') {
+              const pr = context.payload.pull_request;
+              const { data } = await github.rest.actions.listWorkflowRuns({
+                ...context.repo, workflow_id: 'porten.yml', event: 'pull_request',
+                head_sha: pr.head.sha, per_page: 5,
+              });
+              const koersel = (data.workflow_runs ?? [])[0];
+              if (!koersel) { core.info(`Ingen push-koersel af porten paa ${pr.head.sha.slice(0, 7)} — intet at genstarte.`); return; }
+              if (koersel.status !== 'completed') { core.info(`Push-koerslen ${koersel.id} er stadig i gang — den ser selv godkendelsen.`); return; }
+              if (koersel.conclusion === 'success') { core.info(`Push-koerslen ${koersel.id} er allerede groen.`); return; }
+              await github.rest.actions.reRunWorkflowFailedJobs({ ...context.repo, run_id: koersel.id });
+              core.info(`Genstartede push-koerslen ${koersel.id} paa ${pr.head.sha.slice(0, 7)} efter review fra @${context.payload.review?.user?.login ?? '?'}.`);
+              return;
+            }
+
             const { porten, kvittering, AABEN, LAASTE_STIER } = await import(`${process.env.GITHUB_WORKSPACE}/.porten/porten.mjs`);
 
             // S566 · MÅLT (bygmedai-adskillelse 20/8): check_suite-hændelser bærer
