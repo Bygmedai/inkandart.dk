@@ -148,3 +148,39 @@ test("dommerens laast-sti-grund har stadig den ordlyd workflowet genkender", asy
   const grund = r.grunde.find((g) => LAAST_STI_GRUND.test(g));
   assert.ok(grund, `dommerens laast-sti-grund har aendret ordlyd: ${JSON.stringify(r.grunde)}`);
 });
+
+test("alt frigivelsen siger til et menneske, er skrevet med æ, ø og å", () => {
+  /**
+   * Maaler OUTPUTTET, ikke kildeteksten: hver vej ud af frigivelse() og
+   * anvendFrigivelse() koeres, og alt der kommer tilbage som tekst
+   * proeves mod samme moenster som content-vagten bruger. Kildekoden
+   * maa gerne skrive «paa» i sine kommentarer — det maa kvitteringen ikke.
+   *
+   * HEAD er valgt uden «aa» og «ae» i sine hex-tegn, saa sha'en selv
+   * ikke kan udloese vagten. Skifter nogen den, skal de vide det.
+   */
+  const MISTANKE = /\b[\wÆØÅæøå]*(aa|oe|ae)[\wÆØÅæøå]*\b/gi;
+  assert.doesNotMatch(HEAD, /aa|ae/, "proevens egen sha ville udloese vagten");
+  const ok = { reviews: [review(steven, "APPROVED")], headSha: HEAD, forfatter: "Vilde2026" };
+  const tekster = [
+    frigivelse(ok).grund,
+    frigivelse({ ...ok, reviews: [] }).grund,
+    frigivelse({ ...ok, reviews: [review(vilde, "APPROVED")], forfatter: "x" }).grund,
+    frigivelse({ ...ok, headSha: "" }).grund,
+    frigivelse({ ...ok, maaLaaseOp: [] }).grund,
+    frigivelse({}).grund,
+  ];
+  const fri = { frigivet: true, af: "stevenwensley-a11y", grund: "" };
+  const ramt = [".github/workflows/porten.yml"];
+  const laast = "Rører 1 låst sti: .github/workflows/porten.yml. Kræver et menneskes merge — uanset forfatter.";
+  for (const r of [
+    anvendFrigivelse({ dom: "SPÆRRET", grunde: [laast], noter: [] }, { fri, ramt, headSha: HEAD, AABEN: "ÅBEN" }),
+    anvendFrigivelse({ dom: "SPÆRRET", grunde: [laast], noter: [] }, { fri: frigivelse({ ...ok, reviews: [] }), ramt, headSha: HEAD, AABEN: "ÅBEN" }),
+  ]) tekster.push(...r.noter);
+
+  assert.ok(tekster.length >= 8, "proeven naaede ikke alle veje");
+  for (const tekst of tekster) {
+    const fund = String(tekst).match(MISTANKE) ?? [];
+    assert.deepEqual(fund, [], `ASCII i tekst til et menneske: «${tekst}»`);
+  }
+});
