@@ -33,15 +33,24 @@ jobs:
       # LAESE-noeglen. Den der sendes med i /api/samtykke er sending-only
       # og laast til ét domaene — den maa ALDRIG staa her.
       #
-      # ⚠ SAET IKKE HEMMELIGHEDEN FOER TEAMET ER SKILT AD.
-      # Resend har KUN full_access og sending_access; der er intet
-      # read-only niveau, og `domain_id` gaelder kun afsendelse (maalt af
-      # Haruki 1/9, bekraeftet i Resends egen dokumentation). Den eneste
-      # noegle der kan LAESE, er derfor en hovednoegle til hele teamet —
-      # og teamet deles i dag med andre kunder.
+      # Her stod indtil 1/9 en advarsel: «saet ikke hemmeligheden foer
+      # teamet er skilt ad». Grunden var rigtig — Resend har kun
+      # full_access og sending_access, saa enhver noegle der kan LAESE er
+      # en hovednoegle til hele sit team, og teamet blev delt med andre
+      # kunder. Haruki skilte teamet ad samme dag.
       #
-      # Uden hemmeligheden fejler vagten AABENT. Det er hemmeligheden der
-      # skal vente, ikke koden.
+      # Advarslen er vaek, fordi den var en aftale i hukommelsen. Den
+      # holdt indtil den blev opfyldt, og den ville ikke holde naar nogen
+      # om et halvt aar roterer noeglen i en fart. Betingelsen er nu en
+      # MAALING: vagten spoerger Resend hvad noeglen raekker over, og
+      # stopper foer den henter ét brev hvis den ser et domaene der ikke
+      # er husets.
+      #
+      # Saa saet hemmeligheden — en laesenoegle fra det team der KUN
+      # rummer huset. Er den for bred, siger vagten det selv.
+      #
+      # Uden hemmeligheden fejler vagten AABENT. Foerste koersel: start
+      # den i haanden (workflow_dispatch) i stedet for at vente paa 07:17.
       - run: node scripts/leverancevagt.mjs
         env:
           RESEND_READ_KEY: ${{ secrets.RESEND_READ_KEY }}
