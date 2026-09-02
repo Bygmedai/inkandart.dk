@@ -15,7 +15,8 @@ YAML-modellen er uændret. Tom `edition_ref` på alle værker er den rigtige ops
 | Navn | Rolle |
 |---|---|
 | `SHOPIFY_STOREFRONT_TOKEN` | server-only |
-| `NEXT_PUBLIC_SHOPIFY_DOMAIN` | offentligt butiksdomæne (findes allerede i commerce) |
+| `NEXT_PUBLIC_SHOPIFY_DOMAIN` | offentligt butiksdomæne (findes allerede i commerce) — **API-kald**: Storefront og Admin bliver på myshopify |
+| `NEXT_PUBLIC_SHOPIFY_KASSE` | kassen — det domæne kunden ser: cart-permalinks og produkt-URL'er (#291, 2/9). Ikke sat → falder tilbage til DOMAIN |
 
 Begge skal være sat. Mangler én: `{ products: [], ok: false }`. Intet throw. Preview bygger uden Shopify-env.
 

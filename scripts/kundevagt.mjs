@@ -10,7 +10,28 @@
  * mulig rød er ingen måling (husets stående disciplin, S564-S568).
  */
 const BASE = process.env.KUNDEVAGT_BASE ?? "https://inkandart.dk";
-const SHOP = "https://d1qp54-0w.myshopify.com";
+
+/**
+ * KASSEN MÅLES DÉR HVOR KUNDEN SENDES HEN — IKKE PÅ ET NAVN I DENNE FIL.
+ *
+ * Indtil 2/9 stod der `const SHOP = "https://d1qp54-0w.myshopify.com"`.
+ * Samme dag flyttede kassen til `butik.inkandart.dk` (#291), og myshopify
+ * begyndte at svare 301 på alt. Vagten ville være gået rød fire steder
+ * kl. 14:23 — for varianter der lever fint, bare et andet sted. Målt før
+ * det skete: 301/301/301 på myshopify, 302/302/410 på kassen.
+ *
+ * Så vagten læser nu kassens vært ud af /gavekort-siden, som kunden gør,
+ * og måler dér. Flytter kassen igen, følger vagten med af sig selv.
+ * Det gamle domæne måles stadig — men som det det er nu: en dør der
+ * skal viderestille, så et link i en gammel bekræftelsesmail aldrig dør.
+ */
+const API_HOST = "d1qp54-0w.myshopify.com";
+let kasse = null; // sættes af /gavekort-målingen; alt der handler, venter på den
+
+function kurvVaert(html) {
+  const m = html.match(/https:\/\/([a-z0-9.-]+)\/cart\//i);
+  return m ? m[1].toLowerCase() : null;
+}
 
 const fejl = [];
 const ok = [];
@@ -55,28 +76,45 @@ await tjek("engelsk flade: findes og er engelsk", async () => {
 await tjek("shop: kataloget står der", async () => {
   const r = await hent(`${BASE}/shop`);
   if (r.status !== 200) return `HTTP ${r.status}`;
-  if (!r.body.includes("d1qp54-0w")) return "ingen kurv-links til butikken på /shop";
+  if (!r.body.includes("/cart/")) return "ingen kurv-links til butikken på /shop";
 });
 
-await tjek("gavekort: siden findes", async () => {
+await tjek("gavekort: siden findes — og siger hvor kassen er", async () => {
   const r = await hent(`${BASE}/gavekort`);
   if (r.status !== 200) return `HTTP ${r.status}`;
+  kasse = kurvVaert(r.body);
+  if (!kasse) return "ingen kurv-links på /gavekort — så kan handelen ikke måles";
 });
 
 // ── Handelen: kan kurven faktisk tage imod? ────────────────────────────
 await tjek("kurv: gavekort 250 kr er i live", async () => {
-  const r = await hent(`${SHOP}/cart/53467075215688:1`, { follow: false });
-  if (r.status !== 302) return `variant svarer ${r.status}, ikke 302 — død handel på gavekortsiden`;
+  if (!kasse) return "kassens vært er ukendt — /gavekort-målingen fejlede";
+  const r = await hent(`https://${kasse}/cart/53467075215688:1`, { follow: false });
+  if (r.status !== 302) return `variant svarer ${r.status} på ${kasse}, ikke 302 — død handel på gavekortsiden`;
 });
 
 await tjek("kurv: walk-in-depositum er i live", async () => {
-  const r = await hent(`${SHOP}/cart/53492552827208:1`, { follow: false });
-  if (r.status !== 302) return `variant svarer ${r.status}, ikke 302 — død handel på walk-in`;
+  if (!kasse) return "kassens vært er ukendt — /gavekort-målingen fejlede";
+  const r = await hent(`https://${kasse}/cart/53492552827208:1`, { follow: false });
+  if (r.status !== 302) return `variant svarer ${r.status} på ${kasse}, ikke 302 — død handel på walk-in`;
 });
 
 await tjek("negativ kontrol: død variant læses som død", async () => {
-  const r = await hent(`${SHOP}/cart/99999999999999:1`, { follow: false });
+  if (!kasse) return "kassens vært er ukendt — /gavekort-målingen fejlede";
+  const r = await hent(`https://${kasse}/cart/99999999999999:1`, { follow: false });
   if (r.status !== 410) return `forventede 410, fik ${r.status} — 302-målingerne ovenfor beviser så ingenting`;
+});
+
+await tjek("gamle links lever: myshopify viderestiller til kassen", async () => {
+  // Bekræftelsesmails sendt før 2/9 peger på myshopify. Shopify skal
+  // sende dem videre til kassen — holder Shopify op med det, dør de
+  // links stille, og ingen kunde fortæller os det.
+  if (!kasse) return "kassens vært er ukendt — /gavekort-målingen fejlede";
+  const r = await hent(`https://${API_HOST}/cart/53467075215688:1`, { follow: false });
+  if (![301, 302, 307, 308].includes(r.status)) return `myshopify svarer ${r.status} — et gammelt link i en mail er dødt`;
+  let til = null;
+  try { til = new URL(r.location).host.toLowerCase(); } catch { /* ugyldig location */ }
+  if (til !== kasse) return `myshopify sender til «${til ?? r.location}», ikke til kassen ${kasse}`;
 });
 
 // ── Døde døre ──────────────────────────────────────────────────────────
