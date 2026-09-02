@@ -763,7 +763,10 @@ export type BookingCopy = {
   billedtekst: string;
   tak_titel: string;
   tak_betalt: string;
-  /** Trin 2: depositummet, kun for de lange sessioner. */
+  /** Trin 2: samtykket. Gælder alle kunder. */
+  samtykke_trin: string;
+  samtykke_label: string;
+  /** Trin 3: depositummet, kun for de lange sessioner. */
   depositum_trin: string;
   /** Opslags-formen på tak-siden — og dens fem mulige svar. */
   tjek_titel: string;
@@ -788,6 +791,8 @@ export function loadBookingCopy(): BookingCopy {
     billedtekst: str(d.billedtekst),
     tak_titel: str(d.tak_titel),
     tak_betalt: str(d.tak_betalt),
+    samtykke_trin: str(d.samtykke_trin),
+    samtykke_label: str(d.samtykke_label),
     depositum_trin: str(d.depositum_trin),
     tjek_titel: str(d.tjek_titel),
     tjek_hjaelp: str(d.tjek_hjaelp),
@@ -817,6 +822,8 @@ export function loadBookingCopyEn(): BookingCopy {
     billedtekst: str(d.billedtekst),
     tak_titel: str(d.tak_titel),
     tak_betalt: str(d.tak_betalt),
+    samtykke_trin: str(d.samtykke_trin),
+    samtykke_label: str(d.samtykke_label),
     depositum_trin: str(d.depositum_trin),
     tjek_titel: str(d.tjek_titel),
     tjek_hjaelp: str(d.tjek_hjaelp),

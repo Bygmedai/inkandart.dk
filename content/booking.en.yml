@@ -7,6 +7,11 @@ lede: >-
   comes off the price. Rebook at least 48 hours ahead.
 door_label: Book your time
 depositum_label: Deposit 100 kr — comes off the price
+samtykke_trin: >-
+  Fill in the consent form at home. It takes two minutes on your sofa and
+  ten at the counter — then we spend your time in the chair on the work
+  instead of on paperwork.
+samtykke_label: Fill in the consent form
 konsultation: >-
   Big pieces start with a free, no-obligation consultation. Call, or come
   by and talk it over at the counter — we draw our way to it together

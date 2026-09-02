@@ -11,6 +11,13 @@ lede: >-
   det fragår i prisen. Ombook senest 48 timer før.
 door_label: Book din tid
 depositum_label: Depositum 100 kr — fragår i prisen
+# Trin 2: samtykket. Formularen fandtes fra 1/9, men INGEN vej førte til
+# den — målt 2/9: ordet «samtykke» stod 0 gange på /booking, /, /en/booking
+# og /en. Vi byggede noget ingen kunde kunne finde.
+samtykke_trin: >-
+  Udfyld samtykket hjemmefra. Det tager to minutter på sofaen og ti ved
+  disken, og så bruger vi din tid i stolen på arbejdet i stedet for papir.
+samtykke_label: Udfyld samtykket
 # [ORD-TJEK Steven] H3 30/8: konsultationen er en kapacitet huset har.
 konsultation: >-
   Store motiver starter med en gratis og uforpligtende konsultation.

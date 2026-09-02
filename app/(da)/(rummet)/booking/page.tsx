@@ -70,6 +70,16 @@ export default async function BookingPage({
                 className="rum-book rum-book--row rum-booking__go"
               />
             </li>
+            {copy.samtykke_trin ? (
+              <li>
+                <p className="rum-body-copy rum-booking__trin-note">
+                  {copy.samtykke_trin}
+                </p>
+                <a className="rum-book rum-book--row" href="/samtykke">
+                  {copy.samtykke_label}
+                </a>
+              </li>
+            ) : null}
             {copy.depositum_trin ? (
               <li>
                 <p className="rum-body-copy rum-booking__trin-note">
