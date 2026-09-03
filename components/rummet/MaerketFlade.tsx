@@ -80,7 +80,7 @@ export function MaerketFlade({
             ))}
           </div>
         )}
-        <GavekortKoeb />
+        <GavekortKoeb lang={lang} />
       </section>
 
       <section className="rum-maerket__vaeg" aria-labelledby="vaeggen">
