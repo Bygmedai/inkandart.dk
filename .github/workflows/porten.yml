@@ -177,7 +177,15 @@ jobs:
                   konklusion: s.state === 'success' ? 'success' : s.state })),
               ].filter(c => c.navn !== 'porten');   // porten dømmer ikke sig selv
 
-              const paakraevedeNavne = `check,Scan for secrets`.split(',').map(x => x.trim()).filter(Boolean);
+              // S579 (3/9): vilde-qa og lighthouse kom paa listen. De har koert
+              // paa hver PR i maaneder — og ingen af dem haandhaevede noget.
+              // vilde-qa var ADVISORY (exit 0 uanset fund; stod groen med 33
+              // fund i sit summary), og lighthouse's assert-trin kastede hver
+              // gang paa «Cannot use assertMatrix with other options», saa
+              // ikke én taerskel er nogensinde blevet vurderet paa dette repo.
+              // Begge er rettet og maalt groenne foer de kom herind (#296,
+              // #297). Nu betyder deres svar noget.
+              const paakraevedeNavne = `check,Scan for secrets,vilde-qa,lighthouse`.split(',').map(x => x.trim()).filter(Boolean);
               const venterPaaCheck = paakraevedeNavne.filter((n) => {
                 const alle = checks.filter((c) => c.navn === n);
                 return alle.length === 0 || alle.some((c) => c.status !== 'completed');
@@ -233,7 +241,7 @@ jobs:
               if (ok) { forhaandsvisning = ok.environment_url; break; }
             }
 
-            const paakraevede = `check,Scan for secrets`.split(',').map(s => s.trim()).filter(Boolean);
+            const paakraevede = `check,Scan for secrets,vilde-qa,lighthouse`.split(',').map(s => s.trim()).filter(Boolean);
             // F5: dependabot-banen kræver positivt bevist afsender, ikke kun stier.
             // En package.json-only PR fra hvem som helst kunne før gå udenom
             // anmelderen med en postinstall i lasten.
