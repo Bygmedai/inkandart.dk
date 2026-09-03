@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function SamtykkePageEn() {
   return (
-    <RummetShell>
+    <RummetShell lang="en">
       <SamtykkeFlade c={loadSamtykkeEn()} lang="en" betingelserHref="/en/betingelser" />
     </RummetShell>
   );

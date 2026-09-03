@@ -41,6 +41,7 @@ export type NytFund = {
   ind?: unknown;
   koebte?: unknown;
   salg?: unknown;
+  opgave?: unknown;
 };
 
 function opsaetning(): { url: string; key: string } | null {
@@ -134,6 +135,11 @@ export function heltal(v: unknown, loft: number): number | null {
 
 const DATO_RE = /^\d{4}-\d{2}-\d{2}$/;
 
+/** «o1» … «o999». Samme form som fremdriftstabellens nøgle, og samme
+ *  check-constraint i Postgres. Alt andet bliver til null — en forkert
+ *  mærkat er værre end ingen. */
+const OPGAVE_RE = /^o[0-9]{1,3}$/;
+
 export function rensFund(raa: NytFund, kendteSlags: string[]): Omit<Fund, "id" | "oprettet"> | null {
   const slag = tekst(raa.slag, MAX_SLAG);
   const t = tekst(raa.tekst, MAX_TEKST);
@@ -154,6 +160,10 @@ export function rensFund(raa: NytFund, kendteSlags: string[]): Omit<Fund, "id" |
     spoergsmaal: s === "Spørgsmål",
     svar: null,
     svar_af: null,
+    // Hvilken opgave fundet kom fra. Det er dét der gør «Overblik» til
+    // et regnskab og ikke en bunke: hver opgave lover noget med tilbage,
+    // og her kan man se om løftet blev holdt.
+    opgave: OPGAVE_RE.test(tekst(raa.opgave, 8)) ? tekst(raa.opgave, 8) : null,
   };
 }
 
@@ -171,12 +181,14 @@ export async function skrivSvar(id: string, svar: string, af: string): Promise<b
   if (!s) return false;
   const r = await kald(`${TABEL_FUND}?id=eq.${id}`, {
     method: "PATCH",
-    body: JSON.stringify({ svar: s, svar_af: tekst(af, MAX_NAVN) || "Holdet" }),
+    body: JSON.stringify({
+      svar: s,
+      svar_af: tekst(af, MAX_NAVN) || "Holdet",
+      svar_paa: new Date().toISOString(),
+    }),
   });
   return Boolean(r?.ok);
 }
-
-const OPGAVE_RE = /^o[0-9]{1,3}$/;
 
 export async function saetKlaret(opgave: string, af: string): Promise<boolean> {
   if (!OPGAVE_RE.test(opgave)) return false;

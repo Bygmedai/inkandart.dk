@@ -45,7 +45,10 @@ export async function POST(req: Request): Promise<Response> {
   if (!b) return svar(false);
 
   const f = rensFund(
-    { slag: b.slag, tekst: b.tekst, dato: b.dato, hvem: b.hvem, ind: b.ind, koebte: b.koebte, salg: b.salg },
+    {
+      slag: b.slag, tekst: b.tekst, dato: b.dato, hvem: b.hvem,
+      ind: b.ind, koebte: b.koebte, salg: b.salg, opgave: b.opgave,
+    },
     loadGulvet().slags,
   );
   if (!f) return svar(false);
