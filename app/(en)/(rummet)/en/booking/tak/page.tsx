@@ -61,6 +61,17 @@ export default async function BookingTakPage({
         <div className="rum-booking__koeb">
           <h1 className="rum-room__title rum-poster">{copy.tak_titel}</h1>
           <p className="rum-body-copy rum-booking__note">{copy.tak_betalt}</p>
+          {/* Tak-siden er stedet hvor kunden ER faerdig med at booke. Foer
+              2/9 foerte intet paa hele sitet til samtykket — den var bygget
+              og usynlig. Her staar den, hvor hun lige har afsluttet. */}
+          {copy.samtykke_trin ? (
+            <p className="rum-body-copy rum-booking__note">
+              {copy.samtykke_trin}{" "}
+              <a className="rum-book" href="/en/samtykke">
+                {copy.samtykke_label}
+              </a>
+            </p>
+          ) : null}
           {depositum ? (
             <p style={{ marginTop: 24 }}>
               <a

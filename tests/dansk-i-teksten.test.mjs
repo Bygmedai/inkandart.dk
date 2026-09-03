@@ -36,6 +36,12 @@ const LOVLIGE = new Set([
   // kamera + er. Fanget af vagten da teamguiden kom til — og det er
   // sådan listen skal vokse: et menneske tager stilling, én gang.
   "kameraer",
+  // sofa + en. Samme klasse som «datoen» og «kameraer»: stammen ender på
+  // a, endelsen begynder på e. Fanget da samtykke-trinnet kom på
+  // bookingsiden (S579). Ordet er stavet rigtigt; det er mønsteret der er
+  // groft — og et groft mønster med en menneskelæst liste er stadig bedre
+  // end intet, så længe listen vokser ét bevidst ord ad gangen.
+  "sofaen",
 ]);
 
 const danskeFiler = readdirSync(join(root, "content"))

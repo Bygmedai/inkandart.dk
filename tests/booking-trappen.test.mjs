@@ -77,3 +77,55 @@ test("telefonnumre der staar alene beholder den almindelige regel", () => {
     assert.doesNotMatch(s, /rum-tel--i-tekst/, p + " staar alene og skal ikke have modifieren");
   }
 });
+
+/**
+ * S579 (2/9) — samtykket kunne ikke findes.
+ *
+ * Maalt i produktion: ordet «samtykke» stod 0 gange paa /booking, /,
+ * /en/booking og /en. Flowet blev bygget 1/9 og var usynligt for enhver
+ * kunde der ikke fik URL'en tilsendt. AC1 i docs/accept/samtykke-flow.md
+ * lagde linket i Book.dks bekraeftelsesmail — en indstilling der ikke er
+ * sat, og der var ingen vej paa sitet imens.
+ *
+ * Steven, 2/9: «samtykke skal linkes til booking, saa man automatisk
+ * bliver sendt videre til /samtykke.»
+ */
+
+test("begge bookingsider har en vej til samtykket — paa deres eget sprog", () => {
+  for (const [fil, href, forkert] of [
+    ["app/(da)/(rummet)/booking/page.tsx", "/samtykke", "/en/samtykke"],
+    ["app/(en)/(rummet)/en/booking/page.tsx", "/en/samtykke", null],
+  ]) {
+    const f = read(fil).replace(/\s+/g, " ");
+    assert.match(f, new RegExp(`href="${href}"`), `${fil}: ingen vej til samtykket`);
+    // Trinnet skal staa i trappen, ikke som loes tekst nederst.
+    assert.match(f, /<ol className="rum-booking__trin">[\s\S]*?samtykke_trin/,
+      `${fil}: samtykke-trinnet staar uden for trappen`);
+    // Og foer depositummet: samtykket gaelder alle, depositummet kun de lange.
+    assert.ok(f.indexOf("samtykke_trin") < f.indexOf("depositum_trin"),
+      `${fil}: depositummet staar foer samtykket`);
+    if (forkert) assert.doesNotMatch(f, new RegExp(`href="${forkert}"`), `${fil}: sender dansk kunde til engelsk flade`);
+  }
+});
+
+test("tak-siden — hvor kunden lige HAR booket — foerer ogsaa videre", () => {
+  for (const [fil, href] of [
+    ["app/(da)/(rummet)/booking/tak/page.tsx", "/samtykke"],
+    ["app/(en)/(rummet)/en/booking/tak/page.tsx", "/en/samtykke"],
+  ]) {
+    assert.match(read(fil), new RegExp(`href="${href}"`), `${fil}: ingen vej til samtykket`);
+  }
+});
+
+test("ordene bor i indholdet, ikke i markup — og findes paa begge sprog", async () => {
+  const { loadBookingCopy, loadBookingCopyEn } = await import("../lib/content.ts");
+  const da = loadBookingCopy(), en = loadBookingCopyEn();
+  for (const [navn, c] of [["da", da], ["en", en]]) {
+    assert.ok(c.samtykke_trin.trim().length > 20, `${navn}: samtykke_trin er tom`);
+    assert.ok(c.samtykke_label.trim(), `${navn}: samtykke_label er tom`);
+  }
+  // Negativ kontrol: de to sprog maa ikke vaere den samme streng — saa var
+  // den ene fil kopieret, og den engelske kunde laeser dansk.
+  assert.notEqual(da.samtykke_trin, en.samtykke_trin);
+  assert.notEqual(da.samtykke_label, en.samtykke_label);
+});
