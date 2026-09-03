@@ -264,7 +264,7 @@ test("S573: hver vare på hylden har handle, foto og en linje", () => {
 
 test("S573: produktsiden viser varen, ikke et værk", () => {
   const flade = read("components/rummet/ProduktFlade.tsx");
-  assert.match(flade, /Læg i kurv/);
+  assert.match(flade, /c\.addToCart/);
   assert.doesNotMatch(flade, /Plade/);
   // Prisen skal stå på knappen — en knap uden tal er et spørgsmål, ikke et tilbud.
   assert.match(flade, /\{buy\}/);
@@ -294,7 +294,7 @@ test("M2 Døren sidder på Stolen, Mærket og produkt/gave-flader", () => {
   // Gavekort-døren bor i fladen (én komponent, to sprog).
   assert.match(read("components/rummet/MaerketFlade.tsx"), /GavekortKoeb/);
   assert.match(gave, /GIFT_CARDS/);
-  assert.match(produkt, /Fri fragt fra 499/);
+  assert.match(produkt, /c\.shipping/); assert.match(read("lib/i18n.ts"), /Fri fragt fra 499/);
 });
 
 test("M2 opfinder ikke walk-in 900, «fra»-priser eller dummy-navne", () => {

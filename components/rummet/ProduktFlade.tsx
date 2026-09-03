@@ -47,12 +47,12 @@ export function ProduktFlade({
           <form className="rum-produkt__koeb" action="/api/rummet/cart" method="post">
             <input type="hidden" name="variantId" value={product.variantGid} />
             <button type="submit" className="rum-book rum-book--row">
-              Læg i kurv — {buy}
+              {c.addToCart} — {buy}
             </button>
           </form>
         ) : null}
         {vare.linje ? <p className="rum-body-copy rum-produkt__om">{vare.linje}</p> : null}
-        <p className="rum-label rum-produkt__fragt">Fri fragt fra 499 · afhentes også i butikken</p>
+        <p className="rum-label rum-produkt__fragt">{c.shipping}</p>
       </main>
     </RummetShell>
   );
