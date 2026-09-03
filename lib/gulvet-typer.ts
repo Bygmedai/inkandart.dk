@@ -20,6 +20,8 @@ export type Fund = {
   spoergsmaal: boolean;
   svar: string | null;
   svar_af: string | null;
+  /** Hvilken af månedens opgaver fundet kom fra. Null = ingen. */
+  opgave: string | null;
   oprettet: string;
 };
 

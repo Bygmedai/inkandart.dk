@@ -69,7 +69,7 @@ export default async function GulvetPage({
   // som om den gemte er værre end en knap der siger den ikke kan.
   const sat = gulvetErSat();
   const [fund, fremdrift] = sat
-    ? await Promise.all([hentFund(40), hentFremdrift()])
+    ? await Promise.all([hentFund(200), hentFremdrift()])
     : [[], {}];
 
   return (

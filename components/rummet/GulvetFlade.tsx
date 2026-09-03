@@ -3,13 +3,19 @@
 import { useCallback, useMemo, useState } from "react";
 import type { GuideBlok, GulvetCopy } from "@/lib/content";
 import type { Fund } from "@/lib/gulvet-typer";
+import { perOpgave as regnPerOpgave, perSlag as regnPerSlag, regnDoeren } from "@/lib/gulvet-tal";
 
 /**
  * Gulvet — husets oplæringsmåned og logbog.
  *
- * TRE FANER, IKKE FIRE. Første udgave havde et opslagsværk med priser og
- * åbningstider. Det blev skåret væk: de tal bor i teamguiden på /personale,
- * og en kopi her ville være den ottende udgave af noget huset lige har samlet
+ * FIRE FANER. Nu · Guider · Skriv · Overblik. Den fjerde kom til fordi den
+ * tredje ellers er en kirkegård: hvis det man skriver aldrig bliver regnet
+ * sammen eller svaret på, holder man op med at skrive. «Overblik» regner
+ * KUN på det holdet selv har skrevet — der er ikke ét tal på den fane som
+ * ikke er talt i «Skriv».
+ *
+ * Der er stadig ingen prisliste her. De tal bor i teamguiden på /personale,
+ * og en kopi ville være den ottende udgave af noget huset lige har samlet
  * ét sted. Siden linker derhen i stedet. Én sandhed, to sider.
  *
  * OPGAVERNE KOMMER FRA content/gulvet.yml, ikke herfra. Komponenten kender
@@ -198,7 +204,22 @@ function Blok({ b, flow }: { b: GuideBlok; flow: Record<string, string> & { knae
 /* -------------------------------------------------------------------- flade */
 
 const KR = (n: number) => `${Math.round(n).toLocaleString("da-DK")} kr`;
-const TIMEPRIS = 140;
+const PCT = (n: number) => `${Math.round(n * 100)}%`;
+/** Kun rigtige uuid'er kan besvares. En post der lige er gemt optimistisk
+ *  har et midlertidigt id, og serveren ville afvise den — så vises knappen
+ *  ikke. En knap der ikke kan virke er værre end ingen knap. */
+const ER_UUID = /^[0-9a-f-]{36}$/i;
+
+/** Overblikkets eneste byggesten: ét tal, hvad det er, og hvor det kommer fra. */
+function Maal({ v, e, n }: { v: string; e: string; n?: string }) {
+  return (
+    <div className="gulv-maal">
+      <b>{v}</b>
+      <span>{e}</span>
+      {n ? <i>{n}</i> : null}
+    </div>
+  );
+}
 
 export function GulvetFlade({
   c,
@@ -211,7 +232,7 @@ export function GulvetFlade({
   fremdrift: Record<string, boolean>;
   hvem: string;
 }) {
-  const [fane, setFane] = useState<"nu" | "guider" | "skriv">("nu");
+  const [fane, setFane] = useState<"nu" | "guider" | "skriv" | "overblik">("nu");
   const [guide, setGuide] = useState(c.guider[0]?.id ?? "");
   const [gjort, setGjort] = useState(fremdrift);
   const [poster, setPoster] = useState(fund);
@@ -227,6 +248,14 @@ export function GulvetFlade({
   const [timer, setTimer] = useState("");
   const [udgift, setUdgift] = useState("");
   const [giver, setGiver] = useState("");
+  // null = «følg den opgave hun er i gang med». Først når hun selv vælger
+  // noget andet, holder valget fast — og kun til hun har gemt.
+  const [tilOpgave, setTilOpgave] = useState<string | null>(null);
+  const [filter, setFilter] = useState<string | null>(null);
+  const [alle, setAlle] = useState(false);
+  const [udkast, setUdkast] = useState<Record<string, string>>({});
+  const [svarer, setSvarer] = useState<string | null>(null);
+  const [svarFejl, setSvarFejl] = useState("");
 
   const naeste = c.opgaver.findIndex((_, i) => !gjort[`o${i + 1}`]);
   const nr = naeste === -1 ? c.opgaver.length - 1 : naeste;
@@ -249,7 +278,7 @@ export function GulvetFlade({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          slag, tekst, dato, hvem,
+          slag, tekst, dato, hvem, opgave: valgtOpgave,
           ...(slag === "Vagt-tal" ? { ind, koebte, salg } : {}),
         }),
       });
@@ -262,11 +291,12 @@ export function GulvetFlade({
           koebte: koebte === "" ? null : Number(koebte),
           salg: salg === "" ? null : Number(salg),
           spoergsmaal: slag === "Spørgsmål", svar: null, svar_af: null,
+          opgave: valgtOpgave || null,
           oprettet: new Date().toISOString(),
         },
         ...p,
       ]);
-      setTekst(""); setInd(""); setKoebte(""); setSalg("");
+      setTekst(""); setInd(""); setKoebte(""); setSalg(""); setTilOpgave(null);
       setBesked({ ok: true, t: "Gemt. Det her vidste huset ikke i går." });
     } catch {
       setBesked({ ok: false, t: "Kunne ikke gemme. Tjek forbindelsen og prøv igen — det du skrev står der stadig." });
@@ -290,10 +320,50 @@ export function GulvetFlade({
   const dom = useMemo(() => {
     const t = Number(timer) || 0, u = Number(udgift) || 0, g = Number(giver) || 0;
     if (!t && !u && !g) return null;
-    const koster = t * TIMEPRIS + u;
+    const koster = t * c.tal.timepris + u;
     const rest = g - koster;
     return { ja: rest > 0, koster, giver: g, rest: Math.abs(rest), pr: t ? rest / t : 0, t };
-  }, [timer, udgift, giver]);
+  }, [timer, udgift, giver, c.tal.timepris]);
+
+  /* ------------------------------------------------------------ overblik
+   *
+   * Alt herunder er REGNET af det holdet selv har skrevet. Der er ingen
+   * konstant her som ikke enten kommer fra en post eller fra gulvet.yml.
+   * Det er hele forskellen på den her fane og et gæt med decimaler.
+   */
+
+  const doeren = useMemo(
+    () => regnDoeren(poster, c.overblik.vagter_min, c.tal.stoletime),
+    [poster, c.overblik.vagter_min, c.tal.stoletime],
+  );
+  const perOpgave = useMemo(() => regnPerOpgave(poster), [poster]);
+  const perSlag = useMemo(() => regnPerSlag(poster, c.slags), [poster, c.slags]);
+
+  const aabne = poster.filter((p) => p.spoergsmaal && !p.svar);
+  const besvarede = poster.filter((p) => p.spoergsmaal && p.svar);
+  const valgtOpgave = tilOpgave === null ? `o${nr + 1}` : tilOpgave;
+  const filtreret = filter ? poster.filter((p) => p.slag === filter) : poster;
+  const synlige = alle ? filtreret : filtreret.slice(0, 25);
+
+  async function svarPaa(id: string) {
+    const t = (udkast[id] ?? "").trim();
+    if (!t || svarer) return;
+    setSvarer(id);
+    setSvarFejl("");
+    const r = await fetch("/api/gulvet", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, svar: t, hvem }),
+    }).catch(() => null);
+    const j = r ? await r.json().catch(() => ({ ok: false })) : { ok: false };
+    if (j.ok) {
+      setPoster((ps) => ps.map((p) => (p.id === id ? { ...p, svar: t, svar_af: hvem || "Holdet" } : p)));
+      setUdkast((u) => { const n2 = { ...u }; delete n2[id]; return n2; });
+    } else {
+      setSvarFejl("Svaret blev ikke gemt. Prøv igen — det du skrev står der stadig.");
+    }
+    setSvarer(null);
+  }
 
   const F = ({ id, navn }: { id: typeof fane; navn: string }) => (
     <button type="button" role="tab" aria-selected={fane === id} className="gulv-fane"
@@ -305,13 +375,16 @@ export function GulvetFlade({
   return (
     <div className="gulv">
       <header className="gulv-top">
-        <h1 className="gulv-mrk">{c.titel}</h1>
+        <div className="gulv-navn">
+          <p className="gulv-kicker">{c.undertitel}</p>
+          <h1 className="gulv-mrk">{c.titel}</h1>
+        </div>
         <button type="button" className="gulv-hvem"
           onClick={() => {
             const v = window.prompt("Dit navn — så holdet kan se hvem der skrev hvad:", hvem);
             if (v !== null) gemNavn(v.trim());
           }}>
-          {hvem || "Hvem er du?"}
+          {hvem || "Dit navn"}
         </button>
       </header>
 
@@ -319,6 +392,7 @@ export function GulvetFlade({
         <F id="nu" navn="Nu" />
         <F id="guider" navn="Guider" />
         <F id="skriv" navn="Skriv" />
+        <F id="overblik" navn="Overblik" />
       </div>
 
       {fane === "nu" && opg ? (
@@ -440,6 +514,17 @@ export function GulvetFlade({
               <label htmlFor="g-dato">Dato</label>
               <input id="g-dato" type="date" required value={dato} onChange={(e) => setDato(e.target.value)} />
             </p>
+            {/* Mærkatet er det der gør «Overblik» til et regnskab: hver opgave
+                lover noget med tilbage, og her knyttes fundet til løftet. */}
+            <p className="gulv-felt gulv-felt--vaelg">
+              <label htmlFor="g-opg">Hører til opgave</label>
+              <select id="g-opg" value={valgtOpgave} onChange={(e) => setTilOpgave(e.target.value)}>
+                <option value="">Ingen bestemt</option>
+                {c.opgaver.map((o, i) => (
+                  <option key={o.t} value={`o${i + 1}`}>{i + 1} · {o.t}</option>
+                ))}
+              </select>
+            </p>
             <button type="submit" className="gulv-knap" disabled={gemmer || !tekst.trim()}>
               {gemmer ? "Gemmer…" : "Gem"}
             </button>
@@ -448,8 +533,8 @@ export function GulvetFlade({
           <div className="gulv-regn">
             <h2>Regn på det</h2>
             <p className="gulv-p">
-              ROI er ét spørgsmål: giver det mere end det koster? Din time koster huset {TIMEPRIS} kr.
-              En stoletime giver 1.000 kr.
+              ROI er ét spørgsmål: giver det mere end det koster? Din time koster huset{" "}
+              {c.tal.timepris} kr. En time i stolen giver {KR(c.tal.stoletime)}.
             </p>
             <div className="gulv-par">
               <p className="gulv-felt">
@@ -481,13 +566,27 @@ export function GulvetFlade({
           {poster.length === 0 ? (
             <p className="gulv-p">Ikke noget endnu. Det første du skriver her er det første huset ved.</p>
           ) : (
+            <>
+            <div className="gulv-seg" role="tablist" aria-label="Filtrér">
+              <button type="button" role="tab" aria-selected={filter === null}
+                onClick={() => { setFilter(null); setAlle(false); }}>
+                Alle {poster.length}
+              </button>
+              {perSlag.filter(([, r]) => r.n > 0).map(([sl, r]) => (
+                <button key={sl} type="button" role="tab" aria-selected={filter === sl}
+                  onClick={() => { setFilter(sl); setAlle(false); }}>
+                  {sl} {r.n}
+                </button>
+              ))}
+            </div>
             <ul className="gulv-poster">
-              {poster.map((p) => (
+              {synlige.map((p) => (
                 <li key={p.id}>
                   <p className="gulv-post__top">
                     <span className="gulv-slagmrk">{p.slag}</span>
                     <span className="gulv-post__dato">{p.dato}</span>
                     <span className="gulv-post__hvem">{p.hvem}</span>
+                    {p.opgave ? <span className="gulv-post__opg">opgave {p.opgave.slice(1)}</span> : null}
                     {p.spoergsmaal && !p.svar ? <span className="gulv-ubesvaret">mangler svar</span> : null}
                   </p>
                   {p.ind !== null || p.koebte !== null || p.salg !== null ? (
@@ -508,7 +607,186 @@ export function GulvetFlade({
                 </li>
               ))}
             </ul>
+            {!alle && filtreret.length > synlige.length ? (
+              <button type="button" className="gulv-knap gulv-knap--stille" onClick={() => setAlle(true)}>
+                Vis alle {filtreret.length}
+              </button>
+            ) : null}
+            </>
           )}
+        </section>
+      ) : null}
+
+      {/* ------------------------------------------------------------------
+          OVERBLIK. Det der gør «Skriv» til andet end en kirkegård: tallene
+          bliver regnet sammen, spørgsmålene bliver besvaret, og hver opgave
+          i måneden kan gøres op mod det den lovede. Intet på fanen er hentet
+          udefra — hvert eneste tal står skrevet af nogen i huset.
+          --------------------------------------------------------------- */}
+      {fane === "overblik" ? (
+        <section className="gulv-ark">
+          <p className="gulv-lede">{c.overblik.lede}</p>
+
+          {poster.length === 0 ? (
+            <p className="gulv-p">{c.overblik.tom}</p>
+          ) : null}
+
+          <h2 className="gulv-sek">Døren</h2>
+          {!doeren ? (
+            <p className="gulv-p">
+              Der er ikke talt en vagt endnu. Vælg <strong>Vagt-tal</strong> i «Skriv» og skriv
+              hvor mange der kom ind. Det tal har huset aldrig haft — «80–160 om måneden» er
+              et gæt, ikke en måling.
+            </p>
+          ) : (
+            <>
+              <div className="gulv-maalraek">
+                <Maal v={String(doeren.ind)} e="kom ind"
+                  n={`${doeren.vagter} ${doeren.vagter === 1 ? "vagt" : "vagter"} · ${doeren.fra} – ${doeren.til}`} />
+                <Maal v={String(doeren.koebte)} e="købte noget" />
+                <Maal v={doeren.lukke === null ? "—" : PCT(doeren.lukke)} e="lukkerate"
+                  n={doeren.lukke === null ? "ingen talt ind endnu" : undefined} />
+                <Maal v={KR(doeren.salg)} e="salg på gulvet" />
+                <Maal v={doeren.prHoved === null ? "—" : KR(doeren.prHoved)} e="pr. person ind ad døren" />
+                <Maal v={String(Math.round(doeren.indPrVagt))} e="ind pr. vagt" />
+              </div>
+
+              {!doeren.nok ? (
+                <p className="gulv-dom" role="status">
+                  <strong>Stikprøve</strong>
+                  {doeren.vagter} {doeren.vagter === 1 ? "vagt" : "vagter"} talt. Der skal{" "}
+                  {doeren.mangler} mere, før det her er andet end en stikprøve — og siden regner
+                  ikke et månedstal på for lidt. Det er den samme knap hver vagt.
+                </p>
+              ) : (
+                <p className={`gulv-dom${doeren.lukke && doeren.lukke > 0 ? " er-ja" : " er-nej"}`} role="status">
+                  <strong>Svar</strong>
+                  {doeren.lukke === null
+                    ? `${doeren.vagter} vagter talt, men ingen har skrevet hvor mange der kom ind.`
+                    : `${doeren.vagter} vagter talt. ${PCT(doeren.lukke)} af dem der kom ind ad døren købte noget. ${c.overblik.web_linje}`}
+                </p>
+              )}
+
+              <p className="gulv-dom" role="status">
+                <strong>Hvad det er værd</strong>
+                {doeren.stoletimer < 1
+                  ? `Gulvsalget er ${KR(doeren.salg)} indtil nu — mindre end én time i stolen (${KR(c.tal.stoletime)}). Gulvsalg betaler ikke huset. Det er noget man tager med, fordi de allerede står der.`
+                  : `Gulvsalget er ${KR(doeren.salg)} indtil nu — ${doeren.stoletimer.toFixed(1).replace(".", ",")} timer i stolen. Det er ikke en sidegevinst længere, og det tåler at blive planlagt.`}
+              </p>
+            </>
+          )}
+
+          <h2 className="gulv-sek">Spørgsmål der venter</h2>
+          <p className="gulv-lede">{c.overblik.svar_lede}</p>
+          {svarFejl ? <p className="gulv-advarsel" role="status"><strong>{svarFejl}</strong></p> : null}
+          {aabne.length === 0 ? (
+            <p className="gulv-p">
+              Ingen ubesvarede.{besvarede.length ? ` ${besvarede.length} er besvaret.` : ""}
+            </p>
+          ) : (
+            <ul className="gulv-poster">
+              {aabne.map((p) => (
+                <li key={p.id}>
+                  <p className="gulv-post__top">
+                    <span className="gulv-post__dato">{p.dato}</span>
+                    <span className="gulv-post__hvem">{p.hvem}</span>
+                    {p.opgave ? <span className="gulv-post__opg">opgave {p.opgave.slice(1)}</span> : null}
+                  </p>
+                  <p className="gulv-cit">{p.tekst}</p>
+                  {ER_UUID.test(p.id) ? (
+                    <div className="gulv-svarfelt">
+                      <label className="gulv-felt" htmlFor={`sv-${p.id}`}>
+                        <span>Svar</span>
+                      </label>
+                      <textarea id={`sv-${p.id}`} value={udkast[p.id] ?? ""}
+                        onChange={(e) => setUdkast((u) => ({ ...u, [p.id]: e.target.value }))}
+                        placeholder="Kort svar er også et svar." />
+                      <button type="button" className="gulv-knap gulv-knap--stille"
+                        disabled={svarer === p.id || !(udkast[p.id] ?? "").trim()}
+                        onClick={() => void svarPaa(p.id)}>
+                        {svarer === p.id ? "Gemmer…" : "Gem svaret"}
+                      </button>
+                    </div>
+                  ) : (
+                    <p className="gulv-tid">Genindlæs siden for at kunne svare på den her.</p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+          {besvarede.length ? (
+            <details className="gulv-fold">
+              <summary>{besvarede.length} besvaret{besvarede.length === 1 ? "" : "e"} spørgsmål</summary>
+              <ul className="gulv-poster">
+                {besvarede.map((p) => (
+                  <li key={p.id}>
+                    <p className="gulv-post__top">
+                      <span className="gulv-post__dato">{p.dato}</span>
+                      <span className="gulv-post__hvem">{p.hvem}</span>
+                    </p>
+                    <p className="gulv-cit">{p.tekst}</p>
+                    <p className="gulv-svar">
+                      <strong>Svar{p.svar_af ? ` · ${p.svar_af}` : ""}</strong>
+                      {p.svar}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          ) : null}
+
+          <h2 className="gulv-sek">Måneden, opgave for opgave</h2>
+          <p className="gulv-lede">{c.overblik.opgave_lede}</p>
+          <ol className="gulv-regnsk">
+            {c.opgaver.map((o, i) => {
+              const id = `o${i + 1}`;
+              const f = perOpgave.get(id) ?? [];
+              const k = Boolean(gjort[id]);
+              const tomt = k && f.length === 0;
+              return (
+                <li key={o.t} className={tomt ? "er-tom" : k ? "er-klaret" : i === nr ? "er-nu" : ""}>
+                  <p className="gulv-regnsk__top">
+                    <span className="gulv-nr">{i + 1}</span>
+                    <span className="gulv-t">{o.t}</span>
+                    <span className="gulv-mrkt">{k ? "klaret" : i === nr ? "i gang" : "venter"}</span>
+                  </p>
+                  {f.length ? (
+                    <details className="gulv-fold">
+                      <summary>{f.length} {f.length === 1 ? "note" : "noter"} herfra</summary>
+                      <ul className="gulv-fold__liste">
+                        {f.map((x) => (
+                          <li key={x.id}><b>{x.dato}</b> {x.tekst}</li>
+                        ))}
+                      </ul>
+                    </details>
+                  ) : (
+                    <p className="gulv-regnsk__ingen">
+                      {tomt ? "Klaret — men der kom intet med tilbage." : `Skal give: ${o.b}`}
+                    </p>
+                  )}
+                </li>
+              );
+            })}
+          </ol>
+
+          <h2 className="gulv-sek">Pr. område</h2>
+          <p className="gulv-lede">{c.overblik.omraade_lede}</p>
+          <div className="gulv-rulle">
+            <table className="gulv-tab">
+              <thead>
+                <tr><th>Område</th><th>Skrevet</th><th>Senest</th></tr>
+              </thead>
+              <tbody>
+                {perSlag.map(([sl, r]) => (
+                  <tr key={sl} className={r.n === 0 ? "er-nul" : ""}>
+                    <td><strong>{sl}</strong></td>
+                    <td>{r.n}</td>
+                    <td>{r.seneste || "aldrig"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </section>
       ) : null}
     </div>

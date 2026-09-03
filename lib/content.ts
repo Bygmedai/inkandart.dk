@@ -1115,6 +1115,7 @@ export type GulvetCopy = {
   laas_knap: string;
   laas_fejl: string;
   titel: string;
+  undertitel: string;
   lede: string;
   ro: string[];
   teamguide_linje: string;
@@ -1123,6 +1124,18 @@ export type GulvetCopy = {
   slags: string[];
   guider: Guide[];
   flow: GulvetFlow;
+  overblik: GulvetOverblik;
+  tal: { timepris: number; stoletime: number };
+};
+
+export type GulvetOverblik = {
+  lede: string;
+  tom: string;
+  vagter_min: number;
+  web_linje: string;
+  svar_lede: string;
+  opgave_lede: string;
+  omraade_lede: string;
 };
 
 function strListe(v: unknown): string[] {
@@ -1195,12 +1208,16 @@ export function loadGulvet(): GulvetCopy {
   const flow = { knaek: strListe(raaFlow.knaek) } as GulvetFlow;
   for (const [k, v] of Object.entries(raaFlow)) if (k !== "knaek") flow[k] = str(v);
 
+  const o = (d.overblik ?? {}) as Record<string, unknown>;
+  const t = (d.tal ?? {}) as Record<string, unknown>;
+
   return {
     laas_titel: str(d.laas_titel),
     laas_lede: str(d.laas_lede),
     laas_knap: str(d.laas_knap),
     laas_fejl: str(d.laas_fejl),
     titel: str(d.titel),
+    undertitel: str(d.undertitel),
     lede: str(d.lede),
     ro: strListe(d.ro),
     teamguide_linje: str(d.teamguide_linje),
@@ -1209,5 +1226,19 @@ export function loadGulvet(): GulvetCopy {
     slags: strListe(d.slags),
     guider,
     flow,
+    overblik: {
+      lede: str(o.lede),
+      tom: str(o.tom),
+      // Nul ville betyde «regn et månedstal på ingenting». Fem er husets valg.
+      vagter_min: Math.max(1, Number(o.vagter_min) || 5),
+      web_linje: str(o.web_linje),
+      svar_lede: str(o.svar_lede),
+      opgave_lede: str(o.opgave_lede),
+      omraade_lede: str(o.omraade_lede),
+    },
+    tal: {
+      timepris: Number(t.timepris) || 140,
+      stoletime: Number(t.stoletime) || 1_000,
+    },
   };
 }

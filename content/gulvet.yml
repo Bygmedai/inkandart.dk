@@ -24,6 +24,7 @@ laas_knap: Luk op
 laas_fejl: Koden passer ikke. Spørg Steven.
 
 titel: Gulvet
+undertitel: Store Manager værktøj
 lede: Én opgave ad gangen. Vi skriver hvad vi tror — du finder ud af om vi har ret.
 
 ro:
@@ -251,6 +252,41 @@ opgaver:
       - Hvad vil du selv køre fra måned 2 — og hvad skal du bruge for at kunne det?
     afgoer: Din egen opgavebeskrivelse. Den findes ikke i dag; efter i dag gør den.
     b: Opgørelsen. Den bliver dit job på skrift.
+
+# ── Fanen «Overblik» ────────────────────────────────────────────────────
+#
+# Alt på den fane er REGNET af det holdet selv har skrevet i «Skriv». Der
+# står ikke ét tal her som ikke kommer derfra. Derfor er der heller ingen
+# tal i denne blok — kun de sætninger huset selv ejer, og den grænse vi
+# nægter at regne månedstal under.
+overblik:
+  lede: >-
+    Det her er hvad huset ved nu, fordi nogen skrev det ned. Hvert tal på
+    siden er talt i «Skriv». Er der tomt, er der ikke målt endnu.
+  tom: >-
+    Der står intet endnu. Første gang du gemmer en vagt i «Skriv», begynder
+    regnestykket her.
+  # Under så mange talte vagter siger siden «for få» i stedet for at regne
+  # et månedstal. En stikprøve på to vagter er et gæt med decimaler.
+  vagter_min: 5
+  web_linje: >-
+    Webshoppen lukkede 0 ud af 20 der nåede kassen på et halvt år. Butikkens
+    tal er det eneste sted i huset hvor nogen faktisk køber.
+  svar_lede: >-
+    Sonja skriver spørgsmålene. Huset svarer her — Steven, Nizar eller Simone.
+    Et spørgsmål der står ubesvaret i en uge er et svar i sig selv.
+  opgave_lede: >-
+    Én linje pr. opgave i måneden, og hvad der kom med tilbage. En opgave der
+    er klaret uden at der kom noget med tilbage, er ikke klaret.
+  omraade_lede: >-
+    Det huset har rørt, og det huset ikke har rørt. Nullerne er lige så
+    interessante som tallene.
+
+# Husets to økonomi-tal, brugt af regnemaskinen og af overblikket. De står
+# her og ikke i koden, så Nizar kan rette dem uden en PR.
+tal:
+  timepris: 140
+  stoletime: 1000
 
 slags:
   - Spørgsmål
