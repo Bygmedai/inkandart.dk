@@ -42,6 +42,10 @@ const LOVLIGE = new Set([
   // groft — og et groft mønster med en menneskelæst liste er stadig bedre
   // end intet, så længe listen vokser ét bevidst ord ad gangen.
   "sofaen",
+  // Samme klasse igen, fra gulvet.yml (Haruki, S579): stammen ender på o
+  // eller a, endelsen begynder på e. Alle fire er stavet rigtigt dansk.
+  // «temaer» er desuden Shopifys egen menu, som Sonja skal kunne finde.
+  "kontoen", "bioen", "temaer", "videoer",
 ]);
 
 const danskeFiler = readdirSync(join(root, "content"))
