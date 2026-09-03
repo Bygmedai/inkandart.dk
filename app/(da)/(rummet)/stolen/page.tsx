@@ -10,7 +10,7 @@ import {
 import { alternates, t } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: "Stolen · Ink & Art",
+  title: "Artister · Ink & Art",
   description: "Hvem der sidder i stolen. Ink & Art, Larsbjørnsstræde 13.",
   alternates: { ...alternates("/stolen"), canonical: "/stolen" },
 };
@@ -23,7 +23,7 @@ export default function StolenPage() {
   return (
     <RummetShell>
       <main id="main" className="rum-room rum-stolen">
-        <h1 className="rum-room__title rum-poster">Stolen</h1>
+        <h1 className="rum-room__title rum-poster">Artister</h1>
 
         <div className="rum-stolen__grid">
           {chairs.map((a) => (

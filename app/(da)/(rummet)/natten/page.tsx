@@ -5,7 +5,7 @@ import { activeNat, loadHouse, loadNattenCopy } from "@/lib/content";
 import { alternates } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: "Natten · Ink & Art",
+  title: "Aftener · Ink & Art",
   description: "Næste nat. Ink & Art, Larsbjørnsstræde 13.",
   alternates: { ...alternates("/natten"), canonical: "/natten" },
 };

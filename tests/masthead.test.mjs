@@ -113,11 +113,11 @@ test("Blackbook har ét navn, ikke to (WCAG 4.1.2 / 2.5.3)", () => {
     "et sr-only-navn ved siden af det synlige ord bliver laest op to gange");
 
   // Og navnet skal findes, ogsaa naar ordet er skjult under 900px.
-  assert.match(blok, /aria-label="Blackbook"/,
+  assert.match(blok, /aria-label=\{c\.listName\}/,
     "uden aria-label mister linket sit navn paa mobil, hvor ordet er skjult");
 
   // aria-label skal vaere ORDRET det synlige ord — ellers kan talestyring
   // ikke sige det man laeser (Label in Name, 2.5.3).
   const synligt = blok.match(/book-word">([^<]+)</);
-  assert.equal(synligt?.[1], "Blackbook", "det synlige ord og navnet er ikke ens");
+  assert.equal(synligt?.[1], "{c.listName}", "det synlige ord og navnet er ikke ens");
 });

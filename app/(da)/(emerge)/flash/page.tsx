@@ -14,13 +14,13 @@ export const metadata: Metadata = {
   alternates: { ...alternates("/flash"), canonical: "/flash" },
   title: "Flash · Ink & Art",
   description:
-    "Færdigtegnede motiver til fast pris — først til mølle. Flash-drops fra Ink & Art Copenhagen; medlemmer i Blackbook ser dem først.",
+    "Færdigtegnede motiver til fast pris — først til mølle. Flash-drops fra Ink & Art Copenhagen; skriv dig op, så ser du dem først.",
 };
 
 const howItDrops = [
   { t: "Fast pris", d: "Motivet er tegnet færdigt. Prisen står fast — ingen forhandling, ingen overraskelse." },
   { t: "Først til mølle", d: "Nogle motiver er one-off: sælges kun én gang. Er det taget, er det væk." },
-  { t: "Medlemmer først", d: "Blackbook ser hvert drop før alle andre. Det er gratis at være med." },
+  { t: "Først på listen", d: "Har du skrevet dig op, ser du hvert drop før alle andre. Det er gratis." },
 ];
 
 export default async function FlashPage() {
@@ -115,10 +115,10 @@ export default async function FlashPage() {
             Næste drop er på vej
           </p>
           <p className="mt-4 max-w-[52ch] text-[var(--text-soft)]">
-            Det første flash-drop lander her snart. Kom i <strong className="font-normal text-[var(--text)]">Blackbook</strong> — så
+            Det første flash-drop lander her snart. <strong className="font-normal text-[var(--text)]">Skriv dig op</strong> — så
             ser du motiverne før alle andre og kan tage dit, før nogen anden gør. Gratis, ingen spam.
           </p>
-          <BlackbookSignup source="flash" />
+          <BlackbookSignup source="flash" lang="da" />
         </section>
       )}
 
@@ -136,12 +136,12 @@ export default async function FlashPage() {
             Næste drop, før alle andre
           </p>
           <p className="mt-4 max-w-[52ch] text-[var(--text-soft)]">
-            Motiverne her er først til mølle. Er du i{" "}
-            <strong className="font-normal text-[var(--text)]">Blackbook</strong>, ser du
+            Motiverne her er først til mølle. Har du{" "}
+            <strong className="font-normal text-[var(--text)]">skrevet dig op</strong>, ser du
             det næste drop før alle andre — og kan tage dit, før nogen anden gør.
             Gratis, ingen spam.
           </p>
-          <BlackbookSignup source="flash" />
+          <BlackbookSignup source="flash" lang="da" />
         </section>
       ) : null}
 

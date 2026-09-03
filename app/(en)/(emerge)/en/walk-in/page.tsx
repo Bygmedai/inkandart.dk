@@ -31,7 +31,7 @@ export default function WalkInPageEn() {
           {c.title}
         </h1>
         <p className="mt-5 max-w-[54ch] text-[var(--text-soft)]">
-          {c.lede(kr(WALKIN.kr), site.address.street)}
+          {c.lede(site.address.street)}
         </p>
 
         <div className="walkin-page__relic">

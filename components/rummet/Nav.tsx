@@ -6,17 +6,12 @@ import { DEFAULT_LOCALE, localePath, t, type Locale } from "@/lib/i18n";
 import { CartIndicator } from "./CartIndicator";
 import { LangDoor } from "./LangDoor";
 
-const ROOMS = [
-  { href: "/stolen", label: "Stolen" },
-  { href: "/maerket", label: "Mærket" },
-  { href: "/natten", label: "Natten" },
-  { href: "/gaden", label: "Gaden" },
-] as const;
-
 /**
- * S574: rumnavnene er husets egennavne og oversættes ikke — men stierne
- * gør. `localePath` peger på /en/… når ruten findes dér, og bliver på
- * dansk når den ikke gør, så en engelsk kunde aldrig rammer en 410.
+ * Kundens fire døre kommer fra i18n (`rummet.rooms`) — ét sted, to sprog.
+ * S579 (Steven, 3/9): rumnavnene Stolen, Mærket, Natten og Gaden er
+ * stadig ruterne og koden, men IKKE længere det ord kunden læser.
+ * `localePath` peger på /en/… når ruten findes dér, og bliver på dansk
+ * når den ikke gør, så en engelsk kunde aldrig rammer en 410.
  */
 function current(pathname: string | null, href: string) {
   if (!pathname) return false;
@@ -35,6 +30,7 @@ function Blackbook({
   mobile?: boolean;
   lang?: Locale;
 }) {
+  const c = t(lang).rummet;
   return (
     <span className={dock ? "rum-dock__cluster" : "rum-nav__cluster"}>
       <a
@@ -48,12 +44,12 @@ function Blackbook({
         // Paa mobil var linket rigtigt, saa fejlen fandtes KUN paa desktop.
         //
         // aria-label er ordret det synlige ord, saa Label in Name (2.5.3)
-        // holder: talestyring kan stadig sige «Blackbook».
-        aria-label="Blackbook"
+        // holder: talestyring kan sige det man laeser — paa begge sprog.
+        aria-label={c.listName}
         data-mobile-book={mobile ? "" : undefined}
       >
         <span className="rum-dot" aria-hidden="true" />
-        {word ? <span className="rum-nav__book-word">Blackbook</span> : null}
+        {word ? <span className="rum-nav__book-word">{c.listName}</span> : null}
       </a>
       <CartIndicator />
     </span>
@@ -78,7 +74,7 @@ export function Nav({ lang = DEFAULT_LOCALE }: { lang?: Locale }) {
           Ink & Art
         </Link>
         <nav className="rum-nav__rooms" aria-label={c.roomsLabel}>
-          {ROOMS.map((r) => (
+          {c.rooms.map((r) => (
             <Link
               key={r.href}
               href={localePath(lang, r.href)}
@@ -102,7 +98,7 @@ export function Nav({ lang = DEFAULT_LOCALE }: { lang?: Locale }) {
         <Blackbook mobile lang={lang} />
       </header>
       <nav className="rum-dock" aria-label={c.roomsLabel}>
-        {ROOMS.map((r) => (
+        {c.rooms.map((r) => (
           <Link
             key={r.href}
             href={localePath(lang, r.href)}

@@ -21,7 +21,7 @@ export default function FaqPageEn() {
   return (
     <RummetShell lang="en">
       <main id="main" lang="en" className="rum-legal">
-        <p className="rum-label">The house</p>
+        <p className="rum-label">Studio</p>
         <h1 className="rum-poster">{f.titel}</h1>
         <p className="rum-body-copy rum-legal__lede">{f.lede}</p>
         {f.sporgsmal.map((x) => (

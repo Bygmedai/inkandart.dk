@@ -27,7 +27,7 @@ export function ProduktFlade({
     <RummetShell tone="salg">
       <main id="main" className="rum-room rum-produkt">
         <p className="rum-label">
-          <a href="/maerket">Mærket</a>
+          <a href="/maerket">Shop</a>
           {vare.gruppe ? ` · ${vare.gruppe}` : ""}
         </p>
         <h1 className="rum-room__title rum-poster">{vare.titel}</h1>

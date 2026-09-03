@@ -12,7 +12,7 @@ import { localePath, t, type Locale } from "@/lib/i18n";
  * umotiveret foto af en tom sofa (Stevens QA 30/8). Plakaten vises kun
  * når der faktisk er en nat at vise plakat for.
  *
- * Navnet Natten oversættes ikke. Det er husets ord for aftenen.
+ * Kundens ord for rummet kommer fra i18n: Aftener / Nights (S579).
  */
 export function NattenFlade({
   copy,
@@ -30,7 +30,7 @@ export function NattenFlade({
       lang={lang === "en" ? "en" : undefined}
       className="rum-room rum-natten"
     >
-      <h1 className="rum-room__title rum-poster">Natten</h1>
+      <h1 className="rum-room__title rum-poster">{c.nightsLabel}</h1>
       {copy.intro ? (
         <p className="rum-body-copy rum-natten__intro">{copy.intro}</p>
       ) : null}
@@ -95,7 +95,7 @@ export function NattenFlade({
           {c.bookTid}
         </a>
         <a href={localePath(lang, "/gaden")} className="rum-book">
-          Gaden
+          {c.findUsLabel}
         </a>
       </div>
     </main>

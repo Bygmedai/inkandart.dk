@@ -27,9 +27,8 @@ export const metadata: Metadata = {
  * The English front page — Rummet design, own voice (huset.en.yml).
  * K6 (S574): en engelsk turist så det pensionerede Emerge-design.
  *
- * Rum-navnene i nav'en (Stolen, Mærket…) er husets egennavne og
- * oversættes ikke. Døre uden engelsk side går til dansk — hellere
- * dansk end 404 (husregel). Artistkortene er bevidst simple her:
+ * Nav-ordene kommer fra lib/i18n.ts — kundens ord, ikke husets (S579).
+ * Døre uden engelsk side går til dansk — hellere dansk end 404 (husregel). Artistkortene er bevidst simple her:
  * foto + navn + håndværk, dør til den danske profil.
  */
 export default function HomePageEn() {
@@ -46,7 +45,7 @@ export default function HomePageEn() {
     <RummetShell lang="en" door={false}>
       <main id="main" lang="en" className="rum-huset">
         <header className="rum-huset__intro">
-          <p className="rum-label">The house</p>
+          <p className="rum-label">Studio</p>
           <h1 className="rum-huset__title rum-poster">{fold.titel}</h1>
           <p className="rum-huset__lede rum-body-copy">{fold.lede}</p>
           {husetsTider ? (

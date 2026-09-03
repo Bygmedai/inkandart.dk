@@ -17,7 +17,7 @@ export default function TermsPageEn() {
   return (
     <RummetShell lang="en">
       <main id="main" lang="en" className="rum-legal">
-        <p className="rum-label">The house</p>
+        <p className="rum-label">Studio</p>
         <h1 className="rum-poster">{b.titel}</h1>
         <p className="rum-body-copy rum-legal__lede">{b.lede}</p>
         {b.sektioner.map((s) => (

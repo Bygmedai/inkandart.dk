@@ -19,14 +19,14 @@ export async function generateMetadata({
   const live = await productByHandle(handle);
   if (live?.title) {
     return {
-      title: `${live.title} · Mærket · Ink & Art`,
+      title: `${live.title} · Shop · Ink & Art`,
       alternates: { canonical: `/maerket/${live.handle}` },
     };
   }
   const vare = loadHylden().find((v) => v.handle === handle);
-  if (!vare) return { title: "Mærket · Ink & Art" };
+  if (!vare) return { title: "Shop · Ink & Art" };
   return {
-    title: `${vare.titel} · Mærket · Ink & Art`,
+    title: `${vare.titel} · Shop · Ink & Art`,
     description: vare.linje || undefined,
     alternates: { canonical: `/maerket/${vare.handle}` },
   };

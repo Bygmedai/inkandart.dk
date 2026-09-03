@@ -198,7 +198,9 @@ test("M2 cross-link tæller synlige værker fra YAML og udelader N=0", async () 
   const kort = read("components/rummet/ArtistKort.tsx");
   assert.match(kort, /workCount > 0/);
   assert.match(kort, /maerket\?artist=/);
-  assert.match(kort, /arbejder på Væggen/);
+  // S579: kundens ord (Arbejde / Work) kommer fra i18n, ikke fra kortet.
+  assert.match(kort, /c\.seeWork\(/);
+  assert.doesNotMatch(kort, /på Væggen|on the Wall/);
   assert.doesNotMatch(kort, /0 værker/);
 });
 
@@ -240,8 +242,8 @@ test("S573: Hylden læser hylden.yml, ikke værkerne", () => {
   // S574: kilden til hylden bor i lib/hylden-data.ts, ét sted for begge sprog.
   assert.match(read("lib/hylden-data.ts"), /loadHylden/);
   assert.doesNotMatch(maerket, /shelfVaerker/);
-  assert.match(maerket, /Hylden/);
-  assert.match(maerket, /Væggen/);
+  assert.match(maerket, /c\.shelfLabel/);
+  assert.match(maerket, /c\.wallLabel/);
   assert.doesNotMatch(maerket, /Artistkortet kommer i næste rum/);
   assert.doesNotMatch(maerket, /Væggen bygges i næste rum/);
   assert.doesNotMatch(maerket, /href="\/shop"/);
@@ -817,7 +819,7 @@ test("S573 Huset h1", () => {
   const yml = read("content/huset.yml");
   assert.match(huset, /rum-huset__title/);
   assert.match(yml, /Tatovering og piercing i Pisserenden/);
-  assert.match(huset, /className="rum-label">Huset</);
+  assert.match(huset, /className="rum-label">Studiet</);
   assert.match(huset, /tel:\$\{kontakt\.telefon_e164\}/);
   assert.match(yml, /cta_book: Book tid/);
 });
@@ -873,7 +875,7 @@ test("G1 Huset intro i første fold", () => {
   const css = read("components/rummet/rummet.css");
   const yml = read("content/huset.yml");
   assert.match(huset, /rum-huset__intro/);
-  assert.match(huset, /className="rum-label">Huset</);
+  assert.match(huset, /className="rum-label">Studiet</);
   assert.match(huset, /<h1 className="rum-huset__title rum-poster">\{fold\.titel\}<\/h1>/);
   assert.match(yml, /Tatovering og piercing i Pisserenden/);
   assert.match(
@@ -1005,7 +1007,7 @@ test("S573 QA: Væggens chips fører aldrig ind i et tomt rum", async () => {
   const maerket = read("components/rummet/MaerketFlade.tsx");
   assert.match(maerket, /wall\.length === 0 && filteredArtist/);
   assert.match(maerket, /c\.noWorksFrom/);
-  assert.match(read("lib/i18n.ts"), /på væggen endnu/);
+  assert.match(read("lib/i18n.ts"), /endnu\./);
 });
 
 test("S573 QA: footerens handlinger kan rammes med en tommelfinger", () => {
@@ -1338,7 +1340,7 @@ test("S574 EN-Stolen: artistsider på engelsk — men ingen oversat bio", async 
   assert.match(side, /canonical: `\/en\/stolen\/\$\{artist\.id\}`/);
   assert.match(read("app/(da)/(rummet)/stolen/[id]/page.tsx"), /alternates\(`\/stolen\/\$\{artist\.id\}`\)/);
   assert.match(liste, /<RummetShell lang="en"/);
-  assert.match(liste, /Stolen<\/h1>/, "rummets navn oversættes ikke");
+  assert.match(liste, /Artists<\/h1>/, "kundens ord er Artists (S579)");
 
   // Piercing-teksten findes på engelsk med samme prisløfte.
   const { loadPiercing, loadPiercingEn } = await import("../lib/content.ts");
@@ -1398,25 +1400,25 @@ test("S574 Gaden og Aftercare: data-drevne og tosprogede", async () => {
   }
 });
 
-test("S574 Natten og Mærket på engelsk — husets navne står, sætningerne skifter", async () => {
+test("S574/S579 Natten og Mærket på engelsk — kundens ord, aldrig en ordret oversættelse", async () => {
   const { loadNattenCopy, loadNattenCopyEn } = await import("../lib/content.ts");
 
-  // Egennavnene: rummene og deres to halvdele hedder det samme på begge
-  // sprog. Det er husets ord, ikke etiketter.
+  // S579: kundens ord (Nights, Shop, Prints, Work) — husets egennavne
+  // oversættes aldrig ordret til «The Night» eller «The Wall».
   for (const f of [
     "components/rummet/NattenFlade.tsx",
     "components/rummet/MaerketFlade.tsx",
   ]) {
     const src = read(f);
-    assert.doesNotMatch(src, /The Night|The Mark|The Shelf|The Wall/, `${f}: rummene oversættes ikke`);
+    assert.doesNotMatch(src, /The Night|The Mark|The Shelf|The Wall/, `${f}: husets navne oversættes ikke ordret`);
   }
   const i18n = read("lib/i18n.ts");
-  assert.match(i18n, /shelfLabel: "Hylden"/);
-  assert.match(i18n, /wallLabel: "Væggen"/);
+  assert.match(i18n, /shelfLabel: "Prints"/);
+  assert.match(i18n, /wallLabel: "Arbejde"/);
 
   // Men sætningerne omkring dem skifter sprog.
-  assert.match(i18n, /shelfEmpty: "There is nothing on the shelf right now\."/);
-  assert.match(i18n, /No work from \$\{navn\} on the wall yet/);
+  assert.match(i18n, /shelfEmpty: "No prints right now\."/);
+  assert.match(i18n, /No work from \$\{navn\} yet/);
   assert.match(i18n, /guestDj: "Guest DJ"/);
 
   // Natten forklarer sig på begge sprog, og lover ikke en dato vi ikke har.
@@ -1458,9 +1460,9 @@ test("S574 copy-audit: ingen mytologi hvor der skal stå en oplysning", () => {
 
   // Tomtilstande hjælper videre i stedet for at lyde som albumtekster.
   assert.match(i18n, /noEvent: "Ingen aften planlagt lige nu"/);
-  assert.match(i18n, /noEventLine: "Vil du have næste dato\? Skriv dig op i Blackbook\."/);
+  assert.match(i18n, /noEventLine: "Vil du have næste dato\? Skriv dig op\."/);
   assert.match(i18n, /noGuest: "Ingen gæsteartist annonceret lige nu"/);
-  assert.match(i18n, /Der er ingen varer på hylden lige nu/);
+  assert.match(i18n, /shelfEmpty: "Ingen prints lige nu\."/);
 
   // Forsiden læser dem — de stod hardkodet i markup før.
   const huset = read("app/(da)/(rummet)/page.tsx");

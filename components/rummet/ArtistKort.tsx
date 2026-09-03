@@ -71,13 +71,7 @@ export function ArtistKort({
         {!compact && workCount > 0 ? (
           <p className="rum-kort__arkiv">
             <a href={`/maerket?artist=${artist.id}`}>
-              {lang === "en"
-                ? workCount === 1
-                  ? `See ${daNum(workCount)} piece on the Wall`
-                  : `See ${daNum(workCount)} pieces on the Wall`
-                : workCount === 1
-                  ? `Se ${daNum(workCount)} arbejde på Væggen`
-                  : `Se ${daNum(workCount)} arbejder på Væggen`}
+              {c.seeWork(daNum(workCount), workCount === 1)}
             </a>
           </p>
         ) : null}

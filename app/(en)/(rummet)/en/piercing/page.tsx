@@ -25,7 +25,7 @@ export default function PiercingPageEn() {
     <RummetShell lang="en">
       <main id="main" lang="en" className="rum-legal">
         <LangSwitch lang="en" path="/piercing" />
-        <p className="rum-label">The house</p>
+        <p className="rum-label">Studio</p>
         <h1 className="rum-poster">{pi.titel}</h1>
         <p className="rum-body-copy rum-legal__lede">{pi.tekst}</p>
 

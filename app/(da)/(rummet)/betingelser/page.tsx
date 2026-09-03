@@ -17,7 +17,7 @@ export default function BetingelserPage() {
   return (
     <RummetShell>
       <main id="main" className="rum-legal">
-        <p className="rum-label">Huset</p>
+        <p className="rum-label">Studiet</p>
         <h1 className="rum-poster">{b.titel}</h1>
         <p className="rum-body-copy rum-legal__lede">{b.lede}</p>
         {b.sektioner.map((s) => (

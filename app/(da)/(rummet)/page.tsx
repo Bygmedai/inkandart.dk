@@ -46,7 +46,7 @@ export default function HusetPage() {
     <RummetShell door={false}>
       <main id="main" className="rum-huset">
         <header className="rum-huset__intro">
-          <p className="rum-label">Huset</p>
+          <p className="rum-label">Studiet</p>
           <h1 className="rum-huset__title rum-poster">{fold.titel}</h1>
           <p className="rum-huset__lede rum-body-copy">{fold.lede}</p>
           {husetsTider ? (

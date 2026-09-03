@@ -7,7 +7,7 @@ import { alternates } from "@/lib/i18n";
 const _k = loadKontakt();
 
 export const metadata: Metadata = {
-  title: "Gaden · Ink & Art",
+  title: "Find os · Ink & Art",
   description: `${_k.adresse}, ${_k.by}. Tatovering og piercing.`,
   alternates: { ...alternates("/gaden"), canonical: "/gaden" },
 };

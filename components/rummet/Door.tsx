@@ -4,7 +4,7 @@ import { useState } from "react";
 import { DEFAULT_LOCALE, t, type Locale } from "@/lib/i18n";
 
 /**
- * Blackbook-døren. Ét email-felt. Aldrig væk.
+ * Tilmeldingsdøren (i koden: Blackbook). Ét email-felt. Aldrig væk.
  * POST /api/subscribe — Shopify customer + tag `blackbook`.
  * Success copy is the existing line from the house, not a new invention.
  *
@@ -79,7 +79,7 @@ export function Door({
       <input type="hidden" name="source" value="blackbook" />
       <div className="rum-door__head">
         <span className="rum-dot" aria-hidden="true" />
-        <span className="rum-door__name">Blackbook</span>
+        <span className="rum-door__name">{c.listName}</span>
       </div>
       <p className="rum-door__line">{c.blackbookLine}</p>
       <div className="rum-door__hp" aria-hidden="true">

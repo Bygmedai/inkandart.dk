@@ -34,13 +34,13 @@ export const metadata: Metadata = {
   alternates: { ...alternates("/flash"), canonical: "/en/flash" },
   title: "Flash · Ink & Art",
   description:
-    "Finished designs at a fixed price — first come, first served. Flash drops from Ink & Art Copenhagen; Blackbook members see them first.",
+    "Finished designs at a fixed price — first come, first served. Flash drops from Ink & Art Copenhagen; join the list and see them first.",
 };
 
 const howItDrops = [
   { t: "Fixed price", d: "The design is already drawn. The price is fixed — no haggling, no surprises." },
   { t: "First come, first served", d: "Some designs are one-off: sold once only. If it is taken, it is gone." },
-  { t: "Members first", d: "Blackbook sees every drop before anyone else. It is free to join." },
+  { t: "The list sees it first", d: "Everyone on the list sees every drop before anyone else. It is free to join." },
 ];
 
 export default async function FlashPageEn() {
@@ -130,12 +130,12 @@ export default async function FlashPageEn() {
               Next drop is on its way
             </p>
             <p className="mt-4 max-w-[52ch] text-[var(--text-soft)]">
-              The first flash drop lands here soon. Get into{" "}
-              <strong className="font-normal text-[var(--text)]">Blackbook</strong> — you
+              The first flash drop lands here soon.{" "}
+              <strong className="font-normal text-[var(--text)]">Join the list</strong> — you
               will see the designs before anyone else, and can take yours before someone
               else does. Free, no spam.
             </p>
-            <BlackbookSignup source="flash" />
+            <BlackbookSignup source="flash" lang="en" />
           </section>
         )}
 
@@ -148,12 +148,12 @@ export default async function FlashPageEn() {
               Next drop, before anyone else
             </p>
             <p className="mt-4 max-w-[52ch] text-[var(--text-soft)]">
-              The designs here are first come, first served. In{" "}
-              <strong className="font-normal text-[var(--text)]">Blackbook</strong> you see
+              The designs here are first come, first served. On{" "}
+              <strong className="font-normal text-[var(--text)]">the list</strong> you see
               the next drop before anyone else — and can take yours before someone else
               does. Free, no spam.
             </p>
-            <BlackbookSignup source="flash" />
+            <BlackbookSignup source="flash" lang="en" />
           </section>
         ) : null}
 
