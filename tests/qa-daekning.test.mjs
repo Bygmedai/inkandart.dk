@@ -111,3 +111,60 @@ test("Lighthouse-konfigurationen kan faktisk vurdere — assertMatrix staar alen
       `${m.matchingUrlPattern} vurderer ingenting`);
   }
 });
+
+/**
+ * S579 (3/9) — sidste skridt i «slaa CI til».
+ *
+ * At en vagt SIGER sandt er ikke det samme som at nogen lytter. Foer i dag
+ * stod vilde-qa og lighthouse uden for Portens `paakraevede`-liste: de
+ * kunne gaa roede uden at spaerre noget som helst. Og Porten er det eneste
+ * branch protection kraever, saa en roed vagt var en roed lampe ved siden
+ * af en aaben doer.
+ *
+ * De kom paa listen FOERST da begge var maalt groenne (#296, #297) — at
+ * kraeve en vagt der ikke kan bestaa, er den laas Steven kaldte ud 2/9:
+ * «Det giver jo ikke en mening at have en port der aldrig kan blive groen.»
+ */
+
+test("Porten kraever begge vagter — og de to lister i filen siger det samme", () => {
+  const wf = read(".github/workflows/porten.yml");
+  // Bundet til VARIABELNAVNENE, ikke til «en liste i backticks». Filen har
+  // ogsaa en liste over agent-login-fragmenter, og et moenster der bare
+  // leder efter backticks fangede den som en tredje «paakraevet»-liste.
+  const lister = ["paakraevedeNavne", "paakraevede"].map((navn) => {
+    const m = wf.match(new RegExp(`const ${navn} = \`([^\`]*)\``));
+    assert.ok(m, `fandt ikke ${navn} i porten.yml`);
+    return m[1];
+  });
+  // De to skal vaere ENS. Driver de fra hinanden, venter porten paa ét
+  // saet og doemmer paa et andet — og saa er dommen faldet foer svaret kom.
+  assert.equal(lister[0], lister[1],
+    `ventelisten og domslisten er ikke ens:\n  ${lister[0]}\n  ${lister[1]}`);
+  for (const navn of ["check", "Scan for secrets", "vilde-qa", "lighthouse"]) {
+    assert.match(lister[0], new RegExp(`(^|,)\\s*${navn}\\s*(,|$)`),
+      `«${navn}» er ikke paakraevet`);
+  }
+});
+
+test("hvert paakraevet navn er et job der faktisk findes og koerer paa PR", () => {
+  // Et paakraevet check der ikke findes, rapporterer aldrig — og Porten
+  // spaerrer for evigt paa «har ikke rapporteret». Samme klasse som laasen
+  // uden noegle: en regel der ikke kan opfyldes.
+  const wf = read(".github/workflows/porten.yml");
+  const navne = wf.match(/const paakraevede = `([^`]*)`/)[1].split(",").map((s) => s.trim());
+  const filer = ["ci.yml", "trufflehog.yml", "vilde-qa.yml", "lighthouse-ci.yml"]
+    .map((f) => read(`.github/workflows/${f}`));
+  for (const navn of navne) {
+    const fundet = filer.some((f) => {
+      const jobs = [...f.matchAll(/^ {2}([a-z0-9-]+):$/gm)].map((m) => m[1]);
+      const visteNavne = [...f.matchAll(/^\s*name: (.+)$/gm)].map((m) => m[1].trim());
+      return jobs.includes(navn) || visteNavne.includes(navn);
+    });
+    assert.ok(fundet, `det paakraevede check «${navn}» findes ikke som job i nogen workflow`);
+  }
+  // Og de skal koere paa pull_request — ellers rapporterer de aldrig paa en PR.
+  for (const f of ["vilde-qa.yml", "lighthouse-ci.yml"]) {
+    assert.match(read(`.github/workflows/${f}`), /^on:[\s\S]*?pull_request:/m,
+      `${f} koerer ikke paa pull_request`);
+  }
+});
