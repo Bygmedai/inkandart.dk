@@ -10,6 +10,7 @@ const read = (f) => readFileSync(join(root, f), "utf8");
 
 const { loadGulvet } = await import("../lib/content.ts");
 const { rensFund, heltal, gulvetErSat } = await import("../lib/gulvet.ts");
+const { regnDoeren, perOpgave, perSlag } = await import("../lib/gulvet-tal.ts");
 
 const c = loadGulvet();
 
@@ -188,4 +189,108 @@ test("trykflader er mindst 44 px høje", () => {
   for (const sel of [".gulv-fane", ".gulv-seg button", ".gulv-slag button", ".gulv-knap"]) {
     assert.match(ruleBody(css, sel), /min-height: 4[48]px/, `${sel} har intet trykfelt-gulv`);
   }
+});
+
+/* ------------------------------------------------------- fanen «Overblik» */
+
+test("overblikkets tekster og husets to tal står i gulvet.yml, ikke i koden", () => {
+  for (const n of ["lede", "tom", "web_linje", "svar_lede", "opgave_lede", "omraade_lede"]) {
+    assert.ok(c.overblik[n], `overblik.${n} mangler — fanen ville vise en tom overskrift`);
+  }
+  assert.ok(c.overblik.vagter_min >= 1, "en grænse på nul betyder «regn et månedstal på ingenting»");
+  assert.ok(c.tal.timepris > 0 && c.tal.stoletime > 0);
+  assert.ok(c.undertitel, "værktøjet skal sige hvad det er");
+});
+
+const vagt = (o) => ({
+  id: "00000000-0000-4000-8000-000000000000", slag: "Vagt-tal", tekst: "t",
+  dato: "2026-09-03", hvem: "Sonja", ind: null, koebte: null, salg: null,
+  spoergsmaal: false, svar: null, svar_af: null, opgave: null,
+  oprettet: "2026-09-03T00:00:00Z", ...o,
+});
+
+test("ingen målinger giver null — ikke et nul. «Ikke målt» er ikke «målt til nul»", () => {
+  assert.equal(regnDoeren([], 5, 1000), null);
+  assert.equal(regnDoeren([vagt({ slag: "Drift" })], 5, 1000), null, "en note uden tal er ikke en vagt");
+});
+
+test("en vagt uden nogen ind ad døren giver ingen lukkerate — aldrig NaN", () => {
+  const d = regnDoeren([vagt({ ind: 0, koebte: 0, salg: 0 })], 5, 1000);
+  assert.equal(d.lukke, null, "0/0 må ikke blive til NaN i en overskrift");
+  assert.equal(d.prHoved, null);
+  assert.equal(d.vagter, 1);
+});
+
+test("tallene lægges sammen, og datoerne spænder fra første til sidste vagt", () => {
+  const d = regnDoeren([
+    vagt({ dato: "2026-09-05", ind: 10, koebte: 2, salg: 400 }),
+    vagt({ dato: "2026-09-01", ind: 30, koebte: 8, salg: 1600 }),
+  ], 5, 1000);
+  assert.equal(d.ind, 40);
+  assert.equal(d.koebte, 10);
+  assert.equal(d.salg, 2000);
+  assert.equal(d.lukke, 0.25);
+  assert.equal(d.prHoved, 50);
+  assert.equal(d.fra, "2026-09-01");
+  assert.equal(d.til, "2026-09-05");
+  assert.equal(d.stoletimer, 2);
+});
+
+test("under husets grænse regnes der ikke månedstal — siden siger stikprøve", () => {
+  const to = [vagt({ dato: "2026-09-01", ind: 4 }), vagt({ dato: "2026-09-02", ind: 4 })];
+  const d = regnDoeren(to, 5, 1000);
+  assert.equal(d.nok, false);
+  assert.equal(d.mangler, 3);
+  // Bemærk: en «vagt» uden ét eneste tal tælles ikke med. Det er med vilje —
+  // en tom formular er ikke en måling. Derfor har alle fem et tal her.
+  const fem = [...to, vagt({ dato: "2026-09-03", ind: 4 }), vagt({ dato: "2026-09-04", ind: 4 }),
+               vagt({ dato: "2026-09-05", ind: 4 })];
+  assert.equal(regnDoeren([...to, vagt({ dato: "2026-09-06" })], 5, 1000).vagter, 2,
+    "en tom formular er ikke en måling");
+  assert.equal(regnDoeren(fem, 5, 1000).nok, true);
+  assert.equal(regnDoeren(fem, 5, 1000).mangler, 0);
+});
+
+test("hvert fund hører til den opgave det kom fra — det er regnskabet", () => {
+  const m = perOpgave([
+    vagt({ opgave: "o1", tekst: "a" }), vagt({ opgave: "o1", tekst: "b" }),
+    vagt({ opgave: null, tekst: "c" }),
+  ]);
+  assert.equal(m.get("o1").length, 2);
+  assert.equal(m.has("o2"), false, "en opgave uden fund må ikke opfinde en tom liste");
+});
+
+test("et opgavemærke er «o1»…«o999» eller ingenting — aldrig en filterstreng", () => {
+  assert.equal(rensFund({ ...nu, opgave: "o7" }, c.slags).opgave, "o7");
+  assert.equal(rensFund({ ...nu, opgave: "" }, c.slags).opgave, null);
+  assert.equal(rensFund({ ...nu, opgave: "o1;drop" }, c.slags).opgave, null);
+  assert.equal(rensFund({ ...nu, opgave: "eq.o1" }, c.slags).opgave, null);
+  assert.equal(rensFund({ ...nu }, c.slags).opgave, null);
+});
+
+test("alle områder tælles med — også dem ingen har rørt", () => {
+  const r = perSlag([vagt({ slag: "Instagram" }), vagt({ slag: "Instagram" })], c.slags);
+  assert.equal(r.length, c.slags.length, "et område med nul er den mest brugbare linje i tabellen");
+  assert.deepEqual(r[0], ["Instagram", { n: 2, seneste: "2026-09-03" }]);
+  assert.ok(r.some(([, x]) => x.n === 0));
+});
+
+test("et spørgsmål kan faktisk besvares fra fladen — ellers er «Skriv» en kirkegård", () => {
+  const flade = read("components/rummet/GulvetFlade.tsx");
+  assert.match(flade, /svarPaa/, "der er ingen vej fra et ubesvaret spørgsmål til et svar");
+  assert.match(flade, /JSON\.stringify\(\{ id, svar: t, hvem \}\)/, "svaret sendes ikke til ruten");
+  // Ruten tager kun imod et rigtigt uuid; en netop gemt post har et
+  // midlertidigt id, og så må knappen ikke vises.
+  assert.match(flade, /ER_UUID\.test\(p\.id\)/);
+});
+
+test("fundet bærer den opgave hun står i — ellers kan måneden ikke gøres op", () => {
+  const flade = read("components/rummet/GulvetFlade.tsx");
+  assert.match(flade, /opgave: valgtOpgave/);
+});
+
+test("de nye trykflader er også mindst 44 px", () => {
+  const css = read("components/rummet/rummet.css");
+  assert.match(ruleBody(css, ".gulv-fold > summary"), /min-height: 44px/);
+  assert.match(ruleBody(css, ".gulv-felt select"), /min-height: 4[48]px/);
 });

@@ -32,7 +32,8 @@ principalen kan holde styr på.
   └─ tokenErGyldigt()       samme vagt som /personale og /afstemning
   └─ loadGulvet()           content/gulvet.yml — programmet, guiderne, tallene
   └─ hentFund/hentFremdrift lib/gulvet.ts → Supabase REST
-  └─ <GulvetFlade>          klient: faner, formular, ROI-regner
+  └─ <GulvetFlade>          klient: fire faner, formular, ROI-regner
+       └─ lib/gulvet-tal.ts   REN aritmetik — testbar uden JSX, uden env
 
 /api/gulvet (route.ts)      POST nyt fund · PATCH svar eller klaret opgave
   └─ tokenErGyldigt()       ingen vej til databasen uden husets kode
@@ -88,3 +89,44 @@ punkter og tabelceller. En ukendt type droppes stille af loaderen — og
 Alt i «hvad vi tror» er målt **3. september 2026** i Book.dk, Shopify og
 Instagram. En måling har en dato. Er de mere end en måned gamle, så mål igen
 før nogen bygger på dem.
+
+## Fanen «Overblik» (tilføjet S579, anden runde)
+
+Uden den er «Skriv» en kirkegård. Man holder op med at skrive ned, hvis det man
+skriver aldrig bliver regnet sammen eller svaret på. Fanen gør tre ting:
+
+1. **Døren.** Lægger vagt-tallene sammen: hvor mange kom ind, hvor mange købte,
+   lukkerate, salg på gulvet, kroner pr. person ind ad døren. Under
+   `overblik.vagter_min` vagter nægter siden at regne et månedstal og siger
+   «stikprøve» i stedet. Et gennemsnit af to vagter er et gæt med decimaler.
+2. **Spørgsmål der venter.** Sonja skriver spørgsmålet, huset svarer *på siden*.
+   Før den her runde fandtes `skrivSvar()` i lib og i ruten, men der var ingen
+   knap — spørgsmål kunne kun stilles, aldrig besvares.
+3. **Måneden, opgave for opgave.** Hvert fund bærer nu et opgavemærke
+   (`gulvet_fund.opgave`, «o1»…«o16»), sat automatisk til den opgave hun står
+   i. Så kan hver opgaves løfte — feltet `b:` i gulvet.yml — gøres op mod det
+   der faktisk kom med tilbage. En opgave der er hakket af uden ét fund vises
+   rødt: *klaret — men der kom intet med tilbage.*
+
+Plus en tabel pr. område hvor **alle** slags står, også dem med nul. Et område
+ingen har rørt er den mest brugbare linje i tabellen.
+
+Ingen tal på fanen kommer udefra. Hvert eneste er talt af nogen i huset.
+
+### Skemaændring
+
+```sql
+alter table public.gulvet_fund add column opgave text;
+alter table public.gulvet_fund add constraint gulvet_fund_opgave_form
+  check (opgave is null or opgave ~ '^o[0-9]{1,3}$');
+alter table public.gulvet_fund add column svar_paa timestamptz;
+```
+
+Kørt 3. september 2026. Begge kolonner er nullable, så gamle rækker er
+uberørte.
+
+### Husets tal står i gulvet.yml
+
+`tal.timepris` (140) og `tal.stoletime` (1.000) blev flyttet ud af koden, så
+Nizar kan rette dem i Decap. De bruges begge to steder: i ROI-regneren og i
+overblikkets «hvad det er værd».
