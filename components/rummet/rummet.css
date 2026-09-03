@@ -1708,6 +1708,18 @@ html:has([data-house="rummet"]) .grain {
   line-height: 1.5;
   margin: 4px 0 0;
 }
+/* Linket til betingelserne staar sidst paa fladen og maalte 169×16 paa
+   alle fem bredder, begge sprog (10 af QA-vagtens 33 fund, 2/9). Kun
+   trykfeltet udvides — teksten, stoerrelsen og linjeafstanden staar som
+   foer. De oevrige .rum-samtykke__hint baerer ingen links. */
+.rum-samtykke__hint a {
+  position: relative;
+}
+.rum-samtykke__hint a::after {
+  content: "";
+  position: absolute;
+  inset: -14px -4px;
+}
 .rum-samtykke__fejl {
   border-left: 3px solid #c4553d;
   padding-left: 14px;
