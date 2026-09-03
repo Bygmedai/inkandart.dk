@@ -75,7 +75,8 @@
             ],
             "uses-text-compression": "off",
             "is-crawlable": "off"
-          }
+          },
+          "aggregationMethod": "pessimistic"
         },
         {
           "matchingUrlPattern": "/(aftercare|privatlivspolitik)",
@@ -106,10 +107,10 @@
             ],
             "uses-text-compression": "off",
             "is-crawlable": "off"
-          }
+          },
+          "aggregationMethod": "pessimistic"
         }
-      ],
-      "aggregationMethod": "pessimistic"
+      ]
     }
   }
 }

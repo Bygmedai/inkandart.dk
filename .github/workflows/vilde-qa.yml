@@ -8,12 +8,17 @@ name: vilde-qa
 # markup; de ser ikke et 16px trykmål eller en overskrift der skærer i
 # vindueskanten.
 #
-# RÅDGIVENDE den første uge (S574). Jobbet er grønt uanset fund, så Porten
-# ikke spærrer på en vagt vi endnu ikke har set de falske positiver fra.
-# Fundene står i jobbets summary og skal læses der.
+# BLOKKERENDE fra 2/9 (S579). Rådgivende var det rigtige i S574: vi havde
+# ikke set de falske positiver endnu. Nu har vi, og de er væk — vagten
+# målte kassen i stedet for fingeren på husets telefonlink, og hele
+# dekorationen i stedet for teksten på /gavekort. 13 af 33 fund var
+# falske; de 20 ægte er rettet (#296). Målt mod en lokal produktionsbuild:
+# 33 → 0, over 110 sidevisninger.
 #
-#   Gør den blokerende: fjern `ADVISORY: "1"` nedenfor. Det er hele
-#   ændringen — scriptet exit'er 1 på fund når variablen ikke er sat.
+# En rådgivende vagt er en vagt ingen læser. Den stod grøn hele vejen
+# gennem ti PR'er den 2/9 med 33 fund liggende i sit summary.
+#
+#   Gør den rådgivende igen: sæt `ADVISORY: "1"` under «Mål» nedenfor.
 
 on:
   pull_request:
@@ -87,8 +92,6 @@ jobs:
       - name: Mål
         env:
           BASE: http://localhost:3299
-          # Rådgivende: fjern linjen for at gøre vagten blokerende.
-          ADVISORY: "1"
         run: node scripts/qa/vagt.mjs --skud qa-skud
 
       - name: Gem screenshots
