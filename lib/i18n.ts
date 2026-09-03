@@ -47,7 +47,6 @@ export const EN_ROUTES: ReadonlySet<string> = new Set([
   "/gaden",
   "/aftercare",
   "/natten",
-  "/maerket",
   // #245 A4 (Villy — RAAB til Haruki, din fil): /en/flash er nu en aegte
   // side. Uden denne raekke 308'er LangSwitch og hreflang den til dansk,
   // selv om siden findes.
@@ -73,7 +72,7 @@ export const EN_ROUTES: ReadonlySet<string> = new Set([
  * samme generateStaticParams som den danske. Kommer der en artist til,
  * findes begge sider i samme commit.
  */
-export const EN_ROUTE_PREFIXES: readonly string[] = ["/stolen/"];
+export const EN_ROUTE_PREFIXES: readonly string[] = ["/stolen/", "/shop/"];
 
 function hasEnglish(bare: string): boolean {
   return EN_ROUTES.has(bare) || EN_ROUTE_PREFIXES.some((p) => bare.startsWith(p));
@@ -166,7 +165,7 @@ const da = {
    * de danske sider. Skallen taler nu det sprog siden er skrevet i.
    *
    * Kundens ord i nav'en (Artister, Shop, Aftener, Find os) er etiketter og
-   * skifter sprog (S579). URL'erne /stolen, /maerket, /natten, /gaden bliver.
+   * skifter sprog (S579). URLerne /stolen, /shop, /natten, /gaden er kundens doere.
    */
   rummet: {
     roomsLabel: "Menu",
@@ -178,7 +177,7 @@ const da = {
      */
     rooms: [
       { href: "/stolen", label: "Artister" },
-      { href: "/maerket", label: "Shop" },
+      { href: "/shop", label: "Shop" },
       { href: "/natten", label: "Aftener" },
       { href: "/gaden", label: "Find os" },
     ],
@@ -458,7 +457,7 @@ const en: Copy = {
     roomsLabel: "Menu",
     rooms: [
       { href: "/stolen", label: "Artists" },
-      { href: "/maerket", label: "Shop" },
+      { href: "/shop", label: "Shop" },
       { href: "/natten", label: "Nights" },
       { href: "/gaden", label: "Find us" },
     ],

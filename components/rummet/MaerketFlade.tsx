@@ -49,7 +49,7 @@ export function MaerketFlade({
   const wall = filterVisibleByArtist(house.vaerker, artistId);
   const chips = filterChips(house.artists, house.vaerker, artistId);
   const filteredArtist = artistId ? artistById(house.artists, artistId) : undefined;
-  const maerket = localePath(lang, "/maerket");
+  const maerket = localePath(lang, "/shop");
 
   return (
     <main
@@ -73,7 +73,7 @@ export function MaerketFlade({
               <a
                 key={vare.handle}
                 className="rum-hylden__item"
-                href={`/maerket/${vare.handle}`}
+                href={localePath(lang, `/shop/${vare.handle}`)}
               >
                 <VareKort vare={vare} product={product} />
               </a>

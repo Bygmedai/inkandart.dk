@@ -10,8 +10,9 @@ const read = (f) => readFileSync(join(root, f), "utf8");
 const commerce = read("lib/commerce.ts");
 const i18n = read("lib/i18n.ts");
 const raekke = read("components/emerge/DepositumRaekke.tsx");
-const daShop = read("app/(da)/(emerge)/shop/page.tsx");
-const enShop = read("app/(en)/(emerge)/en/shop/page.tsx");
+const daShop = read("app/(da)/(rummet)/shop/page.tsx");
+const enShop = read("app/(en)/(rummet)/en/shop/page.tsx");
+const flade = read("components/rummet/MaerketFlade.tsx");
 
 /**
  * Købsfladerne — vidner på at det vi KAN sælge, også STÅR der.
@@ -101,12 +102,15 @@ test("hvert id har ord at vise — på begge sprog", () => {
   }
 });
 
-test("begge sprog viser de samme lister — en flade må ikke findes på ét sprog", () => {
-  // Denne fejl har vi haft før: /shop-døren forsvandt i en i18n-konflikt og
-  // blev først fanget ved at måle den renderede HTML. Her fanges den i CI.
-  for (const navn of LISTER) {
-    assert.match(daShop, new RegExp(`\\b${navn}\\b`), `/shop mangler ${navn}`);
-    assert.match(enShop, new RegExp(`\\b${navn}\\b`), `/en/shop mangler ${navn}`);
+test("depositum og flash-hold hører IKKE til hylden", () => {
+  // Én hylde (3/9 2026): piercing-hold og flash-hold lever på /piercing og
+  // /flash — ikke som varer på /shop. En dør tilbage ind på Emerge-shoppen
+  // er en regression.
+  for (const src of [daShop, enShop, flade]) {
+    for (const navn of LISTER) {
+      assert.doesNotMatch(src, new RegExp("\\b" + navn + "\\b"), navn + " staar paa hylden");
+    }
+    assert.doesNotMatch(src, /DepositumRaekke|KerbReservation/);
   }
 });
 
@@ -206,8 +210,6 @@ test("kridtet henter hvert ord fra ordbogen — ikke fra komponenten", () => {
 });
 
 test("hvert kaldsted giver kridtet og fuglen det rigtige sprog", () => {
-  const en = read("app/(en)/(emerge)/en/shop/page.tsx");
-  assert.match(en, /<KerbReservation lang="en"/, "/en/shop giver ikke engelsk videre");
   const scene = read("components/emerge/SceneV05.tsx");
   assert.match(scene, /<KerbReservation lang=\{lang\}/, "scenen giver ikke sit sprog videre");
   const morSlots = [...scene.matchAll(/<MorBird zone="\w+"([^/]*)\/>/g)];
@@ -221,8 +223,8 @@ test("de tosprogede par peger paa hinanden (hreflang begge veje)", () => {
   // /shop havde INGEN hreflang mens /en/shop pegede paa begge. Et ensrettet
   // par tæller ikke hos Google.
   for (const [sti, kald] of [
-    ["app/(da)/(emerge)/shop/page.tsx", '/shop'],
-    ["app/(en)/(emerge)/en/shop/page.tsx", '/shop'],
+    ["app/(da)/(rummet)/shop/page.tsx", '/shop'],
+    ["app/(en)/(rummet)/en/shop/page.tsx", '/shop'],
     ["app/(da)/(emerge)/walk-in/page.tsx", '/walk-in'],
     ["app/(en)/(emerge)/en/walk-in/page.tsx", '/walk-in'],
   ]) {

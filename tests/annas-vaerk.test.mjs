@@ -41,12 +41,12 @@ test("hvert foto i YAML findes paa disken", () => {
 
 test("den engelske artistside sender ikke kunden til danske rum", () => {
   const s = read("app/(en)/(rummet)/en/stolen/[id]/page.tsx");
-  for (const rum of ["gaden", "maerket", "booking", "stolen"]) {
+  for (const rum of ["gaden", "shop", "booking", "stolen"]) {
     const danske = s.match(new RegExp(`href=(?:"|\\{\`)/${rum}\\b`, "g")) || [];
     assert.deepEqual(danske, [], `/en/stolen linker til /${rum} i stedet for /en/${rum}`);
   }
   assert.match(s, /href="\/en\/gaden"/);
-  assert.match(s, /\/en\/maerket\?artist=/);
+  assert.match(s, /\/en\/shop\?artist=/);
 });
 
 test("prisdoeren paa piercerens side foelger sproget", () => {

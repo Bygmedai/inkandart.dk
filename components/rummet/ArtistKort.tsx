@@ -70,7 +70,7 @@ export function ArtistKort({
         {periode ? <p className="rum-label rum-chair__meta">{periode}</p> : null}
         {!compact && workCount > 0 ? (
           <p className="rum-kort__arkiv">
-            <a href={`/maerket?artist=${artist.id}`}>
+            <a href={localePath(lang, `/shop?artist=${artist.id}`)}>
               {c.seeWork(daNum(workCount), workCount === 1)}
             </a>
           </p>

@@ -3,100 +3,138 @@ import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { test } from "node:test";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { nextRedirects } from "../lib/redirects.ts";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const page = readFileSync(join(root, "app/(da)/(emerge)/shop/page.tsx"), "utf8");
-const commerce = readFileSync(join(root, "lib/commerce.ts"), "utf8");
-const sitemap = readFileSync(join(root, "app/sitemap.ts"), "utf8");
-const css = readFileSync(join(root, "app/globals.css"), "utf8");
+const read = (f) => readFileSync(join(root, f), "utf8");
+const page = read("app/(da)/(rummet)/shop/page.tsx");
+const pageEn = read("app/(en)/(rummet)/en/shop/page.tsx");
+const flade = read("components/rummet/MaerketFlade.tsx");
+const sitemap = read("app/sitemap.ts");
+const commerce = read("lib/commerce.ts");
+const css = read("app/globals.css");
 
-test("/shop er en rigtig rute med canonical og plads i sitemap", () => {
-  // hreflang kom til (S569): parret var ensrettet — /en/shop pegede paa
-  // begge sprog, /shop pegede ikke tilbage. Canonical staar stadig.
+const emergeDa = "app/(da)/(emerge)/shop/page.tsx";
+const emergeEn = "app/(en)/(emerge)/en/shop/page.tsx";
+const oldMaerketDa = "app/(da)/(rummet)/maerket/page.tsx";
+const oldMaerketEn = "app/(en)/(rummet)/en/maerket/page.tsx";
+
+function redirectsFrom(source) {
+  return nextRedirects.filter((r) => r.source === source || r.source === `${source}/`);
+}
+
+test("/shop er Rummets hylde — MaerketFlade, ikke Emerge-gaden", () => {
+  assert.equal(existsSync(join(root, "app/(da)/(rummet)/shop/page.tsx")), true);
+  assert.equal(existsSync(join(root, "app/(en)/(rummet)/en/shop/page.tsx")), true);
+  assert.match(page, /MaerketFlade/);
+  assert.match(page, /RummetShell/);
+  assert.match(page, /hentHylden/);
   assert.match(page, /canonical: "\/shop"/);
-  assert.match(page, /\.\.\.alternates\("\/shop"\)/, "/shop mangler hreflang mod den engelske udgave");
-  assert.match(sitemap, /inkandart\.dk\/shop/);
+  assert.match(page, /\.\.\.alternates\("\/shop"\)/);
+  assert.match(pageEn, /MaerketFlade/);
+  assert.match(pageEn, /<RummetShell lang="en"/);
+  assert.match(pageEn, /canonical: "\/en\/shop"/);
+  assert.match(sitemap, /inkandart\.dk\/shop"/);
+  assert.match(sitemap, /inkandart\.dk\/en\/shop"/);
+  assert.doesNotMatch(sitemap, /inkandart\.dk\/maerket"/);
+  assert.doesNotMatch(sitemap, /inkandart\.dk\/en\/maerket"/);
 });
 
-test("REGRESSION: /en/shop har egen linje i sitemap.xml, ikke kun /shop", () => {
-  // /en/shop er en rigtig, indekserbar side (canonical: /en/shop, ingen
-  // robots-noindex) — men stod ikke i app/sitemap.ts. Testen ovenfor
-  // matcher kun understrengen "inkandart.dk/shop", som IKKE findes i
-  // ".../en/shop" (der ligger "/en" imellem), så den fangede ikke hullet.
-  assert.match(sitemap, /inkandart\.dk\/en\/shop"/);
+test("Emerge-shoppen er død som kundens /shop — filerne findes ikke", () => {
+  assert.equal(existsSync(join(root, emergeDa)), false, "dansk Emerge /shop lever stadig");
+  assert.equal(existsSync(join(root, emergeEn)), false, "engelsk Emerge /shop lever stadig");
+  assert.equal(existsSync(join(root, oldMaerketDa)), false, "/maerket-siden skal 308'e, ikke eksistere");
+  assert.equal(existsSync(join(root, oldMaerketEn)), false, "/en/maerket-siden skal 308'e, ikke eksistere");
+});
+
+test("/maerket 308'er til /shop — også undersider, query bevares af Next", () => {
+  for (const [from, to] of [
+    ["/maerket", "/shop"],
+    ["/en/maerket", "/en/shop"],
+  ]) {
+    const rows = redirectsFrom(from);
+    assert.ok(rows.length >= 2, `${from} mangler slash-par`);
+    for (const r of rows) {
+      assert.equal(r.destination, to, `${r.source} → ${r.destination}`);
+      assert.equal(r.statusCode, 308);
+    }
+  }
+  const sub = nextRedirects.filter((r) => r.source.includes("/maerket/:path*"));
+  assert.ok(sub.length >= 2, "undersider /maerket/:path* skal 308'e");
+  for (const r of sub) {
+    assert.match(r.destination, /\/shop\/:path\*/);
+    assert.equal(r.statusCode, 308);
+  }
+  // Negativ: den levende hylde må ikke 308'es væk.
+  assert.equal(redirectsFrom("/shop").length, 0);
+  assert.equal(redirectsFrom("/en/shop").length, 0);
+});
+
+test("nav-døren hedder Shop og peger på /shop — ikke Mærket, ikke Hylden", async () => {
+  const { t } = await import("../lib/i18n.ts");
+  for (const lang of ["da", "en"]) {
+    const shop = t(lang).rummet.rooms.find((r) => r.label === "Shop");
+    assert.ok(shop, `${lang}: nav mangler etiketten Shop`);
+    assert.equal(shop.href, "/shop");
+    assert.notEqual(shop.href, "/maerket");
+    assert.notEqual(shop.label, "Mærket");
+    assert.notEqual(shop.label, "Hylden");
+    assert.notEqual(shop.label, "Gaden sælger");
+    assert.notEqual(shop.label, "The street sells");
+  }
+  const nav = read("components/rummet/Nav.tsx");
+  assert.match(nav, /c\.rooms\.map\(/);
+  const navSynlig = nav.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
+  assert.doesNotMatch(navSynlig, /Mærket|Hylden|Gaden sælger|The street sells/);
+  const gaden = read("components/rummet/GadenFlade.tsx");
+  assert.match(gaden, /localePath\(lang, "\/shop"\)/);
+  assert.doesNotMatch(gaden, /"\/maerket"/);
+});
+
+test("Emerge-shop-copy er væk fra kundens flade", () => {
+  for (const src of [page, pageEn, flade]) {
+    assert.doesNotMatch(src, /Gaden sælger|The street sells|gaden sælger|street sells/i);
+    assert.doesNotMatch(src, /DepositumRaekke|KerbReservation|SHOP_PRINTS|PIERCINGS|FLASH_DEPOSITS/);
+    assert.doesNotMatch(src, /gade__print-snart|gade__doors|Two small ones/);
+    assert.doesNotMatch(src, /href: "\/walk-in"/);
+  }
+  // Walk-in-døren med pris hører ikke til hylden.
+  assert.doesNotMatch(page + pageEn + flade, /900/);
+  // Gavekort må blive — de står på Rummet-hylden i dag.
+  assert.match(flade, /GavekortKoeb/);
 });
 
 test("prints uden live-variant får ALDRIG en købshandling (rails §4)", () => {
-  // Købslinket er gated bag `p.live && p.variantId` — en draft kan ikke
-  // rendere en knap der ikke kan købe.
-  assert.match(page, /\{p\.live && p\.variantId \? \(/);
-  // Og skelettet i commerce.ts starter ærligt: alle tre er live: false.
-  const blok = commerce.slice(commerce.indexOf("SHOP_PRINTS"));
-  const lives = [...blok.matchAll(/live: (true|false)/g)].map((m) => m[1]);
-  assert.equal(lives.length, 3, "tre prints i skelettet");
-  // Når P3 + prisgaten åbner varerne, flippes de til true — testen kræver
-  // kun at live:true ALTID følges af et variantId i samme objekt.
-  const objekter = blok.split(/\},\s*\{/);
-  for (const o of objekter.slice(0, 4)) {
-    if (/live: true/.test(o)) {
-      assert.match(o, /variantId: "\d{14}"/, "live:true kræver variantId");
-    }
-  }
-});
-
-test("dørene peger på flader der findes — ingen genopbygning", () => {
-  for (const door of ["/gavekort", "/walk-in", "/flash"]) {
-    assert.match(page, new RegExp(`href: "${door}"`), `dør til ${door}`);
-  }
-  // Kridtet genbruges som komponent (min egen) — ikke kopieret markup.
-  assert.match(page, /<KerbReservation \/>/);
+  const start = commerce.indexOf("export const SHOP_PRINTS");
+  assert.ok(start > 0, "SHOP_PRINTS-listen findes");
+  const blok = commerce.slice(start, commerce.indexOf("\n];", start));
+  assert.doesNotMatch(blok, /live: true/, "demo-varer må ikke være live");
+  assert.match(blok, /NEDLAGT SOM DEMO 2026-08-30|S574/, "kendelsen står ved varerne");
+  // Og de hænger ikke som «Snart» på kundens hylde.
+  assert.doesNotMatch(page + pageEn + flade, /c\.soon|gade__print-snart/);
 });
 
 test("siden er en server-komponent uden klient-JS (rails §5)", () => {
   assert.doesNotMatch(page, /^\s*["']use client["']/m);
+  assert.doesNotMatch(pageEn, /^\s*["']use client["']/m);
 });
 
 test("småteksten i gaden holder AA-kontrast — opacity må ikke skride ned igen", () => {
-  // QA-blocker på #154: «Snart»-chippen stod med alpha 0.4 ved 10px — målt
-  // ~3.2:1 mod kortets near-black; AA kræver 4.5:1 under 18px. Testen måler
-  // reglen (alpha-værdien), ikke den præcise streng, så en omformatering
-  // overlever — men en dæmpning under 0.6 går rød.
   const alphaOf = (selector) => {
     const m = css.match(
-      new RegExp(`\\.${selector}\\s*\\{[^}]*color:\\s*rgba\\(232,\\s*224,\\s*213,\\s*(0?\\.\\d+)\\)`)
+      new RegExp(`\\.${selector}\\s*\\{[^}]*color:\\s*rgba\\(232,\\s*224,\\s*213,\\s*(0?\\.\\d+)\\)`),
     );
     assert.ok(m, `${selector} mangler sin rgba-farve i globals.css`);
     return Number(m[1]);
   };
-  // Gulv 0.58 = kridt-præcedensen fra #149: målt ≥5.6:1 på near-black —
-  // margin over AA-kravet, også på dørens lidt lysere baggrund.
   for (const s of ["gade__print-snart", "gade__door-linje", "gade__afsnit-label", "gade__note"]) {
     assert.ok(alphaOf(s) >= 0.58, `${s}: alpha ${alphaOf(s)} er under kontrast-gulvet`);
   }
 });
 
-test("salgsdøren er ikke forældreløs — der går en dør ind fra huset", () => {
-  // Rummet M1 skrev: «Gaden bærer stadig døren til /shop indtil M2 bygger
-  // væggen.» M2 HAR bygget væggen — Mærket findes med hylde, produktside og
-  // kurv. Betingelsen i den gamle påstand er dermed indfriet, og døren flyttes
-  // (S573). Den må ikke pege på /shop igen: Emerge-fladen annoncerer walk-in
-  // med pris, og K7 siger at det tal kun findes fysisk i og uden for butikken.
-  const nav = readFileSync(join(root, "components/rummet/Nav.tsx"), "utf8");
-  // S574: Gadens døre bor i GadenFlade (én komponent, to sprog).
-  const gaden = readFileSync(join(root, "components/rummet/GadenFlade.tsx"), "utf8");
-  // S579: dørene bor i i18n (rummet.rooms); nav'en tegner dem.
-  const i18n = readFileSync(join(root, "lib/i18n.ts"), "utf8");
-  assert.match(i18n, /\{ href: "\/maerket", label: "Shop" \}/, "Huset skal have en dør til shoppen (/maerket)");
-  assert.match(nav, /c\.rooms\.map\(/, "nav'en skal tegne dørene fra i18n");
-  assert.match(gaden, /localePath\(lang, "\/maerket"\)/, "Gaden skal åbne Mærket");
-});
-
 test("tilbage-linket er dækket af tap-reglen på ALLE undersider", () => {
-  // QA #168: reglen hed `main p a[href="/"]` og antog dermed en <p>-forælder
-  // ingen havde lovet. Nu er selektoren fri af markup — men den hviler på at
-  // `href="/"` KUN bruges til tilbage-linket. Det er den antagelse vi måler.
-  const css = readFileSync(join(root, "app/globals.css"), "utf8");
-  assert.match(css, /main a\[href="\/"\]\s*\{[^}]*min-height:\s*24px/);
+  const cssSrc = read("app/globals.css");
+  assert.match(cssSrc, /main a\[href="\/"\]\s*\{[^}]*min-height:\s*24px/);
 
   const sider = [];
   const gaa = (mappe) => {
@@ -116,36 +154,16 @@ test("tilbage-linket er dækket af tap-reglen på ALLE undersider", () => {
       assert.match(
         efter, /←/,
         `${f.split("/app/")[1]}: et href="/" der ikke er tilbage-linket — ` +
-          "tap-reglen ville også ramme det; genovervej selektoren"
+          "tap-reglen ville også ramme det; genovervej selektoren",
       );
     }
   }
 });
 
-test("prints-væggen er ærligt lukket: demo-varerne er live:false", () => {
-  // S574 (Steven, 30/8): Dolk/Ouroboros/Signetring er DEMO-varer — Sonja
-  // lægger ægte varer op. Shopify-status DRAFT samme dag, målt 410 på alle
-  // tre cart-permalinks (negativ kontrol 410, gavekort 302). Testen vender:
-  // før håndhævede den «alle tre live», nu håndhæver den at ingen demo-vare
-  // kan få en købsknap. Når Sonjas rigtige varer kommer, skrives testen om
-  // sammen med kataloget — ikke før.
-  const start = commerce.indexOf("export const SHOP_PRINTS");
-  assert.ok(start > 0, "SHOP_PRINTS-listen findes");
-  const blok = commerce.slice(start, commerce.indexOf("\n];", start));
-  assert.doesNotMatch(blok, /live: true/, "demo-varer må ikke være live");
-  assert.match(blok, /NEDLAGT SOM DEMO 2026-08-30|S574/, "kendelsen står ved varerne");
-});
-
-test("REGRESSION: den danske væg-blok læser fra ordbogen, ikke fra markup", () => {
-  // Sprogtjek S570: rubrikken var flyttet til `c.wallTitle`, mens etiket,
-  // intro, «Snart» og noten blev stående hårdkodet i app/shop/page.tsx. Da
-  // varerne gik live sagde /en/shop «On the wall.» og /shop stod stadig med
-  // «De hænger her, når de er klar». Drift ét ord ad gangen er stadig drift.
-  const vaeg = page.slice(page.indexOf("gade__prints") - 900);
-  for (const noegle of ["c.wallLabel", "c.wallTitle", "c.wallIntro", "c.soon", "c.note", "c.noteLink"]) {
-    assert.ok(vaeg.includes(noegle), `væg-blokken bruger ${noegle}`);
-  }
-  // Negativ kontrol: den gamle hårdkodede sætning må ikke være i filen.
-  assert.doesNotMatch(page, /De hænger her, når de er klar/);
-  assert.doesNotMatch(page, /<span className="gade__print-snart">Snart</);
+test("negativ kontrol: hegnet bliver rødt hvis Emerge-shoppen kommer tilbage", () => {
+  assert.equal(existsSync(join(root, emergeDa)), false);
+  assert.doesNotMatch(flade, /localePath\(lang, "\/maerket"\)/);
+  const i18n = read("lib/i18n.ts");
+  assert.doesNotMatch(i18n, /\{ href: "\/maerket", label: "Shop" \}/);
+  assert.match(i18n, /\{ href: "\/shop", label: "Shop" \}/);
 });

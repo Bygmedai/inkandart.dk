@@ -93,8 +93,8 @@ test("handelsfladerne er stadig server-renderede", () => {
   // ville goere koebsfladen til en klientflade (CLAUDE.md §5).
   for (const fil of [
     "app/(da)/(emerge)/flash/page.tsx",
-    "app/(da)/(emerge)/shop/page.tsx",
-    "app/(en)/(emerge)/en/shop/page.tsx",
+    "app/(da)/(rummet)/shop/page.tsx",
+    "app/(en)/(rummet)/en/shop/page.tsx",
     "components/emerge/Fredagsflash.tsx",
   ]) {
     assert.doesNotMatch(read(fil), /"use client"/, `${fil} er blevet en klientflade`);
@@ -106,10 +106,8 @@ test("de fire koebsknapper er annoteret — ellers er eventet uden indhold", () 
   const flash = read("app/(da)/(emerge)/flash/page.tsx");
   assert.match(flash, /data-hz-handle=\{f\.id\}/);
   assert.match(flash, /data-hz-pris=\{f\.priceKr\}/);
-  for (const fil of ["app/(da)/(emerge)/shop/page.tsx", "app/(en)/(emerge)/en/shop/page.tsx"]) {
-    assert.match(read(fil), /data-hz-handle=\{p\.handle\}/, fil);
-    assert.match(read(fil), /data-hz-pris=\{p\.kr\}/, fil);
-  }
+  // Emerge-printknapperne er væk med Emerge-/shop. Flash bærer stadig
+  // annoteringen. Hyldens køb går gennem /api/rummet/cart.
   assert.match(read("components/emerge/Fredagsflash.tsx"), /data-hz-event="plads_klik"/);
 });
 

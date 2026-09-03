@@ -55,7 +55,7 @@ test("en flade der tager imod penge eller en underskrift er vagtet", async () =>
     "/booking": "tager imod en booking",
     "/flash": "tager imod penge (flash-droppet, S574)",
     "/gavekort": "tager imod penge",
-    "/maerket/dolk": "vareside med koebsknap",
+    "/shop/dolk": "vareside med koebsknap",
     "/piercing": "husets priser — en forkert pris er et loefte vi ikke holder",
     "/samtykke": "tager imod en underskrift",
   };

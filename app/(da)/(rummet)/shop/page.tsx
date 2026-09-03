@@ -8,7 +8,7 @@ import { alternates } from "@/lib/i18n";
 export const metadata: Metadata = {
   title: "Shop · Ink & Art",
   description: "Prints og arbejde fra studiet. Ink & Art, Larsbjørnsstræde 13.",
-  alternates: { ...alternates("/maerket"), canonical: "/maerket" },
+  alternates: { ...alternates("/shop"), canonical: "/shop" },
 };
 
 function oneParam(v: string | string[] | undefined): string {
@@ -16,7 +16,7 @@ function oneParam(v: string | string[] | undefined): string {
   return (v || "").trim();
 }
 
-export default async function MaerketPage({
+export default async function ShopPage({
   searchParams,
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;

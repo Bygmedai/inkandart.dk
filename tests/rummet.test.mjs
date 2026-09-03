@@ -130,7 +130,7 @@ test("Rummet-tokens og fonte er self-hostet", () => {
 });
 
 test("rum-ruter og slots findes", () => {
-  for (const p of ["app/(da)/(rummet)/stolen/page.tsx", "app/(da)/(rummet)/maerket/page.tsx", "app/(da)/(rummet)/natten/page.tsx", "app/(da)/(rummet)/gaden/page.tsx", "app/(da)/(rummet)/booking/page.tsx", "app/(da)/(rummet)/booking/tak/page.tsx"]) {
+  for (const p of ["app/(da)/(rummet)/stolen/page.tsx", "app/(da)/(rummet)/shop/page.tsx", "app/(da)/(rummet)/natten/page.tsx", "app/(da)/(rummet)/gaden/page.tsx", "app/(da)/(rummet)/booking/page.tsx", "app/(da)/(rummet)/booking/tak/page.tsx"]) {
     assert.ok(existsSync(join(root, p)), `${p} mangler`);
   }
   const slots = readdirSync(join(root, "public/slots")).filter((n) => n.endsWith(".jpg"));
@@ -197,7 +197,7 @@ test("M2 cross-link tæller synlige værker fra YAML og udelader N=0", async () 
 
   const kort = read("components/rummet/ArtistKort.tsx");
   assert.match(kort, /workCount > 0/);
-  assert.match(kort, /maerket\?artist=/);
+  assert.match(kort, /shop\?artist=/);
   // S579: kundens ord (Arbejde / Work) kommer fra i18n, ikke fra kortet.
   assert.match(kort, /c\.seeWork\(/);
   assert.doesNotMatch(kort, /på Væggen|on the Wall/);
@@ -205,7 +205,7 @@ test("M2 cross-link tæller synlige værker fra YAML og udelader N=0", async () 
 });
 
 test("M2 artist-filter er shareable via ?artist=", async () => {
-  const maerket = read("app/(da)/(rummet)/maerket/page.tsx");
+  const maerket = read("app/(da)/(rummet)/shop/page.tsx");
   const flade = read("components/rummet/MaerketFlade.tsx");
   assert.match(maerket, /searchParams/);
   assert.match(flade, /\?artist=\$\{a\.id\}/);
@@ -246,7 +246,8 @@ test("S573: Hylden læser hylden.yml, ikke værkerne", () => {
   assert.match(maerket, /c\.wallLabel/);
   assert.doesNotMatch(maerket, /Artistkortet kommer i næste rum/);
   assert.doesNotMatch(maerket, /Væggen bygges i næste rum/);
-  assert.doesNotMatch(maerket, /href="\/shop"/);
+  assert.match(maerket, /localePath\(lang, `\/shop\/\$\{vare\.handle\}`\)/);
+  assert.doesNotMatch(maerket, /\/maerket/);
 });
 
 test("S573: hver vare på hylden har handle, foto og en linje", () => {
@@ -281,7 +282,7 @@ test("M2 kurv-indikator vises kun med indhold — ingen 0-badge", () => {
 
 test("M2 Døren sidder på Stolen, Mærket og produkt/gave-flader", () => {
   const stolen = read("app/(da)/(rummet)/stolen/page.tsx");
-  const maerket = read("app/(da)/(rummet)/maerket/page.tsx");
+  const maerket = read("app/(da)/(rummet)/shop/page.tsx");
   const produkt = read("components/rummet/ProduktFlade.tsx");
   const gave = read("components/rummet/GavekortKoeb.tsx");
   const shell = read("components/rummet/Shell.tsx");
@@ -299,7 +300,7 @@ test("M2 Døren sidder på Stolen, Mærket og produkt/gave-flader", () => {
 test("M2 opfinder ikke walk-in 900, «fra»-priser eller dummy-navne", () => {
   const src = [
     read("app/(da)/(rummet)/stolen/page.tsx"),
-    read("app/(da)/(rummet)/maerket/page.tsx"),
+    read("app/(da)/(rummet)/shop/page.tsx"),
     read("components/rummet/MaerketFlade.tsx"),
     read("components/rummet/ArtistKort.tsx"),
     read("components/rummet/GavekortKoeb.tsx"),
@@ -535,7 +536,7 @@ test("M2R runde 2: Gaden tal + footer CVR/telefon", () => {
 
 test("M2R runde 2: Mærket salgsflade på hud", () => {
   const shell = read("components/rummet/Shell.tsx");
-  const maerket = read("app/(da)/(rummet)/maerket/page.tsx");
+  const maerket = read("app/(da)/(rummet)/shop/page.tsx");
   const produkt = read("components/rummet/ProduktFlade.tsx");
   const css = read("components/rummet/rummet.css");
   const nav = read("components/rummet/Nav.tsx");
@@ -801,7 +802,7 @@ test("ingen synlig billedtekst under fotos (Stolen/Huset/Gaden/booking/Natten)",
  */
 test("alle Rummets flader står i sitemap", () => {
   const sm = readFileSync(join(root, "app/sitemap.ts"), "utf8");
-  for (const rute of ["/", "/stolen", "/maerket", "/natten", "/gaden", "/booking"]) {
+  for (const rute of ["/", "/stolen", "/shop", "/natten", "/gaden", "/booking"]) {
     const m = rute === "/" ? /inkandart\.dk\/"/ : new RegExp(`inkandart\\.dk${rute}"`);
     assert.match(sm, m, `${rute} mangler i sitemap`);
   }
@@ -1432,19 +1433,19 @@ test("S574/S579 Natten og Mærket på engelsk — kundens ord, aldrig en ordret 
   // Én flade, to sprog: begge sider bruger samme komponent.
   for (const [side, flade] of [
     ["app/(en)/(rummet)/en/natten/page.tsx", "NattenFlade"],
-    ["app/(en)/(rummet)/en/maerket/page.tsx", "MaerketFlade"],
+    ["app/(en)/(rummet)/en/shop/page.tsx", "MaerketFlade"],
     ["app/(da)/(rummet)/natten/page.tsx", "NattenFlade"],
-    ["app/(da)/(rummet)/maerket/page.tsx", "MaerketFlade"],
+    ["app/(da)/(rummet)/shop/page.tsx", "MaerketFlade"],
   ]) {
     assert.match(read(side), new RegExp(flade), `${side} skal bruge ${flade}`);
   }
-  assert.match(read("app/(en)/(rummet)/en/maerket/page.tsx"), /<RummetShell lang="en"/);
+  assert.match(read("app/(en)/(rummet)/en/shop/page.tsx"), /<RummetShell lang="en"/);
 
   // Hylden hentes ét sted — ellers kan de to sprog vise hver sin hylde.
   const hd = read("lib/hylden-data.ts");
   assert.match(hd, /productsInCollection\("hylden"\)/);
   assert.match(hd, /variantGid/, "fallbacken må ikke bære en død knap");
-  for (const side of ["app/(da)/(rummet)/maerket/page.tsx", "app/(en)/(rummet)/en/maerket/page.tsx"]) {
+  for (const side of ["app/(da)/(rummet)/shop/page.tsx", "app/(en)/(rummet)/en/shop/page.tsx"]) {
     assert.match(read(side), /hentHylden\(\)/);
   }
 });
@@ -1625,7 +1626,7 @@ test("prislisten har sin egen rute paa begge sprog, og tabellen ruller alene", (
 
 /**
  * S578. Et vaerk-id er en noegle: galleriet, ?artist=-filtret og
- * /maerket/vaerk/[id] slaar alle op paa den. To vaerker med samme id giver
+ * /shop/vaerk/[id] slaar alle op paa den. To vaerker med samme id giver
  * ikke en fejl — det ene bliver bare usynligt, og hvilket ét afhaenger af
  * hvem der laeser listen foerst.
  *

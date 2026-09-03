@@ -10,25 +10,22 @@ const root = process.cwd();
 const gaden = readFileSync(join(root, "components/rummet/GadenFlade.tsx"), "utf8");
 
 /**
- * S573: Gaden pegede på /shop — Emerge-fladen, som stadig bygges og stadig
- * annoncerer walk-in-tilbuddet med pris. Rummet må ikke sende en kunde ind i
- * det pensionerede design, og K7 siger walk-in-prisen kun findes fysisk.
- * Husets salgsdør er Mærket.
+ * Én hylde (3/9 2026): /shop ER Rummets hylde. Gaden skal åbne den —
+ * ikke den pensionerede Emerge-butik, og ikke /maerket (308).
  */
-test("Gaden sender kunden til Mærket, ikke til Emerge-shoppen", () => {
-  assert.match(gaden, /localePath\(lang, "\/maerket"\)/);
-  assert.doesNotMatch(gaden, /"\/shop"/);
+test("Gaden sender kunden til /shop, ikke til /maerket", () => {
+  assert.match(gaden, /localePath\(lang, "\/shop"\)/);
+  assert.doesNotMatch(gaden, /"\/maerket"/);
 });
 
 test("Gadens døre er kun Rummet-ruter", () => {
-  // Dørene er nu localePath(lang, "…") — samme regel, ny form.
   const doere = [
     ...[...gaden.matchAll(/href="(\/[a-zæøå0-9/-]*)"/g)].map((m) => m[1]),
     ...[...gaden.matchAll(/localePath\(lang, "(\/[a-zæøå0-9/-]*)"\)/g)].map((m) => m[1]),
   ];
   assert.ok(doere.length >= 3, "Gaden skal have sine døre");
   const rummet = new Set([
-    "/", "/booking", "/maerket", "/gavekort", "/natten", "/stolen",
+    "/", "/booking", "/shop", "/gavekort", "/natten", "/stolen",
     "/gaden", "/blackbook", "/aftercare", "/betingelser", "/privatlivspolitik",
   ]);
   for (const d of doere) {

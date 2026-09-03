@@ -148,7 +148,7 @@ export default async function ArtistPageEn({
               ))}
             </div>
             <p className="rum-kort__arkiv">
-              <a href={`/en/maerket?artist=${artist.id}`}>{c.seeOnWall}</a>
+              <a href={`/en/shop?artist=${artist.id}`}>{c.seeOnWall}</a>
             </p>
           </section>
         ) : (

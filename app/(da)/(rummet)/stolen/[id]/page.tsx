@@ -134,7 +134,7 @@ export default async function ArtistPage({
               ))}
             </div>
             <p className="rum-kort__arkiv">
-              <a href={`/maerket?artist=${artist.id}`}>Se dem under Arbejde i shoppen</a>
+              <a href={`/shop?artist=${artist.id}`}>Se dem under Arbejde i shoppen</a>
             </p>
           </section>
         ) : (

@@ -9,6 +9,7 @@ import {
   vaerkLabel,
 } from "@/lib/content";
 import { productByHandle } from "@/lib/storefront";
+import { alternates } from "@/lib/i18n";
 
 export const dynamicParams = true;
 
@@ -28,7 +29,7 @@ export async function generateMetadata({
   const artist = artistById(house.artists, vaerk.artist);
   return {
     title: `${vaerkLabel(vaerk, artist)} · Shop · Ink & Art`,
-    alternates: { canonical: `/maerket/${vaerk.edition_ref}` },
+    alternates: { ...alternates(`/shop/vaerk/${vaerk.id}`), canonical: `/shop/vaerk/${vaerk.id}` },
   };
 }
 
