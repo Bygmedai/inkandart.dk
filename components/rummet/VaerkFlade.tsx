@@ -25,7 +25,7 @@ export function VaerkFlade({
     <RummetShell tone="salg">
       <main id="main" className="rum-room rum-produkt">
         <p className="rum-label">
-          <a href="/maerket">Mærket</a> · Værk
+          <a href="/maerket">Shop</a> · Værk
         </p>
         <h1 className="rum-room__title rum-poster">{vaerk.titel || vaerk.id}</h1>
         <div className="rum-produkt__plade">

@@ -24,10 +24,10 @@ export async function generateMetadata({
   const { id } = await params;
   const house = loadHouse();
   const vaerk = vaerkById(house.vaerker, id);
-  if (!vaerk?.edition_ref) return { title: "Mærket · Ink & Art" };
+  if (!vaerk?.edition_ref) return { title: "Shop · Ink & Art" };
   const artist = artistById(house.artists, vaerk.artist);
   return {
-    title: `${vaerkLabel(vaerk, artist)} · Mærket · Ink & Art`,
+    title: `${vaerkLabel(vaerk, artist)} · Shop · Ink & Art`,
     alternates: { canonical: `/maerket/${vaerk.edition_ref}` },
   };
 }

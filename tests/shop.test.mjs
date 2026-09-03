@@ -84,7 +84,10 @@ test("salgsdøren er ikke forældreløs — der går en dør ind fra huset", () 
   const nav = readFileSync(join(root, "components/rummet/Nav.tsx"), "utf8");
   // S574: Gadens døre bor i GadenFlade (én komponent, to sprog).
   const gaden = readFileSync(join(root, "components/rummet/GadenFlade.tsx"), "utf8");
-  assert.match(nav, /href: "\/maerket"/, "Huset skal have en dør til Mærket");
+  // S579: dørene bor i i18n (rummet.rooms); nav'en tegner dem.
+  const i18n = readFileSync(join(root, "lib/i18n.ts"), "utf8");
+  assert.match(i18n, /\{ href: "\/maerket", label: "Shop" \}/, "Huset skal have en dør til shoppen (/maerket)");
+  assert.match(nav, /c\.rooms\.map\(/, "nav'en skal tegne dørene fra i18n");
   assert.match(gaden, /localePath\(lang, "\/maerket"\)/, "Gaden skal åbne Mærket");
 });
 

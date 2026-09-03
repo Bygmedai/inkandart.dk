@@ -29,8 +29,8 @@ function filterChips(artists: Artist[], vaerker: Vaerk[], current: string): Arti
 /**
  * Mærket — én flade, to sprog (S574).
  *
- * Hylden og Væggen er husets egennavne som rummene og oversættes ikke;
- * sætningerne omkring dem gør. Hylde-data kommer udefra (Shopify eller
+ * Kundens ord — Shop, Prints, Arbejde/Work — kommer fra i18n (S579);
+ * URL, CSS-klasser og Shopify-handlen «hylden» er husets og bliver. Hylde-data kommer udefra (Shopify eller
  * YAML-fallback) og hentes af siden, ikke her: fladen tegner, den
  * fetcher ikke.
  */
@@ -57,7 +57,7 @@ export function MaerketFlade({
       lang={lang === "en" ? "en" : undefined}
       className="rum-room rum-maerket"
     >
-      <h1 className="rum-room__title rum-poster">Mærket</h1>
+      <h1 className="rum-room__title rum-poster">{c.shopLabel}</h1>
 
       <section className="rum-maerket__hylden" aria-labelledby="hylden">
         <h2 id="hylden" className="rum-label">

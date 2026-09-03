@@ -14,8 +14,9 @@ import "./rummet.css";
  * «Betingelser · Privatliv» i footeren og blev sendt til danske sider
  * midt i købsrejsen (Sirius' fund #5). Nu følger skallen siden.
  *
- * Rumnavnene i navigationen oversættes ikke: Stolen, Mærket, Natten og
- * Gaden er husets egennavne.
+ * Navnene i navigationen er kundens ord, ikke husets (S579): de kommer fra
+ * i18n og skifter med sproget. Ruterne hedder stadig stolen, maerket,
+ * natten og gaden — det er kode, ikke copy.
  */
 export function RummetShell({
   children,

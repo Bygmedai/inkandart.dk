@@ -103,7 +103,7 @@ test("S574: Mærket kalder kollektionen først og YAML-fallback ved !ok", () => 
   // Tom-tilstand og gavekort-døren bor i fladen; hentningen her.
   const flade = read("components/rummet/MaerketFlade.tsx");
   assert.match(flade, /c\.shelfEmpty/);
-  assert.match(read("lib/i18n.ts"), /shelfEmpty: "Der er ingen varer på hylden lige nu\."/);
+  assert.match(read("lib/i18n.ts"), /shelfEmpty: "Ingen prints lige nu\."/);
   assert.match(flade, /GavekortKoeb/);
   assert.match(handle, /productByHandle/);
   assert.match(handle, /loadHylden/);

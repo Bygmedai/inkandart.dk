@@ -103,9 +103,10 @@ test("engelsk er en genskrivning, ikke en maskinoversættelse", () => {
   const da = t("da").walkin, en = t("en").walkin;
   assert.notEqual(da.title, en.title);
   assert.equal(en.title, "Two small ones. Tonight.");
-  // Det praktiske skal derimod være præcist — prisen og adressen er ens.
-  assert.match(en.lede("900", "Larsbjørnsstræde 13"), /900 DKK/);
-  assert.match(en.lede("900", "Larsbjørnsstræde 13"), /Larsbjørnsstræde 13/);
+  // Det praktiske skal derimod være præcist — adressen er ens. Prisen står
+  // kun på knappen, hvor kunden kan betale den (K7, S579).
+  assert.match(en.lede("Larsbjørnsstræde 13"), /Larsbjørnsstræde 13/);
+  assert.doesNotMatch(en.lede("Larsbjørnsstræde 13"), /900/);
   assert.equal(en.steps.length, da.steps.length);
 });
 
@@ -168,13 +169,13 @@ test("periode-etiketten taler laeserens sprog — Stevens fund 31/8", async () =
   // Dansk er standarden: hvert dansk kaldsted er uaendret uden argument.
   assert.equal(periodeLabel(fast), "Fast");
   assert.equal(periodeLabel(gaest), "Gæst");
-  assert.equal(periodeLabel(gaestTil), "I huset til 12. oktober");
+  assert.equal(periodeLabel(gaestTil), "I studiet til 12. oktober");
 
   // Engelsk skal komme fra ordbogen, ikke fra et gaet.
   const en = t("en").rummet.periode;
   assert.equal(periodeLabel(fast, en), "Resident");
   assert.equal(periodeLabel(gaest, en), "Guest");
-  assert.equal(periodeLabel(gaestTil, en), "In the house until 12. oktober");
+  assert.equal(periodeLabel(gaestTil, en), "In the studio until 12. oktober");
 
   // NEGATIV KONTROL: den engelske ordbog maa ikke baere danske ord.
   for (const v of Object.values(en)) {

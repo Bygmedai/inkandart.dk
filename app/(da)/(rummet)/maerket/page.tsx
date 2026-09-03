@@ -6,8 +6,8 @@ import { hentHylden } from "@/lib/hylden-data";
 import { alternates } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: "Mærket · Ink & Art",
-  description: "Væggen og hylden. Ink & Art, Larsbjørnsstræde 13.",
+  title: "Shop · Ink & Art",
+  description: "Prints og arbejde fra studiet. Ink & Art, Larsbjørnsstræde 13.",
   alternates: { ...alternates("/maerket"), canonical: "/maerket" },
 };
 

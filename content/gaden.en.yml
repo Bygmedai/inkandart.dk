@@ -2,7 +2,7 @@
 # This is the page a tourist opens on the pavement: address, hours,
 # phone. Never invent opening hours; empty means the line is left out.
 
-titel: Gaden
+titel: Find us
 aabent_label: "Open:"
 aabent: ""
 walk_in_label: "Walk-in:"

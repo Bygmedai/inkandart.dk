@@ -69,7 +69,7 @@ export default async function ArtistPage({
       <main id="main" className="rum-room rum-artist">
         <p className="rum-label">
           <a href="/stolen" className="rum-artist__tilbage">
-            Stolen
+            Artister
           </a>
         </p>
         <div className="rum-artist__fold">
@@ -134,7 +134,7 @@ export default async function ArtistPage({
               ))}
             </div>
             <p className="rum-kort__arkiv">
-              <a href={`/maerket?artist=${artist.id}`}>Se dem på Væggen i Mærket</a>
+              <a href={`/maerket?artist=${artist.id}`}>Se dem under Arbejde i shoppen</a>
             </p>
           </section>
         ) : (

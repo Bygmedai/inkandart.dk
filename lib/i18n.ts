@@ -141,7 +141,7 @@ const da = {
   morSr: "En due i tagrenden. Hun ryger, hun kigger, og hun holder af gaden.",
   /** Kridtet paa kantstenen — stod foer hardkodet dansk i komponenten. */
   kerb: {
-    legend: "Kantstenen er vores venteværelse",
+    legend: "Hold din plads",
     slots: { plads: "Hold min plads", heldag: "Hele dagen" },
     ariaSlots: {
       plads: "Reservér en tid med 100 kroner i depositum",
@@ -165,11 +165,32 @@ const da = {
    * på /en mødte «Betingelser · Privatliv» i footeren og blev sendt til
    * de danske sider. Skallen taler nu det sprog siden er skrevet i.
    *
-   * Rumnavnene — Stolen, Mærket, Natten, Gaden — oversættes ALDRIG.
-   * De er husets egennavne, ikke etiketter (kanon siden S568).
+   * Kundens ord i nav'en (Artister, Shop, Aftener, Find os) er etiketter og
+   * skifter sprog (S579). URL'erne /stolen, /maerket, /natten, /gaden bliver.
    */
   rummet: {
-    roomsLabel: "Rum",
+    roomsLabel: "Menu",
+    /**
+     * Kundens fire døre. S579 (Steven, 3/9): væk fra husets interne navne på
+     * kundens skærm. Stolen, Mærket, Natten og Gaden bliver ved med at være
+     * ruter, CSS og kode — men det ORD kunden læser skal være det ord hun
+     * leder efter. Målt: ingen københavnsk shop siger «Stolen» i sin nav.
+     */
+    rooms: [
+      { href: "/stolen", label: "Artister" },
+      { href: "/maerket", label: "Shop" },
+      { href: "/natten", label: "Aftener" },
+      { href: "/gaden", label: "Find os" },
+    ],
+    /** Tilmeldingsdøren. Før hed den Blackbook — kunstnerens bog — men døren
+        ER en tilmelding, og knappen sagde det allerede. */
+    listName: "Skriv dig op",
+    studioLabel: "Studiet",
+    artistsLabel: "Artister",
+    shopLabel: "Shop",
+    nightsLabel: "Aftener",
+    findUsLabel: "Find os",
+    seeWork: (n: string, one: boolean) => (one ? `Se ${n} arbejde` : `Se ${n} arbejder`),
     /**
      * Blackbook (S574, copy-audit 30/8). Den gamle linje — «Vi sender kun
      * natten» — sagde intet om hvad mailen indeholder, og lød som en
@@ -180,6 +201,7 @@ const da = {
     blackbookLine:
       "Nye flash, gæsteartister og aftener i huset. Vi skriver kun, når der er en dato, et drop eller en plads at fortælle om.",
     blackbookEmail: "Email",
+    blackbookPlaceholder: "din@mail.dk",
     blackbookGo: "Skriv mig op",
     blackbookBusy: "…",
     blackbookOk: "Tak. Du hører fra os, når der er noget konkret.",
@@ -188,11 +210,11 @@ const da = {
     terms: "Betingelser",
     privacy: "Privatliv",
     faq: "FAQ",
-    /** Stolen og artistsiderne. Rumnavnet selv oversættes ikke. */
-    backToStolen: "Stolen",
+    /** Artisterne og artistsiderne. Kundens ord, ikke rummets (S579). */
+    backToStolen: "Artister",
     works: "Arbejder",
     worksComing: "Billeder på vej",
-    seeOnWall: "Se dem på Væggen i Mærket",
+    seeOnWall: "Se dem under Arbejde i shoppen",
     bookTid: "Book tid",
     walkIn: "Walk-in — kom forbi",
     noGuest: "Ingen gæsteartist annonceret lige nu",
@@ -206,7 +228,7 @@ const da = {
     periode: {
       fast: "Fast",
       gaest: "Gæst",
-      til: (dato: string) => `I huset til ${dato}`,
+      til: (dato: string) => `I studiet til ${dato}`,
     },
     /**
      * Artistens tider (Villy, S576 — RAAB til Haruki, din fil).
@@ -214,7 +236,7 @@ const da = {
      * Klokkeslettene staar i artists.yml og er artistens egne.
      */
     tider: {
-      label: "I huset",
+      label: "I studiet",
       og: "og",
       // Dagene staar som de ser ud MIDT i en saetning. Dansk skriver
       // ugedage med lille; engelsk med stort. Komponenten stort-skriver
@@ -245,16 +267,15 @@ const da = {
     galleriPause: "Pause billederne",
     galleriAfspil: "Afspil billederne",
     giftCard: "Gavekort",
-    /* Mærket. Hylden og Væggen er husets egennavne som rummene —
-       sætningerne omkring dem er ikke. */
-    shelfLabel: "Hylden",
-    shelfEmpty: "Der er ingen varer på hylden lige nu.",
-    wallLabel: "Væggen",
+    /* Shoppen. Prints og Arbejde er kundens ord for hylden og væggen (S579). */
+    shelfLabel: "Prints",
+    shelfEmpty: "Ingen prints lige nu.",
+    wallLabel: "Arbejde",
     artistFilter: "Artist",
-    noWorksFrom: (navn: string) => `Ingen værker fra ${navn} på væggen endnu.`,
-    meetIn: (navn: string) => `Mød ${navn} i Stolen`,
+    noWorksFrom: (navn: string) => `Ingen arbejder fra ${navn} endnu.`,
+    meetIn: (navn: string) => `Mød ${navn} hos artisterne`,
     orSee: " — eller ",
-    wholeWall: "se hele væggen",
+    wholeWall: "se alt arbejdet",
     /* Natten. Uden navne på plakaten står der en gæste-DJ, ikke et navn
        vi ikke har fået. */
     guestDj: "Gæste-DJ",
@@ -262,27 +283,27 @@ const da = {
        en mytologi om noget der venter. */
     tonightLabel: "I aften",
     noEvent: "Ingen aften planlagt lige nu",
-    noEventLine: "Vil du have næste dato? Skriv dig op i Blackbook.",
+    noEventLine: "Vil du have næste dato? Skriv dig op.",
     seePoster: "Se plakaten",
   },
 
   shop: {
-    metaTitle: "Gaden sælger · Ink & Art",
+    metaTitle: "Shop · Ink & Art",
     metaDescription:
-      "Gavekort, walk-in, flash, reservationer og husets prints — alt det gaden sælger, samlet ét sted. Ink & Art Copenhagen, Larsbjørnsstræde 13.",
+      "Gavekort, walk-in, flash, reservationer og husets prints — samlet ét sted. Ink & Art Copenhagen, Larsbjørnsstræde 13.",
     kicker: "Shop",
-    title: "Gaden sælger.",
+    title: "Shop",
     intro: "Alt herunder betales hos Shopify — MobilePay, kort eller wallet. Blækket betales i studiet,",
     doors: {
       gavekort: "Giv blæk videre. Fem beløb, sendes eller printes.",
-      walkin: "To små. I aften. 900,- — ingen booking.",
+      walkin: "To små. I aften. Ingen booking.",
       flash: "Færdigtegnede motiver til fast pris. Først til mølle.",
     },
     reservations: "Reservationer",
-    wallLabel: "Væggen",
-    wallTitle: "På væggen.",
+    wallLabel: "Prints",
+    wallTitle: "Prints og objekter.",
     wallIntro:
-      "Husets motiver som prints og objekter — trykt og støbt i små oplag. Når et er væk, er det væk. Blackbook ser de næste først.",
+      "Husets motiver som prints og objekter — trykt og støbt i små oplag. Når et er væk, er det væk. Skriv dig op, så ser du de næste først.",
     prints: {
       dolk: "Et af husets motiver, trykt i hånden på tykt papir.",
       ouroboros: "Slangen der bider sig selv i halen. Lille oplag.",
@@ -343,13 +364,13 @@ const da = {
         `Hold en flash-tid ${sted} med ${pris} kroner i depositum`,
     },
     note: "Vil du have besked når de næste hænger?",
-    noteLink: "Skriv dig i Blackbook →",
+    noteLink: "Skriv dig op →",
   },
   walkin: {
     kicker: "Walk-in",
     title: "To små. I aften.",
-    lede: (kr: string, street: string) =>
-      `To små tatoveringer for ${kr} kr. Ingen booking. Betal her, vis kvitteringen på ${street} — eller betal i studiet.`,
+    lede: (street: string) =>
+      `To små tatoveringer. Ingen booking. Betal her, vis kvitteringen på ${street} — eller betal i studiet.`,
     steps: [
       { t: "Betal beløbet", d: "MobilePay, kort eller wallet. Checkout ligger hos Shopify." },
       { t: "Kom forbi", d: "Vis kvitteringen." },
@@ -359,7 +380,7 @@ const da = {
     giftLink: "Gavekort →",
     metaTitle: "Walk-in · Ink & Art",
     metaDescription:
-      "To små tatoveringer for 900 kr. Ingen booking. Kom forbi Larsbjørnsstræde 13 og vis kvitteringen.",
+      "To små tatoveringer. Ingen booking. Kom forbi Larsbjørnsstræde 13 og vis kvitteringen.",
   },
 } as const;
 
@@ -416,7 +437,7 @@ const en: Copy = {
   mastheadAria: "Ink & Art Copenhagen — home",
   morSr: "A pigeon in the gutter. She smokes, she watches, and she loves this street.",
   kerb: {
-    legend: "The kerb is our waiting room",
+    legend: "Hold your spot",
     slots: { plads: "Hold my spot", heldag: "The whole day" },
     ariaSlots: {
       plads: "Reserve a slot with a 100 kroner deposit",
@@ -433,12 +454,25 @@ const en: Copy = {
   skipToContent: "Skip to content",
   backTo: "←",
 
-  /** The room names stay Danish — they are the house's proper nouns. */
   rummet: {
-    roomsLabel: "Rooms",
+    roomsLabel: "Menu",
+    rooms: [
+      { href: "/stolen", label: "Artists" },
+      { href: "/maerket", label: "Shop" },
+      { href: "/natten", label: "Nights" },
+      { href: "/gaden", label: "Find us" },
+    ],
+    listName: "Join the list",
+    studioLabel: "Studio",
+    artistsLabel: "Artists",
+    shopLabel: "Shop",
+    nightsLabel: "Nights",
+    findUsLabel: "Find us",
+    seeWork: (n: string, one: boolean) => (one ? `See ${n} piece` : `See ${n} pieces`),
     blackbookLine:
       "New flash, guest artists and studio events. We only write when there is a date, a drop or a spot to share.",
     blackbookEmail: "Email",
+    blackbookPlaceholder: "you@mail.com",
     blackbookGo: "Sign me up",
     blackbookBusy: "…",
     blackbookOk: "Thank you. You'll hear from us when there is something concrete.",
@@ -447,10 +481,10 @@ const en: Copy = {
     terms: "Terms",
     privacy: "Privacy",
     faq: "FAQ",
-    backToStolen: "Stolen",
+    backToStolen: "Artists",
     works: "Work",
     worksComing: "Photos on the way",
-    seeOnWall: "See them on the Wall in Mærket",
+    seeOnWall: "See them under Work in the shop",
     bookTid: "Book a time",
     walkIn: "Walk-in — come by",
     noGuest: "No guest artist announced right now",
@@ -458,10 +492,10 @@ const en: Copy = {
     periode: {
       fast: "Resident",
       gaest: "Guest",
-      til: (dato: string) => `In the house until ${dato}`,
+      til: (dato: string) => `In the studio until ${dato}`,
     },
     tider: {
-      label: "In the house",
+      label: "In the studio",
       og: "and",
       dag: {
         man: "Monday", tir: "Tuesday", ons: "Wednesday", tor: "Thursday",
@@ -478,38 +512,38 @@ const en: Copy = {
     /** Gavekortet hedder Gavekort i huset — men på engelsk skal en
         turist kunne se HVAD døren er. */
     giftCard: "Gift card",
-    shelfLabel: "Hylden",
-    shelfEmpty: "There is nothing on the shelf right now.",
-    wallLabel: "Væggen",
+    shelfLabel: "Prints",
+    shelfEmpty: "No prints right now.",
+    wallLabel: "Work",
     artistFilter: "Artist",
-    noWorksFrom: (navn: string) => `No work from ${navn} on the wall yet.`,
-    meetIn: (navn: string) => `Meet ${navn} in Stolen`,
+    noWorksFrom: (navn: string) => `No work from ${navn} yet.`,
+    meetIn: (navn: string) => `Meet ${navn} with the artists`,
     orSee: " — or ",
-    wholeWall: "see the whole wall",
+    wholeWall: "see all the work",
     guestDj: "Guest DJ",
     tonightLabel: "Tonight",
     noEvent: "No evening planned right now",
-    noEventLine: "Want the next date? Sign up to Blackbook.",
+    noEventLine: "Want the next date? Join the list.",
     seePoster: "See the poster",
   },
 
   shop: {
-    metaTitle: "The street sells · Ink & Art",
+    metaTitle: "Shop · Ink & Art",
     metaDescription:
-      "Gift cards, walk-in, flash, deposits and the house prints — everything the street sells, in one place. Ink & Art Copenhagen, Larsbjørnsstræde 13.",
+      "Gift cards, walk-in, flash, deposits and the house prints — in one place. Ink & Art Copenhagen, Larsbjørnsstræde 13.",
     kicker: "Shop",
-    title: "The street sells.",
+    title: "Shop",
     intro: "Everything below is paid at Shopify — MobilePay, card or wallet. The ink itself is paid in the studio,",
     doors: {
       gavekort: "Pass the ink on. Five amounts, sent or printed.",
-      walkin: "Two small ones. Tonight. 900,- — no booking.",
+      walkin: "Two small ones. Tonight. No booking.",
       flash: "Ready-drawn pieces at a fixed price. First come, first served.",
     },
     reservations: "Deposits",
-    wallLabel: "The wall",
-    wallTitle: "On the wall.",
+    wallLabel: "Prints",
+    wallTitle: "Prints and objects.",
     wallIntro:
-      "House motifs as prints and objects — printed and cast in small runs. When one is gone, it is gone. Blackbook sees the next ones first.",
+      "House motifs as prints and objects — printed and cast in small runs. When one is gone, it is gone. Join the list and you see the next ones first.",
     prints: {
       dolk: "One of the house motifs, hand-printed on heavy paper.",
       ouroboros: "The snake that bites its own tail. Small run.",
@@ -556,15 +590,15 @@ const en: Copy = {
         `Hold a flash slot ${sted} with a ${pris} kroner deposit`,
     },
     note: "Want word when the next ones go up?",
-    noteLink: "Sign the Blackbook →",
+    noteLink: "Join the list →",
   },
   walkin: {
     kicker: "Walk-in",
     // Ikke «Two small. Tonight.» — det lyder som en menu. Dette er samme
     // knappe, konkrete tonefald som det danske.
     title: "Two small ones. Tonight.",
-    lede: (kr: string, street: string) =>
-      `Two small tattoos for ${kr} DKK. No booking. Pay here and show the receipt at ${street} — or pay in the studio.`,
+    lede: (street: string) =>
+      `Two small tattoos. No booking. Pay here and show the receipt at ${street} — or pay in the studio.`,
     steps: [
       { t: "Pay the amount", d: "Card or wallet. Checkout is handled by Shopify." },
       { t: "Come by", d: "Show the receipt." },
@@ -574,7 +608,7 @@ const en: Copy = {
     giftLink: "Gift cards →",
     metaTitle: "Walk-in · Ink & Art Copenhagen",
     metaDescription:
-      "Two small tattoos for 900 DKK. No booking. Come by Larsbjørnsstræde 13 and show the receipt.",
+      "Two small tattoos. No booking. Come by Larsbjørnsstræde 13 and show the receipt.",
   },
 };
 

@@ -218,6 +218,6 @@ test("A3: tilmeldingen staar OGSAA naar der er motiver", () => {
   // at melde sig til; stod den kun i den tomme tilstand, forsvandt
   // tilmeldingen praecis naar grunden opstod.
   const grenen = side.slice(side.indexOf("{hasDrops ? ("), side.indexOf("<Fredagsflash />"));
-  assert.match(grenen, /<BlackbookSignup source="flash" \/>/);
+  assert.match(grenen, /<BlackbookSignup source="flash" lang="da" \/>/);
   assert.match(grenen, /Næste drop, før alle andre/);
 });

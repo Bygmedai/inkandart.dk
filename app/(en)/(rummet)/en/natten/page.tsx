@@ -5,12 +5,12 @@ import { activeNat, loadHouse, loadNattenCopyEn } from "@/lib/content";
 import { alternates } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: "Natten · Ink & Art",
+  title: "Nights · Ink & Art",
   description: "The next night at Ink & Art, Larsbjørnsstræde 13, Copenhagen.",
   alternates: { ...alternates("/natten"), canonical: "/en/natten" },
 };
 
-/** Natten in English. The name itself stays — it is the house's word. */
+/** Natten in English. The customer's word for the room is Nights (S579); the URL stays. */
 export default function NattenPageEn() {
   return (
     <RummetShell lang="en" door={false}>

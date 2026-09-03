@@ -10,15 +10,15 @@ import {
 import { alternates, t } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: "Stolen · Ink & Art",
+  title: "Artists · Ink & Art",
   description: "Who sits in the chair. Ink & Art, Larsbjørnsstræde 13, Copenhagen.",
   alternates: { ...alternates("/stolen"), canonical: "/en/stolen" },
 };
 
 /**
- * Stolen på engelsk. Rummets navn oversættes ikke — det hedder Stolen,
- * også for en turist. Kortene er de samme; kun etiketterne skifter sprog,
- * og de kommer fra i18n gennem ArtistKort.
+ * Artisterne på engelsk. Kundens ord for rummet er Artists (S579) —
+ * URL'en /stolen er husets og bliver. Kortene er de samme; etiketterne
+ * kommer fra i18n gennem ArtistKort.
  */
 export default function StolenPageEn() {
   const house = loadHouse();
@@ -29,7 +29,7 @@ export default function StolenPageEn() {
   return (
     <RummetShell lang="en">
       <main id="main" lang="en" className="rum-room rum-stolen">
-        <h1 className="rum-room__title rum-poster">Stolen</h1>
+        <h1 className="rum-room__title rum-poster">Artists</h1>
 
         <div className="rum-stolen__grid">
           {chairs.map((a) => (

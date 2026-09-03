@@ -28,7 +28,7 @@ export default function PrivacyPage() {
   return (
     <RummetShell>
       <main id="main" className="rum-legal">
-        <p className="rum-label">Huset</p>
+        <p className="rum-label">Studiet</p>
         <h1 className="rum-poster">{p.titel}</h1>
         <p className="rum-body-copy rum-legal__lede">{p.lede}</p>
         {p.sektioner.map((s) => (

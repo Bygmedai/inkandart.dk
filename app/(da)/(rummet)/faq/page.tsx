@@ -22,7 +22,7 @@ export default function FaqPage() {
   return (
     <RummetShell>
       <main id="main" className="rum-legal">
-        <p className="rum-label">Huset</p>
+        <p className="rum-label">Studiet</p>
         <h1 className="rum-poster">{f.titel}</h1>
         <p className="rum-body-copy rum-legal__lede">{f.lede}</p>
         {f.sporgsmal.map((x) => (

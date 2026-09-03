@@ -3,7 +3,7 @@
 # Adresse og telefon står IKKE her: de bor i kontakt.yml, ét sted for
 # hele huset. Retter Sonja nummeret der, retter det sig her.
 
-titel: Gaden
+titel: Find os
 aabent_label: "Åbent:"
 # «Åbent» er FJERNET (Stevens kald 31/8). Huset lukker naar den sidste
 # artist gaar hjem, saa en aabningstid ville love en doer vi ikke styrer.

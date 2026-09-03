@@ -9,7 +9,8 @@ import { LangSwitch } from "@/components/i18n/LangSwitch";
 import { SkipLink } from "@/components/i18n/SkipLink";
 import { Masthead } from "@/components/brand/Masthead";
 /**
- * /shop — «Gaden sælger.» Kataloget i Emerge-sproget (Villy, P1 — vej B).
+ * /shop — Shop. Kataloget i Emerge-sproget (Villy, P1 — vej B; S579 udfald B:
+ * kundens ord, ingen «gaden sælger», ingen walk-in-pris i prosa).
  *
  * Shoppen er foldet ind i hub'en: dette er oversigten, og de flader der
  * allerede findes (/gavekort, /walk-in, /flash) er dørene — vi genbygger dem
@@ -23,9 +24,9 @@ import { Masthead } from "@/components/brand/Masthead";
  */
 export const metadata: Metadata = {
   alternates: { ...alternates("/shop"), canonical: "/shop" },
-  title: "Gaden sælger · Ink & Art",
+  title: "Shop · Ink & Art",
   description:
-    "Gavekort, walk-in, flash, reservationer og husets prints — alt det gaden sælger, samlet ét sted. Ink & Art Copenhagen, Larsbjørnsstræde 13.",
+    "Gavekort, walk-in, flash, reservationer og husets prints — samlet ét sted. Ink & Art Copenhagen, Larsbjørnsstræde 13.",
 };
 
 /* Dørene: fladerne der allerede findes. Vi peger, vi genbygger ikke. */
@@ -39,7 +40,7 @@ const DOORS = [
   {
     href: "/walk-in",
     label: "Walk-in",
-    linje: "To små. I aften. 900,- — ingen booking.",
+    linje: "To små. I aften. Ingen booking.",
     tilt: 1.1,
   },
   {
@@ -66,7 +67,7 @@ export default function ShopPage() {
           Shop
         </p>
         <h1 className="mt-3 font-[family-name:var(--font-display)] text-[clamp(36px,6vw,64px)] font-medium italic">
-          Gaden sælger.
+          Shop
         </h1>
         <p className="mt-5 max-w-[54ch] text-[var(--text-soft)]">
           Alt herunder betales hos Shopify — MobilePay, kort eller wallet.

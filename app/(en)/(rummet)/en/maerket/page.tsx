@@ -6,8 +6,8 @@ import { hentHylden } from "@/lib/hylden-data";
 import { alternates } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: "Mærket · Ink & Art",
-  description: "The wall and the shelf. Ink & Art, Larsbjørnsstræde 13, Copenhagen.",
+  title: "Shop · Ink & Art",
+  description: "Prints and work from the studio. Ink & Art, Larsbjørnsstræde 13, Copenhagen.",
   alternates: { ...alternates("/maerket"), canonical: "/en/maerket" },
 };
 
@@ -16,7 +16,7 @@ function oneParam(v: string | string[] | undefined): string {
   return (v || "").trim();
 }
 
-/** Mærket in English — the room name and its two halves keep their names. */
+/** The shop in English — the customer's words come from i18n (Shop · Prints · Work, S579). */
 export default async function MaerketPageEn({
   searchParams,
 }: {

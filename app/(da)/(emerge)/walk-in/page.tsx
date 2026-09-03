@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   alternates: alternates("/walk-in"),
   title: "Walk-in · Ink & Art",
   description:
-    "To små tatoveringer for 900 kr. Ingen booking. Kom forbi Larsbjørnsstræde 13 og vis kvitteringen.",
+    "To små tatoveringer. Ingen booking. Kom forbi Larsbjørnsstræde 13 og vis kvitteringen.",
 };
 
 export default function WalkInPage() {
@@ -30,7 +30,7 @@ export default function WalkInPage() {
           To små. I aften.
         </h1>
         <p className="mt-5 max-w-[54ch] text-[var(--text-soft)]">
-          To små tatoveringer for {kr(WALKIN.kr)} kr. Ingen booking. Betal her,
+          To små tatoveringer. Ingen booking. Betal her,
           vis kvitteringen på {site.address.street} — eller betal i studiet.
         </p>
 

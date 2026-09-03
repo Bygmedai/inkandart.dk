@@ -298,7 +298,7 @@ function normalizeNat(n: Nat): Nat {
 function readGaden(fil: string): GadenInfo {
   const data = readYaml<Partial<GadenInfo>>(fil);
   return {
-    titel: str(data.titel) || "Gaden",
+    titel: str(data.titel) || "Find os",
     aabent_label: str(data.aabent_label),
     aabent: str(data.aabent),
     walk_in_label: str(data.walk_in_label),
@@ -896,7 +896,7 @@ export type PeriodeTekster = {
 const PERIODE_DA: PeriodeTekster = {
   fast: "Fast",
   gaest: "Gæst",
-  til: (dato) => `I huset til ${dato}`,
+  til: (dato) => `I studiet til ${dato}`,
 };
 
 export function periodeLabel(a: Artist, tekster: PeriodeTekster = PERIODE_DA): string {

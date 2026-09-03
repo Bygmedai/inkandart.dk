@@ -1,16 +1,16 @@
 # Natten, English. Same substance as content/natten.yml, own voice.
-# Natten is a proper noun — the house's name for the night. Never
-# translated to "The Night".
+# The customer's word for the room is Nights (S579). The URL /natten stays;
+# the words on the page are the customer's, not the house's.
 
 intro: >-
   DJ, drinks and flash tattoos in the basement, on the nights the house
-  stays open late. The next date is announced here and in Blackbook.
+  stays open late. The next date is announced here and to everyone on the list.
 tom_titel: No night tonight
-tom_linje: Sign up to Blackbook — we'll tell you when the next one lands.
+tom_linje: Join the list — we'll tell you when the next one lands.
 
 # Nattespot — the held seat. Same substance as natten.yml, own voice.
 # [ORD-TJEK Steven 30/8] — draft. The amount lives in lib/commerce.ts.
-spot_titel: Nattespot
+spot_titel: Late walk-in
 spot_linje: >-
   Thursday, Friday and Saturday we are open past 22:00, when the rest of
   the city has closed. Hold a seat in the chair — a few per night.
