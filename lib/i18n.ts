@@ -273,6 +273,8 @@ const da = {
     galleriPause: "Pause billederne",
     galleriAfspil: "Afspil billederne",
     giftCard: "Gavekort",
+    addToCart: "Læg i kurv",
+    shipping: "Fri fragt fra 499 · afhentes også i butikken",
     /* Shoppen. Prints og Arbejde er kundens ord for hylden og væggen (S579). */
     shelfLabel: "Prints",
     shelfEmpty: "Ingen prints lige nu.",
@@ -519,6 +521,8 @@ const en: Copy = {
     /** Gavekortet hedder Gavekort i huset — men på engelsk skal en
         turist kunne se HVAD døren er. */
     giftCard: "Gift card",
+    addToCart: "Add to cart",
+    shipping: "Free shipping from 499 · pick up in the studio too",
     shelfLabel: "Prints",
     shelfEmpty: "No prints right now.",
     wallLabel: "Work",
