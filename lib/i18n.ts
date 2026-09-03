@@ -143,9 +143,16 @@ const da = {
   kerb: {
     legend: "Hold din plads",
     slots: { plads: "Hold min plads", heldag: "Hele dagen" },
+    /**
+     * Skærmlæser-navnet BEGYNDER med det ord der står på knappen (WCAG
+     * 2.5.3, Label in Name). Før stod der «Reservér en tid …» på en knap
+     * hvor man kunne LÆSE «Hold min plads» — så kunne en der styrer med
+     * stemmen ikke sige det hun så. Resten af sætningen forklarer hvad
+     * beløbet er; det er den del skærmlæseren tilføjer.
+     */
     ariaSlots: {
-      plads: "Reservér en tid med 100 kroner i depositum",
-      heldag: "Reservér en heldags-session med 1.000 kroner i depositum",
+      plads: "Hold min plads — en tid, 100 kroner i depositum",
+      heldag: "Hele dagen — en heldags-session, 1.000 kroner i depositum",
     },
     note: "Trækkes fra prisen. Tiden aftaler vi bagefter —",
     book: "book",
@@ -341,8 +348,9 @@ const da = {
         mund: "munden",
       },
       koeb: "Hold plads",
+      /** Begynder med knappens eget ord — se kerb.ariaSlots (WCAG 2.5.3). */
       aria: (sted: string, pris: string) =>
-        `Reservér piercing i ${sted} med ${pris} kroner i depositum`,
+        `Hold plads — piercing i ${sted}, ${pris} kroner i depositum`,
     },
     /** Flash-tider: depositummet holder en TID, aldrig et bestemt motiv. */
     flashDepositum: {
@@ -361,7 +369,7 @@ const da = {
       },
       koeb: "Hold tiden",
       aria: (sted: string, pris: string) =>
-        `Hold en flash-tid ${sted} med ${pris} kroner i depositum`,
+        `Hold tiden — en flash-tid ${sted}, ${pris} kroner i depositum`,
     },
     note: "Vil du have besked når de næste hænger?",
     noteLink: "Skriv dig op →",
@@ -440,8 +448,8 @@ const en: Copy = {
     legend: "Hold your spot",
     slots: { plads: "Hold my spot", heldag: "The whole day" },
     ariaSlots: {
-      plads: "Reserve a slot with a 100 kroner deposit",
-      heldag: "Reserve a full-day session with a 1.000 kroner deposit",
+      plads: "Hold my spot — a slot, 100 kroner deposit",
+      heldag: "The whole day — a full-day session, 1.000 kroner deposit",
     },
     note: "Comes off the price. We agree the time afterwards —",
     book: "book",
@@ -570,7 +578,7 @@ const en: Copy = {
       },
       koeb: "Hold a slot",
       aria: (sted: string, pris: string) =>
-        `Reserve a piercing in ${sted} with a ${pris} kroner deposit`,
+        `Hold a slot — a piercing in ${sted}, ${pris} kroner deposit`,
     },
     flashDepositum: {
       label: "Flash slot",
@@ -587,7 +595,7 @@ const en: Copy = {
       },
       koeb: "Hold the slot",
       aria: (sted: string, pris: string) =>
-        `Hold a flash slot ${sted} with a ${pris} kroner deposit`,
+        `Hold the slot — a flash slot ${sted}, ${pris} kroner deposit`,
     },
     note: "Want word when the next ones go up?",
     noteLink: "Join the list →",
