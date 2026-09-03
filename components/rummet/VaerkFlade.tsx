@@ -1,6 +1,7 @@
 import type { Artist, Vaerk } from "@/lib/content";
 import type { StorefrontProduct } from "@/lib/storefront";
 import { kr } from "@/lib/commerce";
+import { DEFAULT_LOCALE, localePath, t, type Locale } from "@/lib/i18n";
 import { RummetShell } from "./Shell";
 import { Plade } from "./Plade";
 
@@ -14,18 +15,21 @@ export function VaerkFlade({
   vaerk,
   artist,
   product,
+  lang = DEFAULT_LOCALE,
 }: {
   vaerk: Vaerk;
   artist?: Artist;
   product: StorefrontProduct | null;
+  lang?: Locale;
 }) {
+  const c = t(lang).rummet;
   const n = product ? Number(product.priceAmount) : NaN;
   const buy = Number.isFinite(n) ? `${kr(Math.round(n))} kr` : "";
   return (
-    <RummetShell tone="salg">
-      <main id="main" className="rum-room rum-produkt">
+    <RummetShell lang={lang} tone="salg">
+      <main id="main" lang={lang === "en" ? "en" : undefined} className="rum-room rum-produkt">
         <p className="rum-label">
-          <a href="/maerket">Shop</a> · Værk
+          <a href={localePath(lang, "/shop")}>{c.shopLabel}</a> · {c.wallLabel}
         </p>
         <h1 className="rum-room__title rum-poster">{vaerk.titel || vaerk.id}</h1>
         <div className="rum-produkt__plade">

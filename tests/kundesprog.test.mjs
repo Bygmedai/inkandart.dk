@@ -80,13 +80,13 @@ test("S579 nav: kundens fire døre hedder det samme på begge sprog, og URL'erne
   const { t } = await import("../lib/i18n.ts");
   assert.deepEqual(t("da").rummet.rooms, [
     { href: "/stolen", label: "Artister" },
-    { href: "/maerket", label: "Shop" },
+    { href: "/shop", label: "Shop" },
     { href: "/natten", label: "Aftener" },
     { href: "/gaden", label: "Find os" },
   ]);
   assert.deepEqual(t("en").rummet.rooms, [
     { href: "/stolen", label: "Artists" },
-    { href: "/maerket", label: "Shop" },
+    { href: "/shop", label: "Shop" },
     { href: "/natten", label: "Nights" },
     { href: "/gaden", label: "Find us" },
   ]);
@@ -119,7 +119,7 @@ test("S579 h1 og title siger det samme som nav'en", async () => {
   assert.match(read("app/(en)/(rummet)/en/stolen/page.tsx"), /title: "Artists · Ink & Art"/);
   assert.match(read("components/rummet/MaerketFlade.tsx"), /rum-poster">\{c\.shopLabel\}<\/h1>/);
   assert.match(read("components/rummet/NattenFlade.tsx"), /rum-poster">\{c\.nightsLabel\}<\/h1>/);
-  for (const side of ["app/(da)/(rummet)/maerket/page.tsx", "app/(en)/(rummet)/en/maerket/page.tsx"]) {
+  for (const side of ["app/(da)/(rummet)/shop/page.tsx", "app/(en)/(rummet)/en/shop/page.tsx"]) {
     assert.match(read(side), /title: "Shop · Ink & Art"/);
   }
   assert.match(read("app/(da)/(rummet)/natten/page.tsx"), /title: "Aftener · Ink & Art"/);
@@ -181,7 +181,7 @@ test("S579 K7: walk-in-prisen står kun hvor kunden kan betale den", async () =>
   // Knappen må stadig bære beløbet — dér betaler kunden i samme sekund.
   assert.match(t("en").walkin.cta("900"), /900/);
 
-  const shopDa = read("app/(da)/(emerge)/shop/page.tsx");
+  const shopDa = read("app/(da)/(rummet)/shop/page.tsx");
   assert.doesNotMatch(shopDa, /900,-|Gaden sælger/);
   assert.match(shopDa, /title: "Shop · Ink & Art"/);
   const walkinDa = read("app/(da)/(emerge)/walk-in/page.tsx");

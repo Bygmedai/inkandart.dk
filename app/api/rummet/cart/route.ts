@@ -44,7 +44,7 @@ function redirectTo(url: string, cartId?: string): Response {
 }
 
 export async function POST(req: Request) {
-  const fallback = new URL("/maerket", req.url).toString();
+  const fallback = new URL("/shop", req.url).toString();
   try {
     const form = await req.formData();
     const variantId = String(form.get("variantId") || "").trim();

@@ -1,6 +1,7 @@
 import type { Vare } from "@/lib/content";
 import type { StorefrontProduct } from "@/lib/storefront";
 import { kr } from "@/lib/commerce";
+import { DEFAULT_LOCALE, localePath, t, type Locale } from "@/lib/i18n";
 import { RummetShell } from "./Shell";
 
 function priceLabel(product: StorefrontProduct): string {
@@ -18,16 +19,19 @@ function priceLabel(product: StorefrontProduct): string {
 export function ProduktFlade({
   vare,
   product,
+  lang = DEFAULT_LOCALE,
 }: {
   vare: Vare;
   product: StorefrontProduct | null;
+  lang?: Locale;
 }) {
+  const c = t(lang).rummet;
   const buy = product ? priceLabel(product) : "";
   return (
-    <RummetShell tone="salg">
-      <main id="main" className="rum-room rum-produkt">
+    <RummetShell lang={lang} tone="salg">
+      <main id="main" lang={lang === "en" ? "en" : undefined} className="rum-room rum-produkt">
         <p className="rum-label">
-          <a href="/maerket">Shop</a>
+          <a href={localePath(lang, "/shop")}>{c.shopLabel}</a>
           {vare.gruppe ? ` · ${vare.gruppe}` : ""}
         </p>
         <h1 className="rum-room__title rum-poster">{vare.titel}</h1>

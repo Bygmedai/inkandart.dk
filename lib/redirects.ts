@@ -27,11 +27,15 @@ export const ROUTE_MIGRATION: MigrationRow[] = [
   { from: "/en/blackbook/", to: "/blackbook/", reason: "Hellere dansk end 410" },
   { from: "/en/find-your-tattoo/", to: "/#artists", reason: "EN wizard retired" },
   { from: "/en/share-your-idea/", to: "/#booking", reason: "EN intake → chair" },
+  { from: "/maerket/", to: "/shop/", reason: "Én hylde: Mærket er /shop (3/9 2026)" },
+  { from: "/maerket/:path*", to: "/shop/:path*", reason: "Vare- og værkstier følger hylden" },
+  { from: "/en/maerket/", to: "/en/shop/", reason: "Én hylde på engelsk" },
+  { from: "/en/maerket/:path*", to: "/en/shop/:path*", reason: "EN vare- og værkstier følger hylden" },
 ];
 
 /**
  * Vej B (Steven, S568): webshoppen er pensioneret som storefront — kataloget
- * bor i hub'en på /shop. Den gamle butik var en SPA uden egne stier, så alle
+ * bor i hub'en på /shop — Rummets hylde, ikke Emerge-butikken. Den gamle butik var en SPA uden egne stier, så alle
  * stier lander samme sted: fladt, ærligt, 308.
  *
  * Reglen er host-gated og dermed INERT indtil shop.inkandart.dk peges på
@@ -84,4 +88,8 @@ export const nextRedirects: Redirect[] = [
   ...slashPair("/en/blackbook", "/blackbook"),
   ...slashPair("/en/find-your-tattoo", "/#artists"),
   ...slashPair("/en/share-your-idea", "/#booking"),
+  ...slashPair("/maerket", "/shop"),
+  ...slashPair("/maerket/:path*", "/shop/:path*"),
+  ...slashPair("/en/maerket", "/en/shop"),
+  ...slashPair("/en/maerket/:path*", "/en/shop/:path*"),
 ];

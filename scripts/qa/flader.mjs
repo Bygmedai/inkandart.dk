@@ -14,7 +14,7 @@ export const RUM = [
   { navn: "Stolen", rute: "/stolen" },
   { navn: "Natten", rute: "/natten" },
   { navn: "Gaden", rute: "/gaden" },
-  { navn: "Maerket", rute: "/maerket" },
+  { navn: "Shop", rute: "/shop" },
   { navn: "Booking", rute: "/booking" },
 ];
 
@@ -25,7 +25,8 @@ export const RUM = [
  */
 export const EKSTRA = [
   { navn: "Artistside", rute: "/stolen/nizar" },
-  { navn: "Vareside", rute: "/maerket/dolk" },
+  { navn: "Vareside", rute: "/shop/dolk" },
+  { navn: "EN Vareside", rute: "/en/shop/dolk" },
   // Flash blev en koebsflade med flash-droppet (S574). En rute der tager
   // imod penge uden en vagt er en rute hvor det naeste overloeb faar lov.
   { navn: "Flash", rute: "/flash" },
@@ -52,7 +53,7 @@ export const EKSTRA = [
   { navn: "EN Stolen", rute: "/en/stolen" },
   { navn: "EN Natten", rute: "/en/natten" },
   { navn: "EN Gaden", rute: "/en/gaden" },
-  { navn: "EN Maerket", rute: "/en/maerket" },
+  { navn: "EN Shop", rute: "/en/shop" },
   { navn: "EN Booking", rute: "/en/booking" },
   { navn: "EN Artistside", rute: "/en/stolen/nizar" },
   { navn: "EN Flash", rute: "/en/flash" },

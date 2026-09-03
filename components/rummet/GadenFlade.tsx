@@ -62,7 +62,7 @@ export function GadenFlade({ gaden, lang }: { gaden: GadenInfo; lang: Locale }) 
         <a href={localePath(lang, "/booking")} className="rum-book">
           {c.bookTid}
         </a>
-        <a href={localePath(lang, "/maerket")} className="rum-book">
+        <a href={localePath(lang, "/shop")} className="rum-book">
           {c.shopLabel}
         </a>
         <a href={localePath(lang, "/gavekort")} className="rum-book">

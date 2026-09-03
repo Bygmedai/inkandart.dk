@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ProduktFlade } from "@/components/rummet/ProduktFlade";
 import { loadHylden } from "@/lib/content";
 import { productByHandle, vareFromCollectionProduct } from "@/lib/storefront";
+import { alternates } from "@/lib/i18n";
 
 export const dynamicParams = true;
 
@@ -20,7 +21,7 @@ export async function generateMetadata({
   if (live?.title) {
     return {
       title: `${live.title} · Shop · Ink & Art`,
-      alternates: { canonical: `/maerket/${live.handle}` },
+      alternates: { ...alternates(`/shop/${live.handle}`), canonical: `/shop/${live.handle}` },
     };
   }
   const vare = loadHylden().find((v) => v.handle === handle);
@@ -28,7 +29,7 @@ export async function generateMetadata({
   return {
     title: `${vare.titel} · Shop · Ink & Art`,
     description: vare.linje || undefined,
-    alternates: { canonical: `/maerket/${vare.handle}` },
+    alternates: { ...alternates(`/shop/${vare.handle}`), canonical: `/shop/${vare.handle}` },
   };
 }
 
