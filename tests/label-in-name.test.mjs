@@ -49,25 +49,29 @@ function taleord(synligt) {
     .trim();
 }
 
-/** Hver købsknap på husets egne flader: hvad man ser, og hvad den hedder. */
+/**
+ * Hver købsknap en kunde faktisk kan NÅ: hvad man ser, og hvad den hedder.
+ *
+ * Her stod også kridtets to reservationer og de seks depositum-knapper
+ * (piercing × 4, flash-tid × 2). #304 (3/9) slettede de to Emerge-
+ * shopsider, og siden da renderes `DepositumRaekke` af ingen side, mens
+ * `KerbReservation` kun findes i `SceneV05`, som selv ligger på ingen
+ * rute. Målte hegnet videre på dem, ville det være grønt for evigt om
+ * strenge ingen læser — den værste slags hegn.
+ *
+ * De står nu i PENSIONERET i tests/naaelige-flader.test.mjs, som holder
+ * de to filer mod hinanden i BEGGE retninger: kommer en flade tilbage
+ * uden at den bliver målt her, går den prøve rød.
+ */
 function knapper(lang) {
   const c = t(lang);
-  const ud = [];
-  for (const id of Object.keys(c.kerb.slots)) {
-    ud.push({ hvor: `kerb.${id}`, synligt: c.kerb.slots[id], navn: c.kerb.ariaSlots[id] });
-  }
-  for (const [nøgle, pris] of [["piercing", "100"], ["flashDepositum", "500"]]) {
-    const d = c.shop[nøgle];
-    for (const id of Object.keys(d.ariaSlots)) {
-      ud.push({ hvor: `shop.${nøgle}.${id}`, synligt: d.koeb, navn: d.aria(d.ariaSlots[id], pris) });
-    }
-  }
-  ud.push({
-    hvor: "rummet.spotAria",
-    synligt: "Hold en plads",
-    navn: c.rummet.spotAria("Hold en plads", "300"),
-  });
-  return ud;
+  return [
+    {
+      hvor: "rummet.spotAria",
+      synligt: "Hold en plads",
+      navn: c.rummet.spotAria("Hold en plads", "300"),
+    },
+  ];
 }
 
 test("hver købsknap hedder det man kan læse på den (WCAG 2.5.3)", () => {
@@ -83,7 +87,7 @@ test("hver købsknap hedder det man kan læse på den (WCAG 2.5.3)", () => {
       }
     }
   }
-  assert.ok(målte >= 16, `negativ kontrol: målte kun ${målte} knapper`);
+  assert.ok(målte >= 2, `negativ kontrol: målte kun ${målte} knapper`);
   assert.deepEqual(fund, [], "knapper man ikke kan sige:\n" + fund.join("\n"));
 });
 
@@ -115,9 +119,12 @@ test("navnet siger stadig hvad beløbet ER — et depositum, ikke prisen", () =>
 test("knapperne henter navnet i ordbogen, ikke i markup", () => {
   // Ellers kan de to sprog skride fra hinanden uden at hegnet ser det:
   // det måler ordbogen, så ordbogen skal være kilden.
+  assert.match(read("components/rummet/NattenFlade.tsx"), /aria-label=\{c\.spotAria\(/);
+  // De pensionerede flader måles ikke her, men deres navne SKAL blive ved
+  // at være rigtige, så de virker den dag de kommer tilbage. Kildekoden
+  // hegnes derfor stadig — uden at love at knappen findes.
   assert.match(read("components/emerge/KerbReservation.tsx"), /aria-label=\{c\.ariaSlots\[/);
   assert.match(read("components/emerge/DepositumRaekke.tsx"), /aria-label=\{aria\(ariaSted\[v\.id\] \?\? navn, kr\(v\.kr\)\)\}/);
-  assert.match(read("components/rummet/NattenFlade.tsx"), /aria-label=\{c\.spotAria\(/);
 });
 
 test("negativ kontrol: hegnet kan blive rødt", () => {
