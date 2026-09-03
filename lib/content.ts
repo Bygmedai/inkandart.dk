@@ -1073,3 +1073,141 @@ export function loadPiercingpriser(lang: "da" | "en" = "da"): Piercingpriser {
     note: tosproget(d.note, lang),
   };
 }
+
+/* --------------------------------------------------------------------------
+ * Gulvet — husets oplæringsmåned og logbog (S579). Vist på /gulvet.
+ *
+ * Programmet er husets, ikke agentens: opgaver, guider og tal bor i
+ * content/gulvet.yml, så Nizar og Simone kan rette dem i Decap uden en PR.
+ * Loaderen typer blokkene stramt — en ukendt blok-type droppes i stedet for
+ * at vælte siden, for en tastefejl i YAML må ikke slukke gulvet midt i en vagt.
+ * ------------------------------------------------------------------------ */
+
+export type GulvetOpgave = {
+  t: string;
+  tid: string;
+  tror: string;
+  trin: string[];
+  afgoer: string;
+  b: string;
+};
+
+export type GulvetFase = { navn: string; linje: string; fra: number; til: number };
+
+export type GuideBlok =
+  | { type: "overskrift"; tekst: string }
+  | { type: "tekst"; afsnit: string[] }
+  | { type: "advarsel"; afsnit: string[] }
+  | { type: "liste"; punkter: string[] }
+  | { type: "opskrift"; trin: string[] }
+  | { type: "sti"; led: string[] }
+  | { type: "tabel"; kolonner: string[]; raekker: string[][] }
+  | { type: "kort"; titel: string; rk: string[][] }
+  | { type: "diagram" };
+
+export type Guide = { id: string; navn: string; blokke: GuideBlok[] };
+
+export type GulvetFlow = Record<string, string> & { knaek: string[] };
+
+export type GulvetCopy = {
+  laas_titel: string;
+  laas_lede: string;
+  laas_knap: string;
+  laas_fejl: string;
+  titel: string;
+  lede: string;
+  ro: string[];
+  teamguide_linje: string;
+  faser: GulvetFase[];
+  opgaver: GulvetOpgave[];
+  slags: string[];
+  guider: Guide[];
+  flow: GulvetFlow;
+};
+
+function strListe(v: unknown): string[] {
+  return Array.isArray(v) ? v.map((x) => str(x)).filter(Boolean) : [];
+}
+
+function raekker(v: unknown): string[][] {
+  return Array.isArray(v)
+    ? v.map((r) => (Array.isArray(r) ? r.map((c) => str(c)) : [])).filter((r) => r.length > 0)
+    : [];
+}
+
+/** Ukendt type → null, og kalderen smider den væk. Ingen fallback-blok:
+ *  en tom plads er ærligere end en blok der lader som om den forstod. */
+function normalizeBlok(b: Record<string, unknown>): GuideBlok | null {
+  switch (str(b?.type)) {
+    case "overskrift":
+      return { type: "overskrift", tekst: str(b.tekst) };
+    case "tekst":
+      return { type: "tekst", afsnit: strListe(b.afsnit) };
+    case "advarsel":
+      return { type: "advarsel", afsnit: strListe(b.afsnit) };
+    case "liste":
+      return { type: "liste", punkter: strListe(b.punkter) };
+    case "opskrift":
+      return { type: "opskrift", trin: strListe(b.trin) };
+    case "sti":
+      return { type: "sti", led: strListe(b.led) };
+    case "tabel":
+      return { type: "tabel", kolonner: strListe(b.kolonner), raekker: raekker(b.raekker) };
+    case "kort":
+      return { type: "kort", titel: str(b.titel), rk: raekker(b.rk) };
+    case "diagram":
+      return { type: "diagram" };
+    default:
+      return null;
+  }
+}
+
+export function loadGulvet(): GulvetCopy {
+  const d = readYaml<Record<string, unknown>>("gulvet.yml");
+  const opgaver = (Array.isArray(d.opgaver) ? d.opgaver : []).map(
+    (o: Record<string, unknown>): GulvetOpgave => ({
+      t: str(o.t),
+      tid: str(o.tid),
+      tror: str(o.tror),
+      trin: strListe(o.trin),
+      afgoer: str(o.afgoer),
+      b: str(o.b),
+    }),
+  );
+  const faser = (Array.isArray(d.faser) ? d.faser : []).map(
+    (f: Record<string, unknown>): GulvetFase => ({
+      navn: str(f.navn),
+      linje: str(f.linje),
+      fra: Number(f.fra) || 0,
+      til: Number(f.til) || 0,
+    }),
+  );
+  const guider = (Array.isArray(d.guider) ? d.guider : []).map(
+    (g: Record<string, unknown>): Guide => ({
+      id: str(g.id),
+      navn: str(g.navn),
+      blokke: (Array.isArray(g.blokke) ? g.blokke : [])
+        .map(normalizeBlok)
+        .filter((b): b is GuideBlok => b !== null),
+    }),
+  );
+  const raaFlow = (d.flow ?? {}) as Record<string, unknown>;
+  const flow = { knaek: strListe(raaFlow.knaek) } as GulvetFlow;
+  for (const [k, v] of Object.entries(raaFlow)) if (k !== "knaek") flow[k] = str(v);
+
+  return {
+    laas_titel: str(d.laas_titel),
+    laas_lede: str(d.laas_lede),
+    laas_knap: str(d.laas_knap),
+    laas_fejl: str(d.laas_fejl),
+    titel: str(d.titel),
+    lede: str(d.lede),
+    ro: strListe(d.ro),
+    teamguide_linje: str(d.teamguide_linje),
+    faser,
+    opgaver,
+    slags: strListe(d.slags),
+    guider,
+    flow,
+  };
+}

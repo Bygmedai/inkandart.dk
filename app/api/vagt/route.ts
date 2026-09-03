@@ -23,6 +23,7 @@ const RETUR: Record<string, string> = {
   afstemning: "/afstemning",
   personale: "/personale",
   "en/personale": "/en/personale",
+  gulvet: "/gulvet",
 };
 
 function returSti(v: unknown): string {

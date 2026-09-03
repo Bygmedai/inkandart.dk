@@ -2031,3 +2031,207 @@ html:has([data-house="rummet"]) .grain {
 .rum-husnav b {
   color: var(--blod);
 }
+
+/* ── Gulvet: husets oplæringsmåned og logbog (Haruki, S579) ──────────────
+   Ny, egen zone under (rummet). Bruger rummets egne farver — nat, hud,
+   beton, blod, strobe — og rummets kort-idiom: baggrund på --void med en
+   hårstreg som box-shadow, ikke en border. Første udkast fandt sine egne
+   variabelnavne op (--panel, --ink, --gold-flat); de fandtes ikke, faldt
+   tilbage til lyse literaler, og gav cremet tekst på hvid flade. Målt i
+   browseren, S579. Alle navne er præfikset .gulv-.
+   ------------------------------------------------------------------- */
+.gulv {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 0 var(--gutter) 5rem;
+  color: var(--hud);
+}
+.gulv-top { display: flex; align-items: baseline; gap: 12px; padding: 24px 0 10px; }
+.gulv-mrk { font-size: clamp(26px, 6vw, 34px); line-height: 1; margin: 0; letter-spacing: 0.01em; }
+.gulv-hvem {
+  margin-left: auto; border: 0; background: none; cursor: pointer; padding: 6px 2px;
+  font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--beton);
+}
+.gulv-hvem:focus-visible { outline: 2px solid var(--strobe); outline-offset: 2px; }
+
+.gulv-faner { display: flex; gap: 4px; border-bottom: 1px solid var(--rum-line); }
+.gulv-fane {
+  appearance: none; border: 0; background: none; cursor: pointer; min-height: 44px;
+  padding: 12px 16px; margin-bottom: -1px; border-bottom: 2px solid transparent;
+  font: inherit; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--beton);
+}
+.gulv-fane[aria-selected="true"] { color: var(--hud); border-bottom-color: var(--blod); }
+.gulv-fane:focus-visible { outline: 2px solid var(--strobe); outline-offset: -2px; }
+
+.gulv-ark { padding-top: 26px; }
+.gulv-lede { color: var(--beton); margin: 0 0 24px; max-width: 54ch; line-height: 1.6; }
+.gulv-p { margin: 0 0 14px; max-width: 54ch; line-height: 1.65; color: var(--hud); }
+.gulv-sek { font-size: clamp(19px, 4vw, 23px); margin: 38px 0 12px; line-height: 1.15; }
+.gulv-teamguide { margin-top: 38px; color: var(--beton); }
+.gulv-teamguide a { color: var(--hud); }
+
+.gulv-ro { border-left: 2px solid var(--blod); padding: 4px 0 4px 18px; margin: 0 0 28px; }
+.gulv-ro p { margin: 0 0 10px; max-width: 54ch; line-height: 1.6; color: var(--hud); }
+.gulv-ro p:last-child { margin: 0; }
+
+.gulv-maaned { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin: 0 0 12px; }
+.gulv-maaned span { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--blod); }
+.gulv-maaned em { font-style: normal; font-size: 14px; color: var(--beton); }
+
+.gulv-opg { box-shadow: 0 0 0 1px var(--rum-line); padding: 26px 22px 22px; margin: 0 0 30px; }
+.gulv-opg h2 { font-size: clamp(24px, 6vw, 32px); line-height: 1.05; margin: 0 0 18px; }
+.gulv-opg h3, .gulv-afgoer h3 {
+  font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--beton);
+  font-weight: 400; margin: 22px 0 8px;
+}
+.gulv-afgoer { border-left: 2px solid var(--strobe); padding: 2px 0 2px 16px; margin: 22px 0; }
+.gulv-afgoer h3 { color: var(--strobe); margin-top: 0; }
+.gulv-afgoer p { margin: 0; max-width: 54ch; line-height: 1.6; }
+.gulv-bring { margin: 0 0 10px; max-width: 54ch; color: var(--beton); line-height: 1.6; }
+.gulv-bring strong { color: var(--hud); }
+.gulv-tid { font-size: 12px; letter-spacing: 0.1em; color: var(--beton); margin: 0 0 22px; }
+
+/* Punkt og tal ligger ABSOLUT, ikke i et grid: et grid gør hvert
+   inline-element i et <li> til sin egen celle, og hakker en sætning med
+   <strong> op i ét ord pr. linje. Målt i prototypen, S579. */
+.gulv-trin { list-style: none; margin: 0 0 18px; padding: 0; }
+.gulv-trin li { position: relative; padding: 0 0 12px 20px; max-width: 54ch; line-height: 1.6; }
+.gulv-trin li::before {
+  content: ""; position: absolute; left: 3px; top: 0.65em;
+  width: 6px; height: 6px; background: var(--blod); border-radius: 50%;
+}
+.gulv-opskrift { counter-reset: gs; list-style: none; margin: 0 0 28px; padding: 0; }
+.gulv-opskrift li {
+  counter-increment: gs; position: relative; padding: 14px 0 14px 32px;
+  border-top: 1px solid var(--rum-line); max-width: 54ch; line-height: 1.6;
+}
+.gulv-opskrift li:first-child { border-top: 0; }
+.gulv-opskrift li::before {
+  content: counter(gs); position: absolute; left: 0; top: 16px;
+  font-size: 12px; color: var(--blod); font-variant-numeric: tabular-nums;
+}
+
+.gulv-sti { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 14px; }
+.gulv-sti > span { display: contents; }
+.gulv-sti span span {
+  font-size: 12px; letter-spacing: 0.04em; padding: 5px 10px;
+  box-shadow: 0 0 0 1px var(--rum-line); color: var(--hud);
+}
+.gulv-sti i { font-style: normal; color: var(--beton); }
+
+.gulv-advarsel { border-left: 2px solid var(--blod); padding: 4px 0 4px 18px; margin: 0 0 26px; }
+.gulv-advarsel p { margin: 0 0 10px; max-width: 54ch; line-height: 1.6; color: var(--beton); }
+.gulv-advarsel p:last-child { margin: 0; }
+.gulv-advarsel strong { color: var(--hud); }
+.gulv-advarsel--top { max-width: 46rem; margin: 24px auto 0; padding-left: 18px; }
+.gulv-kvit { border-left: 2px solid var(--strobe); padding: 4px 0 4px 18px; margin: 0 0 26px; color: var(--hud); }
+
+.gulv-rulle { overflow-x: auto; margin: 0 0 28px; }
+.gulv-tab { border-collapse: collapse; width: 100%; font-size: 15px; }
+.gulv-tab th {
+  font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--beton);
+  font-weight: 400; text-align: left; padding: 10px 16px 10px 0;
+  border-bottom: 1px solid var(--rum-line); white-space: nowrap;
+}
+.gulv-tab td {
+  padding: 12px 16px 12px 0; border-top: 1px solid var(--rum-line);
+  vertical-align: top; color: var(--beton); line-height: 1.55;
+}
+.gulv-tab td strong { color: var(--hud); }
+
+.gulv-kort { box-shadow: 0 0 0 1px var(--rum-line); padding: 20px 20px 14px; margin: 0 0 14px; }
+.gulv-kort h4 { font-size: 19px; margin: 0 0 14px; line-height: 1.15; }
+.gulv-kort__rk { margin: 0 0 14px; }
+.gulv-kort__rk span {
+  display: block; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--beton); margin-bottom: 4px;
+}
+.gulv-kort__rk p { margin: 0; max-width: 54ch; line-height: 1.55; color: var(--hud); }
+
+.gulv-fig { margin: 0 0 28px; }
+.gulv-fig svg { width: 100%; height: auto; display: block; color: var(--hud); }
+.gulv-fig figcaption { font-size: 14px; color: var(--beton); margin-top: 12px; max-width: 54ch; line-height: 1.55; }
+
+.gulv-raek { list-style: none; margin: 34px 0 0; padding: 0; }
+.gulv-raek__uge > h3 {
+  font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--beton);
+  font-weight: 400; margin: 30px 0 0; padding-bottom: 8px; border-bottom: 1px solid var(--rum-line);
+}
+.gulv-raek__uge ol { list-style: none; margin: 0; padding: 0; }
+.gulv-raek__uge li { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-top: 1px solid var(--rum-line); }
+.gulv-raek__uge li:first-child { border-top: 0; }
+.gulv-nr { font-size: 12px; color: var(--beton); width: 2ch; font-variant-numeric: tabular-nums; flex: none; }
+.gulv-t { flex: 1; min-width: 0; color: var(--hud); }
+.gulv-raek__uge li.er-klaret .gulv-t { color: var(--beton); }
+.gulv-raek__uge li.er-nu .gulv-t { color: var(--strobe); }
+.gulv-mrkt { font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--beton); flex: none; }
+.gulv-raek__uge li.er-nu .gulv-mrkt { color: var(--strobe); }
+
+.gulv-seg { display: flex; gap: 6px; overflow-x: auto; margin: 0 0 28px; padding-bottom: 4px; }
+.gulv-seg button {
+  appearance: none; cursor: pointer; white-space: nowrap; min-height: 44px; font: inherit;
+  font-size: 12px; letter-spacing: 0.1em; padding: 10px 16px; background: none;
+  box-shadow: 0 0 0 1px var(--rum-line); border: 0; color: var(--beton);
+}
+.gulv-seg button[aria-selected="true"] { background: var(--hud); color: var(--nat); box-shadow: none; }
+.gulv-seg button:focus-visible { outline: 2px solid var(--strobe); outline-offset: 2px; }
+
+.gulv-form { display: flex; flex-direction: column; gap: 22px; margin: 0 0 32px; }
+.gulv-felt { display: flex; flex-direction: column; gap: 8px; margin: 0; border: 0; padding: 0; }
+.gulv-felt > label, .gulv-felt > legend {
+  font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--beton); padding: 0;
+}
+.gulv-felt input, .gulv-felt textarea {
+  width: 100%; font: inherit; font-size: 16px; color: var(--hud); background: transparent;
+  border: 0; box-shadow: 0 0 0 1px var(--rum-line); padding: 13px 14px; border-radius: 0;
+}
+.gulv-felt textarea { resize: vertical; min-height: 92px; line-height: 1.55; }
+.gulv-felt :is(input, textarea):focus-visible { outline: 2px solid var(--strobe); outline-offset: -1px; }
+.gulv-par { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.gulv-felt--bred { grid-column: 1 / -1; }
+.gulv-slag { display: flex; flex-wrap: wrap; gap: 6px; }
+.gulv-slag button {
+  appearance: none; cursor: pointer; min-height: 44px; font: inherit; font-size: 12.5px;
+  padding: 8px 13px; background: none; border: 0; box-shadow: 0 0 0 1px var(--rum-line); color: var(--beton);
+}
+.gulv-slag button[aria-pressed="true"] { color: var(--nat); background: var(--hud); box-shadow: none; }
+.gulv-slag button:focus-visible { outline: 2px solid var(--strobe); outline-offset: 2px; }
+
+.gulv-knap {
+  appearance: none; cursor: pointer; width: 100%; min-height: 48px; font: inherit;
+  font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; padding: 15px;
+  background: var(--hud); color: var(--nat); border: 0;
+}
+.gulv-knap:focus-visible { outline: 2px solid var(--strobe); outline-offset: 2px; }
+.gulv-knap[disabled] { opacity: 0.45; cursor: default; }
+.gulv-knap.er-klaret { background: none; color: var(--strobe); box-shadow: 0 0 0 1px var(--strobe); opacity: 1; }
+
+.gulv-regn { box-shadow: 0 0 0 1px var(--rum-line); padding: 22px 20px; margin: 0 0 32px; }
+.gulv-regn h2 { font-size: 20px; margin: 0 0 8px; line-height: 1.15; }
+.gulv-dom { margin: 18px 0 0; padding: 2px 0 2px 16px; border-left: 2px solid var(--rum-line); color: var(--beton); max-width: 54ch; line-height: 1.6; }
+.gulv-dom strong { display: block; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 5px; font-weight: 400; color: var(--beton); }
+.gulv-dom.er-ja { border-left-color: var(--strobe); color: var(--hud); }
+.gulv-dom.er-ja strong { color: var(--strobe); }
+.gulv-dom.er-nej { border-left-color: var(--blod); color: var(--hud); }
+.gulv-dom.er-nej strong { color: var(--blod); }
+
+.gulv-poster { list-style: none; margin: 0; padding: 0; }
+.gulv-poster > li { padding: 18px 0; border-top: 1px solid var(--rum-line); }
+.gulv-post__top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 0 0 10px; }
+.gulv-slagmrk { font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--nat); background: var(--beton); padding: 3px 7px; }
+.gulv-post__dato { font-size: 12px; color: var(--beton); font-variant-numeric: tabular-nums; }
+.gulv-post__hvem { font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--beton); }
+.gulv-ubesvaret { font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blod); box-shadow: 0 0 0 1px var(--blod); padding: 3px 7px; }
+.gulv-tal { display: flex; gap: 22px; flex-wrap: wrap; margin: 0 0 10px; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--beton); }
+.gulv-tal b { font-size: 17px; color: var(--hud); font-variant-numeric: tabular-nums; margin-right: 5px; letter-spacing: 0; }
+.gulv-cit { margin: 0 0 6px; max-width: 54ch; color: var(--hud); line-height: 1.6; }
+.gulv-svar { margin: 12px 0 0; padding: 2px 0 2px 16px; border-left: 2px solid var(--strobe); max-width: 54ch; color: var(--beton); line-height: 1.6; }
+.gulv-svar strong { display: block; font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--strobe); margin-bottom: 4px; font-weight: 400; }
+
+@media (max-width: 30rem) {
+  .gulv-par { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gulv-fane, .gulv-seg button, .gulv-slag button, .gulv-knap { transition: none; }
+}

@@ -1,0 +1,548 @@
+# Gulvet — husets oplæringsmåned og logbog. Vist på /gulvet bag husets kode.
+#
+# HVORFOR DENNE FIL FINDES. Sonja er både store manager og SoMe manager, og
+# ingen af delene har eksisteret i huset før. Der findes altså ingen
+# opgavebeskrivelse. Første måned handler om at lave den — ved at gå huset
+# igennem og skrive ned hvad der faktisk er.
+#
+# HVORFOR YAML OG IKKE KODE. Fordi Nizar og Simone skal kunne rette en
+# opgave i Decap uden en PR, præcis som med piercing-priser.yml og
+# aftercare.yml. Programmet er husets, ikke agentens.
+#
+# PRISER, TIDER OG TJEKLISTER STÅR IKKE HER. De bor i piercing-priser.yml,
+# aabningstider.yml og teamguide.yml, og vises på /personale. En kopi her
+# ville være den ottende udgave af et tal huset lige har samlet ét sted.
+# Siden linker derhen i stedet.
+#
+# TALLENE i «tror»-afsnittene er MÅLT 3. september 2026 i Book.dk, Shopify
+# og Instagram. En måling har en dato. Er de mere end en måned gamle, så mål
+# igen før nogen bygger på dem.
+
+laas_titel: Gulvet
+laas_lede: Husets side. Skriv koden for at komme ind.
+laas_knap: Luk op
+laas_fejl: Koden passer ikke. Spørg Steven.
+
+titel: Gulvet
+lede: Én opgave ad gangen. Vi skriver hvad vi tror — du finder ud af om vi har ret.
+
+ro:
+  - "**Den her måned er oplæring.** Ingen forventer salg af dig."
+  - >-
+    Under hver opgave står der hvad **vi** tror. Vi kan tage fejl — vi står ikke
+    i butikken. Din opgave er at finde ud af om vi har ret, og sige det hvis vi
+    ikke har.
+
+teamguide_linje: Priser, åbningstider og tjeklister ligger i teamguiden.
+
+faser:
+  - { navn: "Uge 1", linje: "Hvor er forretningen egentlig?", fra: 0, til: 4 }
+  - { navn: "Uge 2", linje: "Webshoppen og pengene", fra: 4, til: 8 }
+  - { navn: "Uge 3", linje: "Kanalen", fra: 8, til: 12 }
+  - { navn: "Uge 4", linje: "Mennesker og opgørelse", fra: 12, til: 16 }
+
+opgaver:
+  - t: Find ud af hvor bookingerne bor
+    tid: "En vagt · spørg alle fire"
+    tror: >-
+      Book.dk indeholder 29 kunder og tre kladder i hele 2026 — den ene er en
+      test. Nizars og Emmas kalendere er tomme hele september. Vi tror ikke
+      huset har haft tre kunder i år. Vi tror bookingerne bor et andet sted: i
+      Instagram-beskeder, i artisternes egne telefoner, på en seddel ved disken.
+      Vi betaler for et system ingen bruger.
+    trin:
+      - "Spørg Nizar: «vis mig hvor din næste kunde står skrevet.» Ikke «bruger du Book.dk»."
+      - Spørg Emma det samme. Og Anna.
+      - Kig på disken. Er der en kalender, en blok, en seddel?
+    afgoer: Hvor bor sandheden om husets tider i dag — og hvad skal der til, før den kan bo ét sted?
+    b: Én sætning pr. person om hvor deres kalender faktisk er.
+
+  - t: Kend tallene
+    tid: Ti minutter pr. vagt
+    tror: >-
+      «Jeg skal lige spørge» koster salget. Kunden kan mærke tvivl. Alle priser
+      står i teamguiden på /personale.
+    trin:
+      - Åbn teamguiden på hver vagt.
+      - Bed Emma eller Nizar høre dig i fem tilfældige priser.
+      - Skriv de fem ned du var mest usikker på.
+    afgoer: Er der priser der ikke giver mening? For dyre, for billige, umulige at forklare til en kunde?
+    b: De priser du blev i tvivl om — og dem du synes er forkerte.
+
+  - t: Åbn og luk alene
+    tid: Tre vagter
+    tror: >-
+      Tjeklisterne i teamguiden er skrevet af nogen der allerede kunne huset. Vi
+      tror der er huller — punkter der mangler, og punkter der ikke bruges til noget.
+    trin:
+      - Kør åbningslisten. Hele vejen, i rækkefølge.
+      - Kør lukkelisten samme aften.
+      - Tre dage i træk uden at spørge om et eneste punkt.
+    afgoer: Hvilke punkter mangler? Hvilke kan slettes?
+    b: Din rettede liste. Den bliver husets.
+
+  - t: Gå butikken rundt
+    tid: To timer
+    tror: >-
+      Ingen ved præcis hvad der står i butikken. Vi tror der ligger varer fra før
+      huset skiftede hænder.
+    trin:
+      - Hver hylde. Hver skuffe. Også dem der ikke er blevet åbnet.
+      - Tag et billede af hver ting.
+      - Skriv ned hvad du ikke kan genkende.
+    afgoer: Hvad er varer, hvad er værktøj, og hvad er skrald?
+    b: Listen. Ingen priser endnu.
+
+  - t: Følg en kunde gennem webshoppen
+    tid: En time
+    tror: >-
+      Det her er husets største åbne hul. På et halvt år har butik.inkandart.dk
+      haft 79 besøg. Tyve nåede frem til betalingssiden. Nul gennemførte. Der er
+      landet én ordre nogensinde — Stevens egen på 200 kr den 13. juli, og den
+      står stadig som ikke afsendt. Betalingen virker teknisk: kort, Klarna,
+      PayPal og MobilePay er alle sat op. Så det er ikke maskinen. Det er tilliden.
+    trin:
+      - "Gå selv hele vejen på din telefon: inkandart.dk → shoppen → læg i kurv → betalingssiden. Stop før du betaler."
+      - Skriv ned præcis hvor du selv ville have tøvet.
+      - Læs vores bud i guiden bagefter — ikke før.
+    afgoer: Hvorfor stopper tyve mennesker lige inden de betaler?
+    b: Din liste over alt der føles forkert. Din egen først, vores bagefter.
+
+  - t: Ryd op i webshoppen
+    tid: To timer
+    tror: >-
+      Der ligger 22 varer. De tre eneste fysiske ting — signetringen og de to
+      tryk — er kladder og kan ikke købes af nogen. Gavekortet er illustreret med
+      et feriefoto af en mand med solbriller. Der står stadig «Welcome to our
+      store» øverst på forsiden. Butikken ligner ikke inkandart.dk, og en kunde
+      der klikker fra det ene til det andet tror ikke det er samme hus.
+    trin:
+      - "Gå alle 22 varer igennem. Marker hver: skal væk · skal rettes · skal live."
+      - Ret gavekortets billede og fjern «Welcome to our store».
+      - Skriv hvad der skal til, før butikken ligner huset.
+    afgoer: Hvad skal webshoppen overhovedet sælge? Depositummer, fysiske varer, eller begge dele?
+    b: Din liste over de 22 — og de tre ting du ville rette først.
+
+  - t: Kassen og pengene
+    tid: En vagt + en time
+    tror: >-
+      Vi ved ikke om kassen bliver stemt af om aftenen. Book.dks kassesystem er
+      tændt, men der er aldrig registreret et salg i det. Det betyder at dagens
+      penge gøres op på en måde ingen har skrevet ned.
+    trin:
+      - Spørg hvem der tæller kassen, og hvornår.
+      - Find ud af hvor tallet skrives ned.
+      - Spørg hvad der sker hvis det ikke stemmer.
+    afgoer: Hvad er den enkleste optælling der faktisk kan blive lavet hver eneste aften?
+    b: Sådan gør vi — i fem linjer. Ikke flere.
+
+  - t: Indbakken
+    tid: To timer
+    tror: >-
+      Vi tror Instagram-beskeder er husets største bookingkanal — og ingen ejer
+      den. Vi ved ikke hvor lang tid der går før nogen svarer. En kunde der
+      skriver fredag aften og får svar tirsdag, er en kunde der er gået et andet
+      sted hen.
+    trin:
+      - Gå de sidste 30 beskeder igennem.
+      - "Tæl: hvor mange spurgte om en tid? Hvor mange fik svar?"
+      - "Tag tiden: hvor længe gik der i gennemsnit?"
+    afgoer: Hvem ejer indbakken, hvor hurtigt svarer vi, og hvad svarer vi?
+    b: De tre tal, og et forslag til hvem der ejer den.
+
+  - t: Instagram-eftersynet
+    tid: Tre timer
+    tror: >-
+      3.110 følgere og 28 opslag. Vi har talt de ti nyeste: to viser
+      tatoveringsarbejde. Resten er natteliv, eventplakater og mennesker. Kontoen
+      ligner en klubpromotors, ikke en tatovørs. Bioen siger «Studiokæde» — vi er
+      én butik, og huset praler ikke af ting det ikke har gjort. Highlights hedder
+      stadig October og November.
+    trin:
+      - Gå alle 28 opslag igennem.
+      - Find de fem der gav flest beskeder i indbakken. Ikke flest likes.
+      - Find de fem der gav mindst.
+    afgoer: Bygger vi videre på kontoen, eller starter vi forfra?
+    b: Din dom, med begrundelse. Og hvad de fem gode har til fælles.
+
+  - t: Content-planen
+    tid: To timer
+    tror: >-
+      Vores bud ligger under Guider. Tre formater, en frekvens, og hvem hvert
+      format er til. Det er et forslag fra folk der ikke står i butikken — du
+      står der.
+    trin:
+      - Læs vores plan.
+      - Streg det ud du ikke tror på.
+      - Skriv hvad du ville gøre i stedet, og hvorfor.
+    afgoer: Hvilke tre formater kan DU faktisk levere hver uge ved siden af en vagt?
+    b: Din version af planen. Den gælder, ikke vores.
+
+  - t: Kør planen i syv dage
+    tid: En uge
+    tror: >-
+      En plan der ikke er prøvet er en formodning. Vi tror frekvensen er det der
+      knækker først.
+    trin:
+      - Kør din egen plan i syv dage.
+      - Tag tid på hvert opslag — også redigeringen.
+      - Tæl beskeder i indbakken inden for 48 timer efter hvert opslag.
+    afgoer: Er frekvensen realistisk ved siden af butikken? Hvad skal skæres?
+    b: Timerne og beskederne. Tallene afgør planen, ikke fornemmelsen.
+
+  - t: Anmeldelserne
+    tid: En time
+    tror: >-
+      Ingen ejer husets Google-anmeldelser. En dårlig uden svar koster flere
+      kunder end ti gode giver — fordi den er det sidste en kunde læser inden de
+      vælger.
+    trin:
+      - Find alle anmeldelser på Google.
+      - Tæl dem, og find gennemsnittet.
+      - Find dem der aldrig er svaret på.
+    afgoer: Hvem svarer, hvor hurtigt, og i hvilken tone?
+    b: Antal, snit, og de tre der gør mest ondt.
+
+  - t: Når noget går galt
+    tid: To timer
+    tror: >-
+      Der findes ingen beskrevet vej for en utilfreds kunde, en betændt piercing
+      eller et krav om pengene tilbage. Det sker, og så improviserer den der
+      tilfældigvis står der. Det er dig, det meste af tiden.
+    trin:
+      - Spørg Nizar hvad han gjorde de sidste tre gange en kunde var utilfreds.
+      - Spørg Anna om piercinger der blev betændte.
+      - Skriv de tre situationer ned med det svar der faktisk blev givet.
+    afgoer: Hvad kan du selv afgøre på stedet, og hvad skal hentes hos Nizar?
+    b: Tre situationer og hvad vi gør. Det bliver husets første klageregel.
+
+  - t: Events og partnere
+    tid: Løbende hele ugen
+    tror: >-
+      Vi kender Module. Vi kender ikke resten af byen. Huset har åbent til 05
+      fredag og lørdag — det gør stort set ingen andre tatovører i København. Det
+      er husets tydeligste særkende, og der bliver ikke gjort noget ved det.
+    trin:
+      - "Find ti steder eller mennesker: barer, klubber, butikker, festivaler, andre studier."
+      - "For hver: hvad får de, og hvad får vi."
+      - Marker de tre du selv ville ringe til.
+    afgoer: Hvem passer til et hus der er vågent når resten af byen sover?
+    b: Ti navne. De skal ikke være perfekte. Der skal være ti.
+
+  - t: Sådan tager vi imod en ny artist
+    tid: Tre timer
+    tror: >-
+      Isac, Maria og Koko forsvandt på en måned. Vi tror det er fordi der ikke
+      fandtes en pakke — ingen vidste hvad en ny skulle have, og slet ikke en der
+      kom fra udlandet.
+    trin:
+      - Skriv hvad en ny artist skal have den allerførste dag.
+      - Skriv hvad de skal have den første uge.
+      - "Skriv hvad der er anderledes fra udlandet: CVR, bankkonto, sprog, sted at bo, papirer."
+    afgoer: Hvad ville DU have haft brug for den første dag, som du ikke fik?
+    b: To lister og noten om udlandet. Det bliver husets pakke.
+
+  - t: Måneden gjort op
+    tid: To timer med Steven
+    tror: Vi ved ikke hvad du finder. Det er hele pointen med måneden.
+    trin:
+      - Hvad fandt du, som vi ikke vidste?
+      - Hvad er det største hul i huset lige nu?
+      - Hvad vil du selv køre fra måned 2 — og hvad skal du bruge for at kunne det?
+    afgoer: Din egen opgavebeskrivelse. Den findes ikke i dag; efter i dag gør den.
+    b: Opgørelsen. Den bliver dit job på skrift.
+
+slags:
+  - Spørgsmål
+  - Vagt-tal
+  - Book.dk
+  - Webshop
+  - Instagram
+  - Varelager
+  - Kunder
+  - Event
+  - Ny artist
+  - Drift
+  - Andet
+
+# ---------------------------------------------------------------------------
+# GUIDERNE
+#
+# Blokke i stedet for HTML: en YAML-fil der bar markup ville være et
+# indsprøjtningshul og umulig at rette i Decap. Typerne er faste og
+# renderes af GulvetFlade — tilføj indhold frit, opfind ikke nye typer
+# uden at komponenten kender dem.
+#
+#   overskrift · tekst · advarsel · tabel · sti · opskrift · liste · kort
+#
+# **Fed** virker i tekst, opskrift-trin, liste-punkter og tabelceller.
+# ---------------------------------------------------------------------------
+guider:
+  - id: book
+    navn: Book.dk
+    blokke:
+      - type: advarsel
+        afsnit:
+          - >-
+            **Læs det her først.** Book.dk er sat rigtigt op, og huset betaler for
+            det hver måned. Men den 3. september 2026 indeholdt det 29 kunder og
+            tre kladder fra hele 2026 — den ene er en test. Kalenderen er tom.
+          - >-
+            Så du lærer ikke et system huset kører på. Du lærer et system huset
+            **burde** køre på. Det er derfor opgave 1 handler om at finde ud af
+            hvor tiderne faktisk står skrevet.
+      - type: overskrift
+        tekst: Kortet
+      - type: tekst
+        afsnit: ["Syv steder i toppen. Du bruger de fire."]
+      - type: tabel
+        kolonner: [Hvor, Hvad]
+        raekker:
+          - ["**Kalender**", "Alle tider. Skift mellem Måned, Uge og Dag øverst til højre. Vælg medarbejder i menuen til venstre — du ser kun én ad gangen."]
+          - ["**Kunder**", "Alle kundekort. Søg på navn, mail eller telefon. Klik pilen for at se en kundes tidligere besøg."]
+          - ["**Nyt køb**", "Sælg noget uden en booking — en flaske pleje, et gavekort."]
+          - ["**Kasse**", "Kasseafstemning, historik, produkter, statistik, gavekort."]
+          - ["Apps", "Tænd og sluk funktioner. Rør den ikke uden at spørge."]
+          - ["Indstillinger", "Priser, åbningstider, personale, hold. Rør den ikke uden at spørge."]
+      - type: overskrift
+        tekst: Opret en booking
+      - type: sti
+        led: [Kalender, klik i kalenderen]
+      - type: opskrift
+        trin:
+          - "Vælg **rigtig medarbejder** i menuen øverst til venstre først. Det er den fejl der sker oftest — en tid lagt i den forkerte kalender findes ikke for den der skal lave den."
+          - Klik på det tidspunkt du vil booke. Et vindue åbner.
+          - "Vælg **behandling**. Længden sættes automatisk: 25 min for én lille, 35 for to små, 4 / 6 / 7 timer for sessioner."
+          - "Skriv kundens **navn, telefon og mail**. Mailen er ikke pynt — uden den får kunden hverken bekræftelse eller påmindelse."
+          - "Skriv i **kommentarfeltet** hvad kunden vil have. «Rose på underarm, ca. håndflade, sort» er nok."
+          - Gem. Kunden får en bekræftelse med det samme, og en SMS 24 timer før.
+      - type: overskrift
+        tekst: Flyt eller aflys
+      - type: opskrift
+        trin:
+          - Find bookingen i kalenderen og klik på den.
+          - "**Flyt:** træk den til det nye tidspunkt, eller ret tiden i vinduet. Kunden får automatisk besked."
+          - "**Aflys:** åbn bookingen og vælg aflys. Bookingen kan hentes tilbage igen under Apps → Slettede bookinger, hvis du fortryder."
+          - "Husk fristen: **48 timer.** Aflyser kunden senere end det, eller møder de ikke op, kan huset opkræve det fulde beløb. Det er Nizars beslutning, ikke din."
+      - type: overskrift
+        tekst: Sæt en kunde på venteliste
+      - type: tekst
+        afsnit:
+          - >-
+            Det her er den vigtigste knap i hele systemet. Et afbud på en
+            heldagssession er 6.500 kr der fordamper. Ventelisten er det eneste
+            sted der laver et afbud om til omsætning igen.
+      - type: sti
+        led: [Apps, Venteliste, Tilføj til venteliste]
+      - type: opskrift
+        trin:
+          - "Hver gang du **ikke** har en tid til nogen: sæt dem på listen. Hver gang."
+          - Skriv navn, telefon og hvilken behandling de venter på.
+          - "Når der kommer et afbud: **ring** til den øverste. Ring — skriv ikke. Og gør det samme dag."
+      - type: overskrift
+        tekst: Dagens penge
+      - type: sti
+        led: [Kasse, Kasseafstemning]
+      - type: opskrift
+        trin:
+          - Tæl kontanterne i skuffen.
+          - Skriv beløbet ind og sammenlign med det systemet forventer.
+          - "Stemmer det ikke: skriv differencen under **Skriv** samme aften. Ikke i morgen."
+      - type: advarsel
+        afsnit:
+          - >-
+            **Der er aldrig registreret et salg i kassesystemet.** Så den her
+            opskrift er sådan det *skal* gøres, ikke sådan det gøres i dag.
+            Opgave 7 handler om at finde ud af hvordan pengene faktisk gøres op.
+
+  - id: shop
+    navn: Shopify
+    blokke:
+      - type: advarsel
+        afsnit:
+          - >-
+            **Tallene, målt 3. september 2026.** Webshoppen har haft 79 besøg på
+            seks måneder. Tyve nåede frem til betalingssiden. **Nul gennemførte
+            købet.** Der er landet én ordre nogensinde: Stevens egen på 200 kr den
+            13. juli — og den står stadig som ikke afsendt.
+          - >-
+            Betalingen virker. Kort, Klarna, PayPal og MobilePay er alle sat op.
+            Så det er ikke maskinen der er i stykker. Det er tilliden der knækker
+            et sted mellem forsiden og kortnummeret.
+      - type: overskrift
+        tekst: Vores bud på hvorfor
+      - type: tekst
+        afsnit:
+          - Læs først det her efter du selv har gået turen (opgave 5). Dine øjne er friskere end vores.
+      - type: tabel
+        kolonner: [Hvad, Hvorfor det koster]
+        raekker:
+          - ["**«Welcome to our store»** står øverst på forsiden", "Standardteksten fra Shopify. Den fortæller kunden at ingen har gjort butikken færdig."]
+          - ["**Gavekortets billede** er et feriefoto af en mand med solbriller", "Det er det billede kunden kigger på i det øjeblik de skal taste et kortnummer."]
+          - ["Butikken **ligner ikke** inkandart.dk", "Sitet er mørkt, stramt og gennemført. Shoppen er en standardskabelon. Kunden tror ikke det er samme hus."]
+          - ["De tre fysiske varer er **kladder**", "Signetring og to tryk. De kan ikke købes af nogen. Der er reelt ikke noget at handle."]
+          - ["Depositummerne har **0 på lager**", "Skal tjekkes: hvis lagerstyring er slået til, kan de ikke lægges i kurven."]
+      - type: overskrift
+        tekst: Kortet
+      - type: tabel
+        kolonner: [Hvor, Hvad]
+        raekker:
+          - ["**Ordrer**", "Alt der er købt. Her pakker og sender du."]
+          - ["**Produkter**", "Alle varer. Status er **aktiv** (kan købes), **kladde** (kan ikke) eller **arkiveret** (væk)."]
+          - ["**Kunder**", "Dem der har handlet eller skrevet sig op."]
+          - ["**Analyse**", "Besøg, kurve, salg. Her ser du om noget virker."]
+          - ["Butik → Temaer", "Udseendet. «Welcome to our store» bor her under Tilpas."]
+      - type: overskrift
+        tekst: Sæt en vare til salg
+      - type: sti
+        led: [Produkter, vælg varen, Status]
+      - type: opskrift
+        trin:
+          - "Åbn varen. Se på **Status** øverst til højre: står der Kladde, kan ingen købe den."
+          - Tjek at der er et **billede**, en **pris**, og en beskrivelse der lyder som huset.
+          - "Er det noget der skal sendes: sæt **vægt**, ellers kan porto ikke beregnes."
+          - Skift Status til **Aktiv** og gem.
+          - Åbn den på din egen telefon bagefter. Hver gang. Det der ser fint ud på en skærm ser sjældent fint ud på en telefon.
+      - type: overskrift
+        tekst: Pak og send en ordre
+      - type: sti
+        led: [Ordrer, vælg ordren, Opfyld]
+      - type: opskrift
+        trin:
+          - Læs hvad der er købt, og find det.
+          - "Pak det. Læg **plejeseddel** i, hvis det er noget der skal på hud."
+          - Køb forsendelse og klik **Opfyld**. Kunden får automatisk et track-nummer.
+          - "Er ordren en **tid** og ikke en vare — et depositum, en flashplads — så skal den ind i kalenderen med det samme. Ellers findes den ikke for den der skal lave arbejdet."
+      - type: advarsel
+        afsnit:
+          - >-
+            **Ordre #1001 fra 13. juli er stadig ikke opfyldt.** Den er husets
+            eneste ordre, og den har ligget i syv uger. Start der.
+
+  - id: flow
+    navn: Kundeflows
+    blokke:
+      - type: tekst
+        afsnit:
+          - >-
+            Der er syv veje ind i huset. De er ikke lige store, og de knækker
+            ikke samme sted. Tallene er målt 3. september 2026.
+      - type: diagram
+      - type: overskrift
+        tekst: Hvad du skal gøre ved hver vej
+      - type: tabel
+        kolonner: [Vejen, Hvad der mangler]
+        raekker:
+          - ["**Gaden**", "Et tal. Sæt en streg for hver der kommer ind, og en når de køber. Uden det tal ved huset ikke om problemet er trafik eller salg."]
+          - ["**Beskeder**", "En ejer og en svartid. Opgave 8."]
+          - ["**Google**", "Nogen der svarer på anmeldelser. Opgave 12."]
+          - ["**Sitet → Book.dk**", "Kæden virker teknisk. Den bruges bare ikke. Opgave 1."]
+          - ["**Sitet → shoppen**", "Tillid. Opgave 5 og 6."]
+          - ["**Telefon og mail**", "Vi ved ikke engang hvor mange der ringer. Tæl dem i en uge."]
+
+  - id: content
+    navn: Content-plan
+    blokke:
+      - type: tekst
+        afsnit:
+          - >-
+            Det her er **vores bud**, ikke en ordre. Opgave 10 er at rive det fra
+            hinanden og skrive din egen. Vi står ikke i butikken — det gør du.
+      - type: overskrift
+        tekst: Hvem taler vi til
+      - type: tabel
+        kolonner: [Hvem, Hvad de vil se, Værd]
+        raekker:
+          - ["**A · Den der allerede vil have en tatovering** og leder efter et sted i København", "Arbejde. Tæt på, helet, på hud. Og hvem der lavede det.", "højest"]
+          - ["**B · Den der går forbi i Pisserenden** fredag nat", "At der er åbent, at det ikke er skræmmende, og hvad det koster.", "impuls"]
+          - ["**C · Den der har været her før**", "At der sker noget nyt. Nye ark, gæster, aftener.", "billigst"]
+      - type: overskrift
+        tekst: De tre formater
+      - type: kort
+        titel: 1 · Arbejdet
+        rk:
+          - ["Hvad", "Ét stykke arbejde. Tæt på, i naturligt lys, mod en ren baggrund. Kunstnerens navn. Er det flash: prisen. Ingen musik hen over, ingen tekst i en anden skrifttype."]
+          - ["Hvornår", "Tre gange om ugen — tirsdag, fredag, søndag."]
+          - ["Til hvem", "A. Den der leder efter et sted at få lavet noget."]
+          - ["Hvordan", "Artisten tager det selv, 30 sekunder efter sidste linje er sat. Du minder dem om det. Det er hele produktionen."]
+          - ["Hvorfor", "To ud af ti opslag viser arbejde i dag. Det er den ene ting huset sælger, og den fylder mindst på kanalen."]
+      - type: kort
+        titel: 2 · Arket
+        rk:
+          - ["Hvad", "Ugens flash med priser. «Dem her er stadig ledige.» Opslag torsdag, story fredag med dem der er væk streget ud."]
+          - ["Hvornår", "Én gang om ugen, torsdag. Før weekenden, ikke i den."]
+          - ["Til hvem", "A og C. Det er direkte salg — den eneste af de tre der er det."]
+          - ["Hvordan", "Nizar eller Emma tegner arket. Du fotograferer det og skriver priserne på."]
+          - ["Hvorfor", "Flash er husets eneste vare med en fast pris man kan sige højt. Alt andet kræver en samtale først."]
+      - type: kort
+        titel: 3 · Natten
+        rk:
+          - ["Hvad", "Story. Døren, lyset, stolen, gaden. Ingen produktion, ingen redigering."]
+          - ["Hvornår", "Fredag og lørdag efter kl. 22."]
+          - ["Til hvem", "B. Dem der er i byen lige nu og ikke ved at vi har åbent."]
+          - ["Hvordan", "Dig, på vagten, med telefonen. Under et minut."]
+          - ["Hvorfor", "Huset har åbent til 05 fredag og lørdag. Stort set ingen andre tatovører i København har det. Det er husets tydeligste særkende — og det bliver ikke fortalt nogen steder."]
+      - type: overskrift
+        tekst: Ugen
+      - type: tabel
+        kolonner: [Dag, Hvad, Tid]
+        raekker:
+          - ["Mandag", "—", "0"]
+          - ["Tirsdag", "Arbejdet", "15 min"]
+          - ["Onsdag", "—", "0"]
+          - ["Torsdag", "Arket", "30 min"]
+          - ["Fredag", "Arbejdet + Natten", "20 min"]
+          - ["Lørdag", "Natten", "5 min"]
+          - ["Søndag", "Arbejdet", "15 min"]
+      - type: tekst
+        afsnit:
+          - >-
+            Tre opslag og tre stories. Cirka **halvanden time** om ugen i alt. Er
+            det mere end det, er planen forkert — ikke dig.
+      - type: overskrift
+        tekst: Sådan måler vi
+      - type: advarsel
+        afsnit:
+          - >-
+            **Ikke likes.** Vi tæller **beskeder i indbakken inden for 48 timer**
+            efter et opslag. Et like betaler ikke husleje. En besked er en kunde
+            der overvejer at komme.
+          - >-
+            Skriv tallet under **Skriv** hver uge. Efter en måned kan du se
+            hvilket format der faktisk trækker — og så skæres de andre ned.
+      - type: overskrift
+        tekst: Hvad vi holder op med
+      - type: liste
+        punkter:
+          - Eventplakater for andres fester, medmindre huset selv står i døren.
+          - Videoer hvor der ikke er arbejde i billedet.
+          - Tekst hen over billeder i en anden skrifttype end husets.
+          - Highlights der hedder «October» og «November». Det er september 2026.
+      - type: overskrift
+        tekst: Og ret bioen
+      - type: tekst
+        afsnit:
+          - >-
+            Der står «Studiokæde i hjertet af København». Der er én butik. Huset
+            forklarer ikke ting det ikke har gjort — det står i husets egen ånd,
+            og det er den slags en kunde opdager.
+
+# Tallene i kundeflow-diagrammet. Målt 3. september 2026 — mål igen før nogen
+# bygger på dem. Diagrammets form bor i koden; tallene bor her.
+flow:
+  gaden: "80–160/md · et gæt"
+  instagram: "3.110 følgere"
+  google: ingen ejer
+  telefon: utalt
+  butikken: åben 13–05 fre/lør
+  dm: ingen ejer den
+  site: ~650 besøg/md
+  stolen: utalt
+  bookdk: 3 kladder i hele 2026
+  shop: 79 besøg / 6 mdr
+  kassen: 20 nåede hertil
+  koeb: 0 — nul, på et halvt år
+  knaek:
+    - Beskederne har ingen ejer — vi ved ikke hvor mange tider vi taber der.
+    - Book.dk er tom, så ingen kan se husets tider ét sted.
+    - Tyve mennesker nåede kassen. Ingen af dem købte.
