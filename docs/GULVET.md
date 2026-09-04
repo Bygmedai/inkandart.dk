@@ -130,3 +130,23 @@ uberørte.
 `tal.timepris` (140) og `tal.stoletime` (1.000) blev flyttet ud af koden, så
 Nizar kan rette dem i Decap. De bruges begge to steder: i ROI-regneren og i
 overblikkets «hvad det er værd».
+
+## Anden runde på Overblik (S579, samme dag)
+
+Tabellen «Pr. område» røg — den viste dækning, ikke analyse. I stedet:
+
+- **Huset lærte** øverst: den seneste ugentlige opsamling fra `gulvet_analyse`
+  (tre-fem konklusioner, én næste handling, ugens systemtal). Skrives af den
+  ugentlige kørsel, se `GULVET-UGE.md`. Aldrig fra fladen.
+- **Ugedagene**: ind pr. vagt, lukkerate og salg pr. vagt fordelt på ugedag.
+  Første gang huset kan se om søndag er værd at holde åbent.
+- **Uge for uge**: samme tal pr. ISO-uge, med webshoppens besøg/kasse/køb ved
+  siden af når opsamlingen har dem. Samme nøgle (`2026-W37`) begge steder.
+- **Husets svartid**: median dage fra spørgsmål til svar, og det ældste åbne.
+- **Plan mod virkelighed**: uge N af 4, forventet mod klaret.
+
+Al aritmetik i `lib/gulvet-tal.ts`, prøvet. Stolperne er HTML-rækker, ikke
+ét SVG — et SVG på 640 px skaleret til en telefon gør teksten otte pixel høj.
+
+Skema: `gulvet_analyse` (uge, fra, til, af, skrevet, tal jsonb, konklusioner
+text[], naeste). RLS uden politikker som de andre.

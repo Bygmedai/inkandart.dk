@@ -1135,7 +1135,11 @@ export type GulvetOverblik = {
   web_linje: string;
   svar_lede: string;
   opgave_lede: string;
-  omraade_lede: string;
+  start: string;
+  laerte_lede: string;
+  laerte_tom: string;
+  ugedag_lede: string;
+  uge_lede: string;
 };
 
 function strListe(v: unknown): string[] {
@@ -1234,7 +1238,11 @@ export function loadGulvet(): GulvetCopy {
       web_linje: str(o.web_linje),
       svar_lede: str(o.svar_lede),
       opgave_lede: str(o.opgave_lede),
-      omraade_lede: str(o.omraade_lede),
+      start: str(o.start),
+      laerte_lede: str(o.laerte_lede),
+      laerte_tom: str(o.laerte_tom),
+      ugedag_lede: str(o.ugedag_lede),
+      uge_lede: str(o.uge_lede),
     },
     tal: {
       timepris: Number(t.timepris) || 140,

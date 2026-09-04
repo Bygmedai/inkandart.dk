@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { RummetShell } from "@/components/rummet/Shell";
 import { GulvetFlade } from "@/components/rummet/GulvetFlade";
 import { loadGulvet } from "@/lib/content";
-import { gulvetErSat, hentFremdrift, hentFund } from "@/lib/gulvet";
+import { gulvetErSat, hentAnalyser, hentFremdrift, hentFund } from "@/lib/gulvet";
 import { VAGT_COOKIE, tokenErGyldigt } from "@/lib/vagt";
 
 export const metadata: Metadata = {
@@ -68,9 +68,9 @@ export default async function GulvetPage({
   // stadig, men fladen siger højt at intet bliver gemt. En knap der lader
   // som om den gemte er værre end en knap der siger den ikke kan.
   const sat = gulvetErSat();
-  const [fund, fremdrift] = sat
-    ? await Promise.all([hentFund(200), hentFremdrift()])
-    : [[], {}];
+  const [fund, fremdrift, analyser] = sat
+    ? await Promise.all([hentFund(200), hentFremdrift(), hentAnalyser(8)])
+    : [[], {}, []];
 
   return (
     <RummetShell>
@@ -81,7 +81,7 @@ export default async function GulvetPage({
             men det du skriver bliver ikke gemt. Sig det til Steven.
           </p>
         ) : null}
-        <GulvetFlade c={c} fund={fund} fremdrift={fremdrift} hvem="" />
+        <GulvetFlade c={c} fund={fund} fremdrift={fremdrift} analyser={analyser} hvem="" />
       </main>
     </RummetShell>
   );
