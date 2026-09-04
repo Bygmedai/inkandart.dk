@@ -11,7 +11,7 @@ export function ChateauCollabFlade() {
     <main id="main" className="rum-room chateau-collab">
       <header className="chateau-collab__hero">
         <p className="rum-label">Ink &amp; Art × Chateau Motel</p>
-        <h1 className="rum-poster chateau-collab__title">
+        <h1 className="rum-poster chateau-collab__title" lang="en">
           A room upstairs. One chair. One night.
         </h1>
         <p className="chateau-collab__lede" lang="da">
