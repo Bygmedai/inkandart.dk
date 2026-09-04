@@ -152,3 +152,62 @@ test("trin 1 har en saetning — paa begge sprog, og ikke den samme", async () =
       `${fil}: trin 1's saetning staar ikke foer doeren`);
   }
 });
+
+/**
+ * S580 (4/9, Stevens fund) — kunden strandede efter bookingen.
+ *
+ * Maalt som kunde: /booking → hop til inkart.book.dk → «Bekraeft booking»
+ * → Book.dks egen tak-side, «Du betaler ved fremmoede», Book flere tider.
+ * Ingen vej tilbage til samtykket (trin 2) eller depositummet (trin 3);
+ * de laa paa den side hun havde forladt. Book.dk har ingen «redirect
+ * efter booking». Saa bookingen ligger nu INDE paa /booking, og trin 2
+ * staar lige under rammen — paa samme side.
+ */
+test("bookingen ligger i rummet — rammen staar i trin 1, foer samtykket", () => {
+  for (const [fil, lang] of [
+    ["app/(da)/(rummet)/booking/page.tsx", "da"],
+    ["app/(en)/(rummet)/en/booking/page.tsx", "en"],
+  ]) {
+    const f = read(fil).replace(/\s+/g, " ");
+    assert.match(f, new RegExp(`<BookRummet lang="${lang}" />`), `${fil}: Book.dk-rammen mangler eller har forkert sprog`);
+    const trin = f.slice(f.indexOf('<ol className="rum-booking__trin">'), f.indexOf("</ol>"));
+    const ramme = trin.indexOf("<BookRummet"), doer = trin.indexOf("<BookDoor"), samtykke = trin.indexOf("samtykke_trin");
+    assert.ok(ramme !== -1 && ramme < doer, `${fil}: rammen skal staa foer fald-tilbage-linket`);
+    assert.ok(doer < samtykke, `${fil}: samtykket skal staa lige under bookingen`);
+    // Fald-tilbage-linket er stadig doeren — men det hedder det det er.
+    assert.match(f, /copy\.door_fuld_label \|\| copy\.door_label/, `${fil}: fald-tilbage-linket bruger ikke sin egen tekst`);
+  }
+});
+
+test("rammen er Book.dk, faar hoejde af skaermen, og virker uden JS", () => {
+  const k = read("components/rummet/BookRummet.tsx");
+  assert.match(k, /https:\/\/inkart\.book\.dk\//);
+  assert.match(k, /<iframe/);
+  assert.match(k, /title=\{titel\}/, "rammen skal have en titel til skaermlaesere");
+  assert.doesNotMatch(k, /"use client"/, "en iframe har ikke brug for JS");
+  const ramme = blok(".rum-bookrum__ramme");
+  assert.match(ramme, /dvh/, "hoejden skal foelge skaermen — Book.dk siger ikke hvor hoej den er");
+  assert.match(ramme, /min-height:\s*5\d\dpx/, "et gulv under hoejden, saa et lille vindue ikke klemmer flowet");
+  assert.doesNotMatch(ramme, /height:\s*1000px/, "Book.dks 1000px lagde «Videre» under folden paa en telefon");
+});
+
+test("paa en telefon faar rammen hele bredden — ikke 301px i anden spalte", () => {
+  // Reglen ligger i en max-width-medie; blok() finder den paa selektoren.
+  const bred = blok(".rum-booking__trin > li > .rum-bookrum");
+  assert.match(bred, /grid-column:\s*1\s*\/\s*-1/);
+  const i = css.indexOf(".rum-booking__trin > li > .rum-bookrum {");
+  const foer = css.slice(Math.max(0, i - 200), i);
+  assert.match(foer, /@media \(max-width: 899px\)/, "kun paa smaa skaerme — paa desktop er spalten bred nok");
+});
+
+test("trin 1's ord siger at naeste skridt er lige nedenunder — begge sprog", async () => {
+  const { loadBookingCopy, loadBookingCopyEn } = await import("../lib/content.ts");
+  const da = loadBookingCopy(), en = loadBookingCopyEn();
+  assert.match(da.book_trin, /nedenunder/i);
+  assert.match(en.book_trin, /right below/i);
+  // Den engelske kunde moeder en dansk Book.dk. Ordene skal oversaettes for hende.
+  assert.match(en.book_trin, /Videre/, "en: forklar «Videre»");
+  assert.match(en.book_trin, /Bekræft booking/, "en: forklar «Bekræft booking»");
+  assert.ok(da.door_fuld_label.trim() && en.door_fuld_label.trim(), "fald-tilbage-linket mangler tekst");
+  assert.notEqual(da.door_fuld_label, en.door_fuld_label);
+});

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { RummetShell } from "@/components/rummet/Shell";
 import { BookDoor } from "@/components/rummet/BookDoor";
+import { BookRummet } from "@/components/rummet/BookRummet";
 import { artistById, loadBookingCopy, loadHouse } from "@/lib/content";
 import { alternates } from "@/lib/i18n";
 
@@ -76,9 +77,10 @@ export default async function BookingPage({
                   {copy.book_trin}
                 </p>
               ) : null}
+              <BookRummet lang="da" />
               <BookDoor
-                label={copy.door_label}
-                className="rum-book rum-book--row rum-booking__go"
+                label={copy.door_fuld_label || copy.door_label}
+                className="rum-book rum-book--row rum-booking__go rum-booking__go--fuld"
               />
             </li>
             {copy.samtykke_trin ? (
