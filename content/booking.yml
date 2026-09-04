@@ -9,6 +9,12 @@ lede: >-
   Book din tid — det koster ikke noget, og du binder dig ikke.
   Skal du sidde en hel dag, bekræfter et depositum på 100 kr tiden;
   det fragår i prisen. Ombook senest 48 timer før.
+# Trin 1: selve bookingen. Målt som kunde 4/9 (S580): tallet «1» stod
+# alene, og knappen lå centreret under en tom linje — den vigtigste knap
+# på siden lignede en fejl. Trin 2 og 3 havde tekst; trin 1 havde ingen.
+book_trin: >-
+  Vælg behandling og artist, find en tid der passer dig, og skriv motiv,
+  størrelse og placering i kommentaren. Det tager to minutter.
 door_label: Book din tid
 depositum_label: Depositum 100 kr — fragår i prisen
 # Trin 2: samtykket. Formularen fandtes fra 1/9, men INGEN vej førte til

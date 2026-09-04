@@ -63,6 +63,11 @@ export default async function BookingPageEn({
           */}
           <ol className="rum-booking__trin">
             <li>
+              {copy.book_trin ? (
+                <p className="rum-body-copy rum-booking__trin-note">
+                  {copy.book_trin}
+                </p>
+              ) : null}
               <BookDoor
                 label={copy.door_label}
                 className="rum-book rum-book--row rum-booking__go"

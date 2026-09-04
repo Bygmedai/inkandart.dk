@@ -240,15 +240,26 @@ export const FLASH_DEPOSITS: Deposit[] = [
   { id: "module", kr: 100, variantId: "53463786062152", handle: "depositum-flash-pa-module" },
 ];
 
-/** Cart-permalink for enhver variant (gavekort, flash, …): lægger varen i
-    kurven og sender direkte til Shopify-checkout. */
-export function cartUrl(variantId: string): string {
+/**
+ * Cart-permalink for enhver variant (gavekort, flash, …): lægger varen i
+ * kurven og sender direkte til Shopify-checkout.
+ *
+ * S580 (4/9): kassen har et sprog. Målt som kunde: fra /en/booking/tak
+ * åbnede kassen på DANSK — «Betalingsproces», «Kontaktoplysninger»,
+ * «Betal nu» — selvom Shopify har engelsk publiceret. Præfikset `/en/`
+ * på permalinket giver den engelske kasse (målt: `/en/cart/…` → `en-dk`).
+ * Dansk er standard, så alle gamle kald opfører sig som før.
+ */
+export function cartUrl(variantId: string, lang: "da" | "en" = "da"): string {
+  if (lang === "en") {
+    return `https://${KASSE_DOMAIN}/en/cart/${variantId}:1?skip_shop_pay=true`;
+  }
   return `https://${KASSE_DOMAIN}/cart/${variantId}:1?skip_shop_pay=true`;
 }
 
 /** Gavekort-alias — bevaret for læsbarhed på gavekort-fladen. */
-export function giftCartUrl(variantId: string): string {
-  return cartUrl(variantId);
+export function giftCartUrl(variantId: string, lang: "da" | "en" = "da"): string {
+  return cartUrl(variantId, lang);
 }
 
 /** Dansk tusind-separator uden ICU-afhængighed (deterministisk server-render). */

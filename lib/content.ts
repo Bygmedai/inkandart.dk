@@ -757,6 +757,8 @@ export type BookingCopy = {
   lede: string;
   konsultation: string;
   depositum_label: string;
+  /** Trin 1: hvad kunden gør i Book.dk. Tom = trinnet står kun med knappen. */
+  book_trin: string;
   door_label: string;
   note: string;
   foto: string;
@@ -785,6 +787,7 @@ export function loadBookingCopy(): BookingCopy {
     lede: str(d.lede),
     konsultation: str(d.konsultation),
     depositum_label: str(d.depositum_label),
+    book_trin: str(d.book_trin),
     door_label: str(d.door_label) || "Videre til booking",
     note: str(d.note),
     foto: str(d.foto),
@@ -816,6 +819,7 @@ export function loadBookingCopyEn(): BookingCopy {
     lede: str(d.lede),
     konsultation: str(d.konsultation),
     depositum_label: str(d.depositum_label),
+    book_trin: str(d.book_trin),
     door_label: str(d.door_label) || "On to booking",
     note: str(d.note),
     foto: str(d.foto),

@@ -76,7 +76,7 @@ export default async function BookingTakPage({
             <p style={{ marginTop: 24 }}>
               <a
                 className="rum-book rum-book--row rum-booking__pris"
-                href={cartUrl(depositum.variantId)}
+                href={cartUrl(depositum.variantId, "en")}
                 rel="noopener noreferrer"
               >
                 {copy.depositum_label}
