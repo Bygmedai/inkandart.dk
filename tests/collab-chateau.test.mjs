@@ -10,6 +10,7 @@ const read = (p) => readFileSync(join(root, p), "utf8");
 const side = read("app/(da)/(rummet)/collab/chateau/page.tsx");
 const flade = read("components/rummet/ChateauCollabFlade.tsx");
 const hero = read("components/rummet/ChateauHero.tsx");
+const css = read("components/rummet/rummet.css");
 
 test("collab/chateau er noindex, nofollow, nocache", () => {
   assert.match(side, /index: false/);
@@ -55,9 +56,30 @@ test("copy undgår forbudte hype/CTA-linjer", () => {
     .replace(/\/\/.*$/gm, "");
   assert.doesNotMatch(tekst, /Roskilde|byens første|Book\.dk|temp tattoo/i);
   assert.doesNotMatch(tekst, /køb billet|Book\.dk|900\s*kr/i);
+  assert.doesNotMatch(tekst, /audacious souls/i);
 });
 
 test("kontakt peger på Simone + Steven", () => {
   assert.match(flade, /Simone \+ Steven/);
   assert.match(flade, /steven@bygmedai\.dk/);
+});
+
+test("hero er kort peer-linje, ikke ops-brochure", () => {
+  assert.match(flade, /A room upstairs\. One chair\. One night\./);
+  assert.match(flade, /Et rum ovenpå\. Én stol\. En nat\./);
+  assert.doesNotMatch(
+    flade.slice(0, flade.indexOf("chateau-collab__rail")),
+    /Håndvask|engangsudstyr|Depositum/i,
+  );
+});
+
+test("nightlife rail + contact sheet + kort CTA", () => {
+  assert.match(flade, /chateau-collab__rail/);
+  assert.match(flade, /8–12 pladser/);
+  assert.match(flade, /Flash only/);
+  assert.match(flade, /Ædru ved stolen/);
+  assert.match(flade, /chateau-collab__sheet/);
+  assert.match(flade, /Book 30 min walkthrough/);
+  assert.match(css, /chateau-collab__sheet/);
+  assert.match(css, /chateau-collab__rail/);
 });

@@ -2423,18 +2423,21 @@ button.gulv-maal:focus-visible { outline: 2px solid var(--strobe); outline-offse
 
 .chateau-collab__title {
   margin: 12px 0 0;
-  font-size: clamp(42px, 9vw, 88px);
+  font-size: clamp(36px, 8vw, 72px);
+  max-width: 14ch;
 }
 
 .chateau-collab__lede {
-  margin-top: 16px;
-  max-width: 42ch;
+  margin-top: 12px;
+  max-width: 36ch;
   color: var(--beton);
+  font-size: 15px;
+  letter-spacing: 0.02em;
 }
 
 .chateau-collab__hero .rum-room__slot,
 .chateau-collab__hero .chateau-hero {
-  margin-top: 32px;
+  margin-top: 28px;
 }
 
 .chateau-hero__media {
@@ -2442,6 +2445,37 @@ button.gulv-maal:focus-visible { outline: 2px solid var(--strobe); outline-offse
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+/* Compact nightlife info rail — hairline strip, blunt labels */
+.chateau-collab__rail {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 12px 0;
+  border-top: 1px solid var(--rum-line);
+  border-bottom: 1px solid var(--rum-line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 0;
+  align-items: baseline;
+  font-family: var(--font-label, inherit);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--beton);
+}
+
+.chateau-collab__rail li {
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
+}
+
+.chateau-collab__rail li:not(:last-child)::after {
+  content: "·";
+  margin: 0 10px;
+  color: var(--blod);
+  opacity: 0.7;
 }
 
 .chateau-collab__sec {
@@ -2453,6 +2487,13 @@ button.gulv-maal:focus-visible { outline: 2px solid var(--strobe); outline-offse
 .chateau-collab__h2 {
   margin: 0 0 20px;
   font-size: clamp(28px, 5vw, 44px);
+}
+
+.chateau-collab__feel {
+  margin-top: 28px;
+  max-width: 42ch;
+  color: var(--hud);
+  opacity: 0.85;
 }
 
 .chateau-collab__bullets {
@@ -2489,49 +2530,132 @@ button.gulv-maal:focus-visible { outline: 2px solid var(--strobe); outline-offse
   margin-bottom: 8px;
 }
 
-.chateau-collab__img {
-  display: block;
-  width: 100%;
-  margin-top: 28px;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-}
-
 .chateau-collab__mute {
   color: var(--beton);
 }
 
-.chateau-collab__checks {
-  list-style: none;
-  padding: 0;
+/* Contact sheet — asymmetric, offset edges, subtle grain */
+.chateau-collab__sheet-sec {
+  border-top: none;
+  padding-top: 8px;
+}
+
+.chateau-collab__sheet-label {
+  margin: 0 0 20px;
+}
+
+.chateau-collab__sheet {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-rows: auto auto;
+  gap: 0;
+  min-height: 280px;
+}
+
+.chateau-collab__shot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.02) saturate(0.92);
+  box-shadow: 0 0 0 1px rgba(7, 7, 7, 0.35);
+}
+
+.chateau-collab__shot--stol {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  aspect-ratio: 3 / 4;
+  max-height: 520px;
+  z-index: 1;
+  transform: translate(-4px, 8px) rotate(-0.6deg);
+}
+
+.chateau-collab__shot--trap {
+  grid-column: 2;
+  grid-row: 1;
+  aspect-ratio: 16 / 10;
+  z-index: 2;
+  margin-left: -18px;
+  margin-top: 12px;
+  transform: rotate(1.1deg);
+  max-height: 240px;
+}
+
+.chateau-collab__shot--flash {
+  grid-column: 2;
+  grid-row: 2;
+  aspect-ratio: 4 / 3;
+  z-index: 3;
+  margin-left: 10px;
+  margin-top: -28px;
+  transform: rotate(-1.4deg);
+  max-height: 260px;
+  width: calc(100% - 10px);
+}
+
+@media (max-width: 640px) {
+  .chateau-collab__sheet {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+  }
+
+  .chateau-collab__shot--stol {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    aspect-ratio: 16 / 10;
+    max-height: 280px;
+    transform: translate(0, 0) rotate(0);
+  }
+
+  .chateau-collab__shot--trap {
+    grid-column: 1;
+    grid-row: 2;
+    margin-left: 0;
+    margin-top: -16px;
+    max-height: none;
+  }
+
+  .chateau-collab__shot--flash {
+    grid-column: 2;
+    grid-row: 2;
+    margin-left: -12px;
+    margin-top: 8px;
+    width: 100%;
+    max-height: none;
+  }
+}
+
+.chateau-collab__cta-wrap {
   margin: 0;
-  counter-reset: chateau-check;
 }
 
-.chateau-collab__checks li {
-  counter-increment: chateau-check;
-  display: flex;
-  gap: 16px;
-  border-top: 1px solid var(--rum-line);
-  padding: 18px 0;
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-.chateau-collab__checks li::before {
-  content: counter(chateau-check);
+.chateau-collab__cta {
+  display: inline-block;
+  color: var(--nat);
+  background: var(--hud);
+  padding: 14px 22px;
   font-family: var(--font-poster), "Anton", sans-serif;
-  color: var(--blod);
-  font-size: 22px;
-  line-height: 1;
-  min-width: 1.5ch;
+  font-size: clamp(18px, 3.5vw, 26px);
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  line-height: 1.1;
 }
 
-.chateau-collab__checks li:last-child {
-  border-bottom: 1px solid var(--rum-line);
+.chateau-collab__cta:hover,
+.chateau-collab__cta:focus-visible {
+  background: var(--blod);
+  color: var(--hud);
+  outline: none;
 }
 
-.chateau-collab__next a {
+.chateau-collab__cta-sub {
+  margin-top: 14px;
+  color: var(--beton);
+  max-width: 36ch;
+}
+
+.chateau-collab__next a:not(.chateau-collab__cta) {
   color: var(--hud);
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -2550,5 +2674,11 @@ button.gulv-maal:focus-visible { outline: 2px solid var(--strobe); outline-offse
   .chateau-hero__media {
     transition: none !important;
     animation: none !important;
+  }
+
+  .chateau-collab__shot--stol,
+  .chateau-collab__shot--trap,
+  .chateau-collab__shot--flash {
+    transform: none;
   }
 }
