@@ -1341,6 +1341,41 @@ html:has([data-house="rummet"]) .grain {
   width: 100%;
   justify-content: center;
 }
+/* Book.dk inde i rummet (S580). Hoejden kommer fra skaermen, ikke fra
+   indholdet: Book.dk fortaeller ikke hvor hoej den er, og deres forslag
+   (1000px) lagde «Videre» under folden paa en telefon. dvh, ikke vh —
+   ellers gemmer Safaris adresselinje bundlinjen. */
+.rum-bookrum {
+  min-width: 0;
+}
+.rum-bookrum__ramme {
+  display: block;
+  width: 100%;
+  height: min(80dvh, 900px);
+  min-height: 560px;
+  border: 1px solid var(--rum-line);
+  background: #fff;
+}
+/* Paa en telefon faar rammen hele bredden. I trinnets anden spalte var
+   den 301px af 390 (maalt lokalt, 4/9) — Book.dk's kalender og
+   «Videre»-knap bliver klemt. Tallet staar paa raekke 1 sammen med
+   teksten, saa raekke 2 kan bruge begge spalter uden at flytte det. */
+@media (max-width: 899px) {
+  .rum-booking__trin > li > .rum-bookrum {
+    grid-column: 1 / -1;
+  }
+  .rum-bookrum__ramme {
+    height: min(86dvh, 820px);
+    min-height: 520px;
+  }
+}
+/* Fald-tilbage: Book.dk i eget vindue. Mindre end doeren var, for
+   rammen ER doeren nu. */
+.rum-booking__go--fuld {
+  font-size: 15px;
+  width: auto;
+  justify-content: flex-start;
+}
 .rum-booking__pris {
   color: var(--blod);
   font-size: 20px;

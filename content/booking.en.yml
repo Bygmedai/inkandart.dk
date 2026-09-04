@@ -6,9 +6,12 @@ lede: >-
   are sitting for a full day, a 100 kr deposit confirms the time; it
   comes off the price. Rebook at least 48 hours ahead.
 book_trin: >-
-  Pick a treatment and an artist, find a time that suits you, and write
-  motif, size and placement in the comment. It takes two minutes.
+  Book right here: pick a treatment and an artist, find a time, and write
+  motif, size and placement in the comment. The booking runs in Danish —
+  «Videre» is next, «Bekræft booking» confirms. Once you have confirmed,
+  the next step is right below.
 door_label: Book your time
+door_fuld_label: Open the booking in its own window
 depositum_label: Deposit 100 kr — comes off the price
 samtykke_trin: >-
   Fill in the consent form at home. It takes two minutes on your sofa and

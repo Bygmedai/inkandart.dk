@@ -12,10 +12,16 @@ lede: >-
 # Trin 1: selve bookingen. Målt som kunde 4/9 (S580): tallet «1» stod
 # alene, og knappen lå centreret under en tom linje — den vigtigste knap
 # på siden lignede en fejl. Trin 2 og 3 havde tekst; trin 1 havde ingen.
+# S580 (4/9, Stevens fund): bookingen ligger nu HER på siden. Før hoppede
+# kunden til inkart.book.dk og stod strandet på Book.dks egen tak-side —
+# uden vej til samtykket. Nu står trin 2 lige under rammen.
 book_trin: >-
-  Vælg behandling og artist, find en tid der passer dig, og skriv motiv,
-  størrelse og placering i kommentaren. Det tager to minutter.
+  Book her på siden: vælg behandling og artist, find en tid, og skriv
+  motiv, størrelse og placering i kommentaren. Når du har trykket
+  «Bekræft booking», er næste skridt lige nedenunder.
 door_label: Book din tid
+# Fald-tilbage-linket under rammen — Book.dk i sit eget vindue.
+door_fuld_label: Åbn bookingen i eget vindue
 depositum_label: Depositum 100 kr — fragår i prisen
 # Trin 2: samtykket. Formularen fandtes fra 1/9, men INGEN vej førte til
 # den — målt 2/9: ordet «samtykke» stod 0 gange på /booking, /, /en/booking
