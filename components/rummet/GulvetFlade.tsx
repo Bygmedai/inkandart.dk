@@ -253,7 +253,8 @@ const TAL_NAVNE: [string, string][] = [
   ["doer_vagter", "vagter talt"], ["doer_ind", "ind ad døren"], ["doer_koebte", "købte"], ["doer_salg", "på gulvet"],
   ["shop_sessions", "besøg i shoppen"], ["shop_kasse", "nåede kassen"], ["shop_koeb", "købte online"], ["shop_salg", "online"],
   ["book_bookinger", "bookinger i Book.dk"], ["ig_foelgere", "følgere"], ["ig_opslag", "opslag"],
-  ["site_besoeg", "besøg på sitet"],
+  ["site_besoeg", "besøg på sitet"], ["site_booking", "så /booking"], ["site_walkin", "så /walk-in"],
+  ["site_shop", "så /shop"], ["site_book_klik", "trykkede book"], ["site_koeb_klik", "trykkede køb"],
 ];
 function TalStrip({ tal }: { tal: Record<string, number | null> }) {
   const rk = TAL_NAVNE.filter(([k]) => tal[k] !== undefined && tal[k] !== null);

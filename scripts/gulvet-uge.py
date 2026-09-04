@@ -10,8 +10,10 @@ del der ikke må variere.
 
 HEMMELIGHEDER. Bitwarden-adgangstokenet læses fra BWS_ACCESS_TOKEN i miljøet
 eller fra /tmp/.bws_token. Supabase-tokenet hentes derfra og bruges i denne
-proces. Intet printes ud over data. Shopify-tallene kommer IKKE herfra — dem
-henter Haruki gennem Shopify-connectoren og lægger i JSON'en under «tal».
+proces. Intet printes ud over data. Sitets tal (Vercel Web Analytics) hentes
+OGSÅ her, med Vercel-tokenet fra Bitwarden. Shopify-tallene kommer IKKE
+herfra — dem henter Haruki gennem Shopify-connectoren og lægger i JSON'en
+under «tal».
 
 Kræver: pip install bitwarden-sdk
 """
@@ -28,8 +30,11 @@ TOKEN_POSTER = ["Supabase Management API Token", "SUPABASE_ACCESS_TOKEN", "Supab
 TAL_NOEGLER = {
     "doer_ind", "doer_koebte", "doer_salg", "doer_vagter",
     "shop_sessions", "shop_kasse", "shop_koeb", "shop_salg",
-    "book_bookinger", "ig_foelgere", "ig_opslag", "site_besoeg",
+    "book_bookinger", "ig_foelgere", "ig_opslag",
+    "site_besoeg", "site_booking", "site_walkin", "site_shop", "site_book_klik", "site_koeb_klik",
 }
+VERCEL_TEAM = "team_Q9pWTWQDaGgf5Y5XnuuxhpCf"
+VERCEL_PRJ = "prj_RaATmqi4YdHxPYmDytMZ8UYUwWKJ"
 
 
 def _bws_token() -> str:
@@ -44,13 +49,28 @@ def _bws_token() -> str:
     return t
 
 
+_BW = None
+
+
+def _bitwarden():
+    global _BW
+    if _BW is None:
+        from bitwarden_sdk import BitwardenClient, DeviceType, client_settings_from_dict
+        c = BitwardenClient(client_settings_from_dict({
+            "apiUrl": "https://api.bitwarden.com", "identityUrl": "https://identity.bitwarden.com",
+            "deviceType": DeviceType.SDK, "userAgent": "haruki-gulvet"}))
+        c.auth().login_access_token(_bws_token())
+        _BW = (c, {s.key: s.id for s in c.secrets().list(ORG).data.data})
+    return _BW
+
+
+def _vercel_token() -> str | None:
+    c, alle = _bitwarden()
+    return c.secrets().get(alle["Vercel ks-haruki"]).data.value.strip() if "Vercel ks-haruki" in alle else None
+
+
 def _supabase_token() -> str:
-    from bitwarden_sdk import BitwardenClient, DeviceType, client_settings_from_dict
-    c = BitwardenClient(client_settings_from_dict({
-        "apiUrl": "https://api.bitwarden.com", "identityUrl": "https://identity.bitwarden.com",
-        "deviceType": DeviceType.SDK, "userAgent": "haruki-gulvet"}))
-    c.auth().login_access_token(_bws_token())
-    alle = {s.key: s.id for s in c.secrets().list(ORG).data.data}
+    c, alle = _bitwarden()
     for navn in TOKEN_POSTER:
         if navn in alle:
             tok = c.secrets().get(alle[navn]).data.value.strip()
@@ -87,6 +107,39 @@ def _sql(tok, q, params=None):
     return body
 
 
+def _site_tal(fra: dt.date, til: dt.date) -> dict:
+    """Vercel Web Analytics for ugen: besøgende i alt, på de tre døre, og de to klik-events.
+    Fejler stille (tomt dict) — sitets tal må aldrig stoppe opsamlingen."""
+    import urllib.parse
+    tok = _vercel_token()
+    if not tok:
+        return {}
+    since, until = f"{fra}T00:00:00.000Z", f"{til + dt.timedelta(days=1)}T00:00:00.000Z"
+    base = {"projectId": VERCEL_PRJ, "teamId": VERCEL_TEAM, "since": since, "until": until}
+
+    def hent(sti, **ekstra):
+        st, r = _kald(f"https://api.vercel.com/v1/query/web-analytics/{sti}?{urllib.parse.urlencode({**base, **ekstra})}", tok)
+        return r.get("data") if st == 200 and isinstance(r, dict) else None
+
+    ud = {}
+    tot = hent("visits/count")
+    if isinstance(tot, dict):
+        ud["site_besoeg"] = tot.get("visitors")
+    stier = hent("visits/aggregate", by="requestPath",
+                 filter="requestPath eq '/booking' or requestPath eq '/walk-in' or requestPath eq '/en/walk-in' or requestPath eq '/shop' or requestPath eq '/en/shop' or requestPath eq '/en/booking'")
+    if isinstance(stier, list):
+        pr = {x.get("requestPath"): x.get("visitors") or 0 for x in stier}
+        ud["site_booking"] = pr.get("/booking", 0) + pr.get("/en/booking", 0)
+        ud["site_walkin"] = pr.get("/walk-in", 0) + pr.get("/en/walk-in", 0)
+        ud["site_shop"] = pr.get("/shop", 0) + pr.get("/en/shop", 0)
+    ev = hent("events/aggregate", by="eventName", limit="20")
+    if isinstance(ev, list):
+        pr = {x.get("eventName"): x.get("count") or 0 for x in ev}
+        ud["site_book_klik"] = pr.get("book_klik", 0)
+        ud["site_koeb_klik"] = pr.get("koeb_klik", 0)
+    return ud
+
+
 def _iso_uge(d: dt.date) -> str:
     y, w, _ = d.isocalendar()
     return f"{y}-W{w:02d}"
@@ -120,6 +173,7 @@ def hent(uge: str | None):
         "doer_ind": sum(f.get("ind") or 0 for f in vagter),
         "doer_koebte": sum(f.get("koebte") or 0 for f in vagter),
         "doer_salg": sum(f.get("salg") or 0 for f in vagter),
+        **_site_tal(fra, til),
     }
     print(json.dumps({
         "uge": uge, "fra": str(fra), "til": str(til),

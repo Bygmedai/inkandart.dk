@@ -13,6 +13,12 @@ er en kirkegård uden den her.
 1. **Henter ugens data** med `scripts/gulvet-uge.py hent` — alle fund fra
    ugen, de åbne spørgsmål, fremdriften, og de tre forrige opsamlinger så
    den ikke gentager sig selv. Døren-tallene (`doer_*`) regnes her.
+   Sitets tal hentes også her, fra Vercel Web Analytics (slået til siden
+   juni 2026, `@vercel/analytics` ligger i repoet, klik-events `book_klik`
+   og `koeb_klik` måles af `components/analytics/Klik.tsx`): `site_besoeg`,
+   `site_booking`, `site_walkin`, `site_shop`, `site_book_klik`,
+   `site_koeb_klik`. Det er toppen af tragten: sitet → døren → klik →
+   Book.dk/Shopify.
 2. **Henter Shopify** gennem Shopify-connectoren (ikke fra scriptet):
    `FROM sessions SHOW sessions, sessions_that_reached_checkout,
    sessions_that_completed_checkout SINCE <fra> UNTIL <til>` og
