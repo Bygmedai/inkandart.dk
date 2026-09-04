@@ -2414,3 +2414,141 @@ button.gulv-maal:focus-visible { outline: 2px solid var(--strobe); outline-offse
 @media (prefers-reduced-motion: reduce) {
   .gulv-fane, .gulv-seg button, .gulv-slag button, .gulv-knap { transition: none; }
 }
+
+/* ── Collab / Chateau Motel (B2B one-pager) ── */
+
+.chateau-collab {
+  max-width: min(100%, 920px);
+}
+
+.chateau-collab__title {
+  margin: 12px 0 0;
+  font-size: clamp(42px, 9vw, 88px);
+}
+
+.chateau-collab__lede {
+  margin-top: 16px;
+  max-width: 42ch;
+  color: var(--beton);
+}
+
+.chateau-collab__hero .rum-room__slot,
+.chateau-collab__hero .chateau-hero {
+  margin-top: 32px;
+}
+
+.chateau-hero__media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.chateau-collab__sec {
+  margin-top: 64px;
+  padding-top: 32px;
+  border-top: 1px solid var(--rum-line);
+}
+
+.chateau-collab__h2 {
+  margin: 0 0 20px;
+  font-size: clamp(28px, 5vw, 44px);
+}
+
+.chateau-collab__bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-width: 52ch;
+}
+
+.chateau-collab__bullets li {
+  border-top: 1px solid var(--rum-line);
+  padding: 14px 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.chateau-collab__bullets li:last-child {
+  border-bottom: 1px solid var(--rum-line);
+}
+
+.chateau-collab__cols {
+  display: grid;
+  gap: 28px 40px;
+  margin-top: 8px;
+}
+
+@media (min-width: 720px) {
+  .chateau-collab__cols {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.chateau-collab__cols .rum-label {
+  margin-bottom: 8px;
+}
+
+.chateau-collab__img {
+  display: block;
+  width: 100%;
+  margin-top: 28px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.chateau-collab__mute {
+  color: var(--beton);
+}
+
+.chateau-collab__checks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: chateau-check;
+}
+
+.chateau-collab__checks li {
+  counter-increment: chateau-check;
+  display: flex;
+  gap: 16px;
+  border-top: 1px solid var(--rum-line);
+  padding: 18px 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.chateau-collab__checks li::before {
+  content: counter(chateau-check);
+  font-family: var(--font-poster), "Anton", sans-serif;
+  color: var(--blod);
+  font-size: 22px;
+  line-height: 1;
+  min-width: 1.5ch;
+}
+
+.chateau-collab__checks li:last-child {
+  border-bottom: 1px solid var(--rum-line);
+}
+
+.chateau-collab__next a {
+  color: var(--hud);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.chateau-collab__via {
+  margin-top: 20px;
+  max-width: 48ch;
+}
+
+.chateau-collab__via a {
+  color: var(--beton);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chateau-hero__media {
+    transition: none !important;
+    animation: none !important;
+  }
+}
