@@ -191,6 +191,14 @@ test("rammen er Book.dk, faar hoejde af skaermen, og virker uden JS", () => {
   assert.doesNotMatch(ramme, /height:\s*1000px/, "Book.dks 1000px lagde «Videre» under folden paa en telefon");
 });
 
+test("CSP'en lukker Book.dk ind i rammen — ellers er den tom i produktion", () => {
+  // Maalt 4/9 paa preview'et: default-src 'self' uden frame-src = tom ramme.
+  // `next start` sender ikke vercel.json's headers, saa lokalt saa alt fint ud.
+  const header = JSON.parse(read("vercel.json")).headers.flatMap((h) => h.headers)
+    .find((h) => h.key === "Content-Security-Policy").value;
+  assert.match(header, /frame-src [^;]*https:\/\/inkart\.book\.dk/);
+});
+
 test("paa en telefon faar rammen hele bredden — ikke 301px i anden spalte", () => {
   // Reglen ligger i en max-width-medie; blok() finder den paa selektoren.
   const bred = blok(".rum-booking__trin > li > .rum-bookrum");
