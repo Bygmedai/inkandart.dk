@@ -528,11 +528,16 @@ export function GulvetFlade({
         <F id="overblik" navn="Overblik" />
       </div>
 
-      {/* Fælles morgenstrip — under fanerne, synlig på alle faner i begge tilstande. */}
+      {/* Fælles morgenstrip — under fanerne, synlig på alle faner i begge tilstande.
+          Tomme Døren/Venter er kompakte (ingen kæmpe «—»); med data beholder Maal
+          det store tal. Næste er tekstcelle der wrapper rent. */}
       <section className="gulv-morgen" aria-label="Morgen">
         <div className="gulv-maalraek">
           {vagterDenneUge === 0 ? (
-            <Maal v="—" e={c.morgen.doeren_titel} n={c.morgen.doeren_tom} />
+            <div className="gulv-maal gulv-maal--tom">
+              <span>{c.morgen.doeren_titel}</span>
+              <i>{c.morgen.doeren_tom}</i>
+            </div>
           ) : (
             <Maal
               v={String(vagterDenneUge)}
@@ -544,7 +549,10 @@ export function GulvetFlade({
             />
           )}
           {aabne.length === 0 ? (
-            <Maal v="—" e={c.morgen.venter_titel} n={c.morgen.venter_tom} />
+            <div className="gulv-maal gulv-maal--tom">
+              <span>{c.morgen.venter_titel}</span>
+              <i>{c.morgen.venter_tom}</i>
+            </div>
           ) : (
             <Maal
               v={String(aabne.length)}
@@ -560,8 +568,7 @@ export function GulvetFlade({
               }}
             />
           )}
-          <div className="gulv-maal">
-            <b>{seneste?.naeste ? "·" : "—"}</b>
+          <div className={`gulv-maal gulv-maal--tekst${seneste?.naeste ? "" : " gulv-maal--tom"}`}>
             <span>{c.morgen.naeste_titel}</span>
             <i>{seneste?.naeste
               ? <Fed tekst={seneste.naeste} />
@@ -573,7 +580,8 @@ export function GulvetFlade({
       {fane === "nu" && mode === "oplæring" && opg ? (
         <section className="gulv-ark">
           <p className="gulv-lede">{c.lede}</p>
-          {nr === 0 ? (
+          {/* Skjul ro når Mandagspuls allerede har sagt Næste — strippen bærer husets puls. */}
+          {nr === 0 && !seneste?.naeste ? (
             <div className="gulv-ro">
               {c.ro.map((r, i) => <p key={i}><Fed tekst={r} /></p>)}
             </div>

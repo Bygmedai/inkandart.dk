@@ -524,8 +524,45 @@ test("fladen har morgenstrip under fanerne — synlig uden for Nu", () => {
   assert.match(flade, /mode === "rytme"/, "rytme-grenene må ikke være fjernet");
 });
 
+test("tomme morgenstrip-celler er kompakte — ingen kæmpe em-dash", () => {
+  const flade = read("components/rummet/GulvetFlade.tsx");
+  const css = read("components/rummet/rummet.css");
+  // Tom Døren/Venter bruger gulv-maal--tom uden Maal v="—".
+  assert.match(flade, /gulv-maal--tom/, "kompakt tom-klasse mangler i fladen");
+  assert.match(css, /gulv-maal--tom/, "kompakt tom-stil mangler i CSS");
+  assert.match(flade, /gulv-maal--tekst/, "Næste-tekstcelle mangler");
+  // Uddræk morgenstrip-sektionen og tjek at tomme grene ikke bruger Maal med «—».
+  const start = flade.indexOf('aria-label="Morgen"');
+  const end = flade.indexOf("</section>", start);
+  assert.ok(start >= 0 && end > start, "morgenstrip-sektion ikke fundet");
+  const strip = flade.slice(start, end);
+  assert.doesNotMatch(
+    strip,
+    /Maal\s+v=["']—["']/,
+    "tom Døren/Venter må ikke bruge Maal med kæmpe em-dash",
+  );
+  assert.match(strip, /doeren_tom/, "tom Døren skal stadig vise doeren_tom");
+  assert.match(strip, /venter_tom/, "tom Venter skal stadig vise venter_tom");
+  // Med data bevares Maal-talbehandlingen.
+  assert.match(strip, /String\(vagterDenneUge\)/, "fyldt Døren skal stadig bruge Maal-tal");
+  assert.match(strip, /String\(aabne\.length\)/, "fyldt Venter skal stadig bruge Maal-tal");
+});
+
+test("gulv-ro skjules når Mandagspuls har Næste", () => {
+  const flade = read("components/rummet/GulvetFlade.tsx");
+  assert.match(
+    flade,
+    /nr === 0 && !seneste\?\.naeste/,
+    "ro skal kun vises på første opgave når strippens Næste er tom",
+  );
+  assert.match(flade, /gulv-lede/, "lede skal stadig være der");
+  assert.match(flade, /c\.ro\.map/, "ro-indholdet må ikke være slettet fra fladen");
+});
+
 test("docs nævner morgenstrip", () => {
   const d = read("docs/GULVET.md");
   assert.match(d, /Morgenstrip/);
   assert.match(d, /morgen:/);
+  assert.match(d, /Empty states|kompakt/i, "docs skal nævne tomme celler");
+  assert.match(d, /husets flade|ikke.*BI|KPI/i, "docs skal sige Gulvet er husets flade, ikke BI");
 });
