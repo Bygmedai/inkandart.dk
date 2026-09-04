@@ -214,3 +214,49 @@ export function planModVirkelighed(
   const klaret = Object.values(fremdrift).filter(Boolean).length;
   return { ugeNr, forventet, klaret, bagud: Math.max(0, forventet - klaret) };
 }
+
+/* ---------------------------------------------------------- tilstand / rytme
+ *
+ * «Nu» er enten oplæring (én opgave ad gangen) eller rytme (I dag / uge /
+ * venter). YAML kan sætte tilstand direkte; ellers skifter runtime når
+ * måneden er klaret, eller når fire uger og nok vagter er i huset.
+ */
+
+export type GulvetTilstand = "oplæring" | "rytme";
+
+export function effectiveTilstand({
+  tilstand,
+  fremdrift,
+  opgaveAntal,
+  start,
+  vagterMin,
+  vagterTalt,
+  nu = new Date(),
+}: {
+  tilstand: GulvetTilstand | string;
+  fremdrift: Record<string, boolean>;
+  opgaveAntal: number;
+  start: string;
+  vagterMin: number;
+  vagterTalt: number;
+  nu?: Date;
+}): GulvetTilstand {
+  if (tilstand === "rytme") return "rytme";
+
+  const n = Math.max(0, Math.trunc(opgaveAntal) || 0);
+  if (n > 0) {
+    let alle = true;
+    for (let i = 1; i <= n; i++) {
+      if (!fremdrift[`o${i}`]) { alle = false; break; }
+    }
+    if (alle) return "rytme";
+  }
+
+  if (/^\d{4}-\d{2}-\d{2}$/.test(start)) {
+    const dage = Math.floor((nu.getTime() - Date.parse(`${start}T00:00:00Z`)) / 86_400_000);
+    const min = Math.max(1, Math.trunc(vagterMin) || 1);
+    if (dage >= 28 && vagterTalt >= min) return "rytme";
+  }
+
+  return "oplæring";
+}

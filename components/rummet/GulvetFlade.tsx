@@ -4,6 +4,7 @@ import { useCallback, useMemo, useState } from "react";
 import type { GuideBlok, GulvetCopy } from "@/lib/content";
 import type { Analyse, Fund } from "@/lib/gulvet-typer";
 import {
+  effectiveTilstand, isoUge,
   perOpgave as regnPerOpgave, perSlag as regnPerSlag, perUge, perUgedag,
   planModVirkelighed, regnDoeren, svartid as regnSvartid,
 } from "@/lib/gulvet-tal";
@@ -16,6 +17,10 @@ import {
  * sammen eller svaret på, holder man op med at skrive. «Overblik» regner
  * KUN på det holdet selv har skrevet — der er ikke ét tal på den fane som
  * ikke er talt i «Skriv».
+ *
+ * «Nu» er enten oplæring (én opgave) eller rytme (I dag / uge / venter).
+ * Tilstanden kommer fra gulvet.yml og kan skifte automatisk — se
+ * effectiveTilstand i lib/gulvet-tal.ts.
  *
  * Der er stadig ingen prisliste her. De tal bor i teamguiden på /personale,
  * og en kopi ville være den ottende udgave af noget huset lige har samlet
@@ -316,6 +321,8 @@ export function GulvetFlade({
   const [udkast, setUdkast] = useState<Record<string, string>>({});
   const [svarer, setSvarer] = useState<string | null>(null);
   const [svarFejl, setSvarFejl] = useState("");
+  // Placeholder når walk-in åbner Skriv — almindelig tekst ellers.
+  const [skrivPlaceholder, setSkrivPlaceholder] = useState("Kort er fint. Det halve er fint.");
 
   const naeste = c.opgaver.findIndex((_, i) => !gjort[`o${i + 1}`]);
   const nr = naeste === -1 ? c.opgaver.length - 1 : naeste;
@@ -364,8 +371,7 @@ export function GulvetFlade({
     setGemmer(false);
   }
 
-  async function klar() {
-    const opgave = `o${nr + 1}`;
+  async function klarOpgave(opgave: string) {
     setGjort((g) => ({ ...g, [opgave]: true }));
     const r = await fetch("/api/gulvet", {
       method: "PATCH",
@@ -375,6 +381,15 @@ export function GulvetFlade({
     const j = r ? await r.json().catch(() => ({ ok: false })) : { ok: false };
     // Rul tilbage hvis serveren ikke tog imod — ellers tror hun den er gemt.
     if (!j.ok) setGjort((g) => { const n = { ...g }; delete n[opgave]; return n; });
+  }
+  async function klar() { return klarOpgave(`o${nr + 1}`); }
+
+  function aabnSkriv(slagNavn: string, placeholder?: string) {
+    setSlag(slagNavn);
+    if (placeholder) setSkrivPlaceholder(placeholder);
+    else setSkrivPlaceholder("Kort er fint. Det halve er fint.");
+    setFane("skriv");
+    window.scrollTo(0, 0);
   }
 
   const dom = useMemo(() => {
@@ -413,6 +428,29 @@ export function GulvetFlade({
   const plan = useMemo(() => planModVirkelighed(gjort, c.faser, start), [gjort, c.faser, start]);
   const seneste = analyser[0] ?? null;
   const talForUge = (uge: string) => analyser.find((a) => a.uge === uge)?.tal ?? null;
+
+  const vagterTalt = useMemo(
+    () => poster.filter((p) => p.ind !== null || p.koebte !== null || p.salg !== null).length,
+    [poster],
+  );
+  const mode = useMemo(
+    () => effectiveTilstand({
+      tilstand: c.tilstand,
+      fremdrift: gjort,
+      opgaveAntal: c.opgaver.length,
+      start: c.overblik.start,
+      vagterMin: c.overblik.vagter_min,
+      vagterTalt,
+    }),
+    [c.tilstand, gjort, c.opgaver.length, c.overblik.start, c.overblik.vagter_min, vagterTalt],
+  );
+  const autoSkiftet = mode === "rytme" && c.tilstand !== "rytme";
+  const ugeNu = useMemo(() => isoUge(new Date().toISOString().slice(0, 10)), []);
+  const vagterDenneUge = useMemo(
+    () => poster.filter((p) =>
+      (p.ind !== null || p.koebte !== null || p.salg !== null) && isoUge(p.dato) === ugeNu).length,
+    [poster, ugeNu],
+  );
 
   const aabne = poster.filter((p) => p.spoergsmaal && !p.svar);
   const besvarede = poster.filter((p) => p.spoergsmaal && p.svar);
@@ -472,7 +510,7 @@ export function GulvetFlade({
         <F id="overblik" navn="Overblik" />
       </div>
 
-      {fane === "nu" && opg ? (
+      {fane === "nu" && mode === "oplæring" && opg ? (
         <section className="gulv-ark">
           <p className="gulv-lede">{c.lede}</p>
           {nr === 0 ? (
@@ -529,9 +567,122 @@ export function GulvetFlade({
         </section>
       ) : null}
 
+      {fane === "nu" && mode === "rytme" ? (
+        <section className="gulv-ark">
+          {autoSkiftet && c.rytme.skiftet_linje ? (
+            <p className="gulv-p" role="status">{c.rytme.skiftet_linje}</p>
+          ) : null}
+          <p className="gulv-lede">{c.rytme.lede || c.lede}</p>
+
+          <h2 className="gulv-sek">{c.rytme.i_dag_titel || "I dag"}</h2>
+          <p className="gulv-p">
+            {seneste?.naeste
+              ? <><strong>Næste</strong> · <Fed tekst={seneste.naeste} /></>
+              : (c.rytme.i_dag_naeste_tom || "Ingen næste handling endnu.")}
+          </p>
+          <p className="gulv-felt">
+            <button type="button" className="gulv-knap"
+              onClick={() => aabnSkriv("Vagt-tal")}>
+              {c.rytme.i_dag_vagt_knap || "Skriv vagt-tal"}
+            </button>
+          </p>
+          <h3 className="gulv-sek">{c.rytme.i_dag_walkin_label || "Walk-in"}</h3>
+          <button type="button" className="gulv-knap gulv-knap--stille"
+            onClick={() => aabnSkriv("Drift", c.rytme.i_dag_walkin_placeholder || undefined)}>
+            {c.rytme.i_dag_walkin_knap || "Notér en walk-in"}
+          </button>
+
+          <h2 className="gulv-sek">{c.rytme.uge_titel || "I denne uge"}</h2>
+          <h3 className="gulv-sek">{c.rytme.uge_doer_titel || "Døren"}</h3>
+          <div className="gulv-maalraek">
+            <Maal
+              v={`${vagterDenneUge}`}
+              e="vagter talt denne uge"
+              n={`mål ${c.overblik.vagter_min}`}
+            />
+          </div>
+          {c.rytme.uge_doer_maal_linje ? (
+            <p className="gulv-p">{c.rytme.uge_doer_maal_linje}</p>
+          ) : null}
+
+          <h3 className="gulv-sek">{c.rytme.uge_kanal_titel || "Kanalen"}</h3>
+          <p className="gulv-p">
+            {seneste?.naeste
+              ? <Fed tekst={seneste.naeste} />
+              : (c.rytme.i_dag_naeste_tom || "Ingen næste handling fra huset endnu.")}
+          </p>
+          {c.guider.some((g) => g.id === "content") ? (
+            <button type="button" className="gulv-knap gulv-knap--stille"
+              onClick={() => { setGuide("content"); setFane("guider"); window.scrollTo(0, 0); }}>
+              Åbn content-planen
+            </button>
+          ) : null}
+
+          <h3 className="gulv-sek">{c.rytme.uge_hylden_titel || "Hylden"}</h3>
+          <p className="gulv-p">
+            {c.rytme.uge_hylden_linje || "Tjek shoppen selv."}{" "}
+            <a href="https://inkandart.dk/shop">inkandart.dk/shop</a>
+          </p>
+
+          <h2 className="gulv-sek">{c.rytme.venter_titel || "Venter på huset"}</h2>
+          {svarFejl ? <p className="gulv-advarsel" role="status"><strong>{svarFejl}</strong></p> : null}
+          {aabne.length === 0 ? (
+            <p className="gulv-p">{c.rytme.venter_tom || "Ingen åbne spørgsmål."}</p>
+          ) : (
+            <ul className="gulv-poster">
+              {[...aabne].sort((a, b) => a.oprettet.localeCompare(b.oprettet)).map((p) => {
+                const dage = Math.max(0, Math.floor(
+                  (Date.now() - Date.parse(p.oprettet)) / 86_400_000,
+                ));
+                return (
+                  <li key={p.id}>
+                    <p className="gulv-post__top">
+                      <span className="gulv-post__dato">{p.dato}</span>
+                      <span className="gulv-post__hvem">{p.hvem}</span>
+                      <span className="gulv-post__opg">
+                        {dage === 0 ? "i dag" : dage === 1 ? "1 dag" : `${dage} dage`}
+                      </span>
+                    </p>
+                    <p className="gulv-cit">{p.tekst}</p>
+                    {ER_UUID.test(p.id) ? (
+                      <div className="gulv-svarfelt">
+                        <label className="gulv-felt" htmlFor={`sv-rytme-${p.id}`}>
+                          <span>Svar</span>
+                        </label>
+                        <textarea id={`sv-rytme-${p.id}`} value={udkast[p.id] ?? ""}
+                          onChange={(e) => setUdkast((u) => ({ ...u, [p.id]: e.target.value }))}
+                          placeholder="Kort svar er også et svar." />
+                        <button type="button" className="gulv-knap gulv-knap--stille"
+                          disabled={svarer === p.id || !(udkast[p.id] ?? "").trim()}
+                          onClick={() => void svarPaa(p.id)}>
+                          {svarer === p.id ? "Gemmer…" : "Gem svaret"}
+                        </button>
+                      </div>
+                    ) : (
+                      <p className="gulv-tid">
+                        <button type="button" className="gulv-knap gulv-knap--stille"
+                          onClick={() => { setFane("overblik"); window.scrollTo(0, 0); }}>
+                          Svar på Overblik
+                        </button>
+                      </p>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </section>
+      ) : null}
+
       {fane === "guider" ? (
         <section className="gulv-ark">
           <div className="gulv-seg" role="tablist" aria-label="Guider">
+            {mode === "rytme" ? (
+              <button type="button" role="tab" aria-selected={guide === "oplæring"}
+                onClick={() => { setGuide("oplæring"); window.scrollTo(0, 0); }}>
+                {c.rytme.oplæring_guide_navn || "Oplæring"}
+              </button>
+            ) : null}
             {c.guider.map((g) => (
               <button key={g.id} type="button" role="tab" aria-selected={guide === g.id}
                 onClick={() => { setGuide(g.id); window.scrollTo(0, 0); }}>
@@ -539,9 +690,39 @@ export function GulvetFlade({
               </button>
             ))}
           </div>
-          {c.guider.find((g) => g.id === guide)?.blokke.map((b, i) => (
-            <Blok key={i} b={b} flow={c.flow} />
-          ))}
+          {mode === "rytme" && guide === "oplæring" ? (
+            <ol className="gulv-raek">
+              {c.faser.map((f) => (
+                <li key={f.navn} className="gulv-raek__uge">
+                  <h3>{f.navn} — {f.linje}</h3>
+                  <ol>
+                    {c.opgaver.slice(f.fra, f.til).map((o, i) => {
+                      const idx = f.fra + i;
+                      const oid = `o${idx + 1}`;
+                      const k = Boolean(gjort[oid]);
+                      return (
+                        <li key={o.t} className={k ? "er-klaret" : ""}>
+                          <span className="gulv-nr">{idx + 1}</span>
+                          <span className="gulv-t">{o.t}</span>
+                          <span className="gulv-mrkt">{k ? "klaret" : "venter"}</span>
+                          {!k ? (
+                            <button type="button" className="gulv-knap gulv-knap--stille"
+                              onClick={() => void klarOpgave(oid)}>
+                              Jeg har klaret den
+                            </button>
+                          ) : null}
+                        </li>
+                      );
+                    })}
+                  </ol>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            c.guider.find((g) => g.id === guide)?.blokke.map((b, i) => (
+              <Blok key={i} b={b} flow={c.flow} />
+            ))
+          )}
         </section>
       ) : null}
 
@@ -585,7 +766,7 @@ export function GulvetFlade({
             <p className="gulv-felt">
               <label htmlFor="g-tekst">Skriv det</label>
               <textarea id="g-tekst" required value={tekst} onChange={(e) => setTekst(e.target.value)}
-                placeholder="Kort er fint. Det halve er fint." />
+                placeholder={skrivPlaceholder} />
             </p>
             <p className="gulv-felt">
               <label htmlFor="g-dato">Dato</label>

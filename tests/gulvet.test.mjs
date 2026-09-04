@@ -10,7 +10,7 @@ const read = (f) => readFileSync(join(root, f), "utf8");
 
 const { loadGulvet } = await import("../lib/content.ts");
 const { rensFund, heltal, gulvetErSat } = await import("../lib/gulvet.ts");
-const { regnDoeren, perOpgave, perSlag, perUgedag, perUge, isoUge, svartid, planModVirkelighed } = await import("../lib/gulvet-tal.ts");
+const { regnDoeren, perOpgave, perSlag, perUgedag, perUge, isoUge, svartid, planModVirkelighed, effectiveTilstand } = await import("../lib/gulvet-tal.ts");
 
 const c = loadGulvet();
 
@@ -398,4 +398,92 @@ test("analyser hentes nyeste først og med et loft — fladen viser kun den sene
   assert.ok(src.includes('const TABEL_ANALYSE = "gulvet_analyse"'));
   assert.ok(src.includes("${TABEL_ANALYSE}?select=*&order=skrevet.desc&limit="));
   assert.doesNotMatch(src, /skrivAnalyse/, "fladen må ikke kunne skrive opsamlinger — det gør kørslen");
+});
+
+
+/* -------------------------------------------------------------- rytme / tilstand */
+
+test("tilstand og rytme-tekster loades fra gulvet.yml — defensive default er oplæring", () => {
+  assert.equal(c.tilstand, "oplæring");
+  for (const n of [
+    "lede", "i_dag_titel", "i_dag_vagt_knap", "i_dag_naeste_tom",
+    "i_dag_walkin_label", "i_dag_walkin_knap", "i_dag_walkin_placeholder",
+    "uge_titel", "uge_doer_titel", "uge_doer_maal_linje", "uge_kanal_titel",
+    "uge_hylden_titel", "uge_hylden_linje", "venter_titel", "venter_tom",
+    "skiftet_linje", "oplæring_guide_navn",
+  ]) {
+    assert.ok(c.rytme[n], `rytme.${n} mangler — båndet ville vise en tom overskrift`);
+  }
+  assert.equal(c.rytme.oplæring_guide_navn, "Oplæring");
+  const raa = parse(read("content/gulvet.yml"));
+  assert.equal(raa.tilstand, "oplæring");
+  assert.equal(c.opgaver.length, 16, "rytme må ikke røre ved de 16 opgaver");
+});
+
+test("effectiveTilstand: YAML rytme vinder over alt", () => {
+  assert.equal(effectiveTilstand({
+    tilstand: "rytme", fremdrift: {}, opgaveAntal: 16,
+    start: "", vagterMin: 5, vagterTalt: 0,
+  }), "rytme");
+});
+
+test("effectiveTilstand: alle opgaver klaret → rytme", () => {
+  const fremdrift = Object.fromEntries(Array.from({ length: 16 }, (_, i) => [`o${i + 1}`, true]));
+  assert.equal(effectiveTilstand({
+    tilstand: "oplæring", fremdrift, opgaveAntal: 16,
+    start: "", vagterMin: 5, vagterTalt: 0,
+  }), "rytme");
+  // Én mangler → stadig oplæring
+  delete fremdrift.o16;
+  assert.equal(effectiveTilstand({
+    tilstand: "oplæring", fremdrift, opgaveAntal: 16,
+    start: "", vagterMin: 5, vagterTalt: 0,
+  }), "oplæring");
+});
+
+test("effectiveTilstand: 28 dage + nok vagter → rytme, ellers oplæring", () => {
+  const base = {
+    tilstand: "oplæring", fremdrift: {}, opgaveAntal: 16,
+    start: "2026-08-01", vagterMin: 5, vagterTalt: 5,
+    nu: new Date("2026-09-01T12:00:00Z"), // 31 dage
+  };
+  assert.equal(effectiveTilstand(base), "rytme");
+  assert.equal(effectiveTilstand({ ...base, vagterTalt: 4 }), "oplæring", "for få vagter");
+  assert.equal(effectiveTilstand({
+    ...base, nu: new Date("2026-08-20T12:00:00Z"), // 19 dage
+  }), "oplæring", "under 28 dage");
+  assert.equal(effectiveTilstand({ ...base, start: "" }), "oplæring", "uden start ingen tids-trigger");
+  assert.equal(effectiveTilstand({ ...base, start: "ikke-en-dato" }), "oplæring");
+});
+
+test("effectiveTilstand: ukendt tilstand behandles som oplæring, ikke rytme", () => {
+  assert.equal(effectiveTilstand({
+    tilstand: "noget-andet", fremdrift: {}, opgaveAntal: 16,
+    start: "", vagterMin: 5, vagterTalt: 0,
+  }), "oplæring");
+});
+
+test("fladen har rytme-grene — «Nu» parkerer ikke kun på opgave 16 i rytme", () => {
+  const flade = read("components/rummet/GulvetFlade.tsx");
+  assert.match(flade, /effectiveTilstand/, "fladen kalder ikke tilstands-hjælperen");
+  assert.match(flade, /mode === "rytme"/, "ingen rytme-gren i Nu");
+  assert.match(flade, /mode === "oplæring"/, "oplæring-grenen forsvandt");
+  assert.match(flade, /aabnSkriv\("Vagt-tal"\)/, "I dag-knappen åbner ikke vagt-tal");
+  assert.match(flade, /aabnSkriv\("Drift"/, "walk-in åbner ikke Drift i Skriv");
+  assert.match(flade, /inkandart\.dk\/shop/, "hylden linker ikke til den offentlige shop");
+  assert.match(flade, /oplæring_guide_navn/, "Guider mangler Oplæring-segmentet");
+  assert.match(flade, /skiftet_linje/, "auto-skift-noten mangler");
+  // Negativ: rytme-Nu må ikke være den gamle «parkér på sidste opgave»-sti alene.
+  assert.doesNotMatch(
+    flade,
+    /fane === "nu" && opg \?/,
+    "Nu er stadig kun bundet til opg — rytme ville parkere på opgave 16",
+  );
+});
+
+test("docs forklarer rytme, tilstand og triggers", () => {
+  const d = read("docs/GULVET.md");
+  assert.match(d, /effectiveTilstand/);
+  assert.match(d, /tilstand/);
+  assert.match(d, /28 dage/);
 });

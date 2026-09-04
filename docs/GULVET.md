@@ -150,3 +150,23 @@ Al aritmetik i `lib/gulvet-tal.ts`, prøvet. Stolperne er HTML-rækker, ikke
 
 Skema: `gulvet_analyse` (uge, fra, til, af, skrevet, tal jsonb, konklusioner
 text[], naeste). RLS uden politikker som de andre.
+
+## Rytme — stående «Nu» efter oplæringen
+
+`tilstand` i `content/gulvet.yml` er enten `oplæring` eller `rytme`.
+
+- **oplæring** (standard): «Nu» viser én opgave ad gangen — de 16 engangsopgaver.
+- **rytme**: «Nu» viser tre bånd — **I dag**, **I denne uge**, **Venter på huset**.
+  Oplæringslisten flytter ind under Guider som segmentet navngivet i
+  `rytme.oplæring_guide_navn`.
+
+Runtime kan også skifte til rytme uden at YAML ændres. Reglen bor i
+`effectiveTilstand` (`lib/gulvet-tal.ts`):
+
+1. YAML siger `rytme`, eller
+2. alle `o1`…`oN` er klaret i fremdriften, eller
+3. `overblik.start` er sat, der er gået mindst 28 dage, **og** antal talte
+   vagter ≥ `overblik.vagter_min`.
+
+Når skiftet sker automatisk, viser «Nu» `rytme.skiftet_linje` én gang øverst.
+Ingen nye tabeller, ingen Shopify Admin — hylden linker til den offentlige shop.

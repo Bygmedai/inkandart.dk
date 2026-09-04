@@ -34,6 +34,39 @@ ro:
     i butikken. Din opgave er at finde ud af om vi har ret, og sige det hvis vi
     ikke har.
 
+# oplæring = 16 engangsopgaver i «Nu». rytme = stående I dag / uge / venter.
+# Runtime kan også skifte til rytme automatisk når triggeren rammer (se docs).
+tilstand: oplæring
+
+# Tekster til den stående rytme. Opgaverne og faserne herunder er uændrede —
+# i rytme ligger oplæringslisten under Guider i stedet for i «Nu».
+rytme:
+  lede: >-
+    Tre ting i dag: tæl vagten, se ugen, og svar hvis huset venter. Oplæringen
+    ligger under Guider når du skal tilbage til den.
+  i_dag_titel: I dag
+  i_dag_vagt_knap: Skriv vagt-tal
+  i_dag_naeste_tom: Ingen næste handling fra huset endnu. Tæl vagten, så er du i gang.
+  i_dag_walkin_label: Walk-in
+  i_dag_walkin_knap: Notér en walk-in
+  i_dag_walkin_placeholder: Hvem kom ind, hvad de spurgte om, hvad der skete.
+  uge_titel: I denne uge
+  uge_doer_titel: Døren
+  uge_doer_maal_linje: >-
+    Målet er husets minimum af talte vagter i ugen — under det er døren stadig
+    en stikprøve.
+  uge_kanal_titel: Kanalen
+  uge_hylden_titel: Hylden
+  uge_hylden_linje: >-
+    Gulvet henter ikke lageret herfra. Åbn shoppen og tjek selv — det er den
+    ærlige vej, indtil hylden har sit eget tal.
+  venter_titel: Venter på huset
+  venter_tom: Ingen åbne spørgsmål. Huset er med.
+  skiftet_linje: >-
+    Oplæringen er kørt færdig nok til at «Nu» er blevet til rytme. Listen ligger
+    stadig under Guider.
+  oplæring_guide_navn: Oplæring
+
 teamguide_linje: Priser, åbningstider og tjeklister ligger i teamguiden.
 
 faser:
