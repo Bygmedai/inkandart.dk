@@ -278,9 +278,20 @@ overblik:
   opgave_lede: >-
     Én linje pr. opgave i måneden, og hvad der kom med tilbage. En opgave der
     er klaret uden at der kom noget med tilbage, er ikke klaret.
-  omraade_lede: >-
-    Det huset har rørt, og det huset ikke har rørt. Nullerne er lige så
-    interessante som tallene.
+  # Startdato for oplæringsmåneden (ÅÅÅÅ-MM-DD). Tom = mandagen i den uge
+  # det første blev skrevet. Bruges kun til «plan mod virkelighed».
+  start: ""
+  laerte_lede: >-
+    Hver mandag læser Haruki alt der er skrevet, holder det op mod Book.dk,
+    Shopify og Instagram, og skriver det her. Tre til fem sætninger. Ikke flere.
+  laerte_tom: >-
+    Første opsamling kommer mandag morgen. Indtil da er der kun nulpunktet.
+  ugedag_lede: >-
+    Er søndag værd at holde åbent? Skal lørdag have to i stolen? Det her er
+    første gang huset kan se det i stedet for at gætte. Pr. vagt, ikke i alt.
+  uge_lede: >-
+    Bliver måneden bedre? Én måned er en indikation, ikke et bevis — men det er
+    her man kan se om det der sker på Instagram i uge 3, kan ses ved døren i uge 4.
 
 # Husets to økonomi-tal, brugt af regnemaskinen og af overblikket. De står
 # her og ikke i koden, så Nizar kan rette dem uden en PR.

@@ -26,11 +26,12 @@
 
 const TABEL_FUND = "gulvet_fund";
 const TABEL_FREMDRIFT = "gulvet_fremdrift";
+const TABEL_ANALYSE = "gulvet_analyse";
 const TIMEOUT_MS = 8_000;
 
-import type { Fremdrift, Fund } from "./gulvet-typer";
+import type { Analyse, Fremdrift, Fund } from "./gulvet-typer";
 
-export type { Fremdrift, Fund };
+export type { Analyse, Fremdrift, Fund };
 
 /** Et nyt fund, som det kommer ind fra formularen — før validering. */
 export type NytFund = {
@@ -97,6 +98,23 @@ export async function hentFund(graense = 40): Promise<Fund[]> {
   return Array.isArray(data) ? (data as Fund[]) : [];
 }
 
+/**
+ * De seneste ugentlige opsamlinger, nyeste først. Skrives af den ugentlige
+ * kørsel — aldrig fra fladen. Derfor findes der ingen skriv-funktion her.
+ */
+export async function hentAnalyser(graense = 8): Promise<Analyse[]> {
+  const n = Math.min(Math.max(Math.trunc(graense) || 8, 1), 52);
+  const r = await kald(`${TABEL_ANALYSE}?select=*&order=skrevet.desc&limit=${n}`, { method: "GET" });
+  if (!r?.ok) return [];
+  const data = await r.json().catch(() => null);
+  if (!Array.isArray(data)) return [];
+  return (data as Analyse[]).map((a) => ({
+    ...a,
+    tal: a.tal && typeof a.tal === "object" ? a.tal : {},
+    konklusioner: Array.isArray(a.konklusioner) ? a.konklusioner : [],
+  }));
+}
+
 export async function hentFremdrift(): Promise<Record<string, boolean>> {
   const r = await kald(`${TABEL_FREMDRIFT}?select=opgave,klaret&limit=200`, { method: "GET" });
   if (!r?.ok) return {};
@@ -160,6 +178,7 @@ export function rensFund(raa: NytFund, kendteSlags: string[]): Omit<Fund, "id" |
     spoergsmaal: s === "Spørgsmål",
     svar: null,
     svar_af: null,
+    svar_paa: null,
     // Hvilken opgave fundet kom fra. Det er dét der gør «Overblik» til
     // et regnskab og ikke en bunke: hver opgave lover noget med tilbage,
     // og her kan man se om løftet blev holdt.

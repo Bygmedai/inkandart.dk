@@ -2,8 +2,11 @@
 
 import { useCallback, useMemo, useState } from "react";
 import type { GuideBlok, GulvetCopy } from "@/lib/content";
-import type { Fund } from "@/lib/gulvet-typer";
-import { perOpgave as regnPerOpgave, perSlag as regnPerSlag, regnDoeren } from "@/lib/gulvet-tal";
+import type { Analyse, Fund } from "@/lib/gulvet-typer";
+import {
+  perOpgave as regnPerOpgave, perSlag as regnPerSlag, perUge, perUgedag,
+  planModVirkelighed, regnDoeren, svartid as regnSvartid,
+} from "@/lib/gulvet-tal";
 
 /**
  * Gulvet — husets oplæringsmåned og logbog.
@@ -210,6 +213,60 @@ const PCT = (n: number) => `${Math.round(n * 100)}%`;
  *  ikke. En knap der ikke kan virke er værre end ingen knap. */
 const ER_UUID = /^[0-9a-f-]{36}$/i;
 
+/* ------------------------------------------------------------- stolper
+ * Én serie, vandret, tynd. Tallet står direkte ved stolpen, så der er ingen
+ * akse at læse på tværs. Stolper med kun én vagt bag sig tegnes hult og får
+ * ordet «1 vagt» — usikkerheden skal kunne læses uden farve. Ingen anden
+ * akse, ingen anden serie: to mål af forskellig skala er to figurer.
+ */
+function Stolper({
+  rk, aria,
+}: {
+  rk: { navn: string; v: number; etiket: string; note?: string; usikker?: boolean }[];
+  aria: string;
+}) {
+  // HTML-rækker, ikke ét SVG: et SVG på 640 px skaleret til en telefon gør
+  // teksten otte pixel høj og klipper den længste etiket. Målt S579.
+  const maks = Math.max(1, ...rk.map((r) => r.v));
+  return (
+    <figure className="gulv-fig gulv-stolper" role="img" aria-label={aria}>
+      {rk.map((r) => (
+        <div key={r.navn} className={`gulv-stolpe${r.v > 0 ? "" : " er-tom"}${r.usikker ? " er-usikker" : ""}`}
+          title={`${r.navn}: ${r.etiket}${r.note ? ` · ${r.note}` : ""}`}>
+          <span className="gulv-stolpe__navn">{r.navn}</span>
+          <span className="gulv-stolpe__bane">
+            <span className="gulv-stolpe__stang" style={{ width: r.v > 0 ? `${Math.max(2, (r.v / maks) * 100)}%` : 0 }} />
+          </span>
+          <span className="gulv-stolpe__tal">
+            {r.v > 0 ? <b>{r.etiket}</b> : <b>—</b>}
+            {r.note ? <i>{r.note}</i> : null}
+          </span>
+        </div>
+      ))}
+    </figure>
+  );
+}
+
+/** Ugens systemtal i én stribe. Nøglerne ejes af den ugentlige kørsel;
+ *  fladen kender kun etiketterne og viser det den kan genkende. */
+const TAL_NAVNE: [string, string][] = [
+  ["doer_vagter", "vagter talt"], ["doer_ind", "ind ad døren"], ["doer_koebte", "købte"], ["doer_salg", "på gulvet"],
+  ["shop_sessions", "besøg i shoppen"], ["shop_kasse", "nåede kassen"], ["shop_koeb", "købte online"], ["shop_salg", "online"],
+  ["book_bookinger", "bookinger i Book.dk"], ["ig_foelgere", "følgere"], ["ig_opslag", "opslag"],
+  ["site_besoeg", "besøg på sitet"],
+];
+function TalStrip({ tal }: { tal: Record<string, number | null> }) {
+  const rk = TAL_NAVNE.filter(([k]) => tal[k] !== undefined && tal[k] !== null);
+  if (!rk.length) return null;
+  return (
+    <p className="gulv-tal gulv-tal--stribe">
+      {rk.map(([k, e]) => (
+        <span key={k}><b>{k === "doer_salg" || k === "shop_salg" ? KR(tal[k] as number) : (tal[k] as number).toLocaleString("da-DK")}</b> {e}</span>
+      ))}
+    </p>
+  );
+}
+
 /** Overblikkets eneste byggesten: ét tal, hvad det er, og hvor det kommer fra. */
 function Maal({ v, e, n }: { v: string; e: string; n?: string }) {
   return (
@@ -225,11 +282,13 @@ export function GulvetFlade({
   c,
   fund,
   fremdrift,
+  analyser,
   hvem: hvemStart,
 }: {
   c: GulvetCopy;
   fund: Fund[];
   fremdrift: Record<string, boolean>;
+  analyser: Analyse[];
   hvem: string;
 }) {
   const [fane, setFane] = useState<"nu" | "guider" | "skriv" | "overblik">("nu");
@@ -290,7 +349,7 @@ export function GulvetFlade({
           ind: ind === "" ? null : Number(ind),
           koebte: koebte === "" ? null : Number(koebte),
           salg: salg === "" ? null : Number(salg),
-          spoergsmaal: slag === "Spørgsmål", svar: null, svar_af: null,
+          spoergsmaal: slag === "Spørgsmål", svar: null, svar_af: null, svar_paa: null,
           opgave: valgtOpgave || null,
           oprettet: new Date().toISOString(),
         },
@@ -338,6 +397,21 @@ export function GulvetFlade({
   );
   const perOpgave = useMemo(() => regnPerOpgave(poster), [poster]);
   const perSlag = useMemo(() => regnPerSlag(poster, c.slags), [poster, c.slags]);
+  const ugedage = useMemo(() => perUgedag(poster), [poster]);
+  const uger = useMemo(() => perUge(poster), [poster]);
+  const svartid = useMemo(() => regnSvartid(poster), [poster]);
+  // Startdato: husets, ellers mandagen i den uge det første blev skrevet.
+  const start = useMemo(() => {
+    if (c.overblik.start) return c.overblik.start;
+    const foerste = poster.map((p) => p.dato).sort()[0];
+    if (!foerste) return "";
+    const d = new Date(`${foerste}T12:00:00Z`);
+    d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 6) % 7));
+    return d.toISOString().slice(0, 10);
+  }, [c.overblik.start, poster]);
+  const plan = useMemo(() => planModVirkelighed(gjort, c.faser, start), [gjort, c.faser, start]);
+  const seneste = analyser[0] ?? null;
+  const talForUge = (uge: string) => analyser.find((a) => a.uge === uge)?.tal ?? null;
 
   const aabne = poster.filter((p) => p.spoergsmaal && !p.svar);
   const besvarede = poster.filter((p) => p.spoergsmaal && p.svar);
@@ -357,7 +431,9 @@ export function GulvetFlade({
     }).catch(() => null);
     const j = r ? await r.json().catch(() => ({ ok: false })) : { ok: false };
     if (j.ok) {
-      setPoster((ps) => ps.map((p) => (p.id === id ? { ...p, svar: t, svar_af: hvem || "Holdet" } : p)));
+      setPoster((ps) => ps.map((p) => (p.id === id
+        ? { ...p, svar: t, svar_af: hvem || "Holdet", svar_paa: new Date().toISOString() }
+        : p)));
       setUdkast((u) => { const n2 = { ...u }; delete n2[id]; return n2; });
     } else {
       setSvarFejl("Svaret blev ikke gemt. Prøv igen — det du skrev står der stadig.");
@@ -627,6 +703,28 @@ export function GulvetFlade({
         <section className="gulv-ark">
           <p className="gulv-lede">{c.overblik.lede}</p>
 
+          <section className="gulv-laerte" aria-labelledby="gulv-laerte-h">
+            <p className="gulv-laerte__mrk">
+              <span>Huset lærte</span>
+              {seneste ? <em>{seneste.uge.replace(/^\d{4}-W0?/, "uge ")} · {seneste.fra} – {seneste.til} · {seneste.af}</em> : null}
+            </p>
+            {!seneste ? (
+              <p className="gulv-p" id="gulv-laerte-h">{c.overblik.laerte_tom}</p>
+            ) : (
+              <>
+                <h2 id="gulv-laerte-h" className="gulv-visuelt-skjult">Huset lærte {seneste.uge}</h2>
+                <ol className="gulv-laerte__liste">
+                  {seneste.konklusioner.map((k, i) => <li key={i}><Fed tekst={k} /></li>)}
+                </ol>
+                {seneste.naeste ? (
+                  <p className="gulv-laerte__naeste"><strong>Næste uge</strong><Fed tekst={seneste.naeste} /></p>
+                ) : null}
+                <TalStrip tal={seneste.tal} />
+              </>
+            )}
+            <p className="gulv-laerte__fod">{c.overblik.laerte_lede}</p>
+          </section>
+
           {poster.length === 0 ? (
             <p className="gulv-p">{c.overblik.tom}</p>
           ) : null}
@@ -678,6 +776,18 @@ export function GulvetFlade({
 
           <h2 className="gulv-sek">Spørgsmål der venter</h2>
           <p className="gulv-lede">{c.overblik.svar_lede}</p>
+          {svartid.besvarede + svartid.aabne > 0 ? (
+            <p className={`gulv-dom${svartid.aeldsteAabenDage !== null && svartid.aeldsteAabenDage >= 7 ? " er-nej" : svartid.besvarede ? " er-ja" : ""}`} role="status">
+              <strong>Husets svartid</strong>
+              {svartid.besvarede
+                ? `${svartid.besvarede} besvaret, typisk efter ${svartid.medianDage === null ? "–" : svartid.medianDage < 1 ? "under en dag" : `${Math.round(svartid.medianDage)} ${Math.round(svartid.medianDage) === 1 ? "dag" : "dage"}`}. `
+                : "Intet besvaret endnu. "}
+              {svartid.aabne
+                ? `${svartid.aabne} venter${svartid.aeldsteAabenDage !== null && svartid.aeldsteAabenDage >= 1 ? ` — det ældste i ${Math.round(svartid.aeldsteAabenDage)} ${Math.round(svartid.aeldsteAabenDage) === 1 ? "dag" : "dage"}` : ""}.`
+                : "Ingen venter."}
+              {svartid.aeldsteAabenDage !== null && svartid.aeldsteAabenDage >= 7 ? " Det er ikke Sonja der er problemet." : ""}
+            </p>
+          ) : null}
           {svarFejl ? <p className="gulv-advarsel" role="status"><strong>{svarFejl}</strong></p> : null}
           {aabne.length === 0 ? (
             <p className="gulv-p">
@@ -737,6 +847,13 @@ export function GulvetFlade({
 
           <h2 className="gulv-sek">Måneden, opgave for opgave</h2>
           <p className="gulv-lede">{c.overblik.opgave_lede}</p>
+          {plan && plan.ugeNr > 0 ? (
+            <p className={`gulv-dom${plan.bagud === 0 ? " er-ja" : plan.bagud >= 3 ? " er-nej" : ""}`} role="status">
+              <strong>Plan mod virkelighed</strong>
+              Uge {plan.ugeNr} af {c.faser.length}, fra {start}. Planen siger {plan.forventet} klaret.
+              Der er klaret {plan.klaret}.{plan.bagud === 0 ? " Det holder." : ` ${plan.bagud} bagud — det er ikke en fejl, det er en oplysning.`}
+            </p>
+          ) : null}
           <ol className="gulv-regnsk">
             {c.opgaver.map((o, i) => {
               const id = `o${i + 1}`;
@@ -769,24 +886,67 @@ export function GulvetFlade({
             })}
           </ol>
 
-          <h2 className="gulv-sek">Pr. område</h2>
-          <p className="gulv-lede">{c.overblik.omraade_lede}</p>
-          <div className="gulv-rulle">
-            <table className="gulv-tab">
-              <thead>
-                <tr><th>Område</th><th>Skrevet</th><th>Senest</th></tr>
-              </thead>
-              <tbody>
-                {perSlag.map(([sl, r]) => (
-                  <tr key={sl} className={r.n === 0 ? "er-nul" : ""}>
-                    <td><strong>{sl}</strong></td>
-                    <td>{r.n}</td>
-                    <td>{r.seneste || "aldrig"}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          {ugedage.some((d) => d.vagter > 0) ? (
+            <>
+              <h2 className="gulv-sek">Ugedagene</h2>
+              <p className="gulv-lede">{c.overblik.ugedag_lede}</p>
+              <Stolper
+                aria="Hvor mange der kommer ind pr. vagt, fordelt på ugedag, med lukkerate ved siden af."
+                rk={ugedage.map((d) => ({
+                  navn: d.dag,
+                  v: d.indPrVagt,
+                  etiket: `${Math.round(d.indPrVagt)} ind`,
+                  note: d.vagter === 0 ? undefined
+                    : `${d.lukke === null ? "—" : PCT(d.lukke)} køber · ${KR(d.salgPrVagt)}${d.vagter === 1 ? " · 1 vagt" : ""}`,
+                  usikker: d.vagter === 1,
+                }))}
+              />
+              <details className="gulv-fold">
+                <summary>Som tabel</summary>
+                <div className="gulv-rulle">
+                  <table className="gulv-tab">
+                    <thead><tr><th>Dag</th><th>Vagter</th><th>Ind pr. vagt</th><th>Køber</th><th>Salg pr. vagt</th></tr></thead>
+                    <tbody>
+                      {ugedage.map((d) => (
+                        <tr key={d.dag} className={d.vagter === 0 ? "er-nul" : ""}>
+                          <td><strong>{d.dag}</strong></td>
+                          <td>{d.vagter}</td>
+                          <td>{d.vagter ? Math.round(d.indPrVagt) : "—"}</td>
+                          <td>{d.lukke === null ? "—" : PCT(d.lukke)}</td>
+                          <td>{d.vagter ? KR(d.salgPrVagt) : "—"}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </details>
+            </>
+          ) : null}
+
+          {uger.length > 0 ? (
+            <>
+              <h2 className="gulv-sek">Uge for uge</h2>
+              <p className="gulv-lede">{c.overblik.uge_lede}</p>
+              <Stolper
+                aria="Ind pr. vagt uge for uge, med lukkerate og webshoppens tal ved siden af når de findes."
+                rk={uger.map((u) => {
+                  const t = talForUge(u.uge);
+                  const web = t && t.shop_sessions !== null && t.shop_sessions !== undefined
+                    ? ` · web ${t.shop_sessions}/${t.shop_kasse ?? "–"}/${t.shop_koeb ?? "–"}` : "";
+                  return {
+                    navn: u.uge.replace(/^\d{4}-W0?/, "u"),
+                    v: u.indPrVagt,
+                    etiket: u.vagter ? `${Math.round(u.indPrVagt)} ind` : `${u.noter} noter`,
+                    note: u.vagter
+                      ? `${u.lukke === null ? "—" : PCT(u.lukke)} køber · ${u.vagter} ${u.vagter === 1 ? "vagt" : "vagter"}${web}`
+                      : "ingen vagt talt",
+                    usikker: u.vagter < 2,
+                  };
+                })}
+              />
+              <p className="gulv-tid">web = besøg / nåede kassen / købte, fra Shopify. Kommer med mandagens opsamling.</p>
+            </>
+          ) : null}
         </section>
       ) : null}
     </div>

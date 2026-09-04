@@ -20,9 +20,28 @@ export type Fund = {
   spoergsmaal: boolean;
   svar: string | null;
   svar_af: string | null;
+  /** Hvornår svaret kom — null indtil da. Svartiden regnes herfra. */
+  svar_paa: string | null;
   /** Hvilken af månedens opgaver fundet kom fra. Null = ingen. */
   opgave: string | null;
   oprettet: string;
 };
 
+/** Spejl af GulvetFase i lib/content.ts — kun det tal-modulet bruger. */
+export type GulvetFase = { navn: string; linje: string; fra: number; til: number };
+
 export type Fremdrift = { opgave: string; klaret: boolean; af: string; naar: string };
+
+/** Én ugentlig opsamling, skrevet af Haruki (eller et menneske) ind i gulvet_analyse. */
+export type Analyse = {
+  id: string;
+  uge: string;
+  fra: string;
+  til: string;
+  af: string;
+  skrevet: string;
+  /** Ugens tal fra systemerne — nøgler er frie, værdier tal eller null. */
+  tal: Record<string, number | null>;
+  konklusioner: string[];
+  naeste: string | null;
+};

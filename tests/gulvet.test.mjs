@@ -10,7 +10,7 @@ const read = (f) => readFileSync(join(root, f), "utf8");
 
 const { loadGulvet } = await import("../lib/content.ts");
 const { rensFund, heltal, gulvetErSat } = await import("../lib/gulvet.ts");
-const { regnDoeren, perOpgave, perSlag } = await import("../lib/gulvet-tal.ts");
+const { regnDoeren, perOpgave, perSlag, perUgedag, perUge, isoUge, svartid, planModVirkelighed } = await import("../lib/gulvet-tal.ts");
 
 const c = loadGulvet();
 
@@ -194,7 +194,8 @@ test("trykflader er mindst 44 px høje", () => {
 /* ------------------------------------------------------- fanen «Overblik» */
 
 test("overblikkets tekster og husets to tal står i gulvet.yml, ikke i koden", () => {
-  for (const n of ["lede", "tom", "web_linje", "svar_lede", "opgave_lede", "omraade_lede"]) {
+  for (const n of ["lede", "tom", "web_linje", "svar_lede", "opgave_lede",
+                   "laerte_lede", "laerte_tom", "ugedag_lede", "uge_lede"]) {
     assert.ok(c.overblik[n], `overblik.${n} mangler — fanen ville vise en tom overskrift`);
   }
   assert.ok(c.overblik.vagter_min >= 1, "en grænse på nul betyder «regn et månedstal på ingenting»");
@@ -293,4 +294,108 @@ test("de nye trykflader er også mindst 44 px", () => {
   const css = read("components/rummet/rummet.css");
   assert.match(ruleBody(css, ".gulv-fold > summary"), /min-height: 44px/);
   assert.match(ruleBody(css, ".gulv-felt select"), /min-height: 4[48]px/);
+});
+
+/* ------------------------------------------------------- ugedage og uger */
+
+test("ugedagen regnes rigtigt, og mandag er først — ikke søndag som i JS", () => {
+  // 2026-09-07 er en mandag, 2026-09-13 en søndag.
+  const r = perUgedag([vagt({ dato: "2026-09-07", ind: 10 }), vagt({ dato: "2026-09-13", ind: 30, koebte: 3 })]);
+  assert.equal(r[0].dag, "man");
+  assert.equal(r[0].indPrVagt, 10);
+  assert.equal(r[6].dag, "søn");
+  assert.equal(r[6].indPrVagt, 30);
+  assert.equal(r[6].lukke, 0.1);
+  assert.equal(r[1].vagter, 0, "en dag uden vagt er nul vagter, ikke en fejl");
+  assert.equal(r[1].lukke, null);
+});
+
+test("ugedage er pr. vagt — den dag der er talt flest gange vinder ikke bare", () => {
+  const r = perUgedag([
+    vagt({ dato: "2026-09-11", ind: 40 }), vagt({ dato: "2026-09-18", ind: 40 }), // to fredage à 40
+    vagt({ dato: "2026-09-12", ind: 60 }),                                        // én lørdag à 60
+  ]);
+  assert.equal(r[4].indPrVagt, 40);
+  assert.equal(r[5].indPrVagt, 60, "lørdag skal stå højere pr. vagt selv om fredag har flere vagter i alt");
+});
+
+test("ISO-ugen er den samme nøgle som gulvet_analyse.uge — ellers kan de to ikke joines", () => {
+  assert.equal(isoUge("2026-09-03"), "2026-W36");
+  assert.equal(isoUge("2026-09-07"), "2026-W37");
+  assert.equal(isoUge("2026-01-01"), "2026-W01");
+  assert.equal(isoUge("2027-01-01"), "2026-W53", "nytår hører til det gamle års sidste uge når det er fredag");
+});
+
+test("uge for uge tæller noter og vagter hver for sig, og kommer i rækkefølge", () => {
+  const r = perUge([
+    vagt({ dato: "2026-09-10", ind: 20, koebte: 5 }),
+    vagt({ dato: "2026-09-03", slag: "Drift" }),
+    vagt({ dato: "2026-09-04", ind: 10 }),
+  ]);
+  assert.deepEqual(r.map((u) => u.uge), ["2026-W36", "2026-W37"]);
+  assert.equal(r[0].noter, 2);
+  assert.equal(r[0].vagter, 1, "en note uden tal er ikke en vagt");
+  assert.equal(r[1].lukke, 0.25);
+});
+
+/* ------------------------------------------------------------- svartid */
+
+const spm = (o) => vagt({ slag: "Spørgsmål", spoergsmaal: true, oprettet: "2026-09-01T10:00:00Z", ...o });
+
+test("svartiden er en median, så ét glemt spørgsmål ikke skjuler at de andre fik svar samme dag", () => {
+  const r = svartid([
+    spm({ svar: "ja", svar_paa: "2026-09-01T12:00:00Z" }),
+    spm({ svar: "ja", svar_paa: "2026-09-01T14:00:00Z" }),
+    spm({ svar: "ja", svar_paa: "2026-09-22T10:00:00Z" }),
+  ], new Date("2026-09-23T10:00:00Z"));
+  assert.equal(r.besvarede, 3);
+  assert.ok(r.medianDage < 1, "medianen er timer, ikke tre uger");
+  assert.equal(r.aabne, 0);
+});
+
+test("det ældste åbne spørgsmål måles i dage fra det blev stillet — ikke fra i dag", () => {
+  const r = svartid([spm({}), spm({ oprettet: "2026-09-08T10:00:00Z" })], new Date("2026-09-10T10:00:00Z"));
+  assert.equal(r.aabne, 2);
+  assert.equal(Math.round(r.aeldsteAabenDage), 9);
+  assert.equal(r.medianDage, null, "ingen besvarede → ingen median, ikke nul");
+});
+
+/* -------------------------------------------------- plan mod virkelighed */
+
+test("planen ved hvilken uge det er, og hvor mange der burde være klaret", () => {
+  const faser = [{ navn: "1", linje: "", fra: 0, til: 4 }, { navn: "2", linje: "", fra: 4, til: 8 },
+                 { navn: "3", linje: "", fra: 8, til: 12 }, { navn: "4", linje: "", fra: 12, til: 16 }];
+  const p = planModVirkelighed({ o1: true, o2: true, o3: true }, faser, "2026-09-07", new Date("2026-09-16T12:00:00Z"));
+  assert.equal(p.ugeNr, 2);
+  assert.equal(p.forventet, 8);
+  assert.equal(p.klaret, 3);
+  assert.equal(p.bagud, 5);
+  // Efter måneden låses ugen til den sidste — planen kan ikke kræve mere end 16.
+  assert.equal(planModVirkelighed({}, faser, "2026-09-07", new Date("2026-12-01T12:00:00Z")).forventet, 16);
+  assert.equal(planModVirkelighed({}, faser, "", new Date()), null, "uden startdato regnes der ikke");
+});
+
+/* --------------------------------------------------- den ugentlige kørsel */
+
+test("scriptet og fladen kender de samme tal-nøgler — ellers skrives der tal ingen ser", () => {
+  const py = read("scripts/gulvet-uge.py");
+  const blok = py.slice(py.indexOf("TAL_NOEGLER = {"), py.indexOf("}", py.indexOf("TAL_NOEGLER = {")));
+  const script = new Set([...blok.matchAll(/"([a-z_]+)"/g)].map((m) => m[1]));
+  const flade = read("components/rummet/GulvetFlade.tsx");
+  const fblok = flade.slice(flade.indexOf("const TAL_NAVNE"), flade.indexOf("];", flade.indexOf("const TAL_NAVNE")));
+  const side = new Set([...fblok.matchAll(/\["([a-z_]+)",/g)].map((m) => m[1]));
+  assert.ok(script.size >= 8, "scriptets nøgleliste blev ikke fundet");
+  assert.deepEqual([...script].sort(), [...side].sort());
+});
+
+test("kørslen er beskrevet, og scriptet nægter ukendte nøgler", () => {
+  assert.match(read("docs/GULVET-UGE.md"), /gulvet-uge\.py skriv/);
+  assert.match(read("scripts/gulvet-uge.py"), /ukendte tal-nøgler/);
+});
+
+test("analyser hentes nyeste først og med et loft — fladen viser kun den seneste", () => {
+  const src = read("lib/gulvet.ts");
+  assert.ok(src.includes('const TABEL_ANALYSE = "gulvet_analyse"'));
+  assert.ok(src.includes("${TABEL_ANALYSE}?select=*&order=skrevet.desc&limit="));
+  assert.doesNotMatch(src, /skrivAnalyse/, "fladen må ikke kunne skrive opsamlinger — det gør kørslen");
 });
