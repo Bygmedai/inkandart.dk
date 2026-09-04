@@ -177,5 +177,13 @@ Under `gulv-faner` ligger en kompakt strip med tre celler — **Døren** (vagter
 ind i den aktuelle ISO-uge), **Venter** (åbne spørgsmål; klik skifter til Overblik
 eller Nu i rytme) og **Næste** (`analyser[0].naeste` fra Mandagspuls). Teksterne
 bor i `morgen:` i `gulvet.yml`. Strippen er synlig på alle faner i både oplæring
-og rytme, så huset deler ét morgen-dashboard fra dag ét. Den erstatter ikke
+og rytme, så huset deler ét morgenblik fra dag ét. Den erstatter ikke
 rytme-båndene.
+
+**Empty states.** Når Døren eller Venter er tom, er cellen kompakt: titel +
+`*_tom`-tekst, uden et kæmpe «—» der ligner en fejl ved siden af en fyldt Næste.
+Har cellen data, beholder den det store Maal-tal. Næste er tekstcelle og wrapper
+rent, så den ikke råber højere end Døren med tal.
+
+**Segment.** Gulvet er husets flade — Sonja skriver; Nizar, Steven og Simone
+læser strippen og svarer Venter. Det er ikke et KPI/BI-dashboard.

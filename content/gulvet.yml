@@ -69,6 +69,8 @@ rytme:
 
 # Fælles morgenstrip under fanerne — synlig i både oplæring og rytme.
 # Tre celler: Døren (denne ISO-uge), Venter (åbne spørgsmål), Næste (Mandagspuls).
+# Tomme Døren/Venter vises kompakt (titel + *_tom) uden kæmpe «—»; med data
+# beholder cellen det store Maal-tal. Det er husets morgenflade — ikke BI.
 morgen:
   doeren_titel: Døren
   doeren_tom: Ingen vagt talt denne uge

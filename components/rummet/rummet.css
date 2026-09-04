@@ -2076,9 +2076,28 @@ html:has([data-house="rummet"]) .grain {
 .gulv-fane[aria-selected="true"] { color: var(--hud); border-bottom-color: var(--blod); }
 .gulv-fane:focus-visible { outline: 2px solid var(--strobe); outline-offset: -2px; }
 
-/* Fælles morgenstrip under fanerne — samme maal-celler, ingen nye tokens. */
+/* Fælles morgenstrip under fanerne — samme maal-celler, ingen nye tokens.
+   Tomme celler er kompakte (ingen kæmpe em-dash). Næste er tekst der wrapper. */
 .gulv-morgen { margin: 14px 0 4px; }
 .gulv-morgen .gulv-maalraek { margin-bottom: 0; }
+.gulv-morgen .gulv-maal--tom {
+  padding: 12px 14px 11px;
+  display: flex; flex-direction: column; justify-content: center; gap: 4px;
+}
+.gulv-morgen .gulv-maal--tom span { margin-top: 0; }
+.gulv-morgen .gulv-maal--tom i { margin-top: 0; line-height: 1.4; }
+.gulv-morgen .gulv-maal--tekst {
+  padding: 14px 14px 13px;
+  display: flex; flex-direction: column; justify-content: center; gap: 5px;
+}
+.gulv-morgen .gulv-maal--tekst span { margin-top: 0; }
+.gulv-morgen .gulv-maal--tekst i {
+  margin-top: 0; line-height: 1.45; overflow-wrap: anywhere; max-width: 36ch;
+  color: var(--hud); opacity: 0.9; font-size: 13px;
+}
+.gulv-morgen .gulv-maal--tekst.gulv-maal--tom i {
+  color: var(--beton); opacity: 0.8; font-size: 12px;
+}
 button.gulv-maal {
   display: block; width: 100%; border: 0; margin: 0; cursor: pointer;
   font: inherit; text-align: left; color: inherit;
