@@ -1109,6 +1109,29 @@ export type Guide = { id: string; navn: string; blokke: GuideBlok[] };
 
 export type GulvetFlow = Record<string, string> & { knaek: string[] };
 
+export type GulvetTilstand = "oplæring" | "rytme";
+
+/** Stående rytme-tekster. Alle nøgler er valgfrie i YAML — loaderen fylder tomme strenge. */
+export type GulvetRytme = {
+  lede: string;
+  i_dag_titel: string;
+  i_dag_vagt_knap: string;
+  i_dag_naeste_tom: string;
+  i_dag_walkin_label: string;
+  i_dag_walkin_knap: string;
+  i_dag_walkin_placeholder: string;
+  uge_titel: string;
+  uge_doer_titel: string;
+  uge_doer_maal_linje: string;
+  uge_kanal_titel: string;
+  uge_hylden_titel: string;
+  uge_hylden_linje: string;
+  venter_titel: string;
+  venter_tom: string;
+  skiftet_linje: string;
+  oplæring_guide_navn: string;
+};
+
 export type GulvetCopy = {
   laas_titel: string;
   laas_lede: string;
@@ -1118,6 +1141,9 @@ export type GulvetCopy = {
   undertitel: string;
   lede: string;
   ro: string[];
+  /** YAML-valgt tilstand. Runtime kan stadig skifte til rytme via effectiveTilstand. */
+  tilstand: GulvetTilstand;
+  rytme: GulvetRytme;
   teamguide_linje: string;
   faser: GulvetFase[];
   opgaver: GulvetOpgave[];
@@ -1214,6 +1240,9 @@ export function loadGulvet(): GulvetCopy {
 
   const o = (d.overblik ?? {}) as Record<string, unknown>;
   const t = (d.tal ?? {}) as Record<string, unknown>;
+  const r = (d.rytme ?? {}) as Record<string, unknown>;
+  const tilstandRaa = str(d.tilstand);
+  const tilstand: GulvetTilstand = tilstandRaa === "rytme" ? "rytme" : "oplæring";
 
   return {
     laas_titel: str(d.laas_titel),
@@ -1224,6 +1253,26 @@ export function loadGulvet(): GulvetCopy {
     undertitel: str(d.undertitel),
     lede: str(d.lede),
     ro: strListe(d.ro),
+    tilstand,
+    rytme: {
+      lede: str(r.lede),
+      i_dag_titel: str(r.i_dag_titel),
+      i_dag_vagt_knap: str(r.i_dag_vagt_knap),
+      i_dag_naeste_tom: str(r.i_dag_naeste_tom),
+      i_dag_walkin_label: str(r.i_dag_walkin_label),
+      i_dag_walkin_knap: str(r.i_dag_walkin_knap),
+      i_dag_walkin_placeholder: str(r.i_dag_walkin_placeholder),
+      uge_titel: str(r.uge_titel),
+      uge_doer_titel: str(r.uge_doer_titel),
+      uge_doer_maal_linje: str(r.uge_doer_maal_linje),
+      uge_kanal_titel: str(r.uge_kanal_titel),
+      uge_hylden_titel: str(r.uge_hylden_titel),
+      uge_hylden_linje: str(r.uge_hylden_linje),
+      venter_titel: str(r.venter_titel),
+      venter_tom: str(r.venter_tom),
+      skiftet_linje: str(r.skiftet_linje),
+      oplæring_guide_navn: str(r.oplæring_guide_navn) || "Oplæring",
+    },
     teamguide_linje: str(d.teamguide_linje),
     faser,
     opgaver,
