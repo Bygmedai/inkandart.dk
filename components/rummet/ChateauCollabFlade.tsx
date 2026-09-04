@@ -1,10 +1,8 @@
 import { ChateauHero } from "./ChateauHero";
 
 /**
- * B2B collab one-pager til Chateau Motel (Monir).
- * Hus-ord OK — side er til partner/staff, ikke slutkunde.
- * Echo Chateau-ånd (near-black, blunt, late-night) uden at klone
- * deres layout, logo, fonts eller fraser.
+ * Gæsteside: flash upstairs hos Chateau Motel — nattens oplevelse.
+ * Rummet-tokens, contact sheet, EN+DA hero. Ingen B2B/ops-copy.
  */
 export function ChateauCollabFlade() {
   return (
@@ -12,42 +10,46 @@ export function ChateauCollabFlade() {
       <header className="chateau-collab__hero">
         <p className="rum-label">Ink &amp; Art × Chateau Motel</p>
         <h1 className="rum-poster chateau-collab__title" lang="en">
-          A room upstairs. One chair. One night.
+          Flash upstairs at Chateau Motel
         </h1>
         <p className="chateau-collab__lede" lang="da">
-          Et rum ovenpå. Én stol. En nat.
+          Flash ovenpå hos Chateau Motel
         </p>
         <ChateauHero />
         <ul className="chateau-collab__rail" aria-label="Natens rammer">
-          <li>Døre</li>
-          <li>Rum</li>
-          <li>8–12 pladser</li>
           <li>Flash only</li>
+          <li>8–12 pladser</li>
+          <li>Fra ~23</li>
+          <li>Én stol</li>
           <li>Ædru ved stolen</li>
         </ul>
       </header>
 
-      <section className="chateau-collab__sec" aria-labelledby="chateau-faar">
-        <h2 id="chateau-faar" className="rum-poster chateau-collab__h2">
-          Hvad Chateau får
+      <section className="chateau-collab__sec" aria-labelledby="chateau-tonight">
+        <h2 id="chateau-tonight" className="rum-poster chateau-collab__h2">
+          Hvad det er i nat
         </h2>
         <ul className="chateau-collab__bullets">
           <li>
-            Et lukket rum med dør midt i jeres nat — gæster går ind i Ink &amp;
-            Art, ikke hen til en booth.
+            Små flash — ét ark, korte stykker. Ikke custom, ikke dansegulvet.
+            Ét lukket rum ovenpå.
           </li>
           <li>
-            8–12 flash-pladser. Små stykker. Først til stolen. Ædru ved stolen —
-            punktum.
+            Begrænset antal pladser (8–12). Når stolen er fyldt, er den fyldt.
           </li>
           <li>
-            Content og snak der passer jeres hus: rummet, arket, hænderne — ikke
-            dansegulvet.
+            Døre ca. 23 — vi følger Chateaus rytme, ikke vores egen åbningstid.
+          </li>
+          <li>
+            Ædru ved stolen. Punktum.
+          </li>
+          <li>
+            Alder følger Chateaus aften (torsdag 18+ · fredag–lørdag 20+).
           </li>
         </ul>
         <p className="rum-body-copy chateau-collab__feel">
-          Sent. Dæmpet lys. Én stol bag en lukket dør mens natten kører nedenunder.
-          Artist-led — night-gallery, ikke members club.
+          Sent. Dæmpet lys. Én stol bag en lukket dør mens natten kører
+          nedenunder. Night-gallery — ikke en booth på gulvet.
         </p>
       </section>
 
@@ -80,112 +82,79 @@ export function ChateauCollabFlade() {
         </div>
       </section>
 
-      <section className="chateau-collab__sec" aria-labelledby="chateau-aften">
-        <h2 id="chateau-aften" className="rum-poster chateau-collab__h2">
-          Sådan ser aftenen ud
+      <section className="chateau-collab__sec" aria-labelledby="chateau-chair">
+        <h2 id="chateau-chair" className="rum-poster chateau-collab__h2">
+          Sådan kommer du i stolen
         </h2>
         <ul className="chateau-collab__bullets">
-          <li>Ét rum med dør. Én stol. Ét flash-ark.</li>
-          <li>Døre ca. 23 — I sætter rytmen.</li>
           <li>
-            Depositum / hold-en-plads via QR. Samtykke på telefon før indgang.
+            Spørg på natten, eller skriv dig op før — pladser går via Ink &amp;
+            Art.
           </li>
-          <li>Alder følger Chateaus aften (torsdag 18+; stolen er 18 uanset).</li>
+          <li>
+            Når depositum / hold-en-plads er live, får du QR. Indtil da: mail.
+          </li>
+          <li>
+            Skriv til{" "}
+            <a href="mailto:booking@inkandart.dk?subject=Chateau%20flash%20%E2%80%94%20skriv%20mig%20op">
+              booking@inkandart.dk
+            </a>{" "}
+            — eller følg for drop, når pladserne åbner.
+          </li>
         </ul>
       </section>
 
-      <section className="chateau-collab__sec" aria-labelledby="chateau-bytte">
-        <h2 id="chateau-bytte" className="rum-poster chateau-collab__h2">
-          Drift — længere nede
+      <section className="chateau-collab__sec" aria-labelledby="chateau-expect">
+        <h2 id="chateau-expect" className="rum-poster chateau-collab__h2">
+          Hvad du kan forvente
         </h2>
-        <div className="chateau-collab__cols">
-          <div>
-            <p className="rum-label">I stiller</p>
-            <ul className="chateau-collab__bullets">
-              <li>Rum med dør vi kan lukke</li>
-              <li>Strøm, lys vi kan styre, adgang før/efter døre</li>
-              <li>Håndvask inden for rækkevidde (ikke toiletrum)</li>
-              <li>Gæsteliste / dør for artist + runner + holdte pladser</li>
-            </ul>
-          </div>
-          <div>
-            <p className="rum-label">Vi medbringer</p>
-            <ul className="chateau-collab__bullets">
-              <li>Stol, lampe, maskine, steril setup</li>
-              <li>Flash-ark, aftercare, engangsudstyr — kanyler/affald hjem</li>
-              <li>Samtykke på inkandart.dk (QR i rummet)</li>
-              <li>Én artist. Én runner. Ingen piercing første nat.</li>
-            </ul>
-          </div>
-        </div>
-        <p className="rum-body-copy chateau-collab__mute" style={{ marginTop: 24 }}>
-          Cut-aftales, depositum og hold-en-plads lukkes før døre — ikke i
-          køen på gulvet.
-        </p>
+        <ul className="chateau-collab__bullets">
+          <li>Sterilt setup. Handsker. Engangsnåle. Rent bord.</li>
+          <li>Flash-ark på væggen — peg, vælg, sæt dig.</li>
+          <li>
+            Små stykker. Typisk et kvarter til en halv time i stolen — afhænger
+            af motivet, ikke af køen nede.
+          </li>
+        </ul>
       </section>
 
-      <section className="chateau-collab__sec" aria-labelledby="chateau-mynd">
-        <h2 id="chateau-mynd" className="rum-poster chateau-collab__h2">
-          Myndighed
+      <section className="chateau-collab__sec" aria-labelledby="chateau-after">
+        <h2 id="chateau-after" className="rum-poster chateau-collab__h2">
+          Efter
         </h2>
         <p className="rum-body-copy">
-          Midlertidig tatoveringsgodkendelse er på plads før natten —{" "}
-          <strong>Ink &amp; Art</strong> står for drift og papir.
+          Hold det rent. Følg aftercare — vi giver dig den med, eller læs{" "}
+          <a href="/aftercare">aftercare</a> når du er hjemme.
         </p>
-        <p className="rum-body-copy chateau-collab__mute">
-          Chateau er værten. Ikke drift-tatovørsted.
-        </p>
-      </section>
-
-      <section className="chateau-collab__sec" aria-labelledby="chateau-pilot">
-        <h2 id="chateau-pilot" className="rum-poster chateau-collab__h2">
-          Pilot → gentagelse
-        </h2>
-        <p className="rum-body-copy">
-          Nat 1 er en test. Hvis rummet holder — ikke en booth — og begge huse
-          vil igen: faste aftaler. Ellers stopper vi.
-        </p>
-      </section>
-
-      <section className="chateau-collab__sec" aria-labelledby="chateau-oekonomi">
-        <h2 id="chateau-oekonomi" className="rum-poster chateau-collab__h2">
-          Økonomi
-        </h2>
-        <p className="rum-body-copy">
-          Aftales. Default-pitch: Ink &amp; Art beholder tattoo-omsætning;
-          Chateau bar + dør.
-        </p>
-        <p className="rum-body-copy chateau-collab__mute">
-          Rum til forhandling — hvis I hellere vil have andel, content-byt eller
-          noget andet, siger I det.
+        <p className="rum-body-copy chateau-collab__mute" style={{ marginTop: 16 }}>
+          Vil du have noget større end et flash? Find os på Larsbjørnsstræde 13
+          — samme hus, andre dage.
         </p>
       </section>
 
       <section
         className="chateau-collab__sec chateau-collab__next"
-        aria-labelledby="chateau-naeste"
+        aria-labelledby="chateau-cta"
       >
-        <h2 id="chateau-naeste" className="rum-poster chateau-collab__h2">
-          Næste skridt
+        <h2 id="chateau-cta" className="rum-poster chateau-collab__h2">
+          Skriv dig op
         </h2>
         <p className="chateau-collab__cta-wrap">
           <a
             className="chateau-collab__cta"
-            href="mailto:booking@inkandart.dk?subject=Chateau%20walkthrough%20%E2%80%94%2030%20min"
+            href="mailto:booking@inkandart.dk?subject=Chateau%20flash%20%E2%80%94%20skriv%20mig%20op"
           >
-            Book 30 min walkthrough
+            Skriv dig op
           </a>
         </p>
         <p className="rum-body-copy chateau-collab__cta-sub">
-          Rum med dør. Dato. Så går vi.
+          Flash upstairs. Begrænsede pladser. Vi skriver tilbage.
         </p>
         <p className="rum-body-copy" style={{ marginTop: 28 }}>
-          Kontakt: <strong>Simone + Steven</strong>
-          <br />
           <a href="mailto:booking@inkandart.dk">booking@inkandart.dk</a>
         </p>
         <p className="rum-label chateau-collab__via">
-          I kender os allerede via Simone / Monir.
+          Ink &amp; Art · ovenpå hos Chateau Motel
         </p>
       </section>
     </main>
