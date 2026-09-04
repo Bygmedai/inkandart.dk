@@ -171,7 +171,7 @@ export function ChateauCollabFlade() {
         <p className="chateau-collab__cta-wrap">
           <a
             className="chateau-collab__cta"
-            href="mailto:steven@bygmedai.dk?subject=Chateau%20walkthrough%20%E2%80%94%2030%20min"
+            href="mailto:booking@inkandart.dk?subject=Chateau%20walkthrough%20%E2%80%94%2030%20min"
           >
             Book 30 min walkthrough
           </a>
@@ -182,11 +182,10 @@ export function ChateauCollabFlade() {
         <p className="rum-body-copy" style={{ marginTop: 28 }}>
           Kontakt: <strong>Simone + Steven</strong>
           <br />
-          <a href="mailto:steven@bygmedai.dk">steven@bygmedai.dk</a>
+          <a href="mailto:booking@inkandart.dk">booking@inkandart.dk</a>
         </p>
         <p className="rum-label chateau-collab__via">
-          I kender os allerede via Simone / Monir. Events:{" "}
-          <a href="mailto:oskar@chateaumotel.dk">oskar@chateaumotel.dk</a>
+          I kender os allerede via Simone / Monir.
         </p>
       </section>
     </main>

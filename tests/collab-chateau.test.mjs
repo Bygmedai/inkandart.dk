@@ -61,7 +61,7 @@ test("copy undgår forbudte hype/CTA-linjer", () => {
 
 test("kontakt peger på Simone + Steven", () => {
   assert.match(flade, /Simone \+ Steven/);
-  assert.match(flade, /steven@bygmedai\.dk/);
+  assert.match(flade, /booking@inkandart\.dk/);
 });
 
 test("hero er kort peer-linje, ikke ops-brochure", () => {
