@@ -67,6 +67,16 @@ rytme:
     stadig under Guider.
   oplæring_guide_navn: Oplæring
 
+# Fælles morgenstrip under fanerne — synlig i både oplæring og rytme.
+# Tre celler: Døren (denne ISO-uge), Venter (åbne spørgsmål), Næste (Mandagspuls).
+morgen:
+  doeren_titel: Døren
+  doeren_tom: Ingen vagt talt denne uge
+  venter_titel: Venter
+  venter_tom: Ingen åbne spørgsmål
+  naeste_titel: Næste
+  naeste_tom: Ingen næste handling fra huset endnu.
+
 teamguide_linje: Priser, åbningstider og tjeklister ligger i teamguiden.
 
 faser:

@@ -2076,6 +2076,15 @@ html:has([data-house="rummet"]) .grain {
 .gulv-fane[aria-selected="true"] { color: var(--hud); border-bottom-color: var(--blod); }
 .gulv-fane:focus-visible { outline: 2px solid var(--strobe); outline-offset: -2px; }
 
+/* Fælles morgenstrip under fanerne — samme maal-celler, ingen nye tokens. */
+.gulv-morgen { margin: 14px 0 4px; }
+.gulv-morgen .gulv-maalraek { margin-bottom: 0; }
+button.gulv-maal {
+  display: block; width: 100%; border: 0; margin: 0; cursor: pointer;
+  font: inherit; text-align: left; color: inherit;
+}
+button.gulv-maal:focus-visible { outline: 2px solid var(--strobe); outline-offset: -2px; }
+
 .gulv-ark { padding-top: 26px; }
 .gulv-lede { color: var(--beton); margin: 0 0 24px; max-width: 54ch; line-height: 1.6; }
 .gulv-p { margin: 0 0 14px; max-width: 54ch; line-height: 1.65; color: var(--hud); }

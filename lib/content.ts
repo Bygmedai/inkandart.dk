@@ -1132,6 +1132,16 @@ export type GulvetRytme = {
   oplæring_guide_navn: string;
 };
 
+/** Fælles morgenstrip under fanerne. Labels + tomme tilstande — tallene regnes i fladen. */
+export type GulvetMorgen = {
+  doeren_titel: string;
+  doeren_tom: string;
+  venter_titel: string;
+  venter_tom: string;
+  naeste_titel: string;
+  naeste_tom: string;
+};
+
 export type GulvetCopy = {
   laas_titel: string;
   laas_lede: string;
@@ -1144,6 +1154,7 @@ export type GulvetCopy = {
   /** YAML-valgt tilstand. Runtime kan stadig skifte til rytme via effectiveTilstand. */
   tilstand: GulvetTilstand;
   rytme: GulvetRytme;
+  morgen: GulvetMorgen;
   teamguide_linje: string;
   faser: GulvetFase[];
   opgaver: GulvetOpgave[];
@@ -1241,6 +1252,7 @@ export function loadGulvet(): GulvetCopy {
   const o = (d.overblik ?? {}) as Record<string, unknown>;
   const t = (d.tal ?? {}) as Record<string, unknown>;
   const r = (d.rytme ?? {}) as Record<string, unknown>;
+  const m = (d.morgen ?? {}) as Record<string, unknown>;
   const tilstandRaa = str(d.tilstand);
   const tilstand: GulvetTilstand = tilstandRaa === "rytme" ? "rytme" : "oplæring";
 
@@ -1272,6 +1284,14 @@ export function loadGulvet(): GulvetCopy {
       venter_tom: str(r.venter_tom),
       skiftet_linje: str(r.skiftet_linje),
       oplæring_guide_navn: str(r.oplæring_guide_navn) || "Oplæring",
+    },
+    morgen: {
+      doeren_titel: str(m.doeren_titel) || "Døren",
+      doeren_tom: str(m.doeren_tom) || "Ingen vagt talt denne uge",
+      venter_titel: str(m.venter_titel) || "Venter",
+      venter_tom: str(m.venter_tom) || "Ingen åbne spørgsmål",
+      naeste_titel: str(m.naeste_titel) || "Næste",
+      naeste_tom: str(m.naeste_tom) || "Ingen næste handling fra huset endnu.",
     },
     teamguide_linje: str(d.teamguide_linje),
     faser,

@@ -170,3 +170,12 @@ Runtime kan også skifte til rytme uden at YAML ændres. Reglen bor i
 
 Når skiftet sker automatisk, viser «Nu» `rytme.skiftet_linje` én gang øverst.
 Ingen nye tabeller, ingen Shopify Admin — hylden linker til den offentlige shop.
+
+## Morgenstrip — fælles under fanerne
+
+Under `gulv-faner` ligger en kompakt strip med tre celler — **Døren** (vagter og
+ind i den aktuelle ISO-uge), **Venter** (åbne spørgsmål; klik skifter til Overblik
+eller Nu i rytme) og **Næste** (`analyser[0].naeste` fra Mandagspuls). Teksterne
+bor i `morgen:` i `gulvet.yml`. Strippen er synlig på alle faner i både oplæring
+og rytme, så huset deler ét morgen-dashboard fra dag ét. Den erstatter ikke
+rytme-båndene.

@@ -22,6 +22,10 @@ import {
  * Tilstanden kommer fra gulvet.yml og kan skifte automatisk — se
  * effectiveTilstand i lib/gulvet-tal.ts.
  *
+ * Under fanerne ligger en fælles morgenstrip (Døren / Venter / Næste) —
+ * synlig i begge tilstande, så huset ikke skal grave i Overblik for de
+ * tre tal der gælder hver morgen.
+ *
  * Der er stadig ingen prisliste her. De tal bor i teamguiden på /personale,
  * og en kopi ville være den ottende udgave af noget huset lige har samlet
  * ét sted. Siden linker derhen i stedet. Én sandhed, to sider.
@@ -273,15 +277,24 @@ function TalStrip({ tal }: { tal: Record<string, number | null> }) {
   );
 }
 
-/** Overblikkets eneste byggesten: ét tal, hvad det er, og hvor det kommer fra. */
-function Maal({ v, e, n }: { v: string; e: string; n?: string }) {
-  return (
-    <div className="gulv-maal">
+/** Overblikkets eneste byggesten: ét tal, hvad det er, og hvor det kommer fra.
+ *  Valgfri onClick gør cellen til knap (morgenstrip «Venter» → Overblik/Nu). */
+function Maal({ v, e, n, onClick }: { v: string; e: string; n?: string; onClick?: () => void }) {
+  const indre = (
+    <>
       <b>{v}</b>
       <span>{e}</span>
       {n ? <i>{n}</i> : null}
-    </div>
+    </>
   );
+  if (onClick) {
+    return (
+      <button type="button" className="gulv-maal" onClick={onClick}>
+        {indre}
+      </button>
+    );
+  }
+  return <div className="gulv-maal">{indre}</div>;
 }
 
 export function GulvetFlade({
@@ -446,10 +459,15 @@ export function GulvetFlade({
   );
   const autoSkiftet = mode === "rytme" && c.tilstand !== "rytme";
   const ugeNu = useMemo(() => isoUge(new Date().toISOString().slice(0, 10)), []);
-  const vagterDenneUge = useMemo(
+  const ugeVagter = useMemo(
     () => poster.filter((p) =>
-      (p.ind !== null || p.koebte !== null || p.salg !== null) && isoUge(p.dato) === ugeNu).length,
+      (p.ind !== null || p.koebte !== null || p.salg !== null) && isoUge(p.dato) === ugeNu),
     [poster, ugeNu],
+  );
+  const vagterDenneUge = ugeVagter.length;
+  const indDenneUge = useMemo(
+    () => ugeVagter.reduce((a, p) => a + (p.ind ?? 0), 0),
+    [ugeVagter],
   );
 
   const aabne = poster.filter((p) => p.spoergsmaal && !p.svar);
@@ -509,6 +527,48 @@ export function GulvetFlade({
         <F id="skriv" navn="Skriv" />
         <F id="overblik" navn="Overblik" />
       </div>
+
+      {/* Fælles morgenstrip — under fanerne, synlig på alle faner i begge tilstande. */}
+      <section className="gulv-morgen" aria-label="Morgen">
+        <div className="gulv-maalraek">
+          {vagterDenneUge === 0 ? (
+            <Maal v="—" e={c.morgen.doeren_titel} n={c.morgen.doeren_tom} />
+          ) : (
+            <Maal
+              v={String(vagterDenneUge)}
+              e={c.morgen.doeren_titel}
+              n={[
+                indDenneUge > 0 ? `${indDenneUge} ind denne uge` : null,
+                doeren && doeren.ind > 0 ? `${doeren.ind} ind i alt` : null,
+              ].filter(Boolean).join(" · ") || undefined}
+            />
+          )}
+          {aabne.length === 0 ? (
+            <Maal v="—" e={c.morgen.venter_titel} n={c.morgen.venter_tom} />
+          ) : (
+            <Maal
+              v={String(aabne.length)}
+              e={c.morgen.venter_titel}
+              n={`${aabne.length} venter — ældste ${
+                svartid.aeldsteAabenDage === null
+                  ? "—"
+                  : `${Math.round(svartid.aeldsteAabenDage)} ${Math.round(svartid.aeldsteAabenDage) === 1 ? "dag" : "dage"}`
+              }`}
+              onClick={() => {
+                setFane(mode === "rytme" ? "nu" : "overblik");
+                window.scrollTo(0, 0);
+              }}
+            />
+          )}
+          <div className="gulv-maal">
+            <b>{seneste?.naeste ? "·" : "—"}</b>
+            <span>{c.morgen.naeste_titel}</span>
+            <i>{seneste?.naeste
+              ? <Fed tekst={seneste.naeste} />
+              : c.morgen.naeste_tom}</i>
+          </div>
+        </div>
+      </section>
 
       {fane === "nu" && mode === "oplæring" && opg ? (
         <section className="gulv-ark">

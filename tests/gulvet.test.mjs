@@ -487,3 +487,45 @@ test("docs forklarer rytme, tilstand og triggers", () => {
   assert.match(d, /tilstand/);
   assert.match(d, /28 dage/);
 });
+
+/* -------------------------------------------------------------- morgenstrip */
+
+test("morgen-tekster loades fra gulvet.yml — labels og tomme tilstande", () => {
+  for (const n of [
+    "doeren_titel", "doeren_tom", "venter_titel", "venter_tom",
+    "naeste_titel", "naeste_tom",
+  ]) {
+    assert.ok(c.morgen[n], `morgen.${n} mangler — strippen ville vise en tom celle`);
+  }
+  assert.equal(c.morgen.doeren_tom, "Ingen vagt talt denne uge");
+  assert.equal(c.morgen.venter_tom, "Ingen åbne spørgsmål");
+  const raa = parse(read("content/gulvet.yml"));
+  assert.ok(raa.morgen, "morgen-blok mangler i YAML");
+  assert.equal(raa.morgen.doeren_titel, "Døren");
+  assert.equal(raa.morgen.venter_titel, "Venter");
+  assert.equal(raa.morgen.naeste_titel, "Næste");
+});
+
+test("fladen har morgenstrip under fanerne — synlig uden for Nu", () => {
+  const flade = read("components/rummet/GulvetFlade.tsx");
+  assert.match(flade, /gulv-morgen/, "morgenstrip-klassen mangler i fladen");
+  assert.match(flade, /c\.morgen\./, "fladen bruger ikke morgen-teksterne");
+  assert.match(flade, /doeren_tom/, "tom Døren-tilstand mangler");
+  assert.match(flade, /venter_tom/, "tom Venter-tilstand mangler");
+  assert.match(flade, /naeste_tom/, "tom Næste-tilstand mangler");
+  // Placering: strippen kommer efter gulv-faner, før fane-indholdet.
+  const faner = flade.indexOf('className="gulv-faner"');
+  const morgen = flade.indexOf("gulv-morgen");
+  const nuOpl = flade.indexOf('fane === "nu" && mode === "oplæring"');
+  assert.ok(faner >= 0 && morgen > faner, "morgenstrip skal stå under fanerne");
+  assert.ok(nuOpl > morgen, "morgenstrip skal stå før fane-indholdet — ellers er den begravet i Nu");
+  // Venter-klik skifter fane; rytme-båndene må ikke være erstattet.
+  assert.match(flade, /setFane\(mode === "rytme" \? "nu" : "overblik"\)/);
+  assert.match(flade, /mode === "rytme"/, "rytme-grenene må ikke være fjernet");
+});
+
+test("docs nævner morgenstrip", () => {
+  const d = read("docs/GULVET.md");
+  assert.match(d, /Morgenstrip/);
+  assert.match(d, /morgen:/);
+});
