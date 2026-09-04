@@ -29,6 +29,8 @@ test("vercel CSP matches lib/csp.ts and describes runtime", async () => {
   assert.match(cspMod, /object-src 'none'/);
   assert.match(cspMod, /default-src 'self'/);
   assert.match(cspMod, /frame-ancestors 'none'/);
+  // Book.dk-rammen i /booking (#318) — og INTET andet maa rammes ind.
+  assert.match(header, /frame-src https:\/\/inkart\.book\.dk(;|$)/, "frame-src skal vaere praecis Book.dk");
   assert.match(cspMod, /base-uri 'self'/);
   assert.doesNotMatch(cspMod, /blob:/);
   assert.doesNotMatch(cspMod, /vercel-insights/);

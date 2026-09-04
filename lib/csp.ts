@@ -7,6 +7,11 @@ export const CONTENT_SECURITY_POLICY = [
   "font-src 'self'",
   "connect-src 'self' https://oauth.bygmedai.dk https://api.github.com https://github.com",
   "object-src 'none'",
+  // Book.dk ligger som ramme i /booking (PR #318). Uden frame-src falder
+  // <iframe> tilbage paa default-src 'self' og browseren viser en tom
+  // ramme — set paa preview'et 4/9. Kun Book.dk; frame-ancestors 'none'
+  // handler om hvem der maa ramme OS ind og roeres ikke.
+  "frame-src https://inkart.book.dk",
   "base-uri 'self'",
   "frame-ancestors 'none'",
   "form-action 'self' https://oauth.bygmedai.dk https://github.com",
