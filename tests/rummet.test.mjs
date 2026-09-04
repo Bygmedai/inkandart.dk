@@ -611,7 +611,10 @@ test("M4 /booking: depositum-sætning, variant, Videre til booking", () => {
   const booking = read("app/(da)/(rummet)/booking/page.tsx");
   const bookingYml = read("content/booking.yml");
   assert.match(bookingYml, /Depositum 100 kr — fragår i prisen/);
-  assert.match(booking, /cartUrl\(/);
+  // S579 (4/9): INGEN betalingsknap på /booking. Målt: 10 af 13 klik i
+  // uge 36 gik til den, 0 køb. Depositummet bor på /booking/tak.
+  assert.doesNotMatch(booking, /cartUrl\(/, "/booking må ikke sende kunden i kassen før bookingen");
+  assert.match(read("app/(da)/(rummet)/booking/tak/page.tsx"), /cartUrl\(/, "tak-siden er depositummets sted");
   // S574: trappen er vendt — booking er trin 1 og døren hedder det den gør.
   assert.match(bookingYml, /door_label: Book din tid/);
   assert.match(read("content/booking.en.yml"), /door_label: Book your time/);
@@ -695,7 +698,8 @@ test("F14 booking er salgsflade på hud med handling først", () => {
   const css = read("components/rummet/rummet.css");
   assert.match(booking, /tone="salg"/);
   assert.match(tak, /tone="salg"/);
-  assert.match(booking, /rum-booking__pris/);
+  // S579 (4/9): prisknappen bor på tak-siden, ikke på /booking (målt: 10 af 13 klik, 0 køb).
+  assert.match(tak, /rum-booking__pris/);
   // S573: booking og kvitteringen viser receptionen (H-04) — det sted kunden
   // faktisk ankommer til — i stedet for et moerkt studiebillede. Maalt: lys
   // paa folden 54,5 % -> 68,6 % ved 1440.
@@ -1295,7 +1299,9 @@ test("S574 EN-booking: pengerejsen findes på engelsk med samme tal", async () =
   const side = read("app/(en)/(rummet)/en/booking/page.tsx");
   assert.match(side, /loadBookingCopyEn/);
   assert.match(side, /<RummetShell lang="en"/);
-  assert.match(side, /RESERVATIONS\.find/, "variant-id kommer fra handelslaget");
+  // S579 (4/9): ingen kasse-knap på /en/booking — depositummet bor på tak-siden.
+  assert.doesNotMatch(side, /RESERVATIONS\.find|cartUrl\(/, "/en/booking må ikke sende kunden i kassen før bookingen");
+  assert.match(read("app/(en)/(rummet)/en/booking/tak/page.tsx"), /RESERVATIONS\.find/, "variant-id kommer fra handelslaget");
   assert.doesNotMatch(side, /\d{14}/, "ingen hardcodet variant på fladen");
   assert.match(side, /canonical: "\/en\/booking"/);
   // Book.dk er dansk. Det siger vi, i stedet for at lade kunden opdage det.
@@ -1503,15 +1509,18 @@ test("S574 book først, betal efter — tragten spærrer ikke længere", async (
   assert.match(da.lede, /binder dig ikke/i);
   assert.doesNotMatch(da.lede, /betales ved booking/i, "det gamle løfte er ude");
 
-  // Rækkefølgen i trappen: BookDoor før depositum-linket. Måles på
-  // positionen i markup, ikke på en streng der kan flytte sig.
+  // S579 (4/9): trappen på /booking har døren og samtykket — og INGEN
+  // betalingsknap. Sætningen om depositummet står, knappen gør ikke.
+  // Den bor på /booking/tak, hvor kunden lige HAR booket.
   for (const f of ["app/(da)/(rummet)/booking/page.tsx", "app/(en)/(rummet)/en/booking/page.tsx"]) {
     const side = read(f);
     const trin = side.slice(side.indexOf("rum-booking__trin"), side.indexOf("</ol>"));
-    const dør = trin.indexOf("<BookDoor");
-    const pris = trin.indexOf("rum-booking__pris");
-    assert.ok(dør !== -1 && pris !== -1, `${f}: begge trin skal findes`);
-    assert.ok(dør < pris, `${f}: booking skal være trin 1, depositum trin 2`);
+    assert.ok(trin.indexOf("<BookDoor") !== -1, `${f}: døren skal stå i trappen`);
+    assert.ok(trin.indexOf("depositum_trin") !== -1, `${f}: sætningen om depositummet skal stå`);
+    assert.equal(trin.indexOf("rum-booking__pris"), -1, `${f}: betalingsknappen er tilbage på /booking`);
+  }
+  for (const f of ["app/(da)/(rummet)/booking/tak/page.tsx", "app/(en)/(rummet)/en/booking/tak/page.tsx"]) {
+    assert.match(read(f), /rum-booking__pris/, `${f}: depositum-knappen skal bo her`);
   }
 
   // Ingen transskription: kunden må ikke bedes skrive et ordrenummer

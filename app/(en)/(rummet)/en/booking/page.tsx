@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { RummetShell } from "@/components/rummet/Shell";
 import { BookDoor } from "@/components/rummet/BookDoor";
-import { cartUrl, RESERVATIONS } from "@/lib/commerce";
 import { artistById, loadBookingCopyEn, loadHouse, loadKontakt } from "@/lib/content";
 import { alternates } from "@/lib/i18n";
 
@@ -35,7 +34,6 @@ export default async function BookingPageEn({
   const house = loadHouse();
   const kontakt = loadKontakt();
   const artist = artistById(house.artists, oneParam(params.artist));
-  const depositum = RESERVATIONS.find((r) => r.id === "plads");
 
   return (
     <RummetShell lang="en" tone="salg">
@@ -85,15 +83,6 @@ export default async function BookingPageEn({
                 <p className="rum-body-copy rum-booking__trin-note">
                   {copy.depositum_trin}
                 </p>
-                {depositum ? (
-                  <a
-                    className="rum-book rum-book--row rum-booking__pris"
-                    href={cartUrl(depositum.variantId)}
-                    rel="noopener noreferrer"
-                  >
-                    {copy.depositum_label}
-                  </a>
-                ) : null}
               </li>
             ) : null}
           </ol>
