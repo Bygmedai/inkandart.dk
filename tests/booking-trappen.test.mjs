@@ -129,3 +129,26 @@ test("ordene bor i indholdet, ikke i markup — og findes paa begge sprog", asyn
   assert.notEqual(da.samtykke_trin, en.samtykke_trin);
   assert.notEqual(da.samtykke_label, en.samtykke_label);
 });
+
+/**
+ * S580 (4/9) — trin 1 stod tomt. Maalt som kunde paa /booking: tallet «1»
+ * alene, og «Book din tid» centreret under en tom linje — den vigtigste
+ * knap paa siden lignede en layoutfejl. Trin 2 og 3 havde en saetning;
+ * trin 1 havde ingen. Nu har alle tre trin ord, paa begge sprog.
+ */
+test("trin 1 har en saetning — paa begge sprog, og ikke den samme", async () => {
+  const { loadBookingCopy, loadBookingCopyEn } = await import("../lib/content.ts");
+  const da = loadBookingCopy(), en = loadBookingCopyEn();
+  assert.ok(da.book_trin.trim().length > 20, "da: book_trin er tom");
+  assert.ok(en.book_trin.trim().length > 20, "en: book_trin er tom");
+  assert.notEqual(da.book_trin, en.book_trin);
+  for (const fil of [
+    "app/(da)/(rummet)/booking/page.tsx",
+    "app/(en)/(rummet)/en/booking/page.tsx",
+  ]) {
+    const f = read(fil).replace(/\s+/g, " ");
+    // Saetningen staar i trin 1 — FOER doeren, i samme <li>.
+    assert.match(f, /<ol className="rum-booking__trin"> <li> \{copy\.book_trin \?[\s\S]*?<BookDoor/,
+      `${fil}: trin 1's saetning staar ikke foer doeren`);
+  }
+});

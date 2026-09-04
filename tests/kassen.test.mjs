@@ -37,6 +37,12 @@ test("kassen bygges af KASSE-variablen — med API-domaenet som fallback", async
   assert.equal(b.kassensDomaene(), "butik.example.test");
   assert.match(b.cartUrl("1"), /^https:\/\/butik\.example\.test\/cart\/1:1/);
   assert.match(b.GIFT_CARD_PRODUCT_URL, /^https:\/\/butik\.example\.test\//);
+  // S580: kassen har et sprog. Engelske sider skal aabne den engelske kasse
+  // (`/en/cart/`), og dansk er standard saa gamle kald ikke flytter sig.
+  assert.match(b.cartUrl("1", "en"), /^https:\/\/butik\.example\.test\/en\/cart\/1:1\?skip_shop_pay=true$/);
+  assert.match(b.cartUrl("1", "da"), /^https:\/\/butik\.example\.test\/cart\/1:1\?skip_shop_pay=true$/);
+  assert.equal(b.cartUrl("1"), b.cartUrl("1", "da"));
+  assert.equal(b.giftCartUrl("2", "en"), b.cartUrl("2", "en"));
   assert.match(b.WALKIN_PRODUCT_URL, /^https:\/\/butik\.example\.test\//);
 });
 
@@ -81,4 +87,29 @@ test("negativ kontrol: vidnet ville fange en sammenblanding", () => {
   // og mod opdigtet CSS der binder til domaenet
   const css = `main a[href*="myshopify.com/cart/"] { color: red }`;
   assert.match(css, /myshopify\.com\/cart/);
+});
+
+/**
+ * S580 (4/9 2026) — maalt som kunde: fra /en/booking/tak aabnede kassen paa
+ * dansk. Shopify HAR engelsk publiceret; det manglede kun praefikset paa
+ * permalinket. De engelske flader der bygger kurv-links direkte skal bede
+ * om den engelske kasse; komponenter med `lang` sender det videre.
+ */
+test("engelske flader aabner den engelske kasse", () => {
+  const fil = (f) => udenKommentarer(read(f));
+  for (const f of [
+    "app/(en)/(rummet)/en/booking/tak/page.tsx",
+    "app/(en)/(emerge)/en/flash/page.tsx",
+  ]) {
+    assert.match(fil(f), /cartUrl\([^)]*,\s*"en"\)/, `${f}: kurv-link uden engelsk kasse`);
+    assert.doesNotMatch(fil(f), /cartUrl\([^,)]+\)/, `${f}: kurv-link der falder tilbage til dansk`);
+  }
+  for (const [f, fn] of [
+    ["components/emerge/KerbReservation.tsx", "cartUrl"],
+    ["components/rummet/GavekortKoeb.tsx", "giftCartUrl"],
+  ]) {
+    assert.match(fil(f), new RegExp(`${fn}\\([^)]*,\\s*lang\\)`), `${f}: sender ikke sproget med til kassen`);
+  }
+  // Negativ kontrol: den danske tak-side maa IKKE bede om den engelske kasse.
+  assert.doesNotMatch(fil("app/(da)/(rummet)/booking/tak/page.tsx"), /cartUrl\([^)]*"en"\)/);
 });

@@ -61,7 +61,7 @@ export function KerbReservation({ lang = "da" }: { lang?: Locale }) {
       <ul className="kerb__marks" role="list">
         {RESERVATIONS.map((r, i) => (
           <li key={r.variantId} className="kerb__slot">
-            <a className="kerb__mark" href={cartUrl(r.variantId)} aria-label={c.ariaSlots[r.id as keyof typeof c.ariaSlots]}>
+            <a className="kerb__mark" href={cartUrl(r.variantId, lang)} aria-label={c.ariaSlots[r.id as keyof typeof c.ariaSlots]}>
               <ChalkFrame seed={i === 0 ? 41 : 83} />
               <span className="kerb__text">
                 <span className="kerb__label">{c.slots[r.id as keyof typeof c.slots]}</span>

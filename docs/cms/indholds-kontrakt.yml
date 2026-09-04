@@ -227,6 +227,7 @@ collections:
           - { label: Lede, name: lede, widget: text }
           - { label: Konsultation, name: konsultation, widget: text, required: false, hint: "Linjen om den gratis konsultation. Tom = udelades." }
           - { label: Depositum-knappens tekst, name: depositum_label, widget: string, hint: "Beløbet skal matche Shopify-produktet." }
+          - { label: "Trin 1 — bookingen", name: book_trin, widget: text, required: false, hint: "Én sætning om hvad kunden gør i Book.dk. Står over knappen." }
           - { label: Book.dk-knappens tekst, name: door_label, widget: string, default: "Videre til booking" }
           - { label: Note, name: note, widget: text, required: false }
           - { label: "Trin 2 — depositum", name: depositum_trin, widget: text, required: false, hint: "Kun for de lange sessioner. Kunden skal IKKE skrive et ordrenummer — vi afstemmer på mailadressen, som begge systemer allerede har." }
@@ -250,6 +251,7 @@ collections:
           - { label: Lede, name: lede, widget: text }
           - { label: Konsultation, name: konsultation, widget: text, required: false }
           - { label: Depositum-knappens tekst, name: depositum_label, widget: string, hint: "Beløbet skal matche Shopify-produktet OG den danske side." }
+          - { label: "Trin 1 — bookingen", name: book_trin, widget: text, required: false, hint: "Én sætning om hvad kunden gør i Book.dk. Står over knappen." }
           - { label: Book.dk-knappens tekst, name: door_label, widget: string, default: "On to booking" }
           - { label: Note, name: note, widget: text, required: false }
           - { label: "Trin 2 — depositum", name: depositum_trin, widget: text, required: false, hint: "Kun for de lange sessioner. Kunden skal IKKE skrive et ordrenummer — vi afstemmer på mailadressen, som begge systemer allerede har." }

@@ -97,7 +97,7 @@ export default async function FlashPageEn() {
                       </p>
                     ) : f.variantId ? (
                       <a
-                        href={cartUrl(f.variantId)}
+                        href={cartUrl(f.variantId, "en")}
                         aria-label={`Buy ${f.title} — ${kr(f.priceKr)} kr`}
                         data-hz-handle={f.id}
                         data-hz-pris={f.priceKr}

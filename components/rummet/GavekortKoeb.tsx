@@ -22,7 +22,7 @@ export function GavekortKoeb({ lang = DEFAULT_LOCALE }: { lang?: Locale } = {}) 
           <li key={g.variantId}>
             <a
               className="rum-book rum-gave__n"
-              href={giftCartUrl(g.variantId)}
+              href={giftCartUrl(g.variantId, lang)}
               rel="noopener noreferrer"
               aria-label={`${c.giftCard} ${kr(g.kr)} kr`}
             >
