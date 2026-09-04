@@ -2067,7 +2067,7 @@ html:has([data-house="rummet"]) .grain {
   color: var(--blod);
 }
 
-/* ── Collab / Chateau Motel (B2B one-pager) ── */
+/* ── Collab / Chateau Motel (gæste flash-night) ── */
 
 .chateau-collab {
   max-width: min(100%, 920px);
