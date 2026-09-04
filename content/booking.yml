@@ -30,9 +30,9 @@ note: >-
 # ordrenummer nogen steder: mailadressen står allerede i både Book.dk
 # og Shopify, og det er den vi afstemmer på.
 depositum_trin: >-
-  Book en heldags-session? Så bekræfter du tiden med et depositum.
-  Brug samme mailadresse som i bookingen — så finder vi de to ting
-  sammen. Du får linket i din bekræftelsesmail, eller betal her nu.
+  Booker du en heldags-session, bekræfter du tiden med et depositum
+  bagefter — linket ligger i din bekræftelsesmail. Brug samme
+  mailadresse som i bookingen, så finder vi de to ting sammen.
 
 # Tak-siden. tak_betalt må ALDRIG påstå at systemet har set en betaling
 # uden faktisk at have spurgt Shopify.

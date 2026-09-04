@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { RummetShell } from "@/components/rummet/Shell";
 import { BookDoor } from "@/components/rummet/BookDoor";
-import { cartUrl, RESERVATIONS } from "@/lib/commerce";
 import { artistById, loadBookingCopy, loadHouse } from "@/lib/content";
 import { alternates } from "@/lib/i18n";
 
@@ -35,7 +34,6 @@ export default async function BookingPage({
   const copy = loadBookingCopy();
   const house = loadHouse();
   const artist = artistById(house.artists, oneParam(params.artist));
-  const depositum = RESERVATIONS.find((r) => r.id === "plads");
 
   return (
     <RummetShell tone="salg">
@@ -58,6 +56,14 @@ export default async function BookingPage({
             25-minutters tatovering koster nærmest ingenting, en på en
             7-timers dag koster artisten en arbejdsdag. Nu: book gratis
             i ét flow, og betal kun hvor det tæller.
+
+            S579 (4/9): betalingsknappen er VÆK fra denne side. Målt i
+            Vercel: 10 af 13 klik på sitet i uge 36 var netop den knap,
+            og ingen af dem endte i et køb — kunden røg fra en mørk side
+            ud på en hvid Shopify-kasse for 100 kr uden at have booket
+            noget, og vendte om. Depositummet lever nu kun EFTER
+            bookingen: på /booking/tak og i Book.dks bekræftelsesmail,
+            som linker dertil. Her står kun sætningen der forklarer det.
 
             Kunden skriver ikke et referencenummer nogen steder. Book.dk
             og Shopify deler allerede kundens mailadresse; det er den vi
@@ -85,15 +91,6 @@ export default async function BookingPage({
                 <p className="rum-body-copy rum-booking__trin-note">
                   {copy.depositum_trin}
                 </p>
-                {depositum ? (
-                  <a
-                    className="rum-book rum-book--row rum-booking__pris"
-                    href={cartUrl(depositum.variantId)}
-                    rel="noopener noreferrer"
-                  >
-                    {copy.depositum_label}
-                  </a>
-                ) : null}
               </li>
             ) : null}
           </ol>
