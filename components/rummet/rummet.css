@@ -355,7 +355,13 @@ html:has([data-house="rummet"]) .grain {
     height: 100%;
     object-fit: cover;
     z-index: 1;
-    background: #111;
+    /* Gennemsigtig, ikke #111. Kan videoen ikke hentes, skal fotoet
+       nedenunder skinne igennem — ellers står heroen som en sort kasse.
+       Målt 10/9 under den rullende udrulning: HTML fra den nye build,
+       men /hero/huset.mp4 og plakaten 404 fra den gamle, i 30 af 40
+       kald. Med #111 var det en sort kasse for de fleste på desktop i
+       udrulningens varighed. Gælder også en browser uden H.264. */
+    background: transparent;
   }
 }
 .rum-huset__hero .rum-huset__segl {

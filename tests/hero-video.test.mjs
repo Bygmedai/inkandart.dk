@@ -56,6 +56,11 @@ test("videoen findes kun på brede skærme og kun uden ro-ønske", () => {
   // Videoen fylder heroen (100 %), den sætter ikke selv et loft — så
   // heroens højde er stadig fotoets, og billedreglen står som før.
   assert.match(mq, /height: 100%;/);
+  // Kan videoen ikke hentes — en gammel build under udrulning, en
+  // browser uden H.264 — skal fotoet nedenunder skinne igennem. En
+  // baggrundsfarve på videoen gør heroen til en sort kasse i stedet.
+  assert.match(mq, /background: transparent;/, "videoen skal være gennemsigtig når den ikke kan vise noget");
+  assert.doesNotMatch(mq, /background: #/, "ingen farve bag videoen");
   assert.match(css, /\.rum-huset__hero > img \{[^}]*height: min\(/);
 
   // Ingen anden regel må give videoen display. Første udgave havde
