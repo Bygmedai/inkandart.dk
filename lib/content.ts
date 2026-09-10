@@ -336,6 +336,10 @@ export type HusetForside = {
   cta_book: string;
   hero_foto: string;
   hero_billedtekst: string;
+  /** Valgfri. Tom = heroen er fotoet, som før. Sti under public/. */
+  hero_video: string;
+  /** Valgfri plakat mens videoen henter; tom = hero_foto. */
+  hero_video_plakat: string;
 };
 
 export function loadHusetForside(): HusetForside {
@@ -348,6 +352,8 @@ export function loadHusetForside(): HusetForside {
     cta_book: str(d.cta_book) || "Book tid",
     hero_foto: str(d.hero_foto),
     hero_billedtekst: str(d.hero_billedtekst),
+    hero_video: str(d.hero_video),
+    hero_video_plakat: str(d.hero_video_plakat),
   };
 }
 
@@ -418,6 +424,8 @@ export function loadHusetForsideEn(): HusetForsideEn {
     // Heroen deles med den danske forside — ét billede, husets eget.
     hero_foto: da.hero_foto,
     hero_billedtekst: str((d as Record<string, unknown>).hero_billedtekst as string) || da.hero_billedtekst,
+    hero_video: da.hero_video,
+    hero_video_plakat: da.hero_video_plakat,
     walk_in_line: str(d.walk_in_line),
     chairs_label: str(d.chairs_label) || "In the chair",
     tonight_label: str(d.tonight_label) || "Tonight",
