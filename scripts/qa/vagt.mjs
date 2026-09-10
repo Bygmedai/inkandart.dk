@@ -207,6 +207,13 @@ function målISiden(cfg) {
   }
 
   // 6 — alt-tekster. Dekorative billeder skal være aria-hidden, ikke alt-løse.
+  // Sitet har ikke bevægelse på telefonen (kanon §4, Stevens løft 10/9
+  // gælder kun brede skærme). En video der VISES under 721 px er en fejl —
+  // målt 10/9, hvor en CSS-specificitet lod den stable sig under fotoet.
+  const videoerVist = [...document.querySelectorAll("video")].filter((v) => {
+    const s = getComputedStyle(v);
+    return s.display !== "none" && s.visibility !== "hidden" && v.getBoundingClientRect().height > 0;
+  }).length;
   const udenAlt = [...document.querySelectorAll("img")]
     .filter((i) => !i.hasAttribute("alt") && i.getAttribute("aria-hidden") !== "true")
     .map((i) => i.getAttribute("src") || "(uden src)");
@@ -218,7 +225,7 @@ function målISiden(cfg) {
   const harKoeb = !!document.querySelector(".rum-produkt__koeb");
 
   return { overlob, syndere: syndere.slice(0, 5), smaa, handlingSmaa, handlingRamt, handlingTags,
-           gutter, plakater, tommeKort: tomme, antalKort: kort.length, udenAlt,
+           gutter, plakater, tommeKort: tomme, antalKort: kort.length, udenAlt, videoerVist,
            erVareside, harKoeb };
 }
 
@@ -274,6 +281,7 @@ for (const bredde of BREDDER) {
     }
     for (const p of m.plakater) læg("fund", navn, bredde, `kort uden dør: «${p}» — et menneske skal kunne trykkes på`);
     for (const u of m.udenAlt) læg("fund", navn, bredde, `img uden alt: ${u}`);
+    if (bredde <= 720 && m.videoerVist > 0) læg("fund", navn, bredde, `${m.videoerVist} video vist på ${bredde}px — sitet har ikke bevægelse på telefonen`);
     for (const c of konsol) læg("fund", navn, bredde, `console.error: ${c}`);
     for (const p of [...new Set(d404)]) læg("fund", navn, bredde, `404 på egen sti: ${p}`);
 

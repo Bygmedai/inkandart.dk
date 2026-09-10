@@ -337,8 +337,30 @@ html:has([data-house="rummet"]) .grain {
   height: min(52svh, 560px);
   object-fit: cover;
 }
+/* Videoen er et lag over fotoet — kun på brede skærme, kun for den der
+   ikke har bedt om ro. Ellers findes den ikke, og fotoet er heroen.
+
+   Den står med vilje IKKE i img-reglen ovenfor. Første udgave gjorde det,
+   og `.rum-huset__hero > video` (0,1,1) slog `.rum-huset__video` (0,1,0)
+   — så display: none tabte, og telefonen fik videoen stablet UNDER fotoet
+   (målt 10/9: hero 880 px høj på 390). Kun media-queryen må give den
+   display: block, og selektoren er den samme begge steder. */
+.rum-huset__video { display: none; }
+@media (min-width: 721px) and (prefers-reduced-motion: no-preference) {
+  .rum-huset__video {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    background: #111;
+  }
+}
 .rum-huset__hero .rum-huset__segl {
   position: absolute;
+  z-index: 2; /* over videoen (z 1) — seglet er husets mærke på husets billede */
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);

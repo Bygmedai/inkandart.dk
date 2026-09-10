@@ -4,6 +4,7 @@ import { RummetShell } from "@/components/rummet/Shell";
 import { ArtistKort } from "@/components/rummet/ArtistKort";
 import { Door } from "@/components/rummet/Door";
 import { Segl } from "@/components/rummet/Segl";
+import { HusetHero } from "@/components/rummet/HusetHero";
 import {
   loadHouse,
   loadHusetForside,
@@ -66,8 +67,7 @@ export default function HusetPage() {
           {fold.kicker ? (
             <p className="rum-label rum-huset__kicker">{fold.kicker}</p>
           ) : null}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={fold.hero_foto} alt={fold.hero_billedtekst} />
+          <HusetHero fold={fold} />
           <Segl size={180} placement="above" className="rum-huset__segl" />
         </section>
 

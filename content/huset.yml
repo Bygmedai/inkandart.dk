@@ -15,3 +15,7 @@ tider: ""
 cta_book: Book tid
 hero_foto: /slots/G-03.jpg
 hero_billedtekst: Husets neonskilt i vinduet mod Larsbjørnsstræde.
+# hero_video: et stille loop uden lyd, kun på brede skærme. Tom = kun fotoet.
+#   Byt filen 1:1 på stien når huset har filmet sin egen. Under 800 KB.
+hero_video: /hero/huset.mp4
+hero_video_plakat: /hero/huset-plakat.jpg

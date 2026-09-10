@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { RummetShell } from "@/components/rummet/Shell";
 import { ArtistKort } from "@/components/rummet/ArtistKort";
 import { Segl } from "@/components/rummet/Segl";
+import { HusetHero } from "@/components/rummet/HusetHero";
 import { alternates , t} from "@/lib/i18n";
 import {
   chairArtists,
@@ -65,8 +66,7 @@ export default function HomePageEn() {
         </header>
 
         <section className="rum-huset__hero">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={fold.hero_foto} alt={fold.hero_billedtekst} />
+          <HusetHero fold={fold} />
           <Segl size={180} placement="above" className="rum-huset__segl" />
         </section>
 
