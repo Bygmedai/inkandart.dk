@@ -520,8 +520,8 @@ test("M2R runde 2: Gaden tal + footer CVR/telefon", () => {
   assert.match(footer, /loadKontakt/);
   assert.match(footer, /CVR \{k\.cvr\}/);
   assert.match(kontakt, /44226413/);
-  assert.match(kontakt, /\+4555248608/);
-  assert.match(kontakt, /55 24 86 08/);
+  assert.match(kontakt, /\+4591887396/);
+  assert.match(kontakt, /91 88 73 96/);
   // S574: Gaden er nu data-drevet. Adresse og telefon kommer fra
   // kontakt.yml gennem fladen — de stod hardkodet i siden før, så en
   // flytning ville kræve en PR pr. flade.
@@ -1033,7 +1033,7 @@ test("S573 QA: kontakt.yml er den eneste kilde til husets nummer", () => {
     "components/rummet/ArtistKort.tsx",
   ];
   for (const f of filer) {
-    assert.doesNotMatch(read(f), /\+4555248608|55 24 86 08/, `${f} hardcoder telefonnummeret`);
+    assert.doesNotMatch(read(f), /\+45\d{8}|\d\d \d\d \d\d \d\d/, `${f} hardcoder et telefonnummer`);
   }
 });
 
