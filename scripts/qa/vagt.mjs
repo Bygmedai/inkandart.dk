@@ -207,9 +207,11 @@ function målISiden(cfg) {
   }
 
   // 6 — alt-tekster. Dekorative billeder skal være aria-hidden, ikke alt-løse.
-  // Sitet har ikke bevægelse på telefonen (kanon §4, Stevens løft 10/9
-  // gælder kun brede skærme). En video der VISES under 721 px er en fejl —
-  // målt 10/9, hvor en CSS-specificitet lod den stable sig under fotoet.
+  // Tælles, ikke dømmes. Reglen her var «ingen video under 721 px», og den
+  // var rigtig for husets LIGGENDE loop. Heroen er stående nu (Stevens kald
+  // 10/9), og 9:16 hører netop hjemme på en telefon — så reglen ville
+  // dømme det den skulle beskytte. Tallet står stadig i rapporten, så en
+  // video der dukker op et uventet sted kan ses.
   const videoerVist = [...document.querySelectorAll("video")].filter((v) => {
     const s = getComputedStyle(v);
     return s.display !== "none" && s.visibility !== "hidden" && v.getBoundingClientRect().height > 0;
@@ -281,7 +283,7 @@ for (const bredde of BREDDER) {
     }
     for (const p of m.plakater) læg("fund", navn, bredde, `kort uden dør: «${p}» — et menneske skal kunne trykkes på`);
     for (const u of m.udenAlt) læg("fund", navn, bredde, `img uden alt: ${u}`);
-    if (bredde <= 720 && m.videoerVist > 0) læg("fund", navn, bredde, `${m.videoerVist} video vist på ${bredde}px — sitet har ikke bevægelse på telefonen`);
+    if (m.videoerVist > 0 && bredde === BREDDER[0]) læg("note", navn, bredde, `${m.videoerVist} video vist`);
     for (const c of konsol) læg("fund", navn, bredde, `console.error: ${c}`);
     for (const p of [...new Set(d404)]) læg("fund", navn, bredde, `404 på egen sti: ${p}`);
 

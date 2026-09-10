@@ -4,11 +4,14 @@ import type { HusetForside } from "@/lib/content";
  * Husets hero: et vindue med liv i, ikke en biograf.
  *
  * Steven, 10/9: «vi skal have en fed hero video, indtil vi får filmet en
- * selv». Kanonens §4 siger at sitet ikke har bevægelse — det er Stevens
- * kendelse der løfter den her, og løftet er afgrænset:
+ * selv» — og senere samme dag, med Nizars egen video: «Du har ret til at
+ * lave wireframe om. Så videoen kan passes ind. Sæt hero budget op.
+ * Nizar er ejer og han skal kunne se sig selv i siden.»
  *
- *   · Kun på brede skærme. På telefonen viser heroen fotoet som før: samme
- *     LCP, ingen data brændt af på et loop man knap kan se bag seglet.
+ * Derfor er heroen STÅENDE nu. Videoen er 9:16, og det format er født på
+ * en telefon — så den vises i alle bredder, ikke kun over 720 px som
+ * husets forrige, liggende loop. Grænserne der bliver:
+ *
  *   · Aldrig for den der har bedt om ro (prefers-reduced-motion): fotoet.
  *   · Aldrig uden fotoet i DOM'en. Billedet bærer alt-teksten og er det
  *     skærmlæseren møder; videoen er pynt (aria-hidden) med fotoet som

@@ -67,7 +67,7 @@ export default function HomePageEn() {
 
         <section className="rum-huset__hero">
           <HusetHero fold={fold} />
-          <Segl size={180} placement="above" className="rum-huset__segl" />
+          <Segl size={116} placement="above" className="rum-huset__segl" />
         </section>
 
         <section className="rum-huset__side">

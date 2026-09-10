@@ -5,19 +5,29 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 /**
- * Heroens video — et vindue med liv i, ikke en biograf (Steven, 10/9).
+ * Heroens video — Nizars egen, stående (Steven, 10/9).
  *
  * Kanonens §4 siger at sitet ikke har bevægelse. Stevens kendelse løfter
- * den for heroen, og hegnet her sikrer at løftet forbliver afgrænset:
- * kun brede skærme, aldrig for den der har bedt om ro, altid med fotoet
- * i DOM'en, og aldrig en fil der æder forsidens Lighthouse-budget.
+ * den for heroen. Løftet blev udvidet samme dag: heroen er 9:16 og vises
+ * i alle bredder, fordi det format er født på en telefon. Grænserne der
+ * står tilbage, og som hegnet måler:
+ *
+ *   · aldrig for den der har bedt om ro
+ *   · altid med fotoet i DOM'en, det er det skærmlæseren møder
+ *   · rammen følger videoen (9:16), ikke omvendt
+ *   · filen holder budgettet, så en 6,5 MB-eksport ikke lander lydløst
  */
 
 const root = join(fileURLToPath(import.meta.url), "..", "..");
 const read = (p) => readFileSync(join(root, p), "utf8");
 
-/** Én fil der er for stor gør forsiden rød i CI. Budgettet er en prøve. */
-const BUDGET_KB = 800;
+/**
+ * Budgettet, hævet fra 800 KB på Stevens kald 10/9 («Sæt hero budget op»).
+ * Nizars video er 29,6 s stående og vejer 2.271 KB uden lyd ved crf 29.
+ * 3 MB giver plads til en ny optagelse uden at åbne for en rå eksport:
+ * originalen Nizar sendte var 6.646 KB med lyd, og den skal stadig falde.
+ */
+const BUDGET_KB = 3072;
 
 test("heroen er stadig et billede med alt-tekst — videoen er et lag ovenpå", () => {
   const hero = read("components/rummet/HusetHero.tsx");
@@ -41,27 +51,41 @@ test("begge forsider bruger samme hero, og seglet ligger stadig på den", () => 
   }
 });
 
-test("videoen findes kun på brede skærme og kun uden ro-ønske", () => {
+test("videoen viger for et ro-ønske, i alle bredder", () => {
   const css = read("components/rummet/rummet.css");
   const i = css.indexOf(".rum-huset__video { display: none; }");
   assert.notEqual(i, -1, "videoen skal være væk som udgangspunkt");
   const mq = css.slice(i, css.indexOf("}\n}", i) + 3);
-  assert.match(mq, /@media \(min-width: 721px\) and \(prefers-reduced-motion: no-preference\)/, "løftet skal være bundet til BÅDE bredde og ro");
+  assert.match(mq, /@media \(prefers-reduced-motion: no-preference\)/, "ro-ønsket er den grænse der bliver");
+  assert.doesNotMatch(mq, /min-width/, "bredde-grænsen er væk: 9:16 hører hjemme på en telefon");
   assert.match(mq, /display: block;/);
   // Seglet ligger over videoen. Uden z-index ville videoens lag (z 1)
   // male hen over det, selvom seglet står senere i DOM'en.
   const s = css.indexOf(".rum-huset__hero .rum-huset__segl {");
   const segl = css.slice(s, css.indexOf("}", s));
   assert.match(segl, /z-index: 2/, "seglet skal ligge over videoen");
-  // Videoen fylder heroen (100 %), den sætter ikke selv et loft — så
-  // heroens højde er stadig fotoets, og billedreglen står som før.
+  // Videoen fylder heroen (100 %) — rammen sætter formatet, ikke videoen.
   assert.match(mq, /height: 100%;/);
   // Kan videoen ikke hentes — en gammel build under udrulning, en
   // browser uden H.264 — skal fotoet nedenunder skinne igennem. En
   // baggrundsfarve på videoen gør heroen til en sort kasse i stedet.
   assert.match(mq, /background: transparent;/, "videoen skal være gennemsigtig når den ikke kan vise noget");
   assert.doesNotMatch(mq, /background: #/, "ingen farve bag videoen");
-  assert.match(css, /\.rum-huset__hero > img \{[^}]*height: min\(/);
+  // Rammen er stående og følger videoen. Et liggende udsnit skar tværs
+  // gennem hvert motiv (målt 10/9 på fire frames), og det er hele grunden
+  // til at wireframet blev lavet om.
+  const rammeI = css.indexOf(".rum-huset__hero {");
+  const ramme = css.slice(rammeI, css.indexOf("}", rammeI));
+  assert.match(ramme, /aspect-ratio: 9 \/ 16;/, "heroen skal være 9:16");
+  assert.match(ramme, /margin-inline: auto;/, "rammen skal stå centreret i sin spalte");
+  assert.match(css, /\.rum-huset__hero > img \{[^}]*height: 100%;/, "fotoet fylder rammen");
+  assert.doesNotMatch(css, /\.rum-huset__hero > img \{[^}]*height: min\(/, "det gamle liggende loft er væk");
+
+  // Seglet ude af midten: på et portfolio-loop ligger arbejdet dér.
+  const s2 = css.indexOf(".rum-huset__hero .rum-huset__segl {");
+  const segl2 = css.slice(s2, css.indexOf("}", s2));
+  assert.doesNotMatch(segl2, /translate\(-50%, -50%\)/, "seglet må ikke dække motivet");
+  assert.match(segl2, /bottom: 16px;/, "seglet er et stempel i hjørnet");
 
   // Ingen anden regel må give videoen display. Første udgave havde
   // `.rum-huset__hero > video` i img-reglen; den vandt over display:
@@ -83,7 +107,7 @@ test("filerne findes, og videoen holder sig under budgettet", async () => {
   const fil = join(root, "public", da.hero_video);
   assert.ok(existsSync(fil), `videoen mangler: ${da.hero_video}`);
   const kb = statSync(fil).size / 1024;
-  assert.ok(kb <= BUDGET_KB, `videoen er ${Math.round(kb)} KB — budgettet er ${BUDGET_KB} KB. En 5 MB-eksport må ikke lande lydløst.`);
+  assert.ok(kb <= BUDGET_KB, `videoen er ${Math.round(kb)} KB — budgettet er ${BUDGET_KB} KB. En rå eksport må ikke lande lydløst.`);
   if (da.hero_video_plakat) {
     assert.ok(existsSync(join(root, "public", da.hero_video_plakat)), "plakaten mangler");
     assert.ok(statSync(join(root, "public", da.hero_video_plakat)).size / 1024 <= 150, "plakaten er LCP-billedet — hold den lille");
@@ -91,6 +115,8 @@ test("filerne findes, og videoen holder sig under budgettet", async () => {
 });
 
 test("negativ kontrol: budgettet kan blive rødt", () => {
-  // Originalen Steven sendte var 5.585.684 bytes. Den skal falde igennem.
-  assert.ok(5585684 / 1024 > BUDGET_KB);
+  // De to rå eksporter huset har fået skal begge falde igennem:
+  // Stevens 5.585.684 bytes og Nizars 6.804.679 bytes med lyd.
+  assert.ok(5585684 / 1024 > BUDGET_KB, "Stevens original skal falde igennem");
+  assert.ok(6804679 / 1024 > BUDGET_KB, "Nizars original skal falde igennem");
 });

@@ -68,7 +68,7 @@ export default function HusetPage() {
             <p className="rum-label rum-huset__kicker">{fold.kicker}</p>
           ) : null}
           <HusetHero fold={fold} />
-          <Segl size={180} placement="above" className="rum-huset__segl" />
+          <Segl size={116} placement="above" className="rum-huset__segl" />
         </section>
 
         <section className="rum-huset__side">
