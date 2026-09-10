@@ -555,12 +555,22 @@ test("M2R runde 2: Mærket salgsflade på hud", () => {
 
 test("Huset-hero er et vindue, ikke en biograf", () => {
   const css = read("components/rummet/rummet.css");
-  // Heroen har et loft i begge retninger. Det gamle 100svh-hero fyldte
-  // hele skærmen med ét makrofoto (QA 30/8) — det må ikke komme igen.
-  const i = css.indexOf(".rum-huset__hero > img");
-  assert.notEqual(i, -1, "hero-billedreglen mangler");
-  const krop = css.slice(i, css.indexOf("}", i));
-  assert.match(krop, /height:\s*min\(/, "heroens højde skal have et loft");
+  // Heroen har et loft. Det gamle 100svh-hero fyldte hele skærmen med ét
+  // makrofoto (QA 30/8) — det må ikke komme igen.
+  //
+  // Loftet SAD på billedets højde (`> img { height: min(...) }`). Heroen er
+  // stående siden 10/9, og der er rammen selv der bærer loftet: bredden er
+  // begrænset, og 9:16 udleder højden af den. Reglen er den samme; det er
+  // kun det led der bærer den, der har flyttet sig. Derfor måler prøven nu
+  // rammen — ikke billedet, som bare fylder den ud.
+  const i = css.indexOf(".rum-huset__hero {");
+  assert.notEqual(i, -1, "hero-rammen mangler");
+  const ramme = css.slice(i, css.indexOf("}", i));
+  assert.match(ramme, /max-width:\s*min\(/, "heroen skal have et loft");
+  assert.match(ramme, /aspect-ratio:\s*9 \/ 16;/, "loftet udleder højden af bredden");
+  // Loftet skal være bundet til skærmen, ikke kun et pixeltal — ellers
+  // fylder heroen hele en lav skærm igen.
+  assert.match(ramme, /svh/, "loftet skal følge skærmens højde");
   assert.doesNotMatch(css, /calc\(100svh - 88px\)/);
   const s = css.indexOf(".rum-room__slot {");
   const slot = css.slice(s, css.indexOf("}", s));

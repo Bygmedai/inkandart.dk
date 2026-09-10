@@ -325,20 +325,37 @@ html:has([data-house="rummet"]) .grain {
 /* Hero: husets eget foto fra content/huset.yml med seglet lagt ovenpå.
    Skalaen er et vindue, ikke en biograf — det gamle hero fyldte
    100svh × 46vw og viste et makrofoto af en finger (QA 30/8). */
+/* Heroen er STÅENDE (Stevens kald 10/9): Nizars video er 9:16, og et
+   liggende udsnit af den skar tværs gennem hvert motiv — halve ansigter,
+   «Fami…» klippet midt i ordet (målt på fire frames). Rammen følger nu
+   videoen i stedet for omvendt.
+
+   Bredde-drevet med et loft udledt af højden: så er den forudsigelig i
+   begge ender. 1440 px skærm giver 440×782; en telefon på 390 giver
+   358×636 — hele frames begge steder, ingen beskæring. */
 .rum-huset__hero {
   position: relative;
   border: 1px solid var(--rum-line);
   overflow: hidden;
   background: #111;
+  width: 100%;
+  max-width: min(calc(76svh * 9 / 16), 440px);
+  aspect-ratio: 9 / 16;
+  margin-inline: auto;
 }
 .rum-huset__hero > img {
   display: block;
   width: 100%;
-  height: min(52svh, 560px);
+  height: 100%;
   object-fit: cover;
 }
-/* Videoen er et lag over fotoet — kun på brede skærme, kun for den der
-   ikke har bedt om ro. Ellers findes den ikke, og fotoet er heroen.
+/* Videoen er et lag over fotoet, for den der ikke har bedt om ro.
+   Ellers findes den ikke, og fotoet er heroen.
+
+   Den vises i ALLE bredder. Husets forrige, liggende loop var kun for
+   skærme over 720 px — et loop man knap kunne se bag seglet på en telefon
+   var ikke data værd. Denne er stående: telefonen ER dens hjemmebane.
+   Ro-ønsket gælder stadig, i alle bredder.
 
    Den står med vilje IKKE i img-reglen ovenfor. Første udgave gjorde det,
    og `.rum-huset__hero > video` (0,1,1) slog `.rum-huset__video` (0,1,0)
@@ -346,7 +363,7 @@ html:has([data-house="rummet"]) .grain {
    (målt 10/9: hero 880 px høj på 390). Kun media-queryen må give den
    display: block, og selektoren er den samme begge steder. */
 .rum-huset__video { display: none; }
-@media (min-width: 721px) and (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: no-preference) {
   .rum-huset__video {
     display: block;
     position: absolute;
@@ -364,14 +381,17 @@ html:has([data-house="rummet"]) .grain {
     background: transparent;
   }
 }
+/* Seglet sad midt på heroen, da den var et rum-billede. På et stående
+   portfolio-loop ligger midten dér hvor arbejdet er — seglet ville stå
+   oven på ansigterne hele vejen igennem. Nu er det et stempel i hjørnet:
+   husets mærke på husets flade, uden at dække det den viser. */
 .rum-huset__hero .rum-huset__segl {
   position: absolute;
-  z-index: 2; /* over videoen (z 1) — seglet er husets mærke på husets billede */
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  z-index: 2; /* over videoen (z 1) */
+  left: 16px;
+  bottom: 16px;
   margin: 0;
-  filter: drop-shadow(0 10px 26px rgba(7, 7, 7, 0.65));
+  filter: drop-shadow(0 10px 26px rgba(7, 7, 7, 0.75));
 }
 .rum-huset__kicker {
   position: absolute;
@@ -384,9 +404,9 @@ html:has([data-house="rummet"]) .grain {
   padding: 4px 8px;
 }
 @media (min-width: 1100px) {
-  .rum-huset__hero > img {
-    height: min(64svh, 680px);
-  }
+  /* Spalten følger videoens bredde i stedet for at lade den svømme i en
+     halv skærm sort. 32vw ≈ 461 px ved 1440, og rammen er 440. */
+  .rum-huset { grid-template-columns: minmax(320px, 32vw) 1fr; }
 }
 
 .rum-plade { margin: 0; }
