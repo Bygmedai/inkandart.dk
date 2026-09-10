@@ -9,7 +9,7 @@
     name: "Ink & Art Copenhagen",
     url: "https://inkandart.dk",
     image: "https://inkandart.dk/og-image.jpg",
-    telephone: "+4555248608",
+    telephone: "+4591887396",
     address: {
       "@type": "PostalAddress",
       streetAddress: "Larsbjørnsstræde 13",

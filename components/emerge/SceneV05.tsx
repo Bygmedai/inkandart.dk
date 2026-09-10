@@ -396,7 +396,7 @@ export function SceneV05({ lang = "da" }: { lang?: Locale } = {}) {
     <GiftRelic lang={lang} />
     <div style={{marginTop:'clamp(28px,5svh,56px)'}}>
       <a href="https://inkart.book.dk" style={{fontFamily:'\'Space Mono\',monospace',fontSize:'13px',letterSpacing:'.34em',textTransform:'uppercase'}} className="hero-cta">{c.bookCta}</a>
-      <p style={{margin:'28px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'12px',letterSpacing:'.26em',textTransform:'uppercase',color:'#8e867b'}}>Larsbjørnsstræde 13 · 1454 København K · <a href="tel:+4555248608" aria-label={c.callAria(site.phone)} style={{color:'inherit',borderBottom:'1px solid rgba(232,224,213,.25)',paddingTop:'12px'}}>55 24 86 08</a></p>
+      <p style={{margin:'28px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'12px',letterSpacing:'.26em',textTransform:'uppercase',color:'#8e867b'}}>Larsbjørnsstræde 13 · 1454 København K · <a href={`tel:${site.phoneIntl}`} aria-label={c.callAria(site.phone)} style={{color:'inherit',borderBottom:'1px solid rgba(232,224,213,.25)',paddingTop:'12px'}}>{site.phone}</a></p>
       <p style={{margin:'12px 0 0',fontFamily:'\'Space Mono\',monospace',fontSize:'12px',letterSpacing:'.26em',textTransform:'uppercase',color:'rgba(139,30,30,.85)'}}>{c.findUs}</p>
       <p style={{margin:'26px 0 0',display:'flex',gap:'24px',justifyContent:'center',flexWrap:'wrap'}}>
         <a href={L("/flash")} style={{fontFamily:'\'Space Mono\',monospace',fontSize:'13px',letterSpacing:'.3em',textTransform:'uppercase',color:'rgba(232,224,213,.72)',borderBottom:'1px solid rgba(201,162,39,.35)',paddingBottom:'5px'}}>{c.flash}</a>
