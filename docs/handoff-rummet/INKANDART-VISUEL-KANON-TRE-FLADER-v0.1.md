@@ -38,7 +38,7 @@ Derfor kommer de tre flader til at se forskellige ud uden at være tre brands: d
 **Job:** en fremmed fra Google eller Instagram skal beslutte sig for at gå ned ad trappen. Fortælling først, salg som en dør i huset.
 **Bund:** **nat** på Huset, Stolen, Natten, Gaden. **Hud-lys** på Mærket (væg med priser, hylde, produktside).
 **Egen form:** rum-navigation, redaktionel rytme, store billeder i 4:5 og liggende hero. Ingen produktgitre uden for Mærket.
-**Bevægelse (Stevens kendelse 10/9-2026):** heroen på forsiden må bære et stille loop uden lyd — kun på skærme over 720 px, aldrig for den der har bedt om ro (`prefers-reduced-motion`), altid med fotoet i DOM'en som det skærmlæseren møder. Filen under 800 KB (hegn i `tests/hero-video.test.mjs`). Interim-materiale udskiftes 1:1 på sti som K5. Resten af sitet har stadig ingen bevægelse.
+**Bevægelse (Stevens kendelser 10/9-2026):** heroen på forsiden må bære et stille loop uden lyd. Første udgave var liggende og kun over 720 px; samme dag blev heroen **stående (9:16)** med Nizars egen video, og løftet gælder derfor **alle bredder** — 9:16 er født på en telefon. Grænserne der står: aldrig for den der har bedt om ro (`prefers-reduced-motion`), altid med fotoet i DOM'en som det skærmlæseren møder, rammen har et loft bundet til skærmens højde (den må ikke blive en biograf), og filen under 3 MB (hegn i `tests/hero-video.test.mjs`). Interim-materiale udskiftes 1:1 på sti som K5. Resten af sitet har stadig ingen bevægelse.
 **Gate:** ≤ 60 % nær-sort i første viewport ved 1440×900 · ≤ 62 % ved 390×844.
 
 ### Webshoppen · `shop.inkandart.dk` — disken
