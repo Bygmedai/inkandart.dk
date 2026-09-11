@@ -1436,12 +1436,12 @@ test("S574/S579 Natten og Mærket på engelsk — kundens ord, aldrig en ordret 
   // Men sætningerne omkring dem skifter sprog.
   assert.match(i18n, /shelfEmpty: "No prints right now\."/);
   assert.match(i18n, /No work from \$\{navn\} yet/);
-  assert.match(i18n, /guestDj: "Guest DJ"/);
+  assert.match(i18n, /guestDj: "Guest artist"/);
 
   // Natten forklarer sig på begge sprog, og lover ikke en dato vi ikke har.
   const da = loadNattenCopy();
   const en = loadNattenCopyEn();
-  assert.match(da.intro, /kælderen/);
+  assert.match(da.intro, /kælderen/); // stedet er fakta og bliver
   assert.match(en.intro, /basement/);
   assert.ok(da.tom_titel && en.tom_titel, "tom-tilstanden har ord på begge sprog");
   assert.doesNotMatch(en.intro, /\d{1,2}[./]\d{1,2}/, "ingen opdigtet dato");

@@ -2,9 +2,12 @@
 # The customer's word for the room is Nights (S579). The URL /natten stays;
 # the words on the page are the customer's, not the house's.
 
+# See the note in content/natten.yml: the landlord objected to the site
+# advertising a DJ and drinks. Nights here are about one thing — getting
+# tattooed after the rest of the city has closed.
 intro: >-
-  DJ, drinks and flash tattoos in the basement, on the nights the house
-  stays open late. The next date is announced here and to everyone on the list.
+  Flash tattoos in the basement, on the nights the house stays open late.
+  The next date is announced here and to everyone on the list.
 tom_titel: No night tonight
 tom_linje: Join the list — we'll tell you when the next one lands.
 
