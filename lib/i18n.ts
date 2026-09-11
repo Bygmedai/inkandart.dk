@@ -284,9 +284,12 @@ const da = {
     meetIn: (navn: string) => `Mød ${navn} hos artisterne`,
     orSee: " — eller ",
     wholeWall: "se alt arbejdet",
-    /* Natten. Uden navne på plakaten står der en gæste-DJ, ikke et navn
-       vi ikke har fået. */
-    guestDj: "Gæste-DJ",
+    /* Aftenens plakat. Uden et navn står der hvad natten ER — en artist
+       der tatoverer. Her stod «Gæste-DJ» indtil 11/9 2026, hvor udlejeren
+       gjorde Nizar opmærksom på at huset hverken må spille høj musik
+       eller skænke spiritus i lejemålet. Nøglen hedder stadig guestDj,
+       så ingen anden flade knækker; ordet gør ikke. */
+    guestDj: "Gæsteartist",
     /* Forsidens aften-felt. En tom kalender er en tom kalender — ikke
        en mytologi om noget der venter. */
     tonightLabel: "I aften",
@@ -531,7 +534,7 @@ const en: Copy = {
     meetIn: (navn: string) => `Meet ${navn} with the artists`,
     orSee: " — or ",
     wholeWall: "see all the work",
-    guestDj: "Guest DJ",
+    guestDj: "Guest artist",
     tonightLabel: "Tonight",
     noEvent: "No evening planned right now",
     noEventLine: "Want the next date? Join the list.",

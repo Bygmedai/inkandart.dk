@@ -1,11 +1,23 @@
 # Nattens egen side. Sonja retter her — ikke i koden.
 # intro: hvad Natten ER, for en der aldrig har hørt om den.
-# [ORD-TJEK Steven 30/8] — udkast skrevet af Haruki ud fra husets
-# faktiske nætter (gæste-DJs, events i kælderen). Ret frit.
+#
+# LÆS DETTE FØR DU SKRIVER HER (11/9 2026, Nizars kald):
+# Udlejeren, Semper Ejendomme, skrev til Nizar fordi siden reklamerede
+# med «en aften med DJ, drinks og flash-tattoos». Høj musik er ikke
+# tilladt i lejemålet, og udskænkning af spiritus kræver en bevilling
+# huset ikke har. Nizar: «Du må meget gerne fjerne det fra hjemmesiden.»
+#
+# Aftener på Larsbjørnsstræde 13 handler derfor om ÉT: at der bliver
+# tatoveret, når resten af byen har lukket. Det er det huset har lov til,
+# og det er også det eneste i byen. Skriv ikke DJ, drinks, bar, musik
+# eller fest ind her igen — tests/udlejer-krav.test.mjs går rød.
+#
+# (Chateau-siden er en ANDEN adresse med en anden udlejer og en anden
+# bevilling. Den er ikke omfattet.)
 
 intro: >-
-  DJ, drinks og flash-tattoos i kælderen, når huset holder åbent
-  til natten. Næste dato annonceres her og til alle, der har skrevet sig op.
+  Flash-tattoos i kælderen, når huset holder åbent til natten.
+  Næste dato annonceres her og til alle, der har skrevet sig op.
 tom_titel: Ingen nat i aften
 tom_linje: Skriv dig op — så får du besked når den næste kommer.
 

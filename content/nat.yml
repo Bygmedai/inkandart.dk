@@ -1,6 +1,7 @@
 # Én post pr. nat. aktiv: true = vises som «i aften».
 # Tom liste eller ingen aktiv → «Ingen nat i aften».
-# DJ-navne afventer — vises som «Gæste-DJ» når natten er aktiv.
+# `navne` er ARTISTER der tatoverer den nat — ikke DJs. Uden navne står
+# der «Gæsteartist». Se udlejer-noten i content/natten.yml.
 
 - nr: ""
   dato: ""
