@@ -159,6 +159,70 @@
   # walk-in — og kortet siger walk-in i stedet for at tilbyde en tid.
   booking: false
 
+- id: okan
+  # Okan — IKKE «Orkan». Steven skrev Orkan i tråden, Okans egen besked
+  # skriver Okan tre gange om sig selv. Bekræftet af Steven 14/9 2026:
+  # «Okan er navnet.» Efternavn er ikke oplyst endnu; Nizar, Emma og Anna
+  # står med fulde navne, så spørg ham om han vil have sit med.
+  fornavn: Okan
+  # Samme form som Emmas linje: faget, så det han faktisk laver.
+  haandvaerk: Tatovør · realisme og fin streg
+  haandvaerk_en: Tattoo artist · realism and fine line
+  #
+  # DEN DANSKE BIO ER ET UDKAST OG ER IKKE GODKENDT AF OKAN ENDNU.
+  #
+  # Okan skrev sin tekst på ENGELSK (WhatsApp til Steven, 13/9 2026).
+  # bio_en herunder er hans ord ORDRET. Den danske er MIN oversættelse,
+  # og huset oversætter ikke en bio for et menneske (S574, og hint'et i
+  # docs/cms/indholds-kontrakt.yml siger det samme). Derfor:
+  #
+  #   Steven, 14/9: «Du må gerne sende mig et udkast til en dansk
+  #   version. Så spørger jeg Okan. Han kan jo ikke dansk.»
+  #
+  # Det er netop problemet: han kan ikke læse det han siger ja til.
+  # Derfor fik Steven også en tilbage-oversættelse af MIN danske tekst,
+  # så Okan kan se om dansken siger det han mente. Godkender han den,
+  # slettes dette afsnit af kommentaren og teksten står som hans.
+  #
+  # Tre valg der er mine, ikke hans:
+  #   «fine line»  -> «fin streg»  (husets ord i forvejen, jf. Emma)
+  #   «designs»    -> «motiver»    (dansk tatoveringssprog, Groks brief)
+  #   Hans engelske tekst siger TO gange at realisme og fin streg er
+  #   kernen (afsnit 1 og 3). Begge står; intet er fjernet bag hans ryg.
+  bio: |-
+    Okan — professionelt kendt som artfulltattoo — er en cypriotisk tatovør i København med fem års erfaring i faget. Hans hovedfelt er realisme, som han kombinerer med en stærk sans for det kreative og en forkærlighed for unikke motiver, tegnet til den enkelte. Han arbejder også meget med fin streg: rene, sarte og omhyggeligt detaljerede stykker.
+
+    For Okan er de bedste tatoveringer personlige. I stedet for at gentage en idé, der allerede findes, arbejder han tæt sammen med kunden for at forstå historien, mennesket og tanken bag — og laver den så om til et originalt motiv, tegnet til netop dem. Det kreative, og evnen til at gøre en idé til en tatovering der står stærkt, er kernen i hans arbejde.
+
+    Realisme og fin streg er hans fundament, men han er hjemmevant i andre teknikker og stilarter, når motivet eller mennesket kalder på det. Hver opgave bliver grebet an for sig, med blik for detaljen, kompositionen og for den, der skal bære den.
+
+    Han kommer fra Cypern, bor i København og arbejder fortsat internationalt gennem gæsteophold og samarbejder. Målet er at blive ved med at udvikle sit eget udtryk, flytte sine grænser og lave tatoveringer, der er teknisk gennemførte, stærke at se på og helt igennem personlige for den enkelte.
+  # Okans egne ord, ordret fra hans besked. Røres ikke.
+  bio_en: |-
+    Okan, professionally known as artfulltattoo, is a Cypriot tattoo artist based in Copenhagen, Denmark, with five years of experience in the tattoo industry. His main artistic focus is realism, which he combines with a strong sense of creativity and a passion for creating unique, custom-made tattoo designs. He also works extensively with fine line, creating clean, delicate and carefully detailed pieces.
+
+    Okan believes that the best tattoos are personal. Rather than simply reproducing existing ideas, he enjoys working closely with his clients to understand their stories, personalities and concepts, then turning them into original designs created specifically for them. Creativity and the ability to transform an idea into a visually strong tattoo are central to his artistic approach.
+
+    While realism and fine line are at the core of his work, Okan is comfortable exploring different techniques and styles depending on the concept and the client. Every project is approached individually, with attention to detail, composition and the character of the person wearing the tattoo.
+
+    Originally from Cyprus and now based in Copenhagen, Okan also continues to work internationally through guest spots and collaborations. His goal is to continue developing his artistic identity, push his creative boundaries and create tattoos that are technically refined, visually striking and truly personal to each client.
+  # UBEKRÆFTET. «artfulltattoo» er hans professionelle navn i hans egen
+  # tekst — ikke nødvendigvis handle'et. Et forkert IG-link er en død
+  # handling på en brandflade. Bekræft før merge.
+  instagram: artfulltattoo
+  periode: fast
+  # MANGLER: portræt. Steven har ni værk-billeder, men intet portræt af
+  # ham. Kortet har INGEN fallback (`<img src={artist.foto}>`), så en tom
+  # sti giver et brækket billede. tests/artist-billeder.test.mjs spærrer
+  # mekanisk indtil filen findes — det er derfor prøven er rød nu.
+  foto: ""
+  billedtekst: ""
+  aktiv: true
+  stol: true
+  # Book.dk-kalenderen er ikke sat op for ham. Samme kald som Annas:
+  # vi tilbyder ikke en tid huset ikke kan give. Tænd når den er sat op.
+  booking: false
+
 - id: gaest
   fornavn: ""
   haandvaerk: ""
