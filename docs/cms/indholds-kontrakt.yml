@@ -65,6 +65,7 @@ collections:
               - { label: "Håndværk (engelsk)", name: haandvaerk_en, widget: string, required: false, hint: "Fagets navn på engelsk. Tom = den danske linje vises." }
               - { label: "Bio (engelsk)", name: bio_en, widget: text, required: false, hint: "Artistens EGEN engelske tekst. Tom = den danske bio vises som dansk. Oversæt aldrig en bio for dem." }
               - { label: Instagram, name: instagram, widget: string, required: false, hint: "Handle uden @. Tom = linjen udelades." }
+              - { label: TikTok, name: tiktok, widget: string, required: false, hint: "Handle uden @. Ofte et ANDET handle end Instagram — skriv det af fra profilen, gæt det ikke. Tom = linjen udelades." }
               # Galleri-slots (Villy, S575 — docs/accept/galleri.md).
               # max: 4 er loftet HVOR REDAKTOEREN KAN SE DET. Koden har det
               # samme loft (GALLERI_MAX = 5, portraettet talt med), men en

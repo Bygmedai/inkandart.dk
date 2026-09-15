@@ -86,14 +86,27 @@ export default async function ArtistPage({
             <p className="rum-label rum-chair__meta">{periodeLabel(artist)}</p>
             {artist.bio ? <Bio tekst={artist.bio} /> : null}
             <Tider tider={artist.tider} t={c.tider} />
-            {artist.instagram ? (
+            {artist.instagram || artist.tiktok ? (
               <p className="rum-artist__insta">
-                <a
-                  href={`https://www.instagram.com/${artist.instagram}/`}
-                  rel="noopener noreferrer"
-                >
-                  @{artist.instagram}
-                </a>
+                {artist.instagram ? (
+                  <a
+                    href={`https://www.instagram.com/${artist.instagram}/`}
+                    rel="noopener noreferrer"
+                    aria-label={`Instagram @${artist.instagram}`}
+                  >
+                    @{artist.instagram}
+                  </a>
+                ) : null}
+                {artist.instagram && artist.tiktok ? " · " : null}
+                {artist.tiktok ? (
+                  <a
+                    href={`https://www.tiktok.com/@${artist.tiktok}`}
+                    rel="noopener noreferrer"
+                    aria-label={`TikTok @${artist.tiktok}`}
+                  >
+                    @{artist.tiktok}
+                  </a>
+                ) : null}
               </p>
             ) : null}
             <div className="rum-huset__cta">

@@ -76,6 +76,16 @@ export type Artist = {
   bio_en: string;
   /** Instagram-handle uden @. Tom = linjen udelades. */
   instagram: string;
+  /**
+   * TikTok-handle uden @. Tom = linjen udelades.
+   *
+   * Eget felt og ikke en liste, fordi de to platforme har hver sin
+   * URL-form og hver sit handle — Okans hedder `artfulltattoo` paa
+   * Instagram og `okan.artfulltattoo` paa TikTok. En faelles «sociale
+   * links»-liste ville kraeve at redaktoeren skrev URL'en selv, og saa
+   * er det hende der skal huske https:// og skraastregen.
+   */
+  tiktok: string;
   aktiv: boolean;
   stol: boolean;
   /** Kan gaesten booke tid hos denne artist? Tom/false = walk-in indtil
@@ -204,6 +214,7 @@ function normalizeArtist(a: Artist): Artist {
     haandvaerk_en: str(a.haandvaerk_en),
     bio_en: str(a.bio_en),
     instagram: str(a.instagram),
+    tiktok: str((a as unknown as Record<string, unknown>).tiktok),
     aktiv: bool(a.aktiv),
     stol: bool(a.stol),
     booking: a.booking === undefined ? true : bool(a.booking),
