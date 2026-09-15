@@ -64,6 +64,31 @@
   periode: fast
   foto: /slots/S-04.jpg
   billedtekst: Nizar Saad foran husets skilt.
+  # Fire billeder af Nizar selv (Steven, 15/9 2026). Med portrættet er
+  # det fem — præcis loftet (GALLERI_MAX). Der er ikke plads til flere.
+  #
+  # S-12 OG S-13 ER HAM, OGSÅ SELV OM HAN IKKE LIGNER SIG SELV.
+  # Jeg meldte dem først som en anden mand: han har hår på dem, og han er
+  # skaldet i dag. Steven, som kender ham: «Nej det er ham, bare for 5 år
+  # siden. Det kan jeg bekræfte.» Pandelampen lyser direkte ind i kameraet
+  # på begge, så hudtone og øjenfarve er ikke til at læse ud af dem.
+  #
+  # Lært: et menneskes identitet afgøres ikke af to fotos og min
+  # sammenligning. Spørg den der kender personen — og hvis der er tvivl,
+  # så lad være med at lægge billedet op imens.
+  fotos:
+    - fil: /slots/S-12.jpg
+      tekst: Nizar tatoverer med pandelampe på og kigger op mod kameraet.
+      fokus: ""
+    - fil: /slots/S-13.jpg
+      tekst: Nizar bøjet over en underarm under arbejde, set i profil.
+      fokus: ""
+    - fil: /slots/S-11.jpg
+      tekst: Nizar på sin motorcykel foran et værtshus i København.
+      fokus: ""
+    - fil: /slots/S-10.jpg
+      tekst: Nizar i solbriller under palmer, tatoverede hænder.
+      fokus: ""
   aktiv: true
   stol: true
 

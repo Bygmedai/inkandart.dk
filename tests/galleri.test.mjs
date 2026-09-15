@@ -144,11 +144,32 @@ test("knappens tekst findes på begge sprog", () => {
 });
 
 test("én slot ser ud som før galleriet fandtes", () => {
-  // Fem af seks profiler har ét foto i dag. De må ikke få en pauseknap
-  // eller en animation — der er ikke noget at rotere.
+  // Profiler UDEN galleri må ikke få en pauseknap eller en animation —
+  // der er ikke noget at rotere.
+  //
+  // Prøven stod før som «højst én artist har et galleri» og var en
+  // snubletråd: «mål siden igen». Den virkede efter hensigten — den
+  // fyrede da Nizar fik sit galleri 15/9 2026 (Okan havde det ene i
+  // forvejen), og siden blev målt i en rigtig render FØR tallet blev
+  // flyttet:
+  //
+  //   /stolen/nizar   data-antal="3"   pauseknap til stede
+  //                   alle billeder med alt-tekst
+  //                   0 <img> uden src, 0 uden alt
+  //   rummet.css har @keyframes rum-galleri-2..5 — 3 er dækket
+  //
+  // Men et tal der skal skrues op hver gang, bliver skruet op uden at
+  // nogen ser efter. Derfor måler den nu DET DER BETYDER NOGET: at
+  // én-billed-vejen stadig findes i rigtige data, så grenen bliver
+  // udøvet. Falder den til nul, er grenen død kode — og så skal den
+  // fjernes, ikke stå og lyve om at den er dækket.
   const artists = read("content/artists.yml");
-  const fotos = artists.match(/^\s+fotos:/gm) ?? [];
-  assert.ok(fotos.length <= 1, "flere artister med slots end forventet — mål siden igen");
+  const medGalleri = (artists.match(/^\s+fotos:/gm) ?? []).length;
+  const iStolen = (artists.match(/^\s+stol: true/gm) ?? []).length;
+  assert.ok(
+    iStolen > medGalleri,
+    `alle ${iStolen} i stolen har galleri — én-billed-grenen er ikke længere dækket af data`,
+  );
 
   assert.match(komponent, /fotos\.length === 1/, "der er ingen én-billed-gren");
   const gren = komponent.slice(
