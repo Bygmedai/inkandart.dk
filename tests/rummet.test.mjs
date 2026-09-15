@@ -31,7 +31,10 @@ test("content-filerne parse'r og tom-tilstandene følger data", async () => {
   const names = chairs.map((a) => a.fornavn);
   // S573: Anna Ogłuszka er husets piercer fra 31/8. En piercer sidder i
   // stolen paa linje med tatovoererne — det er samme rum og samme booking.
-  assert.deepEqual(names, ["Nizar Saad", "Emma Windinnalls", "Anna Ogłuszka"]);
+  // S580: Okan (artfulltattoo) kom i stolen 14/9 — cypriotisk tatovør,
+  // realisme og fin streg. Listen er med vilje hardcodet: kommer der en
+  // artist i stolen, skal et menneske skrive det her, ikke opdage det.
+  assert.deepEqual(names, ["Nizar Saad", "Emma Windinnalls", "Anna Ogłuszka", "Okan"]);
   assert.ok(!names.includes("Sonja Rebner"), "Sonja sidder ikke i stolen");
 
   const featured = featuredVaerk(house.vaerker);
@@ -969,10 +972,18 @@ test("Anna er paa uden opdigtet bio eller vagtskema", async () => {
 test("en artist uden booking faar walk-in, ikke en tid vi ikke kan give", async () => {
   const { loadHouse, chairArtists } = await import("../lib/content.ts");
   const chairs = chairArtists(loadHouse().artists);
-  const anna = chairs.find((a) => a.id === "anna");
-  assert.equal(anna.booking, false, "Anna er walk-in indtil kalenderen staar");
+  // Hvem der er walk-in er et KALD, ikke en tilstand der maa sive ind.
+  // Anna siden 31/8; Okan fra 14/9 (S580) — begge fordi Book.dk-kalenderen
+  // ikke er sat op for dem endnu. Tænd `booking` i samme commit som
+  // kalenderen, og fjern id'et her; så er der ét sted at se det.
+  const UDEN_KALENDER = ["anna", "okan"];
+  for (const id of UDEN_KALENDER) {
+    const a = chairs.find((x) => x.id === id);
+    assert.ok(a, `negativ kontrol: ${id} sidder ikke i stolen`);
+    assert.equal(a.booking, false, `${id} er walk-in indtil kalenderen staar`);
+  }
   for (const a of chairs) {
-    if (a.id !== "anna") assert.equal(a.booking, true, `${a.id} skal kunne bookes`);
+    if (!UDEN_KALENDER.includes(a.id)) assert.equal(a.booking, true, `${a.id} skal kunne bookes`);
   }
   const kort = readFileSync(join(root, "components/rummet/ArtistKort.tsx"), "utf8");
   assert.match(kort, /artist\.booking \?/, "kortet skal forgrene paa booking");
