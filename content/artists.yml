@@ -169,26 +169,29 @@
   haandvaerk: Tatovør · realisme og fin streg
   haandvaerk_en: Tattoo artist · realism and fine line
   #
-  # DEN DANSKE BIO ER ET UDKAST OG ER IKKE GODKENDT AF OKAN ENDNU.
+  # DEN DANSKE BIO ER GODKENDT AF OKAN (Steven, 15/9 2026: «Okan har
+  # sagt ja til hans danske bio»). Teksten er hans nu.
   #
-  # Okan skrev sin tekst på ENGELSK (WhatsApp til Steven, 13/9 2026).
-  # bio_en herunder er hans ord ORDRET. Den danske er MIN oversættelse,
-  # og huset oversætter ikke en bio for et menneske (S574, og hint'et i
-  # docs/cms/indholds-kontrakt.yml siger det samme). Derfor:
+  # Hvordan den blev til, fordi det er den slags der ellers glemmes:
+  # Okan skrev sin tekst på ENGELSK (WhatsApp til Steven, 13/9). bio_en
+  # herunder er hans ord ORDRET. Den danske er MIN oversættelse — og
+  # huset oversætter normalt ikke en bio for et menneske (S574, og
+  # hint'et i docs/cms/indholds-kontrakt.yml siger det samme). Steven
+  # bad om et udkast og tog det til ham.
   #
-  #   Steven, 14/9: «Du må gerne sende mig et udkast til en dansk
-  #   version. Så spørger jeg Okan. Han kan jo ikke dansk.»
+  # Han kan ikke dansk, så et «ja» til en tekst han ikke kan læse er
+  # ingenting værd. Derfor fik han ogsaa en TILBAGE-oversættelse af min
+  # danske tekst til engelsk, så han kunne se om dansken sagde det han
+  # mente. Det er DEN han sagde ja til.
   #
-  # Det er netop problemet: han kan ikke læse det han siger ja til.
-  # Derfor fik Steven også en tilbage-oversættelse af MIN danske tekst,
-  # så Okan kan se om dansken siger det han mente. Godkender han den,
-  # slettes dette afsnit af kommentaren og teksten står som hans.
-  #
-  # Tre valg der er mine, ikke hans:
+  # Tre valg var mine, ikke hans, og de indgik i det han godkendte:
   #   «fine line»  -> «fin streg»  (husets ord i forvejen, jf. Emma)
   #   «designs»    -> «motiver»    (dansk tatoveringssprog, Groks brief)
   #   Hans engelske tekst siger TO gange at realisme og fin streg er
   #   kernen (afsnit 1 og 3). Begge står; intet er fjernet bag hans ryg.
+  #
+  # Ændrer nogen den danske tekst herefter, er det ikke længere den han
+  # har set. Så skal han spørges igen — med en ny tilbage-oversættelse.
   bio: |-
     Okan — professionelt kendt som artfulltattoo — er en cypriotisk tatovør i København med fem års erfaring i faget. Hans hovedfelt er realisme, som han kombinerer med en stærk sans for det kreative og en forkærlighed for unikke motiver, tegnet til den enkelte. Han arbejder også meget med fin streg: rene, sarte og omhyggeligt detaljerede stykker.
 
