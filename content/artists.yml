@@ -206,10 +206,25 @@
     While realism and fine line are at the core of his work, Okan is comfortable exploring different techniques and styles depending on the concept and the client. Every project is approached individually, with attention to detail, composition and the character of the person wearing the tattoo.
 
     Originally from Cyprus and now based in Copenhagen, Okan also continues to work internationally through guest spots and collaborations. His goal is to continue developing his artistic identity, push his creative boundaries and create tattoos that are technically refined, visually striking and truly personal to each client.
-  # UBEKRÆFTET. «artfulltattoo» er hans professionelle navn i hans egen
-  # tekst — ikke nødvendigvis handle'et. Et forkert IG-link er en død
-  # handling på en brandflade. Bekræft før merge.
+  # BEKRÆFTET 15/9 2026. Okan sendte sit WhatsApp Business-kort videre
+  # gennem Steven; Instagram står som «artfulltattoo» på hans egen
+  # virksomhedskonto. Stod før som et gæt udledt af hans professionelle
+  # navn — og et gæt er en død handling hvis det er forkert.
+  #
+  # Jeg kunne ikke selv måle det: Instagram svarer 302 på ethvert handle
+  # uden login, også et jeg fandt på. Målingen kunne altså ikke skelne,
+  # og et menneske måtte bekræfte det. Skrevet ned, så den næste ikke
+  # prøver den vej igen.
+  #
+  # Kortet viser ogsaa et andet handle, retro_ink_art_studio, og en
+  # privat mailadresse. Handle nr. 2 er ikke hans egen profil og staar
+  # derfor ikke her; mailen hoerer ingen steder hjemme i et offentligt
+  # repo og er bevidst udeladt.
   instagram: artfulltattoo
+  # TikTok, bekræftet af Steven 15/9 med link. Handle'et er IKKE det samme
+  # som paa Instagram — dér hedder han artfulltattoo, her okan.artfulltattoo.
+  # Derfor to felter og ikke ét.
+  tiktok: okan.artfulltattoo
   periode: fast
   foto: /slots/S-09.jpg
   # Portrættet beskriver MENNESKET, ikke et motiv — det er hans ansigt,
