@@ -36,6 +36,10 @@ const LOVLIGE = new Set([
   // kamera + er. Fanget af vagten da teamguiden kom til — og det er
   // sådan listen skal vokse: et menneske tager stilling, én gang.
   "kameraer",
+  // Samme ord i bestemt ental, fanget da Nizars galleri kom til (S580).
+  // «kameraet» er stavet rigtigt; det er mønsteret der er groft. Listen
+  // vokser ét bevidst ord ad gangen — det er meningen.
+  "kameraet",
   // sofa + en. Samme klasse som «datoen» og «kameraer»: stammen ender på
   // a, endelsen begynder på e. Fanget da samtykke-trinnet kom på
   // bookingsiden (S579). Ordet er stavet rigtigt; det er mønsteret der er
