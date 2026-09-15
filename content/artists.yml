@@ -211,12 +211,28 @@
   # handling på en brandflade. Bekræft før merge.
   instagram: artfulltattoo
   periode: fast
-  # MANGLER: portræt. Steven har ni værk-billeder, men intet portræt af
-  # ham. Kortet har INGEN fallback (`<img src={artist.foto}>`), så en tom
-  # sti giver et brækket billede. tests/artist-billeder.test.mjs spærrer
-  # mekanisk indtil filen findes — det er derfor prøven er rød nu.
-  foto: ""
-  billedtekst: ""
+  foto: /slots/S-09.jpg
+  # Portrættet beskriver MENNESKET, ikke et motiv — det er hans ansigt,
+  # ikke hans arbejde. Resten af billederne er værker og står i vaerker.yml.
+  billedtekst: Okan, tatovør i huset.
+  # Fire værker ud over portrættet — loftet er fem i alt (GALLERI_MAX).
+  # Valgt så galleriet viser DE TO FELTER hans bio nævner: to i realisme
+  # (V-11, V-12, begge hans eget design) og to i fin streg (V-15 koi,
+  # V-14 liljer). Viser man kun realisme, sælger kortet ham for smalt —
+  # samme fejl som Emmas linje havde før Harukis fund 1/9.
+  fotos:
+    - fil: /slots/V-12.jpg
+      tekst: Lotusblomst over et kvindeansigt med revnet overflade, sort og gråt, skulder.
+      fokus: ""
+    - fil: /slots/V-13.jpg
+      tekst: Gudeskikkelse med brølende løve og græsk mæanderbort, sort og gråt, overarm.
+      fokus: ""
+    - fil: /slots/V-16.jpg
+      tekst: Koifisk og lotus i fin streg med røde streger, underarm.
+      fokus: ""
+    - fil: /slots/V-15.jpg
+      tekst: Liljer i sort og gråt med bløde overgange, overarm.
+      fokus: ""
   aktiv: true
   stol: true
   # Book.dk-kalenderen er ikke sat op for ham. Samme kald som Annas:

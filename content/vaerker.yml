@@ -140,3 +140,135 @@
   demo: false
   i_dag: false
   edition_ref: ""
+
+
+# OKANS VÆRKER (S580). Alle ni er hans ARBEJDE — han har tatoveret dem.
+#
+# TRE af dem er også hans EGET DESIGN, og det er ikke det samme. Steven,
+# 14/9: «Alle billeder er hans arbejde. Men kun tre er hans eget design.
+# Alle skal på site. Men tre er hans personlige flash.» De tre er mærket
+# nedenfor. Resten er tatoveret efter kundens eller en andens forlæg, og
+# derfor står der INTET om design i deres billedtekster.
+#
+# Billedteksten er motiv + teknik, aldrig en titel og aldrig et kredit —
+# samme regel som resten af filen. At et værk er hans eget design står
+# i en kommentar til et menneske, ikke som en påstand paa fladen.
+#
+# DE TRE ER IKKE LAGT PÅ /flash. At vise et motiv under «flash» siger til
+# kunden at det kan købes og sættes, og det er en handel ingen har
+# bekræftet. Afventer Okans ja (og en pris).
+#
+# Id'erne starter ved V-12: V-11 var allerede taget af Annas industrial,
+# som peger paa P-02.jpg. Id og filnavn foelges ad her, saa den naeste
+# ikke skal gaette.
+
+- id: V-12
+  # Okans eget design — et af hans tre personlige flash-motiver.
+  titel: ""
+  artist: okan
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-12.jpg
+  billedtekst: Lotusblomst over et kvindeansigt med revnet overflade, sort og gråt, skulder.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-13
+  # Okans eget design — et af hans tre personlige flash-motiver.
+  titel: ""
+  artist: okan
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-13.jpg
+  billedtekst: Gudeskikkelse med brølende løve og græsk mæanderbort, sort og gråt, overarm.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-14
+  # Okans eget design — et af hans tre personlige flash-motiver.
+  titel: ""
+  artist: okan
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-14.jpg
+  billedtekst: Vikingekriger med økse og kranie, sort og gråt, overarm.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-15
+  titel: ""
+  artist: okan
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-15.jpg
+  billedtekst: Liljer i sort og gråt med bløde overgange, overarm.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-16
+  titel: ""
+  artist: okan
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-16.jpg
+  billedtekst: Koifisk og lotus i fin streg med røde streger, underarm.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-17
+  titel: ""
+  artist: okan
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-17.jpg
+  billedtekst: To heste, skitseret streg i sort og gråt, bryst.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-18
+  titel: ""
+  artist: okan
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-18.jpg
+  billedtekst: Anime-portræt med stråhat, fin streg og prikskygge, lår.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-19
+  titel: ""
+  artist: okan
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-19.jpg
+  billedtekst: Rød valmue med knop, farve, øvre ryg.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-20
+  titel: ""
+  artist: okan
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-20.jpg
+  billedtekst: Barn set bagfra i trøje med tallet 10, sort og gråt, læg.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
