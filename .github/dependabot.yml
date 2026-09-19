@@ -26,8 +26,21 @@ updates:
       default-days: 7
       semver-major-days: 30
     groups:
-      npm-security:
+      # S496-opfoelgning (Steven GO 19/9-2026): sikkerhedsgruppen er delt i prod og dev.
+      # Maalt i bygmedai-portal#97: den udelte gruppe lagde en udeklareret dev-major
+      # (vitest ^4 -> ^5) i SAMME PR som en kritisk next-RCE-patch. npm ci doede paa
+      # ERESOLVE, hele quality-gate faldt, og main stod paa den saarbare next i en uge.
+      # Det er praecis fejlklassen S546 allerede loeste for version-updates ("en gruppe
+      # der ikke kan merges, leverer nul opdateringer") — nu ogsaa for security-updates.
+      # Vi bruger IKKE ignore paa majors: ignore gaelder ogsaa security-updates og ville
+      # skjule CVEs hvis kun en major lukker dem (GHSA-82fw-gwwq-j7x9 er netop saadan en).
+      npm-security-prod:
         applies-to: security-updates
+        dependency-type: "production"
+        patterns: ["*"]
+      npm-security-dev:
+        applies-to: security-updates
+        dependency-type: "development"
         patterns: ["*"]
       prod-minor-patch:
         applies-to: version-updates
