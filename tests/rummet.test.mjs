@@ -837,7 +837,9 @@ test("S573 Huset h1", () => {
   const yml = read("content/huset.yml");
   assert.match(huset, /rum-huset__title/);
   assert.match(yml, /Tatovering og piercing i Pisserenden/);
-  assert.match(huset, /className="rum-label">Studiet</);
+  // Etiketten «Studiet» over overskriften er væk (23/9 2026, «mindre
+  // tekst»). Overskriften bærer det alene. Se også G1.
+  assert.doesNotMatch(huset, /className="rum-label">Studiet</);
   assert.match(huset, /tel:\$\{kontakt\.telefon_e164\}/);
   assert.match(yml, /cta_book: Book tid/);
 });
@@ -893,7 +895,13 @@ test("G1 Huset intro i første fold", () => {
   const css = read("components/rummet/rummet.css");
   const yml = read("content/huset.yml");
   assert.match(huset, /rum-huset__intro/);
-  assert.match(huset, /className="rum-label">Studiet</);
+  // Intro'en er nu overskrift → brødtekst → CTA, uden etiket og uden
+  // åbningstider (de står under videoen). Steven, 23/9 2026: «Billederne
+  // skal fylde mere, og mindre tekst.» Resten af prøven — overskrift,
+  // booking-CTA FØR heroen, præcis ét id="booking" — gælder uændret.
+  assert.doesNotMatch(huset, /className="rum-label">Studiet</);
+  const introBlok = huset.slice(huset.indexOf("rum-huset__intro"), huset.indexOf("</header>"));
+  assert.doesNotMatch(introBlok, /rum-huset__tider/, "åbningstiderne står igen mellem overskrift og billede");
   assert.match(huset, /<h1 className="rum-huset__title rum-poster">\{fold\.titel\}<\/h1>/);
   assert.match(yml, /Tatovering og piercing i Pisserenden/);
   assert.match(
