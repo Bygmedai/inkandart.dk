@@ -45,13 +45,12 @@ export default function HomePageEn() {
   return (
     <RummetShell lang="en" door={false}>
       <main id="main" lang="en" className="rum-huset">
+        {/* Same change as the Danish page: the «Studio» label repeated the
+            heading, and the opening hours now sit under the video instead of
+            between the heading and the first image. */}
         <header className="rum-huset__intro">
-          <p className="rum-label">Studio</p>
           <h1 className="rum-huset__title rum-poster">{fold.titel}</h1>
           <p className="rum-huset__lede rum-body-copy">{fold.lede}</p>
-          {husetsTider ? (
-            <p className="rum-label rum-huset__tider">{husetsTider}</p>
-          ) : null}
           <div className="rum-huset__cta">
             <a id="booking" href="/en/booking" className="rum-book">
               {fold.cta_book}
@@ -69,6 +68,10 @@ export default function HomePageEn() {
           <HusetHero fold={fold} />
           <Segl size={116} placement="above" className="rum-huset__segl" />
         </section>
+
+        {husetsTider ? (
+          <p className="rum-label rum-huset__tider">{husetsTider}</p>
+        ) : null}
 
         <section className="rum-huset__side">
           <p className="rum-label" id="artists">

@@ -132,8 +132,18 @@ test("S579 h1 og title siger det samme som nav'en", async () => {
   assert.equal(loadNattenCopyEn().spot_titel, "Late walk-in");
 
   // Forsiden og husets sider: Studiet / Studio, ikke Huset / The house.
-  assert.match(read("app/(da)/(rummet)/page.tsx"), /className="rum-label">Studiet</);
-  assert.match(read("app/(en)/(rummet)/en/page.tsx"), /className="rum-label">Studio</);
+  //
+  // Etiketten over forsidens overskrift er VÆK (Steven, 23/9 2026:
+  // «Billederne skal fylde mere, og mindre tekst»). Den gentog blot hvad
+  // overskriften siger. Prøven krævede før at den stod der og sagde
+  // «Studiet»; nu vogter den det der var hele pointen med S579 — at ordet
+  // «Huset» ikke kommer tilbage som kundens ord for stedet.
+  for (const [f, forbudt] of [
+    ["app/(da)/(rummet)/page.tsx", /className="rum-label">Huset</],
+    ["app/(en)/(rummet)/en/page.tsx", /className="rum-label">The house</],
+  ]) {
+    assert.doesNotMatch(read(f), forbudt, `${f}: «Huset» er tilbage som etiket`);
+  }
 });
 
 test("S579 husets ord står ikke som synlig tekst på kundens sider", () => {

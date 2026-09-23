@@ -72,9 +72,10 @@ export function ArtistGalleri({
           }
         />
       ))}
-      {/* To spans, ét synligt ad gangen. display:none tager det skjulte ud
-          af tilgængelighedstræet, så knappens navn ALTID er den tekst der
-          står på den — ingen aria-label der kan komme ud af trit. */}
+      {/* Knappen VISER et ikon (tegnet i CSS) og HEDDER et af de to ord.
+          Ordene er visuelt skjulte, men rigtig tekst i DOM'en — ingen
+          aria-label der kan komme ud af trit. display:none tager det
+          inaktive ord ud af tilgængelighedstræet, så navnet altid er ét. */}
       <label htmlFor="rum-galleri-pause" className="rum-galleri__pause">
         <span className="rum-galleri__ord rum-galleri__ord--stop">{pause}</span>
         <span className="rum-galleri__ord rum-galleri__ord--gaa">{afspil}</span>

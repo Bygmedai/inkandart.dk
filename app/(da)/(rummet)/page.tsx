@@ -46,13 +46,13 @@ export default function HusetPage() {
   return (
     <RummetShell door={false}>
       <main id="main" className="rum-huset">
+        {/* Billederne frem, teksten ned (Steven, 23/9 2026: «Billederne skal
+            fylde mere, og mindre tekst»). Etiketten «Studiet» er væk — den
+            gentog blot hvad overskriften siger — og åbningstiderne står nu
+            under videoen i stedet for mellem overskriften og første billede. */}
         <header className="rum-huset__intro">
-          <p className="rum-label">Studiet</p>
           <h1 className="rum-huset__title rum-poster">{fold.titel}</h1>
           <p className="rum-huset__lede rum-body-copy">{fold.lede}</p>
-          {husetsTider ? (
-            <p className="rum-label rum-huset__tider">{husetsTider}</p>
-          ) : null}
           <div className="rum-huset__cta">
             <a id="booking" href="/booking" className="rum-book">
               {fold.cta_book}
@@ -70,6 +70,10 @@ export default function HusetPage() {
           <HusetHero fold={fold} />
           <Segl size={116} placement="above" className="rum-huset__segl" />
         </section>
+
+        {husetsTider ? (
+          <p className="rum-label rum-huset__tider">{husetsTider}</p>
+        ) : null}
 
         <section className="rum-huset__side">
           <p className="rum-label" id="artists">
