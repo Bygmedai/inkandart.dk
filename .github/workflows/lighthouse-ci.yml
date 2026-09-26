@@ -34,3 +34,14 @@ jobs:
           temporaryPublicStorage: true
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+      # Nizars side i telefonbredde (docs/accept/billeder-mobil.md, punkt 8).
+      # Kun advarsler: at gøre hastighed til en spærring er Stevens kald om
+      # Porten, ikke en del af denne leverance.
+      - name: Run Lighthouse på Nizars side i telefonbredde
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          configPath: ./.github/lighthouse-config.mobil.json
+          uploadArtifacts: true
+          artifactName: lighthouse-mobil
+          temporaryPublicStorage: true

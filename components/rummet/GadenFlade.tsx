@@ -3,6 +3,7 @@ import { loadKontakt } from "@/lib/content";
 import { loadAabningstider } from "@/lib/content";
 import { formatTider } from "@/lib/tider";
 import { localePath, t, type Locale } from "@/lib/i18n";
+import { foto } from "@/lib/foto";
 
 /**
  * Gaden — én flade, to sprog.
@@ -32,7 +33,7 @@ export function GadenFlade({ gaden, lang }: { gaden: GadenInfo; lang: Locale }) 
       <h1 className="rum-room__title rum-poster">{gaden.titel}</h1>
       <div className="rum-room__slot">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={gaden.foto} alt={gaden.billedtekst} />
+        <img {...foto(gaden.foto, "100vw")} alt={gaden.billedtekst} />
       </div>
       <p className="rum-room__note rum-body-copy">
         {k.adresse}, {k.by}.
