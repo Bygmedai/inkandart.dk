@@ -1,4 +1,5 @@
 import type { PiercingCopy } from "@/lib/content";
+import { foto } from "@/lib/foto";
 
 /**
  * Piercing-afsnittet paa piercerens side. Én komponent, to sprog —
@@ -30,7 +31,7 @@ export function PiercingBlok({
       {pi.foto ? (
         <div className="rum-kort__foto rum-artist__skab">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={pi.foto} alt={pi.billedtekst} loading="lazy" />
+          <img {...foto(pi.foto, "(min-width: 400px) 360px, 100vw")} alt={pi.billedtekst} loading="lazy" />
         </div>
       ) : null}
       <p className="rum-body-copy rum-artist__bio">{pi.tekst}</p>

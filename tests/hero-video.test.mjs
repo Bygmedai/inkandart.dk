@@ -31,7 +31,13 @@ const BUDGET_KB = 3072;
 
 test("heroen er stadig et billede med alt-tekst — videoen er et lag ovenpå", () => {
   const hero = read("components/rummet/HusetHero.tsx");
-  assert.match(hero, /<img src=\{fold\.hero_foto\} alt=\{fold\.hero_billedtekst\} \/>/, "fotoet bærer alt-teksten");
+  // Fotoet går gennem foto() for telefonens skyld (billeder-mobil.md);
+  // kilden er stadig hero_foto, og alt-teksten sidder stadig på <img>.
+  assert.match(
+    hero,
+    /<img \{\.\.\.foto\(fold\.hero_foto, "[^"]+"\)\} alt=\{fold\.hero_billedtekst\} \/>/,
+    "fotoet bærer alt-teksten",
+  );
   assert.match(hero, /aria-hidden="true"/, "videoen er pynt for skærmlæseren");
   assert.match(hero, /fold\.hero_video \? \(/, "tom hero_video = heroen som før");
   for (const attr of ["autoPlay", "muted", "loop", "playsInline", "disablePictureInPicture"]) {

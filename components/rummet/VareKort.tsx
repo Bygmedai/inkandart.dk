@@ -1,6 +1,7 @@
 import type { Vare } from "@/lib/content";
 import { kr } from "@/lib/commerce";
 import type { StorefrontProduct } from "@/lib/storefront";
+import { foto } from "@/lib/foto";
 
 /**
  * Et kort på hylden. Viser VAREN — ikke et værk.
@@ -17,7 +18,7 @@ export function VareKort({ vare, product }: { vare: Vare; product?: StorefrontPr
     <figure className="rum-plade rum-vare">
       <div className="rum-plade__frame rum-vare__frame">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={vare.foto} alt={vare.titel} loading="lazy" />
+        <img {...foto(vare.foto, "(min-width: 1200px) 25vw, (min-width: 700px) 33vw, 50vw")} alt={vare.titel} loading="lazy" />
       </div>
       <figcaption>
         <p className="rum-plade__titel rum-poster">{vare.titel}</p>

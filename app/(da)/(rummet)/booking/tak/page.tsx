@@ -4,6 +4,7 @@ import { DepositumTjek } from "@/components/rummet/DepositumTjek";
 import { cartUrl, depositumVarianter, RESERVATIONS } from "@/lib/commerce";
 import { loadBookingCopy } from "@/lib/content";
 import { verificerDepositum, type DepositumStatus } from "@/lib/depositum";
+import { foto as fotoProps } from "@/lib/foto";
 
 export const metadata: Metadata = {
   title: "Booking · Ink & Art",
@@ -20,7 +21,7 @@ function Plade({ foto, alt }: { foto: string; alt: string }) {
   return (
     <div className="rum-booking__plade">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={foto} alt={alt} />
+      <img {...fotoProps(foto, "(min-width: 800px) 50vw, 100vw")} alt={alt} />
     </div>
   );
 }

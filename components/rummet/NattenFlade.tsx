@@ -2,6 +2,7 @@ import { Door } from "@/components/rummet/Door";
 import { NATTESPOT, kr, nattespotCartUrl } from "@/lib/commerce";
 import type { Nat, NattenCopy } from "@/lib/content";
 import { localePath, t, type Locale } from "@/lib/i18n";
+import { foto } from "@/lib/foto";
 
 /**
  * Natten — én flade, to sprog.
@@ -39,7 +40,7 @@ export function NattenFlade({
           <div className="rum-room__slot">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={nat.plakatfoto || "/slots/H-02.jpg"}
+              {...foto(nat.plakatfoto || "/slots/H-02.jpg", "100vw")}
               alt={nat.billedtekst || "Nattens plakat"}
             />
           </div>

@@ -1,6 +1,6 @@
 # Accept: Billederne i en størrelse der passer til telefonen
 
-Status: **UDKAST**
+Status: **GODKENDT (2026-09-26)** — Steven godkendte kriterie-PR'en #345 på GitHub og mergede den.
 
 Det vi køber: en telefon henter billeder i telefonstørrelse, ikke i
 skrivebordsstørrelse. Siderne ser ud præcis som i dag, men de åbner hurtigere
