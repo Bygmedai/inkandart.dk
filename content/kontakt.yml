@@ -9,3 +9,8 @@ telefon_vist: 91 88 73 96
 telefon_e164: "+4591887396"
 email: booking@inkandart.dk
 instagram: ink.and.art.cph
+
+# Hvem har bygget sitet. Står i footeren som «Website: <navn>» med link.
+# Slet de to linjer, så forsvinder linjen.
+site_af_navn: Steven Wensley
+site_af_url: https://stevenwensley.com/
