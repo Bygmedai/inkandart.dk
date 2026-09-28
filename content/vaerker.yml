@@ -276,6 +276,58 @@
   i_dag: false
   edition_ref: ""
 
+# Emmas nye billeder, sendt 28/9 til hendes profil.
+
+- id: V-21
+  titel: ""
+  artist: emma
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-21.jpg
+  billedtekst: Håndskrevet signatur, fin streg, bryst.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-22
+  titel: ""
+  artist: emma
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-22.jpg
+  billedtekst: Initial L med sløjfe og lille hjerte, fin streg, underarm.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-23
+  titel: ""
+  artist: emma
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-23.jpg
+  billedtekst: Fugl i flugt, fin streg og skygge, skulder.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-24
+  titel: ""
+  artist: emma
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-24.jpg
+  # Kundens ansigt er med. Kunden har sagt ja til at billedet vises
+  # (Steven, 28/9). Skal det ud igen, er maa_vises: false nok.
+  billedtekst: Tallet 67 på indersiden af læben.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
 # Tidligere Annas kortfoto (S-07). Bliver som husets piercingbillede (Steven 28/9).
 - id: V-25
   titel: ""
