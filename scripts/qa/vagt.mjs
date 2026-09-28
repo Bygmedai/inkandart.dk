@@ -35,6 +35,7 @@ import {
   RUM, FLADER, BREDDER, SKUD_BREDDER,
   PADDING_FRA, PADDING_MIN, TAP_MIN, HANDLING_MIN, HANDLINGER,
 } from "./flader.mjs";
+import { bookdkNote, erBookdkUndtaget } from "./undtagelser.mjs";
 
 const BASE = process.env.BASE || "http://localhost:3000";
 const ADVISORY = process.env.ADVISORY === "1";
@@ -58,6 +59,7 @@ const noter = [];
 const ramt = new Map(HANDLINGER.map((s) => [s, 0]));
 const forkertTag = new Map(HANDLINGER.map((s) => [s, 0]));
 const manglerKoeb = new Set();
+let bookdkUndtaget = 0; // tælles og står i rapporten — aldrig fortiet
 const læg = (alvor, flade, bredde, hvad) =>
   (alvor === "fund" ? fund : noter).push({ flade, bredde, hvad });
 
@@ -247,6 +249,12 @@ for (const bredde of BREDDER) {
       if (m.type() !== "error") return;
       const url = m.location()?.url || "";
       if (url.includes("/_vercel/insights")) return;
+      // Book.dk's egen 404 på ob-therapy-groups — se scripts/qa/undtagelser.mjs.
+      // Snæver og med udløb; alt andet fra inkart.book.dk er stadig et fund.
+      if (erBookdkUndtaget(m.text(), url)) {
+        bookdkUndtaget++;
+        return;
+      }
       konsol.push(`${m.text().slice(0, 90)}${url ? ` [${url}]` : ""}`);
     });
     // Egne 404'er. Vercel-beaconen findes kun hos Vercel og er undtaget.
@@ -320,6 +328,8 @@ if (fund.length === 0) {
   linjer.push("|---|---|---|");
   for (const f of fund) linjer.push(`| ${f.flade} | ${f.bredde} | ${f.hvad.replace(/\|/g, "\\|")} |`);
 }
+linjer.push("");
+linjer.push(`ℹ️ ${bookdkNote(bookdkUndtaget)}`);
 if (noter.length) {
   linjer.push("");
   linjer.push("<details><summary>Noter (ikke fund)</summary>");
