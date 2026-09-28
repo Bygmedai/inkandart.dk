@@ -34,6 +34,11 @@ export function Footer({ lang = DEFAULT_LOCALE }: { lang?: Locale }) {
           </a>
         </>
       ) : null}
+      {k.site_af_navn && k.site_af_url ? (
+        <>
+          {" · "}Website: <a href={k.site_af_url}>{k.site_af_navn}</a>
+        </>
+      ) : null}
       {" · "}
       <LangDoor lang={lang} />
     </footer>
