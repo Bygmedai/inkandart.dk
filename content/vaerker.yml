@@ -310,3 +310,17 @@
   demo: false
   i_dag: false
   edition_ref: ""
+
+- id: V-24
+  titel: ""
+  artist: emma
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-24.jpg
+  # Kundens ansigt er med. Kunden har sagt ja til at billedet vises
+  # (Steven, 28/9). Skal det ud igen, er maa_vises: false nok.
+  billedtekst: Tallet 67 på indersiden af læben.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
