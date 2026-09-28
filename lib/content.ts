@@ -458,6 +458,9 @@ export type Kontakt = {
   email: string;
   /** Husets Instagram-handle uden @. */
   instagram: string;
+  /** Hvem der har bygget sitet — vises i footeren som ét almindeligt link. Tom = ingen linje. */
+  site_af_navn: string;
+  site_af_url: string;
 };
 
 export function loadKontakt(): Kontakt {
@@ -471,6 +474,8 @@ export function loadKontakt(): Kontakt {
     telefon_e164: str(d.telefon_e164),
     email: str(d.email),
     instagram: str(d.instagram),
+    site_af_navn: str(d.site_af_navn),
+    site_af_url: str(d.site_af_url),
   };
 }
 
