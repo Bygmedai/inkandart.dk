@@ -15,8 +15,16 @@ const read = (p) => readFileSync(join(root, p), "utf8");
  * Testene her holder paa det der blev rettet — ikke paa et tal.
  */
 
-test("Anna har mindst ét vaerk paa sin side", () => {
-  assert.match(read("content/vaerker.yml"), /artist: anna/);
+test("husets piercingbilleder bliver, uden navn (Steven 28/9)", () => {
+  // Anna forlod huset 28/9; hendes to billeder bliver som husets.
+  const y = read("content/vaerker.yml");
+  for (const [id, fil] of [["V-11", "P-02.jpg"], ["V-25", "S-07.jpg"]]) {
+    const blok = y.slice(y.indexOf(`- id: ${id}\n`), y.indexOf("edition_ref", y.indexOf(`- id: ${id}\n`)));
+    assert.match(blok, new RegExp(`foto: /slots/${fil.replace(".", "\\.")}`), `${id} peger på ${fil}`);
+    assert.match(blok, /artist: huset/, `${id} står stadig på en artist`);
+    assert.match(blok, /maa_vises: true/, `${id} skal stadig vises`);
+  }
+  assert.doesNotMatch(y, /artist: anna/);
 });
 
 test("piercing-teksten har et foto i begge sprog", () => {

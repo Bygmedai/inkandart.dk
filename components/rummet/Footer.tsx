@@ -30,6 +30,11 @@ export function Footer({ lang = DEFAULT_LOCALE }: { lang?: Locale }) {
           engelsk; localePath giver /en/aftercare på den engelske flade. */}
       <a href={localePath(lang, "/aftercare")}>Aftercare</a>
       {" · "}
+      {/* Piercingpriserne blev kun fundet via piercerens profil. Uden en
+          navngiven piercer (28/9) er footeren vejen ind. Samme ord på begge
+          sprog; localePath giver /en/piercing på den engelske flade. */}
+      <a href={localePath(lang, "/piercing")}>Piercing</a>
+      {" · "}
       <a href={`mailto:${k.email}`}>{k.email}</a>
       {k.instagram ? (
         <>

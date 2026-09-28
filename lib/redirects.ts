@@ -31,6 +31,7 @@ export const ROUTE_MIGRATION: MigrationRow[] = [
   { from: "/maerket/:path*", to: "/shop/:path*", reason: "Vare- og værkstier følger hylden" },
   { from: "/en/maerket/", to: "/en/shop/", reason: "Én hylde på engelsk" },
   { from: "/en/maerket/:path*", to: "/en/shop/:path*", reason: "EN vare- og værkstier følger hylden" },
+  { from: "/stolen/anna/", to: "/stolen/", reason: "Anna er ikke længere i huset (Steven 28/9)" },
 ];
 
 /**
@@ -92,4 +93,6 @@ export const nextRedirects: Redirect[] = [
   ...slashPair("/maerket/:path*", "/shop/:path*"),
   ...slashPair("/en/maerket", "/en/shop"),
   ...slashPair("/en/maerket/:path*", "/en/shop/:path*"),
+  // Anna forlod huset 28/9 — hendes side sender til stolen, ikke til en 404.
+  ...slashPair("/stolen/anna", "/stolen"),
 ];

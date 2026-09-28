@@ -157,32 +157,9 @@
   aktiv: true
   stol: true
 
-- id: anna
-  fornavn: Anna Ogłuszka
-  haandvaerk: Piercer
-  # [ORD-TJEK Steven 31/8] — UDKAST. Ordet er det samme paa engelsk, men
-  # det skal staa EKSPLICIT: staar feltet tomt, er det den danske fallback
-  # der leverer det rigtige ord ved et tilfaelde. Et hegn der holder ved et
-  # tilfaelde, holder ikke naar teksten aendrer sig.
-  haandvaerk_en: Piercer
-  # Annas bio (Haruki, 1/9). En HOLDELINJE, ikke en profil: den siger hvad
-  # hun goer og inviterer ind, og intet mere. Nizars og Emmas bios er deres
-  # egne ord; Annas skal ogsaa vaere hendes, og Sonja henter fire saetninger
-  # fra hende. Skriv ikke mere end det her, og opfind ikke en stemme for
-  # hende — huset skriver ALDRIG en bio for et menneske (S574).
-  bio: >-
-    Anna sætter alle piercinger undtagen de intime, og hun skifter gerne det
-    smykke du allerede har. Kom forbi — så finder I placeringen sammen.
-  # Handle fra Steven 30/8: https://www.instagram.com/annao.piercing/
-  instagram: annao.piercing
-  periode: fast
-  foto: /slots/S-07.jpg
-  billedtekst: Piercinger af Anna. Øre, flere huller.
-  aktiv: true
-  stol: true
-  # Kalenderen i Book.dk er ikke sat op endnu. Indtil den er, tager hun
-  # walk-in — og kortet siger walk-in i stedet for at tilbyde en tid.
-  booking: false
+# Anna Ogłuszka (piercer 31/8–28/9) er ikke længere i huset. Steven, 28/9:
+# «Anna skal fjernes.» Piercing bliver — uden navn (samme dag).
+# /stolen/anna sender videre til /stolen (lib/redirects.ts).
 
 - id: okan
   # Okan — IKKE «Orkan». Steven skrev Orkan i tråden, Okans egen besked

@@ -129,9 +129,12 @@
 #
 # V-09 og V-10 er Emmas to nye vaerker (#265). Den gamle, aldrig merged
 # patch fra 30/8 gav dette vaerk V-09; det nummer er taget nu.
+# 28/9: Anna er ikke længere i huset. Steven: billederne bliver — som
+# husets piercingbilleder, uden hendes navn. `huset` er ikke en artist,
+# så værket vises på væggen uden navn og uden eget filter.
 - id: V-11
   titel: ""
-  artist: anna
+  artist: huset
   aar: ""
   arkivnr: ""
   foto: /slots/P-02.jpg
@@ -320,6 +323,19 @@
   # Kundens ansigt er med. Kunden har sagt ja til at billedet vises
   # (Steven, 28/9). Skal det ud igen, er maa_vises: false nok.
   billedtekst: Tallet 67 på indersiden af læben.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+# Tidligere Annas kortfoto (S-07). Bliver som husets piercingbillede (Steven 28/9).
+- id: V-25
+  titel: ""
+  artist: huset
+  aar: ""
+  arkivnr: ""
+  foto: /slots/S-07.jpg
+  billedtekst: Piercinger. Øre, flere huller.
   maa_vises: true
   demo: false
   i_dag: false

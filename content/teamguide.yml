@@ -66,9 +66,9 @@ priser_flash_note: >-
   Kunden kan altid opgradere til en større mod merbetaling. Klargøring og
   oprydning er næsten ens for lille og mellem — så spørg altid om den
   mellemste.
-priser_piercing_titel: Piercing hos Anna
+priser_piercing_titel: Piercing
 priser_piercing_note: >-
-  Anna sætter alle piercinger undtagen intime. Piercingkortet ligger på
+  Vi sætter alle piercinger undtagen intime. Piercingkortet ligger på
   disken — lad kunden pege i stedet for at gætte navnet.
 priser_kampagne: >-
   Tilbud og kampagner skifter. Tjek Messenger-gruppen inden din vagt, så
@@ -162,11 +162,6 @@ roller:
   - navn: Emma Windinnalls
     rolle: Tatovør
     tekst: Farvet flash, traditionelt og fin streg. I huset alle dage undtagen søndag og mandag.
-  - navn: Anna Ogłuszka
-    rolle: Piercer
-    tekst: >-
-      Sætter alle piercinger undtagen intime, og skifter smykker. Faste dage
-      meldes ud.
   - navn: Sonja Rebner
     rolle: Store manager · sociale medier
     tekst: Driver butikken på gulvet, lukker walk-in-salget, og står for Instagram og opslag.

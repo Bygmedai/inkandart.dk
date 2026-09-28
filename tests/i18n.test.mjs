@@ -196,11 +196,6 @@ test("fagets navn staar paa engelsk — og er skrevet af et menneske", async () 
     assert.doesNotMatch(a.haandvaerk_en, /[æøåÆØÅ]/, `${a.id}: dansk i haandvaerk_en`);
   }
 
-  // Anna staar EKSPLICIT selv om ordet er det samme paa begge sprog.
-  // Uden det leverer den danske fallback det rigtige ord ved et tilfaelde,
-  // og et hegn der holder ved et tilfaelde holder ikke naar teksten skifter.
-  const anna = artister.find((a) => a.id === "anna");
-  assert.equal(anna.haandvaerk_en, "Piercer");
 });
 
 test("artistens tider staar paa begge sprog — og paa korrekt dansk", async () => {

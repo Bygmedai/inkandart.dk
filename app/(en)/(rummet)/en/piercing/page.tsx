@@ -10,7 +10,7 @@ const _p = loadPiercingEn();
 export const metadata: Metadata = {
   title: `${_p.titel} · Ink & Art`,
   description:
-    "Fixed piercing prices at Ink & Art Copenhagen. Anna does every piercing except intimate ones — and is happy to change the jewellery you already wear.",
+    "Fixed piercing prices at Ink & Art Copenhagen. We do every piercing except intimate ones — and are happy to change the jewellery you already wear.",
   alternates: { ...alternates("/piercing"), canonical: "/en/piercing" },
 };
 
