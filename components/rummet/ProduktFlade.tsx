@@ -3,6 +3,7 @@ import type { StorefrontProduct } from "@/lib/storefront";
 import { kr } from "@/lib/commerce";
 import { DEFAULT_LOCALE, localePath, t, type Locale } from "@/lib/i18n";
 import { RummetShell } from "./Shell";
+import { foto } from "@/lib/foto";
 
 function priceLabel(product: StorefrontProduct): string {
   const n = Number(product.priceAmount);
@@ -39,7 +40,7 @@ export function ProduktFlade({
           <figure className="rum-plade rum-vare">
             <div className="rum-plade__frame rum-vare__frame">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={vare.foto} alt={vare.titel} />
+              <img {...foto(vare.foto, "(min-width: 600px) 560px, 100vw")} alt={vare.titel} />
             </div>
           </figure>
         </div>

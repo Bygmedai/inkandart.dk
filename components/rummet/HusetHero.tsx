@@ -1,4 +1,5 @@
 import type { HusetForside } from "@/lib/content";
+import { foto } from "@/lib/foto";
 
 /**
  * Husets hero: et vindue med liv i, ikke en biograf.
@@ -31,7 +32,7 @@ export function HusetHero({ fold }: { fold: HusetForside }) {
   return (
     <>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={fold.hero_foto} alt={fold.hero_billedtekst} />
+      <img {...foto(fold.hero_foto, "(min-width: 480px) 440px, 100vw")} alt={fold.hero_billedtekst} />
       {fold.hero_video ? (
         <video
           className="rum-huset__video"

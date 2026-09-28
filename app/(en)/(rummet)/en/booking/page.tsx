@@ -4,6 +4,7 @@ import { BookDoor } from "@/components/rummet/BookDoor";
 import { BookRummet } from "@/components/rummet/BookRummet";
 import { artistById, loadBookingCopyEn, loadHouse, loadKontakt } from "@/lib/content";
 import { alternates } from "@/lib/i18n";
+import { foto } from "@/lib/foto";
 
 export const metadata: Metadata = {
   title: "Booking · Ink & Art",
@@ -113,7 +114,7 @@ export default async function BookingPageEn({
         </div>
         <div className="rum-booking__plade">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={copy.foto} alt={copy.billedtekst} />
+          <img {...foto(copy.foto, "(min-width: 800px) 50vw, 100vw")} alt={copy.billedtekst} />
         </div>
       </main>
     </RummetShell>

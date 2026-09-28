@@ -1,6 +1,7 @@
 import type { Artist } from "@/lib/content";
 import { periodeLabel } from "@/lib/content";
 import { DEFAULT_LOCALE, localePath, t, type Locale } from "@/lib/i18n";
+import { foto as fotoProps } from "@/lib/foto";
 
 function daNum(n: number): string {
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -49,7 +50,7 @@ export function ArtistKort({
   const foto = (
     <div className="rum-kort__foto">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={artist.foto} alt={alt} />
+      <img {...fotoProps(artist.foto, "(min-width: 1200px) 33vw, (min-width: 800px) 50vw, 100vw")} alt={alt} />
     </div>
   );
 

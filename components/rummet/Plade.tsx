@@ -1,5 +1,6 @@
 import type { Artist, Vaerk } from "@/lib/content";
 import { vaerkLabel } from "@/lib/content";
+import { foto } from "@/lib/foto";
 
 export function Plade({
   vaerk,
@@ -13,7 +14,7 @@ export function Plade({
     <figure className="rum-plade">
       <div className="rum-plade__frame">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={vaerk.foto} alt={label} />
+        <img {...foto(vaerk.foto, "(min-width: 1200px) 33vw, 50vw")} alt={label} />
       </div>
       <figcaption>
         {vaerk.titel ? <p className="rum-plade__titel rum-poster">{vaerk.titel}</p> : null}

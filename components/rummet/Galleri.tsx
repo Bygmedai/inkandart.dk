@@ -1,5 +1,9 @@
 import type { CSSProperties } from "react";
 import { artistFotos, type Artist } from "@/lib/content";
+import { foto } from "@/lib/foto";
+
+/** Billedspalten på artist-siden: højst 720 px, 1.15fr af to spalter over 900 px. */
+const GALLERI_SIZES = "(min-width: 1320px) 720px, (min-width: 900px) 55vw, 100vw";
 
 /**
  * Artistens billed-slot.
@@ -36,7 +40,7 @@ export function ArtistGalleri({
       <div className="rum-kort__foto rum-artist__foto">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={f.fil}
+          {...foto(f.fil, GALLERI_SIZES)}
           alt={f.tekst || artist.fornavn}
           style={f.fokus ? { objectPosition: f.fokus } : undefined}
         />
@@ -60,7 +64,7 @@ export function ArtistGalleri({
         <img
           key={f.fil}
           className="rum-galleri__foto"
-          src={f.fil}
+          {...foto(f.fil, GALLERI_SIZES)}
           alt={f.tekst || artist.fornavn}
           loading={i === 0 ? "eager" : "lazy"}
           decoding="async"

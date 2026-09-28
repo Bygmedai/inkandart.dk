@@ -19,3 +19,6 @@ src/_assets/img-raw/
 
 # Lokal browser-verifikation
 _verify/
+
+# Mobilversioner af fotos — laves ved hver build (lib/fotovarianter.ts)
+public/_v/
