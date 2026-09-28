@@ -191,3 +191,13 @@ test("en dansk side under /en/ 308'er til dansk — den dør aldrig med 410 (S56
   const gavekortRow = enclosingObject(redirectsSrc, redirectsSrc.indexOf('"/en/gavekort/"'));
   assert.match(gavekortRow, /to: "\/gavekort\/"/);
 });
+
+test("en artist der har forladt huset sender videre til stolen — ikke 404 (Anna, 28/9)", async () => {
+  const { nextRedirects } = await import("../lib/redirects.ts");
+  const r = nextRedirects.find((x) => x.source.replace(/\/$/, "") === "/stolen/anna");
+  assert.ok(r, "/stolen/anna har ingen 308");
+  assert.equal(r.destination.replace(/\/$/, ""), "/stolen");
+  assert.equal(r.statusCode, 308);
+  // Negativ kontrol: en artist der stadig er i huset må ikke sendes væk.
+  assert.equal(nextRedirects.find((x) => x.source.replace(/\/$/, "") === "/stolen/emma"), undefined);
+});

@@ -29,12 +29,12 @@ test("content-filerne parse'r og tom-tilstandene følger data", async () => {
 
   const chairs = chairArtists(house.artists);
   const names = chairs.map((a) => a.fornavn);
-  // S573: Anna Ogłuszka er husets piercer fra 31/8. En piercer sidder i
-  // stolen paa linje med tatovoererne — det er samme rum og samme booking.
+  // S573: Anna Ogłuszka var husets piercer fra 31/8. 28/9: ikke længere i
+  // huset (Steven). Piercing bliver, uden navn — se aftercare-/piercing-prøverne.
   // S580: Okan (artfulltattoo) kom i stolen 14/9 — cypriotisk tatovør,
   // realisme og fin streg. Listen er med vilje hardcodet: kommer der en
   // artist i stolen, skal et menneske skrive det her, ikke opdage det.
-  assert.deepEqual(names, ["Nizar Saad", "Emma Windinnalls", "Anna Ogłuszka", "Okan"]);
+  assert.deepEqual(names, ["Nizar Saad", "Emma Windinnalls", "Okan"]);
   assert.ok(!names.includes("Sonja Rebner"), "Sonja sidder ikke i stolen");
 
   const featured = featuredVaerk(house.vaerker);
@@ -953,23 +953,28 @@ test("G3 booking-foto max-height 240px under 899px", () => {
 });
 
 /**
- * S573: en ny artist maa ikke faa opdigtet indhold med paa vejen ind.
- * Annas bio og vagtskema er ikke bekraeftet endnu, og tomme felter
- * udelades — de fyldes ikke med noget der lyder rigtigt.
+ * 28/9 (Steven): «Anna skal fjernes.» Piercing bliver — uden navn.
+ * En tidligere medarbejders navn må ikke hænge ved på kundefladen: ikke
+ * på et kort, ikke i en prisliste, ikke i en sidebeskrivelse.
  */
-test("Anna er paa uden opdigtet bio eller vagtskema", async () => {
-  const { loadHouse, chairArtists } = await import("../lib/content.ts");
-  const anna = chairArtists(loadHouse().artists).find((a) => a.id === "anna");
-  assert.ok(anna, "Anna skal sidde i stolen");
-  assert.equal(anna.fornavn, "Anna Ogłuszka");
-  assert.equal(anna.haandvaerk, "Piercer");
-  assert.ok(!anna.periode_til, "ingen slutdato — hun er fast");
-  // Kun de linjer der kan naa en kunde — YAML-kommentarer er byggeplads.
-  const data = readFileSync(join(root, "content/artists.yml"), "utf8")
-    .split("\n")
-    .filter((l) => !l.trim().startsWith("#"))
-    .join("\n");
-  assert.doesNotMatch(data, /\[AFVENTER\]|\[TAL BEKRÆFTES\]/, "byggepladsens sprog gaar aldrig live");
+test("Anna er ude af huset — og ingen kundeflade nævner hende", async () => {
+  const { loadHouse } = await import("../lib/content.ts");
+  const house = loadHouse();
+  assert.equal(house.artists.find((a) => a.id === "anna"), undefined, "Anna står stadig i artists.yml");
+  assert.ok(!house.vaerker.some((v) => v.artist === "anna"), "et værk peger stadig på anna");
+  const kunde = [
+    "content/piercing-priser.yml",
+    "content/piercing.yml",
+    "content/piercing.en.yml",
+    "app/(da)/(rummet)/piercing/page.tsx",
+    "app/(en)/(rummet)/en/piercing/page.tsx",
+  ];
+  for (const f of kunde) {
+    const uden = read(f).split("\n").filter((l) => !l.trim().startsWith("#") && !l.trim().startsWith("*")).join("\n");
+    assert.doesNotMatch(uden, /\bAnna\b|Ogłuszka|annao\.piercing/, `${f} nævner stadig Anna`);
+  }
+  // Negativ kontrol: vagten skal kunne se navnet, hvis det kommer tilbage.
+  assert.match("Anna sætter alle piercinger", /\bAnna\b/);
 });
 
 /**
@@ -981,10 +986,10 @@ test("en artist uden booking faar walk-in, ikke en tid vi ikke kan give", async 
   const { loadHouse, chairArtists } = await import("../lib/content.ts");
   const chairs = chairArtists(loadHouse().artists);
   // Hvem der er walk-in er et KALD, ikke en tilstand der maa sive ind.
-  // Anna siden 31/8; Okan fra 14/9 (S580) — begge fordi Book.dk-kalenderen
-  // ikke er sat op for dem endnu. Tænd `booking` i samme commit som
-  // kalenderen, og fjern id'et her; så er der ét sted at se det.
-  const UDEN_KALENDER = ["anna", "okan"];
+  // Okan fra 14/9 (S580), fordi Book.dk-kalenderen ikke er sat op for ham
+  // endnu (Anna stod her også, til hun forlod huset 28/9). Tænd `booking`
+  // i samme commit som kalenderen, og fjern id'et her; så er der ét sted.
+  const UDEN_KALENDER = ["okan"];
   for (const id of UDEN_KALENDER) {
     const a = chairs.find((x) => x.id === id);
     assert.ok(a, `negativ kontrol: ${id} sidder ikke i stolen`);
@@ -1103,7 +1108,7 @@ test("S574: Decap kender hver content-fil koden læser", () => {
   ]) {
     assert.ok(cms.includes(fil), `${fil} mangler i Decap — Sonja kan ikke redigere den`);
   }
-  // Og booking-kontakten: Anna skal kunne tændes fra CMS'et, ikke fra en PR.
+  // Og booking-kontakten: en artist skal kunne tændes fra CMS'et, ikke fra en PR.
   assert.match(cms, /name: booking, widget: boolean/);
 });
 
@@ -1120,20 +1125,6 @@ test("S574: en artists egne ord står på hendes side — og kun hendes egne", a
   const artists = loadHouse().artists;
   const emma = artistById(artists, "emma");
   assert.ok(emma.bio.length > 100, "Emmas bio (hendes præsentation) skal være på siden");
-  // Anna har STADIG ikke skrevet sin egen bio. Linjen paa hendes profil er
-  // en HOLDELINJE fra huset (Haruki, 1/9): den siger hvad hun goer og
-  // inviterer ind, og intet mere. Sonja henter fire saetninger fra hende.
-  //
-  // Vagten er ikke fjernet — den har skiftet karakter. Foer kraevede den at
-  // feltet var TOMT; nu kraever den at det er PRAECIS holdelinjen. Saa kan
-  // ingen vokse den til en opdigtet stemme uden at aendre denne test med
-  // vilje, og Annas egne ord kan komme ind naar hun har givet dem.
-  const anna = artistById(artists, "anna").bio.replace(/\s+/g, " ").trim();
-  assert.equal(
-    anna,
-    "Anna sætter alle piercinger undtagen de intime, og hun skifter gerne det smykke du allerede har. Kom forbi — så finder I placeringen sammen.",
-    "Annas linje er vokset ud over holdelinjen — er det hendes egne ord?",
-  );
   const side = read("app/(da)/(rummet)/stolen/[id]/page.tsx");
   assert.match(side, /artist\.bio \?/, "bio uden indhold udelades");
 });
