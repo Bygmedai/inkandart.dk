@@ -34,7 +34,7 @@ test("content-filerne parse'r og tom-tilstandene følger data", async () => {
   // S580: Okan (artfulltattoo) kom i stolen 14/9 — cypriotisk tatovør,
   // realisme og fin streg. Listen er med vilje hardcodet: kommer der en
   // artist i stolen, skal et menneske skrive det her, ikke opdage det.
-  assert.deepEqual(names, ["Nizar Saad", "Emma Windinnalls", "Okan"]);
+  assert.deepEqual(names, ["Nizar Saad", "Emma Wind", "Okan"]);
   assert.ok(!names.includes("Sonja Rebner"), "Sonja sidder ikke i stolen");
 
   const featured = featuredVaerk(house.vaerker);
@@ -64,7 +64,10 @@ test("ingen dummy-navne eller opdigtede priser på Huset", () => {
     assert.doesNotMatch(src, new RegExp(forbidden.replace(/[.*]/g, "\\$&")));
   }
   assert.match(src, /Nizar Saad/);
-  assert.match(src, /Emma Windinnalls/); // det lange navn er det rigtige (Steven 30/8)
+  // Emmas eget ønske 30/9 (via Steven): «Emma Wind». Det lange navn fra 30/8
+  // må ikke komme tilbage — og «Emma Wind» må ikke bare være starten af det.
+  assert.match(src, /Emma Wind\b/);
+  assert.doesNotMatch(src, /Windinnalls/);
   assert.match(src, /I stolen/);
   assert.match(src, /Larsbjørnsstræde 13, kælderen\. Walk-in når der er en fri stol — ellers book\./);
   assert.doesNotMatch(src, /Værket i dag/);

@@ -93,7 +93,8 @@
   stol: true
 
 - id: emma
-  fornavn: Emma Windinnalls
+  # Emmas eget ønske, 30/9 (via Steven): kun «Emma Wind».
+  fornavn: Emma Wind
   # Udvidet 1/9 (Harukis fund): linjen udelod den fine streg hun faktisk
   # laver. V-06 er «Sol, fin streg og prikker, håndled», og to af de tre
   # nye billeder fra 31/8 er fin streg. Kortet solgte hende for smalt.
@@ -136,7 +137,7 @@
   instagram: winds_tattoos
   periode: fast
   foto: /slots/S-02.jpg
-  billedtekst: Emma Windinnalls i huset.
+  billedtekst: Emma Wind i huset.
   # Emmas egne ord, fra hendes præsentation (Artister/Emma, 30/8).
   bio: >-
     Jeg elsker det kreative håndværk, detaljerne og mødet med alle de
