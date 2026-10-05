@@ -16,51 +16,48 @@
   # illustrator, fordi det er det en kunde forstaar. Sig til hvis han hellere
   # vil kaldes noget andet — det er hans fag, ikke vores etiket.
   haandvaerk_en: Tattoo artist & illustrator · founder
-  # Nizars bio — Stevens kendelse 31/8 2026.
+  # Nizars bio — hans EGNE ORD (Steven, 5/10 2026: «Det er hans egne ord»).
+  # Afloeser teksten fra kendelsen 31/8, som var skrevet OM ham i tredje
+  # person. Denne er skrevet af ham selv, i foerste person.
   #
-  # Der laa TO tekster i huset: den korte (appen + sitet, identiske, 355
-  # tegn) og denne (Shopify-metaobject `artist/nizar`, 542 tegn, sidst roert
-  # 6. juli). Steven har afgjort at DENNE er den rette, og at den skal ligge
-  # alle tre steder: her, i appen og i Shopify.
+  # Ordret som Steven indsatte den, med to rettelser af tegnsaetning og
+  # intet andet:
+  #   «anderledes  .»       → «anderledes.»   (to mellemrum foran punktum)
+  #   «finde ro Tatovering» → «finde ro. Tatovering»   (manglende punktum)
+  # Ingen ord er aendret, tilfoejet eller fjernet. Skal tegnsaetningen staa
+  # som han skrev den, er det de to steder.
   #
-  # Shopify er kilden og staar allerede rigtigt. Teksten her er kopieret
-  # ORDRET derfra — ikke omskrevet, ikke forkortet, ikke slaaet sammen til
-  # ét afsnit. Det ene tegn der afviger fra Stevens indsatte tekst er et
-  # dobbelt punktum til sidst, som er en paste-artefakt; Shopify har ét.
+  # Aendrer nogen ORDENE herefter, er det ikke laengere hans tekst.
   #
-  # TRE AFSNIT, og de skal blive ved med at vaere tre. Bio'en laa foer i ét
-  # <p>, hvor et linjeskift kollapser i HTML — teksten ville loebe sammen
-  # til én klump uden at nogen test gik roed. components/rummet/Bio.tsx
-  # deler paa tomme linjer; blokken herunder er `|-` (literal), IKKE `>-`
-  # (folded), som ville folde afsnittene sammen igen.
+  # TO AFSNIT, og de skal blive ved med at vaere to. components/rummet/Bio.tsx
+  # deler paa tomme linjer; blokken er `|-` (literal), IKKE `>-` (folded),
+  # som ville folde afsnittene sammen til én klump.
   #
   # ÉT AFSNIT PR. LINJE. `|-` bevarer HVERT linjeskift — ogsaa en ombrydning
-  # der kun var pen at se paa i editoren. Foerste forsoeg var ombrudt pent,
-  # og teksten fik haarde linjeskift midt i saetningerne. Linjerne er lange
-  # her med vilje; det er den eneste maade at faa teksten ordret igennem.
-  bio: |-
-    Nogle mennesker finder deres vej. Nizar skabte sin. Han besluttede aldrig at blive kunstner, men en dag fandt en blyant vej til hans hånd, og han lod passionen vise retningen.
-
-    Hans stil kan ikke sættes i én genre — den formes af mennesket foran ham, af kemien, af fortællingen, for ingen historier er ens. For ham er en tatovering ikke et motiv men et kapitel, et minde der bliver en del af den man er.
-
-    Med Ink & Art Copenhagen bygger han ikke blot et studio, men et sted hvor mennesker foreviger deres livshistorie — én tatovering ad gangen.
-  instagram: ink.and.art.cph
-  # [ORD-TJEK Steven 31/8] — UDKAST, skrevet om efter kendelsen. Den
-  # tidligere bio_en oversatte den KORTE tekst og er dermed foraeldet.
+  # der kun var pen i editoren. Linjerne er lange her med vilje.
   #
-  # Egen stemme, ikke ord-for-ord. Samme tre afsnit, samme substans, ingen
-  # tilfoejelser. To valg jeg vil have din dom over:
-  #   «besluttede aldrig at blive kunstner» → «never set out to be an
-  #     artist». Ordret ville vaere «never decided to become», som lyder
-  #     forkert paa engelsk.
-  #   «foreviger deres livshistorie» → «set their life story down for
-  #     good». «Immortalise» blev for hoejtideligt til husets stemme.
+  # Samme tekst staar i appen (app/data/artists.ts i inkandart-webshop) og i
+  # Shopify (metaobject artist/nizar, feltet bio), som appen henter live.
+  bio: |-
+    Allerede som barn kunne jeg forsvinde ind i timevis med en blyant og papir. Jeg tegnede landskaber, ansigter, træer og dyr. For mig har det altid handlet om at udtrykke sig anderledes. Senere begyndte jeg at male, og maleriet gav mig et sted at fordybe og finde ro. Tatovering kom til som endnu en måde at arbejde kreativt på.
+
+    I dag er kunst stadig min drivkraft. Men mit fokus er også at åbne et rum, hvor andre kan udfolde deres talent. Der skal være plads til både erfarne kunstnere og nye talenter, der står på tærsklen til deres egen rejse. For mig handler det om at skabe et miljø med respekt, tryghed og plads til forskellighed. Et sted, hvor kunsten kan udvikle sig, og hvor nye stemmer kan få lov til at vokse.
+  instagram: ink.and.art.cph
+  # [ORD-TJEK Nizar] — UDKAST. MIN oversaettelse af hans danske tekst, ikke
+  # hans ord. Huset oversaetter ikke en bio for et menneske paa egen haand;
+  # den skal godkendes af ham (samme vej som Okans, 15/9). Den tidligere
+  # bio_en oversatte den gamle tekst og er dermed foraeldet — at lade den
+  # staa ville vise en anden bio paa /en end paa dansk.
+  #
+  # Naer ordret, i foerste person. Tre valg der er mine:
+  #   «udtrykke sig anderledes» → «expressing myself differently»
+  #   «fordybe og finde ro»     → «immerse myself and find calm»
+  #   «tryghed»                 → «safety» (dansk «tryghed» har intet
+  #     enkelt engelsk ord; «a sense of safety» blev for tungt)
   bio_en: |-
-    Some people find their way. Nizar made his. He never set out to be an artist, but one day a pencil found its way into his hand, and he let the passion point the way.
+    Even as a child I could disappear for hours with a pencil and paper. I drew landscapes, faces, trees and animals. For me it has always been about expressing myself differently. Later I started painting, and painting gave me a place to immerse myself and find calm. Tattooing came along as yet another way to work creatively.
 
-    His style will not sit in one genre — it takes shape from the person in front of him, from the chemistry, from the story, because no two stories are alike. To him a tattoo is not a motif but a chapter, a memory that becomes part of who you are.
-
-    With Ink & Art Copenhagen he is not just building a studio, but a place where people set their life story down for good — one tattoo at a time.
+    Today art is still my driving force. But my focus is also on opening a space where others can unfold their talent. There has to be room for both experienced artists and new talents standing on the threshold of their own journey. For me it is about creating an environment of respect, safety and room for difference. A place where art can develop, and where new voices are allowed to grow.
   periode: fast
   foto: /slots/S-04.jpg
   billedtekst: Nizar Saad foran husets skilt.
