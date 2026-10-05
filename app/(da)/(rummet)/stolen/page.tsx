@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { RummetShell } from "@/components/rummet/Shell";
 import { ArtistKort } from "@/components/rummet/ArtistKort";
+import { Ugeskema } from "@/components/rummet/Ugeskema";
 import {
   chairArtists,
   guestState,
   loadHouse,
+  loadSkema,
   visibleCountForArtist,
 } from "@/lib/content";
 import { alternates, t } from "@/lib/i18n";
@@ -47,6 +49,7 @@ export default function StolenPage() {
           )}
         </div>
         <p className="rum-fact">{t("da").rummet.walkInLine}</p>
+        <Ugeskema skema={loadSkema()} />
       </main>
     </RummetShell>
   );

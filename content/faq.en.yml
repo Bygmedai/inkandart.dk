@@ -5,10 +5,13 @@ lede: The questions we hear most — at the counter and in the inbox.
 
 sporgsmal:
   - q: What does a tattoo cost?
+    # Corrected 5/10 (Steven): said «No hourly rate». The team guide has
+    # an hourly rate outside the packages, and the app shows
+    # the team guide's prices — the two surfaces must not disagree.
     a: >-
       The price is agreed with your artist based on motif, size and
-      placement — one motif, one fixed price. No hourly rate, no
-      surprises.
+      placement — one motif, one fixed price, agreed before we start.
+      Outside the packages the hourly rate is {timepris}. No surprises.
   - q: Can I just walk in?
     a: >-
       Yes. Walk in when a chair is free — {tider}. Want a

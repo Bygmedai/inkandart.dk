@@ -6,10 +6,13 @@ lede: Det vi oftest bliver spurgt om — ved disken og i indbakken.
 
 sporgsmal:
   - q: Hvad koster en tatovering?
+    # Rettet 5/10 (Steven): stod «Ingen timepris». Teamguiden har en
+    # timepris uden for pakkerne, og appen viser teamguidens
+    # priser — sitet og appen må ikke sige to forskellige ting.
     a: >-
       Prisen aftales med din artist ud fra motiv, størrelse og
-      placering — et motiv har én fast pris. Ingen timepris, ingen
-      overraskelser.
+      placering — et motiv har én fast pris, aftalt før vi går i gang.
+      Uden for pakkerne er timeprisen {timepris}. Ingen overraskelser.
   - q: Kan jeg bare komme forbi?
     a: >-
       Ja. Walk-in når der er en fri stol — {tider}. Vil du være
