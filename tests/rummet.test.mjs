@@ -1561,7 +1561,7 @@ test("S574 book først, betal efter — tragten spærrer ikke længere", async (
   }
 });
 
-/* ── Nizars bio: Stevens kendelse 31/8 ─────────────────────────────── */
+/* ── Nizars bio: Stevens kendelse 31/8, hans egne ord 5/10 ─────────── */
 
 test("en bio med tre afsnit renderes som tre afsnit, ikke som én klump", async () => {
   const { Bio } = await import("../components/rummet/Bio.tsx").catch(() => ({}));
@@ -1583,24 +1583,34 @@ test("en bio med tre afsnit renderes som tre afsnit, ikke som én klump", async 
   }
 });
 
-test("Nizars bio staar ORDRET som Steven afgjorde — ingen haarde linjeskift", async () => {
+test("Nizars bio er hans egne ord, ordret — ingen haarde linjeskift", async () => {
   const yaml = await import("yaml");
   const n = yaml.parse(read("content/artists.yml")).find((a) => a.id === "nizar");
 
+  // Steven 5/10: «Det er hans egne ord.» To afsnit, i foerste person.
   const afsnit = n.bio.split(/\n\s*\n/);
-  assert.equal(afsnit.length, 3, "bio'en har ikke tre afsnit");
+  assert.equal(afsnit.length, 2, "bio'en har ikke to afsnit");
 
   // Faelden: YAML `|-` bevarer HVERT linjeskift, ogsaa en ombrydning der kun
-  // var pen at se paa i editoren. Foerste forsoeg fik haarde linjeskift midt
-  // i saetningerne — og en normaliserende sammenligning sagde «identisk».
+  // var pen at se paa i editoren. Et haardt linjeskift midt i en saetning
+  // ser rigtigt ud i filen og forkert ud paa siden.
   for (const a of afsnit) {
     assert.doesNotMatch(a, /\n/, "haardt linjeskift inde i et afsnit");
   }
-  assert.match(n.bio, /en dag fandt en blyant vej til hans hånd/,
-    "saetningen om blyanten er den ene ting den korte version ikke sagde");
+  assert.match(n.bio, /^Allerede som barn kunne jeg forsvinde ind i timevis med en blyant og papir\./);
+  assert.match(n.bio, /hvor nye stemmer kan få lov til at vokse\.$/);
+
+  // Tegnsaetningen fra indsaetningen er rettet to steder og ingen andre.
+  assert.doesNotMatch(n.bio, / {2}|\s\./, "dobbelt mellemrum eller mellemrum foran punktum");
+  assert.match(n.bio, /finde ro\. Tatovering/);
+
+  // Teksten fra 31/8 var skrevet OM ham. Den maa ikke komme tilbage ved en
+  // konfliktloesning — hverken paa dansk eller som den gamle engelske.
+  assert.doesNotMatch(n.bio, /Nizar skabte sin/);
+  assert.doesNotMatch(n.bio_en, /Nizar made his/);
 
   // Den engelske er et udkast, men skal have samme form.
-  assert.equal(n.bio_en.split(/\n\s*\n/).length, 3);
+  assert.equal(n.bio_en.split(/\n\s*\n/).length, 2);
   for (const a of n.bio_en.split(/\n\s*\n/)) {
     assert.doesNotMatch(a, /\n/);
   }
