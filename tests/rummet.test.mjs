@@ -197,7 +197,7 @@ test("Book.dk er et klædt hop, ikke et embed", () => {
 test("M2 cross-link tæller synlige værker fra YAML og udelader N=0", async () => {
   const { loadHouse, visibleCountForArtist } = await import("../lib/content.ts");
   const house = loadHouse();
-  assert.equal(visibleCountForArtist(house.vaerker, "nizar"), 4);
+  assert.equal(visibleCountForArtist(house.vaerker, "nizar"), 16); // 4 + V-26–V-37 fra Nizar 6/10
   assert.equal(visibleCountForArtist(house.vaerker, "emma"), 10); // V-09, V-10 fra 31/8; V-21–V-24 fra Emma 28/9
   assert.equal(visibleCountForArtist(house.vaerker, "gaest"), 0);
 
