@@ -84,6 +84,7 @@ export default function HomePageEn() {
                 artist={a}
                 workCount={visibleCountForArtist(house.vaerker, a.id)}
                 compact
+                galleri={a.forside_galleri}
                 lang="en"
               />
             ))}

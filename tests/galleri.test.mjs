@@ -105,7 +105,11 @@ test("pausen virker uden JavaScript, og knappen hedder det den gør", () => {
   // Ingen klient-JS på fladen: label + checkbox, ikke en onClick.
   assert.doesNotMatch(komponent, /use client/, "galleriet må ikke være en klientkomponent");
   assert.doesNotMatch(komponent, /onClick|useState/, "pausen må ikke afhænge af JavaScript");
-  assert.match(komponent, /htmlFor="rum-galleri-pause"/, "labelen peger ikke på checkboxen");
+  // Id'et er en parameter (6/10: to gallerier på samme side må ikke dele
+  // én pauseknap) — men labelen og checkboxen skal stadig bruge det samme.
+  assert.match(komponent, /htmlFor=\{pauseId\}/, "labelen peger ikke på checkboxen");
+  assert.match(komponent, /id=\{pauseId\}/, "checkboxen har ikke labelens id");
+  assert.match(komponent, /pauseId = "rum-galleri-pause"/, "profilens id er ændret");
 
   // display:none — ikke opacity/visibility — så det skjulte ord er UDE af
   // tilgængelighedstræet. Ellers hedder knappen «Pause billederne Afspil

@@ -2,6 +2,7 @@ import type { Artist } from "@/lib/content";
 import { periodeLabel } from "@/lib/content";
 import { DEFAULT_LOCALE, localePath, t, type Locale } from "@/lib/i18n";
 import { foto as fotoProps } from "@/lib/foto";
+import { ArtistGalleri } from "@/components/rummet/Galleri";
 
 function daNum(n: number): string {
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -26,12 +27,15 @@ export function ArtistKort({
   workCount,
   guestKind,
   compact = false,
+  galleri = false,
   lang = DEFAULT_LOCALE,
 }: {
   artist: Artist;
   workCount: number;
   guestKind?: "named" | "pending";
   compact?: boolean;
+  /** Vis profilens billedkarussel på kortet (forsiden, Steven 6/10). */
+  galleri?: boolean;
   lang?: Locale;
 }) {
   const c = t(lang).rummet;
@@ -54,9 +58,27 @@ export function ArtistKort({
     </div>
   );
 
+  // Karussellen på kortet: samme komponent som profilen, med billederne som
+  // link og pauseknappen uden for linket. Unikt id, så to kort på samme
+  // side ikke deler én pauseknap.
+  const karussel =
+    galleri && href ? (
+      <ArtistGalleri
+        artist={artist}
+        pause={c.galleriPause}
+        afspil={c.galleriAfspil}
+        pauseId={`rum-galleri-pause-${artist.id}`}
+        sizes="(min-width: 1200px) 33vw, (min-width: 800px) 50vw, 100vw"
+        href={href}
+        linkLabel={`${name} — se profil`}
+      />
+    ) : null;
+
   return (
     <article className="rum-kort">
-      {href ? (
+      {karussel ? (
+        karussel
+      ) : href ? (
         <a href={href} className="rum-kort__link" aria-label={`${name} — se profil`}>
           {foto}
         </a>
