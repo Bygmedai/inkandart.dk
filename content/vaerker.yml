@@ -340,3 +340,155 @@
   demo: false
   i_dag: false
   edition_ref: ""
+
+# Nizars nye billeder (Steven 6/10 2026, fra Nizar selv). Alt er hans
+# arbejde (Steven: «Det er alt sammen Nizars arbejde»). V-30 viser bare
+# bryster: Nizar har kundens skriftlige ok (Steven 6/10).
+# Klargjort fra indbakke/nizar/: maks. 1600 px, metadata fjernet,
+# skærm-UI beskåret væk (V-31 Snapchat med kundens brugernavn, V-35 sorte
+# kanter, V-37 telefonens statuslinje). V-29 har teksten «IN PROGRESS» i
+# selve billedet — derfor «Under arbejde» i billedteksten.
+
+- id: V-26
+  titel: ""
+  artist: nizar
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-26.jpg
+  billedtekst: Korsetsnøring med sløjfe, sort og gråt, bagsiden af benet.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-27
+  titel: ""
+  artist: nizar
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-27.jpg
+  billedtekst: Elefanthue med monogrammønster og husets logo, sort og gråt, overarm.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-28
+  titel: ""
+  artist: nizar
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-28.jpg
+  billedtekst: Mor og datter med pistoler under «Por mi hija todo», prikker og fin streg, bryst.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-29
+  titel: ""
+  artist: nizar
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-29.jpg
+  billedtekst: Portræt af Tupac, sort og gråt, underben. Under arbejde.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-30
+  titel: ""
+  artist: nizar
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-30.jpg
+  billedtekst: Rose med blondeværk og perlekæder, sort og gråt, under brystet.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-31
+  titel: ""
+  artist: nizar
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-31.jpg
+  billedtekst: Husets logo i rødt, knæ.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-32
+  titel: ""
+  artist: nizar
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-32.jpg
+  billedtekst: «Familia» med roser, sort og gråt, underarm.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-33
+  titel: ""
+  artist: nizar
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-33.jpg
+  billedtekst: Løvinde med fjer, blomster og smykke, sort og gråt, hofte.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-34
+  titel: ""
+  artist: nizar
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-34.jpg
+  billedtekst: Klovnepige med hånden ved hagen, sort og gråt, underarm.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-35
+  titel: ""
+  artist: nizar
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-35.jpg
+  billedtekst: Mandala over skulderbladet og en linje ned ad rygraden, sort og gråt. Nizar til venstre.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-36
+  titel: ""
+  artist: nizar
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-36.jpg
+  billedtekst: Rose foldet af pengesedler, sort og gråt, hofte.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
+
+- id: V-37
+  titel: ""
+  artist: nizar
+  aar: ""
+  arkivnr: ""
+  foto: /slots/V-37.jpg
+  billedtekst: Grinende ansigt, sort og gråt, håndryg.
+  maa_vises: true
+  demo: false
+  i_dag: false
+  edition_ref: ""
