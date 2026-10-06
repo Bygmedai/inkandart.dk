@@ -60,6 +60,10 @@
     Today art is still my driving force. But my focus is also on opening a space where others can unfold their talent. There has to be room for both experienced artists and new talents standing on the threshold of their own journey. For me it is about creating an environment of respect, safety and room for difference. A place where art can develop, and where new voices are allowed to grow.
   periode: fast
   foto: /slots/S-04.jpg
+  # Billedkarussellen fra profilen også på forsidens kort (Steven 6/10:
+  # «Gider du flette samme feature ind på forsiden under Nizar som under
+  # hans profil» · «Kun Nizar»). Slå til på en anden artist på samme måde.
+  forside_galleri: true
   billedtekst: Nizar Saad foran husets skilt.
   # Fire billeder af Nizar selv (Steven, 15/9 2026). Med portrættet er
   # det fem — præcis loftet (GALLERI_MAX). Der er ikke plads til flere.

@@ -95,6 +95,11 @@ export type Artist = {
   fotos: ArtistFoto[];
   /** Hvornaar hun er i huset. Tom liste = vi siger ingenting. */
   tider: ArtistTid[];
+  /**
+   * Viser forsidens kort billedkarussellen fra profilen? (Steven 6/10:
+   * «Kun Nizar».) Kræver mere end ét billede; ellers står portrættet.
+   */
+  forside_galleri: boolean;
 };
 
 export type Vaerk = {
@@ -220,6 +225,7 @@ function normalizeArtist(a: Artist): Artist {
     booking: a.booking === undefined ? true : bool(a.booking),
     fotos: normalizeFotos((a as unknown as Record<string, unknown>).fotos),
     tider: normalizeTider((a as unknown as Record<string, unknown>).tider),
+    forside_galleri: bool((a as unknown as Record<string, unknown>).forside_galleri),
   };
 }
 

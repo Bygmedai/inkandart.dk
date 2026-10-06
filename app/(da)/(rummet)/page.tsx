@@ -87,6 +87,7 @@ export default function HusetPage() {
                 artist={a}
                 workCount={visibleCountForArtist(house.vaerker, a.id)}
                 compact
+                galleri={a.forside_galleri}
               />
             ))}
 
