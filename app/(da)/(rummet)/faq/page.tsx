@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { RummetShell } from "@/components/rummet/Shell";
-import { loadFaq, loadAabningstider } from "@/lib/content";
+import { loadFaq, loadAabningstider, timepris } from "@/lib/content";
 import { formatTiderIndlejret } from "@/lib/tider";
 import { alternates, t } from "@/lib/i18n";
 
@@ -28,7 +28,7 @@ export default function FaqPage() {
         {f.sporgsmal.map((x) => (
           <section key={x.q} className="rum-legal__afsnit">
             <h2 className="rum-poster">{x.q}</h2>
-            <p className="rum-body-copy">{x.a.replace("{tider}", tider)}</p>
+            <p className="rum-body-copy">{x.a.replace("{tider}", tider).replace("{timepris}", `${timepris().toLocaleString("da-DK")} kr`)}</p>
           </section>
         ))}
       </main>

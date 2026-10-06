@@ -565,6 +565,48 @@ html:has([data-house="rummet"]) .grain {
   max-width: 46ch;
 }
 
+/* ── Ugen i stolen (Villy, 5/10) ─────────────────────────────────────
+   Hvem der er her hvilke dage. Kilde: content/skema.yml. Ingen bevægelse,
+   derfor ingen reduced-motion-blok; den står her, så den næste der lægger
+   en animation til, ser at der ikke er nogen at arve. */
+.rum-skema {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(232, 220, 200, 0.1);
+}
+.rum-skema__uge {
+  margin: 16px 0 0;
+  display: grid;
+  gap: 0;
+  max-width: 560px;
+}
+.rum-skema__dag {
+  display: grid;
+  grid-template-columns: 7.5em 1fr;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(232, 220, 200, 0.1);
+}
+.rum-skema__dag dt {
+  font-family: var(--font-poster), sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hud);
+}
+.rum-skema__dag dd {
+  margin: 0;
+  font-size: 16px;
+  color: var(--hud);
+}
+.rum-skema__dag dd a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  display: inline-block;
+  min-height: 24px;
+}
+
 .rum-book {
   display: inline-flex;
   align-items: center;

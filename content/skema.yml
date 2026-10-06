@@ -1,0 +1,44 @@
+# Ugeskemaet — hvem der er i stolen hvilke dage. ÉT sted for sitet og appen.
+#
+# Kilde: Emmas oversigt «Skema foreslag», sendt til Steven og videregivet
+# 5/10 2026:
+#   Mandag  Alex og Adriana     Fredag  Emma og Okan
+#   Tirsdag Emma og Okan        Lørdag  Emma og Okan
+#   Onsdag  Emma og Okan        Søndag  Alex og Adriana
+#   Torsdag Emma og Okan
+# Steven: «Lad os antage at det er permanent, for nu.»
+#
+# Nizar står alle dage. Han var ikke på Emmas liste; Steven 5/10: «Han er
+# på alle dage. Det er hans sted.»
+#
+# Skemaet siger HVEM, ikke hvornår. Husets tider står i aabningstider.yml,
+# en artists egne tider i artists.yml. De tre er ikke det samme og må ikke
+# blandes sammen.
+#
+# Et id skal enten være en artist med profil i artists.yml (så linker
+# navnet til siden) eller stå under `navne` herunder. Et id der ingen af
+# delene er, stopper bygningen — et navn må ikke forsvinde i stilhed.
+#
+# Skifter skemaet, rettes det HER. Appen henter det fra sitet
+# (/api/huset), så ingen skal huske at rette et andet sted.
+
+titel: Ugen i stolen
+titel_en: The week in the chair
+note: Walk-in når der er en fri stol — vil du være sikker på en bestemt artist, så book.
+note_en: Walk in when a chair is free — want a particular artist? Book ahead.
+
+dage:
+  man: [nizar, alex, adriana]
+  tir: [nizar, emma, okan]
+  ons: [nizar, emma, okan]
+  tor: [nizar, emma, okan]
+  fre: [nizar, emma, okan]
+  loer: [nizar, emma, okan]
+  son: [nizar, alex, adriana]
+
+# Folk i skemaet uden en artistprofil endnu. Alex og Adriana er nye
+# (5/10); deres navn, fag, portræt, bio og Instagram er ikke kommet. Når de
+# får en post i artists.yml, slettes de herfra — så linker skemaet til dem.
+navne:
+  alex: Alex
+  adriana: Adriana

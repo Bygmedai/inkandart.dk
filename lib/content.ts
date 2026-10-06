@@ -1351,3 +1351,68 @@ export function loadGulvet(): GulvetCopy {
     },
   };
 }
+
+/* ── Ugeskemaet (Villy, 5/10 — accept: inkandart-webshop docs/accept/app-gennemgang.md) ── */
+
+export type Ugedag = "man" | "tir" | "ons" | "tor" | "fre" | "loer" | "son";
+export const UGEN: Ugedag[] = ["man", "tir", "ons", "tor", "fre", "loer", "son"];
+
+/** En person i skemaet. `profil` = der findes en artistside at linke til. */
+export type SkemaPerson = { id: string; navn: string; profil: boolean };
+
+export type Skema = {
+  titel: string;
+  titel_en: string;
+  note: string;
+  note_en: string;
+  dage: Record<Ugedag, SkemaPerson[]>;
+};
+
+/**
+ * Hvem der er i stolen hvilke dage. Et id slås op i artists.yml (artister
+ * med profil) og ellers under `navne` i skema.yml. Findes det ingen af
+ * stederne, kaster den: et navn må ikke forsvinde fra skemaet i stilhed,
+ * og en stavefejl skal stoppe bygningen, ikke kunden ved døren.
+ */
+export function loadSkema(
+  raw: unknown = readYaml<unknown>("skema.yml"),
+  artists: Artist[] = loadHouse().artists,
+): Skema {
+  const o = (raw ?? {}) as Record<string, unknown>;
+  const navne = (o.navne ?? {}) as Record<string, unknown>;
+  const profiler = profiledArtists(artists);
+  const dageRaw = (o.dage ?? {}) as Record<string, unknown>;
+
+  const slaaOp = (id: string): SkemaPerson => {
+    const a = profiler.find((x) => x.id === id);
+    if (a) return { id, navn: a.fornavn, profil: true };
+    const n = str(navne[id]);
+    if (n) return { id, navn: n, profil: false };
+    throw new Error(`skema.yml: «${id}» er hverken en artist med profil i artists.yml eller under navne`);
+  };
+
+  const dage = {} as Record<Ugedag, SkemaPerson[]>;
+  for (const d of UGEN) {
+    const ids = Array.isArray(dageRaw[d]) ? (dageRaw[d] as unknown[]).map((x) => str(x)).filter(Boolean) : [];
+    dage[d] = ids.map(slaaOp);
+  }
+  return {
+    titel: str(o.titel),
+    titel_en: str(o.titel_en),
+    note: str(o.note),
+    note_en: str(o.note_en),
+    dage,
+  };
+}
+
+/**
+ * Timeprisen uden for pakkerne — fra teamguiden, ét sted (Steven 5/10:
+ * FAQ'en skal sige det samme som appen, og appen viser teamguidens
+ * priser). Linjen findes på sit navn; findes den ikke, kaster den, så
+ * FAQ'en aldrig viser «{timepris}» eller en gammel kopi af tallet.
+ */
+export function timepris(tg: TeamguideCopy = loadTeamguide()): number {
+  const y = tg.priser_tattoo.find((x) => /^timepris/i.test(x.ydelse));
+  if (!y) throw new Error("teamguide.yml: ingen «Timepris …»-linje under priser_tattoo");
+  return y.pris;
+}
