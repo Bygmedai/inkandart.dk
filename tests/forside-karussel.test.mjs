@@ -58,3 +58,28 @@ test("negativ kontrol: uden flaget står kortet med portrættet, som før", () =
   assert.match(kort, /galleri = false/, "karussellen er slået til som standard");
   assert.match(kort, /galleri && href \?/);
 });
+
+/* ── En mand der ikke arbejder i huset, står ingen steder (7/10 2026) ──── */
+// Nizar, via Steven: «Denne person arbejder her ikke mere. Fjern ham fra
+// alle flader.» S-12 og S-13 var tekstet som Nizar, men viste en anden.
+const FJERNET = ["S-12", "S-13"];
+
+/** Alle billedstier i husets indhold — det sitet og /api/huset kan vise. */
+function billedstier() {
+  const filer = ["artists.yml", "vaerker.yml", "huset.yml", "huset.en.yml", "hylden.yml"];
+  return filer.flatMap((f) => [...read(`content/${f}`).replace(/^\s*#.*$/gm, "").matchAll(/\/[\w./-]+\.(?:jpe?g|png|webp)/g)].map((m) => m[0]));
+}
+
+test("billederne af manden der er gået, er væk fra indholdet og fra disken", () => {
+  const stier = billedstier();
+  assert.ok(stier.length > 20, `negativ kontrol: fandt kun ${stier.length} billedstier — er læseren i stykker?`);
+  for (const id of FJERNET) {
+    assert.ok(!stier.some((s) => s.includes(`/${id}.`)), `${id} står stadig i indholdet`);
+    assert.throws(() => readFileSync(join(root, `public/slots/${id}.jpg`)), `public/slots/${id}.jpg findes stadig`);
+  }
+  // Og prøven kan se det, når det står der.
+  assert.ok(["/slots/S-12.jpg"].some((s) => FJERNET.some((id) => s.includes(`/${id}.`))));
+  // Nizar har stadig sin karussel: portrættet plus billederne af ham selv.
+  const nizar = C.loadHouse().artists.find((a) => a.id === "nizar");
+  assert.deepEqual(C.artistFotos(nizar).map((f) => f.fil), ["/slots/S-04.jpg", "/slots/S-11.jpg", "/slots/S-10.jpg"]);
+});
