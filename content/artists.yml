@@ -65,25 +65,27 @@
   # hans profil» · «Kun Nizar»). Slå til på en anden artist på samme måde.
   forside_galleri: true
   billedtekst: Nizar Saad foran husets skilt.
-  # Fire billeder af Nizar selv (Steven, 15/9 2026). Med portrættet er
-  # det fem — præcis loftet (GALLERI_MAX). Der er ikke plads til flere.
+  # Billeder af Nizar selv (Steven, 15/9 2026). Med portrættet er de fire;
+  # loftet er fem (GALLERI_MAX).
   #
-  # S-12 OG S-13 ER HAM, OGSÅ SELV OM HAN IKKE LIGNER SIG SELV.
-  # Jeg meldte dem først som en anden mand: han har hår på dem, og han er
-  # skaldet i dag. Steven, som kender ham: «Nej det er ham, bare for 5 år
-  # siden. Det kan jeg bekræfte.» Pandelampen lyser direkte ind i kameraet
-  # på begge, så hudtone og øjenfarve er ikke til at læse ud af dem.
+  # S-12 OG S-13 ER FJERNET (7/10 2026). De viste IKKE Nizar, men en mand
+  # der ikke længere arbejder i huset. Nizar selv, via Steven 7/10: «Denne
+  # person arbejder her ikke mere. Fjern ham fra alle flader.» Steven: «Jeg
+  # troede det var Nizar.»
   #
-  # Lært: et menneskes identitet afgøres ikke af to fotos og min
-  # sammenligning. Spørg den der kender personen — og hvis der er tvivl,
-  # så lad være med at lægge billedet op imens.
+  # Tilbage står S-04 (foran skiltet), S-11 (motorcyklen) og S-10 (palmerne).
+  # Steven 7/10 om S-10 og S-11, efter fjernelsen: «Dette er også Nizar.»
+  #
+  # Forløbet, så ingen gentager det: 15/9 meldte jeg de to som en anden
+  # mand. Svaret var «Nej det er ham, bare for 5 år siden», og de kom op.
+  # De to er fra samme optagelse (samme pandelampe, samme stencil på samme
+  # arm), så de gik ud sammen.
+  #
+  # Lært — igen: et menneskes identitet afgøres af personen selv, ikke af
+  # et foto og heller ikke af en anden der tror. Er der tvivl om hvem et
+  # billede viser, så spørg den der står på det — og læg det ikke op imens.
+  # tests/forside-karussel.test.mjs holder de to filer ude.
   fotos:
-    - fil: /slots/S-12.jpg
-      tekst: Nizar tatoverer med pandelampe på og kigger op mod kameraet.
-      fokus: ""
-    - fil: /slots/S-13.jpg
-      tekst: Nizar bøjet over en underarm under arbejde, set i profil.
-      fokus: ""
     - fil: /slots/S-11.jpg
       tekst: Nizar på sin motorcykel foran et værtshus i København.
       fokus: ""
