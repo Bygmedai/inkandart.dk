@@ -2,18 +2,11 @@
 # edition_ref tom = hylden er tom («Vi laver ikke varer uden værk.»).
 # i_dag: det værk Huset viser som pladen.
 # billedtekst: motiv + teknik. Ikke en titel, ikke et kunstnerkredit.
-
-- id: V-01
-  titel: ""
-  artist: nizar
-  aar: ""
-  arkivnr: ""
-  foto: /slots/V-01.jpg
-  billedtekst: Ornamental mandala, sort blæk og prikker, overarm.
-  maa_vises: true
-  demo: false
-  i_dag: false
-  edition_ref: ""
+#
+# V-01 og V-05 ER FJERNET (8/10 2026): ornamental mandala på overarmen og
+# ornamentalt bånd på læggen, begge tekstet som Nizars. Steven: «Nizar
+# gider ikke lave den slags.» Et værk på hans side er et løfte om hvad
+# man kan få hos ham. tests/rummet.test.mjs holder dem ude.
 
 - id: V-02
   titel: ""
@@ -46,18 +39,6 @@
   arkivnr: ""
   foto: /slots/V-04.jpg
   billedtekst: Flash-ark. To frøer, farve.
-  maa_vises: true
-  demo: false
-  i_dag: false
-  edition_ref: ""
-
-- id: V-05
-  titel: ""
-  artist: nizar
-  aar: ""
-  arkivnr: ""
-  foto: /slots/V-05.jpg
-  billedtekst: Ornamental bånd, sort blæk og prikker, læg.
   maa_vises: true
   demo: false
   i_dag: false

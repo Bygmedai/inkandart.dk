@@ -194,10 +194,21 @@ test("Book.dk er et klædt hop, ikke et embed", () => {
   assert.doesNotMatch(door, /<iframe/);
 });
 
+test("ornamentikken Nizar ikke laver, står ingen steder (Steven 8/10)", () => {
+  const vaerker = read("content/vaerker.yml").replace(/^\s*#.*$/gm, "");
+  assert.ok((vaerker.match(/^- id: V-/gm) ?? []).length > 20, "negativ kontrol: læseren finder værkerne");
+  for (const id of ["V-01", "V-05"]) {
+    assert.doesNotMatch(vaerker, new RegExp(`id: ${id}\\b|/${id}\\.`), `${id} står stadig i vaerker.yml`);
+    assert.throws(() => read(`public/slots/${id}.jpg`), `public/slots/${id}.jpg findes stadig`);
+  }
+  // Og prøven kan se det, når det står der.
+  assert.match("- id: V-01\n  foto: /slots/V-01.jpg", /id: V-01\b/);
+});
+
 test("M2 cross-link tæller synlige værker fra YAML og udelader N=0", async () => {
   const { loadHouse, visibleCountForArtist } = await import("../lib/content.ts");
   const house = loadHouse();
-  assert.equal(visibleCountForArtist(house.vaerker, "nizar"), 16); // 4 + V-26–V-37 fra Nizar 6/10
+  assert.equal(visibleCountForArtist(house.vaerker, "nizar"), 14); // V-02, V-07 + V-26–V-37 fra Nizar 6/10 (V-01, V-05 ude 8/10)
   assert.equal(visibleCountForArtist(house.vaerker, "emma"), 10); // V-09, V-10 fra 31/8; V-21–V-24 fra Emma 28/9
   assert.equal(visibleCountForArtist(house.vaerker, "gaest"), 0);
 
@@ -735,10 +746,9 @@ test("F14 booking er salgsflade på hud med handling først", () => {
 test("F15 lyst værk på Huset, S-04 på Stolen", () => {
   const vaerker = read("content/vaerker.yml");
   const artists = read("content/artists.yml");
-  const v01 = vaerker.slice(vaerker.indexOf("- id: V-01"), vaerker.indexOf("- id: V-02"));
   const v06 = vaerker.slice(vaerker.indexOf("- id: V-06"), vaerker.indexOf("- id: V-07"));
   assert.match(v06, /i_dag:\s*true/);
-  assert.match(v01, /i_dag:\s*false/);
+  assert.equal((vaerker.match(/i_dag:\s*true/g) ?? []).length, 1, "kun ét værk er dagens");
   const nizar = artists.slice(artists.indexOf("- id: nizar"), artists.indexOf("- id: emma"));
   assert.match(nizar, /S-04\.jpg/);
 });
