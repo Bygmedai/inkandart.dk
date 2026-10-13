@@ -1,6 +1,9 @@
-import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { KlikVagt } from "@/components/analytics/Klik";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { husetsGraf } from "@/lib/jsonld";
+import { loadAabningstider, loadKontakt } from "@/lib/content";
+import { site } from "@/lib/site";
 
 /**
  * Husets skal — det ene sted <html> og <body> bliver skrevet.
@@ -31,7 +34,10 @@ export function HusetsRod({
   return (
     <html lang={lang}>
       <body className="bg-[var(--void)] text-[var(--text)] antialiased">
-        <Script src="/seo-ld.js" strategy="afterInteractive" />
+        {/* Husets strukturerede data — i HTML'en fra serveren, ét @id for
+            studiet på begge sprog (docs/accept/json-ld.md). Afløser
+            public/seo-ld.js, som kun fandtes efter hydrering. */}
+        <JsonLd data={husetsGraf({ kontakt: loadKontakt(), tider: loadAabningstider(), site })} />
         {children}
         <Analytics />
         {/* Klik-events (#245 C). Én ø for hele sitet, saa handelsfladerne

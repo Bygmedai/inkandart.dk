@@ -47,14 +47,14 @@ test("de to kilder er enige om husets nummer", async () => {
 });
 
 test("Googles virksomhedsdata har husets nummer, ikke et gammelt", async () => {
-  // seo-ld.js er en statisk fil (CSP: script-src 'self') og kan ikke
-  // importere kontakt.yml. Derfor er den det oplagte sted at glemme.
-  // Google viser det nummer der står her, i søgeresultatet.
+  // Skemaet lå i public/seo-ld.js som håndskrevet kopi indtil 13/10 2026.
+  // Nu bygger lib/jsonld.ts det af kontakt.yml — men Google viser det nummer
+  // der står i skemaet, så det måles stadig.
   const { loadKontakt } = await import("../lib/content.ts");
-  const ld = read("public/seo-ld.js");
-  const fundet = ld.match(/telephone:\s*"([^"]+)"/);
-  assert.ok(fundet, "seo-ld.js mangler telephone");
-  assert.equal(fundet[1], loadKontakt().telefon_e164, "structured data ringer til et andet nummer end huset");
+  const { studio } = await import("../lib/jsonld.ts");
+  const { site } = await import("../lib/site.ts");
+  assert.equal(studio({ kontakt: loadKontakt(), tider: [], site }).telephone, loadKontakt().telefon_e164, "structured data ringer til et andet nummer end huset");
+  assert.throws(() => read("public/seo-ld.js"), "den gamle kopi er tilbage — så findes der to skemaer der kan sige hver sit");
 });
 
 /**
