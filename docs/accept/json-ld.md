@@ -1,7 +1,25 @@
 # Accept: Google kan læse butikken uden at køre vores JavaScript
 
-Status: **UDKAST (2026-08-24)** — afventer Stevens sniff
-Bygger: **Grok**. Skrevet af Villy før bygning, jf. CLAUDE.md §6.
+Status: **GODKENDT (2026-10-13)** — Steven: «Ja, du må bygge JSON-LD.»
+Bygger: **Villy** (oprindeligt Grok; flyttet af Steven 13/10). Skrevet af Villy før bygning, jf. CLAUDE.md §6.
+
+> **Bygget 13/10 — tre afvigelser fra designet herunder, og hvorfor:**
+> 1. **Ingen `dangerouslySetInnerHTML`.** `tests/csp.test.mjs` forbyder
+>    HTML-sinks i hele kodebasen, og den regel vinder over denne spec.
+>    React 19 skriver tekst i et `<script>` uændret (målt), så blokken er et
+>    almindeligt React-barn. `sikkerJson()` er bygget som beskrevet.
+> 2. **Åbningstiderne er med.** «Blokeringen» herunder er løst: tiderne bor
+>    nu i `content/aabningstider.yml` (teamguiden, bekræftet af Steven 31/8,
+>    rettet 1/9) og står på sitet. Skemaet læser dem derfra — ingen kopi.
+>    Kriterium 8 (minut for minut mod Google Business Profile) kan jeg ikke
+>    måle; jeg har ikke adgang til profilen.
+> 3. **Ingen `WebPage`-node pr. side.** `TattooParlor` + `WebSite` på hver
+>    side, samme `@id` på begge sprog. `WebPage` gav intet kriterium herunder
+>    noget at måle på; tages op hvis Rich Results Test beder om den.
+>
+> Kilderne er `content/kontakt.yml`, `content/aabningstider.yml` og
+> `lib/site.ts` (navn, url, postnummer). Koden: `lib/jsonld.ts`,
+> `components/seo/JsonLd.tsx`, `components/rod/HusetsRod.tsx`.
 
 Det vi køber: at en turist der googler «tattoo copenhagen» ser vores
 **adresse, telefon og åbningstider** direkte i resultatet — og at vi selv
