@@ -11,7 +11,7 @@
 # Fix (S576, same pattern as trufflehog.yml): inline the reusable 1:1. Same v2a
 # envelope, same pull_request_target security posture (metadata + review + merge
 # only; NO checkout, NO install, NO PR code). Same identity
-# (DEPENDABOT_AUTOMERGE_TOKEN, fallback GITHUB_TOKEN). Job-level gate on
+# (GITHUB_TOKEN only — BYG-913). Job-level gate on
 # dependabot[bot] restored — other PRs are skipped, not failed.
 #
 # Keep in sync with Bygmedai/.github/.github/workflows/dependabot-auto-merge.yml.
@@ -96,12 +96,12 @@ jobs:
         if: steps.gate.outputs.eligible == 'true'
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
-          GH_TOKEN: ${{ secrets.DEPENDABOT_AUTOMERGE_TOKEN || secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh pr review --approve "$PR_URL" --body "v2a auto-approve (${{ steps.gate.outputs.reason }}); green-CI gated."
 
       - name: Enable auto-merge for eligible PR
         if: steps.gate.outputs.eligible == 'true'
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
-          GH_TOKEN: ${{ secrets.DEPENDABOT_AUTOMERGE_TOKEN || secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh pr merge --auto --squash "$PR_URL"
