@@ -1495,7 +1495,8 @@ test("S574 copy-audit: ingen mytologi hvor der skal stå en oplysning", () => {
 
   // Tomtilstande hjælper videre i stedet for at lyde som albumtekster.
   assert.match(i18n, /noEvent: "Ingen aften planlagt lige nu"/);
-  assert.match(i18n, /noEventLine: "Vil du have næste dato\? Skriv dig op\."/);
+  // S639: tilmeldingen er lukket med Shopify — linjen peger nu på Instagram.
+  assert.match(i18n, /noEventLine: "Vil du have næste dato\? Følg med på Instagram\."/);
   assert.match(i18n, /noGuest: "Ingen gæsteartist annonceret lige nu"/);
   assert.match(i18n, /shelfEmpty: "Ingen prints lige nu\."/);
 
