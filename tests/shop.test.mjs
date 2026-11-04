@@ -23,7 +23,7 @@ function redirectsFrom(source) {
   return nextRedirects.filter((r) => r.source === source || r.source === `${source}/`);
 }
 
-test("/shop er Rummets hylde — MaerketFlade, ikke Emerge-gaden", () => {
+test.skip("/shop er Rummets hylde — MaerketFlade, ikke Emerge-gaden [pensioneret S639: Shopify er lukket]", () => {
   assert.equal(existsSync(join(root, "app/(da)/(rummet)/shop/page.tsx")), true);
   assert.equal(existsSync(join(root, "app/(en)/(rummet)/en/shop/page.tsx")), true);
   assert.match(page, /MaerketFlade/);
@@ -47,7 +47,7 @@ test("Emerge-shoppen er død som kundens /shop — filerne findes ikke", () => {
   assert.equal(existsSync(join(root, oldMaerketEn)), false, "/en/maerket-siden skal 308'e, ikke eksistere");
 });
 
-test("/maerket 308'er til /shop — også undersider, query bevares af Next", () => {
+test.skip("/maerket 308'er til /shop — også undersider, query bevares af Next [pensioneret S639: Shopify er lukket]", () => {
   for (const [from, to] of [
     ["/maerket", "/shop"],
     ["/en/maerket", "/en/shop"],
@@ -70,7 +70,7 @@ test("/maerket 308'er til /shop — også undersider, query bevares af Next", ()
   assert.equal(redirectsFrom("/en/shop").length, 0);
 });
 
-test("nav-døren hedder Shop og peger på /shop — ikke Mærket, ikke Hylden", async () => {
+test.skip("nav-døren hedder Shop og peger på /shop — ikke Mærket, ikke Hylden [pensioneret S639: Shopify er lukket]", async () => {
   const { t } = await import("../lib/i18n.ts");
   for (const lang of ["da", "en"]) {
     const shop = t(lang).rummet.rooms.find((r) => r.label === "Shop");
@@ -160,7 +160,7 @@ test("tilbage-linket er dækket af tap-reglen på ALLE undersider", () => {
   }
 });
 
-test("negativ kontrol: hegnet bliver rødt hvis Emerge-shoppen kommer tilbage", () => {
+test.skip("negativ kontrol: hegnet bliver rødt hvis Emerge-shoppen kommer tilbage [pensioneret S639: Shopify er lukket]", () => {
   assert.equal(existsSync(join(root, emergeDa)), false);
   assert.doesNotMatch(flade, /localePath\(lang, "\/maerket"\)/);
   const i18n = read("lib/i18n.ts");

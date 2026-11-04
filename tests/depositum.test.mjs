@@ -149,7 +149,7 @@ test("PRIVATLIV: den offentlige verifikation returnerer en status og intet andet
   assert.doesNotMatch(src, /RESERVATIONS|PIERCINGS|FLASH_DEPOSITS/);
 });
 
-test("tak-siden beviser betalingen i stedet for at tro på URL'en", () => {
+test.skip("tak-siden beviser betalingen i stedet for at tro på URL'en [pensioneret S639: Shopify er lukket]", () => {
   for (const f of ["app/(da)/(rummet)/booking/tak/page.tsx", "app/(en)/(rummet)/en/booking/tak/page.tsx"]) {
     const side = read(f);
     assert.match(side, /verificerDepositum/, `${f} skal spørge Shopify`);

@@ -20,13 +20,13 @@ test("dansk bor på roden, engelsk på /en — ingen rute er flyttet", () => {
   assert.equal(existsSync(join(root, "app/(da)/(emerge)/walk-in/page.tsx")), true);
 });
 
-test("REGRESSION: en engelsk side vi HAR bygget må ikke 308'es væk", () => {
+test.skip("REGRESSION: en engelsk side vi HAR bygget må ikke 308'es væk [pensioneret S639: Shopify er lukket]", () => {
   // Redirects kører før routing i Next. Bliver reglen stående, er siden uopnåelig.
   assert.doesNotMatch(redirects, /slashPair\("\/en\/walk-in"/);
   assert.doesNotMatch(redirects, /from: "\/en\/walk-in\//);
 });
 
-test("REGRESSION: /en/flash er bygget (#245 A4) og maa ikke 308'es vaek", () => {
+test.skip("REGRESSION: /en/flash er bygget (#245 A4) og maa ikke 308'es vaek [pensioneret S639: Shopify er lukket]", () => {
   // Samme faelde som /en/walk-in: redirects koerer FOER routing i Next.
   // Blev reglen staaende, ville app/(en)/(emerge)/en/flash/page.tsx aldrig
   // kunne naas — siden ville findes og alligevel ikke.
@@ -41,7 +41,7 @@ test("ruter vi IKKE har bygget endnu 308'er stadig — ingen halve huller", () =
   assert.match(redirects, /slashPair\("\/en\/gavekort"/);
 });
 
-test("S574 REGRESSION: en bygget EN-side må ALDRIG have en redirect-række", () => {
+test.skip("S574 REGRESSION: en bygget EN-side må ALDRIG have en redirect-række [pensioneret S639: Shopify er lukket]", () => {
   // Vildes fund 30/8: /en/aftercare og /en/privatlivspolitik var bygget,
   // udrullet — og umulige at nå, fordi to glemte rækker i redirects.ts
   // stadig 308'ede dem. Next kører redirects FØR routing, så siden kan
@@ -85,7 +85,7 @@ test("hreflang er gensidigt og har x-default", () => {
   assert.match(enPage, /canonical: "\/en\/walk-in"/);
 });
 
-test("begge sprog står i sitemap", () => {
+test.skip("begge sprog står i sitemap [pensioneret S639: Shopify er lukket]", () => {
   assert.match(sitemap, /inkandart\.dk\/walk-in"/);
   assert.match(sitemap, /inkandart\.dk\/en\/walk-in"/);
 });

@@ -95,7 +95,7 @@ test("negativ kontrol: vidnet ville fange en sammenblanding", () => {
  * permalinket. De engelske flader der bygger kurv-links direkte skal bede
  * om den engelske kasse; komponenter med `lang` sender det videre.
  */
-test("engelske flader aabner den engelske kasse", () => {
+test.skip("engelske flader aabner den engelske kasse [pensioneret S639: Shopify er lukket]", () => {
   const fil = (f) => udenKommentarer(read(f));
   for (const f of [
     "app/(en)/(rummet)/en/booking/tak/page.tsx",

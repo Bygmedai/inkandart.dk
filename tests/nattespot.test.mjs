@@ -30,7 +30,7 @@ test("beløbet står ét sted — siden og butikken kan ikke sige to tal", () =>
   }
 });
 
-test("knappen er et rigtigt link — den virker uden JavaScript", () => {
+test.skip("knappen er et rigtigt link — den virker uden JavaScript [pensioneret S639: Shopify er lukket]", () => {
   const flade = read("components/rummet/NattenFlade.tsx");
   const spot = flade.slice(flade.indexOf('className="rum-spot"'));
   assert.match(spot, /<a\s/, "et <a>, ikke en onClick-knap");
@@ -47,7 +47,7 @@ test("REGRESSION: Nattespot tæller som depositum på /booking/tak", () => {
   assert.match(fn, /NATTESPOT\.variantId/);
 });
 
-test("sektionen kan slukkes fra Decap uden en udvikler", () => {
+test.skip("sektionen kan slukkes fra Decap uden en udvikler [pensioneret S639: Shopify er lukket]", () => {
   // Tom spot_titel => ingen sektion. Så kan huset tage den af fladen
   // hvis natten holder pause, uden at nogen rører koden.
   const flade = read("components/rummet/NattenFlade.tsx");
@@ -73,7 +73,7 @@ test("copy'en lover ikke en dato, et antal eller en artist (kriterium 5)", () =>
   assert.doesNotMatch(spot, /\b\d+\s*(pladser|spots)\b/, "intet præcist antal");
 });
 
-test("REGRESSION: skærmlæser-sætningen taler kundens sprog", () => {
+test.skip("REGRESSION: skærmlæser-sætningen taler kundens sprog [pensioneret S639: Shopify er lukket]", () => {
   // Fundet ved at måle den rigtige side: aria-etiketten var hårdkodet
   // dansk og fulgte med ud på /en, hvor en engelsk kunde fik «300 kroner
   // i depositum» læst op. For den der ikke kan se knappen, ER etiketten

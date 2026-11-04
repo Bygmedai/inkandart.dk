@@ -184,7 +184,6 @@ const da = {
      */
     rooms: [
       { href: "/stolen", label: "Artister" },
-      { href: "/shop", label: "Shop" },
       { href: "/natten", label: "Aftener" },
       { href: "/gaden", label: "Find os" },
     ],
@@ -470,7 +469,6 @@ const en: Copy = {
     roomsLabel: "Menu",
     rooms: [
       { href: "/stolen", label: "Artists" },
-      { href: "/shop", label: "Shop" },
       { href: "/natten", label: "Nights" },
       { href: "/gaden", label: "Find us" },
     ],

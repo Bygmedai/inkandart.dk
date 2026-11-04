@@ -146,9 +146,6 @@ export default async function ArtistPage({
                 </article>
               ))}
             </div>
-            <p className="rum-kort__arkiv">
-              <a href={`/shop?artist=${artist.id}`}>Se dem under Arbejde i shoppen</a>
-            </p>
           </section>
         ) : (
           <section className="rum-artist__arkiv">

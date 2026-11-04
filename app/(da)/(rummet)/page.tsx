@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { RummetShell } from "@/components/rummet/Shell";
 import { ArtistKort } from "@/components/rummet/ArtistKort";
-import { Door } from "@/components/rummet/Door";
 import { Segl } from "@/components/rummet/Segl";
 import { HusetHero } from "@/components/rummet/HusetHero";
 import {
@@ -144,9 +143,6 @@ export default function HusetPage() {
             )}
           </div>
 
-          <div className="rum-huset__door">
-            <Door variant="inline" />
-          </div>
         </section>
       </main>
     </RummetShell>

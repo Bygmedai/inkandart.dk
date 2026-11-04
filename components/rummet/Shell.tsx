@@ -20,7 +20,8 @@ import "./rummet.css";
  */
 export function RummetShell({
   children,
-  door = true,
+  // S639 (4/11): tilmeldingen skrev til Shopify, som er lukket. Slukket som standard.
+  door = false,
   tone = "nat",
   lang = DEFAULT_LOCALE,
 }: {

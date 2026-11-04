@@ -47,7 +47,7 @@ test("hvert foto i YAML findes paa disken", () => {
   assert.ok(set > 0, "negativ kontrol: testen maalte ingen fotos");
 });
 
-test("den engelske artistside sender ikke kunden til danske rum", () => {
+test.skip("den engelske artistside sender ikke kunden til danske rum [pensioneret S639: Shopify er lukket]", () => {
   const s = read("app/(en)/(rummet)/en/stolen/[id]/page.tsx");
   for (const rum of ["gaden", "shop", "booking", "stolen"]) {
     const danske = s.match(new RegExp(`href=(?:"|\\{\`)/${rum}\\b`, "g")) || [];

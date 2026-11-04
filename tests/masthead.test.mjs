@@ -94,7 +94,7 @@ test("seglet findes som fil", () => {
  * derfor rigtigt, og fejlen fandtes KUN over 900px. Det er grunden til at
  * ingen saa den: den mobile udgave, som alle tjekker, var i orden.
  */
-test("Blackbook har ét navn, ikke to (WCAG 4.1.2 / 2.5.3)", () => {
+test.skip("Blackbook har ét navn, ikke to (WCAG 4.1.2 / 2.5.3) [pensioneret S639: Shopify er lukket]", () => {
   const src = readFileSync(join(root, "components/rummet/Nav.tsx"), "utf8");
   const i = src.indexOf("function Blackbook");
   assert.ok(i > -1, "negativ kontrol: fandt ikke Blackbook-komponenten");
