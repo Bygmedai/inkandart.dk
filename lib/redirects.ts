@@ -21,17 +21,30 @@ export const ROUTE_MIGRATION: MigrationRow[] = [
   { from: "/en/artists/", to: "/#artists", reason: "EN artists index" },
   { from: "/en/artists/nizar/", to: "/#artist-nizar", reason: "EN named artist" },
   { from: "/en/artists/:slug/", to: "/#artists", reason: "EN unknown artist" },
-  { from: "/en/gavekort/", to: "/gavekort/", reason: "Hellere dansk end 410 — §1-reglen. Målt 410 i prod 2026-08-22" },
-  { from: "/en/gavekort/giv/", to: "/gavekort/giv/", reason: "Hellere dansk end 410" },
-  { from: "/en/gavekort/til-dig/", to: "/gavekort/til-dig/", reason: "Hellere dansk end 410" },
-  { from: "/en/blackbook/", to: "/blackbook/", reason: "Hellere dansk end 410" },
   { from: "/en/find-your-tattoo/", to: "/#artists", reason: "EN wizard retired" },
   { from: "/en/share-your-idea/", to: "/#booking", reason: "EN intake → chair" },
-  { from: "/maerket/", to: "/shop/", reason: "Én hylde: Mærket er /shop (3/9 2026)" },
-  { from: "/maerket/:path*", to: "/shop/:path*", reason: "Vare- og værkstier følger hylden" },
-  { from: "/en/maerket/", to: "/en/shop/", reason: "Én hylde på engelsk" },
-  { from: "/en/maerket/:path*", to: "/en/shop/:path*", reason: "EN vare- og værkstier følger hylden" },
   { from: "/stolen/anna/", to: "/stolen/", reason: "Anna er ikke længere i huset (Steven 28/9)" },
+  // S639 (Steven, 4/11): Shopify er lukket. Shop, gavekort, walk-in, flash og
+  // tilmeldingen solgte eller skrev gennem Shopify. Ingen besøgende må lande
+  // på en død kasse, så alle stier sendes til et levende sted.
+  { from: "/shop/", to: "/", reason: "Shopify lukket (S639)" },
+  { from: "/shop/:path*", to: "/", reason: "Shopify lukket (S639)" },
+  { from: "/en/shop/", to: "/en", reason: "Shopify lukket (S639)" },
+  { from: "/en/shop/:path*", to: "/en", reason: "Shopify lukket (S639)" },
+  { from: "/maerket/", to: "/", reason: "Mærket var /shop — Shopify lukket (S639)" },
+  { from: "/maerket/:path*", to: "/", reason: "Shopify lukket (S639)" },
+  { from: "/en/maerket/", to: "/en", reason: "Shopify lukket (S639)" },
+  { from: "/en/maerket/:path*", to: "/en", reason: "Shopify lukket (S639)" },
+  { from: "/gavekort/", to: "/", reason: "Gavekort solgtes i Shopify — lukket (S639)" },
+  { from: "/gavekort/:path*", to: "/", reason: "Shopify lukket (S639)" },
+  { from: "/en/gavekort/", to: "/en", reason: "Shopify lukket (S639)" },
+  { from: "/en/gavekort/:path*", to: "/en", reason: "Shopify lukket (S639)" },
+  { from: "/walk-in/", to: "/booking/", reason: "Walk-in var en Shopify-checkout (S639)" },
+  { from: "/en/walk-in/", to: "/en/booking/", reason: "Walk-in var en Shopify-checkout (S639)" },
+  { from: "/flash/", to: "/booking/", reason: "Fredagsflash-depositum var Shopify (S639)" },
+  { from: "/en/flash/", to: "/en/booking/", reason: "Fredagsflash-depositum var Shopify (S639)" },
+  { from: "/blackbook/", to: "/", reason: "Tilmeldingen skrev til Shopify (S639)" },
+  { from: "/en/blackbook/", to: "/en", reason: "Tilmeldingen skrev til Shopify (S639)" },
 ];
 
 /**
@@ -47,8 +60,8 @@ export const ROUTE_MIGRATION: MigrationRow[] = [
 export const HOST_MIGRATION: MigrationRow[] = [
   {
     from: "shop.inkandart.dk/:path*",
-    to: "https://inkandart.dk/shop",
-    reason: "Vej B: kataloget bor i hub'en (S568)",
+    to: "https://inkandart.dk/",
+    reason: "Shopify lukket — webshoppen er væk (S639)",
   },
 ];
 
@@ -60,7 +73,7 @@ export const hostRedirects: HostRedirect[] = [
   {
     source: "/:path*",
     has: [{ type: "host", value: "shop.inkandart.dk" }],
-    destination: "https://inkandart.dk/shop",
+    destination: "https://inkandart.dk/",
     statusCode: 308,
   },
 ];
@@ -83,16 +96,27 @@ export const nextRedirects: Redirect[] = [
   ...slashPair("/en/artists/nizar", "/#artist-nizar"),
   ...slashPair("/en/artists/:slug", "/#artists"),
   ...slashPair("/en/artists", "/#artists"),
-  ...slashPair("/en/gavekort/giv", "/gavekort/giv"),
-  ...slashPair("/en/gavekort/til-dig", "/gavekort/til-dig"),
-  ...slashPair("/en/gavekort", "/gavekort"),
-  ...slashPair("/en/blackbook", "/blackbook"),
   ...slashPair("/en/find-your-tattoo", "/#artists"),
   ...slashPair("/en/share-your-idea", "/#booking"),
-  ...slashPair("/maerket", "/shop"),
-  ...slashPair("/maerket/:path*", "/shop/:path*"),
-  ...slashPair("/en/maerket", "/en/shop"),
-  ...slashPair("/en/maerket/:path*", "/en/shop/:path*"),
   // Anna forlod huset 28/9 — hendes side sender til stolen, ikke til en 404.
   ...slashPair("/stolen/anna", "/stolen"),
+  // S639 (Steven, 4/11): Shopify er lukket — se ROUTE_MIGRATION.
+  ...slashPair("/shop", "/"),
+  ...slashPair("/shop/:path*", "/"),
+  ...slashPair("/en/shop", "/en"),
+  ...slashPair("/en/shop/:path*", "/en"),
+  ...slashPair("/maerket", "/"),
+  ...slashPair("/maerket/:path*", "/"),
+  ...slashPair("/en/maerket", "/en"),
+  ...slashPair("/en/maerket/:path*", "/en"),
+  ...slashPair("/gavekort", "/"),
+  ...slashPair("/gavekort/:path*", "/"),
+  ...slashPair("/en/gavekort", "/en"),
+  ...slashPair("/en/gavekort/:path*", "/en"),
+  ...slashPair("/walk-in", "/booking"),
+  ...slashPair("/en/walk-in", "/en/booking"),
+  ...slashPair("/flash", "/booking"),
+  ...slashPair("/en/flash", "/en/booking"),
+  ...slashPair("/blackbook", "/"),
+  ...slashPair("/en/blackbook", "/en"),
 ];

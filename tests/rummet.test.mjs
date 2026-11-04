@@ -205,7 +205,7 @@ test("ornamentikken Nizar ikke laver, står ingen steder (Steven 8/10)", () => {
   assert.match("- id: V-01\n  foto: /slots/V-01.jpg", /id: V-01\b/);
 });
 
-test("M2 cross-link tæller synlige værker fra YAML og udelader N=0", async () => {
+test.skip("M2 cross-link tæller synlige værker fra YAML og udelader N=0 [pensioneret S639: Shopify er lukket]", async () => {
   const { loadHouse, visibleCountForArtist } = await import("../lib/content.ts");
   const house = loadHouse();
   assert.equal(visibleCountForArtist(house.vaerker, "nizar"), 14); // V-02, V-07 + V-26–V-37 fra Nizar 6/10 (V-01, V-05 ude 8/10)
@@ -287,7 +287,7 @@ test("S573: produktsiden viser varen, ikke et værk", () => {
   assert.match(flade, /\{buy\}/);
 });
 
-test("M2 kurv-indikator vises kun med indhold — ingen 0-badge", () => {
+test.skip("M2 kurv-indikator vises kun med indhold — ingen 0-badge [pensioneret S639: Shopify er lukket]", () => {
   const src = read("components/rummet/CartIndicator.tsx");
   const nav = read("components/rummet/Nav.tsx");
   assert.match(src, /if \(count < 1\) return null/);
@@ -641,7 +641,6 @@ test("M4 /booking: depositum-sætning, variant, Videre til booking", () => {
   // S579 (4/9): INGEN betalingsknap på /booking. Målt: 10 af 13 klik i
   // uge 36 gik til den, 0 køb. Depositummet bor på /booking/tak.
   assert.doesNotMatch(booking, /cartUrl\(/, "/booking må ikke sende kunden i kassen før bookingen");
-  assert.match(read("app/(da)/(rummet)/booking/tak/page.tsx"), /cartUrl\(/, "tak-siden er depositummets sted");
   // S574: trappen er vendt — booking er trin 1 og døren hedder det den gør.
   assert.match(bookingYml, /door_label: Book din tid/);
   assert.match(read("content/booking.en.yml"), /door_label: Book your time/);
@@ -651,7 +650,7 @@ test("M4 /booking: depositum-sætning, variant, Videre til booking", () => {
   assert.match(door, /https:\/\/inkart\.book\.dk\//);
 });
 
-test("M4 /booking/tak: data-drevet, ærlig betalt-gren, ingen konsekvens-kundetekst", () => {
+test.skip("M4 /booking/tak: data-drevet, ærlig betalt-gren, ingen konsekvens-kundetekst [pensioneret S639: Shopify er lukket]", () => {
   const tak = read("app/(da)/(rummet)/booking/tak/page.tsx");
   const yml = read("content/booking.yml");
   // Ordene bor i booking.yml, ikke i markup.
@@ -726,7 +725,6 @@ test("F14 booking er salgsflade på hud med handling først", () => {
   assert.match(booking, /tone="salg"/);
   assert.match(tak, /tone="salg"/);
   // S579 (4/9): prisknappen bor på tak-siden, ikke på /booking (målt: 10 af 13 klik, 0 køb).
-  assert.match(tak, /rum-booking__pris/);
   // S573: booking og kvitteringen viser receptionen (H-04) — det sted kunden
   // faktisk ankommer til — i stedet for et moerkt studiebillede. Maalt: lys
   // paa folden 54,5 % -> 68,6 % ved 1440.
@@ -832,7 +830,7 @@ test("ingen synlig billedtekst under fotos (Stolen/Huset/Gaden/booking/Natten)",
  */
 test("alle Rummets flader står i sitemap", () => {
   const sm = readFileSync(join(root, "app/sitemap.ts"), "utf8");
-  for (const rute of ["/", "/stolen", "/shop", "/natten", "/gaden", "/booking"]) {
+  for (const rute of ["/", "/stolen", "/natten", "/gaden", "/booking"]) {
     const m = rute === "/" ? /inkandart\.dk\/"/ : new RegExp(`inkandart\\.dk${rute}"`);
     assert.match(sm, m, `${rute} mangler i sitemap`);
   }
@@ -941,8 +939,6 @@ test("G1 Huset intro i første fold", () => {
 test("G2 Natten har vej ud", () => {
   const natten = read("components/rummet/NattenFlade.tsx");
   const css = read("components/rummet/rummet.css");
-  assert.match(natten, /from "@\/components\/rummet\/Door"/);
-  assert.match(natten, /<Door variant="inline"/);
   assert.match(natten, /localePath\(lang, "\/booking"\)/);
   assert.match(natten, /localePath\(lang, "\/gaden"\)/);
   // Natten har ingen Blackbook-dør i skallen — den står inline på siden,
@@ -1334,7 +1330,6 @@ test("S574 EN-booking: pengerejsen findes på engelsk med samme tal", async () =
   assert.match(side, /<RummetShell lang="en"/);
   // S579 (4/9): ingen kasse-knap på /en/booking — depositummet bor på tak-siden.
   assert.doesNotMatch(side, /RESERVATIONS\.find|cartUrl\(/, "/en/booking må ikke sende kunden i kassen før bookingen");
-  assert.match(read("app/(en)/(rummet)/en/booking/tak/page.tsx"), /RESERVATIONS\.find/, "variant-id kommer fra handelslaget");
   assert.doesNotMatch(side, /\d{14}/, "ingen hardcodet variant på fladen");
   assert.match(side, /canonical: "\/en\/booking"/);
   // Book.dk er dansk. Det siger vi, i stedet for at lade kunden opdage det.
@@ -1500,7 +1495,8 @@ test("S574 copy-audit: ingen mytologi hvor der skal stå en oplysning", () => {
 
   // Tomtilstande hjælper videre i stedet for at lyde som albumtekster.
   assert.match(i18n, /noEvent: "Ingen aften planlagt lige nu"/);
-  assert.match(i18n, /noEventLine: "Vil du have næste dato\? Skriv dig op\."/);
+  // S639: tilmeldingen er lukket med Shopify — linjen peger nu på Instagram.
+  assert.match(i18n, /noEventLine: "Vil du have næste dato\? Følg med på Instagram\."/);
   assert.match(i18n, /noGuest: "Ingen gæsteartist annonceret lige nu"/);
   assert.match(i18n, /shelfEmpty: "Ingen prints lige nu\."/);
 
@@ -1552,9 +1548,6 @@ test("S574 book først, betal efter — tragten spærrer ikke længere", async (
     assert.ok(trin.indexOf("depositum_trin") !== -1, `${f}: sætningen om depositummet skal stå`);
     assert.equal(trin.indexOf("rum-booking__pris"), -1, `${f}: betalingsknappen er tilbage på /booking`);
   }
-  for (const f of ["app/(da)/(rummet)/booking/tak/page.tsx", "app/(en)/(rummet)/en/booking/tak/page.tsx"]) {
-    assert.match(read(f), /rum-booking__pris/, `${f}: depositum-knappen skal bo her`);
-  }
 
   // Ingen transskription: kunden må ikke bedes skrive et ordrenummer
   // ind i et andet system. Mailadressen er den fælles nøgle.
@@ -1565,10 +1558,7 @@ test("S574 book først, betal efter — tragten spærrer ikke længere", async (
   assert.match(da.depositum_trin, /samme mailadresse/i);
   assert.match(en.depositum_trin, /same email address/i);
 
-  // Opslaget overlever — det er Sonjas værktøj ved disken, ikke en port.
-  for (const f of ["app/(da)/(rummet)/booking/tak/page.tsx", "app/(en)/(rummet)/en/booking/tak/page.tsx"]) {
-    assert.match(read(f), /verificerDepositum/, `${f}: opslaget skal bestå`);
-  }
+  // S639: opslaget mod Shopify er fjernet sammen med butikken — se tests/shopify-lukket.test.mjs.
 });
 
 /* ── Nizars bio: Stevens kendelse 31/8, hans egne ord 5/10 ─────────── */

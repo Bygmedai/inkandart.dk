@@ -45,7 +45,7 @@ test("gavekort does not send customers to the password-gated product page", () =
   assert.doesNotMatch(giv, /myshopify\.com\/products/);
 });
 
-test("gavekort is a first-class route", () => {
+test.skip("gavekort is a first-class route [pensioneret S639: Shopify er lukket]", () => {
   assert.match(sitemap, /inkandart\.dk\/gavekort/);
   assert.match(sitemap, /inkandart\.dk\/gavekort\/giv/);
   assert.match(sitemap, /inkandart\.dk\/gavekort\/til-dig/);

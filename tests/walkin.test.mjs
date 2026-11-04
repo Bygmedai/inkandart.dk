@@ -36,7 +36,7 @@ test("walk-in steps keep list semantics without bullets", () => {
   assert.match(page, /role="list"/);
 });
 
-test("walk-in is a first-class route for QR", () => {
+test.skip("walk-in is a first-class route for QR [pensioneret S639: Shopify er lukket]", () => {
   assert.match(sitemap, /inkandart\.dk\/walk-in/);
   assert.match(page, /To små/);
   assert.match(page, /walkinCartUrl/);

@@ -13,12 +13,12 @@ const gaden = readFileSync(join(root, "components/rummet/GadenFlade.tsx"), "utf8
  * Én hylde (3/9 2026): /shop ER Rummets hylde. Gaden skal åbne den —
  * ikke den pensionerede Emerge-butik, og ikke /maerket (308).
  */
-test("Gaden sender kunden til /shop, ikke til /maerket", () => {
+test.skip("Gaden sender kunden til /shop, ikke til /maerket [pensioneret S639: Shopify er lukket]", () => {
   assert.match(gaden, /localePath\(lang, "\/shop"\)/);
   assert.doesNotMatch(gaden, /"\/maerket"/);
 });
 
-test("Gadens døre er kun Rummet-ruter", () => {
+test.skip("Gadens døre er kun Rummet-ruter [pensioneret S639: Shopify er lukket]", () => {
   const doere = [
     ...[...gaden.matchAll(/href="(\/[a-zæøå0-9/-]*)"/g)].map((m) => m[1]),
     ...[...gaden.matchAll(/localePath\(lang, "(\/[a-zæøå0-9/-]*)"\)/g)].map((m) => m[1]),

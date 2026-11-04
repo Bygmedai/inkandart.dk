@@ -160,9 +160,6 @@ export default async function ArtistPageEn({
                 </article>
               ))}
             </div>
-            <p className="rum-kort__arkiv">
-              <a href={`/en/shop?artist=${artist.id}`}>{c.seeOnWall}</a>
-            </p>
           </section>
         ) : (
           <section className="rum-artist__arkiv">

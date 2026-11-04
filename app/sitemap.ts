@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { loadHouse, loadHylden, profiledArtists, shelfVaerker } from "@/lib/content";
+import { loadHouse, profiledArtists } from "@/lib/content";
 
 // /afstemning er husets egen side — den står bevidst IKKE her, og den
 // er noindex. Et sitemap er en invitation.
@@ -8,36 +8,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `https://inkandart.dk/stolen/${a.id}`,
     lastModified: new Date(),
   }));
-  // Individuelle produktsider var indexable (200, ingen noindex) men stod
-  // ikke i sitemappet — [GROWTH-OPS] fund 2026-09-07.
-  const shopHandlePages = loadHylden().flatMap((v) => [
-    { url: `https://inkandart.dk/shop/${v.handle}`, lastModified: new Date() },
-    { url: `https://inkandart.dk/en/shop/${v.handle}`, lastModified: new Date() },
-  ]);
-  const shopVaerkPages = shelfVaerker(loadHouse().vaerker).flatMap((v) => [
-    { url: `https://inkandart.dk/shop/vaerk/${v.id}`, lastModified: new Date() },
-    { url: `https://inkandart.dk/en/shop/vaerk/${v.id}`, lastModified: new Date() },
-  ]);
   return [
     ...artistPages,
-    ...shopHandlePages,
-    ...shopVaerkPages,
     { url: "https://inkandart.dk/", lastModified: new Date() },
     { url: "https://inkandart.dk/stolen", lastModified: new Date() },
     { url: "https://inkandart.dk/booking", lastModified: new Date() },
     { url: "https://inkandart.dk/natten", lastModified: new Date() },
     { url: "https://inkandart.dk/gaden", lastModified: new Date() },
     { url: "https://inkandart.dk/en", lastModified: new Date() },
-    { url: "https://inkandart.dk/en/shop", lastModified: new Date() },
     { url: "https://inkandart.dk/aftercare", lastModified: new Date() },
-    { url: "https://inkandart.dk/gavekort", lastModified: new Date() },
-    { url: "https://inkandart.dk/gavekort/giv", lastModified: new Date() },
-    { url: "https://inkandart.dk/gavekort/til-dig", lastModified: new Date() },
-    { url: "https://inkandart.dk/walk-in", lastModified: new Date() },
-    { url: "https://inkandart.dk/en/walk-in", lastModified: new Date() },
-    { url: "https://inkandart.dk/shop", lastModified: new Date() },
-    { url: "https://inkandart.dk/flash", lastModified: new Date() },
-    { url: "https://inkandart.dk/en/flash", lastModified: new Date() },
     { url: "https://inkandart.dk/piercing", lastModified: new Date() },
     { url: "https://inkandart.dk/en/piercing", lastModified: new Date() },
     { url: "https://inkandart.dk/privatlivspolitik", lastModified: new Date() },

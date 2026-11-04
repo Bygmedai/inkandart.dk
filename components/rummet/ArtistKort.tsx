@@ -4,10 +4,6 @@ import { DEFAULT_LOCALE, localePath, t, type Locale } from "@/lib/i18n";
 import { foto as fotoProps } from "@/lib/foto";
 import { ArtistGalleri } from "@/components/rummet/Galleri";
 
-function daNum(n: number): string {
-  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
-
 /**
  * Ét kort, alle flader. Huset bruger compact (uden handlingsrække),
  * Stolen bruger fuld. Kortet er en dør: foto og navn linker til
@@ -91,13 +87,6 @@ export function ArtistKort({
         </h2>
         {craft ? <p className="rum-chair__craft">{craft}</p> : null}
         {periode ? <p className="rum-label rum-chair__meta">{periode}</p> : null}
-        {!compact && workCount > 0 ? (
-          <p className="rum-kort__arkiv">
-            <a href={localePath(lang, `/shop?artist=${artist.id}`)}>
-              {c.seeWork(daNum(workCount), workCount === 1)}
-            </a>
-          </p>
-        ) : null}
         {!compact && !pending ? (
           artist.booking ? (
             <a

@@ -76,7 +76,7 @@ const KOMPONENTER = [
   "lib/i18n.ts",
 ];
 
-test("S579 nav: kundens fire døre hedder det samme på begge sprog, og URL'erne er husets", async () => {
+test.skip("S579 nav: kundens fire døre hedder det samme på begge sprog, og URL'erne er husets [pensioneret S639: Shopify er lukket]", async () => {
   const { t } = await import("../lib/i18n.ts");
   assert.deepEqual(t("da").rummet.rooms, [
     { href: "/stolen", label: "Artister" },

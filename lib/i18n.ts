@@ -184,7 +184,6 @@ const da = {
      */
     rooms: [
       { href: "/stolen", label: "Artister" },
-      { href: "/shop", label: "Shop" },
       { href: "/natten", label: "Aftener" },
       { href: "/gaden", label: "Find os" },
     ],
@@ -294,7 +293,7 @@ const da = {
        en mytologi om noget der venter. */
     tonightLabel: "I aften",
     noEvent: "Ingen aften planlagt lige nu",
-    noEventLine: "Vil du have næste dato? Skriv dig op.",
+    noEventLine: "Vil du have næste dato? Følg med på Instagram.",
     seePoster: "Se plakaten",
   },
 
@@ -470,7 +469,6 @@ const en: Copy = {
     roomsLabel: "Menu",
     rooms: [
       { href: "/stolen", label: "Artists" },
-      { href: "/shop", label: "Shop" },
       { href: "/natten", label: "Nights" },
       { href: "/gaden", label: "Find us" },
     ],
@@ -537,7 +535,7 @@ const en: Copy = {
     guestDj: "Guest artist",
     tonightLabel: "Tonight",
     noEvent: "No evening planned right now",
-    noEventLine: "Want the next date? Join the list.",
+    noEventLine: "Want the next date? Follow us on Instagram.",
     seePoster: "See the poster",
   },
 

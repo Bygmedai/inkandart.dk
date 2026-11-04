@@ -60,6 +60,10 @@ const PENSIONERET = {
   "components/emerge/MobileDock.tsx": "Emerge-forsidens mobil-dock. Rummet har sin egen i Nav.",
   "components/emerge/GadeTape.tsx": "Gadebåndet på Emerge-forsiden.",
 
+  // ── S639 (Steven, 4/11): Shopify er lukket ─────────────────────────
+  "components/rummet/CartIndicator.tsx": "Kurven talte Shopify-varer. Shopify er lukket (S639).",
+  "components/rummet/DepositumTjek.tsx": "Slog depositum op i Shopify. Shopify er lukket (S639).",
+
   // ── Ubrugt stillads ───────────────────────────────────────────────
   "components/ui/button.tsx": "shadcn-stillads fra første opsætning. Ingen flade bruger den.",
 };

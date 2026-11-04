@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { DEFAULT_LOCALE, localePath, t, type Locale } from "@/lib/i18n";
-import { CartIndicator } from "./CartIndicator";
 import { LangDoor } from "./LangDoor";
 
 /**
@@ -17,43 +16,6 @@ function current(pathname: string | null, href: string) {
   if (!pathname) return false;
   if (href === "/") return pathname === "/";
   return pathname === href || pathname.startsWith(`${href}/`);
-}
-
-function Blackbook({
-  word = false,
-  dock = false,
-  mobile = false,
-  lang = DEFAULT_LOCALE,
-}: {
-  word?: boolean;
-  dock?: boolean;
-  mobile?: boolean;
-  lang?: Locale;
-}) {
-  const c = t(lang).rummet;
-  return (
-    <span className={dock ? "rum-dock__cluster" : "rum-nav__cluster"}>
-      <a
-        href={`${localePath(lang, "/")}#doer`}
-        className={dock ? "rum-dock__book" : "rum-nav__book"}
-        // Navnet staar ÉT sted. Foer S578 kom det to steder ad gangen:
-        // det synlige ord og et skjult dubletord. `.rum-nav__book-word` er
-        // skjult under 900px og synlig over, men dubletten var der altid —
-        // saa over 900px maalte innerText bogstaveligt
-        // «BLACKBOOK\nBLACKBOOK», og en skaermlaeser sagde det to gange.
-        // Paa mobil var linket rigtigt, saa fejlen fandtes KUN paa desktop.
-        //
-        // aria-label er ordret det synlige ord, saa Label in Name (2.5.3)
-        // holder: talestyring kan sige det man laeser — paa begge sprog.
-        aria-label={c.listName}
-        data-mobile-book={mobile ? "" : undefined}
-      >
-        <span className="rum-dot" aria-hidden="true" />
-        {word ? <span className="rum-nav__book-word">{c.listName}</span> : null}
-      </a>
-      <CartIndicator />
-    </span>
-  );
 }
 
 export function Nav({ lang = DEFAULT_LOCALE }: { lang?: Locale }) {
@@ -86,7 +48,6 @@ export function Nav({ lang = DEFAULT_LOCALE }: { lang?: Locale }) {
           ))}
           <span className="rum-nav__split" aria-hidden="true" />
           <LangDoor lang={lang} variant="nav" />
-          <Blackbook word lang={lang} />
         </nav>
         {/*
           Sprogdøren står som direkte barn af headeren, ikke pakket ind:
@@ -95,7 +56,6 @@ export function Nav({ lang = DEFAULT_LOCALE }: { lang?: Locale }) {
           den lydløst. Egen klasse, husets egen 900px-grænse.
         */}
         <LangDoor lang={lang} variant="nav" />
-        <Blackbook mobile lang={lang} />
       </header>
       <nav className="rum-dock" aria-label={c.roomsLabel}>
         {c.rooms.map((r) => (
@@ -107,7 +67,6 @@ export function Nav({ lang = DEFAULT_LOCALE }: { lang?: Locale }) {
             {r.label}
           </Link>
         ))}
-        <Blackbook dock lang={lang} />
       </nav>
     </>
   );
