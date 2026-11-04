@@ -14,13 +14,13 @@
     "sharp": "$sharp"
   },
   "dependencies": {
-    "@radix-ui/react-slot": "^1.4.0",
+    "@radix-ui/react-slot": "^1.5.0",
     "@vercel/analytics": "^2.0.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "next": "^16.4.0",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0",
+    "next": "^16.4.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "tailwind-merge": "^3.7.0",
     "yaml": "^2.9.1"
   },
